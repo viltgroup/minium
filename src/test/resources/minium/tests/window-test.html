@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Minium - Window Tests</title>
+<script type="text/javascript" src="../js/jquery.js"></script>
+</head>
+<body>
+
+<h1>Minium</h1>
+<h2>Window Tests</h2>
+
+<ul>
+<li><a id="popup-1" href="jquery-test.html" target="_blank">Popup 1</a></li>
+<li><a id="popup-2" href="jquery-test.html" target="_blank">Popup 2</a></li>
+</ul>
+
+<script type="text/javascript">
+(function($) {
+	$("a[target='_blank']").each(function() {
+		window.open($(this).attr('href'), $(this).attr("id"), "menubar=1,location=1,toolbar=1,width=640,height=480");
+	})
+})(jQuery);
+</script>
+</body>
+</html>

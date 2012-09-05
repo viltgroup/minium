@@ -1,0 +1,18 @@
+try {
+	// if minium variable is not defined, we return false so that
+	// the full invoker script is executed instead.
+	if (typeof window['minium'] == 'undefined') return false;
+
+	return (function($, window, document, args) {
+
+		var fn = function() { 
+			{{expression}}
+		};
+			
+		return minium.evalExpression($, fn);
+
+	})(minium.$, window, document, minium.$.makeArray(arguments));
+} catch(e) { 
+	console.debug(e.message); 
+	console.debug(e.stack); 
+}
