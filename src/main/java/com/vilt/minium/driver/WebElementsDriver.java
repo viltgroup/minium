@@ -28,10 +28,15 @@ public class WebElementsDriver<T extends WebElements<T>> implements WebDriver, J
 	protected final Configuration configuration;
 
 	public WebElementsDriver(WebDriver wd, WebElementsFactory<T> factory) {
+		this(wd, factory, new Configuration());
+	}
+	
+	public WebElementsDriver(WebDriver wd, WebElementsFactory<T> factory, Configuration configuration) {
 		this.wd = wd;
 		this.factory = factory;
-		this.configuration = new Configuration();
+		this.configuration = configuration;
 	}
+
 
 	public WebElementsDriver(WebDriver wd, Class<T> elementsInterface, Class<? extends WebElements<T>> ... moreInterfaces) {
 		this(wd, new WebElementsFactory<T>(elementsInterface, moreInterfaces));
@@ -133,6 +138,10 @@ public class WebElementsDriver<T extends WebElements<T>> implements WebDriver, J
 	public T webElements(String selector) {
 		return factory.create(this, selector);
 	}
+	
+	public WebElementsFactory<T> getFactory() {
+		return factory;
+	}
 
 	public void ensureSwitch() {
 		wd.switchTo().defaultContent();
@@ -140,6 +149,10 @@ public class WebElementsDriver<T extends WebElements<T>> implements WebDriver, J
 
 	public WebDriver getWrappedWebDriver() {
 		return wd;
+	}
+	
+	public <R> R invoke(String expression, Object ... args) {
+		return factory.getInvoker().<R>invoke(this, expression, args);
 	}
 
 	@Override
@@ -149,5 +162,11 @@ public class WebElementsDriver<T extends WebElements<T>> implements WebDriver, J
 
 		ensureSwitch();
 		return Objects.equal(wd.getWindowHandle(), ((WebElementsDriver<?>) obj).getWindowHandle());
+	}
+	
+	@Override
+	public int hashCode() {
+		ensureSwitch();
+		return wd.getWindowHandle().hashCode();
 	}
 }

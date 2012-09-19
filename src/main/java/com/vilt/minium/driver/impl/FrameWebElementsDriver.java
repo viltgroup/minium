@@ -18,7 +18,7 @@ public class FrameWebElementsDriver<T extends WebElements<T>> extends WebElement
 	private WebElementsDriver<T> parentWebDriver;
 
 	public FrameWebElementsDriver(WebElementsDriver<T> wd, WebElementsFactory<T> factory, WebElement elem) {
-		super(wd.getWrappedWebDriver(), factory);
+		super(wd.getWrappedWebDriver(), factory, wd.configuration());
 		this.parentWebDriver = wd;
 		this.elem = elem;
 	}

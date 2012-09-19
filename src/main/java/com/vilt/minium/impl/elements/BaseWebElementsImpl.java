@@ -1,4 +1,4 @@
-package com.vilt.minium.impl;
+package com.vilt.minium.impl.elements;
 
 import java.lang.reflect.Method;
 import java.util.Collections;
@@ -19,27 +19,20 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.vilt.minium.TargetLocatorWebElements;
 import com.vilt.minium.WaitWebElements;
-import com.vilt.minium.WebElements;
+import com.vilt.minium.driver.WebElementsDriver;
 import com.vilt.minium.driver.Configuration.Duration;
 import com.vilt.minium.driver.impl.WindowWebElementsDriver;
-import com.vilt.minium.driver.WebElementsDriver;
+import com.vilt.minium.impl.ComposedWebElementsImpl;
+import com.vilt.minium.impl.RootFrameWebElementsImpl;
+import com.vilt.minium.impl.WebElementsFactory;
+import com.vilt.minium.impl.WebElementsImpl;
 import com.vilt.minium.jquery.JQueryWebElements;
 
-public abstract class WebElementsImpl<T extends WebElementsImpl<T>> implements WebElements<T>, JQueryWebElements<T>, TargetLocatorWebElements<T>, WaitWebElements<T> {
+public abstract class BaseWebElementsImpl<T extends BaseWebElementsImpl<T>> implements JQueryWebElements<T>, TargetLocatorWebElements<T>, WaitWebElements<T> {
 
-	protected WebElementsDriver<T> wd;
-	protected JQueryInvoker invoker;
-	protected WebElementsFactory<T> factory;
-
-	public WebElementsDriver<T> webDriver() {
-		return wd;
-	}
+	protected abstract WebElementsFactory<T> getFactory();
 	
-	protected void init(WebElementsDriver<T> wd, WebElementsFactory<T> factory, JQueryInvoker invoker) {
-		this.wd = wd;
-		this.factory = factory;
-		this.invoker = invoker;
-	}
+	protected abstract <R> R invoke(Method thisMethod, Object ... args);	
 	
 	@Override
 	public T frame() {
@@ -53,8 +46,8 @@ public abstract class WebElementsImpl<T extends WebElementsImpl<T>> implements W
 	
 	@SuppressWarnings("unchecked")
 	protected T createFrameElements() {
-		RootFrameWebElementsImpl<?> frameElems = (RootFrameWebElementsImpl<?>) factory.create(wd, RootFrameWebElementsImpl.class);
-		frameElems.initParentRootWebElements((WebElementsImpl<?>) this);
+		RootFrameWebElementsImpl<?> frameElems = (RootFrameWebElementsImpl<?>) getFactory().create(webDriver(), RootFrameWebElementsImpl.class);
+		frameElems.initParentRootWebElements((BaseWebElementsImpl<?>) this);
 		
 		return (T) frameElems;
 	}
@@ -105,12 +98,12 @@ public abstract class WebElementsImpl<T extends WebElementsImpl<T>> implements W
 	
 	@Override
 	public Alert alert() {
-		return wd.switchTo().alert();
+		return webDriver().switchTo().alert();
 	}
 	
 	@Override
 	public T wait(Predicate<? super T> predicate) {
-		Duration timeout = wd.configuration().getDefaultTimeout();
+		Duration timeout = webDriver().configuration().getDefaultTimeout();
 		
 		long time = timeout.getTime();
 		TimeUnit unit = timeout.getUnit();
@@ -121,7 +114,7 @@ public abstract class WebElementsImpl<T extends WebElementsImpl<T>> implements W
 	@SuppressWarnings("unchecked")
 	@Override
 	public T wait(long time, TimeUnit unit, Predicate<? super T> predicate) {
-		Duration interval = wd.configuration().getDefaultInterval();
+		Duration interval = webDriver().configuration().getDefaultInterval();
 		Wait<T> wait = new FluentWait<T>((T) this).
 				withTimeout(time, unit).
 				pollingEvery(interval.getTime(), interval.getUnit());
@@ -134,7 +127,7 @@ public abstract class WebElementsImpl<T extends WebElementsImpl<T>> implements W
 	
 	@Override
 	public T waitOrTimeout(Predicate<? super T> predicate) {
-		Duration timeout = wd.configuration().getDefaultTimeout();
+		Duration timeout = webDriver().configuration().getDefaultTimeout();
 		
 		long time = timeout.getTime();
 		TimeUnit unit = timeout.getUnit();
@@ -145,7 +138,7 @@ public abstract class WebElementsImpl<T extends WebElementsImpl<T>> implements W
 	@SuppressWarnings("unchecked")
 	@Override
 	public T waitOrTimeout(long time, TimeUnit unit, Predicate<? super T> predicate) {
-		Duration interval = wd.configuration().getDefaultInterval();
+		Duration interval = webDriver().configuration().getDefaultInterval();
 		Wait<T> wait = new FluentWait<T>(null).
 				withTimeout(time, unit).
 				pollingEvery(interval.getTime(), interval.getUnit());
@@ -166,6 +159,4 @@ public abstract class WebElementsImpl<T extends WebElementsImpl<T>> implements W
 	public WebElement get(int index) {
 		return Iterables.get(this, index);
 	}
-	
-	protected abstract <R> R invoke(Method thisMethod, Object ... args);
 }

@@ -67,44 +67,6 @@ public abstract class JQueryWebElementsImpl<T extends JQueryWebElementsImpl<T>> 
 	}
 	
 	@Override
-	public T frame() {
-		return this.find("iframe, frame").andSelf().filter("iframe, frame").createFrameElements();
-	}
-	
-	@Override
-	public T frame(String selector) {
-		return this.find(selector).filter("iframe, frame").createFrameElements();
-	}
-	
-	@SuppressWarnings("unchecked")
-	protected T createFrameElements() {
-//		ComposedWebElementsImpl<T> composedElems = (ComposedWebElementsImpl<T>) factory.create(wd, ComposedWebElementsImpl.class);
-//		composedElems.initComposingWebElements(new Supplier<List<WebElementsImpl<T>>>() {
-//
-//			@Override
-//			public List<WebElementsImpl<T>> get() {
-//				ImmutableList<WebElementsImpl<T>> elems = FluentIterable.
-//						from(WebElementsImpl.this).
-//						transform(new Function<WebElement, WebElementsImpl<T>>() {
-//							@Nullable
-//							public WebElementsImpl<T> apply(@Nullable WebElement input) {
-//								FrameWebElementsDriver<T> fwd = new FrameWebElementsDriver<T>(wd, factory, input);
-//								return (WebElementsImpl<T>) factory.create(fwd);
-//							}
-//						}).
-//						toImmutableList();
-//				return elems;
-//			}
-//		});
-//		
-//		return (T) composedElems;
-		RootFrameWebElementsImpl<?> frameElems = (RootFrameWebElementsImpl<?>) factory.create(wd, RootFrameWebElementsImpl.class);
-		frameElems.initParentRootWebElements((WebElementsImpl<?>) this);
-		
-		return (T) frameElems;
-	}
-	
-	@Override
 	public String toString() {
 		return expression;
 	}
