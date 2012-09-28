@@ -12,9 +12,9 @@ import com.vilt.minium.driver.WebElementsDriver;
 
 public abstract class ComposedWebElementsImpl<T extends WebElementsImpl<T>> extends WebElementsImpl<T> {
 
-	private Supplier<List<WebElementsImpl<T>>> composingElementsFn;
+	private Supplier<List<T>> composingElementsFn;
 
-	public void initComposingWebElements(Supplier<List<WebElementsImpl<T>>> composingElementsFn) {
+	public void initComposingWebElements(Supplier<List<T>> composingElementsFn) {
 		this.composingElementsFn = composingElementsFn;
 	}
 	
@@ -25,16 +25,16 @@ public abstract class ComposedWebElementsImpl<T extends WebElementsImpl<T>> exte
 		ComposedWebElementsImpl<T> newComposedElements = (ComposedWebElementsImpl<T>) factory.create(wd, ComposedWebElementsImpl.class);
 		
 		if (method.getReturnType().isAssignableFrom(newComposedElements.getClass())) {
-			newComposedElements.initComposingWebElements(new Supplier<List<WebElementsImpl<T>>>() {
+			newComposedElements.initComposingWebElements(new Supplier<List<T>>() {
 
 				@Override
-				public List<WebElementsImpl<T>> get() {
-					List<WebElementsImpl<T>> newComposingElements = FluentIterable.
+				public List<T> get() {
+					List<T> newComposingElements = FluentIterable.
 							from(getComposingElements()).
-							transform(new Function<WebElementsImpl<T>, WebElementsImpl<T>>() {
+							transform(new Function<T, T>() {
 								@Override
 								@Nullable
-								public WebElementsImpl<T> apply(@Nullable WebElementsImpl<T> input) {
+								public T apply(@Nullable T input) {
 									return input.invoke(method, args);
 								}
 							}).
@@ -54,7 +54,7 @@ public abstract class ComposedWebElementsImpl<T extends WebElementsImpl<T>> exte
 		}	
 	}
 	
-	protected List<WebElementsImpl<T>> getComposingElements() {
+	protected List<T> getComposingElements() {
 		return composingElementsFn.get();
 	}
 

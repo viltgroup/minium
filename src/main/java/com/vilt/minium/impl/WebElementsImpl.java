@@ -29,52 +29,34 @@ public abstract class WebElementsImpl<T extends WebElementsImpl<T>> implements W
 
 	protected WebElementsDriver<T> wd;
 	protected JQueryInvoker invoker;
-	protected WebElementsFactory<T> factory;
+	protected WebElementsFactory factory;
 
 	public WebElementsDriver<T> webDriver() {
 		return wd;
 	}
 	
-	protected void init(WebElementsDriver<T> wd, WebElementsFactory<T> factory, JQueryInvoker invoker) {
+	protected void init(WebElementsDriver<T> wd, WebElementsFactory factory, JQueryInvoker invoker) {
 		this.wd = wd;
 		this.factory = factory;
 		this.invoker = invoker;
-	}
-	
-	@Override
-	public T frame() {
-		return this.find("iframe, frame").andSelf().filter("iframe, frame").createFrameElements();
-	}
-	
-	@Override
-	public T frame(String selector) {
-		return this.find(selector).filter("iframe, frame").createFrameElements();
-	}
-	
-	@SuppressWarnings("unchecked")
-	protected T createFrameElements() {
-		RootFrameWebElementsImpl<?> frameElems = (RootFrameWebElementsImpl<?>) factory.create(wd, RootFrameWebElementsImpl.class);
-		frameElems.initParentRootWebElements((WebElementsImpl<?>) this);
-		
-		return (T) frameElems;
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public T window() {
 		ComposedWebElementsImpl<T> composedElems = (ComposedWebElementsImpl<T>) factory.create(wd, ComposedWebElementsImpl.class);
-		composedElems.initComposingWebElements(new Supplier<List<WebElementsImpl<T>>>() {
+		composedElems.initComposingWebElements(new Supplier<List<T>>() {
 
 			@Override
-			public List<WebElementsImpl<T>> get() {
+			public List<T> get() {
 				String currentHandle = wd.getWindowHandle();
 		
-				List<WebElementsImpl<T>> windowRootElems = Lists.newArrayList();
+				List<T> windowRootElems = Lists.newArrayList();
 				
 				for (String windowHandle : wd.getWindowHandles()) {
 					if (currentHandle.equals(windowHandle)) continue;
 					WebElementsDriver<T> window = new WindowWebElementsDriver<T>(wd, factory, windowHandle);
-					windowRootElems.add((WebElementsImpl<T>) window.webElements());
+					windowRootElems.add((T) window.webElements());
 				}
 				
 				return windowRootElems;
@@ -89,13 +71,13 @@ public abstract class WebElementsImpl<T extends WebElementsImpl<T>> implements W
 	@Override
 	public T window(final String nameOrHandle) {
 		ComposedWebElementsImpl<T> composedElems = (ComposedWebElementsImpl<T>) factory.create(wd, ComposedWebElementsImpl.class);
-		composedElems.initComposingWebElements(new Supplier<List<WebElementsImpl<T>>>() {
+		composedElems.initComposingWebElements(new Supplier<List<T>>() {
 
 			@Override
-			public List<WebElementsImpl<T>> get() {
+			public List<T> get() {
 				WebElementsDriver<T> window = new WindowWebElementsDriver<T>(wd, factory, nameOrHandle);
 
-				return Collections.singletonList((WebElementsImpl<T>) window.webElements());
+				return Collections.singletonList((T) window.webElements());
 				
 			}
 		});

@@ -28,7 +28,7 @@ import com.vilt.minium.WebElements;
 import com.vilt.minium.driver.WebElementsDriver;
 import com.vilt.minium.jquery.JQueryResources;
 
-public class WebElementsFactory<T extends WebElements<?>> implements MethodHandler {
+public class WebElementsFactory implements MethodHandler {
 
 	private static final Logger LOG = Logger.getLogger(WebElementsFactory.class);
 	
@@ -37,30 +37,30 @@ public class WebElementsFactory<T extends WebElements<?>> implements MethodHandl
 	private Class<?> elementsInterface;
 	private Class<? extends WebElements<?>>[] moreInterfaces;
 
-	public WebElementsFactory(Class<T> elementsInterface, Class<? extends WebElements<?>> ... moreInterfaces) {
+	public WebElementsFactory(Class<? extends WebElements<?>> elementsInterface, Class<? extends WebElements<?>> ... moreInterfaces) {
 		this.elementsInterface = elementsInterface;
 		this.moreInterfaces = moreInterfaces;
 		initInvoker();
 	}
 	
 	@SuppressWarnings("unchecked")
-	public T create(WebElementsDriver<?> wd) {
-		return (T) create(wd, JQueryWebElementsImpl.class);
+	public <T extends WebElements<T>> T create(WebElementsDriver<T> wd) {
+		return (T) create(wd, (Class<T>) JQueryWebElementsImpl.class);
 	}
 	
-	public T create(WebElementsDriver<?> wd, String selector) {
+	public <T extends WebElements<T>> T create(WebElementsDriver<T> wd, String selector) {
 		T webElements = create(wd);
 		((JQueryWebElementsImpl<?>) webElements).initRootExpression(selector);
 		return webElements;
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T2 extends WebElementsImpl<T2>, TD extends WebElementsDriver<T2>> T2 create(WebElementsDriver<?> wd, Class<T2> superClass) {
+	protected <T extends WebElements<T>, TI extends WebElementsImpl<TI>> T create(WebElementsDriver<T> wd, Class<?> superClass) {
 		try {
-			T2 webElements = (T2) getProxyClassFor(superClass).newInstance();
-			webElements.init((TD) wd, (WebElementsFactory<T2>) this, invoker);
+			TI webElements = (TI) getProxyClassFor(superClass).newInstance();
+			webElements.init(((WebElementsDriver<TI>) wd), this, invoker);
 			((Proxy) webElements).setHandler(this);
-			return (T2) webElements;
+			return (T) webElements;
 		} catch (InstantiationException e) {
 			throw new MiniumException(e);
 		} catch (IllegalAccessException e) {
@@ -74,7 +74,7 @@ public class WebElementsFactory<T extends WebElements<?>> implements MethodHandl
 		return parentWebElements.invoke(thisMethod, args);
 	}
 	
-	public JQueryInvoker getInvoker() {
+	protected JQueryInvoker getInvoker() {
 		return invoker;
 	}
 	
@@ -136,7 +136,7 @@ public class WebElementsFactory<T extends WebElements<?>> implements MethodHandl
 	}
 
 	@SuppressWarnings("unchecked")
-	private <T2 extends WebElements<?>> Class<T2> getProxyClassFor(final Class<? extends T2> superClass) {
+	private <T extends WebElementsImpl<T>> Class<T> getProxyClassFor(final Class<?> superClass) {
 		Class<?> proxyClass = webElementsProxyClasses.get(superClass);
 		if (proxyClass == null) {
 			ProxyFactory factory = new ProxyFactory();
@@ -151,6 +151,6 @@ public class WebElementsFactory<T extends WebElements<?>> implements MethodHandl
 			
 			webElementsProxyClasses.put(superClass, proxyClass);
 		}
-		return (Class<T2>) proxyClass;
+		return (Class<T>) proxyClass;
 	}
 }

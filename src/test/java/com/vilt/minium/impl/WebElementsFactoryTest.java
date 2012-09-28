@@ -15,7 +15,7 @@ public class WebElementsFactoryTest {
 	@Test
 	@SuppressWarnings("unchecked")
 	public void testInterfaces() {
-		WebElementsFactory<DefaultWebElements> factory = new WebElementsFactory<DefaultWebElements>(DefaultWebElements.class);
+		WebElementsFactory factory = new WebElementsFactory(DefaultWebElements.class);
 		DefaultWebElements elem = factory.create(mock(WebElementsDriver.class));
 		assertThat((JQueryWebElementsImpl<?>) elem, isA(JQueryWebElementsImpl.class));
 	}
@@ -23,7 +23,7 @@ public class WebElementsFactoryTest {
 	@Test
 	@SuppressWarnings("unchecked")
 	public void testResources() {
-		WebElementsFactory<DefaultWebElements> factory = new WebElementsFactory<DefaultWebElements>(DefaultWebElements.class);
+		WebElementsFactory factory = new WebElementsFactory(DefaultWebElements.class);
 		JQueryInvoker invoker = factory.getInvoker();
 		assertThat(invoker.getJsResources(), contains("motion/js/jquery.js", "motion/js/position.js"));
 	}

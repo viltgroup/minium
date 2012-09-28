@@ -1,6 +1,7 @@
 package com.vilt.minium.driver.impl;
 
 import org.openqa.selenium.NoSuchWindowException;
+import org.openqa.selenium.WebDriver;
 
 import com.google.common.base.Objects;
 import com.vilt.minium.WebElements;
@@ -11,8 +12,8 @@ public class WindowWebElementsDriver<T extends WebElements<T>> extends WebElemen
 
 	private String handle;
 
-	public WindowWebElementsDriver(WebElementsDriver<T> wd, WebElementsFactory<T> factory, String handle) {
-		super(wd, factory, wd.configuration());
+	public WindowWebElementsDriver(WebDriver wd, WebElementsFactory factory, String handle) {
+		super(wd, factory);
 		this.handle = handle;
 	}
 

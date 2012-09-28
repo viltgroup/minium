@@ -24,22 +24,17 @@ import com.vilt.minium.impl.WebElementsFactory;
 public class WebElementsDriver<T extends WebElements<T>> implements WebDriver, JavascriptExecutor, HasInputDevices {
 
 	protected final WebDriver wd;
-	protected final WebElementsFactory<T> factory;
+	protected final WebElementsFactory factory;
 	protected final Configuration configuration;
 
-	public WebElementsDriver(WebDriver wd, WebElementsFactory<T> factory) {
-		this(wd, factory, new Configuration());
-	}
-	
-	public WebElementsDriver(WebDriver wd, WebElementsFactory<T> factory, Configuration configuration) {
+	public WebElementsDriver(WebDriver wd, WebElementsFactory factory) {
 		this.wd = wd;
 		this.factory = factory;
-		this.configuration = configuration;
+		this.configuration = new Configuration();
 	}
 
-
 	public WebElementsDriver(WebDriver wd, Class<T> elementsInterface, Class<? extends WebElements<T>> ... moreInterfaces) {
-		this(wd, new WebElementsFactory<T>(elementsInterface, moreInterfaces));
+		this(wd, new WebElementsFactory(elementsInterface, moreInterfaces));
 	}
 
 	public Configuration configuration() {
@@ -132,15 +127,11 @@ public class WebElementsDriver<T extends WebElements<T>> implements WebDriver, J
 	}
 
 	public T webElements() {
-		return factory.create(this);
+		return factory.<T>create(this);
 	}
 
 	public T webElements(String selector) {
-		return factory.create(this, selector);
-	}
-	
-	public WebElementsFactory<T> getFactory() {
-		return factory;
+		return factory.<T>create(this, selector);
 	}
 
 	public void ensureSwitch() {
@@ -150,10 +141,6 @@ public class WebElementsDriver<T extends WebElements<T>> implements WebDriver, J
 	public WebDriver getWrappedWebDriver() {
 		return wd;
 	}
-	
-	public <R> R invoke(String expression, Object ... args) {
-		return factory.getInvoker().<R>invoke(this, expression, args);
-	}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -162,11 +149,5 @@ public class WebElementsDriver<T extends WebElements<T>> implements WebDriver, J
 
 		ensureSwitch();
 		return Objects.equal(wd.getWindowHandle(), ((WebElementsDriver<?>) obj).getWindowHandle());
-	}
-	
-	@Override
-	public int hashCode() {
-		ensureSwitch();
-		return wd.getWindowHandle().hashCode();
 	}
 }
