@@ -25,7 +25,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.vilt.minium.MiniumException;
 import com.vilt.minium.WebElements;
-import com.vilt.minium.driver.WebElementsDriver;
+import com.vilt.minium.impl.elements.BaseWebElementsImpl;
 import com.vilt.minium.jquery.JQueryResources;
 
 public class WebElementsFactory implements MethodHandler {
@@ -42,23 +42,11 @@ public class WebElementsFactory implements MethodHandler {
 		this.moreInterfaces = moreInterfaces;
 		initInvoker();
 	}
-	
-	@SuppressWarnings("unchecked")
-	public <T extends WebElements<T>> T create(WebElementsDriver<T> wd) {
-		return (T) create(wd, (Class<T>) JQueryWebElementsImpl.class);
-	}
-	
-	public <T extends WebElements<T>> T create(WebElementsDriver<T> wd, String selector) {
-		T webElements = create(wd);
-		((JQueryWebElementsImpl<?>) webElements).initRootExpression(selector);
-		return webElements;
-	}
 
 	@SuppressWarnings("unchecked")
-	protected <T extends WebElements<T>, TI extends WebElementsImpl<TI>> T create(WebElementsDriver<T> wd, Class<?> superClass) {
+	public <T extends WebElements<T>, TI extends BaseWebElementsImpl<TI>> T create(Class<?> superClass) {
 		try {
 			TI webElements = (TI) getProxyClassFor(superClass).newInstance();
-			webElements.init(((WebElementsDriver<TI>) wd), this, invoker);
 			((Proxy) webElements).setHandler(this);
 			return (T) webElements;
 		} catch (InstantiationException e) {
@@ -70,11 +58,11 @@ public class WebElementsFactory implements MethodHandler {
 	
 	@SuppressWarnings("unchecked")
 	public Object invoke(Object self, Method thisMethod, Method proceed, Object[] args) throws Throwable {
-		WebElementsImpl<? extends WebElements<?>> parentWebElements = (WebElementsImpl<? extends WebElements<?>>) self;
+		BaseWebElementsImpl<? extends WebElements<?>> parentWebElements = (BaseWebElementsImpl<? extends WebElements<?>>) self;
 		return parentWebElements.invoke(thisMethod, args);
 	}
 	
-	protected JQueryInvoker getInvoker() {
+	public JQueryInvoker getInvoker() {
 		return invoker;
 	}
 	
@@ -136,7 +124,7 @@ public class WebElementsFactory implements MethodHandler {
 	}
 
 	@SuppressWarnings("unchecked")
-	private <T extends WebElementsImpl<T>> Class<T> getProxyClassFor(final Class<?> superClass) {
+	private <T extends BaseWebElementsImpl<T>> Class<T> getProxyClassFor(final Class<?> superClass) {
 		Class<?> proxyClass = webElementsProxyClasses.get(superClass);
 		if (proxyClass == null) {
 			ProxyFactory factory = new ProxyFactory();

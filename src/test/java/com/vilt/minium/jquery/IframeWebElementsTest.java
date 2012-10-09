@@ -42,4 +42,12 @@ public class IframeWebElementsTest extends MiniumBaseTest {
 		DefaultWebElements label = frame.find("label").rightOf(input);
 		assertThat(label, hasSize(1));
 	}
+	
+	@Test
+	public void testIframesRelativeElements() {
+		DefaultWebElements frame = $(wd).frame();
+		DefaultWebElements input = frame.find("input#name");
+		DefaultWebElements label = frame.find("label").rightOf(input);
+		assertThat(label, hasSize(2));
+	}
 }

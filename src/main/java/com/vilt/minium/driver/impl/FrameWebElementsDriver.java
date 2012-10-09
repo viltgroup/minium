@@ -56,4 +56,9 @@ public class FrameWebElementsDriver<T extends WebElements<T>> extends WebElement
 		return Objects.equal(parentWebDriver, ((FrameWebElementsDriver<?>) obj).parentWebDriver) &&
 			   Objects.equal(getNativeWebElement(), ((FrameWebElementsDriver<?>) obj).elem);
 	}
+	
+	@Override
+	public int hashCode() {
+		return getNativeWebElement().hashCode();
+	}
 }

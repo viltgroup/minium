@@ -40,4 +40,9 @@ public class WindowWebElementsDriver<T extends WebElements<T>> extends WebElemen
 
 		return Objects.equal(handle, ((WindowWebElementsDriver<?>) obj).handle);
 	}
+	
+	@Override
+	public int hashCode() {
+		return handle.hashCode();
+	}
 }

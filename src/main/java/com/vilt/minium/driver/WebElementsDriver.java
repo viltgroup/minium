@@ -14,6 +14,8 @@ import org.openqa.selenium.WebElement;
 import com.google.common.base.Objects;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.impl.WebElementsFactory;
+import com.vilt.minium.impl.WebElementsFactoryHelper;
+import com.vilt.minium.jquery.JQueryWebElements;
 
 /**
  * 
@@ -127,11 +129,11 @@ public class WebElementsDriver<T extends WebElements<T>> implements WebDriver, J
 	}
 
 	public T webElements() {
-		return factory.<T>create(this);
+		return WebElementsFactoryHelper.<T>createRootWebElements(factory, this);
 	}
 
 	public T webElements(String selector) {
-		return factory.<T>create(this, selector);
+		return ((JQueryWebElements<T>) webElements()).find(selector);
 	}
 
 	public void ensureSwitch() {
@@ -147,7 +149,16 @@ public class WebElementsDriver<T extends WebElements<T>> implements WebDriver, J
 		if (obj == null || !(obj instanceof WebElementsDriver))
 			return false;
 
-		ensureSwitch();
-		return Objects.equal(wd.getWindowHandle(), ((WebElementsDriver<?>) obj).getWindowHandle());
+		WebElementsDriver<?> other = (WebElementsDriver<?>) obj;
+		
+		String windowHandle = getWindowHandle();		
+		String otherWindowHandle = other.getWindowHandle();
+		
+		return Objects.equal(windowHandle, otherWindowHandle);
+	}
+	
+	@Override
+	public int hashCode() {
+		return getWindowHandle().hashCode();
 	}
 }

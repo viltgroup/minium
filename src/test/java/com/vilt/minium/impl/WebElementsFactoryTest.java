@@ -1,14 +1,15 @@
 package com.vilt.minium.impl;
 
 import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.isA;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
 
-import com.vilt.minium.driver.WebElementsDriver;
+import com.vilt.minium.driver.DefaultWebElementsDriver;
 import com.vilt.minium.jquery.DefaultWebElements;
+import com.vilt.minium.jquery.JQueryWebElements;
 
 public class WebElementsFactoryTest {
 
@@ -16,8 +17,9 @@ public class WebElementsFactoryTest {
 	@SuppressWarnings("unchecked")
 	public void testInterfaces() {
 		WebElementsFactory factory = new WebElementsFactory(DefaultWebElements.class);
-		DefaultWebElements elem = factory.create(mock(WebElementsDriver.class));
-		assertThat((JQueryWebElementsImpl<?>) elem, isA(JQueryWebElementsImpl.class));
+		DefaultWebElementsDriver wd = mock(DefaultWebElementsDriver.class);
+		DefaultWebElements elem = WebElementsFactoryHelper.createRootWebElements(factory, wd);
+		assertTrue(elem instanceof JQueryWebElements<?>);
 	}
 
 	@Test
@@ -25,6 +27,6 @@ public class WebElementsFactoryTest {
 	public void testResources() {
 		WebElementsFactory factory = new WebElementsFactory(DefaultWebElements.class);
 		JQueryInvoker invoker = factory.getInvoker();
-		assertThat(invoker.getJsResources(), contains("motion/js/jquery.js", "motion/js/position.js"));
+		assertThat(invoker.getJsResources(), contains("minium/js/jquery.js", "minium/js/position.js"));
 	}
 }
