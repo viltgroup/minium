@@ -45,7 +45,7 @@ public class DefaultAction implements Action<DefaultAction> {
 	}
 
 	public void select(DefaultWebElements elems, String text) {
-		WebElement first = getFirst(elems.withTagNames("select"));
+		WebElement first = getFirst(elems.filter("select"));
 		Select select = new Select(first);
 		select.selectByVisibleText(text);
 	}

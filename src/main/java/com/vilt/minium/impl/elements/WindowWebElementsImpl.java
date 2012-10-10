@@ -1,5 +1,7 @@
 package com.vilt.minium.impl.elements;
 
+import static java.lang.String.format;
+
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang.StringUtils;
@@ -17,6 +19,7 @@ public class WindowWebElementsImpl<T extends WebElements<T>> extends BaseRootWeb
 	private BaseWebElementsImpl<T> parent;
 
 	public void init(WebElementsFactory factory, BaseWebElementsImpl<T> parent, String nameOrHandle) {
+		super.init(factory);
 		this.parent = parent;
 	}
 
@@ -33,6 +36,7 @@ public class WindowWebElementsImpl<T extends WebElements<T>> extends BaseRootWeb
 			@Override
 			@Nullable
 			public WebElementsDriver<T> apply(@Nullable String input) {
+				System.out.println(format("Creating window driver for %s", input));
 				return new WindowWebElementsDriver<T>(wd, factory, input);
 			}
 		}).toImmutableList();		

@@ -2,6 +2,9 @@ package com.vilt.minium;
 
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.support.ui.Duration;
+import org.openqa.selenium.support.ui.Sleeper;
+
 import com.vilt.minium.jquery.DefaultAction;
 import com.vilt.minium.jquery.DefaultWebElements;
 
@@ -54,10 +57,15 @@ public class MiniumActions {
 	public static boolean checkEmpty(DefaultWebElements elems) {
 		return new DefaultAction().checkEmpty(elems);
 	}
-
-
+	
 	public static void waitTime(long time, TimeUnit unit) {
-//		waitTime(new Duration(time, unit));
+		Duration duration = new Duration(time, unit);
+		try {
+			Sleeper.SYSTEM_SLEEPER.sleep(duration);
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+			throw new RuntimeException(e);
+		}
 	}
 	
 	public static <A extends Action<A>> A withoutWaiting() {

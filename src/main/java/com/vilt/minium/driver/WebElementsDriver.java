@@ -28,11 +28,13 @@ public class WebElementsDriver<T extends WebElements<T>> implements WebDriver, J
 	protected final WebDriver wd;
 	protected final WebElementsFactory factory;
 	protected final Configuration configuration;
+	private String windowHandle;
 
 	public WebElementsDriver(WebDriver wd, WebElementsFactory factory) {
 		this.wd = wd;
 		this.factory = factory;
 		this.configuration = new Configuration();
+		this.windowHandle = wd.getWindowHandle();
 	}
 
 	public WebElementsDriver(WebDriver wd, Class<T> elementsInterface, Class<? extends WebElements<T>> ... moreInterfaces) {
@@ -137,6 +139,7 @@ public class WebElementsDriver<T extends WebElements<T>> implements WebDriver, J
 	}
 
 	public void ensureSwitch() {
+		wd.switchTo().window(windowHandle);
 		wd.switchTo().defaultContent();
 	}
 

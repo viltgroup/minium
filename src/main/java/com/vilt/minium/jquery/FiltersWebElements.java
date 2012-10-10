@@ -25,13 +25,6 @@ public interface FiltersWebElements<T extends FiltersWebElements<T>> extends Web
 	
 	/**
 	 * 
-	 * @param tags
-	 * @return
-	 */
-	public T withTagNames(final String ... tags);
-
-	/**
-	 * 
 	 * @param text
 	 * @return
 	 */

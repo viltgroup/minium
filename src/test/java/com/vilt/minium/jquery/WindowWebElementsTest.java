@@ -18,6 +18,6 @@ public class WindowWebElementsTest extends MiniumBaseTest {
 	@Test
 	public void testWindows() {
 		DefaultWebElements elems = $(wd).window().find("input#name");
-		assertThat(elems, hasSize(2));
+		assertThat(elems, hasSize(4));
 	}
 }
