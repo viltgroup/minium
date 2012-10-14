@@ -2,7 +2,9 @@ package com.vilt.minium.driver;
 
 import org.openqa.selenium.WebDriver;
 
+import com.vilt.minium.WebElements;
 import com.vilt.minium.jquery.DefaultWebElements;
+import com.vilt.minium.jquery.debug.DebugWebElements;
 
 /**
  * 
@@ -17,7 +19,7 @@ public class DefaultWebElementsDriver extends WebElementsDriver<DefaultWebElemen
 	 */
 	@SuppressWarnings("unchecked")
 	public DefaultWebElementsDriver(WebDriver wd) {
-		super(wd, DefaultWebElements.class);
+		super(wd, DefaultWebElements.class, (Class<? extends WebElements<?>>) DebugWebElements.class);
 	}
 
 }

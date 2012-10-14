@@ -3,6 +3,7 @@ package com.vilt.minium.jquery;
 import static com.vilt.minium.Minium.$;
 import static org.junit.Assert.assertThat;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
@@ -49,5 +50,19 @@ public class IframeWebElementsTest extends MiniumBaseTest {
 		DefaultWebElements input = frame.find("input#name");
 		DefaultWebElements label = frame.find("label").rightOf(input);
 		assertThat(label, hasSize(2));
+	}
+	
+	@Test
+	public void testIframesFalseRelativeElements() {
+		try {
+			DefaultWebElements input = $(wd, "input#name");
+
+			DefaultWebElements frame = $(wd).frame();
+			/* DefaultWebElements label = */ frame.find("label").rightOf(input);
+
+			Assert.fail("An exception was expected");
+		} catch (IllegalArgumentException e) {
+			// ok
+		}
 	}
 }

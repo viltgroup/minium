@@ -86,7 +86,7 @@ public interface JQueryWebElements<T extends WebElements<T>> extends WebElements
 	 * 
 	 * @return Boolean
 	 */
-	public Boolean is(String expr);
+	public boolean is(String expr);
 
 	/**
 	 * 

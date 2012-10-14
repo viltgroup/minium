@@ -19,4 +19,10 @@ public abstract class BaseRootWebElementsImpl<T extends WebElements<T>> extends 
 		return "$()";
 	}
 	
+	@Override
+	@SuppressWarnings("unchecked")
+	protected T relativeRootWebElements() {
+		return (T) this;
+	}
+	
 }

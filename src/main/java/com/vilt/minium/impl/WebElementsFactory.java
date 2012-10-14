@@ -128,7 +128,18 @@ public class WebElementsFactory implements MethodHandler {
 		Class<?> proxyClass = webElementsProxyClasses.get(superClass);
 		if (proxyClass == null) {
 			ProxyFactory factory = new ProxyFactory();
-			factory.setInterfaces(new Class[] { elementsInterface });
+			
+			Class<?>[] interfaces;
+			if (moreInterfaces == null) {
+				interfaces = new Class<?>[] { elementsInterface };
+			}
+			else {
+				interfaces = new Class<?>[moreInterfaces.length + 1];
+				interfaces[0] = elementsInterface;
+				System.arraycopy(moreInterfaces, 0, interfaces, 1, moreInterfaces.length);
+			}
+			
+			factory.setInterfaces(interfaces);
 			factory.setFilter(new MethodFilter() {
 				public boolean isHandled(Method m) {
 					return Modifier.isAbstract(m.getModifiers());

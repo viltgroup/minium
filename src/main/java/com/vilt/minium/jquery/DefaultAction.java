@@ -1,5 +1,6 @@
 package com.vilt.minium.jquery;
 
+import static com.vilt.minium.Minium.untilEmpty;
 import static com.vilt.minium.Minium.untilNotEmpty;
 
 import org.openqa.selenium.WebElement;
@@ -50,14 +51,12 @@ public class DefaultAction implements Action<DefaultAction> {
 		select.selectByVisibleText(text);
 	}
 
-	public Object forElements(DefaultWebElements elems) {
-		// TODO Auto-generated method stub
-		return null;
+	public void forElements(DefaultWebElements elems) {
+		elems.wait(untilNotEmpty());
 	}
 
-	public Object whileElements(DefaultWebElements elems) {
-		// TODO Auto-generated method stub
-		return null;
+	public void whileElements(DefaultWebElements elems) {
+		elems.wait(untilEmpty());
 	}
 
 	public boolean checkNotEmpty(DefaultWebElements elems) {

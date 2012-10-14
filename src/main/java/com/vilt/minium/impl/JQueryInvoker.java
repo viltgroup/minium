@@ -80,7 +80,7 @@ public class JQueryInvoker {
 		}
 	}
 	
-	public Object invokeExpression(WebElementsDriver<?> wd, String expression, Object[] args) {
+	public Object invokeExpression(WebElementsDriver<?> wd, String expression, Object ... args) {
 		return invoke(wd, format("return %s;", expression), args);
 	}
 	

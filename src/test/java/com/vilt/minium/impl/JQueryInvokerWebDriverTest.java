@@ -7,35 +7,26 @@ import static org.junit.Assert.assertThat;
 
 import java.util.List;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 
 import com.google.common.collect.Lists;
+import com.vilt.minium.MiniumBaseTest;
 
-public class JQueryInvokerWebDriverTest {
-
+public class JQueryInvokerWebDriverTest  extends MiniumBaseTest {
+	
 	private JQueryInvoker positionInvoker;
-	private ChromeDriver wd;
-
+	
 	@Before
-	public void before() {
+	public void openPage() {
+		get("minium/tests/jquery-test.html");
 		positionInvoker = new JQueryInvoker(Lists.newArrayList("minium/js/jquery.js", "minium/js/position.js"), null);
-		wd = new ChromeDriver();
 	}
-	
-	@After
-	public void after() {
-		wd.quit();
-	}
-	
+
 	@Test
 	@SuppressWarnings("unchecked")
-	public void testGoogleHelloWorld() {
-
-		wd.get("http://www.google.com");
+	public void testInvoke() {
 		Object result = positionInvoker.invoke(wd, "return $('input')");
 		
 		List<WebElement> webElements = (List<WebElement>) result;
@@ -43,18 +34,14 @@ public class JQueryInvokerWebDriverTest {
 	}
 	
 	@Test
-	public void testGoogleHelloWorldWithArg() {
-
-		wd.get("http://www.google.com");
+	public void testInvokeWithArg() {
 		Object result = positionInvoker.invoke(wd, "return args[0];", "Hello World");
 		
 		assertThat((String) result, equalTo("Hello World"));		
 	}
 	
 	@Test
-	public void testGoogleHelloWorldWithArgFullAndLight() {
-
-		wd.get("http://www.google.com");
+	public void testInvokeWithArgFullAndLight() {
 		Object result = positionInvoker.invoke(wd, "return args[0];", "Hello World");
 		
 		assertThat((String) result, equalTo("Hello World"));

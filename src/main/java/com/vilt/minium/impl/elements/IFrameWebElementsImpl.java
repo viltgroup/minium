@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 import org.openqa.selenium.WebElement;
 
 import com.google.common.base.Function;
+import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.driver.WebElementsDriver;
@@ -38,6 +39,22 @@ public class IFrameWebElementsImpl<T extends WebElements<T>> extends BaseRootWeb
 	@Override
 	protected WebElementsDriver<T> rootWebDriver() {
 		return parent.rootWebDriver();
+	}
+	
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public boolean equals(Object obj) {
+		if (obj instanceof IFrameWebElementsImpl) {
+			IFrameWebElementsImpl<T> elem = (IFrameWebElementsImpl<T>) obj;
+			return Objects.equal(elem.parent, this.parent);
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(parent);
 	}
 	
 }

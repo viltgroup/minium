@@ -2,6 +2,7 @@ package com.vilt.minium.impl.elements;
 
 import java.util.Collections;
 
+import com.google.common.base.Objects;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.driver.WebElementsDriver;
 import com.vilt.minium.impl.WebElementsFactory;
@@ -23,5 +24,20 @@ public class RootWebElementsImpl<T extends WebElements<T>> extends BaseRootWebEl
 	@Override
 	protected WebElementsDriver<T> rootWebDriver() {
 		return wd;
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public boolean equals(Object obj) {
+		if (obj instanceof RootWebElementsImpl) {
+			RootWebElementsImpl<T> elem = (RootWebElementsImpl<T>) obj;
+			return Objects.equal(elem.wd, this.wd);
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(wd);
 	}
 }

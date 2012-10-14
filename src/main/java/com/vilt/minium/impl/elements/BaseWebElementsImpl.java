@@ -24,6 +24,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
+import com.vilt.minium.MiniumException;
 import com.vilt.minium.TargetLocatorWebElements;
 import com.vilt.minium.WaitWebElements;
 import com.vilt.minium.WebElements;
@@ -51,14 +52,10 @@ public abstract class BaseWebElementsImpl<T extends WebElements<T>> implements W
 		@SuppressWarnings("unchecked")
 		private String getJQueryWebElementsExpression(Object input) {
 			BaseWebElementsImpl<T> elem = (BaseWebElementsImpl<T>) input;
-			
-//			HashSet<WebElementsDriver<?>> elemWebDrivers = Sets.<WebElementsDriver<?>>newHashSet(elem.webDrivers());
-//			HashSet<WebElementsDriver<?>> thisWebDrivers = Sets.<WebElementsDriver<?>>newHashSet(BaseWebElementsImpl.this.webDrivers());
-//			
-//			if (Sets.intersection(elemWebDrivers, thisWebDrivers).isEmpty()) {
-//			 	throw new IllegalArgumentException("Web elements don't belong to the same web driver...");
-//			}
-			System.out.println("TODO: check same web driver (or root web element)");
+
+			if (!elem.relativeRootWebElements().equals(BaseWebElementsImpl.this.relativeRootWebElements())) {
+				throw new IllegalArgumentException("WebElements does not belong to the same window / iframe");
+			}
 			
 			return elem.getExpression();
 		}
@@ -73,6 +70,8 @@ public abstract class BaseWebElementsImpl<T extends WebElements<T>> implements W
 	protected abstract Iterable<WebElementsDriver<T>> webDrivers();
 	
 	protected abstract WebElementsDriver<T> rootWebDriver();
+	
+	protected abstract T relativeRootWebElements();
 	
 	public void init(WebElementsFactory factory) {
 		this.factory = factory;
@@ -101,7 +100,27 @@ public abstract class BaseWebElementsImpl<T extends WebElements<T>> implements W
 					return factory.getInvoker().invokeExpression(wd, expression, args);
 				}
 				else {
-					throw new IllegalStateException("Not implemented yet");
+					String sizeExpression = computeExpression(this, "size");
+					WebElementsDriver<T> webDriverWithResults = null;
+					
+					for (WebElementsDriver<T> wd : webDrivers) {
+						long size = (Long) factory.getInvoker().invokeExpression(wd, sizeExpression);
+						if (size > 0) {
+							if (webDriverWithResults == null) {
+								webDriverWithResults = wd;
+							}
+							else {
+								throw new MiniumException("Several frames or windows match the same expression, so value cannot be computed");								
+							}
+						}
+					}
+					
+					if (webDriverWithResults != null) {
+						return factory.getInvoker().invokeExpression(webDriverWithResults, expression, args);
+					}
+					else {
+						return null;
+					}
 				}
 			}
 		}

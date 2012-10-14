@@ -4,6 +4,7 @@ import static java.lang.String.format;
 
 import org.openqa.selenium.WebElement;
 
+import com.google.common.base.Objects;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.driver.WebElementsDriver;
 import com.vilt.minium.impl.WebElementsFactory;
@@ -42,5 +43,27 @@ public class ExpressionWebElementsImpl<T extends WebElements<T>> extends BaseWeb
 	
 	public Object[] getArgs() {
 		return args;
+	}
+	
+	@Override
+	protected T relativeRootWebElements() {
+		return parent.relativeRootWebElements();
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public boolean equals(Object obj) {
+		if (obj instanceof ExpressionWebElementsImpl) {
+			ExpressionWebElementsImpl<T> elem = (ExpressionWebElementsImpl<T>) obj;
+			return 
+				Objects.equal(elem.getExpression(), this.getExpression()) &&
+				Objects.equal(elem.relativeRootWebElements(), this.relativeRootWebElements());
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(relativeRootWebElements(), getExpression());
 	}
 }

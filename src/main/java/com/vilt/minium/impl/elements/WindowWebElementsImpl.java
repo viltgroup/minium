@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 import org.apache.commons.lang.StringUtils;
 
 import com.google.common.base.Function;
+import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 import com.vilt.minium.WebElements;
@@ -17,10 +18,12 @@ import com.vilt.minium.impl.WebElementsFactory;
 public class WindowWebElementsImpl<T extends WebElements<T>> extends BaseRootWebElementsImpl<T> {
 
 	private BaseWebElementsImpl<T> parent;
+	private String nameOrHandle;
 
 	public void init(WebElementsFactory factory, BaseWebElementsImpl<T> parent, String nameOrHandle) {
 		super.init(factory);
 		this.parent = parent;
+		this.nameOrHandle = nameOrHandle;
 	}
 
 	@Override
@@ -47,4 +50,20 @@ public class WindowWebElementsImpl<T extends WebElements<T>> extends BaseRootWeb
 		return parent.rootWebDriver();
 	}
 	
+	@Override
+	@SuppressWarnings("unchecked")
+	public boolean equals(Object obj) {
+		if (obj instanceof WindowWebElementsImpl) {
+			WindowWebElementsImpl<T> elem = (WindowWebElementsImpl<T>) obj;
+			return 
+					Objects.equal(elem.parent, this.parent) && 
+					Objects.equal(elem.nameOrHandle, this.nameOrHandle);
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(parent, nameOrHandle);
+	}
 }
