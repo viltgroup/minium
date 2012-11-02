@@ -2,14 +2,15 @@ package com.vilt.minium.impl.elements;
 
 import static java.lang.String.format;
 
-import javax.annotation.Nullable;
+import java.util.Collections;
+import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
+import javax.annotation.Nullable;
 
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
-import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Sets;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.driver.WebElementsDriver;
 import com.vilt.minium.driver.impl.WindowWebElementsDriver;
@@ -30,19 +31,25 @@ public class WindowWebElementsImpl<T extends WebElements<T>> extends BaseRootWeb
 	protected Iterable<WebElementsDriver<T>> webDrivers() {
 		final WebElementsDriver<T> wd = rootWebDriver();
 		final String currentHandle = wd.getWindowHandle();
-		return FluentIterable.from(wd.getWindowHandles()).filter(new Predicate<String>() {
-			@Override
-			public boolean apply(@Nullable String input) {
-				return !StringUtils.equals(currentHandle, input);
-			}
-		}).transform(new Function<String, WebElementsDriver<T>>() {
-			@Override
-			@Nullable
-			public WebElementsDriver<T> apply(@Nullable String input) {
-				System.out.println(format("Creating window driver for %s", input));
-				return new WindowWebElementsDriver<T>(wd, factory, input);
-			}
-		}).toImmutableList();		
+		Set<String> windowHandles = Sets.newHashSet(wd.getWindowHandles());
+		windowHandles.remove(currentHandle);
+		
+		if (windowHandles.isEmpty()) {
+			System.out.println("No different window found...");
+			return Collections.emptyList();
+		}
+		else {
+			return FluentIterable
+					.from(windowHandles)
+					.transform(new Function<String, WebElementsDriver<T>>() {
+						@Override
+						@Nullable
+						public WebElementsDriver<T> apply(@Nullable String input) {
+							System.out.println(format("Creating window driver for %s", input));
+							return new WindowWebElementsDriver<T>(wd, factory, input);
+						}
+					}).toImmutableList();
+		}
 	}
 
 	@Override

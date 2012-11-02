@@ -1,6 +1,7 @@
 package com.vilt.minium.jquery;
 
 import static com.vilt.minium.Minium.$;
+import static com.vilt.minium.Minium.untilNotEmpty;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -10,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.common.collect.Iterables;
+import com.vilt.minium.Minium;
 import com.vilt.minium.MiniumBaseTest;
 import com.vilt.minium.MiniumException;
 
@@ -22,7 +24,7 @@ public class WindowWebElementsTest extends MiniumBaseTest {
 	
 	@Test
 	public void testWindows() {
-		DefaultWebElements elems = $(wd).window().find("input#name");
+		DefaultWebElements elems = $(wd).window().find("input#name").waitOrTimeout(untilNotEmpty());
 		assertEquals(1, Iterables.size(elems));
 	}
 	
@@ -42,7 +44,7 @@ public class WindowWebElementsTest extends MiniumBaseTest {
 	}
 	
 	@Test
-	public void testWindowsWitnObjectResultFailed() {
+	public void testWindowsWithObjectResultFailed() {
 		try {
 			DefaultWebElements input = $(wd).window().find("h1");
 			

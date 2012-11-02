@@ -22,4 +22,9 @@
 		this.effect("highlight", { color : color }, timeMillis);
 	};
 	
+	$.fn.highlightAndCount = function() {
+		this.highlight();
+		return this.length;
+	};
+	
 })(jQuery, window, document);

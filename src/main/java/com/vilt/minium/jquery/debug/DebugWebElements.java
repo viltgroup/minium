@@ -44,4 +44,12 @@ public interface DebugWebElements<T extends WebElements<T>> extends WebElements<
 	 */
 	public void highlight(String color, long time, TimeUnit units);
 	
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int highlightAndCount();
+
+	
 }

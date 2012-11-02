@@ -14,6 +14,16 @@ public class MiniumActions {
 		new DefaultAction().click(elems);
 	}
 	
+
+	public static void rightClick(DefaultWebElements elems) {
+		new DefaultAction().rightClick(elems);
+	}
+	
+	public static void clickAll(DefaultWebElements elems) {
+		new DefaultAction().clickAll(elems);
+	}
+	
+	
 	public static void moveTo(DefaultWebElements elems) {
 		new DefaultAction().moveMouse(elems);
 	}
@@ -69,12 +79,11 @@ public class MiniumActions {
 	}
 	
 	public static <A extends Action<A>> A withoutWaiting() {
-//		return withWaitTimeout(0, SECONDS);
-		return null;
+		return withWaitTimeout(0, TimeUnit.SECONDS);
 	}
 
 	public static <A extends Action<A>> A withWaitTimeout(long time, TimeUnit units) {
-//		return new Action(time, units);
 		return null;
+//		return new DefaultAction(time, units);
 	}
 }

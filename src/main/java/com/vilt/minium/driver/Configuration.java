@@ -54,7 +54,7 @@ public class Configuration implements Serializable {
 	
 	private static final long serialVersionUID = -6096136074620998211L;
 
-	private Duration defaultTimeout = new Duration(5, TimeUnit.SECONDS);
+	private Duration defaultTimeout = new Duration(10, TimeUnit.SECONDS);
 	private Duration defaultInterval = new Duration(1, TimeUnit.SECONDS);
 
 	public Duration getDefaultTimeout() {

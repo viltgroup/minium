@@ -290,4 +290,5 @@ public interface JQueryWebElements<T extends WebElements<T>> extends WebElements
 	 */
 	public T first();
 
+	public int size();
 }

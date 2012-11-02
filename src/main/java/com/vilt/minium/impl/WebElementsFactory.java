@@ -35,9 +35,9 @@ public class WebElementsFactory implements MethodHandler {
 	private Map<Class<?>, Class<?>> webElementsProxyClasses = Maps.newHashMap();
 	private JQueryInvoker invoker;
 	private Class<?> elementsInterface;
-	private Class<? extends WebElements<?>>[] moreInterfaces;
+	private Class<?>[] moreInterfaces;
 
-	public WebElementsFactory(Class<? extends WebElements<?>> elementsInterface, Class<? extends WebElements<?>> ... moreInterfaces) {
+	public WebElementsFactory(Class<? extends WebElements<?>> elementsInterface, Class<?> ... moreInterfaces) {
 		this.elementsInterface = elementsInterface;
 		this.moreInterfaces = moreInterfaces;
 		initInvoker();

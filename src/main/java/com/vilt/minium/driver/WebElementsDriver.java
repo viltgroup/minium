@@ -37,7 +37,7 @@ public class WebElementsDriver<T extends WebElements<T>> implements WebDriver, J
 		this.windowHandle = wd.getWindowHandle();
 	}
 
-	public WebElementsDriver(WebDriver wd, Class<T> elementsInterface, Class<? extends WebElements<?>> ... moreInterfaces) {
+	public WebElementsDriver(WebDriver wd, Class<T> elementsInterface, Class<?> ... moreInterfaces) {
 		this(wd, new WebElementsFactory(elementsInterface, moreInterfaces));
 	}
 

@@ -1,33 +1,28 @@
-try {
-	{{jsScript}}
+{{jsScript}}
 
-	minium = {
-		$ : jQuery.noConflict(),
-		evalExpression : function($, fn) {
-			var result = fn();
-			if (result instanceof $) {
-				// converts result to a normal array
-				result = $.makeArray(result);
-			}
-			return [ result ];
+minium = {
+	jQuery : jQuery.noConflict(),
+	evalExpression : function($, fn) {	
+		var result = fn();
+		if (result instanceof $) {
+			// converts result to a normal array
+			result = $.makeArray(result);
 		}
+		return [ result ];
+	}
+};
+
+// arguments[0] -> styles
+// arguments[1 ...] -> expression arguments
+return (function($, window, document, styles, args) {
+
+	// appends css styles to head
+	$("<style type='text/css'>\n" + styles + "</style>").appendTo($("head"));
+	
+	var fn = function() {
+		{{expression}}
 	};
-
-	// arguments[0] -> styles
-	// arguments[1 ...] -> expression arguments
-	return (function($, window, document, styles, args) {
-
-		// appends css styles to head
-		$("<style type='text/css'>\n" + styles + "</style>").appendTo($("head"));
-		
-		var fn = function() { 
-			{{expression}}
-		};
 			
-		return minium.evalExpression($, fn);
+	return minium.evalExpression($, fn);
 
-	})(minium.$, window, document, arguments[0], Array.prototype.slice.call(arguments, 1));
-} catch(e) { 
-	console.debug(e.message); 
-	console.debug(e.stack); 
-}
+})(minium.jQuery, window, document, arguments[0], Array.prototype.slice.call(arguments, 1));

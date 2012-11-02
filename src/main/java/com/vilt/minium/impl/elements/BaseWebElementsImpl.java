@@ -34,6 +34,7 @@ import com.vilt.minium.impl.DelegateWebElement;
 import com.vilt.minium.impl.WebElementsFactory;
 import com.vilt.minium.impl.WebElementsFactoryHelper;
 import com.vilt.minium.jquery.JQueryWebElements;
+import com.vilt.minium.jquery.internal.NewWindowWebElements;
 
 public abstract class BaseWebElementsImpl<T extends WebElements<T>> implements WebElements<T>, TargetLocatorWebElements<T>, WaitWebElements<T> {
 
@@ -86,18 +87,19 @@ public abstract class BaseWebElementsImpl<T extends WebElements<T>> implements W
 			return webElements;
 		}
 		else {
+			Object result = null;
+			
 			Iterable<WebElementsDriver<T>> webDrivers = webDrivers();		
 			
 			if (method.getReturnType() == Void.TYPE) {
 				for (WebElementsDriver<T> wd : webDrivers) {
 					factory.getInvoker().invokeExpression(wd, expression, args);
 				}
-				return null;
 			}
 			else {
 				if (Iterables.size(webDrivers) == 1) {
 					WebElementsDriver<T> wd = Iterables.get(webDrivers, 0);
-					return factory.getInvoker().invokeExpression(wd, expression, args);
+					result = factory.getInvoker().invokeExpression(wd, expression, args);
 				}
 				else {
 					String sizeExpression = computeExpression(this, "size");
@@ -116,12 +118,17 @@ public abstract class BaseWebElementsImpl<T extends WebElements<T>> implements W
 					}
 					
 					if (webDriverWithResults != null) {
-						return factory.getInvoker().invokeExpression(webDriverWithResults, expression, args);
-					}
-					else {
-						return null;
+						result = factory.getInvoker().invokeExpression(webDriverWithResults, expression, args);
 					}
 				}
+			}
+
+			// let's handle numbers when return type is int
+			if (method.getReturnType() == Integer.TYPE) {
+				return result == null ? 0 : ((Number) result).intValue();
+			}
+			else {
+				return result;
 			}
 		}
 	}
@@ -206,7 +213,7 @@ public abstract class BaseWebElementsImpl<T extends WebElements<T>> implements W
 	@Override
 	public T waitOrTimeout(long time, TimeUnit unit, Predicate<? super T> predicate) {
 		Duration interval = rootWebDriver().configuration().getDefaultInterval();
-		Wait<T> wait = new FluentWait<T>(null).
+		Wait<T> wait = new FluentWait<T>((T) this).
 				withTimeout(time, unit).
 				pollingEvery(interval.getTime(), interval.getUnit());
 		
@@ -243,7 +250,28 @@ public abstract class BaseWebElementsImpl<T extends WebElements<T>> implements W
 	public T window() {
 		return WebElementsFactoryHelper.<T>createWindowWebElements(factory, this);
 	}
+	
+	@Override
+	public void openWindow(String url) {
+		openWindow(url, null);
+	}
 
+	@Override
+	public void openWindow(String url, String target) {
+		openWindow(url, null, null);
+	}
+	
+	@Override
+	public void openWindow(String url, String target, String settings) {
+		T elements = newWindowThis().createHiddenAnchor(url, target, settings);
+		try {
+			elements.get(0).click();
+		}
+		finally {
+			newWindowThis().removeHiddenAnchor();
+		}
+	}
+	
 	@Override
 	public Alert alert() {
 		Iterable<WebElementsDriver<T>> webDrivers = webDrivers();
@@ -257,5 +285,10 @@ public abstract class BaseWebElementsImpl<T extends WebElements<T>> implements W
 	@SuppressWarnings("unchecked")
 	protected <JQT extends JQueryWebElements<JQT>> JQT jqueryThis() {
 		return (JQT) this;
+	}
+	
+	@SuppressWarnings("unchecked")
+	protected NewWindowWebElements<T> newWindowThis() {
+		return (NewWindowWebElements<T>) this;
 	}
 }

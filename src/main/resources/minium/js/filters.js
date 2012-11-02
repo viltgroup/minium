@@ -1,11 +1,11 @@
 (function($, window) {
-	var visibleText = function(elem) {
-		return $.trim($(elem).contents(":visible").text());
+	$.fn.visibleText = function() {
+		return $.trim($(this).text());
 	};
 	
 	$.fn.withText = function(text) {
 		return $(this).filter(function() {
-			return visibleText(this) === text;
+			return $(this).visibleText() === text;
 		});
 	};
 	

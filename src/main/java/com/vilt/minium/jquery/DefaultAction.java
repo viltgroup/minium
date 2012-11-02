@@ -16,6 +16,20 @@ public class DefaultAction implements Action<DefaultAction> {
 		getFirst(elems).click();
 	}
 
+	public void rightClick(DefaultWebElements elems) {
+		WebElement first = getFirst(elems);
+		new Actions(((WrapsDriver) first).getWrappedDriver()).contextClick(first).perform();
+	}
+	
+	public void clickAll(DefaultWebElements elems) {
+		DefaultWebElements visibleElems = elems.visible();
+		visibleElems.wait(untilNotEmpty());
+
+		for (WebElement visibleElem : visibleElems) {
+			visibleElem.click();
+		}
+	}
+
 	public void moveMouse(DefaultWebElements elems) {
 		WebElement first = getFirst(elems);
 		new Actions(((WrapsDriver) first).getWrappedDriver()).moveToElement(first).perform(); 
@@ -60,12 +74,12 @@ public class DefaultAction implements Action<DefaultAction> {
 	}
 
 	public boolean checkNotEmpty(DefaultWebElements elems) {
-		// TODO Auto-generated method stub
-		return false;
+		elems.waitOrTimeout(untilNotEmpty());
+		return elems.size() != 0;
 	}
 
 	public boolean checkEmpty(DefaultWebElements elems) {
-		// TODO Auto-generated method stub
-		return false;
+		elems.waitOrTimeout(untilEmpty());
+		return elems.size() == 0;
 	}
 }

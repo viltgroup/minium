@@ -36,10 +36,17 @@ public interface TargetLocatorWebElements<T extends WebElements<T>> extends WebE
 	 */
 	public T window();
 	
+	public void openWindow(String url);
+
+	public void openWindow(String url, String target);
+	
+	public void openWindow(String url, String target, String settings);
+
 	/**
 	 * 
 	 * @return
 	 */
 	public Alert alert();
+
 	
 }

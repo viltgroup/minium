@@ -14,7 +14,6 @@ import com.vilt.minium.jquery.JQueryWebElements;
 public class WebElementsFactoryTest {
 
 	@Test
-	@SuppressWarnings("unchecked")
 	public void testInterfaces() {
 		WebElementsFactory factory = new WebElementsFactory(DefaultWebElements.class);
 		DefaultWebElementsDriver wd = mock(DefaultWebElementsDriver.class);
@@ -23,7 +22,6 @@ public class WebElementsFactoryTest {
 	}
 
 	@Test
-	@SuppressWarnings("unchecked")
 	public void testResources() {
 		WebElementsFactory factory = new WebElementsFactory(DefaultWebElements.class);
 		JQueryInvoker invoker = factory.getInvoker();
