@@ -74,6 +74,11 @@
 			<version>1.4</version>
 		</dependency>
 		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+		</dependency>
+		<dependency>
 			<groupId>org.javassist</groupId>
 			<artifactId>javassist</artifactId>
 			<version>3.16.1-GA</version>
@@ -86,7 +91,7 @@
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
-			<version>2.25.0</version>
+			<version>2.26.0</version>
 		</dependency>
         <dependency>
 			<groupId>log4j</groupId>

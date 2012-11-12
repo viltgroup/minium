@@ -18,6 +18,20 @@ public interface FiltersWebElements<T extends FiltersWebElements<T>> extends Web
 	
 	/**
 	 * 
+	 * @param value
+	 * @return
+	 */
+	public T withValue(final String value);
+
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public T withName(final String name);
+
+	/**
+	 * 
 	 * @param text
 	 * @return
 	 */

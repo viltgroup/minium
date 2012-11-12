@@ -3,6 +3,7 @@ package com.vilt.minium.driver;
 import org.openqa.selenium.WebDriver;
 
 import com.vilt.minium.jquery.DefaultWebElements;
+import com.vilt.minium.jquery.TipsWebElements;
 import com.vilt.minium.jquery.debug.DebugWebElements;
 
 /**
@@ -17,7 +18,7 @@ public class DefaultWebElementsDriver extends WebElementsDriver<DefaultWebElemen
 	 * @param wd
 	 */
 	public DefaultWebElementsDriver(WebDriver wd) {
-		super(wd, DefaultWebElements.class, DebugWebElements.class/*, NewWindowWebElements.class */);
+		super(wd, DefaultWebElements.class, DebugWebElements.class, TipsWebElements.class /*, NewWindowWebElements.class */);
 	}
 
 }

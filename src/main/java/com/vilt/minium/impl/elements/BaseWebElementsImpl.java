@@ -93,13 +93,13 @@ public abstract class BaseWebElementsImpl<T extends WebElements<T>> implements W
 			
 			if (method.getReturnType() == Void.TYPE) {
 				for (WebElementsDriver<T> wd : webDrivers) {
-					factory.getInvoker().invokeExpression(wd, expression, args);
+					factory.getInvoker().invokeExpression(wd, expression);
 				}
 			}
 			else {
 				if (Iterables.size(webDrivers) == 1) {
 					WebElementsDriver<T> wd = Iterables.get(webDrivers, 0);
-					result = factory.getInvoker().invokeExpression(wd, expression, args);
+					result = factory.getInvoker().invokeExpression(wd, expression);
 				}
 				else {
 					String sizeExpression = computeExpression(this, "size");
@@ -118,7 +118,7 @@ public abstract class BaseWebElementsImpl<T extends WebElements<T>> implements W
 					}
 					
 					if (webDriverWithResults != null) {
-						result = factory.getInvoker().invokeExpression(webDriverWithResults, expression, args);
+						result = factory.getInvoker().invokeExpression(webDriverWithResults, expression);
 					}
 				}
 			}

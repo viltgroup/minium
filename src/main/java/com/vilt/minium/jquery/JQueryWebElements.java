@@ -38,6 +38,17 @@ public interface JQueryWebElements<T extends WebElements<T>> extends WebElements
 	 * @return String text
 	 */
 	public String text();
+
+	/**
+	 * Get the current value of the first element in the set of matched elements. The 
+	 * .val() method is primarily used to get the values of form  elements such as 
+	 * input, select and textarea. In the case of <select  multiple="multiple"> 
+	 * elements, the .val() method returns an array containing each selected option; 
+	 * if no option is selected, it returns null.
+	 * 
+	 * @return
+	 */
+	public String val();
 	
 	/**
 	 * Argument is the position of the element in the set of matched elements, 

@@ -2,9 +2,6 @@ package com.vilt.minium;
 
 import java.util.concurrent.TimeUnit;
 
-import org.openqa.selenium.support.ui.Duration;
-import org.openqa.selenium.support.ui.Sleeper;
-
 import com.vilt.minium.jquery.DefaultAction;
 import com.vilt.minium.jquery.DefaultWebElements;
 
@@ -29,7 +26,7 @@ public class MiniumActions {
 	}
 	
 	public static void moveTo(DefaultWebElements from, DefaultWebElements to) {
-//		new Action().moveMouse(from, to);
+//		new DefaultAction().moveMouse(from, to);
 	}
 	
 	public static void sendKeys(DefaultWebElements elems, CharSequence ... keys) {
@@ -69,21 +66,22 @@ public class MiniumActions {
 	}
 	
 	public static void waitTime(long time, TimeUnit unit) {
-		Duration duration = new Duration(time, unit);
-		try {
-			Sleeper.SYSTEM_SLEEPER.sleep(duration);
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
-			throw new RuntimeException(e);
-		}
+		new DefaultAction().waitTime(time, unit);
 	}
 	
-	public static <A extends Action<A>> A withoutWaiting() {
+	public static DefaultAction withoutWaiting() {
 		return withWaitTimeout(0, TimeUnit.SECONDS);
 	}
 
-	public static <A extends Action<A>> A withWaitTimeout(long time, TimeUnit units) {
-		return null;
-//		return new DefaultAction(time, units);
+	public static DefaultAction withWaitTimeout(long time, TimeUnit units) {
+		return new DefaultAction(time, units);
+	}
+	
+	public static DefaultAction withTip(String text) {
+		return new DefaultAction().withTip(text);
+	}
+	
+	public static DefaultAction withTip(String text, long time, TimeUnit unit) {
+		return new DefaultAction().withTip(text, time, unit);
 	}
 }

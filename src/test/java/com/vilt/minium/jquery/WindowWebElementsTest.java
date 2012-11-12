@@ -11,7 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.common.collect.Iterables;
-import com.vilt.minium.Minium;
 import com.vilt.minium.MiniumBaseTest;
 import com.vilt.minium.MiniumException;
 
