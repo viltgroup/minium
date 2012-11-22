@@ -13,42 +13,39 @@ import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Sets;
-import com.vilt.minium.TargetLocatorWebElements;
 import com.vilt.minium.WebElements;
-import com.vilt.minium.WebElementsDriverProvider;
 import com.vilt.minium.driver.WebElementsDriver;
 import com.vilt.minium.driver.impl.WindowWebElementsDriver;
 import com.vilt.minium.impl.WebElementsFactory;
-import com.vilt.minium.jquery.JQueryWebElements;
 
 public class WindowWebElementsImpl<T extends WebElements> extends BaseRootWebElementsImpl<T> {
 
 	private BaseWebElementsImpl<T> parent;
 	private String nameOrHandle;
-	private T filter;
+//	private T filter;
 
-	@SuppressWarnings("unchecked")
+//	@SuppressWarnings("unchecked")
 	public void init(WebElementsFactory factory, BaseWebElementsImpl<T> parent, String expr) {
 		super.init(factory);
 		this.parent = parent;
-		this.filter = ((TargetLocatorWebElements<JQueryWebElements<T>>) parent).window().find(expr);
+//		this.filter = ((TargetLocatorWebElements<JQueryWebElements<T>>) parent).window().find(expr);
 	}
 
 	public void init(WebElementsFactory factory, BaseWebElementsImpl<T> parent, T filter) {
 		super.init(factory);
 		this.parent = parent;
-		this.filter = filter;
+//		this.filter = filter;
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
+//	@SuppressWarnings("unchecked")
 	public Iterable<WebElementsDriver<T>> candidateWebDrivers() {
 		final WebElementsDriver<T> wd = rootWebDriver();
 		final String currentHandle = wd.getWindowHandle();
 		
-		if (filter != null) {
-			nameOrHandle = ((WebElementsDriverProvider<T>) filter).webDriver().getWindowHandle();
-		}
+//		if (filter != null) {
+//			nameOrHandle = ((WebElementsDriverProvider<T>) filter).webDriver().getWindowHandle();
+//		}
 		
 		Set<String> windowHandles;
 		if (StringUtils.isNotEmpty(nameOrHandle)) {
