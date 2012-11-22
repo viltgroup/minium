@@ -7,31 +7,57 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Sets;
+import com.vilt.minium.TargetLocatorWebElements;
 import com.vilt.minium.WebElements;
+import com.vilt.minium.WebElementsDriverProvider;
 import com.vilt.minium.driver.WebElementsDriver;
 import com.vilt.minium.driver.impl.WindowWebElementsDriver;
 import com.vilt.minium.impl.WebElementsFactory;
+import com.vilt.minium.jquery.JQueryWebElements;
 
-public class WindowWebElementsImpl<T extends WebElements<T>> extends BaseRootWebElementsImpl<T> {
+public class WindowWebElementsImpl<T extends WebElements> extends BaseRootWebElementsImpl<T> {
 
 	private BaseWebElementsImpl<T> parent;
 	private String nameOrHandle;
+	private T filter;
 
-	public void init(WebElementsFactory factory, BaseWebElementsImpl<T> parent, String nameOrHandle) {
+	@SuppressWarnings("unchecked")
+	public void init(WebElementsFactory factory, BaseWebElementsImpl<T> parent, String expr) {
 		super.init(factory);
 		this.parent = parent;
-		this.nameOrHandle = nameOrHandle;
+		this.filter = ((TargetLocatorWebElements<JQueryWebElements<T>>) parent).window().find(expr);
+	}
+
+	public void init(WebElementsFactory factory, BaseWebElementsImpl<T> parent, T filter) {
+		super.init(factory);
+		this.parent = parent;
+		this.filter = filter;
 	}
 
 	@Override
-	protected Iterable<WebElementsDriver<T>> webDrivers() {
+	@SuppressWarnings("unchecked")
+	public Iterable<WebElementsDriver<T>> candidateWebDrivers() {
 		final WebElementsDriver<T> wd = rootWebDriver();
 		final String currentHandle = wd.getWindowHandle();
-		Set<String> windowHandles = Sets.newHashSet(wd.getWindowHandles());
+		
+		if (filter != null) {
+			nameOrHandle = ((WebElementsDriverProvider<T>) filter).webDriver().getWindowHandle();
+		}
+		
+		Set<String> windowHandles;
+		if (StringUtils.isNotEmpty(nameOrHandle)) {
+			windowHandles = Sets.newHashSet(Collections.singleton(nameOrHandle));
+		}
+		else {
+			windowHandles = Sets.newHashSet(wd.getWindowHandles());
+		}
+
 		windowHandles.remove(currentHandle);
 		
 		if (windowHandles.isEmpty()) {

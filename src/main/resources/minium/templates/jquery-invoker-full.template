@@ -12,9 +12,18 @@ minium = {
 	}
 };
 
-// arguments[0] -> styles
-// arguments[1 ...] -> expression arguments
-return (function($, window, document, styles, args) {
+// arguments[0] -> async
+// arguments[1] -> styles
+// arguments[2 ...] -> expression arguments
+return (function($, async, styles, args) {
+	var callback;
+	
+	if (async) {
+		var selCallback = args.pop();
+		callback = function(val) {
+			selCallback([ val ]);
+		};
+	}
 
 	// appends css styles to head
 	$("<style type='text/css'>\n" + styles + "</style>").appendTo($("head"));
@@ -22,7 +31,12 @@ return (function($, window, document, styles, args) {
 	var fn = function() {
 		{{expression}}
 	};
-			
-	return minium.evalExpression($, fn);
-
-})(minium.jQuery, window, document, arguments[0], Array.prototype.slice.call(arguments, 1));
+	
+	if (async) {
+		minium.evalExpression($, fn);
+	}
+	else {
+		return minium.evalExpression($, fn);
+	}
+	
+})(minium.jQuery, arguments[0], arguments[1], Array.prototype.slice.call(arguments, 2));

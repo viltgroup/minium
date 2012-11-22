@@ -7,7 +7,7 @@ import com.vilt.minium.WebElements;
 import com.vilt.minium.driver.WebElementsDriver;
 import com.vilt.minium.impl.WebElementsFactory;
 
-public class RootWebElementsImpl<T extends WebElements<T>> extends BaseRootWebElementsImpl<T> {
+public class RootWebElementsImpl<T extends WebElements> extends BaseRootWebElementsImpl<T> {
 
 	private WebElementsDriver<T> wd;
 
@@ -17,7 +17,7 @@ public class RootWebElementsImpl<T extends WebElements<T>> extends BaseRootWebEl
 	}
 	
 	@Override
-	protected Iterable<WebElementsDriver<T>> webDrivers() {
+	protected Iterable<WebElementsDriver<T>> candidateWebDrivers() {
 		return Collections.singletonList(wd);
 	}
 	

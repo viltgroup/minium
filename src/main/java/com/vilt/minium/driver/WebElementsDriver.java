@@ -23,7 +23,7 @@ import com.vilt.minium.jquery.JQueryWebElements;
  * 
  * @param <T>
  */
-public class WebElementsDriver<T extends WebElements<T>> implements WebDriver, JavascriptExecutor, HasInputDevices {
+public class WebElementsDriver<T extends WebElements> implements WebDriver, JavascriptExecutor, HasInputDevices {
 
 	protected final WebDriver wd;
 	protected final WebElementsFactory factory;
@@ -134,8 +134,9 @@ public class WebElementsDriver<T extends WebElements<T>> implements WebDriver, J
 		return WebElementsFactoryHelper.<T>createRootWebElements(factory, this);
 	}
 
+	@SuppressWarnings("unchecked")
 	public T webElements(String selector) {
-		return ((JQueryWebElements<T>) webElements()).find(selector);
+		return (T) ((JQueryWebElements<T>) webElements()).find(selector);
 	}
 
 	public void ensureSwitch() {

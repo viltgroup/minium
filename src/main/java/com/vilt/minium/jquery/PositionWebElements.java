@@ -7,14 +7,14 @@ import com.vilt.minium.WebElements;
  * @author Rui
  */
 @JQueryResources("minium/js/position.js")
-public interface PositionWebElements<T extends WebElements<T>> extends WebElements<T> {
+public interface PositionWebElements<T extends WebElements> extends WebElements {
 	
 	/**
 	 * 
 	 * @param fromElems
 	 * @return
 	 */
-	public T above(WebElements<T> fromElems);
+	public T above(WebElements fromElems);
 	
 	public T above(String expr);
 	
@@ -23,7 +23,7 @@ public interface PositionWebElements<T extends WebElements<T>> extends WebElemen
 	 * @param fromElems
 	 * @return
 	 */
-	public T leftOf(WebElements<T> fromElems);
+	public T leftOf(WebElements fromElems);
 	
 	public T leftOf(String expr);
 	
@@ -32,7 +32,7 @@ public interface PositionWebElements<T extends WebElements<T>> extends WebElemen
 	 * @param fromElems
 	 * @return
 	 */
-	public T below(WebElements<T> fromElems);
+	public T below(WebElements fromElems);
 
 	public T below(String expr);
 
@@ -41,7 +41,7 @@ public interface PositionWebElements<T extends WebElements<T>> extends WebElemen
 	 * @param fromElems
 	 * @return
 	 */
-	public T rightOf(WebElements<T> fromElems);
+	public T rightOf(WebElements fromElems);
 	
 	public T rightOf(String expr);
 
@@ -50,7 +50,7 @@ public interface PositionWebElements<T extends WebElements<T>> extends WebElemen
 	 * @param fromElems
 	 * @return
 	 */
-	public T overlaps(WebElements<T> fromElems);
+	public T overlaps(WebElements fromElems);
 	
 	public T overlaps(String expr);
 	

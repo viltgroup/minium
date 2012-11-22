@@ -18,7 +18,7 @@ public class DebugWebElementsTest extends MiniumBaseTest {
 	
 	@Test
 	public void testDebugInterface() {
-		assertTrue($(wd, "input:text") instanceof DebugWebElements<?>);
+		assertTrue($(wd, "input:text") instanceof DebugWebElements);
 	}
 	
 }

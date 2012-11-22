@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.driver.WebElementsDriver;
 
-public abstract class BaseRootWebElementsImpl<T extends WebElements<T>> extends BaseWebElementsImpl<T> {
+public abstract class BaseRootWebElementsImpl<T extends WebElements> extends BaseWebElementsImpl<T> {
 
 	@Override
 	protected Iterable<WebElement> computeElements(final WebElementsDriver<T> wd) {

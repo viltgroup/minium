@@ -7,7 +7,7 @@ import com.vilt.minium.WebElements;
  * @author Rui
  */
 @JQueryResources("minium/js/filters.js")
-public interface FiltersWebElements<T extends FiltersWebElements<T>> extends WebElements<T> {
+public interface FiltersWebElements<T extends FiltersWebElements<T>> extends WebElements {
 
 	/**
 	 * 
@@ -16,6 +16,13 @@ public interface FiltersWebElements<T extends FiltersWebElements<T>> extends Web
 	 */
 	public T withLabel(final String label);
 	
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public T withAttr(final String name, final String value);
+
 	/**
 	 * 
 	 * @param value

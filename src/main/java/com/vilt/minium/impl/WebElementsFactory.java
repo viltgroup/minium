@@ -35,16 +35,17 @@ public class WebElementsFactory implements MethodHandler {
 	private Map<Class<?>, Class<?>> webElementsProxyClasses = Maps.newHashMap();
 	private JQueryInvoker invoker;
 	private Class<?> elementsInterface;
-	private Class<?>[] moreInterfaces;
+	private Set<Class<?>> moreInterfaces;
 
-	public WebElementsFactory(Class<? extends WebElements<?>> elementsInterface, Class<?> ... moreInterfaces) {
+	public WebElementsFactory(Class<? extends WebElements> elementsInterface, Class<?> ... moreInterfaces) {
 		this.elementsInterface = elementsInterface;
-		this.moreInterfaces = moreInterfaces;
+		this.moreInterfaces = Sets.newHashSet(moreInterfaces);
+		this.moreInterfaces.remove(elementsInterface);
 		initInvoker();
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T extends WebElements<T>, TI extends BaseWebElementsImpl<TI>> T create(Class<?> superClass) {
+	public <T extends WebElements, TI extends BaseWebElementsImpl<TI>> T create(Class<?> superClass) {
 		try {
 			TI webElements = (TI) getProxyClassFor(superClass).newInstance();
 			((Proxy) webElements).setHandler(this);
@@ -58,7 +59,7 @@ public class WebElementsFactory implements MethodHandler {
 	
 	@SuppressWarnings("unchecked")
 	public Object invoke(Object self, Method thisMethod, Method proceed, Object[] args) throws Throwable {
-		BaseWebElementsImpl<? extends WebElements<?>> parentWebElements = (BaseWebElementsImpl<? extends WebElements<?>>) self;
+		BaseWebElementsImpl<? extends WebElements> parentWebElements = (BaseWebElementsImpl<? extends WebElements>) self;
 		return parentWebElements.invoke(thisMethod, args);
 	}
 	
@@ -82,7 +83,7 @@ public class WebElementsFactory implements MethodHandler {
 		toCheck.add(elementsInterface);
 		
 		if (moreInterfaces != null) {
-			toCheck.addAll(Arrays.asList(moreInterfaces));
+			toCheck.addAll(moreInterfaces);
 		}
 		
 		while (!toCheck.isEmpty()) {
@@ -100,9 +101,9 @@ public class WebElementsFactory implements MethodHandler {
 								return WebElements.class.isAssignableFrom(input);
 							}
 						}).
-						transform(new Function<Class<?>, Class<WebElements<?>>>() {
-							public Class<WebElements<?>> apply(Class<?> input) {
-								return (Class<WebElements<?>>) input;
+						transform(new Function<Class<?>, Class<WebElements>>() {
+							public Class<WebElements> apply(Class<?> input) {
+								return (Class<WebElements>) input;
 							}
 						}).
 						toImmutableList());
@@ -134,9 +135,9 @@ public class WebElementsFactory implements MethodHandler {
 				interfaces = new Class<?>[] { elementsInterface };
 			}
 			else {
-				interfaces = new Class<?>[moreInterfaces.length + 1];
+				interfaces = new Class<?>[moreInterfaces.size() + 1];
 				interfaces[0] = elementsInterface;
-				System.arraycopy(moreInterfaces, 0, interfaces, 1, moreInterfaces.length);
+				System.arraycopy(moreInterfaces.toArray(), 0, interfaces, 1, moreInterfaces.size());
 			}
 			
 			factory.setInterfaces(interfaces);

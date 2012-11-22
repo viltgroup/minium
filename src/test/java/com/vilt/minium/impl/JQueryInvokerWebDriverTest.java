@@ -27,7 +27,7 @@ public class JQueryInvokerWebDriverTest  extends MiniumBaseTest {
 	@Test
 	@SuppressWarnings("unchecked")
 	public void testInvoke() {
-		Object result = positionInvoker.invoke(wd, "return $('input')");
+		Object result = positionInvoker.invoke(wd, false, "return $('input')");
 		
 		List<WebElement> webElements = (List<WebElement>) result;
 		assertThat(webElements, everyItem(isA(WebElement.class)));		

@@ -8,7 +8,7 @@ import org.openqa.selenium.Alert;
  *
  * @param <T>
  */
-public interface TargetLocatorWebElements<T extends WebElements<T>> extends WebElements<T> {
+public interface TargetLocatorWebElements<T extends WebElements> extends WebElements {
 	
 	/**
 	 * 
@@ -16,6 +16,13 @@ public interface TargetLocatorWebElements<T extends WebElements<T>> extends WebE
 	 * @return
 	 */
 	public T frame(String selector);
+
+	/**
+	 * 
+	 * @param selector
+	 * @return
+	 */
+	public T frame(T filter);
 	
 	/**
 	 * 
@@ -28,7 +35,14 @@ public interface TargetLocatorWebElements<T extends WebElements<T>> extends WebE
 	 * @param nameOrHandle
 	 * @return
 	 */
-	public T window(String nameOrHandle);
+	public T window(T filter);
+
+	/**
+	 * 
+	 * @param expr
+	 * @return
+	 */
+	public T window(String expr);
 	
 	/**
 	 * 
@@ -36,12 +50,6 @@ public interface TargetLocatorWebElements<T extends WebElements<T>> extends WebE
 	 */
 	public T window();
 	
-	public void openWindow(String url);
-
-	public void openWindow(String url, String target);
-	
-	public void openWindow(String url, String target, String settings);
-
 	/**
 	 * 
 	 * @return

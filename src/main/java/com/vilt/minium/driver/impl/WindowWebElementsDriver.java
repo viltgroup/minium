@@ -7,7 +7,7 @@ import com.vilt.minium.WebElements;
 import com.vilt.minium.driver.WebElementsDriver;
 import com.vilt.minium.impl.WebElementsFactory;
 
-public class WindowWebElementsDriver<T extends WebElements<T>> extends WebElementsDriver<T> {
+public class WindowWebElementsDriver<T extends WebElements> extends WebElementsDriver<T> {
 
 	private String handle;
 

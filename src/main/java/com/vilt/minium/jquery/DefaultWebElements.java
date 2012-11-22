@@ -6,6 +6,5 @@ package com.vilt.minium.jquery;
  */
 public interface DefaultWebElements extends
 	CoreWebElements<DefaultWebElements>,
-	PositionWebElements<DefaultWebElements>, 
-	FiltersWebElements<DefaultWebElements> {
+	PositionWebElements<DefaultWebElements> {
 }

@@ -12,7 +12,7 @@ import com.vilt.minium.jquery.JQueryResources;
  * @param <T>
  */
 @JQueryResources({ "minium/js/jquery-ui.js", "minium/js/debug.js" })
-public interface DebugWebElements<T extends WebElements<T>> extends WebElements<T> {
+public interface DebugWebElements extends WebElements {
 
 	/**
 	 * 

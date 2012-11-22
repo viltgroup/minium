@@ -8,8 +8,8 @@ import org.openqa.selenium.WebElement;
  *
  * @param <T>
  */
-public interface WebElements<T extends WebElements<T>> extends Iterable<WebElement> {
+public interface WebElements extends Iterable<WebElement> {
 
 	public WebElement get(int index);
-	
+
 }

@@ -13,7 +13,7 @@ import com.vilt.minium.driver.impl.FrameWebElementsDriver;
 import com.vilt.minium.impl.DelegateWebElement;
 import com.vilt.minium.impl.WebElementsFactory;
 
-public class IFrameWebElementsImpl<T extends WebElements<T>> extends BaseRootWebElementsImpl<T> {
+public class IFrameWebElementsImpl<T extends WebElements> extends BaseRootWebElementsImpl<T> {
 
 	private BaseWebElementsImpl<T> parent;
 
@@ -23,7 +23,7 @@ public class IFrameWebElementsImpl<T extends WebElements<T>> extends BaseRootWeb
 	}
 
 	@Override
-	protected Iterable<WebElementsDriver<T>> webDrivers() {
+	public Iterable<WebElementsDriver<T>> candidateWebDrivers() {
 		return Iterables.transform(parent, new Function<WebElement, WebElementsDriver<T>>() {
 
 			@Override

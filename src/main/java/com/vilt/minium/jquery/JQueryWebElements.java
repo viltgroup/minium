@@ -6,7 +6,7 @@ import com.vilt.minium.WebElements;
  * Web elements class which declares methods that correspond to JQuery functions.
  */
 @JQueryResources("minium/js/jquery.js")
-public interface JQueryWebElements<T extends WebElements<T>> extends WebElements<T> {
+public interface JQueryWebElements<T extends WebElements> extends WebElements {
 
 	/**
 	 * Access a property on the first matched element. This method makes it easy 
@@ -60,7 +60,7 @@ public interface JQueryWebElements<T extends WebElements<T>> extends WebElements
 	 * 
 	 * @return jQuery
 	 */
-	public T eq(Integer index);
+	public T eq(int index);
 
 	/**
 	 * This is an alternative to is("." + cssClass).
@@ -82,6 +82,7 @@ public interface JQueryWebElements<T extends WebElements<T>> extends WebElements
 	 * @return jQuery
 	 */
 	public T filter(String expr);
+	public T filter(T expr);
 
 	/**
 	 * <p>If no element fits, or the expression is not valid, then the response will be 
@@ -122,7 +123,7 @@ public interface JQueryWebElements<T extends WebElements<T>> extends WebElements
 	 * 
 	 * @return jQuery
 	 */
-	public T slice(Integer start, Integer end);
+	public T slice(int start, int end);
 
 	/**
 	 * Adds more elements, matched by the given expression, to the set of matched 
@@ -148,6 +149,7 @@ public interface JQueryWebElements<T extends WebElements<T>> extends WebElements
 	 * @return jQuery
 	 */
 	public T children(String expr);
+	public T children(T expr);
 
 	/**
 	 * <p>Closest works by first looking at the current element to see if it 
@@ -162,6 +164,7 @@ public interface JQueryWebElements<T extends WebElements<T>> extends WebElements
 	 * @return jQuery
 	 */
 	public T closest(String expr);
+	public T closest(T expr);
 
 	/**
 	 * Find all the child nodes inside the matched elements (including text nodes), 
@@ -180,6 +183,7 @@ public interface JQueryWebElements<T extends WebElements<T>> extends WebElements
 	 * @return jQuery
 	 */
 	public T find(String expr);
+	public T find(T expr);
 
 	/**
 	 * next only returns the very next sibling for each element, not all next 
@@ -192,6 +196,7 @@ public interface JQueryWebElements<T extends WebElements<T>> extends WebElements
 	 * @return jQuery
 	 */
 	public T next(String expr);
+	public T next(T expr);
 
 	/**
 	 * Use an optional expression to filter the matched set. 
@@ -201,6 +206,7 @@ public interface JQueryWebElements<T extends WebElements<T>> extends WebElements
 	 * @return jQuery
 	 */
 	public T nextAll(String expr);
+	public T nextAll(T expr);
 
 	/**
 	 * This is the first parent of the element that has position (as in 
@@ -220,6 +226,7 @@ public interface JQueryWebElements<T extends WebElements<T>> extends WebElements
 	 * @return jQuery
 	 */
 	public T parent(String expr);
+	public T parent(T expr);
 
 	/**
 	 * 
@@ -229,7 +236,22 @@ public interface JQueryWebElements<T extends WebElements<T>> extends WebElements
 	 * @return jQuery
 	 */
 	public T parents(String expr);
+	public T parents(T expr);
 
+	/**
+	 * Given a selector expression that represents a set of DOM elements, the 
+	 * .parentsUntil() method traverses through the ancestors of these elements 
+	 * until it reaches an element matched by the selector passed in the method's 
+	 * argument. The resulting jQuery object contains all of the ancestors up to 
+	 * but not including the one matched by the .parentsUntil() selector.
+	 * 
+	 * @param selector
+	 * @param filter
+	 * @return
+	 */
+	public T parentsUntil(String selector, String filter);
+	public T parentsUntil(T expr, String filter);
+	
 	/**
 	 * Use an optional expression to filter the matched set.
 	 * 
@@ -240,6 +262,7 @@ public interface JQueryWebElements<T extends WebElements<T>> extends WebElements
 	 * @return jQuery
 	 */
 	public T prev(String expr);
+	public T prev(T expr);
 
 	/**
 	 * Use an optional expression to filter the matched set. 
@@ -249,6 +272,7 @@ public interface JQueryWebElements<T extends WebElements<T>> extends WebElements
 	 * @return jQuery
 	 */
 	public T prevAll(String expr);
+	public T prevAll(T expr);
 
 	/**
 	 * 
@@ -258,6 +282,7 @@ public interface JQueryWebElements<T extends WebElements<T>> extends WebElements
 	 * @return jQuery
 	 */
 	public T siblings(String expr);
+	public T siblings(T expr);
 
 	/**
 	 * Useful for traversing elements, and then adding something that was matched 
@@ -300,6 +325,30 @@ public interface JQueryWebElements<T extends WebElements<T>> extends WebElements
 	 * @return jQuery
 	 */
 	public T first();
+	
+	/**
+	 * Given a jQuery object that represents a set of DOM elements, the .last() 
+	 * method constructs a new jQuery object from the last matching element.
+     *
+	 * @return jQuery
+	 */
+	public T last();
+
+	
+	/**
+	 * Given a jQuery object that represents a set of DOM elements, the .has() 
+	 * method constructs a new jQuery object from a subset of the matching elements. 
+	 * The supplied selector is tested against the descendants of the matching 
+	 * elements; the element will be included in the result if any of its 
+	 * descendant elements matches the selector.
+	 *
+	 * @param selector
+	 * @return
+	 */
+	public T has(String selector);
+	public T has(T expr);
+	
+	
 
 	public int size();
 }

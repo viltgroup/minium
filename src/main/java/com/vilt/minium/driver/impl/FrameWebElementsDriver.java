@@ -12,7 +12,7 @@ import com.vilt.minium.driver.WebElementsDriver;
 import com.vilt.minium.impl.DelegateWebElement;
 import com.vilt.minium.impl.WebElementsFactory;
 
-public class FrameWebElementsDriver<T extends WebElements<T>> extends WebElementsDriver<T> {
+public class FrameWebElementsDriver<T extends WebElements> extends WebElementsDriver<T> {
 
 	private final WebElement elem;
 	private WebElementsDriver<T> parentWebDriver;

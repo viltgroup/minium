@@ -7,7 +7,7 @@ import org.hamcrest.collection.IsIterableWithSize;
 import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.vilt.minium.driver.DefaultWebElementsDriver;
@@ -18,9 +18,9 @@ public class MiniumBaseTest {
 	
 	@Before
 	public void before() {
-		DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();
-		capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
-		wd = new DefaultWebElementsDriver(new InternetExplorerDriver(capabilities));
+		DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+//		capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
+		wd = new DefaultWebElementsDriver(new ChromeDriver(capabilities));
 	}
 	
 	@After

@@ -56,7 +56,7 @@ public class Configuration implements Serializable {
 
 	private Duration defaultTimeout = new Duration(10, TimeUnit.SECONDS);
 	private Duration defaultInterval = new Duration(1, TimeUnit.SECONDS);
-
+	
 	public Duration getDefaultTimeout() {
 		return defaultTimeout;
 	}

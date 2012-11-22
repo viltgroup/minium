@@ -60,16 +60,31 @@ public class JQueryInvoker {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	public <T> T invoke(JavascriptExecutor wd, String expression, Object ... args) {
+		return this.<T>invoke(wd, false, expression, args);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T> T invoke(JavascriptExecutor wd, boolean async, String expression, Object ... args) {
 		try {
 			args = convertToValidArgs(args);
-			Object result = wd.executeScript(lightInvokerScript(expression), args);
+			
+			Object[] fullArgs = args == null ? new Object[1] : new Object[args.length + 1];
+			fullArgs[0] = async;
+			if (args != null) System.arraycopy(args, 0, fullArgs, 1, args.length);
+			
+			Object result = async ? 
+					wd.executeAsyncScript(lightInvokerScript(expression), fullArgs) :
+					wd.executeScript(lightInvokerScript(expression), fullArgs);
+					
 			if (result instanceof Boolean && ((Boolean) result) == false) {
-				Object[] fullArgs = args == null ? new Object[1] : new Object[args.length + 1];
-				fullArgs[0] = styles;
-				if (args != null) System.arraycopy(args, 0, fullArgs, 1, args.length);
-				result = wd.executeScript(fullInvokerScript(expression), fullArgs);
+				fullArgs = args == null ? new Object[2] : new Object[args.length + 2];
+				fullArgs[0] = async;
+				fullArgs[1] = styles;
+				if (args != null) System.arraycopy(args, 0, fullArgs, 2, args.length);
+				result = async ? 
+						wd.executeAsyncScript(fullInvokerScript(expression), fullArgs) :
+						wd.executeScript(fullInvokerScript(expression), fullArgs);
 			}
 			
 			if (!(result instanceof List)) throw new IllegalStateException(format("Expected a list with the result in the first position..."));
@@ -80,8 +95,8 @@ public class JQueryInvoker {
 		}
 	}
 	
-	public Object invokeExpression(WebElementsDriver<?> wd, String expression, Object ... args) {
-		return invoke(wd, format("return %s;", expression), args);
+	public Object invokeExpression(WebElementsDriver<?> wd, boolean async, String expression, Object ... args) {
+		return invoke(wd, async, format("return %s;", expression), args);
 	}
 	
 	protected String lightInvokerScript(String expression) {

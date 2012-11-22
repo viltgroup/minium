@@ -7,12 +7,10 @@
 			"SECONDS"      : 1000,
 			"MINUTES"      : 60 * 1000, 
 			"HOURS"        : 60 * 60 * 1000,
-			"DAYS"	       : 24 * 60 * 60 * 1000,
+			"DAYS"	       : 24 * 60 * 60 * 1000
 	};
 	
-	$.fn.highlight = function() {
-		if (this.length == 1 && (this.get(0) instanceof HTMLDocument || this.get(0) instanceof Window)) return;
-		
+	$.fn.highlight = function() {		
 		var color = "red";
 		var time = 5;
 		var timeUnit = "SECONDS";

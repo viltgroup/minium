@@ -25,7 +25,7 @@ public class Minium {
 	 * 
 	 * @return predicate that returns true if it is empty
 	 */
-	public static  <T extends WaitWebElements<?>> Predicate<T> untilEmpty() {
+	public static <T extends WaitWebElements<?>> Predicate<T> untilEmpty() {
 		return new Predicate<T>() {
 			public boolean apply(T input) {
 				return Iterables.isEmpty(input);
@@ -64,7 +64,7 @@ public class Minium {
 	 * @param wd
 	 * @return
 	 */
-	public static <T extends WebElements<T>> T $(WebElementsDriver<T> wd) {
+	public static <T extends WebElements> T $(WebElementsDriver<T> wd) {
 		return wd.webElements();
 	}
 	
@@ -74,7 +74,7 @@ public class Minium {
 	 * @param selector
 	 * @return
 	 */
-	public static <T extends WebElements<T>> T $(WebElementsDriver<T> wd, String selector) {
+	public static <T extends WebElements> T $(WebElementsDriver<T> wd, String selector) {
 		return wd.webElements(selector);
 	}
 	

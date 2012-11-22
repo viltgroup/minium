@@ -18,7 +18,11 @@ public class DefaultWebElementsDriver extends WebElementsDriver<DefaultWebElemen
 	 * @param wd
 	 */
 	public DefaultWebElementsDriver(WebDriver wd) {
-		super(wd, DefaultWebElements.class, DebugWebElements.class, TipsWebElements.class /*, NewWindowWebElements.class */);
+		this(wd, DefaultWebElements.class, DebugWebElements.class, TipsWebElements.class);
 	}
-
+	
+	public DefaultWebElementsDriver(WebDriver wd, Class<?> ... moreInterfaces) {
+		super(wd, DefaultWebElements.class, moreInterfaces);
+	}
+	
 }

@@ -23,7 +23,7 @@
 	
 	$.fn.matchingText = function(pattern) {
 		return $(this).filter(function() {
-			return new RegExp(pattern).test(visibleText(this));
+			return new RegExp(pattern).test($(this).visibleText());
 		});
 	};
 	
@@ -47,8 +47,12 @@
 		});
 	};
 	
-	$.fn.withName = function(name) {
-		return $(this).filter("[name=\"" + escapeSelector(name) + "\"]");
+	$.fn.withAttr = function(name, value) {
+		return $(this).filter("[" + escapeSelector(name) + "=\"" + escapeSelector(value) + "\"]");
+	};
+	
+	$.fn.withName = function(value) {
+		return $(this).withAttr("name", value);
 	};
 	
 	$.fn.visible = function() {

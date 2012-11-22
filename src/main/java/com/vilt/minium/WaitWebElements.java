@@ -10,7 +10,7 @@ import com.google.common.base.Predicate;
  *
  * @param <T>
  */
-public interface WaitWebElements<T extends WebElements<T>> extends WebElements<T> {
+public interface WaitWebElements<T extends WebElements> extends WebElements {
 	
 	/**
 	 * 

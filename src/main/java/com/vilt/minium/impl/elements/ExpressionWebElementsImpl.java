@@ -2,19 +2,25 @@ package com.vilt.minium.impl.elements;
 
 import static java.lang.String.format;
 
+import javax.annotation.Nullable;
+
 import org.openqa.selenium.WebElement;
 
+import com.google.common.base.Function;
 import com.google.common.base.Objects;
+import com.google.common.collect.FluentIterable;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.driver.WebElementsDriver;
+import com.vilt.minium.impl.DelegateWebElement;
 import com.vilt.minium.impl.WebElementsFactory;
 
-public class ExpressionWebElementsImpl<T extends WebElements<T>> extends BaseWebElementsImpl<T> {
+public class ExpressionWebElementsImpl<T extends WebElements> extends BaseWebElementsImpl<T> {
 
 	private BaseWebElementsImpl<T> parent;
 	private String expression;
 	private Object[] args;
 	
+	@SuppressWarnings("unchecked")
 	public void init(WebElementsFactory factory, T parent, String expression, Object ... args) {
 		super.init(factory);
 		this.parent = (BaseWebElementsImpl<T>) parent;
@@ -23,12 +29,27 @@ public class ExpressionWebElementsImpl<T extends WebElements<T>> extends BaseWeb
 	}
 
 	protected Iterable<WebElement> computeElements(final WebElementsDriver<T> wd) {
-		return factory.getInvoker().invoke(wd, format("return %s;", expression));
+		return factory.getInvoker().invoke(wd, false, format("return %s;", expression));
 	}
 	
 	@Override
-	protected Iterable<WebElementsDriver<T>> webDrivers() {
-		return parent.webDrivers();
+	protected Iterable<WebElementsDriver<T>> candidateWebDrivers() {
+		return parent.candidateWebDrivers();
+	}
+	
+	@Override
+	public Iterable<WebElementsDriver<T>> webDrivers() {
+		return FluentIterable.from(this)
+		.transform(new Function<WebElement, WebElementsDriver<T>>() {
+
+			@Override
+			@Nullable
+			@SuppressWarnings("unchecked")
+			public WebElementsDriver<T> apply(@Nullable WebElement input) {
+				return (WebElementsDriver<T>) ((DelegateWebElement) input).getWrappedDriver();
+			}
+		})
+		.toImmutableSet();
 	}
 	
 	@Override
