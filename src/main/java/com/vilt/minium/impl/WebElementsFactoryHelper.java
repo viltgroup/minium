@@ -18,21 +18,21 @@ public class WebElementsFactoryHelper {
 	}
 	
 	public static <T extends WebElements> T createWindowWebElements(WebElementsFactory factory, BaseWebElementsImpl<T> parent) {
-		return WebElementsFactoryHelper.<T>createWindowWebElements(factory, parent, (String) null);
+		return WebElementsFactoryHelper.<T>createWindowWebElements(factory, parent, (T) null, false);
 	}
 
 
 	@SuppressWarnings("unchecked")
-	public static <T extends WebElements> T createWindowWebElements(WebElementsFactory factory, BaseWebElementsImpl<T> parent, String expr) {
+	public static <T extends WebElements> T createWindowWebElements(WebElementsFactory factory, BaseWebElementsImpl<T> parent, String expr, boolean freeze) {
 		WindowWebElementsImpl<T> webElements = factory.create(WindowWebElementsImpl.class);
-		webElements.init(factory, parent, expr);
+		webElements.init(factory, parent, expr, freeze);
 		return (T) webElements;
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T extends WebElements> T createWindowWebElements(WebElementsFactory factory, BaseWebElementsImpl<T> parent, T filter) {
+	public static <T extends WebElements> T createWindowWebElements(WebElementsFactory factory, BaseWebElementsImpl<T> parent, T filter, boolean freeze) {
 		WindowWebElementsImpl<T> webElements = factory.create(WindowWebElementsImpl.class);
-		webElements.init(factory, parent, filter);
+		webElements.init(factory, parent, filter, freeze);
 		return (T) webElements;
 	}
 	

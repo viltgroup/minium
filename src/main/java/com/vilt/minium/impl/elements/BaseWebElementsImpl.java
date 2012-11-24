@@ -275,12 +275,22 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 
 	@Override
 	public T window(String expr) {
-		return WebElementsFactoryHelper.<T>createWindowWebElements(factory, this, expr);
+		return window(expr, false);
+	}
+
+	@Override
+	public T window(String expr, boolean freeze) {
+		return WebElementsFactoryHelper.<T>createWindowWebElements(factory, this, expr, freeze);
 	}
 
 	@Override
 	public T window(T filter) {
-		return WebElementsFactoryHelper.<T>createWindowWebElements(factory, this, filter);
+		return window(filter, false);
+	}
+
+	@Override
+	public T window(T filter, boolean freeze) {
+		return WebElementsFactoryHelper.<T>createWindowWebElements(factory, this, filter, freeze);
 	}
 	
 	@Override

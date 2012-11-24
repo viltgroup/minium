@@ -1,7 +1,5 @@
 package com.vilt.minium.impl.elements;
 
-import static java.lang.String.format;
-
 import java.util.Collections;
 import java.util.Set;
 
@@ -13,43 +11,54 @@ import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Sets;
+import com.vilt.minium.TargetLocatorWebElements;
 import com.vilt.minium.WebElements;
+import com.vilt.minium.WebElementsDriverProvider;
 import com.vilt.minium.driver.WebElementsDriver;
 import com.vilt.minium.driver.impl.WindowWebElementsDriver;
 import com.vilt.minium.impl.WebElementsFactory;
+import com.vilt.minium.jquery.JQueryWebElements;
 
 public class WindowWebElementsImpl<T extends WebElements> extends BaseRootWebElementsImpl<T> {
 
 	private BaseWebElementsImpl<T> parent;
-	private String nameOrHandle;
-//	private T filter;
+	private String handle;
+	private T filter;
+	private boolean freeze;
 
-//	@SuppressWarnings("unchecked")
-	public void init(WebElementsFactory factory, BaseWebElementsImpl<T> parent, String expr) {
+	@SuppressWarnings("unchecked")
+	public void init(WebElementsFactory factory, BaseWebElementsImpl<T> parent, String expr, boolean freeze) {
 		super.init(factory);
 		this.parent = parent;
-//		this.filter = ((TargetLocatorWebElements<JQueryWebElements<T>>) parent).window().find(expr);
+		this.filter = ((TargetLocatorWebElements<JQueryWebElements<T>>) parent).window().find(expr);
+		this.freeze = freeze;
 	}
 
-	public void init(WebElementsFactory factory, BaseWebElementsImpl<T> parent, T filter) {
+	public void init(WebElementsFactory factory, BaseWebElementsImpl<T> parent, T filter, boolean freeze) {
 		super.init(factory);
 		this.parent = parent;
-//		this.filter = filter;
+		this.filter = filter;
+		this.freeze = freeze;
 	}
 
 	@Override
-//	@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	public Iterable<WebElementsDriver<T>> candidateWebDrivers() {
 		final WebElementsDriver<T> wd = rootWebDriver();
 		final String currentHandle = wd.getWindowHandle();
 		
-//		if (filter != null) {
-//			nameOrHandle = ((WebElementsDriverProvider<T>) filter).webDriver().getWindowHandle();
-//		}
+		if (filter != null) {
+			handle = ((WebElementsDriverProvider<T>) filter).webDriver().getWindowHandle();
+			if (freeze) {
+				// this way we won't evaluate filter ever again, so we will keep using the
+				// same window!
+				filter = null;
+			}
+		}
 		
 		Set<String> windowHandles;
-		if (StringUtils.isNotEmpty(nameOrHandle)) {
-			windowHandles = Sets.newHashSet(Collections.singleton(nameOrHandle));
+		if (StringUtils.isNotEmpty(handle)) {
+			windowHandles = Sets.newHashSet(Collections.singleton(handle));
 		}
 		else {
 			windowHandles = Sets.newHashSet(wd.getWindowHandles());
@@ -58,7 +67,6 @@ public class WindowWebElementsImpl<T extends WebElements> extends BaseRootWebEle
 		windowHandles.remove(currentHandle);
 		
 		if (windowHandles.isEmpty()) {
-			System.out.println("No different window found...");
 			return Collections.emptyList();
 		}
 		else {
@@ -68,7 +76,6 @@ public class WindowWebElementsImpl<T extends WebElements> extends BaseRootWebEle
 						@Override
 						@Nullable
 						public WebElementsDriver<T> apply(@Nullable String input) {
-							System.out.println(format("Creating window driver for %s", input));
 							return new WindowWebElementsDriver<T>(wd, factory, input);
 						}
 					}).toImmutableList();
@@ -87,13 +94,13 @@ public class WindowWebElementsImpl<T extends WebElements> extends BaseRootWebEle
 			WindowWebElementsImpl<T> elem = (WindowWebElementsImpl<T>) obj;
 			return 
 					Objects.equal(elem.parent, this.parent) && 
-					Objects.equal(elem.nameOrHandle, this.nameOrHandle);
+					Objects.equal(elem.handle, this.handle);
 		}
 		return false;
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(parent, nameOrHandle);
+		return Objects.hashCode(parent, handle);
 	}
 }

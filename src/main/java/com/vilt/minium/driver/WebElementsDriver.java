@@ -3,6 +3,7 @@ package com.vilt.minium.driver;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.HasInputDevices;
 import org.openqa.selenium.JavascriptExecutor;
@@ -31,10 +32,14 @@ public class WebElementsDriver<T extends WebElements> implements WebDriver, Java
 	private String windowHandle;
 
 	public WebElementsDriver(WebDriver wd, WebElementsFactory factory) {
+		this(wd, factory, wd.getWindowHandle());
+	}
+	
+	protected WebElementsDriver(WebDriver wd, WebElementsFactory factory, String handle) {
 		this.wd = wd;
 		this.factory = factory;
 		this.configuration = new Configuration();
-		this.windowHandle = wd.getWindowHandle();
+		this.windowHandle = handle;
 	}
 
 	public WebElementsDriver(WebDriver wd, Class<T> elementsInterface, Class<?> ... moreInterfaces) {
@@ -86,13 +91,11 @@ public class WebElementsDriver<T extends WebElements> implements WebDriver, Java
 	}
 
 	public Set<String> getWindowHandles() {
-		ensureSwitch();
 		return wd.getWindowHandles();
 	}
 
 	public String getWindowHandle() {
-		ensureSwitch();
-		return wd.getWindowHandle();
+		return windowHandle;
 	}
 
 	public TargetLocator switchTo() {
@@ -140,7 +143,10 @@ public class WebElementsDriver<T extends WebElements> implements WebDriver, Java
 	}
 
 	public void ensureSwitch() {
-		wd.switchTo().window(windowHandle);
+		if (!StringUtils.equals(windowHandle, wd.getWindowHandle())) {
+			System.out.printf("Switching to %s\n", windowHandle);
+			wd.switchTo().window(windowHandle);
+		}
 		wd.switchTo().defaultContent();
 	}
 

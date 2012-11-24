@@ -36,6 +36,7 @@ public interface TargetLocatorWebElements<T extends WebElements> extends WebElem
 	 * @return
 	 */
 	public T window(T filter);
+	public T window(T filter, boolean freeze);
 
 	/**
 	 * 
@@ -43,6 +44,7 @@ public interface TargetLocatorWebElements<T extends WebElements> extends WebElem
 	 * @return
 	 */
 	public T window(String expr);
+	public T window(String expr, boolean freeze);
 	
 	/**
 	 * 
