@@ -11,13 +11,18 @@
 		};
 	})();
 	
+	var clearExtraWhitespaces = function(str) {
+		return str.replace(/\s+/g, " ");
+	}
+
+	
 	$.fn.visibleText = function() {
 		return $.trim($(this).text());
 	};
 	
 	$.fn.withText = function(text) {
 		return $(this).filter(function() {
-			return $(this).visibleText() === text;
+			return clearExtraWhitespaces($(this).visibleText()) === clearExtraWhitespaces(text);
 		});
 	};
 	

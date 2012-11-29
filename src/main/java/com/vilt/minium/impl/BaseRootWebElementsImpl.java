@@ -1,4 +1,4 @@
-package com.vilt.minium.impl.elements;
+package com.vilt.minium.impl;
 
 import java.util.Collections;
 

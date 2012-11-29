@@ -11,7 +11,7 @@ import org.openqa.selenium.WebElement;
 import com.google.common.collect.Iterables;
 import com.vilt.minium.MiniumBaseTest;
 
-public class IframeWebElementsTest extends MiniumBaseTest {
+public class FrameWebElementsTest extends MiniumBaseTest {
 
 	@Before
 	public void openPage() {

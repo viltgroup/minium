@@ -1,4 +1,4 @@
-package com.vilt.minium.impl.elements;
+package com.vilt.minium.impl;
 
 import java.util.Collections;
 import java.util.Set;
@@ -15,8 +15,8 @@ import com.vilt.minium.TargetLocatorWebElements;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.WebElementsDriverProvider;
 import com.vilt.minium.driver.WebElementsDriver;
-import com.vilt.minium.driver.impl.WindowWebElementsDriver;
-import com.vilt.minium.impl.WebElementsFactory;
+import com.vilt.minium.impl.driver.WindowWebElementsDriver;
+import com.vilt.minium.impl.utils.Casts;
 import com.vilt.minium.jquery.JQueryWebElements;
 
 public class WindowWebElementsImpl<T extends WebElements> extends BaseRootWebElementsImpl<T> {
@@ -27,17 +27,17 @@ public class WindowWebElementsImpl<T extends WebElements> extends BaseRootWebEle
 	private boolean freeze;
 
 	@SuppressWarnings("unchecked")
-	public void init(WebElementsFactory factory, BaseWebElementsImpl<T> parent, String expr, boolean freeze) {
+	public void init(WebElementsFactory factory, WebElements parent, String expr, boolean freeze) {
 		super.init(factory);
-		this.parent = parent;
+		this.parent = Casts.<BaseWebElementsImpl<T>>cast(parent);
 		this.filter = ((TargetLocatorWebElements<JQueryWebElements<T>>) parent).window().find(expr);
 		this.freeze = freeze;
 	}
 
-	public void init(WebElementsFactory factory, BaseWebElementsImpl<T> parent, T filter, boolean freeze) {
+	public void init(WebElementsFactory factory, WebElements parent, WebElements filter, boolean freeze) {
 		super.init(factory);
-		this.parent = parent;
-		this.filter = filter;
+		this.parent = Casts.<BaseWebElementsImpl<T>>cast(parent);
+		this.filter = Casts.<T>cast(filter);
 		this.freeze = freeze;
 	}
 
@@ -54,6 +54,10 @@ public class WindowWebElementsImpl<T extends WebElements> extends BaseRootWebEle
 				// same window!
 				filter = null;
 			}
+		}
+		else if (freeze && handle == null) {
+			//we are going to try to capture a new window
+			throw new UnsupportedOperationException("To be implemented...");
 		}
 		
 		Set<String> windowHandles;

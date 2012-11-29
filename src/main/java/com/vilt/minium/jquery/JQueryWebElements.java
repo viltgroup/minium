@@ -283,6 +283,7 @@ public interface JQueryWebElements<T extends WebElements> extends WebElements {
 	 */
 	public T siblings(String expr);
 	public T siblings(T expr);
+	public T siblings();
 
 	/**
 	 * Useful for traversing elements, and then adding something that was matched 

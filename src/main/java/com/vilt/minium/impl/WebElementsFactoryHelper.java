@@ -2,51 +2,40 @@ package com.vilt.minium.impl;
 
 import com.vilt.minium.WebElements;
 import com.vilt.minium.driver.WebElementsDriver;
-import com.vilt.minium.impl.elements.BaseWebElementsImpl;
-import com.vilt.minium.impl.elements.ExpressionWebElementsImpl;
-import com.vilt.minium.impl.elements.IFrameWebElementsImpl;
-import com.vilt.minium.impl.elements.RootWebElementsImpl;
-import com.vilt.minium.impl.elements.WindowWebElementsImpl;
 
 public class WebElementsFactoryHelper {
 
-	@SuppressWarnings("unchecked")
-	public static <T extends WebElements> T createExpressionWebElements(WebElementsFactory factory, T parent, String fnName, Object ... args) {
-		ExpressionWebElementsImpl<T> webElements = factory.create(ExpressionWebElementsImpl.class);
+	public static WebElements createExpressionWebElements(WebElementsFactory factory, WebElements parent, String fnName, Object ... args) {
+		ExpressionWebElementsImpl<?> webElements = factory.create(ExpressionWebElementsImpl.class);
 		webElements.init(factory, parent, fnName, args);
-		return (T) webElements;
+		return webElements;
 	}
 	
-	public static <T extends WebElements> T createWindowWebElements(WebElementsFactory factory, BaseWebElementsImpl<T> parent) {
-		return WebElementsFactoryHelper.<T>createWindowWebElements(factory, parent, (T) null, false);
+	public static WebElements createWindowWebElements(WebElementsFactory factory, WebElements parent) {
+		return WebElementsFactoryHelper.createWindowWebElements(factory, parent, (WebElements) null, false);
 	}
 
-
-	@SuppressWarnings("unchecked")
-	public static <T extends WebElements> T createWindowWebElements(WebElementsFactory factory, BaseWebElementsImpl<T> parent, String expr, boolean freeze) {
-		WindowWebElementsImpl<T> webElements = factory.create(WindowWebElementsImpl.class);
+	public static WebElements createWindowWebElements(WebElementsFactory factory, WebElements parent, String expr, boolean freeze) {
+		WindowWebElementsImpl<?> webElements = factory.create(WindowWebElementsImpl.class);
 		webElements.init(factory, parent, expr, freeze);
-		return (T) webElements;
+		return webElements;
 	}
 
-	@SuppressWarnings("unchecked")
-	public static <T extends WebElements> T createWindowWebElements(WebElementsFactory factory, BaseWebElementsImpl<T> parent, T filter, boolean freeze) {
-		WindowWebElementsImpl<T> webElements = factory.create(WindowWebElementsImpl.class);
+	public static WebElements createWindowWebElements(WebElementsFactory factory, WebElements parent, WebElements filter, boolean freeze) {
+		WindowWebElementsImpl<?> webElements = factory.create(WindowWebElementsImpl.class);
 		webElements.init(factory, parent, filter, freeze);
-		return (T) webElements;
+		return webElements;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public static <T extends WebElements> T createIFrameWebElements(WebElementsFactory factory, BaseWebElementsImpl<T> parent) {
-		IFrameWebElementsImpl<T> webElements = factory.create(IFrameWebElementsImpl.class);
-		webElements.init(factory, (BaseWebElementsImpl<T>) parent);
-		return (T) webElements;
+	public static WebElements createIFrameWebElements(WebElementsFactory factory, WebElements parent) {
+		FrameWebElementsImpl<?> webElements = factory.create(FrameWebElementsImpl.class);
+		webElements.init(factory, parent);
+		return webElements;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public static <T extends WebElements> T createRootWebElements(WebElementsFactory factory, WebElementsDriver<T> driver) {
-		RootWebElementsImpl<T> webElements = factory.create(RootWebElementsImpl.class);
+	public static WebElements createRootWebElements(WebElementsFactory factory, WebElementsDriver<?> driver) {
+		RootWebElementsImpl<?> webElements = factory.create(RootWebElementsImpl.class);
 		webElements.init(factory, driver);
-		return (T) webElements;
+		return webElements;
 	}
 }

@@ -51,6 +51,7 @@ public interface TargetLocatorWebElements<T extends WebElements> extends WebElem
 	 * @return
 	 */
 	public T window();
+	public T window(boolean newWindow);
 	
 	/**
 	 * 

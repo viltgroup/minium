@@ -1,4 +1,4 @@
-package com.vilt.minium.impl.elements;
+package com.vilt.minium.impl;
 
 import static com.google.common.collect.FluentIterable.from;
 import static java.lang.String.format;
@@ -20,6 +20,8 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
@@ -33,15 +35,15 @@ import com.vilt.minium.WebElements;
 import com.vilt.minium.WebElementsDriverProvider;
 import com.vilt.minium.driver.Configuration.Duration;
 import com.vilt.minium.driver.WebElementsDriver;
-import com.vilt.minium.impl.DelegateWebElement;
-import com.vilt.minium.impl.WebElementsFactory;
-import com.vilt.minium.impl.WebElementsFactoryHelper;
+import com.vilt.minium.impl.utils.Casts;
 import com.vilt.minium.jquery.Async;
 import com.vilt.minium.jquery.JQueryWebElements;
 
 public abstract class BaseWebElementsImpl<T extends WebElements> implements WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, WebElementsDriverProvider<T> {
 
-	private final class ArgToStringFunction implements Function<Object, String> {
+	final Logger logger = LoggerFactory.getLogger(WebElements.class);
+	
+	private final Function<Object, String> argToStringFunction = new Function<Object, String>() {
 		public String apply(Object input) {
 			if (input == null) return "null";
 			if (input instanceof String) return format("'%s'", StringEscapeUtils.escapeJavaScript((String) input));
@@ -63,7 +65,7 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 			
 			return elem.getExpression();
 		}
-	}
+	};
 	
 	protected WebElementsFactory factory;
 
@@ -86,7 +88,7 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 		String expression = computeExpression(this, isAsyncMethod(method), method.getName(), args);
 		
 		if (method.getReturnType().isAssignableFrom(this.getClass())) {
-			T webElements = (T) WebElementsFactoryHelper.createExpressionWebElements(factory, (T) this, expression);
+			T webElements = (T) WebElementsFactoryHelper.createExpressionWebElements(factory, this, expression);
 			return webElements;
 		}
 		else {
@@ -128,6 +130,17 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 				}
 			}
 
+			if (logger.isDebugEnabled()) {
+				String val;
+				if (method.getReturnType() == Void.TYPE) {
+					val = "void";
+				} else {
+					val = StringUtils.abbreviate(argToStringFunction.apply(result), 40);
+					if (val.startsWith("'") && !val.endsWith("'")) val += "(...)'";
+				}
+				logger.debug("[Value: {}] {}", argToStringFunction.apply(result), expression);
+			}
+			
 			// let's handle numbers when return type is int
 			if (method.getReturnType() == Integer.TYPE) {
 				return result == null ? 0 : ((Number) result).intValue();
@@ -163,7 +176,7 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 	protected String computeExpression(BaseWebElementsImpl<T> parent, boolean async, String fnName, Object ... args) {
 		List<String> jsArgs = 
 				from(Arrays.asList(args)).
-				transform(new ArgToStringFunction()).
+				transform(argToStringFunction).
 				toImmutableList();
 		
 		if (async) {
@@ -181,7 +194,12 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 
 	@Override
 	public final Iterator<WebElement> iterator() {
-		return computeElements().iterator();
+		Iterable<WebElement> elements = computeElements();
+		if (logger.isDebugEnabled()) {
+			logger.debug("[WebElements size: {}] {}", Iterables.size(elements), this);
+		}
+		
+		return elements.iterator();
 	}
 
 	@Override
@@ -256,21 +274,21 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public T frame() {
-		return WebElementsFactoryHelper.<T>createIFrameWebElements(factory, (BaseWebElementsImpl<T>) jqueryThis().find("iframe, frame").andSelf().filter("iframe, frame"));
+		T filtered = Casts.<JQueryWebElements<JQueryWebElements<JQueryWebElements<T>>>>cast(this).find("iframe, frame").andSelf().filter("iframe, frame");
+		return Casts.<T>cast(WebElementsFactoryHelper.createIFrameWebElements(factory, filtered));
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public T frame(String selector) {
-		return WebElementsFactoryHelper.<T>createIFrameWebElements(factory, (BaseWebElementsImpl<T>) jqueryThis().find(selector).filter("iframe, frame"));
+		T filtered = Casts.<JQueryWebElements<JQueryWebElements<T>>>cast(this).find(selector).filter("iframe, frame");
+		return Casts.<T>cast(WebElementsFactoryHelper.createIFrameWebElements(factory, filtered));
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public T frame(T filter) {
-		return WebElementsFactoryHelper.<T>createIFrameWebElements(factory, (BaseWebElementsImpl<T>) ((JQueryWebElements<T>) filter).filter("iframe, frame"));
+		filter = Casts.<JQueryWebElements<T>>cast(filter).filter("iframe, frame");
+		return Casts.<T>cast(WebElementsFactoryHelper.createIFrameWebElements(factory, filter));
 	}
 
 	@Override
@@ -280,7 +298,7 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 
 	@Override
 	public T window(String expr, boolean freeze) {
-		return WebElementsFactoryHelper.<T>createWindowWebElements(factory, this, expr, freeze);
+		return Casts.<T>cast(WebElementsFactoryHelper.createWindowWebElements(factory, this, expr, freeze));
 	}
 
 	@Override
@@ -290,12 +308,17 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 
 	@Override
 	public T window(T filter, boolean freeze) {
-		return WebElementsFactoryHelper.<T>createWindowWebElements(factory, this, filter, freeze);
+		return Casts.<T>cast(WebElementsFactoryHelper.createWindowWebElements(factory, this, filter, freeze));
 	}
 	
 	@Override
 	public T window() {
-		return WebElementsFactoryHelper.<T>createWindowWebElements(factory, this);
+		return Casts.<T>cast(WebElementsFactoryHelper.createWindowWebElements(factory, this));
+	}
+	
+	@Override
+	public T window(boolean newWindow) {
+		return Casts.<T>cast(WebElementsFactoryHelper.createWindowWebElements(factory, this, (T) null, newWindow));
 	}
 
 	
@@ -318,22 +341,16 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 		});
 	}
 	
-	@SuppressWarnings("unchecked")
 	protected FluentWait<T> getWait(long time, TimeUnit unit) {
 		Duration interval = rootWebDriver().configuration().getDefaultInterval();
-		FluentWait<T> wait = new FluentWait<T>((T) this).
+		FluentWait<T> wait = new FluentWait<T>(Casts.<T>cast(this)).
 				withTimeout(time, unit).
 				pollingEvery(interval.getTime(), interval.getUnit());
 		return wait;
 	}
-
-	@SuppressWarnings("unchecked")
-	protected <JQT extends JQueryWebElements<JQT>> JQT jqueryThis() {
-		return (JQT) this;
-	}
 	
 	@Override
 	public String toString() {
-		return super.toString();
+		return getExpression();
 	}
 }

@@ -1,4 +1,4 @@
-package com.vilt.minium.impl.elements;
+package com.vilt.minium.impl;
 
 import static java.lang.String.format;
 
@@ -11,8 +11,6 @@ import com.google.common.base.Objects;
 import com.google.common.collect.FluentIterable;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.driver.WebElementsDriver;
-import com.vilt.minium.impl.DelegateWebElement;
-import com.vilt.minium.impl.WebElementsFactory;
 
 public class ExpressionWebElementsImpl<T extends WebElements> extends BaseWebElementsImpl<T> {
 
@@ -21,7 +19,7 @@ public class ExpressionWebElementsImpl<T extends WebElements> extends BaseWebEle
 	private Object[] args;
 	
 	@SuppressWarnings("unchecked")
-	public void init(WebElementsFactory factory, T parent, String expression, Object ... args) {
+	public void init(WebElementsFactory factory, WebElements parent, String expression, Object ... args) {
 		super.init(factory);
 		this.parent = (BaseWebElementsImpl<T>) parent;
 		this.expression = expression;

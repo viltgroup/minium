@@ -1,10 +1,14 @@
-package com.vilt.minium.driver.impl;
+package com.vilt.minium.impl.driver;
+
+import static java.lang.String.format;
 
 import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Objects;
 import com.vilt.minium.WebElements;
@@ -14,6 +18,8 @@ import com.vilt.minium.impl.WebElementsFactory;
 
 public class FrameWebElementsDriver<T extends WebElements> extends WebElementsDriver<T> {
 
+	final Logger logger = LoggerFactory.getLogger(FrameWebElementsDriver.class);
+	
 	private final WebElement elem;
 	private WebElementsDriver<T> parentWebDriver;
 
@@ -29,19 +35,25 @@ public class FrameWebElementsDriver<T extends WebElements> extends WebElementsDr
 		// we reposition the WebDriver to the corresponding frame
 		if (getNativeWebElement() != null) {
 			// workaround as described in http://code.google.com/p/selenium/issues/detail?id=1969#c13
-			String id = getNativeWebElement().getAttribute("id");
-			if (StringUtils.isEmpty(id)) {
-				// if no id is set, then we generate a random one and set the iframe with it
-				id = UUID.randomUUID().toString();
-				((JavascriptExecutor) wd).executeScript("arguments[0].setAttribute('id', arguments[1]);", getNativeWebElement(), id);					
-			}
+			String id = getFrameId();
 			
 			try {
 				wd.switchTo().frame(id);
+				logger.debug("Switched to frame with id '{}'", id, windowHandle);
 			} catch (Exception e) {
 				wd.switchTo().frame(getNativeWebElement());
 			}
 		}
+	}
+
+	protected String getFrameId() {
+		String id = getNativeWebElement().getAttribute("id");
+		if (StringUtils.isEmpty(id)) {
+			// if no id is set, then we generate a random one and set the iframe with it
+			id = UUID.randomUUID().toString();
+			((JavascriptExecutor) wd).executeScript("arguments[0].setAttribute('id', arguments[1]);", getNativeWebElement(), id);					
+		}
+		return id;
 	}
 
 	public WebElement getNativeWebElement() {
@@ -60,5 +72,10 @@ public class FrameWebElementsDriver<T extends WebElements> extends WebElementsDr
 	@Override
 	public int hashCode() {
 		return getNativeWebElement().hashCode();
+	}
+	
+	@Override
+	public String toString() {
+		return format("frame(id='%s')", getNativeWebElement().getAttribute("id"));
 	}
 }

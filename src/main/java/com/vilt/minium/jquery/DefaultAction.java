@@ -6,14 +6,19 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.Nullable;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.internal.WrapsDriver;
 import org.openqa.selenium.support.ui.Duration;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.Sleeper;
 
+import com.google.common.base.Predicate;
 import com.vilt.minium.Action;
+import com.vilt.minium.driver.WebElementsDriver;
 
 public class DefaultAction implements Action<DefaultAction> {
 	
@@ -84,6 +89,17 @@ public class DefaultAction implements Action<DefaultAction> {
 		WebElement elem = first.get(0);
 
 		new Actions(((WrapsDriver) elem).getWrappedDriver()).moveToElement(elem).perform(); 
+	}
+
+	public void moveAndClick(DefaultWebElements elems) {
+		DefaultWebElements first = getFirst(elems);
+		
+		showTipIfNecessary(first);
+		waitIfNecessary();		
+		
+		WebElement elem = first.get(0);
+		
+		new Actions(((WrapsDriver) elem).getWrappedDriver()).moveToElement(elem).click().perform(); 
 	}
 	
 	public void sendKeys(DefaultWebElements elems, CharSequence[] keys) {
@@ -190,6 +206,24 @@ public class DefaultAction implements Action<DefaultAction> {
 			Thread.currentThread().interrupt();
 			throw new RuntimeException(e);
 		}
+	}
+	
+	public void waitUntilClosed(DefaultWebElements elems) {
+		WebElementsDriver<?> webDriver = elems.webDriver();
+		FluentWait<WebElementsDriver<?>> wait = new FluentWait<WebElementsDriver<?>>(webDriver).
+				withTimeout(
+						time == -1 ? webDriver.configuration().getDefaultTimeout().getTime() : time, 
+						time == -1 ? webDriver.configuration().getDefaultTimeout().getUnit() : units).
+				pollingEvery(
+						webDriver.configuration().getDefaultInterval().getTime(), 
+						webDriver.configuration().getDefaultInterval().getUnit());
+		wait.until(new Predicate<WebElementsDriver<?>>() {
+			
+			@Override
+			public boolean apply(@Nullable WebElementsDriver<?> webDriver) {
+				return webDriver.isClosed();
+			}
+		});
 	}
 	
 	protected DefaultWebElements getFirst(DefaultWebElements elems) {

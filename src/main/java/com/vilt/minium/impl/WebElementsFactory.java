@@ -25,7 +25,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.vilt.minium.MiniumException;
 import com.vilt.minium.WebElements;
-import com.vilt.minium.impl.elements.BaseWebElementsImpl;
 import com.vilt.minium.jquery.JQueryResources;
 
 public class WebElementsFactory implements MethodHandler {
@@ -44,12 +43,11 @@ public class WebElementsFactory implements MethodHandler {
 		initInvoker();
 	}
 
-	@SuppressWarnings("unchecked")
-	public <T extends WebElements, TI extends BaseWebElementsImpl<TI>> T create(Class<?> superClass) {
+	public <T extends WebElements> T create(Class<T> superClass) {
 		try {
-			TI webElements = (TI) getProxyClassFor(superClass).newInstance();
+			T webElements = this.<T>getProxyClassFor(superClass).newInstance();
 			((Proxy) webElements).setHandler(this);
-			return (T) webElements;
+			return webElements;
 		} catch (InstantiationException e) {
 			throw new MiniumException(e);
 		} catch (IllegalAccessException e) {
@@ -125,7 +123,7 @@ public class WebElementsFactory implements MethodHandler {
 	}
 
 	@SuppressWarnings("unchecked")
-	private <T extends BaseWebElementsImpl<T>> Class<T> getProxyClassFor(final Class<?> superClass) {
+	private <T extends WebElements> Class<T> getProxyClassFor(final Class<?> superClass) {
 		Class<?> proxyClass = webElementsProxyClasses.get(superClass);
 		if (proxyClass == null) {
 			ProxyFactory factory = new ProxyFactory();

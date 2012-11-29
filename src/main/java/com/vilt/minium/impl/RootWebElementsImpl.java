@@ -1,24 +1,24 @@
-package com.vilt.minium.impl.elements;
+package com.vilt.minium.impl;
 
 import java.util.Collections;
 
 import com.google.common.base.Objects;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.driver.WebElementsDriver;
-import com.vilt.minium.impl.WebElementsFactory;
+import com.vilt.minium.impl.utils.Casts;
 
 public class RootWebElementsImpl<T extends WebElements> extends BaseRootWebElementsImpl<T> {
 
 	private WebElementsDriver<T> wd;
 
-	public void init(WebElementsFactory factory, WebElementsDriver<T> wd) {
+	public void init(WebElementsFactory factory, WebElementsDriver<?> wd) {
 		super.init(factory);
-		this.wd = wd;
+		this.wd = Casts.<WebElementsDriver<T>>cast(wd);
 	}
 	
 	@Override
 	protected Iterable<WebElementsDriver<T>> candidateWebDrivers() {
-		return Collections.singletonList(wd);
+		return Collections.<WebElementsDriver<T>>singletonList(wd);
 	}
 	
 	@Override

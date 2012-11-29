@@ -24,6 +24,10 @@ public class MiniumActions {
 	public static void moveTo(DefaultWebElements elems) {
 		new DefaultAction().moveMouse(elems);
 	}
+
+	public static void moveAndClick(DefaultWebElements elems) {
+		new DefaultAction().moveAndClick(elems);
+	}
 	
 	public static void moveTo(DefaultWebElements from, DefaultWebElements to) {
 //		new DefaultAction().moveMouse(from, to);
@@ -63,6 +67,10 @@ public class MiniumActions {
 
 	public static boolean checkEmpty(DefaultWebElements elems) {
 		return new DefaultAction().checkEmpty(elems);
+	}
+	
+	public static void waitUntilClosed(DefaultWebElements elems) {
+		new DefaultAction().waitUntilClosed(elems);
 	}
 	
 	public static void waitTime(long time, TimeUnit unit) {

@@ -1,5 +1,7 @@
 package com.vilt.minium.driver;
 
+import static java.lang.String.format;
+
 import java.util.List;
 import java.util.Set;
 
@@ -11,11 +13,14 @@ import org.openqa.selenium.Keyboard;
 import org.openqa.selenium.Mouse;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Objects;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.impl.WebElementsFactory;
 import com.vilt.minium.impl.WebElementsFactoryHelper;
+import com.vilt.minium.impl.utils.Casts;
 import com.vilt.minium.jquery.JQueryWebElements;
 
 /**
@@ -26,10 +31,14 @@ import com.vilt.minium.jquery.JQueryWebElements;
  */
 public class WebElementsDriver<T extends WebElements> implements WebDriver, JavascriptExecutor, HasInputDevices {
 
+	final Logger logger = LoggerFactory.getLogger(WebElementsDriver.class);
+	
 	protected final WebDriver wd;
 	protected final WebElementsFactory factory;
 	protected final Configuration configuration;
-	private String windowHandle;
+	protected String windowHandle;
+
+//	private boolean isFirefox;
 
 	public WebElementsDriver(WebDriver wd, WebElementsFactory factory) {
 		this(wd, factory, wd.getWindowHandle());
@@ -40,6 +49,10 @@ public class WebElementsDriver<T extends WebElements> implements WebDriver, Java
 		this.factory = factory;
 		this.configuration = new Configuration();
 		this.windowHandle = handle;
+		// we need this because of a bug on firefox that hangs when we try to get a window 
+		// handle for a closed window...
+//		isFirefox = (wd instanceof FirefoxDriver || hasFirefoxCapabilities());
+
 	}
 
 	public WebElementsDriver(WebDriver wd, Class<T> elementsInterface, Class<?> ... moreInterfaces) {
@@ -130,22 +143,29 @@ public class WebElementsDriver<T extends WebElements> implements WebDriver, Java
 
 	public Object executeAsyncScript(String script, Object... args) {
 		ensureSwitch();
+		
+		wd.manage().timeouts().setScriptTimeout(configuration().getDefaultTimeout().getTime(), configuration().getDefaultTimeout().getUnit());
 		return ((JavascriptExecutor) wd).executeAsyncScript(script, args);
 	}
 
+	public boolean isClosed() {
+		return !wd.getWindowHandles().contains(windowHandle);
+	}
+	
 	public T webElements() {
-		return WebElementsFactoryHelper.<T>createRootWebElements(factory, this);
+		return Casts.<T>cast(WebElementsFactoryHelper.createRootWebElements(factory, this));
 	}
 
-	@SuppressWarnings("unchecked")
 	public T webElements(String selector) {
-		return (T) ((JQueryWebElements<T>) webElements()).find(selector);
+		return Casts.<JQueryWebElements<T>>cast(webElements()).find(selector);
 	}
 
 	public void ensureSwitch() {
-		if (!StringUtils.equals(windowHandle, wd.getWindowHandle())) {
-			System.out.printf("Switching to %s\n", windowHandle);
+		String windowHandleOrNull = safeGetWindowHandle();
+	
+		if (windowHandleOrNull == null || !StringUtils.equals(windowHandle, windowHandleOrNull)) {
 			wd.switchTo().window(windowHandle);
+			logger.debug("Switched to window with handle '{}'", windowHandle);
 		}
 		wd.switchTo().defaultContent();
 	}
@@ -171,4 +191,40 @@ public class WebElementsDriver<T extends WebElements> implements WebDriver, Java
 	public int hashCode() {
 		return getWindowHandle().hashCode();
 	}
+	
+	@Override
+	public String toString() {
+		return format("wd");
+	}
+	
+	private String safeGetWindowHandle() {
+//		if (!isFirefox) {
+		try {
+			return wd.getWindowHandle();
+		} catch (Exception e) {
+			return null;
+		}
+//		} else {
+//			synchronized(wd) {
+//				ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+//				final Future<String> windowHandleFuture = executor.submit(new Callable<String>() {
+//					@Override
+//					public String call() throws Exception {
+//						return wd.getWindowHandle();
+//					}
+//				});
+//			
+//				executor.schedule(new Runnable() {
+//				     public void run() {
+//				    	 windowHandleFuture.cancel(true);
+//				     }      
+//				 }, 5L, TimeUnit.SECONDS);
+//			}
+//		}
+	}
+
+//	private boolean hasFirefoxCapabilities() {
+//		return (wd instanceof HasCapabilities && DesiredCapabilities.firefox().getBrowserName().equalsIgnoreCase(((HasCapabilities) wd).getCapabilities().getBrowserName()));
+//	}
+
 }

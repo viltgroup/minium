@@ -1,5 +1,6 @@
 package com.vilt.minium.impl;
 
+import static com.vilt.minium.impl.utils.Casts.cast;
 import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -17,7 +18,7 @@ public class WebElementsFactoryTest {
 	public void testInterfaces() {
 		WebElementsFactory factory = new WebElementsFactory(DefaultWebElements.class);
 		DefaultWebElementsDriver wd = mock(DefaultWebElementsDriver.class);
-		DefaultWebElements elem = WebElementsFactoryHelper.createRootWebElements(factory, wd);
+		DefaultWebElements elem = cast(WebElementsFactoryHelper.createRootWebElements(factory, wd));
 		assertTrue(elem instanceof JQueryWebElements<?>);
 	}
 

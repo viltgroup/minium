@@ -1,4 +1,4 @@
-package com.vilt.minium.impl.elements;
+package com.vilt.minium.impl;
 
 import javax.annotation.Nullable;
 
@@ -9,16 +9,15 @@ import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.driver.WebElementsDriver;
-import com.vilt.minium.driver.impl.FrameWebElementsDriver;
-import com.vilt.minium.impl.DelegateWebElement;
-import com.vilt.minium.impl.WebElementsFactory;
+import com.vilt.minium.impl.driver.FrameWebElementsDriver;
+import com.vilt.minium.impl.utils.Casts;
 
-public class IFrameWebElementsImpl<T extends WebElements> extends BaseRootWebElementsImpl<T> {
+public class FrameWebElementsImpl<T extends WebElements> extends BaseRootWebElementsImpl<T> {
 
 	private BaseWebElementsImpl<T> parent;
 
-	public void init(WebElementsFactory factory, BaseWebElementsImpl<T> parent) {
-		this.parent = parent;
+	public void init(WebElementsFactory factory, WebElements parent) {
+		this.parent = Casts.<BaseWebElementsImpl<T>>cast(parent);
 		super.init(factory);
 	}
 
@@ -43,10 +42,9 @@ public class IFrameWebElementsImpl<T extends WebElements> extends BaseRootWebEle
 	
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public boolean equals(Object obj) {
-		if (obj instanceof IFrameWebElementsImpl) {
-			IFrameWebElementsImpl<T> elem = (IFrameWebElementsImpl<T>) obj;
+		if (obj instanceof FrameWebElementsImpl) {
+			FrameWebElementsImpl<T> elem = Casts.<FrameWebElementsImpl<T>>cast(obj);
 			return Objects.equal(elem.parent, this.parent);
 		}
 		return false;
