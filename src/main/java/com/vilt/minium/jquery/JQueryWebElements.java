@@ -5,7 +5,7 @@ import com.vilt.minium.WebElements;
 /**
  * Web elements class which declares methods that correspond to JQuery functions.
  */
-@JQueryResources("minium/js/jquery.js")
+@JQueryResources({ "minium/js/jquery.js", "minium/js/jquery-ext.js" })
 public interface JQueryWebElements<T extends WebElements> extends WebElements {
 
 	/**
@@ -42,13 +42,16 @@ public interface JQueryWebElements<T extends WebElements> extends WebElements {
 	/**
 	 * Get the current value of the first element in the set of matched elements. The 
 	 * .val() method is primarily used to get the values of form  elements such as 
-	 * input, select and textarea. In the case of <select  multiple="multiple"> 
-	 * elements, the .val() method returns an array containing each selected option; 
+	 * input, select and textarea. It differs from jQuery val because in the case 
+	 * of <select  multiple="multiple"> elements, the .val() method only returns the 
+	 * first selected option value; 
 	 * if no option is selected, it returns null.
 	 * 
 	 * @return
 	 */
 	public String val();
+	
+	public String[] vals();
 	
 	/**
 	 * Argument is the position of the element in the set of matched elements, 

@@ -12,9 +12,9 @@ import com.vilt.minium.driver.WebElementsDriver;
 import com.vilt.minium.jquery.DefaultWebElements;
 
 /**
- * 
- * @author Rui
+ * The Class Minium.
  *
+ * @author Rui
  */
 public class Minium {
 
@@ -22,7 +22,8 @@ public class Minium {
 	 * Predicate to use with {@link WebElements#wait(Predicate)} methods which ensures that
 	 * evaluation will only be successful when this instance is empty (that is, evaluates
 	 * to zero {@link WebElement} instances.
-	 * 
+	 *
+	 * @param <T> the generic type
 	 * @return predicate that returns true if it is empty
 	 */
 	public static <T extends WaitWebElements<?>> Predicate<T> untilEmpty() {
@@ -37,7 +38,8 @@ public class Minium {
 	 * Predicate to use with {@link WebElements#wait(Predicate)} methods which ensures that
 	 * evaluation will only be successful when this instance is not empty (that is, evaluates
 	 * to one or more {@link WebElement} instances.
-	 * 
+	 *
+	 * @param <T> the generic type
 	 * @return predicate that returns true if it is empty
 	 */
 	public static <T extends WaitWebElements<?>> Predicate<T> untilNotEmpty() {
@@ -47,7 +49,8 @@ public class Minium {
 	/**
 	 * Predicate to use with {@link WebElements#wait(Predicate)} methods which ensures that
 	 * evaluation will only be successful when this instance has a specific size.
-	 * 
+	 *
+	 * @param <T> the generic type
 	 * @param size number of matched {@link WebElement} instances
 	 * @return predicate that returns true if it has the exact size
 	 */
@@ -60,28 +63,33 @@ public class Minium {
 	}
 	
 	/**
-	 * 
-	 * @param wd
-	 * @return
+	 * $.
+	 *
+	 * @param <T> the generic type
+	 * @param wd the wd
+	 * @return the t
 	 */
 	public static <T extends WebElements> T $(WebElementsDriver<T> wd) {
 		return wd.webElements();
 	}
 	
 	/**
-	 * 
-	 * @param wd
-	 * @param selector
-	 * @return
+	 * $.
+	 *
+	 * @param <T> the generic type
+	 * @param wd the wd
+	 * @param selector the selector
+	 * @return the t
 	 */
 	public static <T extends WebElements> T $(WebElementsDriver<T> wd, String selector) {
 		return wd.webElements(selector);
 	}
 	
 	/**
-	 * 
-	 * @param wd
-	 * @return
+	 * $.
+	 *
+	 * @param wd the wd
+	 * @return the default web elements
 	 */
 	public static DefaultWebElements $(WebDriver wd) {
 		return $(new DefaultWebElementsDriver(wd));

@@ -3,13 +3,18 @@ package com.vilt.minium;
 import org.openqa.selenium.WebElement;
 
 /**
- * 
- * @author Rui
+ * The Interface WebElements.
  *
- * @param <T>
+ * @author Rui
  */
 public interface WebElements extends Iterable<WebElement> {
 
+	/**
+	 * Gets the {@link WebElement} at a given position.
+	 *
+	 * @param index the index
+	 * @return the web element
+	 */
 	public WebElement get(int index);
 
 }

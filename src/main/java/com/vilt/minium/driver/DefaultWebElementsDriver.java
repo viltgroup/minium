@@ -7,20 +7,27 @@ import com.vilt.minium.jquery.TipsWebElements;
 import com.vilt.minium.jquery.debug.DebugWebElements;
 
 /**
- * 
- * @author Rui
+ * The Class DefaultWebElementsDriver.
  *
+ * @author Rui
  */
 public class DefaultWebElementsDriver extends WebElementsDriver<DefaultWebElements> {
 
 	/**
-	 * 
-	 * @param wd
+	 * Instantiates a new default web elements driver.
+	 *
+	 * @param wd the wd
 	 */
 	public DefaultWebElementsDriver(WebDriver wd) {
 		this(wd, DefaultWebElements.class, DebugWebElements.class, TipsWebElements.class);
 	}
 	
+	/**
+	 * Instantiates a new default web elements driver.
+	 *
+	 * @param wd the wd
+	 * @param moreInterfaces the more interfaces
+	 */
 	public DefaultWebElementsDriver(WebDriver wd, Class<?> ... moreInterfaces) {
 		super(wd, DefaultWebElements.class, moreInterfaces);
 	}

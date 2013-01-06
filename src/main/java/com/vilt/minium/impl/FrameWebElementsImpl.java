@@ -40,6 +40,11 @@ public class FrameWebElementsImpl<T extends WebElements> extends BaseRootWebElem
 		return parent.rootWebDriver();
 	}
 	
+	@Override
+	public T root(T filter, boolean freeze) {
+		return parent.frame(filter, freeze);
+	}
+	
 
 	@Override
 	public boolean equals(Object obj) {

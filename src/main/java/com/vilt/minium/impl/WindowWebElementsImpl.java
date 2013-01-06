@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.vilt.minium.TargetLocatorWebElements;
 import com.vilt.minium.WebElements;
@@ -48,11 +49,14 @@ public class WindowWebElementsImpl<T extends WebElements> extends BaseRootWebEle
 		final String currentHandle = wd.getWindowHandle();
 		
 		if (filter != null) {
-			handle = ((WebElementsDriverProvider<T>) filter).webDriver().getWindowHandle();
-			if (freeze) {
-				// this way we won't evaluate filter ever again, so we will keep using the
-				// same window!
-				filter = null;
+			Iterable<WebElementsDriver<T>> webDrivers = ((WebElementsDriverProvider<T>) filter).webDrivers();
+			if (Iterables.size(webDrivers) == 1) {
+				handle = Iterables.get(webDrivers, 0).getWindowHandle();
+				if (freeze) {
+					// this way wegN won't evaluate filter ever again, so we will keep using the
+					// same window!
+					filter = null;
+				}
 			}
 		}
 		else if (freeze && handle == null) {
@@ -89,6 +93,11 @@ public class WindowWebElementsImpl<T extends WebElements> extends BaseRootWebEle
 	@Override
 	protected WebElementsDriver<T> rootWebDriver() {
 		return parent.rootWebDriver();
+	}
+	
+	@Override
+	public T root(T filter, boolean freeze) {
+		return parent.window(filter, freeze);
 	}
 	
 	@Override

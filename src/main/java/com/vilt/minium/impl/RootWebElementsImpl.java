@@ -27,6 +27,11 @@ public class RootWebElementsImpl<T extends WebElements> extends BaseRootWebEleme
 	}
 	
 	@Override
+	public T root(T filter, boolean freeze) {
+		throw new UnsupportedOperationException("Not implemented yet");
+	}
+	
+	@Override
 	@SuppressWarnings("unchecked")
 	public boolean equals(Object obj) {
 		if (obj instanceof RootWebElementsImpl) {

@@ -3,59 +3,92 @@ package com.vilt.minium;
 import org.openqa.selenium.Alert;
 
 /**
- * 
- * @author Rui
+ * The Interface TargetLocatorWebElements.
  *
- * @param <T>
+ * @param <T> the generic type
+ * @author Rui
  */
 public interface TargetLocatorWebElements<T extends WebElements> extends WebElements {
 	
 	/**
-	 * 
-	 * @param selector
-	 * @return
+	 * Frame.
+	 *
+	 * @param selector the selector
+	 * @return the t
 	 */
 	public T frame(String selector);
 
 	/**
-	 * 
-	 * @param selector
-	 * @return
+	 * Frame.
+	 *
+	 * @param filter the filter
+	 * @return the t
 	 */
 	public T frame(T filter);
 	
 	/**
-	 * 
-	 * @return
+	 * Frame.
+	 *
+	 * @return the t
 	 */
 	public T frame();
 	
 	/**
-	 * 
-	 * @param nameOrHandle
-	 * @return
+	 * Window.
+	 *
+	 * @param filter the filter
+	 * @return the t
 	 */
 	public T window(T filter);
+	
+	/**
+	 * Window.
+	 *
+	 * @param filter the filter
+	 * @param freeze the freeze
+	 * @return the t
+	 */
 	public T window(T filter, boolean freeze);
 
 	/**
-	 * 
-	 * @param expr
-	 * @return
+	 * Window.
+	 *
+	 * @param expr the expr
+	 * @return the t
 	 */
 	public T window(String expr);
+	
+	/**
+	 * Window.
+	 *
+	 * @param expr the expr
+	 * @param freeze the freeze
+	 * @return the t
+	 */
 	public T window(String expr, boolean freeze);
 	
 	/**
-	 * 
-	 * @return
+	 * Window.
+	 *
+	 * @return the t
 	 */
 	public T window();
-	public T window(boolean newWindow);
 	
 	/**
-	 * 
-	 * @return
+	 * Window.
+	 *
+	 * @param newWindow the new window
+	 * @return the t
+	 */
+	public T window(boolean newWindow);
+
+	public T root();
+	public T root(boolean freeze);
+	
+	/**
+	 * Alert.
+	 *
+	 * @return the alert
 	 */
 	public Alert alert();
 

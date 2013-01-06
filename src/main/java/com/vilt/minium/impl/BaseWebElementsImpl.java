@@ -291,6 +291,10 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 		return Casts.<T>cast(WebElementsFactoryHelper.createIFrameWebElements(factory, filter));
 	}
 
+	public T frame(T filter, boolean freeze) {
+		throw new UnsupportedOperationException("Not implemented yet");
+	}
+
 	@Override
 	public T window(String expr) {
 		return window(expr, false);
@@ -321,6 +325,18 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 		return Casts.<T>cast(WebElementsFactoryHelper.createWindowWebElements(factory, this, (T) null, newWindow));
 	}
 
+	
+	@Override
+	public T root() {
+		return root(false);
+	}
+	
+	@Override
+	public T root(boolean freeze) {
+		return root(Casts.<T>cast(this), freeze);
+	}
+	
+	public abstract T root(T filter, boolean freeze);
 	
 	@Override
 	public Alert alert() {

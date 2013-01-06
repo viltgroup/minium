@@ -15,13 +15,18 @@ import org.openqa.selenium.support.ui.Duration;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.Sleeper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Predicate;
 import com.vilt.minium.Action;
 import com.vilt.minium.driver.WebElementsDriver;
+import com.vilt.minium.jquery.debug.DebugWebElements;
 
 public class DefaultAction implements Action<DefaultAction> {
-	
+
+	final Logger logger = LoggerFactory.getLogger(DefaultAction.class);
+
 	private long time = -1;
 	private TimeUnit units = SECONDS;
 	private String tip;
@@ -54,7 +59,12 @@ public class DefaultAction implements Action<DefaultAction> {
 		showTipIfNecessary(first);
 		waitIfNecessary();
 		
-		first.get(0).click();
+		try {
+			first.get(0).click();
+		} catch (Exception e) {
+			// retry
+			first.get(0).click();
+		}
 	}
 
 	public void rightClick(DefaultWebElements elems) {
@@ -160,6 +170,16 @@ public class DefaultAction implements Action<DefaultAction> {
 		select.selectByVisibleText(text);
 	}
 
+	public void deselect(DefaultWebElements elems, String text) {
+		DefaultWebElements first = getFirst(elems.filter("select"));
+		
+		showTipIfNecessary(first);
+		waitIfNecessary();
+		
+		Select select = new Select(first.get(0));
+		select.deselectByVisibleText(text);
+	}
+
 	public void forElements(DefaultWebElements elems) {
 		if (time != -1) {
 			elems.wait(time, units, untilNotEmpty());
@@ -198,6 +218,12 @@ public class DefaultAction implements Action<DefaultAction> {
 		return elems.size() == 0;
 	}
 	
+	public void highlight(DefaultWebElements elems) {
+		showTipIfNecessary(elems);
+		waitIfNecessary();
+		((DebugWebElements) elems).highlight();
+	}
+
 	public void waitTime(long time, TimeUnit unit) {
 		Duration duration = new Duration(time, unit);
 		try {
@@ -221,7 +247,14 @@ public class DefaultAction implements Action<DefaultAction> {
 			
 			@Override
 			public boolean apply(@Nullable WebElementsDriver<?> webDriver) {
-				return webDriver.isClosed();
+				boolean closed = webDriver.isClosed();
+				if (closed) {
+					logger.debug("Window {} already closed", webDriver.getWindowHandle());
+				}
+				else {
+					logger.debug("Window {} still open", webDriver.getWindowHandle());
+				}
+				return closed;
 			}
 		});
 	}
@@ -233,8 +266,8 @@ public class DefaultAction implements Action<DefaultAction> {
 	}
 	
 	private void showTipIfNecessary(DefaultWebElements elems) {
-		if (tip != null && elems instanceof TipsWebElements<?>) {
-			((TipsWebElements<?>) elems).showTip(tip, tipTime, tipTimeUnit);
+		if (tip != null && elems instanceof TipsWebElements) {
+			((TipsWebElements) elems).showTip(tip, tipTime, tipTimeUnit);
 		}
 	}
 	

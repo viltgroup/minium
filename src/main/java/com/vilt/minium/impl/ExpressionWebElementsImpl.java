@@ -70,6 +70,11 @@ public class ExpressionWebElementsImpl<T extends WebElements> extends BaseWebEle
 	}
 	
 	@Override
+	public T root(T filter, boolean freeze) {
+		return parent.root(filter, freeze);
+	}
+	
+	@Override
 	@SuppressWarnings("unchecked")
 	public boolean equals(Object obj) {
 		if (obj instanceof ExpressionWebElementsImpl) {

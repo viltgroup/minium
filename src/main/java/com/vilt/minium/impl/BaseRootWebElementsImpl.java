@@ -1,22 +1,25 @@
 package com.vilt.minium.impl;
 
-import java.util.Collections;
-
 import org.openqa.selenium.WebElement;
 
 import com.vilt.minium.WebElements;
 import com.vilt.minium.driver.WebElementsDriver;
+import com.vilt.minium.impl.utils.Casts;
+import com.vilt.minium.jquery.JQueryWebElements;
 
 public abstract class BaseRootWebElementsImpl<T extends WebElements> extends BaseWebElementsImpl<T> {
 
+	/**
+	 * we return the root element from that page
+	 */
 	@Override
 	protected Iterable<WebElement> computeElements(final WebElementsDriver<T> wd) {
-		return Collections.emptyList();
+		return Casts.<JQueryWebElements<BaseWebElementsImpl<T>>>cast(this).find(":eq(0)").computeElements(wd);
 	}
-	
+
 	@Override
 	protected String getExpression() {
-		return "$()";
+		return "$(':eq(0)')";
 	}
 	
 	@Override
