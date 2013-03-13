@@ -153,6 +153,7 @@ public interface JQueryWebElements<T extends WebElements> extends WebElements {
 	 */
 	public T children(String expr);
 	public T children(T expr);
+	public T children();
 
 	/**
 	 * <p>Closest works by first looking at the current element to see if it 
