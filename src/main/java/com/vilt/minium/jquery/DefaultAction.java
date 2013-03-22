@@ -22,6 +22,7 @@ import com.google.common.base.Predicate;
 import com.vilt.minium.Action;
 import com.vilt.minium.driver.WebElementsDriver;
 import com.vilt.minium.jquery.debug.DebugWebElements;
+import com.vilt.minium.jquery.tips.TipsWebElements;
 
 public class DefaultAction implements Action<DefaultAction> {
 

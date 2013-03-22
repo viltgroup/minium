@@ -4,93 +4,77 @@ import static com.vilt.minium.Minium.untilNotEmpty;
 
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.internal.WrapsDriver;
-import org.openqa.selenium.support.ui.Select;
 
 import com.vilt.minium.WebElements;
 import com.vilt.minium.jquery.CoreWebElements;
 
 public class Interactions {
-
+	
 	// from org.openqa.selenium.WebElement
 	public static void clear(WebElements elements) {
-		getFirstElement(elements).clear();
+		defaultPerformer().clear(elements);
 	}
 
 	// from org.openqa.selenium.interactions.Actions
 	public static void keyDown(WebElements elements, Keys keys) {
-		WebElement elem = getFirstElement(elements);
-		newActions(elem).keyDown(elem, keys).perform();
+		defaultPerformer().keyDown(elements, keys);
 	}
 
 	public static void keyUp(WebElements elements, Keys keys) {
-		WebElement elem = getFirstElement(elements);
-		newActions(elem).keyUp(elem, keys).perform();
+		defaultPerformer().keyUp(elements, keys);
 	}
 
 	public static void sendKeys(WebElements elements, CharSequence... keys) {
-		WebElement elem = getFirstElement(elements);
-		newActions(elem).sendKeys(elem, keys).perform();
+		defaultPerformer().sendKeys(elements, keys);
 	}
 
 	public static void clickAndHold(WebElements elements) {
-		WebElement elem = getFirstElement(elements);
-		newActions(elem).clickAndHold(elem).perform();
+		defaultPerformer().clickAndHold(elements);
 	}
 
 	public static void release(WebElements elements) {
-		WebElement elem = getFirstElement(elements);
-		newActions(elem).release(elem).perform();
+		defaultPerformer().release(elements);
 	}
 
 	public static void click(WebElements elements) {
-		WebElement elem = getFirstElement(elements);
-		newActions(elem).click(elem).perform();
+		defaultPerformer().click(elements);
 	}
 
 	public static void doubleClick(WebElements elements) {
-		WebElement elem = getFirstElement(elements);
-		newActions(elem).doubleClick(elem).perform();
+		defaultPerformer().doubleClick(elements);
 	}
 
 	public static void moveToElement(WebElements elements) {
-		WebElement elem = getFirstElement(elements);
-		newActions(elem).moveToElement(elem).perform();
+		defaultPerformer().moveToElement(elements);
 	}
 
 	public static void moveToElement(WebElements elements, int xOffset, int yOffset) {
-		WebElement elem = getFirstElement(elements);
-		newActions(elem).moveToElement(elem, xOffset, yOffset).perform();
+		defaultPerformer().moveToElement(elements, xOffset, yOffset);
 	}
 
 	public static void moveByOffset(WebElements elements, int xOffset, int yOffset) {
-		WebElement elem = getFirstElement(elements);
-		newActions(elem).moveByOffset(xOffset, yOffset).perform();
+		defaultPerformer().moveByOffset(elements, xOffset, yOffset);
 	}
 
 	public static void contextClick(WebElements elements) {
-		WebElement elem = getFirstElement(elements);
-		newActions(elem).contextClick(elem).perform();
+		defaultPerformer().contextClick(elements);
 	}
 
 	public static void dragAndDrop(WebElements source, WebElements target) {
-		WebElement sourceElem = getFirstElement(source);
-		WebElement targetElem = getFirstElement(target);
-		newActions(sourceElem).dragAndDrop(sourceElem, targetElem).perform();
+		defaultPerformer().dragAndDrop(source, target);
 	}
 
 	public static void dragAndDropBy(WebElements source, int xOffset, int yOffset) {
-		WebElement elem = getFirstElement(source);
-		newActions(elem).dragAndDropBy(elem, xOffset, yOffset).perform();
+		defaultPerformer().dragAndDropBy(source, xOffset, yOffset);
 	}
 
 	// additional methods
 	public static void clickAll(WebElements elements) {
+		defaultPerformer().clickAll(elements);
 	}
 
 	public static void type(WebElements elements, CharSequence text) {
-		sendKeys(elements, text);
+		defaultPerformer().type(elements, text);
 	}
 
 	/**
@@ -99,53 +83,61 @@ public class Interactions {
 	 * @param text
 	 */
 	public static void fill(WebElements elements, CharSequence text) {
-		WebElement elem = getFirstElement(elements);
-		elem.clear();
-		elem.sendKeys(text);
+		defaultPerformer().fill(elements, text);
 	}
 
 	// select
 	public static void select(WebElements elems, String text) {
-		WebElement elem = getFirstElement(elems);
-		new Select(elem).selectByVisibleText(text);
+		defaultPerformer().select(elems, text);
 	}
 
 	public static void deselect(WebElements elems, String text) {
-		WebElement elem = getFirstElement(elems);
-		new Select(elem).deselectByVisibleText(text);
+		defaultPerformer().deselect(elems, text);
 	}
 
 	public static void selectVal(WebElements elems, String val) {
-		WebElement elem = getFirstElement(elems);
-		new Select(elem).selectByValue(val);
+		defaultPerformer().selectVal(elems, val);
 	}
 
 	public static void deselectVal(WebElements elems, String val) {
-		WebElement elem = getFirstElement(elems);
-		new Select(elem).deselectByValue(val);
+		defaultPerformer().deselectVal(elems, val);
 	}
 
 	public static void selectAll(WebElements elems) {
-		WebElement elem = getFirstElement(elems);
-		Select select = new Select(elem);
-		if (!select.isMultiple()) {
-			throw new UnsupportedOperationException("You may only select all options of a multi-select");
-		}
-
-		for (WebElement option : select.getOptions()) {
-			if (option.isSelected()) {
-				option.click();
-			}
-		}
+		defaultPerformer().selectAll(elems);
 	}
 
 	public static void deselectAll(WebElements elems) {
-		WebElement elem = getFirstElement(elems);
-		new Select(elem).deselectAll();
+		defaultPerformer().deselectAll(elems);
 	}
 
-	// ////
-	// public static void interact(Interaction interaction);
+	public void waitForElements(WebElements elems) {
+		defaultPerformer().waitForElements(elems);
+	}
+	
+	public void waitWhileElements(WebElements elems) {
+		defaultPerformer().waitWhileElements(elems);
+	}
+	
+	public boolean checkNotEmpty(WebElements elems) {
+		return defaultPerformer().checkNotEmpty(elems);
+	}
+	
+	public boolean checkEmpty(WebElements elems) {
+		return defaultPerformer().checkEmpty(elems);
+	}
+	
+	public void waitUntilClosed(WebElements elems) {
+		defaultPerformer().waitUntilClosed(elems);
+	}
+	
+	public static InteractionPerformer with(InteractionListener ... listeners) {
+		return new InteractionPerformer(listeners);
+	}
+	
+	public static void perform(Interaction interaction) {
+		interaction.perform();
+	}
 
 	protected static WebElements getFirst(WebElements elems) {
 		WebElements first = ((CoreWebElements<?>) elems).visible().first();
@@ -157,8 +149,8 @@ public class Interactions {
 		WebElements first = getFirst(elems);
 		return first.get(0);
 	}
-
-	private static Actions newActions(WebElement elem) {
-		return new Actions(((WrapsDriver) elem).getWrappedDriver());
+	
+	private static InteractionPerformer defaultPerformer() {
+		return new InteractionPerformer();
 	}
 }

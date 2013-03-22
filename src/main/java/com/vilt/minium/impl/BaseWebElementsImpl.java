@@ -17,6 +17,7 @@ import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
@@ -33,11 +34,12 @@ import com.vilt.minium.TargetLocatorWebElements;
 import com.vilt.minium.WaitWebElements;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.WebElementsDriverProvider;
+import com.vilt.minium.driver.Configuration;
 import com.vilt.minium.driver.Configuration.Duration;
 import com.vilt.minium.driver.WebElementsDriver;
 import com.vilt.minium.impl.utils.Casts;
 import com.vilt.minium.jquery.Async;
-import com.vilt.minium.jquery.JQueryWebElements;
+import com.vilt.minium.jquery.CoreWebElements;
 
 public abstract class BaseWebElementsImpl<T extends WebElements> implements WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, WebElementsDriverProvider<T> {
 
@@ -73,9 +75,9 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 	
 	protected abstract Iterable<WebElement> computeElements(final WebElementsDriver<T> wd);
 		
-	protected abstract WebElementsDriver<T> rootWebDriver();
-	
 	protected abstract Iterable<WebElementsDriver<T>> candidateWebDrivers();
+
+	protected abstract WebElementsDriver<T> rootWebDriver();
 	
 	protected abstract T relativeRootWebElements();
 	
@@ -275,20 +277,20 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 
 	@Override
 	public T frame() {
-		T filtered = Casts.<JQueryWebElements<JQueryWebElements<JQueryWebElements<T>>>>cast(this).find("iframe, frame").andSelf().filter("iframe, frame");
+		CoreWebElements<?> filtered = ((CoreWebElements<?>) this).find("iframe, frame").andSelf().filter("iframe, frame");
 		return Casts.<T>cast(WebElementsFactoryHelper.createIFrameWebElements(factory, filtered));
 	}
 
 	@Override
 	public T frame(String selector) {
-		T filtered = Casts.<JQueryWebElements<JQueryWebElements<T>>>cast(this).find(selector).filter("iframe, frame");
+		CoreWebElements<?> filtered = ((CoreWebElements<?>) this).find(selector).filter("iframe, frame");
 		return Casts.<T>cast(WebElementsFactoryHelper.createIFrameWebElements(factory, filtered));
 	}
 
 	@Override
 	public T frame(T filter) {
-		filter = Casts.<JQueryWebElements<T>>cast(filter).filter("iframe, frame");
-		return Casts.<T>cast(WebElementsFactoryHelper.createIFrameWebElements(factory, filter));
+		CoreWebElements<?> filtered = ((CoreWebElements<?>) this).filter("iframe, frame");
+		return Casts.<T>cast(WebElementsFactoryHelper.createIFrameWebElements(factory, filtered));
 	}
 
 	public T frame(T filter, boolean freeze) {
@@ -363,6 +365,16 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 				withTimeout(time, unit).
 				pollingEvery(interval.getTime(), interval.getUnit());
 		return wait;
+	}
+	
+	@Override
+	public WebDriver nativeWebDriver() {
+		return rootWebDriver().getWrappedWebDriver();
+	}
+	
+	@Override
+	public Configuration configuration() {
+		return rootWebDriver().configuration();
 	}
 	
 	@Override

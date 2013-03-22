@@ -11,7 +11,10 @@ import org.openqa.selenium.HasInputDevices;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keyboard;
 import org.openqa.selenium.Mouse;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,33 +32,35 @@ import com.vilt.minium.jquery.JQueryWebElements;
  * @param <T> the generic type
  * @author Rui
  */
-public class WebElementsDriver<T extends WebElements> implements WebDriver, JavascriptExecutor, HasInputDevices {
+public class WebElementsDriver<T extends WebElements> implements WebDriver, JavascriptExecutor, HasInputDevices, TakesScreenshot {
 
 	/** The logger. */
 	final Logger logger = LoggerFactory.getLogger(WebElementsDriver.class);
-	
+
 	/** The wd. */
 	protected final WebDriver wd;
-	
+
 	/** The factory. */
 	protected final WebElementsFactory factory;
-	
+
 	/** The configuration. */
 	protected final Configuration configuration;
-	
+
 	/** The window handle. */
 	protected String windowHandle;
 
-//	private boolean isFirefox;
+	// private boolean isFirefox;
 
 	/**
- * Instantiates a new web elements driver.
- *
- * @param wd the wd
- * @param factory the factory
- */
-public WebElementsDriver(WebDriver wd, WebElementsFactory factory) {
-		this(wd, factory, wd.getWindowHandle());
+	 * Instantiates a new web elements driver.
+	 * 
+	 * @param wd
+	 *            the wd
+	 * @param factory
+	 *            the factory
+	 */
+	protected WebElementsDriver(WebDriver wd, WebElementsFactory factory, Configuration configuration) {
+		this(wd, factory, configuration, wd.getWindowHandle());
 	}
 	
 	/**
@@ -65,10 +70,10 @@ public WebElementsDriver(WebDriver wd, WebElementsFactory factory) {
 	 * @param factory the factory
 	 * @param handle the handle
 	 */
-	protected WebElementsDriver(WebDriver wd, WebElementsFactory factory, String handle) {
+	protected WebElementsDriver(WebDriver wd, WebElementsFactory factory, Configuration configuration, String handle) {
 		this.wd = wd;
 		this.factory = factory;
-		this.configuration = new Configuration();
+		this.configuration = configuration;
 		this.windowHandle = handle;
 		// we need this because of a bug on firefox that hangs when we try to get a window 
 		// handle for a closed window...
@@ -84,7 +89,7 @@ public WebElementsDriver(WebDriver wd, WebElementsFactory factory) {
 	 * @param moreInterfaces the more interfaces
 	 */
 	public WebElementsDriver(WebDriver wd, Class<T> elementsInterface, Class<?> ... moreInterfaces) {
-		this(wd, new WebElementsFactory(elementsInterface, moreInterfaces));
+		this(wd, new WebElementsFactory(elementsInterface, moreInterfaces), new Configuration());
 	}
 
 	/**
@@ -95,7 +100,7 @@ public WebElementsDriver(WebDriver wd, WebElementsFactory factory) {
 	public Configuration configuration() {
 		return configuration;
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see org.openqa.selenium.WebDriver#get(java.lang.String)
 	 */
@@ -241,6 +246,12 @@ public WebElementsDriver(WebDriver wd, WebElementsFactory factory) {
 		return !wd.getWindowHandles().contains(windowHandle);
 	}
 	
+	@Override
+	public <X> X getScreenshotAs(OutputType<X> type) throws WebDriverException {
+		ensureSwitch();
+		return ((TakesScreenshot) wd).<X>getScreenshotAs(type);
+	}
+	
 	/**
 	 * Web elements.
 	 *
@@ -256,7 +267,7 @@ public WebElementsDriver(WebDriver wd, WebElementsFactory factory) {
 	 * @param selector the selector
 	 * @return the t
 	 */
-	public T webElements(String selector) {
+	public T find(String selector) {
 		return Casts.<JQueryWebElements<T>>cast(webElements()).find(selector);
 	}
 

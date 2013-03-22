@@ -4,9 +4,12 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.Lists;
+import com.vilt.minium.actions.InteractionListener;
 
 /**
  * The Class Configuration.
@@ -87,6 +90,9 @@ public class Configuration implements Serializable {
 
 	private Duration defaultTimeout = new Duration(10, TimeUnit.SECONDS);
 	private Duration defaultInterval = new Duration(1, TimeUnit.SECONDS);
+
+	protected final List<InteractionListener> globalListeners = Lists.newArrayList();
+
 	
 	/**
 	 * Gets the default timeout.
@@ -152,4 +158,15 @@ public class Configuration implements Serializable {
 		return defaultInterval(new Duration(time, unit));
 	}
 
+	public void registerInteractionListener(InteractionListener listener) {
+		globalListeners.add(listener);
+	}
+
+	public void unregisterInteractionListener(InteractionListener listener) {
+		globalListeners.remove(listener);
+	}
+	
+	public List<InteractionListener> getGlobalListeners() {
+		return globalListeners;
+	}
 }

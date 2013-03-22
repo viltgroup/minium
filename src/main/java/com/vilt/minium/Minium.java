@@ -2,6 +2,8 @@ package com.vilt.minium;
 
 import static com.google.common.base.Predicates.not;
 
+import javax.annotation.Nullable;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -19,7 +21,7 @@ import com.vilt.minium.jquery.DefaultWebElements;
 public class Minium {
 
 	/**
-	 * Predicate to use with {@link WebElements#wait(Predicate)} methods which ensures that
+	 * Predicate to use with {@link WaitWebElements#wait(Predicate)} methods which ensures that
 	 * evaluation will only be successful when this instance is empty (that is, evaluates
 	 * to zero {@link WebElement} instances.
 	 *
@@ -35,7 +37,7 @@ public class Minium {
 	}
 	
 	/**
-	 * Predicate to use with {@link WebElements#wait(Predicate)} methods which ensures that
+	 * Predicate to use with {@link WaitWebElements#wait(Predicate)} methods which ensures that
 	 * evaluation will only be successful when this instance is not empty (that is, evaluates
 	 * to one or more {@link WebElement} instances.
 	 *
@@ -47,17 +49,37 @@ public class Minium {
 	}
 	
 	/**
-	 * Predicate to use with {@link WebElements#wait(Predicate)} methods which ensures that
+	 * Predicate to use with {@link WaitWebElements#wait(Predicate)} methods which ensures that
 	 * evaluation will only be successful when this instance has a specific size.
 	 *
 	 * @param <T> the generic type
 	 * @param size number of matched {@link WebElement} instances
 	 * @return predicate that returns true if it has the exact size
 	 */
-	public static  <T extends WaitWebElements<?>> Predicate<T> untilSize(final int size) {
+	public static <T extends WaitWebElements<?>> Predicate<T> untilSize(final int size) {
 		return new Predicate<T>() {
 			public boolean apply(T input) {
 				return Iterables.size(input) == size;
+			}
+		};
+	}
+	
+	public static <T extends WaitWebElements<?>> Predicate<T> untilWindowClosed() {
+		return new Predicate<T>() {
+			
+			private WebElementsDriver<?> webDriver;
+
+			@Override
+			public boolean apply(@Nullable T elems) {
+				WebElementsDriver<?> webDriver = getWebDriver(elems);
+				return webDriver.isClosed();
+			}
+
+			protected WebElementsDriver<?> getWebDriver(T elems) {
+				if (webDriver == null) {
+					webDriver = ((WebElementsDriverProvider<?>) elems).webDriver();
+				}
+				return webDriver;
 			}
 		};
 	}
@@ -82,7 +104,7 @@ public class Minium {
 	 * @return the t
 	 */
 	public static <T extends WebElements> T $(WebElementsDriver<T> wd, String selector) {
-		return wd.webElements(selector);
+		return wd.find(selector);
 	}
 	
 	/**

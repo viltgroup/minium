@@ -24,7 +24,7 @@ public class FrameWebElementsDriver<T extends WebElements> extends WebElementsDr
 	private WebElementsDriver<T> parentWebDriver;
 
 	public FrameWebElementsDriver(WebElementsDriver<T> wd, WebElementsFactory factory, WebElement elem) {
-		super(wd.getWrappedWebDriver(), factory);
+		super(wd.getWrappedWebDriver(), factory, wd.configuration());
 		this.parentWebDriver = wd;
 		this.elem = elem;
 	}
@@ -71,7 +71,7 @@ public class FrameWebElementsDriver<T extends WebElements> extends WebElementsDr
 	
 	@Override
 	public int hashCode() {
-		return getNativeWebElement().hashCode();
+		return Objects.hashCode(getNativeWebElement(), getNativeWebElement());
 	}
 	
 	@Override
