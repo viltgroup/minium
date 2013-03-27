@@ -1,6 +1,5 @@
-package com.vilt.minium.jquery;
+package com.vilt.minium;
 
-import com.vilt.minium.WebElements;
 
 /**
  * Web elements class which declares methods that correspond to JQuery functions.

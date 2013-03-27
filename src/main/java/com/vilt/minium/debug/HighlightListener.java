@@ -1,4 +1,4 @@
-package com.vilt.minium.jquery.debug;
+package com.vilt.minium.debug;
 
 import com.vilt.minium.actions.DefaultInteractionListener;
 import com.vilt.minium.actions.InteractionEvent;

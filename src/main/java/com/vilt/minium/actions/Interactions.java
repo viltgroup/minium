@@ -1,15 +1,27 @@
 package com.vilt.minium.actions;
 
 import static com.vilt.minium.Minium.untilNotEmpty;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
+import com.vilt.minium.CoreWebElements;
+import com.vilt.minium.Duration;
 import com.vilt.minium.WebElements;
-import com.vilt.minium.jquery.CoreWebElements;
 
 public class Interactions {
 	
+	public static InteractionListener timeout(long time, TimeUnit units) {
+		return new TimeoutInteractionListener(new Duration(time, units));
+	}
+
+	public static InteractionListener instantTimeout() {
+		return timeout(0, SECONDS);
+	}
+
 	// from org.openqa.selenium.WebElement
 	public static void clear(WebElements elements) {
 		defaultPerformer().clear(elements);
@@ -111,26 +123,56 @@ public class Interactions {
 		defaultPerformer().deselectAll(elems);
 	}
 
-	public void waitForElements(WebElements elems) {
+	public static void waitForElements(WebElements elems) {
 		defaultPerformer().waitForElements(elems);
 	}
 	
-	public void waitWhileElements(WebElements elems) {
+	public static void waitWhileElements(WebElements elems) {
 		defaultPerformer().waitWhileElements(elems);
 	}
 	
-	public boolean checkNotEmpty(WebElements elems) {
+	public static boolean checkNotEmpty(WebElements elems) {
 		return defaultPerformer().checkNotEmpty(elems);
 	}
 	
-	public boolean checkEmpty(WebElements elems) {
+	public static boolean checkEmpty(WebElements elems) {
 		return defaultPerformer().checkEmpty(elems);
 	}
 	
-	public void waitUntilClosed(WebElements elems) {
+	public static void waitUntilClosed(WebElements elems) {
 		defaultPerformer().waitUntilClosed(elems);
 	}
 	
+	/**
+	 * Wait time.
+	 *
+	 * @param time the time
+	 * @param unit the unit
+	 */
+	public static void waitTime(long time, TimeUnit unit) {
+		defaultPerformer().waitTime(time, unit);
+	}
+	
+	/**
+	 * Without waiting.
+	 *
+	 * @return the default action
+	 */
+	public static InteractionPerformer withoutWaiting() {
+		return new InteractionPerformer(instantTimeout());
+	}
+
+	/**
+	 * With wait timeout.
+	 *
+	 * @param time the time
+	 * @param units the units
+	 * @return the default action
+	 */
+	public static InteractionPerformer withTimeout(long time, TimeUnit units) {
+		return new InteractionPerformer(timeout(time, units));
+	}
+
 	public static InteractionPerformer with(InteractionListener ... listeners) {
 		return new InteractionPerformer(listeners);
 	}

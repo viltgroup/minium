@@ -7,6 +7,7 @@ import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.vilt.minium.DefaultWebElements;
 import com.vilt.minium.MiniumBaseTest;
 
 public class FiltersWebElementsTest extends MiniumBaseTest {

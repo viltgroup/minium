@@ -4,14 +4,14 @@ import static com.vilt.minium.Minium.untilNotEmpty;
 
 import com.vilt.minium.WebElements;
 
-public class WaitFoElementsInteraction extends WaitInteraction {
+public class WaitForElementsInteraction extends WaitInteraction {
 
-	public WaitFoElementsInteraction(WebElements elems) {
+	public WaitForElementsInteraction(WebElements elems) {
 		super(elems);
 	}
 	
 	@Override
 	protected void doPerform() {
-		getSource().wait(untilNotEmpty());
+		getSource().wait(getTimeout(), untilNotEmpty());
 	}
 }

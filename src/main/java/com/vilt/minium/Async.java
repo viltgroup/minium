@@ -1,4 +1,4 @@
-package com.vilt.minium.jquery;
+package com.vilt.minium;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 

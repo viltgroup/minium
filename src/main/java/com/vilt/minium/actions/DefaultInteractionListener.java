@@ -9,6 +9,7 @@ public abstract class DefaultInteractionListener implements InteractionListener 
 			onBeforeEvent(event);
 			break;
 		case AFTER:
+			onAfterInteractingEvent(event);
 			onAfterEvent(event);
 			break;
 		case AFTER_FAILING:
@@ -23,6 +24,10 @@ public abstract class DefaultInteractionListener implements InteractionListener 
 	}
 	
 	protected void onAfterEvent(InteractionEvent event) {
+		// do nothing
+	}
+	
+	protected void onAfterInteractingEvent(InteractionEvent event) {
 		// do nothing
 	}
 

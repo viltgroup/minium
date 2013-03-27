@@ -2,9 +2,9 @@ package com.vilt.minium.driver;
 
 import org.openqa.selenium.WebDriver;
 
-import com.vilt.minium.jquery.DefaultWebElements;
-import com.vilt.minium.jquery.debug.DebugWebElements;
-import com.vilt.minium.jquery.tips.TipsWebElements;
+import com.vilt.minium.DefaultWebElements;
+import com.vilt.minium.debug.DebugWebElements;
+import com.vilt.minium.tips.TipsWebElements;
 
 /**
  * The Class DefaultWebElementsDriver.

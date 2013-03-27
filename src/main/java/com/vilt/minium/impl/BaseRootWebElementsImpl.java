@@ -2,10 +2,10 @@ package com.vilt.minium.impl;
 
 import org.openqa.selenium.WebElement;
 
+import com.vilt.minium.JQueryWebElements;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.driver.WebElementsDriver;
 import com.vilt.minium.impl.utils.Casts;
-import com.vilt.minium.jquery.JQueryWebElements;
 
 public abstract class BaseRootWebElementsImpl<T extends WebElements> extends BaseWebElementsImpl<T> {
 

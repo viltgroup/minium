@@ -1,18 +1,31 @@
 package com.vilt.minium.actions;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.Keys;
 
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.vilt.minium.Duration;
 import com.vilt.minium.WebElements;
 
 public class InteractionPerformer {
 	
-	private InteractionListener[] listeners;
+	private List<InteractionListener> listeners = Lists.newArrayList();
 
 	public InteractionPerformer(InteractionListener ... listeners) {
-		this.listeners = listeners;
+		with(listeners);
 	}
 	
+	public InteractionPerformer with(InteractionListener ... listeners) {
+		if (listeners != null) {
+			this.listeners.addAll(Arrays.asList(listeners));
+		}
+		return this;
+	}
+
 	public void perform(Interaction interaction) {
 		for (InteractionListener listener : listeners) {
 			interaction.registerListener(listener);
@@ -122,7 +135,7 @@ public class InteractionPerformer {
 	}
 	
 	public void waitForElements(WebElements elems) {
-		perform(new WaitFoElementsInteraction(elems));
+		perform(new WaitForElementsInteraction(elems));
 	}
 	
 	public void waitWhileElements(WebElements elems) {
@@ -141,5 +154,9 @@ public class InteractionPerformer {
 	
 	public void waitUntilClosed(WebElements elems) {
 		perform(new WaitWindowClosedElementsInteraction(elems));
+	}
+
+	public void waitTime(long time, TimeUnit unit) {
+		perform(new WaitTimeInteraction(new Duration(time, unit)));
 	}
 }

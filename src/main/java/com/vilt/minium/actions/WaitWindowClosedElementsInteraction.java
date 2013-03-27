@@ -12,6 +12,6 @@ public class WaitWindowClosedElementsInteraction extends WaitInteraction {
 
 	@Override
 	protected void doPerform() {
-		getSource().wait(untilWindowClosed());
+		getSource().wait(getTimeout(), untilWindowClosed());
 	}
 }

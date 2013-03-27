@@ -1,13 +1,13 @@
-package com.vilt.minium.jquery.debug;
+package com.vilt.minium.debug;
 
 import java.io.OutputStream;
 
 import org.apache.commons.io.IOUtils;
 import org.openqa.selenium.OutputType;
 
+import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.actions.DefaultInteraction;
-import com.vilt.minium.jquery.CoreWebElements;
 
 public class WindowScreenshotInteraction extends DefaultInteraction {
 

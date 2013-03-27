@@ -2,13 +2,13 @@ package com.vilt.minium.actions;
 
 import static com.vilt.minium.Minium.$;
 import static com.vilt.minium.actions.Interactions.click;
-import static com.vilt.minium.jquery.tips.TipsInteractions.withTip;
+import static com.vilt.minium.tips.TipsInteractions.withTip;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import com.vilt.minium.DefaultWebElements;
 import com.vilt.minium.MiniumBaseTest;
-import com.vilt.minium.jquery.DefaultWebElements;
 
 public class InteractionTest extends MiniumBaseTest {
 	

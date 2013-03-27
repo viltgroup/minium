@@ -11,7 +11,6 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.vilt.minium.driver.DefaultWebElementsDriver;
 import com.vilt.minium.driver.WebElementsDriver;
-import com.vilt.minium.jquery.DefaultWebElements;
 
 /**
  * The Class Minium.

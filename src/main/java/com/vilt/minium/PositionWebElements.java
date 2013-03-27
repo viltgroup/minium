@@ -1,6 +1,5 @@
-package com.vilt.minium.jquery;
+package com.vilt.minium;
 
-import com.vilt.minium.WebElements;
 
 /**
  * 

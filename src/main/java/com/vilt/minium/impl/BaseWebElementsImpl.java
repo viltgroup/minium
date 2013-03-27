@@ -29,17 +29,17 @@ import com.google.common.base.Functions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.vilt.minium.Async;
+import com.vilt.minium.CoreWebElements;
+import com.vilt.minium.Duration;
 import com.vilt.minium.MiniumException;
 import com.vilt.minium.TargetLocatorWebElements;
 import com.vilt.minium.WaitWebElements;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.WebElementsDriverProvider;
 import com.vilt.minium.driver.Configuration;
-import com.vilt.minium.driver.Configuration.Duration;
 import com.vilt.minium.driver.WebElementsDriver;
 import com.vilt.minium.impl.utils.Casts;
-import com.vilt.minium.jquery.Async;
-import com.vilt.minium.jquery.CoreWebElements;
 
 public abstract class BaseWebElementsImpl<T extends WebElements> implements WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, WebElementsDriverProvider<T> {
 
@@ -228,13 +228,8 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 	}
 
 	@Override
-	public T wait(Predicate<? super T> predicate) {
-		Duration timeout = rootWebDriver().configuration().getDefaultTimeout();
-		
-		long time = timeout.getTime();
-		TimeUnit unit = timeout.getUnit();
-		
-		return wait(time, unit, predicate);
+	public T wait(Predicate<? super T> predicate) {		
+		return wait(null, predicate);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -247,15 +242,19 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 		
 		return (T) this;
 	}
+	
+	@Override
+	public T wait(Duration timeout, Predicate<? super T> predicate) {
+		if (timeout == null) {
+			timeout = rootWebDriver().configuration().getDefaultTimeout();
+		}
+		
+		return this.wait(timeout.getTime(), timeout.getUnit(), predicate);
+	}
 
 	@Override
 	public T waitOrTimeout(Predicate<? super T> predicate) {
-		Duration timeout = rootWebDriver().configuration().getDefaultTimeout();
-		
-		long time = timeout.getTime();
-		TimeUnit unit = timeout.getUnit();
-		
-		return waitOrTimeout(time, unit, predicate);
+		return waitOrTimeout(null, predicate);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -273,6 +272,15 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 		}
 		
 		return (T) this;
+	}
+	
+	@Override
+	public T waitOrTimeout(Duration timeout, Predicate<? super T> predicate) {
+		if (timeout == null) {
+			timeout = rootWebDriver().configuration().getDefaultTimeout();
+		}
+		
+		return waitOrTimeout(timeout.getTime(), timeout.getUnit(), predicate);
 	}
 
 	@Override

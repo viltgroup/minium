@@ -9,18 +9,28 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.internal.WrapsDriver;
 
 import com.google.common.collect.Lists;
+import com.vilt.minium.CoreWebElements;
+import com.vilt.minium.Duration;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.actions.InteractionEvent.Type;
-import com.vilt.minium.jquery.CoreWebElements;
 
 public class DefaultInteraction implements Interaction {
 
 	private List<InteractionListener> listeners = Lists.newArrayList();
 	private Actions actions;
 	private WebElements source;
+	private Duration timeout;
 	
 	public DefaultInteraction(WebElements elems) {
 		this.source = elems;
+	}
+	
+	public void setTimeout(Duration timeout) {
+		this.timeout = timeout;
+	}
+	
+	public Duration getTimeout() {
+		return timeout;
 	}
 	
 	public void perform() {
@@ -66,7 +76,7 @@ public class DefaultInteraction implements Interaction {
 
 	protected WebElements getFirst(WebElements elems) {
 		WebElements first = ((CoreWebElements<?>) elems).visible().first();
-		((CoreWebElements<?>) first).wait(untilNotEmpty());
+		first = ((CoreWebElements<?>) first).wait(timeout, untilNotEmpty());
 		return first;
 	}
 
@@ -93,8 +103,10 @@ public class DefaultInteraction implements Interaction {
 	
 	private List<InteractionListener> getAllListeners() {
 		List<InteractionListener> allListeners = Lists.newArrayList();
-		List<InteractionListener> globalListeners = ((CoreWebElements<?>) source).webDriver().configuration().getGlobalListeners();
-		allListeners.addAll(globalListeners);
+		if (source != null) {
+			List<InteractionListener> globalListeners = ((CoreWebElements<?>) source).configuration().getGlobalListeners();			
+			allListeners.addAll(globalListeners);
+		}
 		allListeners.addAll(listeners);
 		
 		return allListeners;

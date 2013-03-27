@@ -23,9 +23,9 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.vilt.minium.JQueryResources;
 import com.vilt.minium.MiniumException;
 import com.vilt.minium.WebElements;
-import com.vilt.minium.jquery.JQueryResources;
 
 public class WebElementsFactory implements MethodHandler {
 

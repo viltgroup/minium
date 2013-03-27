@@ -1,4 +1,4 @@
-package com.vilt.minium.jquery.debug;
+package com.vilt.minium.debug;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -12,6 +12,10 @@ public class DebugInteractions {
 
 	public static InteractionListener highlighter() {
 		return new HighlightListener();
+	}
+
+	public static InteractionListener interactionLogger() {
+		return new LogInteractionListener();
 	}
 	
 	public static void highlight(WebElements webElements) {

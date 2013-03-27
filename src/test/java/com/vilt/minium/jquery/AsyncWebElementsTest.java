@@ -10,6 +10,8 @@ import org.junit.Test;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import com.vilt.minium.Async;
+import com.vilt.minium.JQueryResources;
 import com.vilt.minium.MiniumBaseTest;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.driver.DefaultWebElementsDriver;

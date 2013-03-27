@@ -30,6 +30,8 @@ public interface WaitWebElements<T extends WebElements> extends WebElements {
 	 */
 	public T wait(long time, TimeUnit unit, Predicate<? super T> predicate);
 
+	public T wait(Duration timeout, Predicate<? super T> predicate);
+
 	/**
 	 * Wait or timeout.
 	 *
@@ -47,4 +49,6 @@ public interface WaitWebElements<T extends WebElements> extends WebElements {
 	 * @return the t
 	 */
 	public T waitOrTimeout(long time, TimeUnit unit, Predicate<? super T> predicate);
+	
+	public T waitOrTimeout(Duration timeout, Predicate<? super T> predicate);
 }

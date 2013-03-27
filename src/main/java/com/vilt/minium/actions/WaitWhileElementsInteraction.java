@@ -12,6 +12,6 @@ public class WaitWhileElementsInteraction extends WaitInteraction {
 
 	@Override
 	protected void doPerform() {
-		getSource().wait(untilEmpty());
+		getSource().wait(getTimeout(), untilEmpty());
 	}
 }

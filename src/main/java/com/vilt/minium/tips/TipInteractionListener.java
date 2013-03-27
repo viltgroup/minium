@@ -1,4 +1,4 @@
-package com.vilt.minium.jquery.tips;
+package com.vilt.minium.tips;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 

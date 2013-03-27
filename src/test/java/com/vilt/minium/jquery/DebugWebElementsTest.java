@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.vilt.minium.MiniumBaseTest;
-import com.vilt.minium.jquery.debug.DebugWebElements;
+import com.vilt.minium.debug.DebugWebElements;
 
 public class DebugWebElementsTest extends MiniumBaseTest {
 

@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.openqa.selenium.TimeoutException;
 
 import com.google.common.collect.Iterables;
-import com.vilt.minium.jquery.DefaultWebElements;
 
 public class WaitWebElementsTest extends MiniumBaseTest {
 

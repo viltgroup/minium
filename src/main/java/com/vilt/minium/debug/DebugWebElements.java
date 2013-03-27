@@ -1,9 +1,9 @@
-package com.vilt.minium.jquery.debug;
+package com.vilt.minium.debug;
 
 import java.util.concurrent.TimeUnit;
 
+import com.vilt.minium.JQueryResources;
 import com.vilt.minium.WebElements;
-import com.vilt.minium.jquery.JQueryResources;
 
 /**
  * 

@@ -1,7 +1,7 @@
 package com.vilt.minium.actions;
 
+import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.WebElements;
-import com.vilt.minium.jquery.CoreWebElements;
 
 public abstract class WaitInteraction extends DefaultInteraction {
 

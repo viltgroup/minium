@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.openqa.selenium.WebElement;
 
 import com.google.common.collect.Iterables;
+import com.vilt.minium.DefaultWebElements;
 import com.vilt.minium.MiniumBaseTest;
 
 public class FrameWebElementsTest extends MiniumBaseTest {

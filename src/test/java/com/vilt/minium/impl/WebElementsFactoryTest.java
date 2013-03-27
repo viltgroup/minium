@@ -8,9 +8,9 @@ import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
 
+import com.vilt.minium.DefaultWebElements;
+import com.vilt.minium.JQueryWebElements;
 import com.vilt.minium.driver.DefaultWebElementsDriver;
-import com.vilt.minium.jquery.DefaultWebElements;
-import com.vilt.minium.jquery.JQueryWebElements;
 
 public class WebElementsFactoryTest {
 
