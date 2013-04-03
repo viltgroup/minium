@@ -9,7 +9,10 @@ import java.util.concurrent.TimeUnit;
 import com.google.common.base.Objects;
 
 /**
- * The Class Duration.
+ * This class represents a duration with some provided time and unit.
+ * It can be used to represent time intervals like timeouts.
+ * 
+ * @author rui.figueira
  */
 public class Duration implements Serializable {
 
@@ -19,10 +22,10 @@ public class Duration implements Serializable {
 	private final TimeUnit unit;
 
 	/**
-	 * Instantiates a new duration.
+	 * Creates a new duration with a specified time and unit.
 	 *
-	 * @param time the time
-	 * @param unit the unit
+	 * @param time this duration time
+	 * @param unit this duration unit
 	 */
 	public Duration(long time, TimeUnit unit) {
 		checkArgument(time >= 0);
@@ -32,7 +35,7 @@ public class Duration implements Serializable {
 	}
 
 	/**
-	 * Gets the time.
+	 * Gets this duration time.
 	 *
 	 * @return the time
 	 */
@@ -41,7 +44,7 @@ public class Duration implements Serializable {
 	}
 
 	/**
-	 * Gets the unit.
+	 * Gets this duration unit.
 	 *
 	 * @return the unit
 	 */

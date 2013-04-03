@@ -5,12 +5,23 @@ import org.openqa.selenium.support.ui.Select;
 
 import com.vilt.minium.WebElements;
 
+/**
+ * The Class SelectAllInteraction.
+ */
 public class SelectAllInteraction extends SelectionInteraction {
 
+	/**
+	 * Instantiates a new select all interaction.
+	 *
+	 * @param source the source
+	 */
 	SelectAllInteraction(WebElements source) {
 		super(source);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
+	 */
 	@Override
 	protected void doPerform() {
 		Select select = getSelectElement();

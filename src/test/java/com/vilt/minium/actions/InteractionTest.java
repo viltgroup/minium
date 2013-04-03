@@ -2,7 +2,7 @@ package com.vilt.minium.actions;
 
 import static com.vilt.minium.Minium.$;
 import static com.vilt.minium.actions.Interactions.click;
-import static com.vilt.minium.tips.TipsInteractions.withTip;
+import static com.vilt.minium.tips.TipInteractions.withTip;
 
 import org.junit.Before;
 import org.junit.Test;

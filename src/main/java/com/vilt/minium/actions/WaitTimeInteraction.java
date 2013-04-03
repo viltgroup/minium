@@ -8,10 +8,18 @@ import org.openqa.selenium.support.ui.Sleeper;
 
 import com.vilt.minium.Duration;
 
+/**
+ * The Class WaitTimeInteraction.
+ */
 public class WaitTimeInteraction extends WaitInteraction {
 
 	private Duration waitTime;
 
+	/**
+	 * Instantiates a new wait time interaction.
+	 *
+	 * @param waitTime the wait time
+	 */
 	public WaitTimeInteraction(Duration waitTime) {
 		super(null);
 		
@@ -19,6 +27,9 @@ public class WaitTimeInteraction extends WaitInteraction {
 		this.waitTime = waitTime;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
+	 */
 	@Override
 	protected void doPerform() {
 		long time = waitTime.getTime();

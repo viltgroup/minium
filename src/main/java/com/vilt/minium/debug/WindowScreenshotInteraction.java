@@ -7,17 +7,25 @@ import org.openqa.selenium.OutputType;
 
 import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.WebElements;
-import com.vilt.minium.actions.DefaultInteraction;
 
-public class WindowScreenshotInteraction extends DefaultInteraction {
+/**
+ * The Class WindowScreenshotInteraction.
+ */
+public class WindowScreenshotInteraction extends ScreenshotInteraction {
 
-	private OutputStream stream;
-
+	/**
+	 * Instantiates a new window screenshot interaction.
+	 *
+	 * @param elems the elems
+	 * @param stream the stream
+	 */
 	public WindowScreenshotInteraction(WebElements elems, OutputStream stream) {
-		super(elems);
-		this.stream = stream;
+		super(elems, stream);
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
+	 */
 	@Override
 	protected void doPerform() {
 		try {

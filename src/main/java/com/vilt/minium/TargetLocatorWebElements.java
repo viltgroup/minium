@@ -82,7 +82,19 @@ public interface TargetLocatorWebElements<T extends WebElements> extends WebElem
 	 */
 	public T window(boolean newWindow);
 
+	/**
+	 * Root.
+	 *
+	 * @return the t
+	 */
 	public T root();
+	
+	/**
+	 * Root.
+	 *
+	 * @param freeze the freeze
+	 * @return the t
+	 */
 	public T root(boolean freeze);
 	
 	/**

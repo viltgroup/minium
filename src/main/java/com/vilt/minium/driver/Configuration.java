@@ -20,6 +20,7 @@ public class Configuration implements Serializable {
 	private Duration defaultTimeout = new Duration(10, TimeUnit.SECONDS);
 	private Duration defaultInterval = new Duration(1, TimeUnit.SECONDS);
 
+	/** The global listeners. */
 	protected final List<InteractionListener> globalListeners = Lists.newArrayList();
 
 	
@@ -87,14 +88,29 @@ public class Configuration implements Serializable {
 		return defaultInterval(new Duration(time, unit));
 	}
 
+	/**
+	 * Register interaction listener.
+	 *
+	 * @param listener the listener
+	 */
 	public void registerInteractionListener(InteractionListener listener) {
 		globalListeners.add(listener);
 	}
 
+	/**
+	 * Unregister interaction listener.
+	 *
+	 * @param listener the listener
+	 */
 	public void unregisterInteractionListener(InteractionListener listener) {
 		globalListeners.remove(listener);
 	}
 	
+	/**
+	 * Gets the global listeners.
+	 *
+	 * @return the global listeners
+	 */
 	public List<InteractionListener> getGlobalListeners() {
 		return globalListeners;
 	}

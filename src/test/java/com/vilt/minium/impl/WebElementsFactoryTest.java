@@ -26,6 +26,6 @@ public class WebElementsFactoryTest {
 	public void testResources() {
 		WebElementsFactory factory = new WebElementsFactory(DefaultWebElements.class);
 		JQueryInvoker invoker = factory.getInvoker();
-		assertThat(invoker.getJsResources(), contains("minium/js/jquery.js", "minium/js/position.js"));
+		assertThat(invoker.getJsResources(), contains("minium/js/jquery.min.js", "minium/js/position.js"));
 	}
 }

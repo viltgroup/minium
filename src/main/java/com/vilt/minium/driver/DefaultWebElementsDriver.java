@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver;
 
 import com.vilt.minium.DefaultWebElements;
 import com.vilt.minium.debug.DebugWebElements;
-import com.vilt.minium.tips.TipsWebElements;
+import com.vilt.minium.tips.TipWebElements;
 
 /**
  * The Class DefaultWebElementsDriver.
@@ -19,7 +19,7 @@ public class DefaultWebElementsDriver extends WebElementsDriver<DefaultWebElemen
 	 * @param wd the wd
 	 */
 	public DefaultWebElementsDriver(WebDriver wd) {
-		this(wd, DefaultWebElements.class, DebugWebElements.class, TipsWebElements.class);
+		this(wd, DefaultWebElements.class, DebugWebElements.class, TipWebElements.class);
 	}
 	
 	/**

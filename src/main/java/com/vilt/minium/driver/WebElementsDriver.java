@@ -49,15 +49,12 @@ public class WebElementsDriver<T extends WebElements> implements WebDriver, Java
 	/** The window handle. */
 	protected String windowHandle;
 
-	// private boolean isFirefox;
-
 	/**
 	 * Instantiates a new web elements driver.
-	 * 
-	 * @param wd
-	 *            the wd
-	 * @param factory
-	 *            the factory
+	 *
+	 * @param wd the wd
+	 * @param factory the factory
+	 * @param configuration the configuration
 	 */
 	protected WebElementsDriver(WebDriver wd, WebElementsFactory factory, Configuration configuration) {
 		this(wd, factory, configuration, wd.getWindowHandle());
@@ -68,6 +65,7 @@ public class WebElementsDriver<T extends WebElements> implements WebDriver, Java
 	 *
 	 * @param wd the wd
 	 * @param factory the factory
+	 * @param configuration the configuration
 	 * @param handle the handle
 	 */
 	protected WebElementsDriver(WebDriver wd, WebElementsFactory factory, Configuration configuration, String handle) {
@@ -75,10 +73,6 @@ public class WebElementsDriver<T extends WebElements> implements WebDriver, Java
 		this.factory = factory;
 		this.configuration = configuration;
 		this.windowHandle = handle;
-		// we need this because of a bug on firefox that hangs when we try to get a window 
-		// handle for a closed window...
-//		isFirefox = (wd instanceof FirefoxDriver || hasFirefoxCapabilities());
-
 	}
 
 	/**
@@ -246,6 +240,9 @@ public class WebElementsDriver<T extends WebElements> implements WebDriver, Java
 		return !wd.getWindowHandles().contains(windowHandle);
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.openqa.selenium.TakesScreenshot#getScreenshotAs(org.openqa.selenium.OutputType)
+	 */
 	@Override
 	public <X> X getScreenshotAs(OutputType<X> type) throws WebDriverException {
 		ensureSwitch();
@@ -326,33 +323,11 @@ public class WebElementsDriver<T extends WebElements> implements WebDriver, Java
 	}
 	
 	private String safeGetWindowHandle() {
-//		if (!isFirefox) {
 		try {
 			return wd.getWindowHandle();
 		} catch (Exception e) {
 			return null;
 		}
-//		} else {
-//			synchronized(wd) {
-//				ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-//				final Future<String> windowHandleFuture = executor.submit(new Callable<String>() {
-//					@Override
-//					public String call() throws Exception {
-//						return wd.getWindowHandle();
-//					}
-//				});
-//			
-//				executor.schedule(new Runnable() {
-//				     public void run() {
-//				    	 windowHandleFuture.cancel(true);
-//				     }      
-//				 }, 5L, TimeUnit.SECONDS);
-//			}
-//		}
 	}
-
-//	private boolean hasFirefoxCapabilities() {
-//		return (wd instanceof HasCapabilities && DesiredCapabilities.firefox().getBrowserName().equalsIgnoreCase(((HasCapabilities) wd).getCapabilities().getBrowserName()));
-//	}
 
 }

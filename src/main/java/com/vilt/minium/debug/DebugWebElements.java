@@ -6,48 +6,47 @@ import com.vilt.minium.JQueryResources;
 import com.vilt.minium.WebElements;
 
 /**
- * 
- * @author Rui
+ * The Interface DebugWebElements.
  *
- * @param <T>
+ * @author Rui
  */
-@JQueryResources({ "minium/js/jquery-ui.js", "minium/js/debug.js" })
+@JQueryResources({ "minium/js/jquery-ui.min.js", "minium/js/debug.js" })
 public interface DebugWebElements extends WebElements {
 
 	/**
-	 * 
-	 * @return
+	 * Highlight.
 	 */
 	public void highlight();
 
 	/**
-	 * 
-	 * @param color
-	 * @return
+	 * Highlight.
+	 *
+	 * @param color the color
 	 */
 	public void highlight(String color);
 	
 	/**
-	 * 
-	 * @param time
-	 * @param units
-	 * @return
+	 * Highlight.
+	 *
+	 * @param time the time
+	 * @param units the units
 	 */
 	public void highlight(long time, TimeUnit units);
 	
 	/**
-	 * 
-	 * @param color
-	 * @param time
-	 * @param units
-	 * @return
+	 * Highlight.
+	 *
+	 * @param color the color
+	 * @param time the time
+	 * @param units the units
 	 */
 	public void highlight(String color, long time, TimeUnit units);
 	
 
 	/**
-	 * 
-	 * @return
+	 * Highlight and count.
+	 *
+	 * @return the int
 	 */
 	public int highlightAndCount();
 

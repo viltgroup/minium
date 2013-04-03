@@ -1,8 +1,9 @@
 package com.vilt.minium;
 
 /**
- * 
- * @author Rui
+ * The Interface DefaultWebElements.
+ *
+ * @author rui.figueira
  */
 public interface DefaultWebElements extends
 	CoreWebElements<DefaultWebElements>,

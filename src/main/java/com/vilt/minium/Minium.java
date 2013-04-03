@@ -63,6 +63,12 @@ public class Minium {
 		};
 	}
 	
+	/**
+	 * Until window closed.
+	 *
+	 * @param <T> the generic type
+	 * @return the predicate
+	 */
 	public static <T extends WaitWebElements<?>> Predicate<T> untilWindowClosed() {
 		return new Predicate<T>() {
 			

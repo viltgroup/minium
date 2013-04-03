@@ -75,7 +75,7 @@ public class WebElementsFactory implements MethodHandler {
 		Set<String> cssResources = Sets.newLinkedHashSet();
 		
 		// jquery is required, nothing will work without it...
-		jsResources.add("minium/js/jquery.js");
+		jsResources.add("minium/js/jquery.min.js");
 		
 		Queue<Class<?>> toCheck = Lists.newLinkedList();
 		toCheck.add(elementsInterface);

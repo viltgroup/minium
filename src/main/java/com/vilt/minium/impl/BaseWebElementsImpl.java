@@ -285,7 +285,7 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 
 	@Override
 	public T frame() {
-		CoreWebElements<?> filtered = ((CoreWebElements<?>) this).find("iframe, frame").andSelf().filter("iframe, frame");
+		CoreWebElements<?> filtered = ((CoreWebElements<?>) this).find("iframe, frame").addBack().filter("iframe, frame");
 		return Casts.<T>cast(WebElementsFactoryHelper.createIFrameWebElements(factory, filtered));
 	}
 

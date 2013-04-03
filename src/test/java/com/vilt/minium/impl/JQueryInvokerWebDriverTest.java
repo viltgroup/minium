@@ -21,7 +21,7 @@ public class JQueryInvokerWebDriverTest  extends MiniumBaseTest {
 	@Before
 	public void openPage() {
 		get("minium/tests/jquery-test.html");
-		positionInvoker = new JQueryInvoker(Lists.newArrayList("minium/js/jquery.js", "minium/js/position.js"), null);
+		positionInvoker = new JQueryInvoker(Lists.newArrayList("minium/js/jquery.min.js", "minium/js/position.js"), null);
 	}
 
 	@Test

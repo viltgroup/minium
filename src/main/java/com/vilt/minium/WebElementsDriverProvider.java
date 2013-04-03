@@ -26,7 +26,17 @@ public interface WebElementsDriverProvider<T extends WebElements> {
 	 */
 	public WebElementsDriver<T> webDriver();
 
+	/**
+	 * Configuration.
+	 *
+	 * @return the configuration
+	 */
 	public Configuration configuration();
 	
+	/**
+	 * Native web driver.
+	 *
+	 * @return the web driver
+	 */
 	public WebDriver nativeWebDriver();
 }
