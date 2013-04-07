@@ -1,16 +1,16 @@
 package com.vilt.minium.impl;
 
 import static com.vilt.minium.impl.utils.Casts.cast;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.testng.Assert.assertTrue;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import com.vilt.minium.DefaultWebElements;
+import com.vilt.minium.DefaultWebElementsDriver;
 import com.vilt.minium.JQueryWebElements;
-import com.vilt.minium.driver.DefaultWebElementsDriver;
 
 public class WebElementsFactoryTest {
 

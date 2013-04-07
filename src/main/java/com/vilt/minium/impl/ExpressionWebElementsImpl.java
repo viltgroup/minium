@@ -10,7 +10,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.collect.FluentIterable;
 import com.vilt.minium.WebElements;
-import com.vilt.minium.driver.WebElementsDriver;
+import com.vilt.minium.WebElementsDriver;
 
 public class ExpressionWebElementsImpl<T extends WebElements> extends BaseWebElementsImpl<T> {
 
@@ -65,8 +65,8 @@ public class ExpressionWebElementsImpl<T extends WebElements> extends BaseWebEle
 	}
 	
 	@Override
-	protected T relativeRootWebElements() {
-		return parent.relativeRootWebElements();
+	protected T documentRootWebElements() {
+		return parent.documentRootWebElements();
 	}
 	
 	@Override
@@ -81,13 +81,13 @@ public class ExpressionWebElementsImpl<T extends WebElements> extends BaseWebEle
 			ExpressionWebElementsImpl<T> elem = (ExpressionWebElementsImpl<T>) obj;
 			return 
 				Objects.equal(elem.getExpression(), this.getExpression()) &&
-				Objects.equal(elem.relativeRootWebElements(), this.relativeRootWebElements());
+				Objects.equal(elem.documentRootWebElements(), this.documentRootWebElements());
 		}
 		return false;
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(relativeRootWebElements(), getExpression());
+		return Objects.hashCode(documentRootWebElements(), getExpression());
 	}
 }

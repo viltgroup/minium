@@ -1,16 +1,16 @@
 package com.vilt.minium.jquery;
 
 import static com.vilt.minium.Minium.$;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 import com.vilt.minium.MiniumBaseTest;
 
 public class PositionWebElementsTest extends MiniumBaseTest {
 
-	@Before
+	@BeforeTest
 	public void openPage() {
 		get("minium/tests/position-test.html");
 	}

@@ -1,7 +1,7 @@
 package com.vilt.minium.impl;
 
 import com.vilt.minium.WebElements;
-import com.vilt.minium.driver.WebElementsDriver;
+import com.vilt.minium.WebElementsDriver;
 
 public class WebElementsFactoryHelper {
 

@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.Keys;
 
 import com.vilt.minium.Duration;
+import com.vilt.minium.TimeoutException;
 import com.vilt.minium.WebElements;
 
 /**
@@ -34,6 +35,10 @@ public class Interactions {
 		return timeout(0, SECONDS);
 	}
 
+	public static void get(WebElements elements, String url) {
+		defaultPerformer().get(elements, url);
+	}
+	
 	// from org.openqa.selenium.WebElement
 	/**
 	 * Clear.
@@ -266,7 +271,7 @@ public class Interactions {
 	 *
 	 * @param elems the elems
 	 */
-	public static void waitForElements(WebElements elems) {
+	public static void waitForElements(WebElements elems) throws TimeoutException {
 		defaultPerformer().waitForElements(elems);
 	}
 	
@@ -275,7 +280,7 @@ public class Interactions {
 	 *
 	 * @param elems the elems
 	 */
-	public static void waitWhileElements(WebElements elems) {
+	public static void waitWhileElements(WebElements elems) throws TimeoutException {
 		defaultPerformer().waitWhileElements(elems);
 	}
 	
@@ -304,7 +309,7 @@ public class Interactions {
 	 *
 	 * @param elems the elems
 	 */
-	public static void waitUntilClosed(WebElements elems) {
+	public static void waitUntilClosed(WebElements elems) throws TimeoutException {
 		defaultPerformer().waitUntilClosed(elems);
 	}
 	

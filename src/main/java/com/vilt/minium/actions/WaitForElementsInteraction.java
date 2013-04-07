@@ -2,6 +2,7 @@ package com.vilt.minium.actions;
 
 import static com.vilt.minium.Minium.untilNotEmpty;
 
+import com.vilt.minium.TimeoutException;
 import com.vilt.minium.WebElements;
 
 /**
@@ -22,7 +23,7 @@ public class WaitForElementsInteraction extends WaitInteraction {
 	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
 	 */
 	@Override
-	protected void doPerform() {
+	protected void doPerform() throws TimeoutException {
 		getSource().wait(getTimeout(), untilNotEmpty());
 	}
 }

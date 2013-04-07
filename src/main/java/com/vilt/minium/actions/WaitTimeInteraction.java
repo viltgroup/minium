@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.support.ui.Sleeper;
 
 import com.vilt.minium.Duration;
+import com.vilt.minium.MiniumException;
 
 /**
  * The Class WaitTimeInteraction.
@@ -40,7 +41,7 @@ public class WaitTimeInteraction extends WaitInteraction {
 			Sleeper.SYSTEM_SLEEPER.sleep(duration);
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
-			throw new RuntimeException(e);
+			throw new MiniumException(e);
 		}
 	}
 }

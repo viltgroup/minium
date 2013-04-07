@@ -16,7 +16,6 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.FluentWait;
@@ -30,20 +29,36 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.vilt.minium.Async;
+import com.vilt.minium.Configuration;
 import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.Duration;
 import com.vilt.minium.MiniumException;
 import com.vilt.minium.TargetLocatorWebElements;
+import com.vilt.minium.TimeoutException;
 import com.vilt.minium.WaitWebElements;
 import com.vilt.minium.WebElements;
+import com.vilt.minium.WebElementsDriver;
 import com.vilt.minium.WebElementsDriverProvider;
-import com.vilt.minium.driver.Configuration;
-import com.vilt.minium.driver.WebElementsDriver;
 import com.vilt.minium.impl.utils.Casts;
 
 public abstract class BaseWebElementsImpl<T extends WebElements> implements WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, WebElementsDriverProvider<T> {
 
 	final Logger logger = LoggerFactory.getLogger(WebElements.class);
+	
+	private static class MiniumWait<T> extends FluentWait<T> {
+
+		public MiniumWait(T input, Duration timeout, Duration interval) {
+			super(input);
+			withTimeout(timeout.getTime(), timeout.getUnit());
+			pollingEvery(interval.getTime(), interval.getUnit());
+		}
+		
+		@Override
+		protected RuntimeException timeoutException(String message, Throwable lasteException) {
+			return new TimeoutException(message, lasteException);
+		}
+	}
+	
 	
 	private final Function<Object, String> argToStringFunction = new Function<Object, String>() {
 		public String apply(Object input) {
@@ -61,7 +76,7 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 		private String getJQueryWebElementsExpression(Object input) {
 			BaseWebElementsImpl<T> elem = (BaseWebElementsImpl<T>) input;
 
-			if (!elem.relativeRootWebElements().equals(BaseWebElementsImpl.this.relativeRootWebElements())) {
+			if (!elem.documentRootWebElements().equals(BaseWebElementsImpl.this.documentRootWebElements())) {
 				throw new IllegalArgumentException("WebElements does not belong to the same window / iframe");
 			}
 			
@@ -79,7 +94,7 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 
 	protected abstract WebElementsDriver<T> rootWebDriver();
 	
-	protected abstract T relativeRootWebElements();
+	protected abstract T documentRootWebElements();
 	
 	public void init(WebElementsFactory factory) {
 		this.factory = factory;
@@ -87,9 +102,12 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 	
 	@SuppressWarnings("unchecked")
 	public Object invoke(Method method, Object ... args) {
+		if (method.isVarArgs()) {
+			args = expandVarArgs(args);
+		}
 		String expression = computeExpression(this, isAsyncMethod(method), method.getName(), args);
 		
-		if (method.getReturnType().isAssignableFrom(this.getClass())) {
+		if (method.getReturnType() != Object.class && method.getReturnType().isAssignableFrom(this.getClass())) {
 			T webElements = (T) WebElementsFactoryHelper.createExpressionWebElements(factory, this, expression);
 			return webElements;
 		}
@@ -153,6 +171,18 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 		}
 	}
 	
+	private Object[] expandVarArgs(Object[] args) {
+		if (args == null || args.length == 0) return args;
+		Object[] lastArg = (Object[]) args[args.length - 1];
+		int size = lastArg == null ? 0 : lastArg.length;
+		Object[] expandedArgs = new Object[args.length + size - 1];
+		System.arraycopy(args, 0, expandedArgs, 0, args.length - 1);
+		if (size > 0) {
+			System.arraycopy(lastArg, 0, expandedArgs, args.length - 1, lastArg.length);
+		}
+		return expandedArgs;
+	}
+
 	private boolean isAsyncMethod(Method method) {
 		return method.getAnnotation(Async.class) != null;
 	}
@@ -186,7 +216,7 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 			jsArgs.add("callback");
 		}
 		
-		if (parent instanceof BaseRootWebElementsImpl<?> && "find".equals(fnName)) {
+		if (parent instanceof DocumentRootWebElementsImpl<?> && "find".equals(fnName)) {
 			return format("$(%s)", StringUtils.join(jsArgs, ", "));		
 		}
 		else {
@@ -229,27 +259,27 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 
 	@Override
 	public T wait(Predicate<? super T> predicate) {		
-		return wait(null, predicate);
+		return this.wait(null, predicate);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public T wait(long time, TimeUnit unit, Predicate<? super T> predicate) {
-		Wait<T> wait = getWait(time, unit);
-		
-		Function<? super T, Boolean> function = Functions.forPredicate(predicate);
-		wait.until(function);
-		
-		return (T) this;
+		return this.wait(new Duration(time, unit), predicate);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public T wait(Duration timeout, Predicate<? super T> predicate) {
 		if (timeout == null) {
 			timeout = rootWebDriver().configuration().getDefaultTimeout();
 		}
 		
-		return this.wait(timeout.getTime(), timeout.getUnit(), predicate);
+		Wait<T> wait = getWait(timeout);
+		
+		Function<? super T, Boolean> function = Functions.forPredicate(predicate);
+		wait.until(function);
+		
+		return (T) this;
 	}
 
 	@Override
@@ -257,10 +287,19 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 		return waitOrTimeout(null, predicate);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public T waitOrTimeout(long time, TimeUnit unit, Predicate<? super T> predicate) {
-		Wait<T> wait = getWait(time, unit);
+		return waitOrTimeout(new Duration(time, unit), predicate);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public T waitOrTimeout(Duration timeout, Predicate<? super T> predicate) {
+		if (timeout == null) {
+			timeout = rootWebDriver().configuration().getDefaultTimeout();
+		}
+		
+		Wait<T> wait = getWait(timeout);
 		
 		Function<? super T, Boolean> function = Functions.forPredicate(predicate);
 		
@@ -272,15 +311,6 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 		}
 		
 		return (T) this;
-	}
-	
-	@Override
-	public T waitOrTimeout(Duration timeout, Predicate<? super T> predicate) {
-		if (timeout == null) {
-			timeout = rootWebDriver().configuration().getDefaultTimeout();
-		}
-		
-		return waitOrTimeout(timeout.getTime(), timeout.getUnit(), predicate);
 	}
 
 	@Override
@@ -351,11 +381,8 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 	@Override
 	public Alert alert() {
 		Duration timeout = rootWebDriver().configuration().getDefaultTimeout();
-		
-		long time = timeout.getTime();
-		TimeUnit unit = timeout.getUnit();
-		
-		FluentWait<T> wait = getWait(time, unit);
+	
+		FluentWait<T> wait = getWait(timeout);
 		
 		return wait.ignoring(NoAlertPresentException.class).until(new Function<T, Alert>() {
 
@@ -367,12 +394,9 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 		});
 	}
 	
-	protected FluentWait<T> getWait(long time, TimeUnit unit) {
+	protected MiniumWait<T> getWait(Duration timeout) {
 		Duration interval = rootWebDriver().configuration().getDefaultInterval();
-		FluentWait<T> wait = new FluentWait<T>(Casts.<T>cast(this)).
-				withTimeout(time, unit).
-				pollingEvery(interval.getTime(), interval.getUnit());
-		return wait;
+		return new MiniumWait<T>(Casts.<T>cast(this), timeout, interval);
 	}
 	
 	@Override

@@ -1,4 +1,4 @@
-package com.vilt.minium.driver;
+package com.vilt.minium;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import com.google.common.collect.Lists;
-import com.vilt.minium.Duration;
 import com.vilt.minium.actions.InteractionListener;
 
 /**

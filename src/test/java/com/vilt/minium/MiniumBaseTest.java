@@ -4,26 +4,24 @@ import java.net.URL;
 
 import org.hamcrest.Matcher;
 import org.hamcrest.collection.IsIterableWithSize;
-import org.junit.After;
-import org.junit.Before;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
 
-import com.vilt.minium.driver.DefaultWebElementsDriver;
 
 public class MiniumBaseTest {
 	
 	protected DefaultWebElementsDriver wd;
 	
-	@Before
+	@BeforeSuite
 	public void before() {
-		DesiredCapabilities capabilities = DesiredCapabilities.chrome();
-//		capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
-		wd = new DefaultWebElementsDriver(new ChromeDriver(capabilities));
+		DesiredCapabilities capabilities = new DesiredCapabilities();
+		wd = new DefaultWebElementsDriver(new PhantomJSDriver(capabilities));
 	}
 	
-	@After
+	@AfterSuite
 	public void after() {
 		wd.quit();
 	}

@@ -3,21 +3,21 @@ package com.vilt.minium;
 import static com.vilt.minium.Minium.$;
 import static com.vilt.minium.Minium.untilNotEmpty;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.TimeoutException;
+import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 import com.google.common.collect.Iterables;
 
 public class WaitWebElementsTest extends MiniumBaseTest {
 
-	@Before
+	@BeforeTest
 	public void openPage() {
 		get("minium/tests/jquery-test.html");
 	}
 	
-	@Test(expected = TimeoutException.class)
+	@Test(expectedExceptions = TimeoutException.class)
 	public void testUnexistingElement() {
 		$(wd, "#no-element").wait(untilNotEmpty());
 	}

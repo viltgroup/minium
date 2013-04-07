@@ -2,7 +2,7 @@ package com.vilt.minium;
 
 
 /**
- * Web elements class which declares methods that correspond to JQuery functions.
+ * Declares methods that correspond to JQuery transversing functions.
  *
  * @param <T> the generic type
  */
@@ -60,114 +60,42 @@ public interface JQueryWebElements<T extends WebElements> extends WebElements {
 	public String[] vals();
 	
 	/**
-	 * Argument is the position of the element in the set of matched elements, 
-	 * starting at 0 and going to length - 1.  Since the query filters out all 
-	 * elements that do not match the given index, providing an invalid index 
-	 * returns an empty set of elements rather than null.
+	 * <p>Add elements to the set of matched elements.</p>
+	 * <p>For more information, read
+	 * <a href="http://api.jquery.com/add/#add-selector">.add( selector )</a>
+	 * </p>
 	 * 
-	 * @param index The index of the element in the jQuery object.
-	 * 
-	 * @return jQuery
+	 * @param selector A string representing a selector expression to find additional 
+	 * elements to add to the set of matched elements.
+	 * @return {@link WebElements} corresponding to the union of elements
 	 */
-	public T eq(int index);
+	public T add(String selector);
 
 	/**
-	 * This is an alternative to is("." + cssClass).
+	 * <p>Add elements to the set of matched elements.</p>
+	 * <p>For more information, read
+	 * <a href="http://api.jquery.com/add/#add-jQuery-object">.add( jQuery object )</a>
+	 * </p>
 	 * 
-	 * @param cssClass The class to match.
-	 * 
-	 * @return Boolean
+	 * @param elems An existing {@link WebElements} object to add to the set of 
+	 * matched elements..
+	 * @return {@link WebElements} corresponding to the union of elements
 	 */
-	public boolean hasClass(String cssClass);
+	public T add(T elems);
 
 	/**
-	 * This method is used to narrow down the results of a search.
-	 * 
-	 * Provide a comma-separated list of expressions to apply multiple filters 
-	 * at once.
-	 * 
-	 * @param expr An expression to pass into the filter
-	 * 
-	 * @return jQuery
+	 * Add the previous set of elements on the stack to the current set, optionally 
+	 * filtered by a selector.
+	 * @return
 	 */
-	public T filter(String expr);
-	
+	public T addBack();
+
 	/**
-	 * Filter.
+	 * Children.
 	 *
-	 * @param expr the expr
 	 * @return the t
 	 */
-	public T filter(T expr);
-
-	/**
-	 * <p>If no element fits, or the expression is not valid, then the response will be 
-	 * 'false'.</p>
-	 * <p>'''Note''': As of jQuery 1.3 all expressions are supported. Previously complex 
-	 * expressions, such as those containing hierarchy selectors (such as +, ~, and >), 
-	 * always returned 'true'.</p>
-	 * 
-	 * <p><a href='Traversing/filter'>filter</a> is used internally, therefore all rules 
-	 * that apply there apply here, as well.</p>
-	 * 
-	 * @param expr The expression with which to filter
-	 * 
-	 * @return Boolean
-	 */
-	public boolean is(String expr);
-
-	public boolean is(T elems);
-
-	/**
-	 * Not.
-	 *
-	 * @param expr An expression with which to remove matching elements, an
-	 * element to remove from the set or a set of elements to remove from
-	 * the jQuery set of matched elements.
-	 * @return jQuery
-	 */
-	public T not(String expr);
-	
-	/**
-	 * Not.
-	 *
-	 * @param expr the expr
-	 * @return the t
-	 */
-	public T not(T expr);
-
-	/**
-	 * Behaves exactly like the built-in Array slice method. 
-	 * 
-	 * @param start Where to start the subset. The first element is at zero. 
-	 * Can be negative to start from the end of the selection.
-	 * 
-	 * @param end Where to end the subset (does not include the end element 
-	 * itself). If unspecified, ends at the end of the selection.
-	 * 
-	 * @return jQuery
-	 */
-	public T slice(int start, int end);
-
-	/**
-	 * Adds more elements, matched by the given expression, to the set of matched 
-	 * elements.
-	 * 
-	 * @param expr An expression whose matched elements are added for String, 
-	 * a string of HTML to create on the fly for DOMElement or one or more 
-	 * Elements to add if an Array.
-	 * 
-	 * @return jQuery
-	 */
-	public T add(String expr);
-	
-	/**
-	 * Adds the.
-	 *
-	 * @param expr the expr
-	 * @return the t
-	 */
-	public T add(T expr);
+	public T children();
 
 	/**
 	 * This set can be filtered with an optional expression that will cause only 
@@ -180,7 +108,7 @@ public interface JQueryWebElements<T extends WebElements> extends WebElements {
 	 * @return jQuery
 	 */
 	public T children(String expr);
-	
+
 	/**
 	 * Children.
 	 *
@@ -188,13 +116,6 @@ public interface JQueryWebElements<T extends WebElements> extends WebElements {
 	 * @return the t
 	 */
 	public T children(T expr);
-	
-	/**
-	 * Children.
-	 *
-	 * @return the t
-	 */
-	public T children();
 
 	/**
 	 * <p>Closest works by first looking at the current element to see if it 
@@ -209,7 +130,7 @@ public interface JQueryWebElements<T extends WebElements> extends WebElements {
 	 * @return jQuery
 	 */
 	public T closest(String expr);
-	
+
 	/**
 	 * Closest.
 	 *
@@ -225,206 +146,6 @@ public interface JQueryWebElements<T extends WebElements> extends WebElements {
 	 * @return jQuery
 	 */
 	public T contents();
-
-	/**
-	 * All searching is done using a <a href='Selectors'>jQuery expression</a>. 
-	 * The expression can be written using CSS 1-3 Selector syntax. 
-	 * 
-	 * @param expr An expression to search with.
-	 * 
-	 * @return jQuery
-	 */
-	public T find(String expr);
-	
-	/**
-	 * Find.
-	 *
-	 * @param expr the expr
-	 * @return the t
-	 */
-	public T find(T expr);
-
-	/**
-	 * next only returns the very next sibling for each element, not all next 
-	 * siblings (see nextAll).
-	 * 
-	 * You may provide an optional expression to filter the returned set. 
-	 * 
-	 * @param expr An expression with which to filter the returned set.
-	 * 
-	 * @return jQuery
-	 */
-	public T next(String expr);
-	
-	/**
-	 * Next.
-	 *
-	 * @param expr the expr
-	 * @return the t
-	 */
-	public T next(T expr);
-
-	public T next();
-
-	/**
-	 * Use an optional expression to filter the matched set. 
-	 * 
-	 * @param expr An expression to filter the next Elements with.
-	 * 
-	 * @return jQuery
-	 */
-	public T nextAll(String expr);
-	
-	/**
-	 * Next all.
-	 *
-	 * @param expr the expr
-	 * @return the t
-	 */
-	public T nextAll(T expr);
-	
-	public T nextAll();
-	
-	public T nextUntil(String selector, String filter);
-	public T nextUntil(WebElements elems, String filter);
-	public T nextUntil(String selector);
-	public T nextUntil(WebElements elems);
-	
-	/**
-	 * This is the first parent of the element that has position (as in 
-	 * relative or absolute). This method only works with visible elements.
-	 * 
-	 * @return jQuery
-	 */
-	public T offsetParent();
-
-	/**
-	 * You may use an optional expression to filter the set of parent elements 
-	 * that will match. If there is no parent, returns a jQuery object with a 
-	 * length of 0.
-	 * 
-	 * @param expr An expression to filter the parents with.
-	 * 
-	 * @return jQuery
-	 */
-	public T parent(String expr);
-	
-	/**
-	 * Parent.
-	 *
-	 * @param expr the expr
-	 * @return the t
-	 */
-	public T parent(T expr);
-
-	/**
-	 * Parents.
-	 *
-	 * @param expr An expression to filter the ancestors with
-	 * @return jQuery
-	 */
-	public T parents(String expr);
-	
-	/**
-	 * Parents.
-	 *
-	 * @param expr the expr
-	 * @return the t
-	 */
-	public T parents(T expr);
-
-	/**
-	 * Given a selector expression that represents a set of DOM elements, the
-	 * .parentsUntil() method traverses through the ancestors of these elements
-	 * until it reaches an element matched by the selector passed in the method's
-	 * argument. The resulting jQuery object contains all of the ancestors up to
-	 * but not including the one matched by the .parentsUntil() selector.
-	 *
-	 * @param selector the selector
-	 * @param filter the filter
-	 * @return the t
-	 */
-	public T parentsUntil(String selector, String filter);
-	public T parentsUntil(String selector);
-	
-	/**
-	 * Parents until.
-	 *
-	 * @param expr the expr
-	 * @param filter the filter
-	 * @return the t
-	 */
-	public T parentsUntil(T expr, String filter);
-	public T parentsUntil(T expr);
-	
-	/**
-	 * Use an optional expression to filter the matched set.
-	 * 
-	 * Only the immediately previous sibling is returned, not all previous siblings. 
-	 * 
-	 * @param expr An expression to filter the previous Elements with.
-	 * 
-	 * @return jQuery
-	 */
-	public T prev(String expr);
-	
-	/**
-	 * Prev.
-	 *
-	 * @param expr the expr
-	 * @return the t
-	 */
-	public T prev(T expr);
-	public T prev();
-
-	/**
-	 * Use an optional expression to filter the matched set. 
-	 * 
-	 * @param expr An expression to filter the previous elements with.
-	 * 
-	 * @return jQuery
-	 */
-	public T prevAll(String expr);
-	
-	/**
-	 * Prev all.
-	 *
-	 * @param expr the expr
-	 * @return the t
-	 */
-	public T prevAll(T expr);
-	public T prevAll();
-
-	public T prevUntil(String selector, String filter);
-	public T prevUntil(WebElements elems, String filter);
-	public T prevUntil(String selector);
-	public T prevUntil(WebElements elems);
-	
-	
-	/**
-	 * Siblings.
-	 *
-	 * @param expr An expression to filter the sibling Elements with
-	 * @return jQuery
-	 */
-	public T siblings(String expr);
-	
-	/**
-	 * Siblings.
-	 *
-	 * @param expr the expr
-	 * @return the t
-	 */
-	public T siblings(T expr);
-	
-	/**
-	 * Siblings.
-	 *
-	 * @return the t
-	 */
-	public T siblings();
-
-	public T addBack();
 
 	/**
 	 * If there was no destructive operation before, an empty set is returned.
@@ -451,7 +172,57 @@ public interface JQueryWebElements<T extends WebElements> extends WebElements {
 	 * @return jQuery
 	 */
 	public T end();
-	
+
+	/**
+	 * Argument is the position of the element in the set of matched elements, 
+	 * starting at 0 and going to length - 1.  Since the query filters out all 
+	 * elements that do not match the given index, providing an invalid index 
+	 * returns an empty set of elements rather than null.
+	 * 
+	 * @param index The index of the element in the jQuery object.
+	 * 
+	 * @return jQuery
+	 */
+	public T eq(int index);
+
+	/**
+	 * This method is used to narrow down the results of a search.
+	 * 
+	 * Provide a comma-separated list of expressions to apply multiple filters 
+	 * at once.
+	 * 
+	 * @param expr An expression to pass into the filter
+	 * 
+	 * @return jQuery
+	 */
+	public T filter(String expr);
+
+	/**
+	 * Filter.
+	 *
+	 * @param expr the expr
+	 * @return the t
+	 */
+	public T filter(T expr);
+
+	/**
+	 * All searching is done using a <a href='Selectors'>jQuery expression</a>. 
+	 * The expression can be written using CSS 1-3 Selector syntax. 
+	 * 
+	 * @param expr An expression to search with.
+	 * 
+	 * @return jQuery
+	 */
+	public T find(String expr);
+
+	/**
+	 * Find.
+	 *
+	 * @param expr the expr
+	 * @return the t
+	 */
+	public T find(T expr);
+
 	/**
 	 * Given a jQuery object that represents a set of DOM elements, the .first() 
 	 * method constructs a new jQuery object from the first matching element.
@@ -459,16 +230,7 @@ public interface JQueryWebElements<T extends WebElements> extends WebElements {
 	 * @return jQuery
 	 */
 	public T first();
-	
-	/**
-	 * Given a jQuery object that represents a set of DOM elements, the .last() 
-	 * method constructs a new jQuery object from the last matching element.
-     *
-	 * @return jQuery
-	 */
-	public T last();
 
-	
 	/**
 	 * Given a jQuery object that represents a set of DOM elements, the .has()
 	 * method constructs a new jQuery object from a subset of the matching elements.
@@ -480,7 +242,7 @@ public interface JQueryWebElements<T extends WebElements> extends WebElements {
 	 * @return the t
 	 */
 	public T has(String selector);
-	
+
 	/**
 	 * Checks for.
 	 *
@@ -488,8 +250,261 @@ public interface JQueryWebElements<T extends WebElements> extends WebElements {
 	 * @return the t
 	 */
 	public T has(T expr);
-	
-	
+
+	/**
+	 * <p>If no element fits, or the expression is not valid, then the response will be 
+	 * 'false'.</p>
+	 * <p>'''Note''': As of jQuery 1.3 all expressions are supported. Previously complex 
+	 * expressions, such as those containing hierarchy selectors (such as +, ~, and >), 
+	 * always returned 'true'.</p>
+	 * 
+	 * <p><a href='Traversing/filter'>filter</a> is used internally, therefore all rules 
+	 * that apply there apply here, as well.</p>
+	 * 
+	 * @param expr The expression with which to filter
+	 * 
+	 * @return Boolean
+	 */
+	public boolean is(String expr);
+
+	public boolean is(T elems);
+
+	/**
+	 * Given a jQuery object that represents a set of DOM elements, the .last() 
+	 * method constructs a new jQuery object from the last matching element.
+	 *
+	 * @return jQuery
+	 */
+	public T last();
+
+	public T next();
+
+	/**
+	 * next only returns the very next sibling for each element, not all next 
+	 * siblings (see nextAll).
+	 * 
+	 * You may provide an optional expression to filter the returned set. 
+	 * 
+	 * @param expr An expression with which to filter the returned set.
+	 * 
+	 * @return jQuery
+	 */
+	public T next(String expr);
+
+	/**
+	 * Next.
+	 *
+	 * @param expr the expr
+	 * @return the t
+	 */
+	public T next(T expr);
+
+	public T nextAll();
+
+	/**
+	 * Use an optional expression to filter the matched set. 
+	 * 
+	 * @param expr An expression to filter the next Elements with.
+	 * 
+	 * @return jQuery
+	 */
+	public T nextAll(String expr);
+
+	/**
+	 * Next all.
+	 *
+	 * @param expr the expr
+	 * @return the t
+	 */
+	public T nextAll(T expr);
+
+	public T nextUntil(String selector);
+
+	public T nextUntil(String selector, String filter);
+
+	public T nextUntil(T elems);
+
+	public T nextUntil(T elems, String filter);
+
+	/**
+	 * Not.
+	 *
+	 * @param expr An expression with which to remove matching elements, an
+	 * element to remove from the set or a set of elements to remove from
+	 * the jQuery set of matched elements.
+	 * @return jQuery
+	 */
+	public T not(String expr);
+
+	/**
+	 * Not.
+	 *
+	 * @param expr the expr
+	 * @return the t
+	 */
+	public T not(T expr);
+
+	/**
+	 * This is the first parent of the element that has position (as in 
+	 * relative or absolute). This method only works with visible elements.
+	 * 
+	 * @return jQuery
+	 */
+	public T offsetParent();
+
+	/**
+	 * You may use an optional expression to filter the set of parent elements 
+	 * that will match. If there is no parent, returns a jQuery object with a 
+	 * length of 0.
+	 * 
+	 * @param expr An expression to filter the parents with.
+	 * 
+	 * @return jQuery
+	 */
+	public T parent(String expr);
+
+	/**
+	 * Parent.
+	 *
+	 * @param expr the expr
+	 * @return the t
+	 */
+	public T parent(T expr);
+
+	/**
+	 * Parents.
+	 *
+	 * @param expr An expression to filter the ancestors with
+	 * @return jQuery
+	 */
+	public T parents(String expr);
+
+	/**
+	 * Parents.
+	 *
+	 * @param expr the expr
+	 * @return the t
+	 */
+	public T parents(T expr);
+
+	public T parentsUntil(String selector);
+
+	/**
+	 * Given a selector expression that represents a set of DOM elements, the
+	 * .parentsUntil() method traverses through the ancestors of these elements
+	 * until it reaches an element matched by the selector passed in the method's
+	 * argument. The resulting jQuery object contains all of the ancestors up to
+	 * but not including the one matched by the .parentsUntil() selector.
+	 *
+	 * @param selector the selector
+	 * @param filter the filter
+	 * @return the t
+	 */
+	public T parentsUntil(String selector, String filter);
+
+	public T parentsUntil(T expr);
+
+	/**
+	 * Parents until.
+	 *
+	 * @param expr the expr
+	 * @param filter the filter
+	 * @return the t
+	 */
+	public T parentsUntil(T expr, String filter);
+
+	public T prev();
+
+	/**
+	 * Use an optional expression to filter the matched set.
+	 * 
+	 * Only the immediately previous sibling is returned, not all previous siblings. 
+	 * 
+	 * @param expr An expression to filter the previous Elements with.
+	 * 
+	 * @return jQuery
+	 */
+	public T prev(String expr);
+
+	/**
+	 * Prev.
+	 *
+	 * @param expr the expr
+	 * @return the t
+	 */
+	public T prev(T expr);
+
+	public T prevAll();
+
+	/**
+	 * Use an optional expression to filter the matched set. 
+	 * 
+	 * @param expr An expression to filter the previous elements with.
+	 * 
+	 * @return jQuery
+	 */
+	public T prevAll(String expr);
+
+	/**
+	 * Prev all.
+	 *
+	 * @param expr the expr
+	 * @return the t
+	 */
+	public T prevAll(T expr);
+
+	public T prevUntil(String selector);
+
+	public T prevUntil(String selector, String filter);
+
+	public T prevUntil(T elems);
+
+	public T prevUntil(T elems, String filter);
+
+	/**
+	 * Siblings.
+	 *
+	 * @return the t
+	 */
+	public T siblings();
+
+	/**
+	 * Siblings.
+	 *
+	 * @param expr An expression to filter the sibling Elements with
+	 * @return jQuery
+	 */
+	public T siblings(String expr);
+
+	/**
+	 * Siblings.
+	 *
+	 * @param expr the expr
+	 * @return the t
+	 */
+	public T siblings(T expr);
+
+	/**
+	 * Behaves exactly like the built-in Array slice method. 
+	 * 
+	 * @param start Where to start the subset. The first element is at zero. 
+	 * Can be negative to start from the end of the selection.
+	 * 
+	 * @param end Where to end the subset (does not include the end element 
+	 * itself). If unspecified, ends at the end of the selection.
+	 * 
+	 * @return jQuery
+	 */
+	public T slice(int start, int end);
+
+	/**
+	 * This is an alternative to is("." + cssClass).
+	 * 
+	 * @param cssClass The class to match.
+	 * 
+	 * @return Boolean
+	 */
+	public boolean hasClass(String cssClass);
 
 	/**
 	 * Size.
@@ -497,4 +512,6 @@ public interface JQueryWebElements<T extends WebElements> extends WebElements {
 	 * @return the int
 	 */
 	public int size();
+
+	public <V> V call(String fnName, Object ... args);
 }

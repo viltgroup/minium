@@ -8,5 +8,5 @@ package com.vilt.minium;
 public interface DefaultWebElements extends
 	CoreWebElements<DefaultWebElements>,
 	PositionWebElements<DefaultWebElements>,
-	ScrollWebElements<DefaultWebElements> {
+	ScrollWebElements {
 }

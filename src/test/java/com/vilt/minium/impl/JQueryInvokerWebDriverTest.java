@@ -1,15 +1,15 @@
 package com.vilt.minium.impl;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.everyItem;
 import static org.hamcrest.Matchers.isA;
-import static org.junit.Assert.assertThat;
 
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.WebElement;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 import com.google.common.collect.Lists;
 import com.vilt.minium.MiniumBaseTest;
@@ -18,7 +18,7 @@ public class JQueryInvokerWebDriverTest  extends MiniumBaseTest {
 	
 	private JQueryInvoker positionInvoker;
 	
-	@Before
+	@BeforeTest
 	public void openPage() {
 		get("minium/tests/jquery-test.html");
 		positionInvoker = new JQueryInvoker(Lists.newArrayList("minium/js/jquery.min.js", "minium/js/position.js"), null);

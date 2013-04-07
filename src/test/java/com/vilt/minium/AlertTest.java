@@ -2,21 +2,21 @@ package com.vilt.minium;
 
 import static com.vilt.minium.Minium.$;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.junit.Assert.assertTrue;
+import static org.testng.Assert.assertTrue;
 
 import java.util.concurrent.TimeUnit;
 
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.support.ui.Duration;
 import org.openqa.selenium.support.ui.Sleeper;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 public class AlertTest extends MiniumBaseTest {
 
-	@Before
+	@BeforeTest
 	public void openPage() {
 		get("minium/tests/alert-test.html");
 	}

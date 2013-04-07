@@ -46,6 +46,16 @@ public class DebugInteractions {
 	 * @param webElements the web elements
 	 * @param file the file
 	 */
+	public static void takeScreenshot(WebElements webElements, String file) {
+		new InteractionPerformer().perform(new ElementsScreenshotInteraction(webElements, outputStreamFor(file)));
+	}
+
+	/**
+	 * Take screenshot.
+	 *
+	 * @param webElements the web elements
+	 * @param file the file
+	 */
 	public static void takeScreenshot(WebElements webElements, File file) {
 		new InteractionPerformer().perform(new ElementsScreenshotInteraction(webElements, outputStreamFor(file)));
 	}
@@ -58,6 +68,16 @@ public class DebugInteractions {
 	 */
 	public static void takeScreenshot(WebElements webElements, OutputStream stream) {
 		new InteractionPerformer().perform(new ElementsScreenshotInteraction(webElements, stream));
+	}
+	
+	/**
+	 * Take window screenshot.
+	 *
+	 * @param webElements the web elements
+	 * @param file the file
+	 */
+	public static void takeWindowScreenshot(WebElements webElements, String file) {
+		new InteractionPerformer().perform(new WindowScreenshotInteraction(webElements, outputStreamFor(file)));
 	}
 	
 	/**
@@ -87,6 +107,20 @@ public class DebugInteractions {
 	 * @return the file output stream
 	 */
 	protected static FileOutputStream outputStreamFor(File file) {
+		try {
+			return new FileOutputStream(file);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * Output stream for.
+	 *
+	 * @param file the file
+	 * @return the file output stream
+	 */
+	protected static FileOutputStream outputStreamFor(String file) {
 		try {
 			return new FileOutputStream(file);
 		} catch (Exception e) {

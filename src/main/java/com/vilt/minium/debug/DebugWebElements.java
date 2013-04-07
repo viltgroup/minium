@@ -10,7 +10,7 @@ import com.vilt.minium.WebElements;
  *
  * @author Rui
  */
-@JQueryResources({ "minium/js/jquery-ui.min.js", "minium/js/debug.js" })
+@JQueryResources({ "minium/js/jquery-ui.effect-highlight.min.js", "minium/js/debug.js" })
 public interface DebugWebElements extends WebElements {
 
 	/**

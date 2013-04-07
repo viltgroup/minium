@@ -4,10 +4,10 @@ import java.util.Collections;
 
 import com.google.common.base.Objects;
 import com.vilt.minium.WebElements;
-import com.vilt.minium.driver.WebElementsDriver;
+import com.vilt.minium.WebElementsDriver;
 import com.vilt.minium.impl.utils.Casts;
 
-public class RootWebElementsImpl<T extends WebElements> extends BaseRootWebElementsImpl<T> {
+public class RootWebElementsImpl<T extends WebElements> extends DocumentRootWebElementsImpl<T> {
 
 	private WebElementsDriver<T> wd;
 

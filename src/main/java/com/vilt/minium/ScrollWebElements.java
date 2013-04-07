@@ -10,7 +10,7 @@ package com.vilt.minium;
  * @author Rui
  */
 @JQueryResources("minium/js/scroll.js")
-public interface ScrollWebElements<T extends WebElements> extends WebElements {
+public interface ScrollWebElements extends WebElements {
 	
 	/**
 	 * Scrolls the element into view. By default, the element is scrolled to align 

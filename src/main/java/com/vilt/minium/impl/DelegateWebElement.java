@@ -12,7 +12,7 @@ import org.openqa.selenium.interactions.internal.Coordinates;
 import org.openqa.selenium.internal.Locatable;
 import org.openqa.selenium.internal.WrapsDriver;
 
-import com.vilt.minium.driver.WebElementsDriver;
+import com.vilt.minium.WebElementsDriver;
 
 public class DelegateWebElement implements WebElement, WrapsDriver, Locatable {
 

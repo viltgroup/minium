@@ -9,6 +9,7 @@ import org.openqa.selenium.Keys;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.vilt.minium.Duration;
+import com.vilt.minium.TimeoutException;
 import com.vilt.minium.WebElements;
 
 /**
@@ -50,6 +51,10 @@ public class InteractionPerformer {
 			interaction.registerListener(listener);
 		}
 		interaction.perform();
+	}
+	
+	public void get(WebElements elements, String url) {
+		perform(new GetInteraction(elements, url));
 	}
 	
 	// from org.openqa.selenium.WebElement
@@ -284,7 +289,7 @@ public class InteractionPerformer {
 	 *
 	 * @param elems the elems
 	 */
-	public void waitForElements(WebElements elems) {
+	public void waitForElements(WebElements elems) throws TimeoutException {
 		perform(new WaitForElementsInteraction(elems));
 	}
 	
@@ -293,7 +298,7 @@ public class InteractionPerformer {
 	 *
 	 * @param elems the elems
 	 */
-	public void waitWhileElements(WebElements elems) {
+	public void waitWhileElements(WebElements elems) throws TimeoutException {
 		perform(new WaitWhileElementsInteraction(elems));
 	}
 	
@@ -324,7 +329,7 @@ public class InteractionPerformer {
 	 *
 	 * @param elems the elems
 	 */
-	public void waitUntilClosed(WebElements elems) {
+	public void waitUntilClosed(WebElements elems) throws TimeoutException {
 		perform(new WaitWindowClosedElementsInteraction(elems));
 	}
 

@@ -1,18 +1,18 @@
 package com.vilt.minium.jquery;
 
 import static com.vilt.minium.Minium.$;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 import com.vilt.minium.DefaultWebElements;
 import com.vilt.minium.MiniumBaseTest;
 
 public class FiltersWebElementsTest extends MiniumBaseTest {
 
-	@Before
+	@BeforeTest
 	public void openPage() {
 		get("minium/tests/filters-test.html");
 	}

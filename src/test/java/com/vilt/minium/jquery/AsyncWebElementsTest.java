@@ -1,20 +1,20 @@
 package com.vilt.minium.jquery;
 
 import static com.vilt.minium.Minium.$;
-import static org.junit.Assert.assertEquals;
+import static org.testng.Assert.assertEquals;
 
 import java.util.concurrent.TimeUnit;
 
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 import com.vilt.minium.Async;
+import com.vilt.minium.DefaultWebElementsDriver;
 import com.vilt.minium.JQueryResources;
 import com.vilt.minium.MiniumBaseTest;
 import com.vilt.minium.WebElements;
-import com.vilt.minium.driver.DefaultWebElementsDriver;
 
 public class AsyncWebElementsTest extends MiniumBaseTest {
 
@@ -33,7 +33,7 @@ public class AsyncWebElementsTest extends MiniumBaseTest {
 		wd.manage().timeouts().setScriptTimeout(5, TimeUnit.SECONDS);
 	}
 
-	@Before
+	@BeforeTest
 	public void openPage() {
 		get("minium/tests/jquery-test.html");
 	}

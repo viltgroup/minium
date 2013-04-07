@@ -1,12 +1,11 @@
-package com.vilt.minium.impl.driver;
+package com.vilt.minium.impl;
 
 import static java.lang.String.format;
 
 import org.apache.commons.lang.StringUtils;
 
 import com.vilt.minium.WebElements;
-import com.vilt.minium.driver.WebElementsDriver;
-import com.vilt.minium.impl.WebElementsFactory;
+import com.vilt.minium.WebElementsDriver;
 
 public class WindowWebElementsDriver<T extends WebElements> extends WebElementsDriver<T> {
 

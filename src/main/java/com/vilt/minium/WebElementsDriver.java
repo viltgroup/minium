@@ -1,4 +1,4 @@
-package com.vilt.minium.driver;
+package com.vilt.minium;
 
 import static java.lang.String.format;
 
@@ -20,8 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Objects;
-import com.vilt.minium.JQueryWebElements;
-import com.vilt.minium.WebElements;
 import com.vilt.minium.impl.WebElementsFactory;
 import com.vilt.minium.impl.WebElementsFactoryHelper;
 import com.vilt.minium.impl.utils.Casts;

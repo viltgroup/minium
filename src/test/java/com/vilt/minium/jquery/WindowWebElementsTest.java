@@ -2,13 +2,13 @@ package com.vilt.minium.jquery;
 
 import static com.vilt.minium.Minium.$;
 import static com.vilt.minium.Minium.untilNotEmpty;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.testng.Assert.assertEquals;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 import com.google.common.collect.Iterables;
 import com.vilt.minium.DefaultWebElements;
@@ -17,7 +17,7 @@ import com.vilt.minium.MiniumException;
 
 public class WindowWebElementsTest extends MiniumBaseTest {
 
-	@Before
+	@BeforeTest
 	public void openPage() {
 		get("minium/tests/window-test.html");
 	}

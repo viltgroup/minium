@@ -2,8 +2,6 @@ package com.vilt.minium;
 
 import org.openqa.selenium.WebDriver;
 
-import com.vilt.minium.driver.Configuration;
-import com.vilt.minium.driver.WebElementsDriver;
 
 /**
  * The Interface WebElementsDriverProvider.

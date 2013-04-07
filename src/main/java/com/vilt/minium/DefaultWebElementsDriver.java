@@ -1,8 +1,7 @@
-package com.vilt.minium.driver;
+package com.vilt.minium;
 
 import org.openqa.selenium.WebDriver;
 
-import com.vilt.minium.DefaultWebElements;
 import com.vilt.minium.debug.DebugWebElements;
 import com.vilt.minium.tips.TipWebElements;
 

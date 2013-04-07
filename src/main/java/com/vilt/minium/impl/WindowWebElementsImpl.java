@@ -15,12 +15,11 @@ import com.google.common.collect.Sets;
 import com.vilt.minium.JQueryWebElements;
 import com.vilt.minium.TargetLocatorWebElements;
 import com.vilt.minium.WebElements;
+import com.vilt.minium.WebElementsDriver;
 import com.vilt.minium.WebElementsDriverProvider;
-import com.vilt.minium.driver.WebElementsDriver;
-import com.vilt.minium.impl.driver.WindowWebElementsDriver;
 import com.vilt.minium.impl.utils.Casts;
 
-public class WindowWebElementsImpl<T extends WebElements> extends BaseRootWebElementsImpl<T> {
+public class WindowWebElementsImpl<T extends WebElements> extends DocumentRootWebElementsImpl<T> {
 
 	private BaseWebElementsImpl<T> parent;
 	private String handle;

@@ -4,10 +4,10 @@ import org.openqa.selenium.WebElement;
 
 import com.vilt.minium.JQueryWebElements;
 import com.vilt.minium.WebElements;
-import com.vilt.minium.driver.WebElementsDriver;
+import com.vilt.minium.WebElementsDriver;
 import com.vilt.minium.impl.utils.Casts;
 
-public abstract class BaseRootWebElementsImpl<T extends WebElements> extends BaseWebElementsImpl<T> {
+public abstract class DocumentRootWebElementsImpl<T extends WebElements> extends BaseWebElementsImpl<T> {
 
 	/**
 	 * we return the root element from that page
@@ -24,7 +24,7 @@ public abstract class BaseRootWebElementsImpl<T extends WebElements> extends Bas
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	protected T relativeRootWebElements() {
+	protected T documentRootWebElements() {
 		return (T) this;
 	}
 	

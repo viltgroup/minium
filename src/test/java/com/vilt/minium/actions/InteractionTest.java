@@ -4,15 +4,15 @@ import static com.vilt.minium.Minium.$;
 import static com.vilt.minium.actions.Interactions.click;
 import static com.vilt.minium.tips.TipInteractions.withTip;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 import com.vilt.minium.DefaultWebElements;
 import com.vilt.minium.MiniumBaseTest;
 
 public class InteractionTest extends MiniumBaseTest {
 	
-	@Before
+	@BeforeTest
 	public void openPage() {
 		get("minium/tests/jquery-test.html");
 	}

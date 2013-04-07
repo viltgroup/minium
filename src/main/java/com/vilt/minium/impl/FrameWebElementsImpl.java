@@ -8,11 +8,10 @@ import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
 import com.vilt.minium.WebElements;
-import com.vilt.minium.driver.WebElementsDriver;
-import com.vilt.minium.impl.driver.FrameWebElementsDriver;
+import com.vilt.minium.WebElementsDriver;
 import com.vilt.minium.impl.utils.Casts;
 
-public class FrameWebElementsImpl<T extends WebElements> extends BaseRootWebElementsImpl<T> {
+public class FrameWebElementsImpl<T extends WebElements> extends DocumentRootWebElementsImpl<T> {
 
 	private BaseWebElementsImpl<T> parent;
 

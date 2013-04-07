@@ -2,10 +2,7 @@ package com.vilt.minium;
 
 import java.util.concurrent.TimeUnit;
 
-import org.openqa.selenium.TimeoutException;
-
 import com.google.common.base.Predicate;
-import com.vilt.minium.driver.Configuration;
 
 /**
  * Provides wait methods for {@link WebElements}.
@@ -22,7 +19,8 @@ public interface WaitWebElements<T extends WebElements> extends WebElements {
 	 * @param predicate the predicate to wait for.
 	 * @return a {@link WebElements}
 	 * {@link TimeoutException} otherwise.
-	 */	public T wait(Predicate<? super T> predicate);
+	 */
+	public T wait(Predicate<? super T> predicate) throws TimeoutException;
 
 	/**
 	 * Waits with a specified timeout for this {@link WebElements} to satisfy a given predicate,
@@ -33,7 +31,7 @@ public interface WaitWebElements<T extends WebElements> extends WebElements {
 	 * @param predicate the predicate to wait for.
 	 * @return a {@link WebElements}
 	 */
-	public T wait(long time, TimeUnit unit, Predicate<? super T> predicate);
+	public T wait(long time, TimeUnit unit, Predicate<? super T> predicate) throws TimeoutException;
 
 	/**
 	 * Waits with a specified timeout for this {@link WebElements} to satisfy a given predicate,
@@ -44,7 +42,7 @@ public interface WaitWebElements<T extends WebElements> extends WebElements {
 	 * @return a {@link WebElements}
 	 * {@link Configuration#getDefaultInterval()}.
 	 */
-	public T wait(Duration timeout, Predicate<? super T> predicate);
+	public T wait(Duration timeout, Predicate<? super T> predicate) throws TimeoutException;
 
 	/**
 	 * Waits using the default timeout value provided by {@link Configuration#getDefaultInterval()}
