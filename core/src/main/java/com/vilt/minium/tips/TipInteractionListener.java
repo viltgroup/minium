@@ -1,0 +1,83 @@
+package com.vilt.minium.tips;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
+
+import com.vilt.minium.Duration;
+import com.vilt.minium.actions.AfterInteractionEvent;
+import com.vilt.minium.actions.BeforeInteractionEvent;
+import com.vilt.minium.actions.DefaultInteractionListener;
+import com.vilt.minium.actions.Interaction;
+import com.vilt.minium.actions.MouseInteraction;
+import com.vilt.minium.actions.SelectionInteraction;
+
+/**
+ * The listener interface for receiving tipInteraction events.
+ * The class that is interested in processing a tipInteraction
+ * event implements this interface, and the object created
+ * with that class is registered with a component using the
+ * component's <code>addTipInteractionListener<code> method. When
+ * the tipInteraction event occurs, that object's appropriate
+ * method is invoked.
+ *
+ * @see TipInteractionEvent
+ */
+public class TipInteractionListener extends DefaultInteractionListener {
+
+	private String tip;
+	private Duration duration;
+	private TipInteraction tipInteraction;
+
+	/**
+	 * Instantiates a new tip interaction listener.
+	 *
+	 * @param tip the tip
+	 */
+	public TipInteractionListener(String tip) {
+		this(tip, new Duration(2, SECONDS));
+	}
+	
+	/**
+	 * Instantiates a new tip interaction listener.
+	 *
+	 * @param tip the tip
+	 * @param time the time
+	 * @param timeUnit the time unit
+	 */
+	public TipInteractionListener(String tip, Duration duration) {
+		this.tip = tip;
+		this.duration = duration; 
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.vilt.minium.actions.DefaultInteractionListener#onBeforeEvent(com.vilt.minium.actions.InteractionEvent)
+	 */
+	@Override
+	protected void onBeforeEvent(BeforeInteractionEvent event) {
+		tipInteraction = new TipInteraction(event.getSource(), tip, duration);
+		tipInteraction.perform();
+		
+		if (waitBefore(event.getInteraction())) {
+			tipInteraction.waitUntilCompleted();
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see com.vilt.minium.actions.DefaultInteractionListener#onAfterEvent(com.vilt.minium.actions.InteractionEvent)
+	 */
+	@Override
+	protected void onAfterEvent(AfterInteractionEvent event) {
+		if (!waitBefore(event.getInteraction())) {
+			tipInteraction.waitUntilCompleted();
+		}
+	}
+	
+	/**
+	 * Wait before.
+	 *
+	 * @param interaction the interaction
+	 * @return true, if successful
+	 */
+	protected boolean waitBefore(Interaction interaction) {
+		return interaction instanceof MouseInteraction || interaction instanceof SelectionInteraction;
+	}
+}

@@ -1,0 +1,42 @@
+{{jsScript}}
+
+minium = {
+	jQuery : jQuery.noConflict(),
+	evalExpression : function($, fn) {	
+		var result = fn();
+		if (result instanceof $) {
+			// converts result to a normal array
+			result = $.makeArray(result);
+		}
+		return [ result ];
+	}
+};
+
+// arguments[0] -> async
+// arguments[1] -> styles
+// arguments[2 ...] -> expression arguments
+return (function($, async, styles, args) {
+	var callback;
+	
+	if (async) {
+		var selCallback = args.pop();
+		callback = function(val) {
+			selCallback([ val ]);
+		};
+	}
+
+	// appends css styles to head
+	$("<style type='text/css'>\n" + styles + "</style>").appendTo($("head"));
+	
+	var fn = function() {
+		{{expression}}
+	};
+	
+	if (async) {
+		minium.evalExpression($, fn);
+	}
+	else {
+		return minium.evalExpression($, fn);
+	}
+	
+})(minium.jQuery, arguments[0], arguments[1], Array.prototype.slice.call(arguments, 2));

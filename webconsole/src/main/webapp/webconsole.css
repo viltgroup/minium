@@ -1,0 +1,47 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* this is what we want the div to look like */
+#code {
+	display: block;
+	
+	/* set the div in the top-left corner of the screen */
+	position: absolute;
+	top: 0;
+	left: 0;
+	
+	/* set the width and height to 100% of the screen */
+	width: 100%;
+	height: 100%;	
+}
+
+.editbox {
+	position: absolute;
+	top: 0;
+	width: 100%;
+	bottom: 0;
+	overflow: hidden;
+}
+
+.CodeMirror {
+	font-size: 1.2em;
+
+	height: 100%;
+	top: 0;
+	bottom: 0;
+	overflow: hidden;
+}
+
+.CodeMirror-scroll {
+	height: 100%;
+}
+
+.ui-tooltip {
+	font-size: 0.9em;
+	font-family: sans-serif;
+	line-height: 1.4em;
+}

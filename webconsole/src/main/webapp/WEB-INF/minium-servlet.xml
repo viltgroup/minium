@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:task="http://www.springframework.org/schema/task"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/task
+        http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+    <context:component-scan base-package="com.vilt.minium.webconsole.controller" />
+    
+    <task:scheduler id="scheduler" pool-size="1"/>
+    
+    <!-- 
+    Uncomment org.openqa.selenium.remote.server.DriverServlet in web.xml
+    -->
+    <!-- 
+    <bean class="com.vilt.minium.controller.console.RemoteWebDriverFactory">
+    	<property name="seleniumServerUrl" value="http://localhost:8080/minium-ide/wd" />
+    </bean>
+    -->
+
+    <bean class="com.vilt.minium.webconsole.factories.DefaultWebDriverFactory" />
+    
+   	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+					<property name="prefixJson" value="false"/>
+			    	<property name="supportedMediaTypes" value="application/json"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+</beans>
