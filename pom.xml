@@ -84,6 +84,7 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- 
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>license-maven-plugin</artifactId>
@@ -124,11 +125,11 @@
 							<addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
 							<addSvnKeyWords>false</addSvnKeyWords>
 							<canUpdateCopyright>true</canUpdateCopyright>
-							
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
+			 -->
 		</plugins>
 		<pluginManagement>
 			<plugins>

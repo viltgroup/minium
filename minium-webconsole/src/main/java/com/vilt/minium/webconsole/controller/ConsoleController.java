@@ -35,8 +35,6 @@ import javax.script.ScriptException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -53,7 +51,7 @@ import com.vilt.minium.webconsole.factories.WebDriverFactory;
 @Controller
 @Scope(SCOPE_SINGLETON)
 @RequestMapping("/console")
-public class ConsoleController implements InitializingBean, DisposableBean {
+public class ConsoleController {
 
 	private static final Logger logger = LoggerFactory.getLogger(ConsoleController.class);
 	
@@ -64,14 +62,6 @@ public class ConsoleController implements InitializingBean, DisposableBean {
 	private WebDriverFactory webDriverFactory;
 	private ScriptEngine engine;
 	private String scriptsDir;
-	
-	@Override
-	public void afterPropertiesSet() throws Exception {
-	}
-	
-	@Override
-	public void destroy() throws Exception {
-	}
 	
 	@RequestMapping(value = "/eval", method = { POST, GET })
 	@ResponseBody
