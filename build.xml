@@ -1,0 +1,33 @@
+<project>
+
+	<fileset dir="${basedir}" id="code">
+		<include name="minium-core/**/*.java"/>
+		<include name="minium-speech/**/*.java"/>
+		<include name="minium-webconsole/**/*.java"/>
+	</fileset>
+
+	<target name="clean-license">
+		<!--
+		<replaceregexp 
+			match="\s/\*\s*\* #%L.*#L%\s*\*/\s"
+			replace=""
+			flags="gs">
+			<fileset refid="code" />
+		</replaceregexp>
+		
+		<replaceregexp 
+			match="(package [^;]*;)\s*"
+			replace="\1${line.separator}${line.separator}"
+			flags="gs">
+			<fileset refid="code" />
+		</replaceregexp>
+		-->
+		<replaceregexp 
+			match="^\s*package "
+			replace="package "
+			flags="s">
+			<fileset refid="code" />
+		</replaceregexp>
+		
+	</target>
+</project>
