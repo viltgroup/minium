@@ -77,16 +77,7 @@ public abstract class DefaultInteraction implements Interaction {
 	 * @see com.vilt.minium.actions.Interaction#perform()
 	 */
 	public void perform() {
-		waitToPerform();
-		
-		trigger(Type.BEFORE, null);
-		try {
-			doPerform();
-			triggerReverse(Type.AFTER_SUCCESS, null);
-		} catch (RuntimeException e) {
-			triggerReverse(Type.AFTER_FAIL, e);
-			throw e;
-		}
+		perform(true);
 	}
 
 	/* (non-Javadoc)
@@ -174,8 +165,8 @@ public abstract class DefaultInteraction implements Interaction {
 	 *
 	 * @param type the type
 	 */
-	protected void trigger(Type type, Throwable e) {
-		trigger(getAllListeners(), type, e);
+	protected boolean trigger(Type type, Throwable e) {
+		return trigger(getAllListeners(), type, e);
 	}
 
 	/**
@@ -183,8 +174,8 @@ public abstract class DefaultInteraction implements Interaction {
 	 *
 	 * @param type the type
 	 */
-	protected void triggerReverse(Type type, Throwable e) {
-		trigger(Lists.reverse(getAllListeners()), type, e);
+	protected boolean triggerReverse(Type type, Throwable e) {
+		return trigger(Lists.reverse(getAllListeners()), type, e);
 	}
 
 	/**
@@ -193,11 +184,31 @@ public abstract class DefaultInteraction implements Interaction {
 	 * @param listeners the listeners
 	 * @param type the type
 	 */
-	protected void trigger(List<InteractionListener> listeners, Type type, Throwable e) {
-		if (listeners.isEmpty()) return;
+	protected boolean trigger(List<InteractionListener> listeners, Type type, Throwable e) {
+		if (listeners.isEmpty()) return false;
 		InteractionEvent event = createInteractionEvent(type, e);
 		for (InteractionListener listener : listeners) {
 			listener.onEvent(event);
+		}
+		if (event instanceof AfterFailInteractionEvent) return ((AfterFailInteractionEvent) event).isRetry();
+		return false;
+	}
+
+	private void perform(boolean canRetry) {
+		waitToPerform();
+		
+		trigger(Type.BEFORE, null);
+		try {
+			doPerform();
+			triggerReverse(Type.AFTER_SUCCESS, null);
+		} catch (RuntimeException e) {
+			boolean retry = triggerReverse(Type.AFTER_FAIL, e);
+			if (retry && canRetry) {
+				perform(false);
+			}
+			else {
+				throw e;
+			}
 		}
 	}
 
