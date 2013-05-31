@@ -14,22 +14,6 @@
 
 	<build>
 		<finalName>minium-webconsole</finalName>
-		<plugins>
-			<!-- 
-			<plugin>
-		        <groupId>org.mortbay.jetty</groupId>
-		        <artifactId>maven-jetty-plugin</artifactId>
-		        <version>6.1.26</version>
-		        <configuration>
-			        <connectors>
-						<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
-							<port>8080</port>
-						</connector>
-			        </connectors>
-		        </configuration>
-	        </plugin>
-			 -->
-		</plugins>
 	</build>
 
 	<dependencies>
@@ -41,12 +25,6 @@
 		<dependency>
 			<groupId>com.vilt</groupId>
 			<artifactId>minium-speech</artifactId>
-			<version>${project.version}</version>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.vilt</groupId>
-			<artifactId>minium-recorder</artifactId>
 			<version>${project.version}</version>
 			<optional>true</optional>
 		</dependency>
