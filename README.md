@@ -41,3 +41,34 @@ java -jar start.jar
 
 * Open Chrome and navigate to [http://localhost:8080/minium-webconsole](http://localhost:8080/minium-webconsole)
 * Use Chrome to create a shortcut for Minium Console (Tools > Create application shortcuts...)
+
+## Test it
+
+Just type:
+
+```javascript
+wd = chromeDriver();
+
+get($(wd), "http://www.google.com");
+
+speak("Hello, I'm Minium, and I'm alive");
+speak("Let me highlight google search box");
+
+searchbox = $(wd, ":text").withName("q");
+highlight(searchbox);
+
+speak("Minium = Minion + Selenium. Let's find out what is a Minion.");
+
+fill(searchbox, "Minion");
+sendKeys(searchbox, [ Keys.ENTER ]);
+
+firstResult = $(wd, "h3 a").first();
+click(firstResult);
+
+firstParagraph = $(wd, "#mw-content-text p").first();
+highlight(firstParagraph);
+
+speak("Wikipedia says: " + firstParagraph.text());
+
+```
+
