@@ -1,11 +1,13 @@
-h1. Minium - Quick start
+# Minium - Quick start
 
-h2. Preconditions
+## Preconditions
 
-* Java JDK / JRE 1.6+
-* Chrome installed
+Ensure that the following software is installed:
 
-h2. Installation
+* Java JDK / JRE 1.6+ (required)
+* Google Chrome (recommended)
+
+## Minium Installation
 
 * Install chrome-driver
 * Set PATH=<chrome-driver directory>;%PATH% (windows)
@@ -14,8 +16,10 @@ h2. Installation
 * Unzip it in some folder
 * Launch it:
 
+```bash
 cd <minium-webconsole-jetty directory>
 java -jar start.jar
+```
 
 * Open it on Chrome: http://localhost:8080/minium-webconsole
 * Create a shortcut for it (Tools > Create Application...)
