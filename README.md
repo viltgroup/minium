@@ -6,7 +6,8 @@
 
 Ensure that the following software is installed:
 
-* [Java JDK / JRE 1.6+](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (required)
+* [Java JDK 1.6+](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (required)
+  * Don't forget to set `JAVA_HOME` environment variable 
 * [Maven 3](http://maven.apache.org/download.cgi)
 * [Mozilla Firefox](http://www.mozilla.org/en-US/firefox/new/)
 * [Google Chrome](https://www.google.com/intl/en/chrome/browser/) (recommended)
