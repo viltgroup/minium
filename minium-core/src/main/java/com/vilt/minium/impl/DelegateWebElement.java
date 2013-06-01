@@ -117,14 +117,6 @@ public class DelegateWebElement implements WebElement, WrapsDriver, Locatable {
 		return webElement.getCssValue(propertyName);
 	}
 
-	
-	@Override
-	@Deprecated
-	public Point getLocationOnScreenOnceScrolledIntoView() {
-		webDriver.ensureSwitch();
-		return ((Locatable) webElement).getLocationOnScreenOnceScrolledIntoView();
-	}
-
 	@Override
 	public Coordinates getCoordinates() {
 		webDriver.ensureSwitch();

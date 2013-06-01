@@ -26,7 +26,6 @@
 			<groupId>com.vilt</groupId>
 			<artifactId>minium-speech</artifactId>
 			<version>${project.version}</version>
-			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
