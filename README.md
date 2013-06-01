@@ -1,3 +1,5 @@
+![Minium banner](minium.png)
+
 # Minium - Quick start
 
 ## Preconditions
