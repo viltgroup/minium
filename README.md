@@ -8,6 +8,7 @@ Ensure that the following software is installed:
 
 * [Java JDK / JRE 1.6+](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (required)
 * [Maven 3](http://maven.apache.org/download.cgi)
+* [Mozilla Firefox](http://www.mozilla.org/en-US/firefox/new/)
 * [Google Chrome](https://www.google.com/intl/en/chrome/browser/) (recommended)
 
 ## Building
@@ -29,9 +30,6 @@ This will generate all necessary binaries.
 
 ## Installing and running Minium Console
 
-* Install [chromedriver](https://code.google.com/p/chromedriver/downloads/list)
-  * **Note:** install chromedriver, not chromedriver2! (for now)
-* Make sure chromedriver can be located on your `PATH` environment variable
 * Unzip the bundled Jetty with minium-webconsole found at 
 `minium-webconsole-jetty/target/minium-webconsole-jetty-${project.version}.zip`
 to some folder
@@ -49,7 +47,7 @@ java -jar start.jar
 Just type:
 
 ```javascript
-wd = chromeDriver();
+wd = firefoxDriver();
 
 get($(wd), "http://www.google.com");
 
@@ -74,3 +72,4 @@ speak("Wikipedia says: " + firstParagraph.text());
 
 ```
 
+Run the code, by selecting it and pressing `Ctrl+ENTER`.
