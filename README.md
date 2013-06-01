@@ -13,11 +13,15 @@ is currently the most popular automation framework due to its innovative WebDriv
 impressive automation capabilities with jQuery's selector engine to produce a simple way to create elaborate 
 automation tasks in the complex web interfaces of today.
 
+For some nice Minium videos, check out our 
+[Youtube playlist](http://www.youtube.com/playlist?list=PLtYR_mxVztvMZuYfgjRe5OAl2WL_mb2N_)!
+
 # Quick start
 
-The easiest way to try Minium is to use its Interactive Console. Right now, the console is a web application and 
-must run in a servlet container like Tomcat or Jetty. Minium generates a zip containing Jetty and minium console 
-under minium-webconsole-jetty, so you only need to uncompress it and launch it to get started.
+The easiest way to try Minium is to use its Interactive Console (you can watch Minium explaining how to use its 
+Interactive console in the video ['Minium shows its Interactive Console'](http://www.youtube.com/watch?v=Q7SH216qGko)). 
+
+Right now, the console is a web application and must run in a servlet container like Tomcat or Jetty. Minium generates a zip containing Jetty and minium console under minium-webconsole-jetty, so you only need to uncompress it and launch it to get started.
 
 ## Preconditions
 
