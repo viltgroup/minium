@@ -22,6 +22,9 @@ import com.vilt.minium.WebElements;
  */
 public class TouchMoveInteraction extends TouchInteraction {
 
+	private int x;
+	private int y;
+
 	/**
 	 * Instantiates a new touch move interaction.
 	 *
@@ -31,12 +34,13 @@ public class TouchMoveInteraction extends TouchInteraction {
 	 */
 	public TouchMoveInteraction(WebElements elems, int x, int y) {
 		super(elems);
+		this.x = x;
+		this.y = y;
 	}
 
 	@Override
 	protected void doPerform() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet");
+		getActions().move(x, y);
 	}
 
 }

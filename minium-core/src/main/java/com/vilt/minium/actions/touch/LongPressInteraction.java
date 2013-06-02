@@ -33,8 +33,7 @@ public class LongPressInteraction extends TouchInteraction {
 
 	@Override
 	protected void doPerform() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet");
+		getActions().longPress(getFirstElement()).perform();
 	}
 
 }

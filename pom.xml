@@ -22,9 +22,9 @@
 	</developers>
 	
 	<scm>
-		<connection>scm:svn:http://svn.vilt-group.com/svn/internal/testing/minium/trunk</connection>
-		<developerConnection>scm:svn:http://svn.vilt-group.com/svn/internal/testing/minium/trunk</developerConnection>
-		<url>http://svn.vilt-group.com/svn/internal/testing/minium/trunk</url>
+		<connection>scm:git:git://github.com/viltgroup/minium.git</connection>
+		<developerConnection>scm:git:git://github.com/viltgroup/minium.git</developerConnection>
+		<url>http://github.com/viltgroup/minium</url>
 	</scm>
 
 	<organization>
@@ -87,35 +87,5 @@
 				</executions>
 			</plugin>
 		</plugins>
-		<pluginManagement>
-			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.codehaus.mojo</groupId>
-										<artifactId>license-maven-plugin</artifactId>
-										<versionRange>[1.5,)</versionRange>
-										<goals>
-											<goal>update-file-header</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 	</build>
-
 </project>

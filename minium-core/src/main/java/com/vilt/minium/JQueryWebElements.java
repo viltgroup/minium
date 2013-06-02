@@ -21,7 +21,7 @@ package com.vilt.minium;
  * @param <T> the generic type
  */
 @JQueryResources({ "minium/js/jquery.min.js", "minium/js/jquery-ext.js" })
-public interface JQueryWebElements<T extends WebElements> extends WebElements {
+public interface JQueryWebElements<T extends WebElements> extends WebElements, WebElementsFinder<T> {
 
 	/**
 	 * Access a property on the first matched element. This method makes it easy 
@@ -239,6 +239,7 @@ public interface JQueryWebElements<T extends WebElements> extends WebElements {
 	 * 
 	 * @return jQuery
 	 */
+	@Override
 	public T find(String expr);
 
 	/**

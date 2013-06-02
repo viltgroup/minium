@@ -33,8 +33,7 @@ public class DoubleTapInteraction extends TouchInteraction {
 	
 	@Override
 	protected void doPerform() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet");
+		getActions().doubleTap(getFirstElement()).perform();
 	}
 
 }

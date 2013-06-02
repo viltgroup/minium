@@ -45,7 +45,7 @@ import com.vilt.minium.impl.utils.Casts;
  * @param <T> the generic type
  * @author Rui
  */
-public class WebElementsDriver<T extends WebElements> implements WebDriver, JavascriptExecutor, HasInputDevices, TakesScreenshot {
+public class WebElementsDriver<T extends WebElements> implements WebElementsFinder<T>, WebDriver, JavascriptExecutor, HasInputDevices, TakesScreenshot {
 
 	/** The logger. */
 	final Logger logger = LoggerFactory.getLogger(WebElementsDriver.class);
@@ -277,6 +277,7 @@ public class WebElementsDriver<T extends WebElements> implements WebDriver, Java
 	 * @param selector the selector
 	 * @return the t
 	 */
+	@Override
 	public T find(String selector) {
 		return Casts.<JQueryWebElements<T>>cast(webElements()).find(selector);
 	}
