@@ -22,7 +22,7 @@ The easiest way to try Minium is to use its Interactive Console (you can watch t
 
 Right now, the console is a web application and must run in a servlet container like Tomcat or Jetty. Minium generates a zip containing Jetty and minium console under minium-webconsole-jetty, so you only need to uncompress it and launch it to get started.
 
-## Preconditions
+## Before you start
 
 Ensure that the following software is installed:
 
@@ -57,7 +57,7 @@ Then just open the console in a browser. If you have Chrome installed:
 
 ## Test it
 
-Just type:
+Just type the following code and run it by selecting it and pressing `Ctrl+ENTER`:
 
 ```javascript
 wd = firefoxDriver();
@@ -84,5 +84,3 @@ highlight(firstParagraph);
 speak("Wikipedia says: " + firstParagraph.text());
 
 ```
-
-Run the code, by selecting it and pressing `Ctrl+ENTER`.
