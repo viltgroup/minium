@@ -45,21 +45,18 @@ Enter the minium folder and build it with Maven:
 
 ```bash
 cd minium
-mvn package -DskipTests=true
+mvn install -DskipTests=true
 ```
 
-This will generate all necessary binaries.
+## Running Minium Console
 
-## Installing and running Minium Console
-
-* Unzip the bundled Jetty with minium-webconsole found at 
-`minium-webconsole-jetty/target/minium-webconsole-jetty-${project.version}.zip`
-to some folder
-* You can then launch Minium Console server:
+The fastest way to launch the Minium Console is to use Jetty Maven plugin. For that, just execute:
 
 ```bash
-java -jar start.jar
+cd minium-webconsole
+mvn jetty:run
 ```
+Then just open the console in a browser. If you have Chrome installed:
 
 * Open Chrome and navigate to [http://localhost:8080/minium-webconsole](http://localhost:8080/minium-webconsole)
 * Use Chrome to create a shortcut for Minium Console (Tools > Create application shortcuts...)
