@@ -18,8 +18,7 @@ For some nice Minium videos, check out our
 
 # Quick start
 
-The easiest way to try Minium is to use its Interactive Console (you can watch Minium explaining how to use its 
-Interactive console in the video ['Minium shows its Interactive Console'](http://www.youtube.com/watch?v=Q7SH216qGko)). 
+The easiest way to try Minium is to use its Interactive Console (you can watch the video ['Minium shows its Interactive Console'](http://www.youtube.com/watch?v=Q7SH216qGko) for a small introducion). You can instruct Minium to do almost anything in a browser with a few lines of Javascript.
 
 Right now, the console is a web application and must run in a servlet container like Tomcat or Jetty. Minium generates a zip containing Jetty and minium console under minium-webconsole-jetty, so you only need to uncompress it and launch it to get started.
 
