@@ -35,15 +35,10 @@ Ensure that the following software is installed:
 
 ## Building
 
-Building Minium is not complicated. First, clone Minium git repository:
+Building Minium is not complicated. Just clone Minium git repository and use Maven to build it:
 
 ```bash
 git clone git://github.com/viltgroup/minium.git
-```
-
-Enter the minium folder and build it with Maven:
-
-```bash
 cd minium
 mvn install -DskipTests=true
 ```
