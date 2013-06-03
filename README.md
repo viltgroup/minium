@@ -18,12 +18,11 @@ For some nice Minium videos, check out our
 
 # Quick start
 
-The easiest way to try Minium is to use its Interactive Console (you can watch Minium explaining how to use its 
-Interactive console in the video ['Minium shows its Interactive Console'](http://www.youtube.com/watch?v=Q7SH216qGko)). 
+The easiest way to try Minium is to use its Interactive Console (you can watch the video ['Minium shows its Interactive Console'](http://www.youtube.com/watch?v=Q7SH216qGko) for a small introducion). You can instruct Minium to do almost anything in a browser with a few lines of Javascript.
 
 Right now, the console is a web application and must run in a servlet container like Tomcat or Jetty. Minium generates a zip containing Jetty and minium console under minium-webconsole-jetty, so you only need to uncompress it and launch it to get started.
 
-## Preconditions
+## Before you start
 
 Ensure that the following software is installed:
 
@@ -35,38 +34,30 @@ Ensure that the following software is installed:
 
 ## Building
 
-Building Minium is not complicated. First, clone Minium git repository:
+Building Minium is not complicated. Just clone Minium git repository and use Maven to build it:
 
 ```bash
 git clone git://github.com/viltgroup/minium.git
-```
-
-Enter the minium folder and build it with Maven:
-
-```bash
 cd minium
-mvn package -DskipTests=true
+mvn install -DskipTests=true
 ```
 
-This will generate all necessary binaries.
+## Running Minium Console
 
-## Installing and running Minium Console
-
-* Unzip the bundled Jetty with minium-webconsole found at 
-`minium-webconsole-jetty/target/minium-webconsole-jetty-${project.version}.zip`
-to some folder
-* You can then launch Minium Console server:
+The fastest way to launch the Minium Console is to use Jetty Maven plugin. For that, just execute:
 
 ```bash
-java -jar start.jar
+cd minium-webconsole
+mvn jetty:run
 ```
+Then just open the console in a browser. If you have Chrome installed:
 
 * Open Chrome and navigate to [http://localhost:8080/minium-webconsole](http://localhost:8080/minium-webconsole)
 * Use Chrome to create a shortcut for Minium Console (Tools > Create application shortcuts...)
 
 ## Test it
 
-Just type:
+Just type the following code and run it by selecting it and pressing `Ctrl+ENTER`:
 
 ```javascript
 wd = firefoxDriver();
@@ -93,5 +84,3 @@ highlight(firstParagraph);
 speak("Wikipedia says: " + firstParagraph.text());
 
 ```
-
-Run the code, by selecting it and pressing `Ctrl+ENTER`.
