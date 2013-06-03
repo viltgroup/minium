@@ -25,66 +25,66 @@ package com.vilt.minium;
 public interface PositionWebElements<T extends WebElements> extends WebElements {
 	
 	/**
-	 * Above.
+	 * Filters elements above this element.
 	 *
-	 * @param fromElems the from elems
-	 * @return the t
+	 * @param elems elements to filter
+	 * @return filtered elements
 	 */
-	public T above(WebElements fromElems);
+	public T above(WebElements elems);
 	
 	/**
-	 * Above.
+	 * Returns elements above this element that match the expression.
 	 *
-	 * @param expr the expr
-	 * @return the t
+	 * @param expr the expression to use for matching elements.
+	 * @return elements
 	 */
 	public T above(String expr);
 	
 	/**
-	 * Left of.
+	 * Filters elements at the left of this element.
 	 *
-	 * @param fromElems the from elems
-	 * @return the t
+	 * @param elems elements to filter
+	 * @return filtered elements
 	 */
 	public T leftOf(WebElements fromElems);
 	
 	/**
-	 * Left of.
+	 * Returns elements at the left this element that match the expression.
 	 *
-	 * @param expr the expr
-	 * @return the t
+	 * @param expr the expression to use for matching elements.
+	 * @return elements
 	 */
 	public T leftOf(String expr);
 	
 	/**
-	 * Below.
+	 * Filters elements below this element.
 	 *
-	 * @param fromElems the from elems
-	 * @return the t
+	 * @param elems elements to filter
+	 * @return filtered elements
 	 */
 	public T below(WebElements fromElems);
 
 	/**
-	 * Below.
+	 * Returns elements below this element that match the expression.
 	 *
-	 * @param expr the expr
-	 * @return the t
+	 * @param expr the expression to use for matching elements.
+	 * @return elements
 	 */
 	public T below(String expr);
 
 	/**
-	 * Right of.
+	 * Filters elements at the right of this element.
 	 *
-	 * @param fromElems the from elems
-	 * @return the t
+	 * @param elems elements to filter
+	 * @return filtered elements
 	 */
 	public T rightOf(WebElements fromElems);
 	
 	/**
-	 * Right of.
+	 * Returns elements at the right of this element that match the expression.
 	 *
-	 * @param expr the expr
-	 * @return the t
+	 * @param expr the expression to use for matching elements.
+	 * @return elements
 	 */
 	public T rightOf(String expr);
 

@@ -118,6 +118,7 @@ public interface TargetLocatorWebElements<T extends WebElements> extends WebElem
 	 * @return the alert
 	 */
 	public Alert alert();
-
 	
+	public void close();
+
 }

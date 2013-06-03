@@ -18,14 +18,14 @@ package com.vilt.minium.jquery;
 import static com.vilt.minium.Minium.$;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.vilt.minium.MiniumBaseTest;
 
 public class PositionWebElementsTest extends MiniumBaseTest {
 
-	@BeforeTest
+	@BeforeMethod
 	public void openPage() {
 		get("minium/tests/position-test.html");
 	}

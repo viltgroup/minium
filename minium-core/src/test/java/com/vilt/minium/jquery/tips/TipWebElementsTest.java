@@ -13,39 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.vilt.minium.actions;
+package com.vilt.minium.jquery.tips;
 
 import static com.vilt.minium.Minium.$;
-import static com.vilt.minium.actions.Interactions.click;
 import static com.vilt.minium.tips.TipInteractions.withTip;
+import static org.testng.Assert.assertTrue;
 
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.vilt.minium.DefaultWebElements;
 import com.vilt.minium.MiniumBaseTest;
 
-public class InteractionTest extends MiniumBaseTest {
+public class TipWebElementsTest extends MiniumBaseTest {
 	
-	@BeforeTest
+	@BeforeMethod
 	public void openPage() {
 		get("minium/tests/jquery-test.html");
 	}
-
 	@Test
-	public void testClick() {
-		click($(wd).find(":submit"));
-	}
-	
-	@Test
-	public void testPerform() {
-		DefaultWebElements submitBtn = $(wd, ":submit");
-		
-	}
-	
-	@Test
-	public void testPerformWithTips() {
-		DefaultWebElements submitBtn = $(wd, ":submit");
-		withTip("Let's click this button!").perform(null);
+	public void testWaitTime() {
+		long start = System.currentTimeMillis();
+		withTip("Hello World").fill($(wd, "input:text"), "Hello World");
+		long elapsed = System.currentTimeMillis() - start;
+		assertTrue(elapsed > 5000L);
 	}
 }

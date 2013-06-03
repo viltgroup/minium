@@ -17,7 +17,7 @@ package com.vilt.minium.impl;
 
 import static com.vilt.minium.impl.utils.Casts.cast;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.hasItems;
 import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertTrue;
 
@@ -41,6 +41,6 @@ public class WebElementsFactoryTest {
 	public void testResources() {
 		WebElementsFactory factory = new WebElementsFactory(DefaultWebElements.class);
 		JQueryInvoker invoker = factory.getInvoker();
-		assertThat(invoker.getJsResources(), contains("minium/js/jquery.min.js", "minium/js/position.js"));
+		assertThat(invoker.getJsResources(), hasItems("minium/js/jquery.min.js", "minium/js/position.js"));
 	}
 }

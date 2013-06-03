@@ -20,7 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.google.common.collect.Iterables;
@@ -29,7 +29,7 @@ import com.vilt.minium.MiniumBaseTest;
 
 public class FrameWebElementsTest extends MiniumBaseTest {
 
-	@BeforeTest
+	@BeforeMethod
 	public void openPage() {
 		get("minium/tests/iframe-test.html");
 	}

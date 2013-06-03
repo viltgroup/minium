@@ -19,7 +19,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
 
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.google.common.collect.Lists;
@@ -28,7 +28,7 @@ public class JQueryInvokerTest {
 
 	private JQueryInvoker positionInvoker;
 
-	@BeforeTest
+	@BeforeMethod
 	public void before() {
 		positionInvoker = new JQueryInvoker(Lists.newArrayList("minium/js/jquery.min.js", "minium/js/position.js"), null);
 	}
@@ -36,15 +36,14 @@ public class JQueryInvokerTest {
 	@Test
 	public void testLoadJsResourcesFull() {
 		String script = positionInvoker.fullInvokerScript("return 'Hello world!';");
-		
-		assertThat(script, containsString("$.fn.below"));
+		assertThat(script, containsString("below"));
 	}
 	
 	@Test
 	public void testLoadJsResourcesLight() {
 		String script = positionInvoker.lightInvokerScript("return 'Hello world!';");
 		assertThat(script, containsString("Hello world"));
-		assertThat(script, not(containsString("$.fn.below")));
+		assertThat(script, not(containsString("below")));
 	}
 	
 }

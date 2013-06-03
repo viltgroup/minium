@@ -22,7 +22,8 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.testng.Assert.assertEquals;
 
 import org.testng.Assert;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.google.common.collect.Iterables;
@@ -32,9 +33,14 @@ import com.vilt.minium.MiniumException;
 
 public class WindowWebElementsTest extends MiniumBaseTest {
 
-	@BeforeTest
+	@BeforeMethod
 	public void openPage() {
 		get("minium/tests/window-test.html");
+	}
+	
+	@AfterMethod
+	public void closeWindows() {
+		$(wd).window().close();
 	}
 	
 	@Test

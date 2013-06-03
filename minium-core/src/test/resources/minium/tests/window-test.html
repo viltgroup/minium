@@ -20,7 +20,6 @@
 	var openWindow = function(elem) {
 		window.open($(elem).attr('href'), $(elem).attr('target'), "menubar=1,location=1,toolbar=1,width=640,height=480");
 	};
-	
 	$("a[target='_blank']").each(function() { openWindow(this); });
 	$("a[target='_blank']").click(function() { openWindow(this); return false });
 })(jQuery);

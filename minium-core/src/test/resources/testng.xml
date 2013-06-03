@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="minium-core" verbose="1" thread-count="1">
+	<test name="minium-core">
+		<packages> 
+			<package name="com.vilt.minium">
+			    <exclude name="com.vilt.minium.AlertTest" />
+		    </package>
+			<package name="com.vilt.minium.impl" />
+			<package name="com.vilt.minium.jquery" />
+			<package name="com.vilt.minium.jquery.tips" />
+		</packages> 
+	</test>
+</suite>

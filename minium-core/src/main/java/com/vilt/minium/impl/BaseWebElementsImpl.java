@@ -409,6 +409,14 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 		});
 	}
 	
+	@Override
+	public void close() {
+		Iterable<WebElementsDriver<T>> webDrivers = webDrivers();
+		for (WebElementsDriver<T> driver : webDrivers) {
+			driver.close();
+		}
+	}
+	
 	protected MiniumWait<T> getWait(Duration timeout) {
 		Duration interval = rootWebDriver().configuration().getDefaultInterval();
 		return new MiniumWait<T>(Casts.<T>cast(this), timeout, interval);

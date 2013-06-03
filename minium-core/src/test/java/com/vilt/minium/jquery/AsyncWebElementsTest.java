@@ -20,35 +20,33 @@ import static org.testng.Assert.assertEquals;
 
 import java.util.concurrent.TimeUnit;
 
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.vilt.minium.Async;
 import com.vilt.minium.DefaultWebElementsDriver;
 import com.vilt.minium.JQueryResources;
 import com.vilt.minium.MiniumBaseTest;
+import com.vilt.minium.SuiteTest;
 import com.vilt.minium.WebElements;
 
 public class AsyncWebElementsTest extends MiniumBaseTest {
 
 	@JQueryResources("js/async-test.js")
 	public interface AsyncWebElements extends WebElements {
-		
 		@Async
 		public String asyncHelloWorld(String name);
 	}
 	
+	@BeforeClass
 	@Override
 	public void before() {
-		DesiredCapabilities capabilities = DesiredCapabilities.chrome();
-//		capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
-		wd = new DefaultWebElementsDriver(new ChromeDriver(capabilities), AsyncWebElements.class);
+		wd = new DefaultWebElementsDriver(SuiteTest.createNativeWebDriver(), AsyncWebElements.class);
 		wd.manage().timeouts().setScriptTimeout(5, TimeUnit.SECONDS);
 	}
 
-	@BeforeTest
+	@BeforeMethod
 	public void openPage() {
 		get("minium/tests/jquery-test.html");
 	}
