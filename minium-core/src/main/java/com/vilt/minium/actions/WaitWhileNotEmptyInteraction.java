@@ -15,30 +15,30 @@
  */
 package com.vilt.minium.actions;
 
-import static com.vilt.minium.Minium.untilNotEmpty;
+import static com.vilt.minium.Minium.untilEmpty;
 
 import com.vilt.minium.TimeoutException;
 import com.vilt.minium.WebElements;
 
 /**
- * The Class WaitForElementsInteraction.
+ * The Class WaitWhileElementsInteraction.
  */
-public class WaitForElementsInteraction extends WaitInteraction {
+public class WaitWhileNotEmptyInteraction extends WaitInteraction {
 
 	/**
-	 * Instantiates a new wait for elements interaction.
+	 * Instantiates a new wait while elements interaction.
 	 *
 	 * @param elems the elems
 	 */
-	public WaitForElementsInteraction(WebElements elems) {
+	public WaitWhileNotEmptyInteraction(WebElements elems) {
 		super(elems);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
 	 */
 	@Override
 	protected void doPerform() throws TimeoutException {
-		getSource().wait(getTimeout(), untilNotEmpty());
+		getSource().wait(getTimeout(), untilEmpty());
 	}
 }

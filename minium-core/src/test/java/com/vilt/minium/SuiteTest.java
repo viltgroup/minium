@@ -3,7 +3,7 @@ package com.vilt.minium;
 import java.io.IOException;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriverService;
+import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterSuite;
@@ -11,12 +11,14 @@ import org.testng.annotations.BeforeSuite;
 
 public class SuiteTest {
 
-//	private static PhantomJSDriverService service;
-	private static ChromeDriverService service;
+	private static PhantomJSDriverService service;
+	private static DesiredCapabilities capabilities;
+//	private static ChromeDriverService service;
 
 	@BeforeSuite
 	public static void before() throws IOException {
-		service = ChromeDriverService.createDefaultService();
+		capabilities = new DesiredCapabilities();
+		service = PhantomJSDriverService.createDefaultService();
 		service.start();
 	}
 
@@ -26,7 +28,6 @@ public class SuiteTest {
 	}
 	
 	public static WebDriver createNativeWebDriver() {
-		DesiredCapabilities capabilities = DesiredCapabilities.chrome();
 		RemoteWebDriver nativeWd = new RemoteWebDriver(service.getUrl(), capabilities);
 		return nativeWd;
 	}

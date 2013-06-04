@@ -17,10 +17,12 @@ package com.vilt.minium.jquery;
 
 import static com.vilt.minium.Minium.$;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import com.vilt.minium.DefaultWebElements;
 import com.vilt.minium.MiniumBaseTest;
 
 public class PositionWebElementsTest extends MiniumBaseTest {
@@ -56,5 +58,30 @@ public class PositionWebElementsTest extends MiniumBaseTest {
 		assertThat($(wd, "td").below($(wd, "#top-center")), hasSize(2));
 		assertThat($(wd, "td").below($(wd, "#middle-center")), hasSize(1));
 		assertThat($(wd, "td").below($(wd, "#bottom-center")), hasSize(0));
+	}
+	
+	@Test
+	public void testRightOfOrder() {
+		DefaultWebElements rightElems = $(wd, "td").rightOf($(wd, "#middle-left"));
+		assertThat(rightElems.eq(0).text().trim(), equalTo("Middle Center"));
+		assertThat(rightElems.eq(1).text().trim(), equalTo("Middle Right"));
+	}
+	@Test
+	public void testLeftOfOrder() {
+		DefaultWebElements leftElems = $(wd, "td").leftOf($(wd, "#middle-right"));
+		assertThat(leftElems.eq(0).text().trim(), equalTo("Middle Center"));
+		assertThat(leftElems.eq(1).text().trim(), equalTo("Middle Left"));
+	}
+	@Test
+	public void testAboveOrder() {
+		DefaultWebElements aboveElems = $(wd, "td").above($(wd, "#bottom-center"));
+		assertThat(aboveElems.eq(0).text().trim(), equalTo("Middle Center"));
+		assertThat(aboveElems.eq(1).text().trim(), equalTo("Top Center"));
+	}
+	@Test
+	public void testBelowOrder() {
+		DefaultWebElements belowElems = $(wd, "td").below($(wd, "#top-center"));
+		assertThat(belowElems.eq(0).text().trim(), equalTo("Middle Center"));
+		assertThat(belowElems.eq(1).text().trim(), equalTo("Bottom Center"));
 	}
 }

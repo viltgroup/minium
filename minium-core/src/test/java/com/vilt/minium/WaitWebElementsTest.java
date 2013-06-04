@@ -18,7 +18,6 @@ package com.vilt.minium;
 import static com.vilt.minium.Minium.$;
 import static com.vilt.minium.Minium.untilNotEmpty;
 
-import org.openqa.selenium.TimeoutException;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

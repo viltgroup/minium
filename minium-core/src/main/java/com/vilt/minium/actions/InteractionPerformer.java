@@ -303,18 +303,30 @@ public class InteractionPerformer {
 	 * Wait for elements.
 	 *
 	 * @param elems the elems
+	 * @deprecated use {@link InteractionPerformer#waitWhileEmpty(WebElements)} instead
 	 */
+	@Deprecated
 	public void waitForElements(WebElements elems) throws TimeoutException {
-		perform(new WaitForElementsInteraction(elems));
+		waitWhileEmpty(elems);
+	}
+	
+	public void waitWhileEmpty(WebElements elems) throws TimeoutException {
+		perform(new WaitWhileEmptyInteraction(elems));
 	}
 	
 	/**
 	 * Wait while elements.
 	 *
 	 * @param elems the elems
+	 * @deprecated use {@link InteractionPerformer#waitWhileNotEmpty(WebElements)} instead
 	 */
+	@Deprecated
 	public void waitWhileElements(WebElements elems) throws TimeoutException {
-		perform(new WaitWhileElementsInteraction(elems));
+		waitWhileNotEmpty(elems);
+	}
+
+	public void waitWhileNotEmpty(WebElements elems) throws TimeoutException {
+		perform(new WaitWhileNotEmptyInteraction(elems));
 	}
 	
 	/**

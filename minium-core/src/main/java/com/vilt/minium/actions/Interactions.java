@@ -285,18 +285,32 @@ public class Interactions {
 	 * Wait for elements.
 	 *
 	 * @param elems the elems
+	 * @deprecated use {@link Interactions#waitWhileEmpty(WebElements)}
 	 */
+	@Deprecated
 	public static void waitForElements(WebElements elems) throws TimeoutException {
-		defaultPerformer().waitForElements(elems);
+		waitWhileEmpty(elems);
 	}
+
+	public static void waitWhileEmpty(WebElements elems) throws TimeoutException {
+		defaultPerformer().waitWhileEmpty(elems);
+	}
+	
+	
 	
 	/**
 	 * Wait while elements.
 	 *
 	 * @param elems the elems
+	 * @deprecated use {@link Interactions#waitWhileNotEmpty(WebElements)}
 	 */
+	@Deprecated
 	public static void waitWhileElements(WebElements elems) throws TimeoutException {
 		defaultPerformer().waitWhileElements(elems);
+	}
+
+	public static void waitWhileNotEmpty(WebElements elems) throws TimeoutException {
+		defaultPerformer().waitWhileNotEmpty(elems);
 	}
 	
 	/**
