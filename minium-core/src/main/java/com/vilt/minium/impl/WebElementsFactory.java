@@ -42,6 +42,7 @@ import com.google.common.collect.Sets;
 import com.vilt.minium.JQueryResources;
 import com.vilt.minium.MiniumException;
 import com.vilt.minium.WebElements;
+import com.vilt.minium.WebElementsDriverProvider;
 
 public class WebElementsFactory implements MethodHandler {
 
@@ -55,6 +56,8 @@ public class WebElementsFactory implements MethodHandler {
 	public WebElementsFactory(Class<? extends WebElements> elementsInterface, Class<?> ... moreInterfaces) {
 		this.elementsInterface = elementsInterface;
 		this.moreInterfaces = Sets.newHashSet(moreInterfaces);
+		// we always add the WebElementsDriverProvider class
+		this.moreInterfaces.add(WebElementsDriverProvider.class);
 		this.moreInterfaces.remove(elementsInterface);
 		initInvoker();
 	}

@@ -26,7 +26,6 @@ public interface CoreWebElements<T extends CoreWebElements<T>> extends
 	JQueryWebElements<T>, 
 	WaitWebElements<T>,
 	FiltersWebElements<T>,
-	ConditionWebElements<T>,
-	WebElementsDriverProvider<T> {
+	ConditionWebElements<T> {
 
 }

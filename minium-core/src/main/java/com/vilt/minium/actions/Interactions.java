@@ -54,6 +54,10 @@ public class Interactions {
 		defaultPerformer().get(elements, url);
 	}
 	
+	public static void close(WebElements elements) {
+		defaultPerformer().close(elements);
+	}
+	
 	// from org.openqa.selenium.WebElement
 	/**
 	 * Clear.
@@ -295,8 +299,6 @@ public class Interactions {
 	public static void waitWhileEmpty(WebElements elems) throws TimeoutException {
 		defaultPerformer().waitWhileEmpty(elems);
 	}
-	
-	
 	
 	/**
 	 * Wait while elements.

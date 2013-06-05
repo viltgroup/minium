@@ -24,6 +24,7 @@ import com.google.common.io.ByteStreams;
 import com.google.common.io.Closeables;
 import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.WebElements;
+import com.vilt.minium.WebElementsDriverProvider;
 
 /**
  * The Class WindowScreenshotInteraction.
@@ -47,7 +48,7 @@ public class WindowScreenshotInteraction extends ScreenshotInteraction {
 	protected void doPerform() {
 		try {
 			CoreWebElements<?> coreWebElements = (CoreWebElements<?>) getSource();
-			byte[] screenshot = coreWebElements.webDriver().getScreenshotAs(OutputType.BYTES);
+			byte[] screenshot = ((WebElementsDriverProvider<?>) coreWebElements).webDriver().getScreenshotAs(OutputType.BYTES);
 			ByteStreams.asByteSource(screenshot).copyTo(stream);
 		} catch (Exception e) {
 			throw new RuntimeException(e);

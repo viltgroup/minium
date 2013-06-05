@@ -191,7 +191,13 @@ public interface FiltersWebElements<T extends FiltersWebElements<T>> extends Web
 	 * </pre>
 	 *
 	 * @return filtered {@link WebElements}
+	 * @deprecated Use {@link FiltersWebElements#displayed()} instead
 	 */
+	@Deprecated
 	public T visible();
+
+	public T displayed();
+
+	public T selected();
 		
 }

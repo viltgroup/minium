@@ -63,5 +63,15 @@
 	$.fn.visible = function() {
 		return $(this).filter(":visible");
 	};
+
+	$.fn.displayed = function() {
+		return $(this).not(":hidden");
+	};
+
+	$.fn.selected = function() {
+		return $(this).filter(":selected");
+	};
+	
+	
 	
 })(jQuery, window);

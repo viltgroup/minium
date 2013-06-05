@@ -28,6 +28,7 @@ import com.google.common.collect.Lists;
 import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.Duration;
 import com.vilt.minium.WebElements;
+import com.vilt.minium.WebElementsDriverProvider;
 import com.vilt.minium.actions.InteractionEvent.Type;
 
 /**
@@ -36,7 +37,7 @@ import com.vilt.minium.actions.InteractionEvent.Type;
 public abstract class DefaultInteraction implements Interaction {
 
 	private List<InteractionListener> listeners = Lists.newArrayList();
-	private WebElements source;
+	private CoreWebElements<?> source;
 	private Duration timeout;
 	
 	/**
@@ -45,7 +46,9 @@ public abstract class DefaultInteraction implements Interaction {
 	 * @param elems the elems
 	 */
 	public DefaultInteraction(WebElements elems) {
-		this.source = elems;
+		if (elems != null) {
+			this.source = ((CoreWebElements<?>) elems).displayed();
+		}
 	}
 	
 	/**
@@ -69,7 +72,7 @@ public abstract class DefaultInteraction implements Interaction {
 	@Override
 	public void waitToPerform() {
 		if (source != null) {
-			source = ((CoreWebElements<?>) source).wait(timeout, untilNotEmpty());
+			source = source.wait(timeout, untilNotEmpty());
 		}
 	}
 	
@@ -101,7 +104,7 @@ public abstract class DefaultInteraction implements Interaction {
 	 *
 	 * @return the source
 	 */
-	public WebElements getSource() {
+	protected CoreWebElements<?> getSource() {
 		return source;
 	}
 
@@ -117,7 +120,7 @@ public abstract class DefaultInteraction implements Interaction {
 	 * @return the first
 	 */
 	protected WebElements getFirst(WebElements elems) {
-		WebElements first = ((CoreWebElements<?>) elems).visible().first();
+		WebElements first = ((CoreWebElements<?>) elems).displayed().first();
 		return first;
 	}
 
@@ -230,7 +233,7 @@ public abstract class DefaultInteraction implements Interaction {
 	private List<InteractionListener> getAllListeners() {
 		List<InteractionListener> allListeners = Lists.newArrayList();
 		if (source != null) {
-			List<InteractionListener> globalListeners = ((CoreWebElements<?>) source).configuration().getGlobalListeners();			
+			List<InteractionListener> globalListeners = ((WebElementsDriverProvider<?>) source).configuration().getGlobalListeners();			
 			allListeners.addAll(globalListeners);
 		}
 		allListeners.addAll(listeners);

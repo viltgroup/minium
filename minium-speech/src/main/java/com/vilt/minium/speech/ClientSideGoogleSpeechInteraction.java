@@ -18,8 +18,8 @@ package com.vilt.minium.speech;
 import static com.vilt.minium.Minium.$;
 import static com.vilt.minium.actions.Interactions.clear;
 import static com.vilt.minium.actions.Interactions.click;
-import static com.vilt.minium.actions.Interactions.waitForElements;
 import static com.vilt.minium.actions.Interactions.waitTime;
+import static com.vilt.minium.actions.Interactions.waitWhileEmpty;
 import static com.vilt.minium.actions.Interactions.withTimeout;
 import static com.vilt.minium.actions.Interactions.withoutWaiting;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -69,7 +69,7 @@ public class ClientSideGoogleSpeechInteraction extends GoogleSpeechInteraction {
 		CoreWebElements<?> soundBtn = $(wd, "#gt-src-listen");
 		CoreWebElements<?> listenNotPressed = soundBtn.filter(":not(.goog-toolbar-button-checked)").visible();
 
-		waitForElements(listenNotPressed);
+		waitWhileEmpty(listenNotPressed);
 		click(listenNotPressed);
 	}
 
@@ -86,13 +86,13 @@ public class ClientSideGoogleSpeechInteraction extends GoogleSpeechInteraction {
 		CoreWebElements<?> listenPressed = soundBtn.filter(".goog-toolbar-button-checked").visible();
 		CoreWebElements<?> listenNotPressed = soundBtn.filter(":not(.goog-toolbar-button-checked)").visible();
 
-		withTimeout(60, SECONDS).waitWhileElements(listenPressed);
+		withTimeout(60, SECONDS).waitWhileEmpty(listenPressed);
 
 		CoreWebElements<?> clear = $(wd, "#clear span").visible();
 
 		if (withoutWaiting().checkNotEmpty(clear)) {
 			click(clear);
-			withTimeout(5, SECONDS).waitWhileElements(listenNotPressed);
+			withTimeout(5, SECONDS).waitWhileEmpty(listenNotPressed);
 		}
 	}
 

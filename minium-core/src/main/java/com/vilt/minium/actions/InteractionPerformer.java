@@ -369,4 +369,8 @@ public class InteractionPerformer {
 	public void waitTime(long time, TimeUnit unit) {
 		perform(new WaitTimeInteraction(new Duration(time, unit)));
 	}
+
+	public void close(WebElements elements) {
+		perform(new CloseInteraction(elements));
+	}
 }
