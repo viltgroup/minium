@@ -42,6 +42,8 @@ cd minium
 mvn install -DskipTests=true
 ```
 
+**Note:** if you really want to run the tests, then make sure you have [PhantomJS](http://phantomjs.org/download.html) installed and available in the `PATH` environment variable. Then just replace `mvn install -DskipTests=true` by `mvn install`.
+
 ## Running Minium Console
 
 The fastest way to launch the Minium Console is to use Jetty Maven plugin. For that, just execute:
