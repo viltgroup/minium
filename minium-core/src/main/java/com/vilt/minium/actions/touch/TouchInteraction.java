@@ -20,7 +20,7 @@ import org.openqa.selenium.interactions.touch.TouchActions;
 import org.openqa.selenium.internal.WrapsDriver;
 
 import com.vilt.minium.WebElements;
-import com.vilt.minium.actions.DefaultInteraction;
+import com.vilt.minium.impl.actions.DefaultInteraction;
 
 /**
  * The Class TouchInteraction.

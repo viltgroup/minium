@@ -22,6 +22,11 @@ import java.io.OutputStream;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.actions.InteractionListener;
 import com.vilt.minium.actions.InteractionPerformer;
+import com.vilt.minium.impl.debug.ElementsScreenshotInteraction;
+import com.vilt.minium.impl.debug.HighlightInteraction;
+import com.vilt.minium.impl.debug.HighlightListener;
+import com.vilt.minium.impl.debug.LogInteractionListener;
+import com.vilt.minium.impl.debug.WindowScreenshotInteraction;
 
 /**
  * The Class DebugInteractions.

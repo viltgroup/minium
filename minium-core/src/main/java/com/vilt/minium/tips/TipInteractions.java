@@ -24,6 +24,8 @@ import com.vilt.minium.Duration;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.actions.InteractionListener;
 import com.vilt.minium.actions.InteractionPerformer;
+import com.vilt.minium.impl.tips.TipInteraction;
+import com.vilt.minium.impl.tips.TipInteractionListener;
 
 /**
  * The Class TipsInteractions.

@@ -24,6 +24,7 @@ import org.openqa.selenium.Keys;
 import com.vilt.minium.Duration;
 import com.vilt.minium.TimeoutException;
 import com.vilt.minium.WebElements;
+import com.vilt.minium.impl.actions.TimeoutInteractionListener;
 
 /**
  * The Class Interactions.

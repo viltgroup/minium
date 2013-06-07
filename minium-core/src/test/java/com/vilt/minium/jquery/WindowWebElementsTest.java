@@ -16,7 +16,7 @@
 package com.vilt.minium.jquery;
 
 import static com.vilt.minium.Minium.$;
-import static com.vilt.minium.Minium.untilNotEmpty;
+import static com.vilt.minium.Minium.whileEmpty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.testng.Assert.assertEquals;
@@ -45,7 +45,7 @@ public class WindowWebElementsTest extends MiniumBaseTest {
 	
 	@Test
 	public void testWindows() {
-		DefaultWebElements elems = $(wd).window().find("input#name").waitOrTimeout(untilNotEmpty());
+		DefaultWebElements elems = $(wd).window().find("input#name").waitOrTimeout(whileEmpty());
 		assertEquals(1, Iterables.size(elems));
 	}
 	

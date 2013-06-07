@@ -13,32 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.vilt.minium;
+package com.vilt.minium.impl.actions;
 
-import static com.vilt.minium.Minium.$;
 import static com.vilt.minium.Minium.whileEmpty;
 
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import com.vilt.minium.TimeoutException;
+import com.vilt.minium.WebElements;
 
-import com.google.common.collect.Iterables;
+/**
+ * The Class WaitForElementsInteraction.
+ */
+public class WaitWhileEmptyInteraction extends WaitInteraction {
 
-public class WaitWebElementsTest extends MiniumBaseTest {
-
-	@BeforeMethod
-	public void openPage() {
-		get("minium/tests/jquery-test.html");
+	/**
+	 * Instantiates a new wait for elements interaction.
+	 *
+	 * @param elems the elems
+	 */
+	public WaitWhileEmptyInteraction(WebElements elems) {
+		super(elems);
 	}
 	
-	@Test(expectedExceptions = TimeoutException.class)
-	public void testUnexistingElement() {
-		$(wd, "#no-element").wait(whileEmpty());
-	}
-	
-	@Test
-	public void testExistingElement() {
-		DefaultWebElements wait = $(wd, "input").wait(whileEmpty());
-		Assert.assertTrue(Iterables.size(wait) > 0);
+	/* (non-Javadoc)
+	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
+	 */
+	@Override
+	protected void doPerform() throws TimeoutException {
+		getSource().wait(getTimeout(), whileEmpty());
 	}
 }

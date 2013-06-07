@@ -15,7 +15,7 @@
  */
 package com.vilt.minium;
 
-import static com.google.common.base.Predicates.not;
+import static java.lang.String.format;
 
 import javax.annotation.Nullable;
 
@@ -40,10 +40,15 @@ public class Minium {
 	 * @param <T> the generic type
 	 * @return predicate that returns true if it is empty
 	 */
-	public static <T extends WaitWebElements<?>> Predicate<T> untilEmpty() {
+	public static <T extends WaitWebElements<?>> Predicate<T> whileNotEmpty() {
 		return new Predicate<T>() {
 			public boolean apply(T input) {
 				return Iterables.isEmpty(input);
+			}
+			
+			@Override
+			public String toString() {
+				return "whileNotEmpty()";
 			}
 		};
 	}
@@ -56,8 +61,17 @@ public class Minium {
 	 * @param <T> the generic type
 	 * @return predicate that returns true if it is empty
 	 */
-	public static <T extends WaitWebElements<?>> Predicate<T> untilNotEmpty() {
-		return not(Minium.<T>untilEmpty());
+	public static <T extends WaitWebElements<?>> Predicate<T> whileEmpty() {
+		return new Predicate<T>() {
+			public boolean apply(T input) {
+				return !Iterables.isEmpty(input);
+			}
+			
+			@Override
+			public String toString() {
+				return "whileEmpty()";
+			}
+		};
 	}
 	
 	/**
@@ -72,6 +86,10 @@ public class Minium {
 		return new Predicate<T>() {
 			public boolean apply(T input) {
 				return Iterables.size(input) == size;
+			}
+			@Override
+			public String toString() {
+				return format("untilSize(%d)", size);
 			}
 		};
 	}
@@ -98,6 +116,11 @@ public class Minium {
 					webDriver = ((WebElementsDriverProvider<?>) elems).webDriver();
 				}
 				return webDriver;
+			}
+			
+			@Override
+			public String toString() {
+				return "untilWindowClosed()";
 			}
 		};
 	}

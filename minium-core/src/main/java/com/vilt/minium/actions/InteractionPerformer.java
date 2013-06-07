@@ -26,6 +26,36 @@ import com.google.common.collect.Lists;
 import com.vilt.minium.Duration;
 import com.vilt.minium.TimeoutException;
 import com.vilt.minium.WebElements;
+import com.vilt.minium.impl.actions.ButtonReleaseInteraction;
+import com.vilt.minium.impl.actions.ClearInteraction;
+import com.vilt.minium.impl.actions.ClickAllInteraction;
+import com.vilt.minium.impl.actions.ClickAndHoldInteraction;
+import com.vilt.minium.impl.actions.ClickInteraction;
+import com.vilt.minium.impl.actions.CloseInteraction;
+import com.vilt.minium.impl.actions.ContextClickInteraction;
+import com.vilt.minium.impl.actions.DeselectAllInteraction;
+import com.vilt.minium.impl.actions.DeselectInteraction;
+import com.vilt.minium.impl.actions.DeselectValInteraction;
+import com.vilt.minium.impl.actions.DoubleClickInteraction;
+import com.vilt.minium.impl.actions.DragAndDropByInteraction;
+import com.vilt.minium.impl.actions.DragAndDropInteraction;
+import com.vilt.minium.impl.actions.FillInteraction;
+import com.vilt.minium.impl.actions.GetInteraction;
+import com.vilt.minium.impl.actions.KeyDownInteraction;
+import com.vilt.minium.impl.actions.KeyUpInteraction;
+import com.vilt.minium.impl.actions.MoveByOffsetInteraction;
+import com.vilt.minium.impl.actions.MoveMouseInteraction;
+import com.vilt.minium.impl.actions.SelectAllInteraction;
+import com.vilt.minium.impl.actions.SelectInteraction;
+import com.vilt.minium.impl.actions.SelectValInteraction;
+import com.vilt.minium.impl.actions.SendKeysInteraction;
+import com.vilt.minium.impl.actions.TypeInteraction;
+import com.vilt.minium.impl.actions.WaitOrTimeoutForElementsInteraction;
+import com.vilt.minium.impl.actions.WaitOrTimeoutWhileElementsInteraction;
+import com.vilt.minium.impl.actions.WaitTimeInteraction;
+import com.vilt.minium.impl.actions.WaitWhileEmptyInteraction;
+import com.vilt.minium.impl.actions.WaitWhileNotEmptyInteraction;
+import com.vilt.minium.impl.actions.WaitWindowClosedElementsInteraction;
 
 /**
  * The Class InteractionPerformer.

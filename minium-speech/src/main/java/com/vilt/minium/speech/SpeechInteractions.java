@@ -22,10 +22,18 @@ import java.util.Locale;
 import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.WebElementsDriver;
 import com.vilt.minium.actions.InteractionListener;
+import com.vilt.minium.speech.impl.ClientSideGoogleSpeechInteraction;
+import com.vilt.minium.speech.impl.GoogleSpeechInteraction;
+import com.vilt.minium.speech.impl.GoogleSpeechTipInteractionListener;
+import com.vilt.minium.speech.impl.ServerSideGoogleSpeechInteraction;
 
 public class SpeechInteractions {
 	
 	private static WebElementsDriver<CoreWebElements<?>> speechWebDriver;
+
+	public static void speakWith(WebElementsDriver<CoreWebElements<?>> wd) {
+		speechWebDriver = wd;
+	}
 
 	public static InteractionListener speechForTips() {
 		return speechForTips(speechWebDriver, null);
@@ -43,19 +51,15 @@ public class SpeechInteractions {
 		return new GoogleSpeechTipInteractionListener(wd, locale);
 	}
 	
+	public static void speak(String text) {
+		speak(null, text);
+	}
+
 	public static void speak(Locale locale, String text) {
 		GoogleSpeechInteraction interaction = speechWebDriver == null ? 
 			new ServerSideGoogleSpeechInteraction(locale, text) : new ClientSideGoogleSpeechInteraction(speechWebDriver, locale, text);
 		perform(interaction);
 		interaction.waitUntilCompleted();
-	}
-
-	public static void speak(String text) {
-		speak(null, text);
-	}
-
-	public static void speakWith(WebElementsDriver<CoreWebElements<?>> wd) {
-		speechWebDriver = wd;
 	}
 
 }

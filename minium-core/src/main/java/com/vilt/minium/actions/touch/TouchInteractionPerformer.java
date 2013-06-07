@@ -17,6 +17,14 @@ package com.vilt.minium.actions.touch;
 
 import com.vilt.minium.WebElements;
 import com.vilt.minium.actions.InteractionPerformer;
+import com.vilt.minium.impl.actions.touch.DoubleTapInteraction;
+import com.vilt.minium.impl.actions.touch.FlickInteraction;
+import com.vilt.minium.impl.actions.touch.LongPressInteraction;
+import com.vilt.minium.impl.actions.touch.SingleTapInteraction;
+import com.vilt.minium.impl.actions.touch.TouchDownInteraction;
+import com.vilt.minium.impl.actions.touch.TouchMoveInteraction;
+import com.vilt.minium.impl.actions.touch.TouchScrollInteraction;
+import com.vilt.minium.impl.actions.touch.TouchUpInteraction;
 
 /**
  * The Class TouchInteractionPerformer.
