@@ -61,7 +61,7 @@ Then just open the console in a browser. If you have Chrome installed:
 
 Just type the following code and run it by selecting it and pressing `Ctrl+ENTER`:
 
-``` 
+```javascript
 wd = firefoxDriver();
 
 get($(wd), "http://www.google.com");
