@@ -16,18 +16,18 @@
 package com.vilt.minium;
 
 /**
- * The Class MiniumException.
+ * The Class WebElementsException.
  *
  * @author Rui
  */
-public class MiniumException extends RuntimeException {
+public class WebElementsException extends RuntimeException {
 
 	private static final long serialVersionUID = -8909663978475197389L;
 
 	/**
 	 * Instantiates a new minium exception.
 	 */
-	public MiniumException() {
+	public WebElementsException() {
 		super();
 	}
 
@@ -37,7 +37,7 @@ public class MiniumException extends RuntimeException {
 	 * @param message the message
 	 * @param cause the cause
 	 */
-	public MiniumException(String message, Throwable cause) {
+	public WebElementsException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
@@ -46,7 +46,7 @@ public class MiniumException extends RuntimeException {
 	 *
 	 * @param message the message
 	 */
-	public MiniumException(String message) {
+	public WebElementsException(String message) {
 		super(message);
 	}
 
@@ -55,7 +55,7 @@ public class MiniumException extends RuntimeException {
 	 *
 	 * @param cause the cause
 	 */
-	public MiniumException(Throwable cause) {
+	public WebElementsException(Throwable cause) {
 		super(cause);
 	}
 }

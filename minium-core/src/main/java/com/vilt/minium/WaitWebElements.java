@@ -26,7 +26,7 @@ import com.google.common.base.Predicate;
  * @author rui.figueira
  */
 public interface WaitWebElements<T extends WebElements> extends WebElements {
-
+	
 	/**
 	 * Waits using the default timeout value provided by {@link Configuration#getDefaultInterval()}
 	 * for this {@link WebElements} to satisfy a given predicate, or throws a.

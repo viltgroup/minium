@@ -15,7 +15,7 @@
  */
 package com.vilt.minium;
 
-public class TimeoutException extends MiniumException {
+public class TimeoutException extends WebElementsException {
 
 	private static final long serialVersionUID = 672390254095024232L;
 

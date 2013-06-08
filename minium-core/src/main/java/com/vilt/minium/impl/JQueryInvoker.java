@@ -37,7 +37,7 @@ import com.google.javascript.jscomp.CompilationLevel;
 import com.google.javascript.jscomp.Compiler;
 import com.google.javascript.jscomp.CompilerOptions;
 import com.google.javascript.jscomp.SourceFile;
-import com.vilt.minium.MiniumException;
+import com.vilt.minium.WebElementsException;
 import com.vilt.minium.WebElementsDriver;
 
 /**
@@ -90,7 +90,7 @@ public class JQueryInvoker {
 			fullInvokerScriptTemplate = fullInvokerScriptTemplate.replace("{{jsScript}}", jsScripts);
 
 		} catch (Exception e) {
-			throw new MiniumException(e);
+			throw new WebElementsException(e);
 		}
 	}
 
@@ -138,7 +138,7 @@ public class JQueryInvoker {
 
 			return (T) ((List<?>) result).get(0);
 		} catch (Exception e) {
-			throw new MiniumException(e);
+			throw new WebElementsException(e);
 		}
 	}
 
@@ -168,7 +168,7 @@ public class JQueryInvoker {
 			in = getClasspathFileInputStream(filename);
 			return CharStreams.toString(new InputStreamReader(in, Charsets.UTF_8));
 		} catch (IOException e) {
-			throw new MiniumException(format("Could not load %s from classpath", filename), e);
+			throw new WebElementsException(format("Could not load %s from classpath", filename), e);
 		} finally {
 			try { Closeables.close(in, true); } catch (IOException e) { }
 		}

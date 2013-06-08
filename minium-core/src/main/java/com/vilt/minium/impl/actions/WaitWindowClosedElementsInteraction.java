@@ -15,7 +15,7 @@
  */
 package com.vilt.minium.impl.actions;
 
-import static com.vilt.minium.Minium.untilWindowClosed;
+import static com.vilt.minium.impl.WaitPredicates.untilWindowClosed;
 
 import com.vilt.minium.TimeoutException;
 import com.vilt.minium.WebElements;

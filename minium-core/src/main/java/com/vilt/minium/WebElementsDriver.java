@@ -40,26 +40,18 @@ import com.vilt.minium.impl.WebElementsFactoryHelper;
 import com.vilt.minium.impl.utils.Casts;
 
 /**
- * The Class WebElementsDriver.
+ * 
+ * @author rui.figueira
  *
- * @param <T> the generic type
- * @author Rui
+ * @param <T>
  */
 public class WebElementsDriver<T extends WebElements> implements WebElementsFinder<T>, WebDriver, JavascriptExecutor, HasInputDevices, TakesScreenshot {
 
-	/** The logger. */
 	final Logger logger = LoggerFactory.getLogger(WebElementsDriver.class);
 
-	/** The wd. */
 	protected final WebDriver wd;
-
-	/** The factory. */
 	protected final WebElementsFactory factory;
-
-	/** The configuration. */
 	protected final Configuration configuration;
-
-	/** The window handle. */
 	protected String windowHandle;
 
 	/**
@@ -108,135 +100,118 @@ public class WebElementsDriver<T extends WebElements> implements WebElementsFind
 		return configuration;
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.openqa.selenium.WebDriver#get(java.lang.String)
-	 */
+	/** {@inheritDoc} */
+	@Override
 	public void get(String url) {
 		ensureSwitch();
 		wd.get(url);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.openqa.selenium.WebDriver#getCurrentUrl()
-	 */
+	/** {@inheritDoc} */
+	@Override
 	public String getCurrentUrl() {
 		ensureSwitch();
 		return wd.getCurrentUrl();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.openqa.selenium.WebDriver#getTitle()
-	 */
+	/** {@inheritDoc} */
+	@Override
 	public String getTitle() {
 		ensureSwitch();
 		return wd.getTitle();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.openqa.selenium.WebDriver#findElements(org.openqa.selenium.By)
-	 */
+	/** {@inheritDoc} */
+	@Override
 	public List<WebElement> findElements(By by) {
 		ensureSwitch();
 		return wd.findElements(by);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.openqa.selenium.WebDriver#findElement(org.openqa.selenium.By)
-	 */
+	/** {@inheritDoc} */
+	@Override
 	public WebElement findElement(By by) {
 		ensureSwitch();
 		return wd.findElement(by);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.openqa.selenium.WebDriver#getPageSource()
-	 */
+	/** {@inheritDoc} */
+	@Override
 	public String getPageSource() {
 		ensureSwitch();
 		return wd.getPageSource();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.openqa.selenium.WebDriver#close()
-	 */
+	/** {@inheritDoc} */
+	@Override
 	public void close() {
 		ensureSwitch();
 		wd.close();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.openqa.selenium.WebDriver#quit()
-	 */
+	/** {@inheritDoc} */
+	@Override
 	public void quit() {
 		ensureSwitch();
 		wd.quit();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.openqa.selenium.WebDriver#getWindowHandles()
-	 */
+	/** {@inheritDoc} */
+	@Override
 	public Set<String> getWindowHandles() {
 		return wd.getWindowHandles();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.openqa.selenium.WebDriver#getWindowHandle()
-	 */
+	/** {@inheritDoc} */
+	@Override
 	public String getWindowHandle() {
 		return windowHandle;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.openqa.selenium.WebDriver#switchTo()
-	 */
+	/** {@inheritDoc} */
+	@Override
 	public TargetLocator switchTo() {
 		ensureSwitch();
 		return wd.switchTo();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.openqa.selenium.WebDriver#navigate()
-	 */
+	/** {@inheritDoc} */
+	@Override
 	public Navigation navigate() {
 		ensureSwitch();
 		return wd.navigate();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.openqa.selenium.WebDriver#manage()
-	 */
+	/** {@inheritDoc} */
+	@Override
 	public Options manage() {
 		ensureSwitch();
 		return wd.manage();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.openqa.selenium.HasInputDevices#getKeyboard()
-	 */
+	/** {@inheritDoc} */
+	@Override
 	public Keyboard getKeyboard() {
 		ensureSwitch();
 		return ((HasInputDevices) wd).getKeyboard();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.openqa.selenium.HasInputDevices#getMouse()
-	 */
+	/** {@inheritDoc} */
+	@Override
 	public Mouse getMouse() {
 		ensureSwitch();
 		return ((HasInputDevices) wd).getMouse();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.openqa.selenium.JavascriptExecutor#executeScript(java.lang.String, java.lang.Object[])
-	 */
+	/** {@inheritDoc} */
+	@Override
 	public Object executeScript(String script, Object... args) {
 		ensureSwitch();
 		return ((JavascriptExecutor) wd).executeScript(script, args);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.openqa.selenium.JavascriptExecutor#executeAsyncScript(java.lang.String, java.lang.Object[])
-	 */
+	/** {@inheritDoc} */
+	@Override
 	public Object executeAsyncScript(String script, Object... args) {
 		ensureSwitch();
 		
@@ -244,24 +219,19 @@ public class WebElementsDriver<T extends WebElements> implements WebElementsFind
 		return ((JavascriptExecutor) wd).executeAsyncScript(script, args);
 	}
 
-	/**
-	 * Checks if is closed.
-	 *
-	 * @return true, if is closed
-	 */
-	public boolean isClosed() {
-		return !wd.getWindowHandles().contains(windowHandle);
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.openqa.selenium.TakesScreenshot#getScreenshotAs(org.openqa.selenium.OutputType)
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public <X> X getScreenshotAs(OutputType<X> type) throws WebDriverException {
 		ensureSwitch();
 		return ((TakesScreenshot) wd).<X>getScreenshotAs(type);
 	}
 	
+	/** {@inheritDoc} */
+	@Override
+	public T find(String selector) {
+		return Casts.<JQueryWebElements<T>>cast(webElements()).find(selector);
+	}
+
 	/**
 	 * Web elements.
 	 *
@@ -272,18 +242,42 @@ public class WebElementsDriver<T extends WebElements> implements WebElementsFind
 	}
 
 	/**
-	 * Web elements.
+	 * Checks if is closed.
 	 *
-	 * @param selector the selector
-	 * @return the t
+	 * @return true, if is closed
 	 */
-	@Override
-	public T find(String selector) {
-		return Casts.<JQueryWebElements<T>>cast(webElements()).find(selector);
+	public boolean isClosed() {
+		return !wd.getWindowHandles().contains(windowHandle);
 	}
 
+	/** {@inheritDoc} */
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null || !(obj instanceof WebElementsDriver))
+			return false;
+
+		WebElementsDriver<?> other = (WebElementsDriver<?>) obj;
+		
+		String windowHandle = getWindowHandle();		
+		String otherWindowHandle = other.getWindowHandle();
+		
+		return Objects.equal(windowHandle, otherWindowHandle);
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public int hashCode() {
+		return getWindowHandle().hashCode();
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public String toString() {
+		return format("wd");
+	}
+	
 	/**
-	 * Ensure switch.
+	 * Ensure switch. This should not be used.
 	 */
 	public void ensureSwitch() {
 		String windowHandleOrNull = safeGetWindowHandle();
@@ -304,39 +298,7 @@ public class WebElementsDriver<T extends WebElements> implements WebElementsFind
 		return wd;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null || !(obj instanceof WebElementsDriver))
-			return false;
-
-		WebElementsDriver<?> other = (WebElementsDriver<?>) obj;
-		
-		String windowHandle = getWindowHandle();		
-		String otherWindowHandle = other.getWindowHandle();
-		
-		return Objects.equal(windowHandle, otherWindowHandle);
-	}
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		return getWindowHandle().hashCode();
-	}
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return format("wd");
-	}
-	
-	private String safeGetWindowHandle() {
+	protected String safeGetWindowHandle() {
 		try {
 			return wd.getWindowHandle();
 		} catch (Exception e) {

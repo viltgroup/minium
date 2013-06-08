@@ -23,7 +23,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.openqa.selenium.WebDriverException;
 
 import com.google.common.collect.Maps;
-import com.vilt.minium.MiniumException;
+import com.vilt.minium.WebElementsException;
 import com.vilt.minium.WebElements;
 
 public class EvalResult implements Serializable {
@@ -53,12 +53,12 @@ public class EvalResult implements Serializable {
 	
 	public EvalResult(Object value, Throwable exception) {
 		if (exception != null) {
-			if (!(exception instanceof MiniumException) && exception.getCause() instanceof WebDriverException) {
+			if (!(exception instanceof WebElementsException) && exception.getCause() instanceof WebDriverException) {
 				exception = exception.getCause();
 			}
 			
 			String message = exception.getMessage();
-			if (message != null && exception instanceof WebDriverException || (exception instanceof MiniumException && exception.getCause() instanceof WebDriverException)) {
+			if (message != null && exception instanceof WebDriverException || (exception instanceof WebElementsException && exception.getCause() instanceof WebDriverException)) {
 				// we only need the first message line, all the rest is additional information
 				message = message.split("\n")[0];
 			}

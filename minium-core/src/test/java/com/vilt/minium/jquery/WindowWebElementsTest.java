@@ -16,7 +16,7 @@
 package com.vilt.minium.jquery;
 
 import static com.vilt.minium.Minium.$;
-import static com.vilt.minium.Minium.whileEmpty;
+import static com.vilt.minium.impl.WaitPredicates.whileEmpty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.testng.Assert.assertEquals;
@@ -29,7 +29,7 @@ import org.testng.annotations.Test;
 import com.google.common.collect.Iterables;
 import com.vilt.minium.DefaultWebElements;
 import com.vilt.minium.MiniumBaseTest;
-import com.vilt.minium.MiniumException;
+import com.vilt.minium.WebElementsException;
 
 public class WindowWebElementsTest extends MiniumBaseTest {
 
@@ -72,7 +72,7 @@ public class WindowWebElementsTest extends MiniumBaseTest {
 			/* String html = */ input.html();
 			
 			Assert.fail("An exception was expected");
-		} catch (MiniumException e) {
+		} catch (WebElementsException e) {
 			// ok
 		}
 	}

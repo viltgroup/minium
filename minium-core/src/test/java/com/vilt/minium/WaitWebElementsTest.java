@@ -16,7 +16,7 @@
 package com.vilt.minium;
 
 import static com.vilt.minium.Minium.$;
-import static com.vilt.minium.Minium.whileEmpty;
+import static com.vilt.minium.impl.WaitPredicates.whileEmpty;
 
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;

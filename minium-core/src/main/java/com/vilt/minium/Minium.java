@@ -15,15 +15,7 @@
  */
 package com.vilt.minium;
 
-import static java.lang.String.format;
-
-import javax.annotation.Nullable;
-
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
 
 /**
  * The Class Minium.
@@ -33,100 +25,13 @@ import com.google.common.collect.Iterables;
 public class Minium {
 
 	/**
-	 * Predicate to use with {@link WaitWebElements#wait(Predicate)} methods which ensures that
-	 * evaluation will only be successful when this instance is empty (that is, evaluates
-	 * to zero {@link WebElement} instances.
-	 *
-	 * @param <T> the generic type
-	 * @return predicate that returns true if it is empty
-	 */
-	public static <T extends WaitWebElements<?>> Predicate<T> whileNotEmpty() {
-		return new Predicate<T>() {
-			public boolean apply(T input) {
-				return Iterables.isEmpty(input);
-			}
-			
-			@Override
-			public String toString() {
-				return "whileNotEmpty()";
-			}
-		};
-	}
-	
-	/**
-	 * Predicate to use with {@link WaitWebElements#wait(Predicate)} methods which ensures that
-	 * evaluation will only be successful when this instance is not empty (that is, evaluates
-	 * to one or more {@link WebElement} instances.
-	 *
-	 * @param <T> the generic type
-	 * @return predicate that returns true if it is empty
-	 */
-	public static <T extends WaitWebElements<?>> Predicate<T> whileEmpty() {
-		return new Predicate<T>() {
-			public boolean apply(T input) {
-				return !Iterables.isEmpty(input);
-			}
-			
-			@Override
-			public String toString() {
-				return "whileEmpty()";
-			}
-		};
-	}
-	
-	/**
-	 * Predicate to use with {@link WaitWebElements#wait(Predicate)} methods which ensures that
-	 * evaluation will only be successful when this instance has a specific size.
-	 *
-	 * @param <T> the generic type
-	 * @param size number of matched {@link WebElement} instances
-	 * @return predicate that returns true if it has the exact size
-	 */
-	public static <T extends WaitWebElements<?>> Predicate<T> untilSize(final int size) {
-		return new Predicate<T>() {
-			public boolean apply(T input) {
-				return Iterables.size(input) == size;
-			}
-			@Override
-			public String toString() {
-				return format("untilSize(%d)", size);
-			}
-		};
-	}
-	
-	/**
-	 * Until window closed.
-	 *
-	 * @param <T> the generic type
-	 * @return the predicate
-	 */
-	public static <T extends WaitWebElements<?>> Predicate<T> untilWindowClosed() {
-		return new Predicate<T>() {
-			
-			private WebElementsDriver<?> webDriver;
-
-			@Override
-			public boolean apply(@Nullable T elems) {
-				WebElementsDriver<?> webDriver = getWebDriver(elems);
-				return webDriver.isClosed();
-			}
-
-			protected WebElementsDriver<?> getWebDriver(T elems) {
-				if (webDriver == null) {
-					webDriver = ((WebElementsDriverProvider<?>) elems).webDriver();
-				}
-				return webDriver;
-			}
-			
-			@Override
-			public String toString() {
-				return "untilWindowClosed()";
-			}
-		};
-	}
-	
-	/**
-	 * $.
+	 * The dollar 'function'. As in jQuery, this method is the entrypoint in the {@link WebElements} 
+	 * API.
+	 * 
+	 * <pre>
+	 * $(wd, ":text").withLabel("Username").below("h2")
+	 * </pre>
+	 * 
 	 *
 	 * @param <T> the generic type
 	 * @param wd the wd
@@ -137,7 +42,12 @@ public class Minium {
 	}
 	
 	/**
-	 * $.
+	 * The dollar 'function'. As in jQuery, this method is the entrypoint for the {@link WebElements} 
+	 * API.
+	 * 
+	 * <pre>
+	 * $(wd, ":text").withLabel("Username").below("h2")
+	 * </pre>
 	 *
 	 * @param <T> the generic type
 	 * @param wd the wd
@@ -149,7 +59,8 @@ public class Minium {
 	}
 	
 	/**
-	 * $.
+	 * The dollar 'function'. As in jQuery, this method is the entrypoint for the {@link WebElements} 
+	 * API.
 	 *
 	 * @param wd the wd
 	 * @return the default web elements

@@ -16,7 +16,7 @@
 package com.vilt.minium.impl.actions;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.vilt.minium.Minium.whileEmpty;
+import static com.vilt.minium.impl.WaitPredicates.whileEmpty;
 
 import java.util.List;
 
@@ -34,8 +34,8 @@ import com.vilt.minium.actions.AfterSuccessInteractionEvent;
 import com.vilt.minium.actions.BeforeInteractionEvent;
 import com.vilt.minium.actions.Interaction;
 import com.vilt.minium.actions.InteractionEvent;
-import com.vilt.minium.actions.InteractionListener;
 import com.vilt.minium.actions.InteractionEvent.Type;
+import com.vilt.minium.actions.InteractionListener;
 
 /**
  * The Class DefaultInteraction.

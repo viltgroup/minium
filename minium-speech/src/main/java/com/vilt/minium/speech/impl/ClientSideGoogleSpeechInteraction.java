@@ -67,7 +67,7 @@ public class ClientSideGoogleSpeechInteraction extends GoogleSpeechInteraction {
 		click($(wd, "#gt-submit"));
 
 		CoreWebElements<?> soundBtn = $(wd, "#gt-src-listen");
-		CoreWebElements<?> listenNotPressed = soundBtn.filter(":not(.goog-toolbar-button-checked)").visible();
+		CoreWebElements<?> listenNotPressed = soundBtn.filter(":not(.goog-toolbar-button-checked)").displayed();
 
 		waitWhileEmpty(listenNotPressed);
 		click(listenNotPressed);
@@ -76,19 +76,19 @@ public class ClientSideGoogleSpeechInteraction extends GoogleSpeechInteraction {
 	public boolean isComplete() {
 		CoreWebElements<?> soundBtn = $(wd, "#gt-src-listen");
 
-		CoreWebElements<?> listenPressed = soundBtn.filter(".goog-toolbar-button-checked").visible();
+		CoreWebElements<?> listenPressed = soundBtn.filter(".goog-toolbar-button-checked").displayed();
 		return withoutWaiting().checkEmpty(listenPressed);
 	}
 
 	public void waitUntilCompleted() {
 		CoreWebElements<?> soundBtn = $(wd, "#gt-src-listen");
 
-		CoreWebElements<?> listenPressed = soundBtn.filter(".goog-toolbar-button-checked").visible();
-		CoreWebElements<?> listenNotPressed = soundBtn.filter(":not(.goog-toolbar-button-checked)").visible();
+		CoreWebElements<?> listenPressed = soundBtn.filter(".goog-toolbar-button-checked").displayed();
+		CoreWebElements<?> listenNotPressed = soundBtn.filter(":not(.goog-toolbar-button-checked)").displayed();
 
 		withTimeout(60, SECONDS).waitWhileEmpty(listenPressed);
 
-		CoreWebElements<?> clear = $(wd, "#clear span").visible();
+		CoreWebElements<?> clear = $(wd, "#clear span").displayed();
 
 		if (withoutWaiting().checkNotEmpty(clear)) {
 			click(clear);

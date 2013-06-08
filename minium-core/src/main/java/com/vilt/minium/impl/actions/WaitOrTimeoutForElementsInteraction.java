@@ -15,7 +15,7 @@
  */
 package com.vilt.minium.impl.actions;
 
-import static com.vilt.minium.Minium.whileEmpty;
+import static com.vilt.minium.impl.WaitPredicates.whileEmpty;
 
 import com.vilt.minium.WebElements;
 

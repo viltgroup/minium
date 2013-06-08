@@ -40,7 +40,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.vilt.minium.JQueryResources;
-import com.vilt.minium.MiniumException;
+import com.vilt.minium.WebElementsException;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.WebElementsDriverProvider;
 
@@ -68,9 +68,9 @@ public class WebElementsFactory implements MethodHandler {
 			((Proxy) webElements).setHandler(this);
 			return webElements;
 		} catch (InstantiationException e) {
-			throw new MiniumException(e);
+			throw new WebElementsException(e);
 		} catch (IllegalAccessException e) {
-			throw new MiniumException(e);
+			throw new WebElementsException(e);
 		}
 	}
 	

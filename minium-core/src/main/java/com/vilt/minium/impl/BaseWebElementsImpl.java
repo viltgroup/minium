@@ -47,7 +47,7 @@ import com.vilt.minium.Async;
 import com.vilt.minium.Configuration;
 import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.Duration;
-import com.vilt.minium.MiniumException;
+import com.vilt.minium.WebElementsException;
 import com.vilt.minium.TargetLocatorWebElements;
 import com.vilt.minium.TimeoutException;
 import com.vilt.minium.WaitWebElements;
@@ -154,7 +154,7 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 								webDriverWithResults = wd;
 							}
 							else {
-								throw new MiniumException("Several frames or windows match the same expression, so value cannot be computed");								
+								throw new WebElementsException("Several frames or windows match the same expression, so value cannot be computed");								
 							}
 						}
 					}
@@ -404,7 +404,7 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 			@Override
 			@Nullable
 			public Alert apply(@Nullable T input) {
-				return rootWebDriver().getWrappedWebDriver().switchTo().alert();
+				return nativeWebDriver().switchTo().alert();
 			}
 		});
 	}
