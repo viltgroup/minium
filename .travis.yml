@@ -6,5 +6,5 @@ before_install:
   - sudo mv phantomjs-1.9.1-linux-x86_64 /usr/local/phantomjs
 before_script:
   - phantomjs --version
-  - phantomjs --webdriver=9134 &
+  - phantomjs --webdriver=9134 2>&- 1>&-
 script: mvn test -Dminium.remote.url=http://localhost:9134
