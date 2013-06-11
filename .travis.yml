@@ -1,3 +1,5 @@
 language: java
-before_script: phantomjs --webdriver=9134 &
+before_script:
+  - phantomjs --version
+  - phantomjs --webdriver=9134 &
 script: mvn test -Dminium.remote.url=http://localhost:9134
