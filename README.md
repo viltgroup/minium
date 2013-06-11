@@ -1,6 +1,8 @@
 ![Minium banner](minium.png)
 
-# What is Minium
+[![Build Status](https://travis-ci.org/viltgroup/minium.png)](https://travis-ci.org/viltgroup/minium)
+
+# What is Minium 
 
 Minium is a framework, developed by Rui Figueira @ VILT, that combines jQuery and Selenium for browser testing 
 and tasks automation. It also provides an interactive console that easily lets you execute Minium instructions, 
@@ -32,7 +34,7 @@ Ensure that the following software is installed:
 * [Mozilla Firefox](http://www.mozilla.org/en-US/firefox/new/)
 * [Google Chrome](https://www.google.com/intl/en/chrome/browser/) (recommended)
 
-## Building
+## Build Minium
 
 Building Minium is not complicated. Just clone Minium git repository and use Maven to build it:
 
@@ -44,7 +46,7 @@ mvn install -DskipTests=true
 
 **Note:** if you really want to run the tests, then make sure you have [PhantomJS](http://phantomjs.org/download.html) installed and available in the `PATH` environment variable. Then just replace `mvn install -DskipTests=true` by `mvn install`.
 
-## Running Minium Console
+## Run Minium Console
 
 The fastest way to launch the Minium Console is to use Jetty Maven plugin. For that, just execute:
 
@@ -57,7 +59,7 @@ Then just open the console in a browser. If you have Chrome installed:
 * Open Chrome and navigate to [http://localhost:8080/minium-webconsole](http://localhost:8080/minium-webconsole)
 * Use Chrome to create a shortcut for Minium Console (Tools > Create application shortcuts...)
 
-## Test it
+## Give it a try
 
 Just type the following code and run it by selecting it and pressing `Ctrl+ENTER`:
 
@@ -85,3 +87,29 @@ highlight(firstParagraph);
 
 speak("Wikipedia says: " + firstParagraph.text());
 ```
+
+# Documentation
+
+A quick guide on how to use Minium in a Java project or using its Interactive console can be found here:
+
+* [Learning Minium in 6 Steps](https://github.com/viltgroup/minium/wiki/Learning-Minium-in-6-Steps)
+
+You can also check the [Minium API documentation](http://viltgroup.github.io/minium/apidocs/). For a complete list of allowed methods, check the links below.
+
+## Available element selection methods
+
+* [JQueryWebElements](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/JQueryWebElements.html)
+* [FiltersWebElements](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/FiltersWebElements.html)
+* [PositionWebElements](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/PositionWebElements.html)
+* [TargetLocatorWebElements](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/TargetLocatorWebElements.html)
+
+## Available interactions
+
+* [Interactions](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/actions/Interactions.html)
+* [TouchInteractions](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/actions/touch/TouchInteractions.html)
+* [DebugInteractions](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/actions/debug/DebugInteractions.html)
+* [TipInteractions](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/actions/tips/TipInteractions.html)
+
+# License
+
+Minium is licensed under [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
