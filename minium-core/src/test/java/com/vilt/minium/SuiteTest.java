@@ -1,7 +1,9 @@
 package com.vilt.minium;
 
 import java.io.IOException;
+import java.net.URL;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -13,22 +15,32 @@ public class SuiteTest {
 
 	private static PhantomJSDriverService service;
 	private static DesiredCapabilities capabilities;
-//	private static ChromeDriverService service;
+	private static URL serviceUrl;
 
 	@BeforeSuite
 	public static void before() throws IOException {
 		capabilities = new DesiredCapabilities();
-		service = PhantomJSDriverService.createDefaultService();
-		service.start();
+
+		String remoteUrl = System.getProperty("minium.remote.url");
+		if (StringUtils.isEmpty(remoteUrl)) {
+			service = PhantomJSDriverService.createDefaultService();
+			service.start();
+			serviceUrl = service.getUrl();
+		}
+		else {
+			serviceUrl = new URL(remoteUrl);
+		}
 	}
 
 	@AfterSuite
 	public static void after() {
-		service.stop();
+		if (service != null) {
+			service.stop();
+		}
 	}
 	
 	public static WebDriver createNativeWebDriver() {
-		RemoteWebDriver nativeWd = new RemoteWebDriver(service.getUrl(), capabilities);
+		RemoteWebDriver nativeWd = new RemoteWebDriver(serviceUrl, capabilities);
 		return nativeWd;
 	}
 }
