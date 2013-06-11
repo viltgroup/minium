@@ -107,8 +107,8 @@ You can also check the [Minium API documentation](http://viltgroup.github.io/min
 
 * [Interactions](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/actions/Interactions.html)
 * [TouchInteractions](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/actions/touch/TouchInteractions.html)
-* [DebugInteractions](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/actions/debug/DebugInteractions.html)
-* [TipInteractions](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/actions/tips/TipInteractions.html)
+* [DebugInteractions](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/debug/DebugInteractions.html)
+* [TipInteractions](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/tips/TipInteractions.html)
 
 # License
 
