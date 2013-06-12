@@ -84,16 +84,12 @@ public interface JQueryWebElements<T extends WebElements> extends WebElements, W
 	 * @return the string[]
 	 */
 	public String[] vals();
-	
+
 	/**
-	 * <p>Add elements to the set of matched elements.</p>
-	 * <p>For more information, read
-	 * <a href="http://api.jquery.com/add/#add-selector">.add( selector )</a>
-	 * </p>
+	 * <!--  begin-minium-doc http://api.jquery.com/add/#add-selector -->
 	 * 
-	 * @param selector A string representing a selector expression to find additional 
-	 * elements to add to the set of matched elements.
-	 * @return {@link WebElements} corresponding to the union of elements
+	 * 
+	 * <!-- end-minium-doc -->
 	 */
 	public T add(String selector);
 
