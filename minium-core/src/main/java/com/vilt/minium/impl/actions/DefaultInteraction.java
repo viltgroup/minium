@@ -23,6 +23,8 @@ import java.util.List;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.internal.WrapsDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
 import com.vilt.minium.CoreWebElements;
@@ -42,6 +44,8 @@ import com.vilt.minium.actions.InteractionListener;
  */
 public abstract class DefaultInteraction implements Interaction {
 
+	private static final Logger logger = LoggerFactory.getLogger(DefaultInteraction.class);
+	
 	private List<InteractionListener> listeners = Lists.newArrayList();
 	private CoreWebElements<?> source;
 	private Duration timeout;
@@ -213,6 +217,7 @@ public abstract class DefaultInteraction implements Interaction {
 		} catch (RuntimeException e) {
 			boolean retry = triggerReverse(Type.AFTER_FAIL, e);
 			if (retry && canRetry) {
+				logger.debug("Interaction was marked as retriable, let's retry it");
 				perform(false);
 			}
 			else {

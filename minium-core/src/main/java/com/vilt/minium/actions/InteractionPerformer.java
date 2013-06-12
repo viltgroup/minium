@@ -27,6 +27,7 @@ import com.vilt.minium.Duration;
 import com.vilt.minium.TimeoutException;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.impl.actions.ButtonReleaseInteraction;
+import com.vilt.minium.impl.actions.CheckInteraction;
 import com.vilt.minium.impl.actions.ClearInteraction;
 import com.vilt.minium.impl.actions.ClickAllInteraction;
 import com.vilt.minium.impl.actions.ClickAndHoldInteraction;
@@ -50,6 +51,7 @@ import com.vilt.minium.impl.actions.SelectInteraction;
 import com.vilt.minium.impl.actions.SelectValInteraction;
 import com.vilt.minium.impl.actions.SendKeysInteraction;
 import com.vilt.minium.impl.actions.TypeInteraction;
+import com.vilt.minium.impl.actions.UncheckInteraction;
 import com.vilt.minium.impl.actions.WaitOrTimeoutForElementsInteraction;
 import com.vilt.minium.impl.actions.WaitOrTimeoutWhileElementsInteraction;
 import com.vilt.minium.impl.actions.WaitTimeInteraction;
@@ -268,6 +270,14 @@ public class InteractionPerformer {
 	 */
 	public void fill(WebElements elements, CharSequence text) {
 		perform(new FillInteraction(elements, text));
+	}
+
+	public void check(WebElements elements) {
+		perform(new CheckInteraction(elements));
+	}
+
+	public void uncheck(WebElements elements) {
+		perform(new UncheckInteraction(elements));
 	}
 	
 	// select

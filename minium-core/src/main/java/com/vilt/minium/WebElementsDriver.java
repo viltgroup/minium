@@ -231,6 +231,12 @@ public class WebElementsDriver<T extends WebElements> implements WebElementsFind
 	public T find(String selector) {
 		return Casts.<JQueryWebElements<T>>cast(webElements()).find(selector);
 	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public T find(T expr) {
+		return Casts.<JQueryWebElements<T>>cast(webElements()).find(expr);
+	}
 
 	/**
 	 * Web elements.

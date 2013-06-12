@@ -24,6 +24,7 @@ import org.openqa.selenium.Keys;
 import com.vilt.minium.Duration;
 import com.vilt.minium.TimeoutException;
 import com.vilt.minium.WebElements;
+import com.vilt.minium.impl.actions.RetryOnExceptionInteractionListener;
 import com.vilt.minium.impl.actions.TimeoutInteractionListener;
 
 /**
@@ -49,6 +50,15 @@ public class Interactions {
 	 */
 	public static InteractionListener instantTimeout() {
 		return timeout(0, SECONDS);
+	}
+	
+	/**
+	 * Instant timeout.
+	 *
+	 * @return the interaction listener
+	 */
+	public static InteractionListener retry() {
+		return new RetryOnExceptionInteractionListener();
 	}
 
 	public static void get(WebElements elements, String url) {
@@ -226,6 +236,16 @@ public class Interactions {
 	public static void fill(WebElements elements, CharSequence text) {
 		defaultPerformer().fill(elements, text);
 	}
+
+	public static void check(WebElements elements) {
+		defaultPerformer().check(elements);
+	}
+	
+	public static void uncheck(WebElements elements) {
+		defaultPerformer().uncheck(elements);
+	}
+	
+	
 
 	// select
 	/**

@@ -76,6 +76,8 @@ public interface WaitWebElements<T extends WebElements> extends WebElements {
 	 * @param unit the timeout unit.
 	 * @param predicate the predicate to wait for.
 	 * @return a {@link WebElements}
+
+	 * @see {@link Configuration#defaultInterval(long, TimeUnit)}.
 	 */
 	public T waitOrTimeout(long time, TimeUnit unit, Predicate<? super T> predicate);
 	
@@ -86,7 +88,8 @@ public interface WaitWebElements<T extends WebElements> extends WebElements {
 	 * @param timeout the timeout. If null, it will use the default timeout value provided by
 	 * @param predicate the predicate to wait for.
 	 * @return a {@link WebElements}
-	 * {@link Configuration#getDefaultInterval()}.
+	 * 
+	 * @see {@link Configuration#defaultInterval(Duration)}.
 	 */
 	public T waitOrTimeout(Duration timeout, Predicate<? super T> predicate);
 }
