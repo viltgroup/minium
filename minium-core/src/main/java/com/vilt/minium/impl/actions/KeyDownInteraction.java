@@ -42,7 +42,12 @@ public class KeyDownInteraction extends KeyboardInteraction {
 	 */
 	@Override
 	protected void doPerform() {
-		getActions().keyDown(getFirstElement(), keys).perform();
+		if (isSourceDocumentRoot()) {
+			keyboard().pressKey(keys);
+		}
+		else {
+			getActions().keyDown(getFirstElement(), keys).perform();
+		}
 	}
 
 }

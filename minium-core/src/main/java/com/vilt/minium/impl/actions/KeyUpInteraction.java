@@ -42,6 +42,11 @@ public class KeyUpInteraction extends KeyboardInteraction {
 	 */
 	@Override
 	protected void doPerform() {
-		getActions().keyUp(getFirstElement(), keys).perform();
+		if (isSourceDocumentRoot()) {
+			keyboard().releaseKey(keys);
+		}
+		else {
+			getActions().keyUp(getFirstElement(), keys).perform();
+		}
 	}
 }

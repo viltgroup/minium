@@ -36,6 +36,11 @@ public class ContextClickInteraction extends MouseInteraction {
 	 */
 	@Override
 	protected void doPerform() {
-		getActions().contextClick(getFirstElement()).perform();
+		if (isSourceDocumentRoot()) {
+			getActions().contextClick().perform();
+		}
+		else {
+			getActions().contextClick(getFirstElement()).perform();
+		}
 	}
 }

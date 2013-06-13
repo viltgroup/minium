@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.vilt.minium.debug;
+package com.vilt.minium.actions;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
 import com.vilt.minium.WebElements;
-import com.vilt.minium.actions.InteractionListener;
-import com.vilt.minium.actions.InteractionPerformer;
 import com.vilt.minium.impl.debug.ElementsScreenshotInteraction;
 import com.vilt.minium.impl.debug.HighlightInteraction;
 import com.vilt.minium.impl.debug.HighlightListener;

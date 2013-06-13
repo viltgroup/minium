@@ -20,9 +20,7 @@ import com.vilt.minium.WebElements;
 /**
  * The Class TypeInteraction.
  */
-public class TypeInteraction extends KeyboardInteraction {
-
-	private CharSequence text;
+public class TypeInteraction extends SendKeysInteraction {
 
 	/**
 	 * Instantiates a new type interaction.
@@ -31,15 +29,6 @@ public class TypeInteraction extends KeyboardInteraction {
 	 * @param text the text
 	 */
 	public TypeInteraction(WebElements source, CharSequence text) {
-		super(source);
-		this.text = text;
-	}
-
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
-	 */
-	@Override
-	protected void doPerform() {
-		getFirstElement().sendKeys(text);
+		super(source, text);
 	}
 }

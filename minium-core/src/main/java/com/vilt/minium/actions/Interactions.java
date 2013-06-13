@@ -15,6 +15,7 @@
  */
 package com.vilt.minium.actions;
 
+import static com.vilt.minium.Minium.$;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import java.util.concurrent.TimeUnit;
@@ -24,6 +25,7 @@ import org.openqa.selenium.Keys;
 import com.vilt.minium.Duration;
 import com.vilt.minium.TimeoutException;
 import com.vilt.minium.WebElements;
+import com.vilt.minium.WebElementsDriver;
 import com.vilt.minium.impl.actions.RetryOnExceptionInteractionListener;
 import com.vilt.minium.impl.actions.TimeoutInteractionListener;
 
@@ -61,8 +63,16 @@ public class Interactions {
 		return new RetryOnExceptionInteractionListener();
 	}
 
+	public static void get(WebElementsDriver<?> wd, String url) {
+		defaultPerformer().get($(wd), url);
+	}
+	
 	public static void get(WebElements elements, String url) {
 		defaultPerformer().get(elements, url);
+	}
+	
+	public static void close(WebElementsDriver<?> wd) {
+		defaultPerformer().close($(wd));
 	}
 	
 	public static void close(WebElements elements) {

@@ -39,6 +39,6 @@ createMethodsFn(_controller);
 // all static methods from Minium, Interactions and TouchInteractions
 importStatic(com.vilt.minium.Minium);
 importStatic(com.vilt.minium.actions.Interactions);
+importStatic(com.vilt.minium.actions.DebugInteractions);
+importStatic(com.vilt.minium.actions.TipInteractions);
 importStatic(com.vilt.minium.actions.touch.TouchInteractions);
-importStatic(com.vilt.minium.debug.DebugInteractions);
-importStatic(com.vilt.minium.tips.TipInteractions);

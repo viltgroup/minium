@@ -36,7 +36,12 @@ public class ClickAndHoldInteraction extends MouseInteraction {
 	 */
 	@Override
 	protected void doPerform() {
-		getActions().clickAndHold(getFirstElement()).perform();
+		if (isSourceDocumentRoot()) {
+			getActions().clickAndHold().perform();
+		}
+		else {
+			getActions().clickAndHold(getFirstElement()).perform();
+		}
 	}
 
 }

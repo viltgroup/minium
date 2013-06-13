@@ -16,7 +16,7 @@
 package com.vilt.minium.jquery.tips;
 
 import static com.vilt.minium.Minium.$;
-import static com.vilt.minium.tips.TipInteractions.withTip;
+import static com.vilt.minium.actions.TipInteractions.withTip;
 import static org.testng.Assert.assertTrue;
 
 import org.testng.annotations.BeforeMethod;

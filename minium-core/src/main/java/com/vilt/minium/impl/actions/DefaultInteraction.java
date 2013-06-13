@@ -38,6 +38,7 @@ import com.vilt.minium.actions.Interaction;
 import com.vilt.minium.actions.InteractionEvent;
 import com.vilt.minium.actions.InteractionEvent.Type;
 import com.vilt.minium.actions.InteractionListener;
+import com.vilt.minium.impl.DocumentRootWebElementsImpl;
 
 /**
  * The Class DefaultInteraction.
@@ -57,8 +58,11 @@ public abstract class DefaultInteraction implements Interaction {
 	 */
 	public DefaultInteraction(WebElements elems) {
 		if (elems != null) {
-			this.source = ((CoreWebElements<?>) elems).displayed();
-		}
+			this.source = ((CoreWebElements<?>) elems);
+			if (!(this.source instanceof DocumentRootWebElementsImpl)) {
+				this.source = this.source.displayed();
+			}
+ 		}
 	}
 	
 	/**
@@ -250,5 +254,9 @@ public abstract class DefaultInteraction implements Interaction {
 		allListeners.addAll(listeners);
 		
 		return allListeners;
+	}
+
+	protected boolean isSourceDocumentRoot() {
+		return getSource() instanceof DocumentRootWebElementsImpl;
 	}
 }

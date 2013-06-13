@@ -40,6 +40,11 @@ public class SendKeysInteraction extends KeyboardInteraction {
 	 */
 	@Override
 	protected void doPerform() {
-		getFirstElement().sendKeys(keys);
+		if (isSourceDocumentRoot()) {
+			keyboard().sendKeys(keys);
+		}
+		else {
+			getFirstElement().sendKeys(keys);
+		}
 	}
 }

@@ -20,7 +20,7 @@ import com.vilt.minium.WebElements;
 /**
  * The Class ButtonReleaseInteraction.
  */
-public class ButtonReleaseInteraction extends KeyboardInteraction {
+public class ButtonReleaseInteraction extends MouseInteraction {
 
 	/**
 	 * Instantiates a new button release interaction.
@@ -36,7 +36,12 @@ public class ButtonReleaseInteraction extends KeyboardInteraction {
 	 */
 	@Override
 	protected void doPerform() {
-		getActions().release(getFirstElement()).perform();
+		if (isSourceDocumentRoot()) {
+			getActions().release().perform();
+		}
+		else {
+			getActions().release(getFirstElement()).perform();
+		}
 	}
 
 }

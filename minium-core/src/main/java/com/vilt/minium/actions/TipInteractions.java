@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.vilt.minium.tips;
+package com.vilt.minium.actions;
 
 import static com.vilt.minium.actions.Interactions.perform;
 import static com.vilt.minium.actions.Interactions.with;
@@ -22,8 +22,6 @@ import java.util.concurrent.TimeUnit;
 
 import com.vilt.minium.Duration;
 import com.vilt.minium.WebElements;
-import com.vilt.minium.actions.InteractionListener;
-import com.vilt.minium.actions.InteractionPerformer;
 import com.vilt.minium.impl.tips.TipInteraction;
 import com.vilt.minium.impl.tips.TipInteractionListener;
 

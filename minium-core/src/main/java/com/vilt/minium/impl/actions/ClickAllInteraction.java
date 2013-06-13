@@ -38,8 +38,13 @@ public class ClickAllInteraction extends MouseInteraction {
 	 */
 	@Override
 	protected void doPerform() {
-		for (WebElement elem : getSource()) {
-			elem.click();
+		if (isSourceDocumentRoot()) {
+			getActions().click().perform();
+		}
+		else {
+			for (WebElement elem : getSource()) {
+				elem.click();
+			}
 		}
 	}
 }

@@ -36,6 +36,11 @@ public class ClickInteraction extends MouseInteraction {
 	 */
 	@Override
 	protected void doPerform() {
-		getFirstElement().click();
+		if (isSourceDocumentRoot()) {
+			getActions().click().perform();
+		}
+		else {
+			getFirstElement().click();
+		}
 	}
 }

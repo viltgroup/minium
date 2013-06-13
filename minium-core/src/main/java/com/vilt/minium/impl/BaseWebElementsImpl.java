@@ -47,13 +47,13 @@ import com.vilt.minium.Async;
 import com.vilt.minium.Configuration;
 import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.Duration;
-import com.vilt.minium.WebElementsException;
 import com.vilt.minium.TargetLocatorWebElements;
 import com.vilt.minium.TimeoutException;
 import com.vilt.minium.WaitWebElements;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.WebElementsDriver;
 import com.vilt.minium.WebElementsDriverProvider;
+import com.vilt.minium.WebElementsException;
 import com.vilt.minium.impl.utils.Casts;
 
 public abstract class BaseWebElementsImpl<T extends WebElements> implements WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, WebElementsDriverProvider<T> {

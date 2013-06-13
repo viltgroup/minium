@@ -36,6 +36,11 @@ public class DoubleClickInteraction extends MouseInteraction {
 	 */
 	@Override
 	protected void doPerform() {
-		getActions().doubleClick(getFirstElement()).perform();
+		if (isSourceDocumentRoot()) {
+			getActions().doubleClick().perform();
+		}
+		else {
+			getActions().doubleClick(getFirstElement()).perform();
+		}
 	}
 }
