@@ -24,12 +24,12 @@ package com.vilt.minium;
 public interface JQueryWebElements<T extends WebElements> extends WebElements, WebElementsFinder<T> {
 
 	/**
-	 * <!-- begin-minium-doc http://api.jquery.com/attr/ -->
+	 * <!-- begin-minium-doc http://api.jquery.com/attr/#attr-attributeName -->
 	 * <!-- end-minium-doc -->
 	 */
-	public String attr(String name);
+	public String attr(String attributeName);
 
-	public String[] attrs(String name);
+	public String[] attrs(String attributeName);
 
 	/**
 	 * <!-- begin-minium-doc http://api.jquery.com/html/ -->
