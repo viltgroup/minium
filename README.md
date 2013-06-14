@@ -8,9 +8,9 @@ Minium is a framework, developed by Rui Figueira @ VILT, that combines jQuery an
 and tasks automation. It also provides an interactive console that easily lets you execute Minium instructions, 
 providing you immediate feedback.
 
-In today's JavaScript development landscape jQuery is the dominant auxiliar library. A major contributor for this
-state of affairs is JQuery's powerful element selector engine. Now ubiquous in use it provides a quick and 
-intelligible way to select precisely the elements we want. At the other end of the development spectrum Selenium 
+In today's JavaScript development landscape, jQuery is the dominant auxiliar library. A major contributor for this
+state of affairs is JQuery's powerful element selector engine. Now ubiquous in use, it provides a quick and 
+intelligible way to select precisely the elements we want. At the other end of the development spectrum, Selenium 
 is currently the most popular automation framework due to its innovative WebDriver API. Minium combines Selenium's 
 impressive automation capabilities with jQuery's selector engine to produce a simple way to create elaborate 
 automation tasks in the complex web interfaces of today.
