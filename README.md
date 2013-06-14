@@ -1,4 +1,4 @@
-![Minium banner](minium.png)
+![Minium banner](http://viltgroup.github.io/minium/images/banner_minium.png)
 
 [![Build Status](https://travis-ci.org/viltgroup/minium.png)](https://travis-ci.org/viltgroup/minium)
 
@@ -15,8 +15,30 @@ is currently the most popular automation framework due to its innovative WebDriv
 impressive automation capabilities with jQuery's selector engine to produce a simple way to create elaborate 
 automation tasks in the complex web interfaces of today.
 
-For some nice Minium videos, check out our 
-[Youtube playlist](http://www.youtube.com/playlist?list=PLtYR_mxVztvMZuYfgjRe5OAl2WL_mb2N_)!
+You may be thinking: big deal, there are several other tools for browser automation... That's true, but: 
+
+* can those tools select elements based on their relative position to other elements? **Minium can!**
+
+![Minium position methods](http://viltgroup.github.io/minium/images/position_selectors.png)
+
+* can those tools access another window (for instance, popup windows) in a easy way? **Minium can!**
+
+```javascript
+// will look to ALL opened windows to find a text field with label "Username", and fill it with a value
+usernameFld = $(wd).window().find(":text").withLabel("Username");
+```
+
+* can those tools access iframes? Minium can!
+
+```javascript
+// will look to ALL frames in the main page to find a text field with label "Username"
+usernameFld = $(wd).frame().find(":text").withLabel("Username");
+```
+* can those tools 'speak'? **[Minium can](http://www.youtube.com/watch?v=Q7SH216qGko)!**
+* can those tools write their own documentation? **[Minium can](http://www.youtube.com/watch?v=wgAatRpNv_c)!**
+
+You can watch all available Minium videos at 
+[Youtube playlist](http://www.youtube.com/playlist?list=PLtYR_mxVztvMZuYfgjRe5OAl2WL_mb2N_).
 
 # Quick start
 
