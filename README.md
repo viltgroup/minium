@@ -15,6 +15,8 @@ is currently the most popular automation framework due to its innovative WebDriv
 impressive automation capabilities with jQuery's selector engine to produce a simple way to create elaborate 
 automation tasks in the complex web interfaces of today.
 
+# "Can Minium do that?!"
+
 You may be thinking: big deal, there are several other tools for browser automation... That's true, but: 
 
 * can those tools select elements based on their relative position to other elements? **Minium can!**
