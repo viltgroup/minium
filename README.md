@@ -28,14 +28,19 @@ You may be thinking: big deal, there are several other tools for browser automat
 usernameFld = $(wd).window().find(":text").withLabel("Username");
 ```
 
-* can those tools access iframes? Minium can!
+* can those tools easily access iframes? **Minium can!**
 
 ```javascript
 // will look to ALL frames in the main page to find a text field with label "Username"
 usernameFld = $(wd).frame().find(":text").withLabel("Username");
 ```
-* can those tools 'speak'? **[Minium can](http://www.youtube.com/watch?v=Q7SH216qGko)!**
-* can those tools write their own documentation? **[Minium can](http://www.youtube.com/watch?v=wgAatRpNv_c)!**
+* can those tools 'speak'? **Minium can!**
+
+[![Minium shows its Interactive Console](http://halgatewood.com/youtube/i/Q7SH216qGko.jpg)](http://www.youtube.com/watch?v=Q7SH216qGko)
+
+* can those tools write their own documentation? **Minium can!**
+
+[![Minium writes its own documentation](http://halgatewood.com/youtube/i/wgAatRpNv_c.jpg)](http://www.youtube.com/watch?v=wgAatRpNv_c)
 
 You can watch all available Minium videos at 
 [Youtube playlist](http://www.youtube.com/playlist?list=PLtYR_mxVztvMZuYfgjRe5OAl2WL_mb2N_).
