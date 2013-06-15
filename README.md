@@ -17,6 +17,8 @@ automation tasks in the complex web interfaces of today.
 
 ## Minium can!
 
+![Minium can!](http://viltgroup.github.io/minium/images/minium_can.png)
+
 You may be thinking: big deal, there are several other tools for browser automation... That's true, but: 
 
 * can those tools select elements based on their relative position to other elements? **Minium can!**
