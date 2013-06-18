@@ -1,8 +1,8 @@
+# Minium [![Build Status](https://travis-ci.org/viltgroup/minium.png)](https://travis-ci.org/viltgroup/minium)
+
 ![Minium banner](http://viltgroup.github.io/minium/images/banner_minium.png)
 
-[![Build Status](https://travis-ci.org/viltgroup/minium.png)](https://travis-ci.org/viltgroup/minium)
-
-# What is Minium 
+## What is Minium 
 
 Minium is a framework, developed by Rui Figueira @ VILT, that combines jQuery and Selenium for browser testing 
 and tasks automation. It also provides an interactive console that easily lets you execute Minium instructions, 
@@ -15,7 +15,9 @@ is currently the most popular automation framework due to its innovative WebDriv
 impressive automation capabilities with jQuery's selector engine to produce a simple way to create elaborate 
 automation tasks in the complex web interfaces of today.
 
-## "Can Minium do that?!"
+## Minium can!
+
+![Minium can!](http://viltgroup.github.io/minium/images/minium_can.png)
 
 You may be thinking: big deal, there are several other tools for browser automation... That's true, but: 
 
