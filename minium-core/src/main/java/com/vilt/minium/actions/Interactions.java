@@ -424,6 +424,16 @@ public class Interactions {
 		interaction.perform();
 	}
 
+	/**
+	 * Perform.
+	 *
+	 * @param interaction the interaction
+	 */
+	public static void performAndWait(AsyncInteraction interaction) {
+		interaction.perform();
+		interaction.waitUntilCompleted();
+	}
+
 	private static InteractionPerformer defaultPerformer() {
 		return new InteractionPerformer();
 	}

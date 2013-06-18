@@ -43,7 +43,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.common.collect.Iterables;
 import com.google.common.io.Closeables;
 import com.vilt.minium.debug.DebugWebElements;
 import com.vilt.minium.webconsole.factories.WebDriverFactory;
@@ -106,9 +105,9 @@ public class ConsoleController {
 			
 			Object result = engine.eval(expression);
 			if (result instanceof DebugWebElements) {
-				DebugWebElements debugWebElements = (DebugWebElements) result;
-				debugWebElements.highlight();
-				return new EvalResult(expression, Iterables.size(debugWebElements));
+				DebugWebElements webElements = (DebugWebElements) result;
+				int count = webElements.highlightAndCount();
+				return new EvalResult(expression, count);
 			}
 			else {
 				return new EvalResult(result);

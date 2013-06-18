@@ -100,6 +100,16 @@ public class InteractionPerformer {
 		interaction.perform();
 	}
 	
+	/**
+	 * Perform.
+	 *
+	 * @param interaction the interaction
+	 */
+	public void performAndWait(AsyncInteraction interaction) {
+		perform(interaction);
+		interaction.waitUntilCompleted();
+	}
+	
 	public void get(WebElements elements, String url) {
 		perform(new GetInteraction(elements, url));
 	}

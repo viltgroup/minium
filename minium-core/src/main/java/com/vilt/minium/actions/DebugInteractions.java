@@ -55,6 +55,15 @@ public class DebugInteractions {
 	 * @param webElements the web elements
 	 */
 	public static void highlight(WebElements webElements) {
+		new InteractionPerformer().performAndWait(new HighlightInteraction(webElements));
+	}
+
+	/**
+	 * Highlight.
+	 *
+	 * @param webElements the web elements
+	 */
+	public static void highlightAsync(WebElements webElements) {
 		new InteractionPerformer().perform(new HighlightInteraction(webElements));
 	}
 

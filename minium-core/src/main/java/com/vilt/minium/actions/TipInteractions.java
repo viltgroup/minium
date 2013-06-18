@@ -16,6 +16,7 @@
 package com.vilt.minium.actions;
 
 import static com.vilt.minium.actions.Interactions.perform;
+import static com.vilt.minium.actions.Interactions.performAndWait;
 import static com.vilt.minium.actions.Interactions.with;
 
 import java.util.concurrent.TimeUnit;
@@ -75,6 +76,10 @@ public class TipInteractions {
 	}
 	
 	public static void showTip(WebElements elements, String tip, long time, TimeUnit unit) {
+		performAndWait(new TipInteraction(elements, tip, new Duration(time, unit)));
+	}
+
+	public static void showTipAsync(WebElements elements, String tip, long time, TimeUnit unit) {
 		perform(new TipInteraction(elements, tip, new Duration(time, unit)));
 	}
 }
