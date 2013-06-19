@@ -18,14 +18,14 @@ package com.vilt.minium;
 import org.openqa.selenium.WebDriver;
 
 /**
- * The Class Minium.
+ * Minium class makes the $ (dollar) method available, so that jQuery developers can fell at home!
  *
  * @author Rui
  */
 public class Minium {
 
 	/**
-	 * The dollar 'function'. As in jQuery, this method is the entrypoint in the {@link WebElements} 
+	 * The dollar 'function'. As in jQuery, this method is the entry point in the {@link WebElements} 
 	 * API.
 	 * 
 	 * <pre>
@@ -42,7 +42,7 @@ public class Minium {
 	}
 	
 	/**
-	 * The dollar 'function'. As in jQuery, this method is the entrypoint for the {@link WebElements} 
+	 * The dollar 'function'. As in jQuery, this method is the entry point for the {@link WebElements} 
 	 * API.
 	 * 
 	 * <pre>
@@ -59,7 +59,7 @@ public class Minium {
 	}
 	
 	/**
-	 * The dollar 'function'. As in jQuery, this method is the entrypoint for the {@link WebElements} 
+	 * The dollar 'function'. As in jQuery, this method is the entry point for the {@link WebElements} 
 	 * API.
 	 *
 	 * @param wd the wd

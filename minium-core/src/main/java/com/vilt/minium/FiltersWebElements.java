@@ -19,7 +19,7 @@ package com.vilt.minium;
  * This interface provides useful filter methods for Minium {@link WebElements}, like
  * contained text filtering or attribute value filtering.
  *
- * @param <T> the generic type
+ * @param <T> "self-type" for {@link WebElements}
  * @author rui.figueira
  */
 @JQueryResources("minium/js/filters.js")

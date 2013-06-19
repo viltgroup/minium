@@ -18,7 +18,7 @@ package com.vilt.minium;
 /**
  * Declares methods that correspond to jQuery transversing functions, as well as attribute functions.
  *
- * @param <T> the generic type
+ * @param <T> "self-type" for {@link WebElements} 
  */
 @JQueryResources({ "minium/js/jquery.min.js", "minium/js/jquery-ext.js" })
 public interface JQueryWebElements<T extends WebElements> extends WebElements, WebElementsFinder<T> {
@@ -34,6 +34,12 @@ public interface JQueryWebElements<T extends WebElements> extends WebElements, W
 	 */
 	public String attr(String attributeName);
 
+	/**
+	 * Get the values of a specific attribute from the set of matched elements.
+	 * 
+	 * @param attributeName The name of the attribute to get.
+	 * @return an array with the attribute value from each matched element, in the same order.
+	 */
 	public String[] attrs(String attributeName);
 
 	/**
@@ -66,6 +72,11 @@ public interface JQueryWebElements<T extends WebElements> extends WebElements, W
 	 */
 	public String val();
 	
+	/**
+	 * Get the values from the set of matched elements.
+	 * 
+	 * @return an array with the value of each matched element, in the same order.
+	 */
 	public String[] vals();
 	
 	/**
