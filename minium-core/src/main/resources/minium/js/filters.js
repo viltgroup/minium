@@ -12,13 +12,8 @@
 	})();
 	
 	var clearExtraWhitespaces = function(str) {
-		return str.replace(/\s+/g, " ");
+		return $.trim(str.replace(/(\s|\u00A0)+/g, " "));
 	}
-
-	
-	$.fn.visibleText = function() {
-		return $.trim($(this).text());
-	};
 	
 	$.fn.withText = function(text) {
 		return $(this).filter(function() {
@@ -71,7 +66,4 @@
 	$.fn.selected = function() {
 		return $(this).filter(":selected");
 	};
-	
-	
-	
 })(jQuery, window);

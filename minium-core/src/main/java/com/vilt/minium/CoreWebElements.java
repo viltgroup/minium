@@ -18,7 +18,7 @@ package com.vilt.minium;
 /**
  * The Interface CoreWebElements.
  *
- * @param <T> recursive {@link WebElements} type
+ * @param <T> "self type" for {@link WebElements} 
  * @author rui.figueira
  */
 public interface CoreWebElements<T extends CoreWebElements<T>> extends 

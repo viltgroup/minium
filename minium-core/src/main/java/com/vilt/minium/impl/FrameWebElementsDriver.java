@@ -47,15 +47,16 @@ public class FrameWebElementsDriver<T extends WebElements> extends WebElementsDr
 		parentWebDriver.ensureSwitch();
 		// we reposition the WebDriver to the corresponding frame
 		if (getNativeWebElement() != null) {
-			// workaround as described in http://code.google.com/p/selenium/issues/detail?id=1969#c13
-			String id = getFrameId();
-			
-			try {
-				wd.switchTo().frame(id);
-				logger.debug("Switched to frame with id '{}'", id, windowHandle);
-			} catch (Exception e) {
-				wd.switchTo().frame(getNativeWebElement());
-			}
+//			// workaround as described in http://code.google.com/p/selenium/issues/detail?id=1969#c13
+//			String id = getFrameId();
+//			
+//			try {
+//				wd.switchTo().frame(id);
+//				logger.debug("Switched to frame with id '{}'", id, windowHandle);
+//			} catch (Exception e) {
+//				wd.switchTo().frame(getNativeWebElement());
+//			}
+			wd.switchTo().frame(getNativeWebElement());
 		}
 	}
 

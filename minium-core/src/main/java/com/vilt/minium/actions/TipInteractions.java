@@ -40,17 +40,7 @@ public class TipInteractions {
 	public static InteractionListener tip(String tip) {
 		return new TipInteractionListener(tip);
 	}
-
-	/**
-	 * With tip.
-	 *
-	 * @param tip the tip
-	 * @return the interaction performer
-	 */
-	public static InteractionPerformer withTip(String tip) {
-		return with(tip(tip));
-	}
-
+	
 	/**
 	 * Tip.
 	 *
@@ -61,6 +51,16 @@ public class TipInteractions {
 	 */
 	public static InteractionListener tip(String tip, long time, TimeUnit unit) {
 		return new TipInteractionListener(tip, new Duration(time, unit));
+	}
+
+	/**
+	 * With tip.
+	 *
+	 * @param tip the tip
+	 * @return the interaction performer
+	 */
+	public static InteractionPerformer withTip(String tip) {
+		return with(tip(tip));
 	}
 	
 	/**
@@ -73,6 +73,14 @@ public class TipInteractions {
 	 */
 	public static InteractionPerformer withTip(String tip, long time, TimeUnit unit) {
 		return with(tip(tip, time, unit));
+	}
+	
+	public static void showTip(WebElements elements, String tip) {
+		performAndWait(new TipInteraction(elements, tip));
+	}
+	
+	public static void showTipAsync(WebElements elements, String tip) {
+		perform(new TipInteraction(elements, tip));
 	}
 	
 	public static void showTip(WebElements elements, String tip, long time, TimeUnit unit) {

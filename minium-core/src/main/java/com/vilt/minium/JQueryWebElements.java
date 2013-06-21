@@ -20,7 +20,7 @@ package com.vilt.minium;
  *
  * @param <T> "self-type" for {@link WebElements} 
  */
-@JQueryResources({ "minium/js/jquery.min.js", "minium/js/jquery-ext.js" })
+@JQueryResources({ "minium/js/jquery.min.js", "minium/js/jquery.visibleText.js", "minium/js/jquery-ext.js" })
 public interface JQueryWebElements<T extends WebElements> extends WebElements, WebElementsFinder<T> {
 
 	/**
@@ -426,7 +426,7 @@ public interface JQueryWebElements<T extends WebElements> extends WebElements, W
 	 * <!-- end-minium-doc -->
 	 */
 	public T nextUntil(T elems, String filter);
-
+	
 	/**
 	 * <!-- begin-minium-doc http://api.jquery.com/not/#not-selector -->
 	 * Remove elements from the set of matched elements.
@@ -754,6 +754,8 @@ public interface JQueryWebElements<T extends WebElements> extends WebElements, W
 	 * <!-- end-minium-doc -->
 	 */
 	public int size();
+
+	public String visibleText();
 
 	public <V> V call(String fnName, Object ... args);
 }
