@@ -15,63 +15,71 @@
  */
 package com.vilt.minium.impl;
 
+import static com.google.common.base.Predicates.notNull;
+import static com.google.common.collect.FluentIterable.from;
+
 import javax.annotation.Nullable;
 
 import org.openqa.selenium.WebElement;
 
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
-import com.google.common.collect.Iterables;
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.WebElementsDriver;
-import com.vilt.minium.impl.utils.Casts;
 
-public class FrameWebElementsImpl<T extends WebElements> extends DocumentRootWebElementsImpl<T> {
+public class FrameWebElementsImpl<T extends CoreWebElements<T>> extends DocumentRootWebElementsImpl<T> {
 
-	private BaseWebElementsImpl<T> parent;
+	private BaseWebElementsImpl<T> parentImpl;
+	private T filter;
 
-	public void init(WebElementsFactory factory, WebElements parent) {
-		this.parent = Casts.<BaseWebElementsImpl<T>>cast(parent);
+	@SuppressWarnings("unchecked")
+	public void init(WebElementsFactory factory, T parent, T filter) {
 		super.init(factory);
+		this.parentImpl = (BaseWebElementsImpl<T>) parent;
+		this.filter = (T) filter;
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public Iterable<WebElementsDriver<T>> candidateWebDrivers() {
-		return Iterables.transform(parent, new Function<WebElement, WebElementsDriver<T>>() {
-
+		 return from(parentImpl).transform(new Function<WebElement, WebElementsDriver<T>>() {
 			@Override
 			@Nullable
-			@SuppressWarnings("unchecked")
 			public WebElementsDriver<T> apply(@Nullable WebElement input) {
-				return new FrameWebElementsDriver<T>((WebElementsDriver<T>) ((DelegateWebElement) input).getWrappedDriver(), factory, input);
+				FrameWebElementsDriver<T> webElementsDriver = new FrameWebElementsDriver<T>((WebElementsDriver<T>) ((DelegateWebElement) input).getWrappedDriver(), factory, input);
+				if (filter != null && webElementsDriver.find(filter).size() == 0) {
+					return null;
+				}
+				return webElementsDriver;
 			}
-			
-		});
+		}).filter(notNull());
+	}
+	
+	@Override
+	protected T root(T filter, boolean freeze) {
+		return parentImpl.frame(filter, freeze);
 	}
 
 	@Override
 	protected WebElementsDriver<T> rootWebDriver() {
-		return parent.rootWebDriver();
+		return parentImpl.rootWebDriver();
 	}
 	
 	@Override
-	public T root(T filter, boolean freeze) {
-		return parent.frame(filter, freeze);
-	}
-	
-
-	@Override
+	@SuppressWarnings("unchecked")
 	public boolean equals(Object obj) {
 		if (obj instanceof FrameWebElementsImpl) {
-			FrameWebElementsImpl<T> elem = Casts.<FrameWebElementsImpl<T>>cast(obj);
-			return Objects.equal(elem.parent, this.parent);
+			FrameWebElementsImpl<T> elem = (FrameWebElementsImpl<T>) obj;
+			return 
+				Objects.equal(elem.parentImpl, this.parentImpl) && 
+				Objects.equal(elem.filter, this.filter);
 		}
 		return false;
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(parent);
+		return Objects.hashCode(parentImpl);
 	}
 	
 }

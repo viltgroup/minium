@@ -37,7 +37,6 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Objects;
 import com.vilt.minium.impl.WebElementsFactory;
 import com.vilt.minium.impl.WebElementsFactoryHelper;
-import com.vilt.minium.impl.utils.Casts;
 
 /**
  * 
@@ -45,7 +44,7 @@ import com.vilt.minium.impl.utils.Casts;
  *
  * @param <T>
  */
-public class WebElementsDriver<T extends WebElements> implements WebElementsFinder<T>, WebDriver, JavascriptExecutor, HasInputDevices, TakesScreenshot {
+public class WebElementsDriver<T extends CoreWebElements<T>> implements WebElementsFinder<T>, WebDriver, JavascriptExecutor, HasInputDevices, TakesScreenshot {
 
 	final Logger logger = LoggerFactory.getLogger(WebElementsDriver.class);
 
@@ -229,13 +228,13 @@ public class WebElementsDriver<T extends WebElements> implements WebElementsFind
 	/** {@inheritDoc} */
 	@Override
 	public T find(String selector) {
-		return Casts.<JQueryWebElements<T>>cast(webElements()).find(selector);
+		return webElements().find(selector);
 	}
 	
 	/** {@inheritDoc} */
 	@Override
 	public T find(T expr) {
-		return Casts.<JQueryWebElements<T>>cast(webElements()).find(expr);
+		return webElements().find(expr);
 	}
 
 	/**
@@ -244,7 +243,7 @@ public class WebElementsDriver<T extends WebElements> implements WebElementsFind
 	 * @return the t
 	 */
 	public T webElements() {
-		return Casts.<T>cast(WebElementsFactoryHelper.createRootWebElements(factory, this));
+		return WebElementsFactoryHelper.createRootWebElements(factory, this);
 	}
 
 	/**

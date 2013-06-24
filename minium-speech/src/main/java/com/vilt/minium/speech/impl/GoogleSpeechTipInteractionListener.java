@@ -19,7 +19,6 @@ import static com.vilt.minium.actions.Interactions.perform;
 
 import java.util.Locale;
 
-import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.WebElementsDriver;
 import com.vilt.minium.actions.AfterInteractionEvent;
 import com.vilt.minium.actions.BeforeInteractionEvent;
@@ -30,13 +29,13 @@ public class GoogleSpeechTipInteractionListener extends DefaultInteractionListen
 	
 	private Locale locale;
 	private GoogleSpeechInteraction speechInteraction;
-	private WebElementsDriver<CoreWebElements<?>> wd;
+	private WebElementsDriver<?> wd;
 
-	public GoogleSpeechTipInteractionListener(WebElementsDriver<CoreWebElements<?>> wd) {
+	public GoogleSpeechTipInteractionListener(WebElementsDriver<?> wd) {
 		this(wd, null);
 	}
 	
-	public GoogleSpeechTipInteractionListener(WebElementsDriver<CoreWebElements<?>> wd, Locale locale) {
+	public GoogleSpeechTipInteractionListener(WebElementsDriver<?> wd, Locale locale) {
 		this.wd = wd;
 		this.locale = locale;
 	}

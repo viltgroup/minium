@@ -23,7 +23,7 @@ import org.openqa.selenium.WebDriver;
  *
  * @param <T> the generic type
  */
-public interface WebElementsDriverProvider<T extends WebElements> {
+public interface WebElementsDriverProvider<T extends CoreWebElements<T>> {
 
 	/**
 	 * Web drivers.

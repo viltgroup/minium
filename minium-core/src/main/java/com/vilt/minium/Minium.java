@@ -37,7 +37,7 @@ public class Minium {
 	 * @param wd the wd
 	 * @return the t
 	 */
-	public static <T extends WebElements> T $(WebElementsDriver<T> wd) {
+	public static <T extends CoreWebElements<T>> T $(WebElementsDriver<T> wd) {
 		return wd.webElements();
 	}
 	
@@ -54,7 +54,7 @@ public class Minium {
 	 * @param selector the selector
 	 * @return the t
 	 */
-	public static <T extends WebElements> T $(WebElementsDriver<T> wd, String selector) {
+	public static <T extends CoreWebElements<T>> T $(WebElementsDriver<T> wd, String selector) {
 		return wd.find(selector);
 	}
 	

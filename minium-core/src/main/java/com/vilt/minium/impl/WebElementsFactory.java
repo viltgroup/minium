@@ -40,9 +40,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.vilt.minium.JQueryResources;
-import com.vilt.minium.WebElementsException;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.WebElementsDriverProvider;
+import com.vilt.minium.WebElementsException;
 
 public class WebElementsFactory implements MethodHandler {
 

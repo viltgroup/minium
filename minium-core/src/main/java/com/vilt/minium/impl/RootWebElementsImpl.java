@@ -18,17 +18,17 @@ package com.vilt.minium.impl;
 import java.util.Collections;
 
 import com.google.common.base.Objects;
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.WebElementsDriver;
-import com.vilt.minium.impl.utils.Casts;
 
-public class RootWebElementsImpl<T extends WebElements> extends DocumentRootWebElementsImpl<T> {
+public class RootWebElementsImpl<T extends CoreWebElements<T>> extends DocumentRootWebElementsImpl<T> {
 
 	private WebElementsDriver<T> wd;
 
+	@SuppressWarnings("unchecked")
 	public void init(WebElementsFactory factory, WebElementsDriver<?> wd) {
 		super.init(factory);
-		this.wd = Casts.<WebElementsDriver<T>>cast(wd);
+		this.wd = (WebElementsDriver<T>) wd;
 	}
 	
 	@Override
@@ -42,7 +42,7 @@ public class RootWebElementsImpl<T extends WebElements> extends DocumentRootWebE
 	}
 	
 	@Override
-	public T root(T filter, boolean freeze) {
+	protected T root(T filter, boolean freeze) {
 		throw new UnsupportedOperationException("Not implemented yet");
 	}
 	

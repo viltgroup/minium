@@ -54,15 +54,14 @@ import com.vilt.minium.WebElements;
 import com.vilt.minium.WebElementsDriver;
 import com.vilt.minium.WebElementsDriverProvider;
 import com.vilt.minium.WebElementsException;
-import com.vilt.minium.impl.utils.Casts;
 
-public abstract class BaseWebElementsImpl<T extends WebElements> implements WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, WebElementsDriverProvider<T> {
+public abstract class BaseWebElementsImpl<T extends CoreWebElements<T>> implements WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, WebElementsDriverProvider<T> {
 
 	final Logger logger = LoggerFactory.getLogger(WebElements.class);
 	
-	private static class MiniumWait<T> extends FluentWait<T> {
+	private static class WebElementsWait<T> extends FluentWait<T> {
 
-		public MiniumWait(T input, Duration timeout, Duration interval) {
+		public WebElementsWait(T input, Duration timeout, Duration interval) {
 			super(input);
 			withTimeout(timeout.getTime(), timeout.getUnit());
 			pollingEvery(interval.getTime(), interval.getUnit());
@@ -73,7 +72,6 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 			return new TimeoutException(message, lasteException);
 		}
 	}
-	
 	
 	private final Function<Object, String> argToStringFunction = new Function<Object, String>() {
 		public String apply(Object input) {
@@ -100,6 +98,8 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 	};
 	
 	protected WebElementsFactory factory;
+	// this as T
+	protected T myself;
 
 	protected abstract String getExpression();
 	
@@ -111,11 +111,12 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 	
 	protected abstract T documentRootWebElements();
 	
+	@SuppressWarnings("unchecked")
 	public void init(WebElementsFactory factory) {
+		this.myself = (T) this;
 		this.factory = factory;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public Object invoke(Method method, Object ... args) {
 		if (method.isVarArgs()) {
 			args = expandVarArgs(args);
@@ -123,7 +124,7 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 		String expression = computeExpression(this, isAsyncMethod(method), method.getName(), args);
 		
 		if (method.getReturnType() != Object.class && method.getReturnType().isAssignableFrom(this.getClass())) {
-			T webElements = (T) WebElementsFactoryHelper.createExpressionWebElements(factory, this, expression);
+			T webElements = WebElementsFactoryHelper.createExpressionWebElements(factory, myself, expression);
 			return webElements;
 		}
 		else {
@@ -330,56 +331,32 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 
 	@Override
 	public T frame() {
-		CoreWebElements<?> filtered = ((CoreWebElements<?>) this).find("iframe, frame").addBack().filter("iframe, frame");
-		return Casts.<T>cast(WebElementsFactoryHelper.createIFrameWebElements(factory, filtered));
-	}
-
-	@Override
-	public T frame(String selector) {
-		CoreWebElements<?> filtered = ((CoreWebElements<?>) this).find(selector).filter("iframe, frame");
-		return Casts.<T>cast(WebElementsFactoryHelper.createIFrameWebElements(factory, filtered));
-	}
-
-	@Override
-	public T frame(T filter) {
-		CoreWebElements<?> filtered = ((CoreWebElements<?>) this).filter("iframe, frame");
-		return Casts.<T>cast(WebElementsFactoryHelper.createIFrameWebElements(factory, filtered));
-	}
-
-	public T frame(T filter, boolean freeze) {
-		throw new UnsupportedOperationException("Not implemented yet");
-	}
-
-	@Override
-	public T window(String expr) {
-		return window(expr, false);
-	}
-
-	@Override
-	public T window(String expr, boolean freeze) {
-		return Casts.<T>cast(WebElementsFactoryHelper.createWindowWebElements(factory, this, expr, freeze));
-	}
-
-	@Override
-	public T window(T filter) {
-		return window(filter, false);
-	}
-
-	@Override
-	public T window(T filter, boolean freeze) {
-		return Casts.<T>cast(WebElementsFactoryHelper.createWindowWebElements(factory, this, filter, freeze));
+		return frame(false);
 	}
 	
+	@Override
+	public T frame(boolean freeze) {
+		return frame(null, freeze);
+	}
+	
+	protected T frame(T filter, boolean freeze) {
+		T parent = myself.find("iframe, frame").addBack().filter("iframe, frame");
+		return WebElementsFactoryHelper.createFrameWebElements(factory, parent, filter, freeze);
+	}
+
 	@Override
 	public T window() {
-		return Casts.<T>cast(WebElementsFactoryHelper.createWindowWebElements(factory, this));
+		return window(false);
 	}
 	
 	@Override
-	public T window(boolean newWindow) {
-		return Casts.<T>cast(WebElementsFactoryHelper.createWindowWebElements(factory, this, (T) null, newWindow));
+	public T window(boolean freeze) {
+		return window(null, freeze);
 	}
-
+	
+	protected T window(T filter, boolean freeze) {
+		return WebElementsFactoryHelper.createWindowWebElements(factory, myself, filter, freeze);
+	}
 	
 	@Override
 	public T root() {
@@ -388,10 +365,10 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 	
 	@Override
 	public T root(boolean freeze) {
-		return root(Casts.<T>cast(this), freeze);
+		return root(myself, freeze);
 	}
 	
-	public abstract T root(T filter, boolean freeze);
+	protected abstract T root(T filter, boolean freeze);
 	
 	@Override
 	public Alert alert() {
@@ -417,9 +394,9 @@ public abstract class BaseWebElementsImpl<T extends WebElements> implements WebE
 		}
 	}
 	
-	protected MiniumWait<T> getWait(Duration timeout) {
+	protected WebElementsWait<T> getWait(Duration timeout) {
 		Duration interval = rootWebDriver().configuration().getDefaultInterval();
-		return new MiniumWait<T>(Casts.<T>cast(this), timeout, interval);
+		return new WebElementsWait<T>(myself, timeout, interval);
 	}
 	
 	@Override

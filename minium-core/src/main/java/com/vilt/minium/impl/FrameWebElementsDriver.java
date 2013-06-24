@@ -26,10 +26,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Objects;
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.WebElementsDriver;
 
-public class FrameWebElementsDriver<T extends WebElements> extends WebElementsDriver<T> {
+public class FrameWebElementsDriver<T extends CoreWebElements<T>> extends WebElementsDriver<T> {
 
 	final Logger logger = LoggerFactory.getLogger(FrameWebElementsDriver.class);
 	

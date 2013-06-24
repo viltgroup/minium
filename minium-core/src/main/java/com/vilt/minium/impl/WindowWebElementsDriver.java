@@ -19,10 +19,10 @@ import static java.lang.String.format;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.WebElementsDriver;
 
-public class WindowWebElementsDriver<T extends WebElements> extends WebElementsDriver<T> {
+public class WindowWebElementsDriver<T extends CoreWebElements<T>> extends WebElementsDriver<T> {
 
 	public WindowWebElementsDriver(WebElementsDriver<T> wd, WebElementsFactory factory, String handle) {
 		super(wd.getWrappedWebDriver(), factory, wd.configuration(), handle);

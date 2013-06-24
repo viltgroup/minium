@@ -27,32 +27,26 @@ import com.google.common.base.Objects;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
-import com.vilt.minium.JQueryWebElements;
-import com.vilt.minium.TargetLocatorWebElements;
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.WebElementsDriver;
 import com.vilt.minium.WebElementsDriverProvider;
-import com.vilt.minium.impl.utils.Casts;
 
-public class WindowWebElementsImpl<T extends WebElements> extends DocumentRootWebElementsImpl<T> {
+public class WindowWebElementsImpl<T extends CoreWebElements<T>> extends DocumentRootWebElementsImpl<T> {
 
-	private BaseWebElementsImpl<T> parent;
+	private BaseWebElementsImpl<T> parentImpl;
 	private String handle;
 	private T filter;
 	private boolean freeze;
 
-	@SuppressWarnings("unchecked")
-	public void init(WebElementsFactory factory, WebElements parent, String expr, boolean freeze) {
-		super.init(factory);
-		this.parent = Casts.<BaseWebElementsImpl<T>>cast(parent);
-		this.filter = ((TargetLocatorWebElements<JQueryWebElements<T>>) parent).window().find(expr);
-		this.freeze = freeze;
+	public void init(WebElementsFactory factory, T parent, String expr, boolean freeze) {
+		init(factory, parent, parent.window().find(expr), freeze);
 	}
 
-	public void init(WebElementsFactory factory, WebElements parent, WebElements filter, boolean freeze) {
+	@SuppressWarnings("unchecked")
+	public void init(WebElementsFactory factory, T parent, T filter, boolean freeze) {
 		super.init(factory);
-		this.parent = Casts.<BaseWebElementsImpl<T>>cast(parent);
-		this.filter = Casts.<T>cast(filter);
+		this.parentImpl = (BaseWebElementsImpl<T>) parent;
+		this.filter = filter;
 		this.freeze = freeze;
 	}
 
@@ -106,12 +100,12 @@ public class WindowWebElementsImpl<T extends WebElements> extends DocumentRootWe
 
 	@Override
 	protected WebElementsDriver<T> rootWebDriver() {
-		return parent.rootWebDriver();
+		return parentImpl.rootWebDriver();
 	}
 	
 	@Override
 	public T root(T filter, boolean freeze) {
-		return parent.window(filter, freeze);
+		return parentImpl.window(filter, freeze);
 	}
 	
 	@Override
@@ -120,7 +114,7 @@ public class WindowWebElementsImpl<T extends WebElements> extends DocumentRootWe
 		if (obj instanceof WindowWebElementsImpl) {
 			WindowWebElementsImpl<T> elem = (WindowWebElementsImpl<T>) obj;
 			return 
-					Objects.equal(elem.parent, this.parent) && 
+					Objects.equal(elem.parentImpl, this.parentImpl) && 
 					Objects.equal(elem.handle, this.handle);
 		}
 		return false;
@@ -128,6 +122,8 @@ public class WindowWebElementsImpl<T extends WebElements> extends DocumentRootWe
 	
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(parent, handle);
+		return Objects.hashCode(parentImpl, handle);
 	}
+
+
 }

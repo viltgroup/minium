@@ -24,19 +24,19 @@ import org.openqa.selenium.WebElement;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.collect.FluentIterable;
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.WebElementsDriver;
 
-public class ExpressionWebElementsImpl<T extends WebElements> extends BaseWebElementsImpl<T> {
+public class ExpressionWebElementsImpl<T extends CoreWebElements<T>> extends BaseWebElementsImpl<T> {
 
-	private BaseWebElementsImpl<T> parent;
+	private BaseWebElementsImpl<T> parentImpl;
 	private String expression;
 	private Object[] args;
 	
 	@SuppressWarnings("unchecked")
-	public void init(WebElementsFactory factory, WebElements parent, String expression, Object ... args) {
+	public void init(WebElementsFactory factory, T parent, String expression, Object ... args) {
 		super.init(factory);
-		this.parent = (BaseWebElementsImpl<T>) parent;
+		this.parentImpl = (BaseWebElementsImpl<T>) parent;
 		this.expression = expression;
 		this.args = args;
 	}
@@ -47,7 +47,7 @@ public class ExpressionWebElementsImpl<T extends WebElements> extends BaseWebEle
 	
 	@Override
 	protected Iterable<WebElementsDriver<T>> candidateWebDrivers() {
-		return parent.candidateWebDrivers();
+		return parentImpl.candidateWebDrivers();
 	}
 	
 	@Override
@@ -67,7 +67,7 @@ public class ExpressionWebElementsImpl<T extends WebElements> extends BaseWebEle
 	
 	@Override
 	protected WebElementsDriver<T> rootWebDriver() {
-		return parent.rootWebDriver();
+		return parentImpl.rootWebDriver();
 	}
 	
 	@Override
@@ -81,12 +81,12 @@ public class ExpressionWebElementsImpl<T extends WebElements> extends BaseWebEle
 	
 	@Override
 	protected T documentRootWebElements() {
-		return parent.documentRootWebElements();
+		return parentImpl.documentRootWebElements();
 	}
 	
 	@Override
-	public T root(T filter, boolean freeze) {
-		return parent.root(filter, freeze);
+	protected T root(T filter, boolean freeze) {
+		return parentImpl.root(filter, freeze);
 	}
 	
 	@Override

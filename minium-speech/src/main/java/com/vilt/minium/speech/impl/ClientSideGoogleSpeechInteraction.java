@@ -32,9 +32,9 @@ import com.vilt.minium.WebElementsDriver;
 
 public class ClientSideGoogleSpeechInteraction extends GoogleSpeechInteraction {
 
-	private WebElementsDriver<CoreWebElements<?>> wd;
+	private WebElementsDriver<?> wd;
 
-	public ClientSideGoogleSpeechInteraction(WebElementsDriver<CoreWebElements<?>> wd, Locale locale, String text) {
+	public ClientSideGoogleSpeechInteraction(WebElementsDriver<?> wd, Locale locale, String text) {
 		super(locale, text);
 		this.wd = wd;
 	}

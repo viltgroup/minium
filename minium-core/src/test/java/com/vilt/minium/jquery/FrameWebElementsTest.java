@@ -36,7 +36,7 @@ public class FrameWebElementsTest extends MiniumBaseTest {
 	
 	@Test
 	public void testIframe() {
-		DefaultWebElements elems = $(wd).frame("#jquery-frame-1").find("input#name");
+		DefaultWebElements elems = $(wd, "#jquery-frame-1").frame().find("input#name");
 		assertThat(elems, hasSize(1));
 		Iterables.get(elems, 0).sendKeys("Hello World!");
 	}
@@ -54,7 +54,7 @@ public class FrameWebElementsTest extends MiniumBaseTest {
 
 	@Test
 	public void testIframeRelativeElements() {
-		DefaultWebElements frame = $(wd).frame("#jquery-frame-1");
+		DefaultWebElements frame = $(wd, "#jquery-frame-1").frame();
 		DefaultWebElements input = frame.find("input#name");
 		DefaultWebElements label = frame.find("label").rightOf(input);
 		assertThat(label, hasSize(1));

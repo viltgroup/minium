@@ -15,7 +15,6 @@
  */
 package com.vilt.minium.impl;
 
-import static com.vilt.minium.impl.utils.Casts.cast;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItems;
 import static org.mockito.Mockito.mock;
@@ -33,7 +32,7 @@ public class WebElementsFactoryTest {
 	public void testInterfaces() {
 		WebElementsFactory factory = new WebElementsFactory(DefaultWebElements.class);
 		DefaultWebElementsDriver wd = mock(DefaultWebElementsDriver.class);
-		DefaultWebElements elem = cast(WebElementsFactoryHelper.createRootWebElements(factory, wd));
+		DefaultWebElements elem = WebElementsFactoryHelper.createRootWebElements(factory, wd);
 		assertTrue(elem instanceof JQueryWebElements<?>);
 	}
 

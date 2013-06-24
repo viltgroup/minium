@@ -28,59 +28,16 @@ public interface TargetLocatorWebElements<T extends WebElements> extends WebElem
 	/**
 	 * Frame.
 	 *
-	 * @param selector the selector
-	 * @return the t
-	 */
-	public T frame(String selector);
-
-	/**
-	 * Frame.
-	 *
-	 * @param filter the filter
-	 * @return the t
-	 */
-	public T frame(T filter);
-	
-	/**
-	 * Frame.
-	 *
 	 * @return the t
 	 */
 	public T frame();
-	
-	/**
-	 * Window.
-	 *
-	 * @param filter the filter
-	 * @return the t
-	 */
-	public T window(T filter);
-	
-	/**
-	 * Window.
-	 *
-	 * @param filter the filter
-	 * @param freeze the freeze
-	 * @return the t
-	 */
-	public T window(T filter, boolean freeze);
 
 	/**
-	 * Window.
+	 * Frame.
 	 *
-	 * @param expr the expr
 	 * @return the t
 	 */
-	public T window(String expr);
-	
-	/**
-	 * Window.
-	 *
-	 * @param expr the expr
-	 * @param freeze the freeze
-	 * @return the t
-	 */
-	public T window(String expr, boolean freeze);
+	public T frame(boolean freeze);
 	
 	/**
 	 * Window.
@@ -92,10 +49,10 @@ public interface TargetLocatorWebElements<T extends WebElements> extends WebElem
 	/**
 	 * Window.
 	 *
-	 * @param newWindow the new window
+	 * @param freeze the freeze
 	 * @return the t
 	 */
-	public T window(boolean newWindow);
+	public T window(boolean freeze);
 
 	/**
 	 * Root.

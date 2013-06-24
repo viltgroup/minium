@@ -17,8 +17,6 @@ package com.vilt.minium.impl.tips;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-import java.util.concurrent.TimeUnit;
-
 import com.vilt.minium.Duration;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.impl.actions.AsyncTimeElapsedInteraction;

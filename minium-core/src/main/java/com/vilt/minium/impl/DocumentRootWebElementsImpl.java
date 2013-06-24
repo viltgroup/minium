@@ -17,19 +17,19 @@ package com.vilt.minium.impl;
 
 import org.openqa.selenium.WebElement;
 
-import com.vilt.minium.JQueryWebElements;
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.WebElementsDriver;
-import com.vilt.minium.impl.utils.Casts;
 
-public abstract class DocumentRootWebElementsImpl<T extends WebElements> extends BaseWebElementsImpl<T> {
+public abstract class DocumentRootWebElementsImpl<T extends CoreWebElements<T>> extends BaseWebElementsImpl<T> {
 
 	/**
 	 * we return the root element from that page
 	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	protected Iterable<WebElement> computeElements(final WebElementsDriver<T> wd) {
-		return Casts.<JQueryWebElements<BaseWebElementsImpl<T>>>cast(this).find(":eq(0)").computeElements(wd);
+		BaseWebElementsImpl<T> impl = (BaseWebElementsImpl<T>) myself.find(":eq(0)");
+		return impl.computeElements(wd);
 	}
 
 	@Override
