@@ -29,7 +29,7 @@
 	
 	$.fn.containingText = function(text) {
 		return $(this).filter(function() {
-			return $(this).visibleText().indexOf(text) !== -1;
+			return clearExtraWhitespaces($(this).visibleText()).indexOf(clearExtraWhitespaces(text)) !== -1;
 		});
 	};
 	

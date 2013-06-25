@@ -27,16 +27,11 @@
 
 		if (nodeType) {
 			if (nodeType === 1 || nodeType === 9 || nodeType === 11) {
+				if ($.expr.filters.hidden(elem)) return '';
+				
 				// Traverse the children
 				for (elem = elem.firstChild; elem; elem = elem.nextSibling) {
-					if (elem.nodeType === 3) {
-						// in firefox, $.expr.filter.hidden fails with text nodes
-						ret += getVisibleText(elem);
-					} else {
-						ret += $.expr.filters.hidden(elem) ?
-								'' :
-								getVisibleText(elem);
-					}
+					ret += getVisibleText(elem);
 				}
 			} else if (nodeType === 3 || nodeType === 4) {
 				return elem.nodeValue;
