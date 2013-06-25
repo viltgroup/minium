@@ -15,7 +15,7 @@
  */
 package com.vilt.minium.impl.actions;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 
 /**
  * The Class DragAndDropByInteraction.
@@ -32,7 +32,7 @@ public class DragAndDropByInteraction extends MouseInteraction {
 	 * @param xOffset the x offset
 	 * @param yOffset the y offset
 	 */
-	public DragAndDropByInteraction(WebElements source, int xOffset, int yOffset) {
+	public DragAndDropByInteraction(CoreWebElements<?> source, int xOffset, int yOffset) {
 		super(source);
 		this.xOffset = xOffset;
 		this.yOffset = yOffset;

@@ -15,7 +15,7 @@
  */
 package com.vilt.minium.impl.actions.touch;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.actions.touch.TouchInteraction;
 
 /**
@@ -30,7 +30,7 @@ public class TouchScrollInteraction extends TouchInteraction {
 	 * @param xOffset the x offset
 	 * @param yOffset the y offset
 	 */
-	public TouchScrollInteraction(WebElements elems, int xOffset, int yOffset) {
+	public TouchScrollInteraction(CoreWebElements<?> elems, int xOffset, int yOffset) {
 		super(elems);
 	}
 

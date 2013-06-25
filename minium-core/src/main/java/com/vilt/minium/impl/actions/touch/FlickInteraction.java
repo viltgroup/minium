@@ -15,7 +15,7 @@
  */
 package com.vilt.minium.impl.actions.touch;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.actions.touch.TouchInteraction;
 
 /**
@@ -30,7 +30,7 @@ public class FlickInteraction extends TouchInteraction {
 	 * @param xSpeed the x speed
 	 * @param ySpeed the y speed
 	 */
-	public FlickInteraction(WebElements elements, int xSpeed, int ySpeed) {
+	public FlickInteraction(CoreWebElements<?> elements, int xSpeed, int ySpeed) {
 		super(elements);
 	}
 
@@ -42,7 +42,7 @@ public class FlickInteraction extends TouchInteraction {
 	 * @param yOffset the y offset
 	 * @param speed the speed
 	 */
-	public FlickInteraction(WebElements elements, int xOffset, int yOffset, int speed) {
+	public FlickInteraction(CoreWebElements<?> elements, int xOffset, int yOffset, int speed) {
 		super(elements);
 	}
 

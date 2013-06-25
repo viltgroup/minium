@@ -17,7 +17,7 @@ package com.vilt.minium.impl.debug;
 
 import java.io.OutputStream;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.impl.actions.DefaultInteraction;
 
 /**
@@ -34,7 +34,7 @@ public abstract class ScreenshotInteraction extends DefaultInteraction {
 	 * @param elems the elems
 	 * @param stream the stream
 	 */
-	public ScreenshotInteraction(WebElements elems, OutputStream stream) {
+	public ScreenshotInteraction(CoreWebElements<?> elems, OutputStream stream) {
 		super(elems);
 		this.stream = stream;
 	}

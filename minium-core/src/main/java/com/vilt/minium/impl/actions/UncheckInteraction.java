@@ -15,11 +15,11 @@
  */
 package com.vilt.minium.impl.actions;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 
 public class UncheckInteraction extends ClickInteraction {
 
-	public UncheckInteraction(WebElements elems) {
+	public UncheckInteraction(CoreWebElements<?> elems) {
 		super(elems);
 	}
 

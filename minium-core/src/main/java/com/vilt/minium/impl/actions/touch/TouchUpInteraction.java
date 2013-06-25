@@ -15,7 +15,7 @@
  */
 package com.vilt.minium.impl.actions.touch;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.actions.touch.TouchInteraction;
 
 /**
@@ -30,7 +30,7 @@ public class TouchUpInteraction extends TouchInteraction {
 	 * @param x the x
 	 * @param y the y
 	 */
-	public TouchUpInteraction(WebElements elems, int x, int y) {
+	public TouchUpInteraction(CoreWebElements<?> elems, int x, int y) {
 		super(elems);
 	}
 

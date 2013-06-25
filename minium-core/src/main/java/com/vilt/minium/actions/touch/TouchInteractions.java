@@ -15,7 +15,7 @@
  */
 package com.vilt.minium.actions.touch;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 
 /**
  * The Class TouchInteractions.
@@ -28,7 +28,7 @@ public class TouchInteractions {
 	 *
 	 * @param elements the elements
 	 */
-	public static void singleTap(WebElements elements) {
+	public static void singleTap(CoreWebElements<?> elements) {
 		defaultPerformer().singleTap(elements);
 	}
 	
@@ -39,7 +39,7 @@ public class TouchInteractions {
 	 * @param x the x
 	 * @param y the y
 	 */
-	public static void down(WebElements elements, int x, int y) {
+	public static void down(CoreWebElements<?> elements, int x, int y) {
 		defaultPerformer().down(elements, x, y);
 	}
 	
@@ -50,7 +50,7 @@ public class TouchInteractions {
 	 * @param x the x
 	 * @param y the y
 	 */
-	public static void up(WebElements elements, int x, int y) {
+	public static void up(CoreWebElements<?> elements, int x, int y) {
 		defaultPerformer().up(elements, x, y);
 	}
 	
@@ -61,7 +61,7 @@ public class TouchInteractions {
 	 * @param x the x
 	 * @param y the y
 	 */
-	public static void move(WebElements elements, int x, int y) {
+	public static void move(CoreWebElements<?> elements, int x, int y) {
 		defaultPerformer().move(elements, x, y);
 	}
 	
@@ -70,7 +70,7 @@ public class TouchInteractions {
 	 *
 	 * @param elements the elements
 	 */
-	public static void doubleTap(WebElements elements) {
+	public static void doubleTap(CoreWebElements<?> elements) {
 		defaultPerformer().doubleTap(elements);
 	}
 	
@@ -79,7 +79,7 @@ public class TouchInteractions {
 	 *
 	 * @param elements the elements
 	 */
-	public static void longPress(WebElements elements) {
+	public static void longPress(CoreWebElements<?> elements) {
 		defaultPerformer().longPress(elements);
 	}
 	
@@ -90,7 +90,7 @@ public class TouchInteractions {
 	 * @param xOffset the x offset
 	 * @param yOffset the y offset
 	 */
-	public static void scroll(WebElements elements, int xOffset, int yOffset) {
+	public static void scroll(CoreWebElements<?> elements, int xOffset, int yOffset) {
 		defaultPerformer().scroll(elements, xOffset, yOffset);
 	}
 	
@@ -101,7 +101,7 @@ public class TouchInteractions {
 	 * @param xSpeed the x speed
 	 * @param ySpeed the y speed
 	 */
-	public static void flick(WebElements elements, int xSpeed, int ySpeed) {
+	public static void flick(CoreWebElements<?> elements, int xSpeed, int ySpeed) {
 		defaultPerformer().flick(elements, xSpeed, ySpeed);
 	}
 	
@@ -113,7 +113,7 @@ public class TouchInteractions {
 	 * @param yOffset the y offset
 	 * @param speed the speed
 	 */
-	public static void flick(WebElements elements, int xOffset, int yOffset, int speed) {
+	public static void flick(CoreWebElements<?> elements, int xOffset, int yOffset, int speed) {
 		defaultPerformer().flick(elements, xOffset, yOffset, speed);
 	}
 	

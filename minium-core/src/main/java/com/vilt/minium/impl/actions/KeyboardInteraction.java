@@ -17,7 +17,7 @@ package com.vilt.minium.impl.actions;
 
 import org.openqa.selenium.Keyboard;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.WebElementsDriverProvider;
 
 /**
@@ -30,7 +30,7 @@ public abstract class KeyboardInteraction extends DefaultInteraction {
 	 *
 	 * @param elems the elems
 	 */
-	public KeyboardInteraction(WebElements elems) {
+	public KeyboardInteraction(CoreWebElements<?> elems) {
 		super(elems);
 	}
 	

@@ -17,8 +17,8 @@ package com.vilt.minium.impl.actions;
 
 import static com.vilt.minium.impl.WaitPredicates.untilWindowClosed;
 
+import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.TimeoutException;
-import com.vilt.minium.WebElements;
 
 /**
  * The Class WaitWindowClosedElementsInteraction.
@@ -30,7 +30,7 @@ public class WaitWindowClosedElementsInteraction extends WaitInteraction {
 	 *
 	 * @param elems the elems
 	 */
-	public WaitWindowClosedElementsInteraction(WebElements elems) {
+	public WaitWindowClosedElementsInteraction(CoreWebElements<?> elems) {
 		super(elems);
 	}
 

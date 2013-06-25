@@ -19,7 +19,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.touch.TouchActions;
 import org.openqa.selenium.internal.WrapsDriver;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.impl.actions.DefaultInteraction;
 
 /**
@@ -32,7 +32,7 @@ public abstract class TouchInteraction extends DefaultInteraction {
 	 *
 	 * @param elems the elems
 	 */
-	public TouchInteraction(WebElements elems) {
+	public TouchInteraction(CoreWebElements<?> elems) {
 		super(elems);
 	}
 	

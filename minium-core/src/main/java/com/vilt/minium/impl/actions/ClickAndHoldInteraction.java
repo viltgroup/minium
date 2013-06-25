@@ -15,7 +15,7 @@
  */
 package com.vilt.minium.impl.actions;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 
 /**
  * The Class ClickAndHoldInteraction.
@@ -27,7 +27,7 @@ public class ClickAndHoldInteraction extends MouseInteraction {
 	 *
 	 * @param source the source
 	 */
-	public ClickAndHoldInteraction(WebElements source) {
+	public ClickAndHoldInteraction(CoreWebElements<?> source) {
 		super(source);
 	}
 	

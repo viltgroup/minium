@@ -15,7 +15,7 @@
  */
 package com.vilt.minium.impl.actions;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 
 /**
  * The Class ClickInteraction.
@@ -27,7 +27,7 @@ public class ClickInteraction extends MouseInteraction {
 	 *
 	 * @param source the source
 	 */
-	public ClickInteraction(WebElements source) {
+	public ClickInteraction(CoreWebElements<?> source) {
 		super(source);
 	}
 

@@ -25,7 +25,5 @@ public interface CoreWebElements<T extends CoreWebElements<T>> extends
 	TargetLocatorWebElements<T>, 
 	JQueryWebElements<T>, 
 	WaitWebElements<T>,
-	FiltersWebElements<T>,
-	ConditionWebElements<T> {
-
+	FiltersWebElements<T> {
 }

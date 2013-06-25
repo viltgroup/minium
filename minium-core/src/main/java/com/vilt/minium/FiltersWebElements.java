@@ -23,7 +23,7 @@ package com.vilt.minium;
  * @author rui.figueira
  */
 @JQueryResources("minium/js/filters.js")
-public interface FiltersWebElements<T extends WebElements> extends WebElements {
+public interface FiltersWebElements<T extends CoreWebElements<T>> extends WebElements {
 
 	/**
 	 * <p>Filters elements that have a label with the given text. That means that

@@ -25,7 +25,7 @@ import com.google.common.base.Predicate;
  * @param <T> {@link WebElements} subclass
  * @author rui.figueira
  */
-public interface WaitWebElements<T extends WebElements> extends WebElements {
+public interface WaitWebElements<T extends CoreWebElements<T>> extends WebElements {
 	
 	/**
 	 * Waits using the default timeout value provided by {@link Configuration#getDefaultInterval()}

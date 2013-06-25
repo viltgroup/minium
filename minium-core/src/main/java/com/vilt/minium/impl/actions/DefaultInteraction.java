@@ -29,7 +29,6 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.Lists;
 import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.Duration;
-import com.vilt.minium.WebElements;
 import com.vilt.minium.WebElementsDriverProvider;
 import com.vilt.minium.actions.AfterFailInteractionEvent;
 import com.vilt.minium.actions.AfterSuccessInteractionEvent;
@@ -56,9 +55,9 @@ public abstract class DefaultInteraction implements Interaction {
 	 *
 	 * @param elems the elems
 	 */
-	public DefaultInteraction(WebElements elems) {
+	public DefaultInteraction(CoreWebElements<?> elems) {
 		if (elems != null) {
-			this.source = ((CoreWebElements<?>) elems);
+			this.source = elems;
 			if (!(this.source instanceof DocumentRootWebElementsImpl)) {
 				this.source = this.source.displayed();
 			}
@@ -133,8 +132,8 @@ public abstract class DefaultInteraction implements Interaction {
 	 * @param elems the elems
 	 * @return the first
 	 */
-	protected WebElements getFirst(WebElements elems) {
-		WebElements first = ((CoreWebElements<?>) elems).displayed().first();
+	protected CoreWebElements<?> getFirst(CoreWebElements<?> elems) {
+		CoreWebElements<?> first = elems.displayed().first();
 		return first;
 	}
 
@@ -144,8 +143,8 @@ public abstract class DefaultInteraction implements Interaction {
 	 * @param elems the elems
 	 * @return the first element
 	 */
-	protected WebElement getFirstElement(WebElements elems) {
-		WebElements first = getFirst(elems);
+	protected WebElement getFirstElement(CoreWebElements<?> elems) {
+		CoreWebElements<?> first = getFirst(elems);
 		return first.get(0);
 	}
 

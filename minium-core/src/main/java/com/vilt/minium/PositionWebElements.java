@@ -22,7 +22,7 @@ package com.vilt.minium;
  * @author Rui
  */
 @JQueryResources("minium/js/position.js")
-public interface PositionWebElements<T extends WebElements> extends WebElements {
+public interface PositionWebElements<T extends CoreWebElements<T>> extends WebElements {
 	
 	/**
 	 * Filters elements above this element.

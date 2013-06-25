@@ -26,7 +26,6 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 
 import com.vilt.minium.CoreWebElements;
-import com.vilt.minium.WebElements;
 import com.vilt.minium.WebElementsDriverProvider;
 
 /**
@@ -40,7 +39,7 @@ public class ElementsScreenshotInteraction extends ScreenshotInteraction {
 	 * @param elems the elems
 	 * @param stream the stream
 	 */
-	public ElementsScreenshotInteraction(WebElements elems, OutputStream stream) {
+	public ElementsScreenshotInteraction(CoreWebElements<?> elems, OutputStream stream) {
 		super(elems, stream);
 	}
 

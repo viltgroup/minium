@@ -17,8 +17,8 @@ package com.vilt.minium.impl.actions;
 
 import static com.vilt.minium.impl.WaitPredicates.whileNotEmpty;
 
+import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.TimeoutException;
-import com.vilt.minium.WebElements;
 
 /**
  * The Class WaitWhileElementsInteraction.
@@ -30,7 +30,7 @@ public class WaitWhileNotEmptyInteraction extends WaitInteraction {
 	 *
 	 * @param elems the elems
 	 */
-	public WaitWhileNotEmptyInteraction(WebElements elems) {
+	public WaitWhileNotEmptyInteraction(CoreWebElements<?> elems) {
 		super(elems);
 	}
 

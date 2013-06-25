@@ -17,7 +17,7 @@ package com.vilt.minium.impl.actions;
 
 import org.openqa.selenium.Keys;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 
 /**
  * The Class KeyUpInteraction.
@@ -32,7 +32,7 @@ public class KeyUpInteraction extends KeyboardInteraction {
 	 * @param elements the elements
 	 * @param keys the keys
 	 */
-	public KeyUpInteraction(WebElements elements, Keys keys) {
+	public KeyUpInteraction(CoreWebElements<?> elements, Keys keys) {
 		super(elements);
 		this.keys = keys;
 	}

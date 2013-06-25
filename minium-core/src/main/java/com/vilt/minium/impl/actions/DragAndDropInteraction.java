@@ -15,14 +15,14 @@
  */
 package com.vilt.minium.impl.actions;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 
 /**
  * The Class DragAndDropInteraction.
  */
 public class DragAndDropInteraction extends MouseInteraction {
 
-	private WebElements target;
+	private CoreWebElements<?> target;
 
 	/**
 	 * Instantiates a new drag and drop interaction.
@@ -30,7 +30,7 @@ public class DragAndDropInteraction extends MouseInteraction {
 	 * @param source the source
 	 * @param target the target
 	 */
-	public DragAndDropInteraction(WebElements source, WebElements target) {
+	public DragAndDropInteraction(CoreWebElements<?> source, CoreWebElements<?> target) {
 		super(source);
 		this.target = target;
 	}

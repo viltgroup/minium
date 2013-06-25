@@ -16,7 +16,6 @@
 package com.vilt.minium.impl.actions;
 
 import com.vilt.minium.CoreWebElements;
-import com.vilt.minium.WebElements;
 
 /**
  * The Class WaitInteraction.
@@ -28,7 +27,7 @@ public abstract class WaitInteraction extends DefaultInteraction {
 	 *
 	 * @param elems the elems
 	 */
-	public WaitInteraction(WebElements elems) {
+	public WaitInteraction(CoreWebElements<?> elems) {
 		super(elems);
 	}
 	

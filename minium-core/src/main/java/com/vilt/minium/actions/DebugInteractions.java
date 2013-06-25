@@ -19,7 +19,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.impl.debug.ElementsScreenshotInteraction;
 import com.vilt.minium.impl.debug.HighlightInteraction;
 import com.vilt.minium.impl.debug.HighlightListener;
@@ -54,7 +54,7 @@ public class DebugInteractions {
 	 *
 	 * @param webElements the web elements
 	 */
-	public static void highlight(WebElements webElements) {
+	public static void highlight(CoreWebElements<?> webElements) {
 		new InteractionPerformer().performAndWait(new HighlightInteraction(webElements));
 	}
 
@@ -63,7 +63,7 @@ public class DebugInteractions {
 	 *
 	 * @param webElements the web elements
 	 */
-	public static void highlightAsync(WebElements webElements) {
+	public static void highlightAsync(CoreWebElements<?> webElements) {
 		new InteractionPerformer().perform(new HighlightInteraction(webElements));
 	}
 
@@ -73,7 +73,7 @@ public class DebugInteractions {
 	 * @param webElements the web elements
 	 * @param file the file
 	 */
-	public static void takeScreenshot(WebElements webElements, File file) {
+	public static void takeScreenshot(CoreWebElements<?> webElements, File file) {
 		new InteractionPerformer().perform(new ElementsScreenshotInteraction(webElements, outputStreamFor(file)));
 	}
 
@@ -83,7 +83,7 @@ public class DebugInteractions {
 	 * @param webElements the web elements
 	 * @param stream the stream
 	 */
-	public static void takeScreenshot(WebElements webElements, OutputStream stream) {
+	public static void takeScreenshot(CoreWebElements<?> webElements, OutputStream stream) {
 		new InteractionPerformer().perform(new ElementsScreenshotInteraction(webElements, stream));
 	}
 	
@@ -93,7 +93,7 @@ public class DebugInteractions {
 	 * @param webElements the web elements
 	 * @param file the file
 	 */
-	public static void takeWindowScreenshot(WebElements webElements, String file) {
+	public static void takeWindowScreenshot(CoreWebElements<?> webElements, String file) {
 		new InteractionPerformer().perform(new WindowScreenshotInteraction(webElements, outputStreamFor(file)));
 	}
 	
@@ -103,7 +103,7 @@ public class DebugInteractions {
 	 * @param webElements the web elements
 	 * @param file the file
 	 */
-	public static void takeWindowScreenshot(WebElements webElements, File file) {
+	public static void takeWindowScreenshot(CoreWebElements<?> webElements, File file) {
 		new InteractionPerformer().perform(new WindowScreenshotInteraction(webElements, outputStreamFor(file)));
 	}
 	
@@ -113,7 +113,7 @@ public class DebugInteractions {
 	 * @param webElements the web elements
 	 * @param stream the stream
 	 */
-	public static void takeWindowScreenshot(WebElements webElements, OutputStream stream) {
+	public static void takeWindowScreenshot(CoreWebElements<?> webElements, OutputStream stream) {
 		new InteractionPerformer().perform(new WindowScreenshotInteraction(webElements, stream));
 	}
 

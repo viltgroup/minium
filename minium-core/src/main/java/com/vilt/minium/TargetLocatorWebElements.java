@@ -23,7 +23,7 @@ import org.openqa.selenium.Alert;
  * @param <T> the generic type
  * @author Rui
  */
-public interface TargetLocatorWebElements<T extends WebElements> extends WebElements {
+public interface TargetLocatorWebElements<T extends CoreWebElements<T>> extends WebElements {
 	
 	/**
 	 * Frame.

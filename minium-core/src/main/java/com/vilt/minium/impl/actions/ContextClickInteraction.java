@@ -15,7 +15,7 @@
  */
 package com.vilt.minium.impl.actions;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 
 /**
  * The Class ContextClickInteraction.
@@ -27,7 +27,7 @@ public class ContextClickInteraction extends MouseInteraction {
 	 *
 	 * @param source the source
 	 */
-	public ContextClickInteraction(WebElements source) {
+	public ContextClickInteraction(CoreWebElements<?> source) {
 		super(source);
 	}
 

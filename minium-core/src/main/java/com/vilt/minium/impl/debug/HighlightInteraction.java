@@ -17,8 +17,8 @@ package com.vilt.minium.impl.debug;
 
 import java.util.concurrent.TimeUnit;
 
+import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.Duration;
-import com.vilt.minium.WebElements;
 import com.vilt.minium.debug.DebugWebElements;
 import com.vilt.minium.impl.actions.AsyncTimeElapsedInteraction;
 
@@ -32,11 +32,11 @@ public class HighlightInteraction extends AsyncTimeElapsedInteraction {
 	 *
 	 * @param elems the elems
 	 */
-	public HighlightInteraction(WebElements elems) {
+	public HighlightInteraction(CoreWebElements<?> elems) {
 		this(elems, new Duration(2, TimeUnit.SECONDS));
 	}
 
-	public HighlightInteraction(WebElements elems, Duration duration) {
+	public HighlightInteraction(CoreWebElements<?> elems, Duration duration) {
 		super(elems, duration);
 	}
 

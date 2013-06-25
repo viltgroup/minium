@@ -15,11 +15,11 @@
  */
 package com.vilt.minium.impl.actions;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 
 public class CloseInteraction extends DefaultInteraction {
 
-	public CloseInteraction(WebElements elems) {
+	public CloseInteraction(CoreWebElements<?> elems) {
 		super(elems);
 	}
 

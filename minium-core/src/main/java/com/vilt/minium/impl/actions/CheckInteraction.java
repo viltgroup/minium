@@ -15,11 +15,11 @@
  */
 package com.vilt.minium.impl.actions;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 
 public class CheckInteraction extends ClickInteraction {
 
-	public CheckInteraction(WebElements elems) {
+	public CheckInteraction(CoreWebElements<?> elems) {
 		super(elems);
 	}
 

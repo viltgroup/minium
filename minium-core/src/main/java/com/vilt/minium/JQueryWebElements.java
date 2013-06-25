@@ -21,7 +21,7 @@ package com.vilt.minium;
  * @param <T> "self-type" for {@link WebElements} 
  */
 @JQueryResources({ "minium/js/jquery.min.js", "minium/js/jquery.visibleText.js", "minium/js/jquery-ext.js" })
-public interface JQueryWebElements<T extends WebElements> extends WebElements, WebElementsFinder<T> {
+public interface JQueryWebElements<T extends CoreWebElements<T>> extends WebElements, WebElementsFinder<T> {
 
 	/**
 	 * <!-- begin-minium-doc http://api.jquery.com/attr/#attr-attributeName -->

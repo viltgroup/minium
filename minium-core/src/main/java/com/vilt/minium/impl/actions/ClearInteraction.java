@@ -15,7 +15,7 @@
  */
 package com.vilt.minium.impl.actions;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 
 /**
  * The Class ClearInteraction.
@@ -27,7 +27,7 @@ public class ClearInteraction extends KeyboardInteraction {
 	 *
 	 * @param source the source
 	 */
-	public ClearInteraction(WebElements source) {
+	public ClearInteraction(CoreWebElements<?> source) {
 		super(source);
 	}
 

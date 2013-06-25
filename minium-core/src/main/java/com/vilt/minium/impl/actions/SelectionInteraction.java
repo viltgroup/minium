@@ -17,7 +17,7 @@ package com.vilt.minium.impl.actions;
 
 import org.openqa.selenium.support.ui.Select;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 
 /**
  * The Class SelectionInteraction.
@@ -29,7 +29,7 @@ public abstract class SelectionInteraction extends DefaultInteraction {
 	 *
 	 * @param source the source
 	 */
-	public SelectionInteraction(WebElements source) {
+	public SelectionInteraction(CoreWebElements<?> source) {
 		super(source);
 	}
 	

@@ -15,7 +15,7 @@
  */
 package com.vilt.minium.actions;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 
 /**
  * The Class BeforeInteractionEvent.
@@ -26,7 +26,7 @@ public class AfterFailInteractionEvent extends AfterInteractionEvent {
 	private Throwable exception;
 	private boolean retry = false;
 	
-	public AfterFailInteractionEvent(WebElements source, Interaction interaction, Throwable exception) {
+	public AfterFailInteractionEvent(CoreWebElements<?> source, Interaction interaction, Throwable exception) {
 		super(source, interaction);
 		this.exception = exception;
 	}

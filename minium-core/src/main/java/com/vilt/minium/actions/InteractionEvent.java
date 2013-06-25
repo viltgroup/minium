@@ -17,7 +17,7 @@ package com.vilt.minium.actions;
 
 import java.util.EventObject;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 
 /**
  * The Class InteractionEvent.
@@ -48,7 +48,7 @@ public abstract class InteractionEvent extends EventObject {
 	 * @param interaction the interaction
 	 * @param type the type
 	 */
-	public InteractionEvent(WebElements source, Interaction interaction) {
+	public InteractionEvent(CoreWebElements<?> source, Interaction interaction) {
 		super(source);
 		this.interaction = interaction;
 	}
@@ -57,8 +57,8 @@ public abstract class InteractionEvent extends EventObject {
 	 * @see java.util.EventObject#getSource()
 	 */
 	@Override
-	public WebElements getSource() {
-		return (WebElements) super.getSource();
+	public CoreWebElements<?> getSource() {
+		return (CoreWebElements<?>) super.getSource();
 	}
 	
 	/**

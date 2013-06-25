@@ -23,7 +23,6 @@ import org.openqa.selenium.OutputType;
 import com.google.common.io.ByteStreams;
 import com.google.common.io.Closeables;
 import com.vilt.minium.CoreWebElements;
-import com.vilt.minium.WebElements;
 import com.vilt.minium.WebElementsDriverProvider;
 
 /**
@@ -37,7 +36,7 @@ public class WindowScreenshotInteraction extends ScreenshotInteraction {
 	 * @param elems the elems
 	 * @param stream the stream
 	 */
-	public WindowScreenshotInteraction(WebElements elems, OutputStream stream) {
+	public WindowScreenshotInteraction(CoreWebElements<?> elems, OutputStream stream) {
 		super(elems, stream);
 	}
 	

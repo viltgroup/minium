@@ -22,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.Keys;
 
+import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.Duration;
 import com.vilt.minium.TimeoutException;
 import com.vilt.minium.WebElements;
@@ -67,7 +68,7 @@ public class Interactions {
 		defaultPerformer().get($(wd), url);
 	}
 	
-	public static void get(WebElements elements, String url) {
+	public static void get(CoreWebElements<?> elements, String url) {
 		defaultPerformer().get(elements, url);
 	}
 	
@@ -75,7 +76,7 @@ public class Interactions {
 		defaultPerformer().close($(wd));
 	}
 	
-	public static void close(WebElements elements) {
+	public static void close(CoreWebElements<?> elements) {
 		defaultPerformer().close(elements);
 	}
 	
@@ -85,7 +86,7 @@ public class Interactions {
 	 *
 	 * @param elements the elements
 	 */
-	public static void clear(WebElements elements) {
+	public static void clear(CoreWebElements<?> elements) {
 		defaultPerformer().clear(elements);
 	}
 
@@ -96,7 +97,7 @@ public class Interactions {
 	 * @param elements the elements
 	 * @param keys the keys
 	 */
-	public static void keyDown(WebElements elements, Keys keys) {
+	public static void keyDown(CoreWebElements<?> elements, Keys keys) {
 		defaultPerformer().keyDown(elements, keys);
 	}
 
@@ -106,7 +107,7 @@ public class Interactions {
 	 * @param elements the elements
 	 * @param keys the keys
 	 */
-	public static void keyUp(WebElements elements, Keys keys) {
+	public static void keyUp(CoreWebElements<?> elements, Keys keys) {
 		defaultPerformer().keyUp(elements, keys);
 	}
 
@@ -116,7 +117,7 @@ public class Interactions {
 	 * @param elements the elements
 	 * @param keys the keys
 	 */
-	public static void sendKeys(WebElements elements, CharSequence... keys) {
+	public static void sendKeys(CoreWebElements<?> elements, CharSequence... keys) {
 		defaultPerformer().sendKeys(elements, keys);
 	}
 
@@ -125,7 +126,7 @@ public class Interactions {
 	 *
 	 * @param elements the elements
 	 */
-	public static void clickAndHold(WebElements elements) {
+	public static void clickAndHold(CoreWebElements<?> elements) {
 		defaultPerformer().clickAndHold(elements);
 	}
 
@@ -134,7 +135,7 @@ public class Interactions {
 	 *
 	 * @param elements the elements
 	 */
-	public static void release(WebElements elements) {
+	public static void release(CoreWebElements<?> elements) {
 		defaultPerformer().release(elements);
 	}
 
@@ -143,7 +144,7 @@ public class Interactions {
 	 *
 	 * @param elements the elements
 	 */
-	public static void click(WebElements elements) {
+	public static void click(CoreWebElements<?> elements) {
 		defaultPerformer().click(elements);
 	}
 
@@ -152,7 +153,7 @@ public class Interactions {
 	 *
 	 * @param elements the elements
 	 */
-	public static void doubleClick(WebElements elements) {
+	public static void doubleClick(CoreWebElements<?> elements) {
 		defaultPerformer().doubleClick(elements);
 	}
 
@@ -161,7 +162,7 @@ public class Interactions {
 	 *
 	 * @param elements the elements
 	 */
-	public static void moveToElement(WebElements elements) {
+	public static void moveToElement(CoreWebElements<?> elements) {
 		defaultPerformer().moveToElement(elements);
 	}
 
@@ -172,7 +173,7 @@ public class Interactions {
 	 * @param xOffset the x offset
 	 * @param yOffset the y offset
 	 */
-	public static void moveToElement(WebElements elements, int xOffset, int yOffset) {
+	public static void moveToElement(CoreWebElements<?> elements, int xOffset, int yOffset) {
 		defaultPerformer().moveToElement(elements, xOffset, yOffset);
 	}
 
@@ -183,7 +184,7 @@ public class Interactions {
 	 * @param xOffset the x offset
 	 * @param yOffset the y offset
 	 */
-	public static void moveByOffset(WebElements elements, int xOffset, int yOffset) {
+	public static void moveByOffset(CoreWebElements<?> elements, int xOffset, int yOffset) {
 		defaultPerformer().moveByOffset(elements, xOffset, yOffset);
 	}
 
@@ -192,7 +193,7 @@ public class Interactions {
 	 *
 	 * @param elements the elements
 	 */
-	public static void contextClick(WebElements elements) {
+	public static void contextClick(CoreWebElements<?> elements) {
 		defaultPerformer().contextClick(elements);
 	}
 
@@ -202,7 +203,7 @@ public class Interactions {
 	 * @param source the source
 	 * @param target the target
 	 */
-	public static void dragAndDrop(WebElements source, WebElements target) {
+	public static void dragAndDrop(CoreWebElements<?> source, CoreWebElements<?> target) {
 		defaultPerformer().dragAndDrop(source, target);
 	}
 
@@ -213,7 +214,7 @@ public class Interactions {
 	 * @param xOffset the x offset
 	 * @param yOffset the y offset
 	 */
-	public static void dragAndDropBy(WebElements source, int xOffset, int yOffset) {
+	public static void dragAndDropBy(CoreWebElements<?> source, int xOffset, int yOffset) {
 		defaultPerformer().dragAndDropBy(source, xOffset, yOffset);
 	}
 
@@ -223,7 +224,7 @@ public class Interactions {
 	 *
 	 * @param elements the elements
 	 */
-	public static void clickAll(WebElements elements) {
+	public static void clickAll(CoreWebElements<?> elements) {
 		defaultPerformer().clickAll(elements);
 	}
 
@@ -233,7 +234,7 @@ public class Interactions {
 	 * @param elements the elements
 	 * @param text the text
 	 */
-	public static void type(WebElements elements, CharSequence text) {
+	public static void type(CoreWebElements<?> elements, CharSequence text) {
 		defaultPerformer().type(elements, text);
 	}
 
@@ -243,15 +244,15 @@ public class Interactions {
 	 * @param elements the elements
 	 * @param text the text
 	 */
-	public static void fill(WebElements elements, CharSequence text) {
+	public static void fill(CoreWebElements<?> elements, CharSequence text) {
 		defaultPerformer().fill(elements, text);
 	}
 
-	public static void check(WebElements elements) {
+	public static void check(CoreWebElements<?> elements) {
 		defaultPerformer().check(elements);
 	}
 	
-	public static void uncheck(WebElements elements) {
+	public static void uncheck(CoreWebElements<?> elements) {
 		defaultPerformer().uncheck(elements);
 	}
 	
@@ -264,7 +265,7 @@ public class Interactions {
 	 * @param elems the elems
 	 * @param text the text
 	 */
-	public static void select(WebElements elems, String text) {
+	public static void select(CoreWebElements<?> elems, String text) {
 		defaultPerformer().select(elems, text);
 	}
 
@@ -274,7 +275,7 @@ public class Interactions {
 	 * @param elems the elems
 	 * @param text the text
 	 */
-	public static void deselect(WebElements elems, String text) {
+	public static void deselect(CoreWebElements<?> elems, String text) {
 		defaultPerformer().deselect(elems, text);
 	}
 
@@ -284,7 +285,7 @@ public class Interactions {
 	 * @param elems the elems
 	 * @param val the val
 	 */
-	public static void selectVal(WebElements elems, String val) {
+	public static void selectVal(CoreWebElements<?> elems, String val) {
 		defaultPerformer().selectVal(elems, val);
 	}
 
@@ -294,7 +295,7 @@ public class Interactions {
 	 * @param elems the elems
 	 * @param val the val
 	 */
-	public static void deselectVal(WebElements elems, String val) {
+	public static void deselectVal(CoreWebElements<?> elems, String val) {
 		defaultPerformer().deselectVal(elems, val);
 	}
 
@@ -303,7 +304,7 @@ public class Interactions {
 	 *
 	 * @param elems the elems
 	 */
-	public static void selectAll(WebElements elems) {
+	public static void selectAll(CoreWebElements<?> elems) {
 		defaultPerformer().selectAll(elems);
 	}
 
@@ -312,7 +313,7 @@ public class Interactions {
 	 *
 	 * @param elems the elems
 	 */
-	public static void deselectAll(WebElements elems) {
+	public static void deselectAll(CoreWebElements<?> elems) {
 		defaultPerformer().deselectAll(elems);
 	}
 
@@ -323,11 +324,11 @@ public class Interactions {
 	 * @deprecated use {@link Interactions#waitWhileEmpty(WebElements)}
 	 */
 	@Deprecated
-	public static void waitForElements(WebElements elems) throws TimeoutException {
+	public static void waitForElements(CoreWebElements<?> elems) throws TimeoutException {
 		waitWhileEmpty(elems);
 	}
 
-	public static void waitWhileEmpty(WebElements elems) throws TimeoutException {
+	public static void waitWhileEmpty(CoreWebElements<?> elems) throws TimeoutException {
 		defaultPerformer().waitWhileEmpty(elems);
 	}
 	
@@ -338,11 +339,11 @@ public class Interactions {
 	 * @deprecated use {@link Interactions#waitWhileNotEmpty(WebElements)}
 	 */
 	@Deprecated
-	public static void waitWhileElements(WebElements elems) throws TimeoutException {
+	public static void waitWhileElements(CoreWebElements<?> elems) throws TimeoutException {
 		defaultPerformer().waitWhileElements(elems);
 	}
 
-	public static void waitWhileNotEmpty(WebElements elems) throws TimeoutException {
+	public static void waitWhileNotEmpty(CoreWebElements<?> elems) throws TimeoutException {
 		defaultPerformer().waitWhileNotEmpty(elems);
 	}
 	
@@ -352,7 +353,7 @@ public class Interactions {
 	 * @param elems the elems
 	 * @return true, if successful
 	 */
-	public static boolean checkNotEmpty(WebElements elems) {
+	public static boolean checkNotEmpty(CoreWebElements<?> elems) {
 		return defaultPerformer().checkNotEmpty(elems);
 	}
 	
@@ -362,7 +363,7 @@ public class Interactions {
 	 * @param elems the elems
 	 * @return true, if successful
 	 */
-	public static boolean checkEmpty(WebElements elems) {
+	public static boolean checkEmpty(CoreWebElements<?> elems) {
 		return defaultPerformer().checkEmpty(elems);
 	}
 	
@@ -371,7 +372,7 @@ public class Interactions {
 	 *
 	 * @param elems the elems
 	 */
-	public static void waitUntilClosed(WebElements elems) throws TimeoutException {
+	public static void waitUntilClosed(CoreWebElements<?> elems) throws TimeoutException {
 		defaultPerformer().waitUntilClosed(elems);
 	}
 	

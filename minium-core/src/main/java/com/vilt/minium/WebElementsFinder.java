@@ -15,7 +15,7 @@
  */
 package com.vilt.minium;
 
-public interface WebElementsFinder<T extends WebElements> {
+public interface WebElementsFinder<T extends CoreWebElements<T>> {
 	public T find(String selector);
 	public T find(T expr);
 }

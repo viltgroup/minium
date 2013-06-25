@@ -15,7 +15,7 @@
  */
 package com.vilt.minium.impl.actions;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 
 /**
  * The Class SendKeysInteraction.
@@ -30,7 +30,7 @@ public class SendKeysInteraction extends KeyboardInteraction {
 	 * @param source the source
 	 * @param keys the keys
 	 */
-	public SendKeysInteraction(WebElements source, CharSequence ... keys) {
+	public SendKeysInteraction(CoreWebElements<?> source, CharSequence ... keys) {
 		super(source);
 		this.keys = keys;
 	}

@@ -17,8 +17,8 @@ package com.vilt.minium.impl.tips;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.Duration;
-import com.vilt.minium.WebElements;
 import com.vilt.minium.impl.actions.AsyncTimeElapsedInteraction;
 import com.vilt.minium.tips.TipWebElements;
 
@@ -26,12 +26,12 @@ public class TipInteraction extends AsyncTimeElapsedInteraction {
 
 	private String tip;
 
-	public TipInteraction(WebElements elems, String tip, Duration duration) {
+	public TipInteraction(CoreWebElements<?> elems, String tip, Duration duration) {
 		super(elems, duration);
 		this.tip = tip;
 	}
 
-	public TipInteraction(WebElements elems, String tip) {
+	public TipInteraction(CoreWebElements<?> elems, String tip) {
 		super(elems, new Duration(5, SECONDS));
 		this.tip = tip;
 	}

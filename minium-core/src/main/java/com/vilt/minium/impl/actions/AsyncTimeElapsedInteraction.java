@@ -19,8 +19,8 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import org.openqa.selenium.support.ui.Sleeper;
 
+import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.Duration;
-import com.vilt.minium.WebElements;
 import com.vilt.minium.actions.AsyncInteraction;
 
 public abstract class AsyncTimeElapsedInteraction extends DefaultInteraction implements AsyncInteraction {
@@ -28,7 +28,7 @@ public abstract class AsyncTimeElapsedInteraction extends DefaultInteraction imp
 	protected Duration duration;
 	private long start = -1;
 	
-	public AsyncTimeElapsedInteraction(WebElements elems, Duration duration) {
+	public AsyncTimeElapsedInteraction(CoreWebElements<?> elems, Duration duration) {
 		super(elems);
 		this.duration = duration;
 	}

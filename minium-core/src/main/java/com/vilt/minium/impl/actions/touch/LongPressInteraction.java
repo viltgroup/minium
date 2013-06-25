@@ -15,7 +15,7 @@
  */
 package com.vilt.minium.impl.actions.touch;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.actions.touch.TouchInteraction;
 
 /**
@@ -28,7 +28,7 @@ public class LongPressInteraction extends TouchInteraction {
 	 *
 	 * @param elems the elems
 	 */
-	public LongPressInteraction(WebElements elems) {
+	public LongPressInteraction(CoreWebElements<?> elems) {
 		super(elems);
 	}
 

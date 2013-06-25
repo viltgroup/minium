@@ -15,7 +15,7 @@
  */
 package com.vilt.minium.impl.actions;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.WebElementsDriver;
 import com.vilt.minium.WebElementsDriverProvider;
 
@@ -23,7 +23,7 @@ public class GetInteraction extends DefaultInteraction {
 
 	private String url;
 
-	public GetInteraction(WebElements elems, String url) {
+	public GetInteraction(CoreWebElements<?> elems, String url) {
 		super(elems);
 		this.url = url;
 	}

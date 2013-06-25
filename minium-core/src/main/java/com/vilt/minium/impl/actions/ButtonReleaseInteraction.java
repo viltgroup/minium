@@ -15,7 +15,7 @@
  */
 package com.vilt.minium.impl.actions;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 
 /**
  * The Class ButtonReleaseInteraction.
@@ -27,7 +27,7 @@ public class ButtonReleaseInteraction extends MouseInteraction {
 	 *
 	 * @param source the source
 	 */
-	public ButtonReleaseInteraction(WebElements source) {
+	public ButtonReleaseInteraction(CoreWebElements<?> source) {
 		super(source);
 	}
 	

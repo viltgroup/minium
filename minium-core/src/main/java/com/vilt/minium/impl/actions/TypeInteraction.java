@@ -15,7 +15,7 @@
  */
 package com.vilt.minium.impl.actions;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 
 /**
  * The Class TypeInteraction.
@@ -28,7 +28,7 @@ public class TypeInteraction extends SendKeysInteraction {
 	 * @param source the source
 	 * @param text the text
 	 */
-	public TypeInteraction(WebElements source, CharSequence text) {
+	public TypeInteraction(CoreWebElements<?> source, CharSequence text) {
 		super(source, text);
 	}
 }

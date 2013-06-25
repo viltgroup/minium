@@ -15,7 +15,7 @@
  */
 package com.vilt.minium.impl.actions;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 
 /**
  * The Class DoubleClickInteraction.
@@ -27,7 +27,7 @@ public class DoubleClickInteraction extends MouseInteraction {
 	 *
 	 * @param source the source
 	 */
-	public DoubleClickInteraction(WebElements source) {
+	public DoubleClickInteraction(CoreWebElements<?> source) {
 		super(source);
 	}
 

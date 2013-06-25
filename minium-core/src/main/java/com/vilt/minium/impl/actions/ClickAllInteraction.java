@@ -17,7 +17,7 @@ package com.vilt.minium.impl.actions;
 
 import org.openqa.selenium.WebElement;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 
 /**
  * The Class ClickAllInteraction.
@@ -29,7 +29,7 @@ public class ClickAllInteraction extends MouseInteraction {
 	 *
 	 * @param source the source
 	 */
-	public ClickAllInteraction(WebElements source) {
+	public ClickAllInteraction(CoreWebElements<?> source) {
 		super(source);
 	}
 

@@ -15,7 +15,7 @@
  */
 package com.vilt.minium.impl.actions;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 
 /**
  * The Class SelectValInteraction.
@@ -30,7 +30,7 @@ public class SelectValInteraction extends SelectionInteraction {
 	 * @param source the source
 	 * @param val the val
 	 */
-	public SelectValInteraction(WebElements source, String val) {
+	public SelectValInteraction(CoreWebElements<?> source, String val) {
 		super(source);
 		this.val = val;
 	}

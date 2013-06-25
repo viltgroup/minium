@@ -15,7 +15,7 @@
  */
 package com.vilt.minium.impl.actions;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 
 /**
  * The Class DeselectInteraction.
@@ -30,7 +30,7 @@ public class DeselectInteraction extends SelectionInteraction {
 	 * @param source the source
 	 * @param text the text
 	 */
-	public DeselectInteraction(WebElements source, String text) {
+	public DeselectInteraction(CoreWebElements<?> source, String text) {
 		super(source);
 		this.text = text;
 	}

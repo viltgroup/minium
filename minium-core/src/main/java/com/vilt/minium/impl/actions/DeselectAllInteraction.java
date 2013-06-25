@@ -15,7 +15,7 @@
  */
 package com.vilt.minium.impl.actions;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 
 /**
  * The Class DeselectAllInteraction.
@@ -27,7 +27,7 @@ public class DeselectAllInteraction extends SelectionInteraction {
 	 *
 	 * @param source the source
 	 */
-	public DeselectAllInteraction(WebElements source) {
+	public DeselectAllInteraction(CoreWebElements<?> source) {
 		super(source);
 	}
 	

@@ -21,8 +21,8 @@ import static com.vilt.minium.actions.Interactions.with;
 
 import java.util.concurrent.TimeUnit;
 
+import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.Duration;
-import com.vilt.minium.WebElements;
 import com.vilt.minium.impl.tips.TipInteraction;
 import com.vilt.minium.impl.tips.TipInteractionListener;
 
@@ -75,19 +75,19 @@ public class TipInteractions {
 		return with(tip(tip, time, unit));
 	}
 	
-	public static void showTip(WebElements elements, String tip) {
+	public static void showTip(CoreWebElements<?> elements, String tip) {
 		performAndWait(new TipInteraction(elements, tip));
 	}
 	
-	public static void showTipAsync(WebElements elements, String tip) {
+	public static void showTipAsync(CoreWebElements<?> elements, String tip) {
 		perform(new TipInteraction(elements, tip));
 	}
 	
-	public static void showTip(WebElements elements, String tip, long time, TimeUnit unit) {
+	public static void showTip(CoreWebElements<?> elements, String tip, long time, TimeUnit unit) {
 		performAndWait(new TipInteraction(elements, tip, new Duration(time, unit)));
 	}
 
-	public static void showTipAsync(WebElements elements, String tip, long time, TimeUnit unit) {
+	public static void showTipAsync(CoreWebElements<?> elements, String tip, long time, TimeUnit unit) {
 		perform(new TipInteraction(elements, tip, new Duration(time, unit)));
 	}
 }

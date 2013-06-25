@@ -15,7 +15,7 @@
  */
 package com.vilt.minium.impl.actions;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 
 /**
  * The Class MouseInteraction.
@@ -27,7 +27,7 @@ public abstract class MouseInteraction extends DefaultInteraction {
 	 *
 	 * @param elems the elems
 	 */
-	public MouseInteraction(WebElements elems) {
+	public MouseInteraction(CoreWebElements<?> elems) {
 		super(elems);
 	}
 

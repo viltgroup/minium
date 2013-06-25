@@ -17,7 +17,7 @@ package com.vilt.minium.impl.actions;
 
 import org.openqa.selenium.WebElement;
 
-import com.vilt.minium.WebElements;
+import com.vilt.minium.CoreWebElements;
 
 /**
  * The Class FillInteraction.
@@ -32,7 +32,7 @@ public class FillInteraction extends KeyboardInteraction {
 	 * @param source the source
 	 * @param text the text
 	 */
-	public FillInteraction(WebElements source, CharSequence text) {
+	public FillInteraction(CoreWebElements<?> source, CharSequence text) {
 		super(source);
 		this.text = text;
 	}
