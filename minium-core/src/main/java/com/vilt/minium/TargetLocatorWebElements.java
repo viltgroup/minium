@@ -36,7 +36,9 @@ public interface TargetLocatorWebElements<T extends CoreWebElements<T>> extends 
 	 * Frame.
 	 *
 	 * @return the t
+	 * @deprecated use {@link FreezableWebElements#freeze()} instead
 	 */
+	@Deprecated
 	public T frame(boolean freeze);
 	
 	/**
@@ -51,7 +53,10 @@ public interface TargetLocatorWebElements<T extends CoreWebElements<T>> extends 
 	 *
 	 * @param freeze the freeze
 	 * @return the t
+	 * 
+	 * @deprecated use {@link FreezableWebElements#freeze()} instead
 	 */
+	@Deprecated
 	public T window(boolean freeze);
 
 	/**
@@ -66,7 +71,9 @@ public interface TargetLocatorWebElements<T extends CoreWebElements<T>> extends 
 	 *
 	 * @param freeze the freeze
 	 * @return the t
+	 * @deprecated use {@link FreezableWebElements#freeze()} instead
 	 */
+	@Deprecated
 	public T root(boolean freeze);
 	
 	/**

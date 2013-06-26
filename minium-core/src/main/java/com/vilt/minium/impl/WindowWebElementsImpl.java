@@ -61,7 +61,7 @@ public class WindowWebElementsImpl<T extends CoreWebElements<T>> extends Documen
 			if (Iterables.size(webDrivers) == 1) {
 				handle = Iterables.get(webDrivers, 0).getWindowHandle();
 				if (freeze) {
-					// this way wegN won't evaluate filter ever again, so we will keep using the
+					// this way we won't evaluate filter ever again, so we will keep using the
 					// same window!
 					filter = null;
 				}
@@ -104,7 +104,7 @@ public class WindowWebElementsImpl<T extends CoreWebElements<T>> extends Documen
 	}
 	
 	@Override
-	public T root(T filter, boolean freeze) {
+	protected T root(T filter, boolean freeze) {
 		return parentImpl.window(filter, freeze);
 	}
 	

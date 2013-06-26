@@ -43,4 +43,9 @@ public abstract class DocumentRootWebElementsImpl<T extends CoreWebElements<T>> 
 		return (T) this;
 	}
 	
+	@Override
+	public T freeze() {
+		return root(true);
+	}
+	
 }

@@ -89,6 +89,10 @@ public class ExpressionWebElementsImpl<T extends CoreWebElements<T>> extends Bas
 		return parentImpl.root(filter, freeze);
 	}
 	
+	public T freeze() {
+		throw new UnsupportedOperationException("Only root web elements can call freeze method for now");
+	}
+	
 	@Override
 	@SuppressWarnings("unchecked")
 	public boolean equals(Object obj) {

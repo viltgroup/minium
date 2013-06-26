@@ -47,6 +47,7 @@ import com.vilt.minium.Async;
 import com.vilt.minium.Configuration;
 import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.Duration;
+import com.vilt.minium.FreezableWebElements;
 import com.vilt.minium.TargetLocatorWebElements;
 import com.vilt.minium.TimeoutException;
 import com.vilt.minium.WaitWebElements;
@@ -55,7 +56,8 @@ import com.vilt.minium.WebElementsDriver;
 import com.vilt.minium.WebElementsDriverProvider;
 import com.vilt.minium.WebElementsException;
 
-public abstract class BaseWebElementsImpl<T extends CoreWebElements<T>> implements WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, WebElementsDriverProvider<T> {
+public abstract class BaseWebElementsImpl<T extends CoreWebElements<T>> implements 
+WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, FreezableWebElements<T>, WebElementsDriverProvider<T> {
 
 	final Logger logger = LoggerFactory.getLogger(WebElements.class);
 	
