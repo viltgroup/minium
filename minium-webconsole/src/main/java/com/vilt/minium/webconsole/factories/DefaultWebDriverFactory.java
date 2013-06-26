@@ -16,8 +16,11 @@
 package com.vilt.minium.webconsole.factories;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -68,6 +71,15 @@ public class DefaultWebDriverFactory implements WebDriverFactory {
 	
 	public DefaultWebElementsDriver ghostDriver() {
 		return new DefaultWebElementsDriver(new PhantomJSDriver(new DesiredCapabilities()));
+	}
+	
+	public DefaultWebElementsDriver remoteDriver(String url, Capabilities capabilities) {
+		try {
+			WebDriver wrappedDriver = new RemoteWebDriver(new URL(url), capabilities);
+			return new DefaultWebElementsDriver(wrappedDriver);
+		} catch (MalformedURLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
 	public DefaultWebElementsDriver webDriverFor(DesiredCapabilities capabilities) {
