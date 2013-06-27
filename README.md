@@ -21,10 +21,6 @@ automation tasks in the complex web interfaces of today.
 
 You may be thinking: big deal, there are several other tools for browser automation... That's true, but: 
 
-* can those tools select elements based on their relative position to other elements? **Minium can!**
-
-![Minium position methods](http://viltgroup.github.io/minium/images/position_selectors.png)
-
 * can those tools access another window (for instance, popup windows) in a easy way? **Minium can!**
 
 ```javascript
@@ -38,6 +34,10 @@ usernameFld = $(wd).window().find(":text").withLabel("Username");
 // will look to ALL frames in the main page to find a text field with label "Username"
 usernameFld = $(wd).frame().find(":text").withLabel("Username");
 ```
+* can those tools select elements based on their relative position to other elements? **Minium can!**
+
+![Minium position methods](http://viltgroup.github.io/minium/images/position_selectors.png)
+
 * can those tools 'speak'? **Minium can!**
 
 [![Minium shows its Interactive Console](http://halgatewood.com/youtube/i/Q7SH216qGko.jpg)](http://www.youtube.com/watch?v=Q7SH216qGko)
