@@ -125,6 +125,10 @@ A quick guide on how to use Minium in a Java project or using its Interactive co
 
 * [Learning Minium in 6 Steps](https://github.com/viltgroup/minium/wiki/Learning-Minium-in-6-Steps)
 
+If you feel that's too simple, check this one:
+
+* [Minium creates a Google Spreadsheet](https://github.com/viltgroup/minium/wiki/Minium-creates-a-Google-Spreadsheet)
+
 You can also check the [Minium API documentation](http://viltgroup.github.io/minium/apidocs/). For a complete list of allowed methods, check the links below.
 
 ## Available element selection methods
