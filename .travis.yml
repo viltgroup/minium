@@ -1,5 +1,7 @@
 language: java
 before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq ia32-libs
   - wget https://phantomjs.googlecode.com/files/phantomjs-1.9.1-linux-x86_64.tar.bz2
   - tar -xf phantomjs-1.9.1-linux-x86_64.tar.bz2
   - sudo rm -rf /usr/local/phantomjs
