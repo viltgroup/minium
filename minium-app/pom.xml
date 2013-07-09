@@ -1,0 +1,286 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.vilt.minium</groupId>
+		<artifactId>minium</artifactId>
+		<version>0.9.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>minium-app</artifactId>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-server</artifactId>
+			<version>${jetty.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-webapp</artifactId>
+			<version>${jetty.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+	    <finalName>minium-app</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib/</classpathPrefix>
+							<mainClass>com.vilt.minium.app.Main</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.8</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							 <outputDirectory>${project.build.directory}/${platform.id}/lib</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>unpack-minium</id>
+						<phase>package</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.vilt.minium</groupId>
+									<artifactId>minium-webconsole</artifactId>
+									<version>${project.version}</version>
+									<type>war</type>
+									<overWrite>false</overWrite>
+								</artifactItem>
+							</artifactItems>
+							<outputDirectory>${project.build.directory}/${platform.id}/webapp</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>true</overWriteSnapshots>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>java</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<mainClass>com.vilt.minium.app.Main</mainClass>
+					<systemProperties>
+						<systemProperty>
+							<key>minium.home</key>
+							<value>${project.build.directory}/${platform.id}</value>
+						</systemProperty>
+					</systemProperties>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.akathist.maven.plugins.launch4j</groupId>
+				<artifactId>launch4j-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>launch4j</id>
+						<phase>package</phase>
+						<goals>
+							<goal>launch4j</goal>
+						</goals>
+						<configuration>
+							<dontWrapJar>false</dontWrapJar>
+							<headerType>gui</headerType>
+							<outfile>${project.build.directory}/${platform.id}/${project.build.finalName}.exe</outfile>
+							<jar>${project.build.directory}/${project.build.finalName}.jar</jar>
+							<errTitle>Launcher</errTitle>
+							<jre>
+								<minVersion>1.6.0</minVersion>
+								<opts>
+								    <opt>-Dminium.home="%EXEDIR%"</opt>
+								</opts>
+							</jre>
+							<classpath>
+								<mainClass>com.jayway.wrappedapplication.Launcher</mainClass>
+								<addDependencies>false</addDependencies>
+							</classpath>
+							<icon>${basedir}/src/main/resources/minium.ico</icon>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <target>
+                        <property name="minium.base" value="${project.build.directory}/${platform.id}/" />
+
+                        <mkdir dir="${minium.base}/drivers" />
+                        <!-- Get chromedriver -->
+                        <get
+                            src="https://chromedriver.googlecode.com/files/chromedriver_${chromedriver.osname.id}_2.0.zip"
+                            dest="${java.io.tmpdir}/chromedriver_${chromedriver.osname.id}_2.0.zip" />
+                        <unzip
+                            src="${java.io.tmpdir}/chromedriver_${chromedriver.osname.id}_2.0.zip"
+                            dest="${minium.base}/drivers" />
+
+                        <!-- Get chromium -->
+                        <!-- 
+                        To get the proper SVN revision use http://omahaproxy.appspot.com/ > Revision Lookup 
+                        and search for the Chrome version For instance: Chrome Version 28.0.1500.63 -> Revision 208724
+                        -->
+                        <get
+                            src="http://commondatastorage.googleapis.com/chromium-browser-continuous/${chromium.folder.dir}/${chromium.revision}/chrome-${chromium.osname.id}.zip"
+                            dest="${java.io.tmpdir}/chrome-${chromium.osname.id}.zip" />
+                        <unzip src="${java.io.tmpdir}/chrome-${chromium.osname.id}.zip"
+                            dest="${minium.base}" />
+                        <move file="${minium.base}/chrome-${chromium.osname.id}"
+                            tofile="${minium.base}/chrome" />
+
+						<zip destfile="${project.build.directory}/${project.build.finalName}-${platform.id}.zip">
+							<fileset dir="${minium.base}">
+								<include name="chrome/**" />
+								<include name="drivers/**" />
+								<include name="webapp/**" />
+								<include name="lib/**" />
+								<include name="${project.build.finalName}.exe" />
+							</fileset>
+							<fileset dir="${project.build.directory}">
+								<include name="${project.build.finalName}.jar" />
+							</fileset>
+						</zip>
+                    </target>
+                    <detail>true</detail>
+                </configuration>
+            </plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-dependency-plugin</artifactId>
+										<versionRange>[2.1,)</versionRange>
+										<goals>
+											<goal>unpack</goal>
+											<goal>copy-dependencies</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>win32</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+			    <platform.id>win32</platform.id>
+				<chromedriver.osname.id>win32</chromedriver.osname.id>
+				<chromium.revision>208730</chromium.revision>
+				<chromium.osname.id>win32</chromium.osname.id>
+				<chromium.folder.dir>Win</chromium.folder.dir>
+			</properties>
+		</profile>
+		<profile>
+			<id>mac32</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+			    <platform.id>mac32</platform.id>
+				<chromedriver.osname.id>mac32</chromedriver.osname.id>
+				<chromium.revision>208742</chromium.revision>
+				<chromium.osname.id>mac</chromium.osname.id>
+				<chromium.folder.dir>Mac</chromium.folder.dir>
+			</properties>
+		</profile>
+		<profile>
+			<id>linux32</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+			    <platform.id>linux32</platform.id>
+				<chromedriver.osname.id>linux32</chromedriver.osname.id>
+				<chromium.revision>208727</chromium.revision>
+				<chromium.osname.id>linux</chromium.osname.id>
+				<chromium.folder.dir>Linux</chromium.folder.dir>
+			</properties>
+		</profile>
+		<profile>
+			<id>linux64</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+			    <platform.id>linux64</platform.id>
+				<chromedriver.osname.id>linux64</chromedriver.osname.id>
+				<chromium.revision>208727</chromium.revision>
+				<chromium.osname.id>linux</chromium.osname.id>
+				<chromium.folder.dir>Linux_x64</chromium.folder.dir>
+			</properties>
+		</profile>
+	</profiles>
+
+</project>

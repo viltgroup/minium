@@ -97,7 +97,8 @@ public class JQueryInvoker {
 	public String compressCode(Collection<SourceFile> inputs) {
 		try {
 			Compiler compiler = new Compiler();
-
+			compiler.disableThreads();
+			
 			CompilerOptions options = new CompilerOptions();
 			CompilationLevel.SIMPLE_OPTIMIZATIONS.setOptionsForCompilationLevel(options);
 			compiler.compile(CommandLineRunner.getDefaultExterns(), Lists.newArrayList(inputs), options);

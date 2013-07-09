@@ -15,14 +15,20 @@
  */
 package com.vilt.minium.webconsole.factories;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
+
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 
+import org.apache.commons.lang3.SystemUtils;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
+import org.openqa.selenium.chrome.ChromeDriverService.Builder;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
@@ -31,23 +37,39 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.Lists;
 import com.vilt.minium.DefaultWebElementsDriver;
 
 public class DefaultWebDriverFactory implements WebDriverFactory {
 
+	private static final String MINIUM_HOME_KEY = "minium.home";
+
 	private static final Logger logger = LoggerFactory.getLogger(DefaultWebDriverFactory.class);
 	
 	private static ChromeDriverService service;
+	private static ChromeDriverService miniumService;
 
-	private List<DefaultWebElementsDriver> webDrivers = Lists.newArrayList();
-
-	public static void maybeInitChromeDriver() {
+	public static void maybeInitChromeDriverService() {
 		try {
 			if (service == null) {
 				service = ChromeDriverService.createDefaultService();
 				service.start();
 				logger.debug("Chrome driver service initialized: {}", service.getUrl());
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public static void maybeInitMiniumDriverService() {
+		try {
+			if (miniumService == null) {
+				miniumService = new Builder()
+					.usingAnyFreePort()
+					.usingDriverExecutable(new File(miniumBaseDir(), 
+							SystemUtils.IS_OS_WINDOWS ? "drivers/chromedriver.exe" : "drivers/chromedriver"))
+					.build();
+				miniumService.start();
+				logger.debug("Minium driver service initialized: {}", miniumService.getUrl());
 			}
 		} catch (IOException e) {
 			throw new RuntimeException(e);
@@ -82,11 +104,33 @@ public class DefaultWebDriverFactory implements WebDriverFactory {
 		}
 	}
 	
+	public DefaultWebElementsDriver miniumDriver() {
+		maybeInitMiniumDriverService();
+		
+		ChromeOptions options = new ChromeOptions();
+		String chromeExe;
+		if (SystemUtils.IS_OS_WINDOWS) {
+			chromeExe = "chrome/chrome.exe";
+		} else if (SystemUtils.IS_OS_MAC) {
+			chromeExe = "chrome/Chromium.app/Contents/MacOS/Chromium";
+		} else {
+			chromeExe = "chrome/chrome";
+		}
+		
+		options.setBinary(new File(miniumBaseDir(), chromeExe));
+
+		DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+		capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+
+		WebDriver wrappedDriver = new RemoteWebDriver(miniumService.getUrl(), capabilities);
+		return new DefaultWebElementsDriver(wrappedDriver);
+	}
+	
 	public DefaultWebElementsDriver webDriverFor(DesiredCapabilities capabilities) {
 		WebDriver wrappedDriver = null;
 		
 		if (DesiredCapabilities.chrome().getBrowserName().equals(capabilities.getBrowserName())) {
-			maybeInitChromeDriver();
+			maybeInitChromeDriverService();
 			wrappedDriver = new RemoteWebDriver(service.getUrl(), capabilities);
 		}
 		else if (DesiredCapabilities.firefox().getBrowserName().equals(capabilities.getBrowserName())) {
@@ -104,19 +148,27 @@ public class DefaultWebDriverFactory implements WebDriverFactory {
 		}
 
 		DefaultWebElementsDriver driver = new DefaultWebElementsDriver(wrappedDriver);
-		webDrivers.add(driver);
 		
 		return driver;
 	}
 
 	@Override
 	public void destroy() {
-		for (DefaultWebElementsDriver driver : webDrivers) {
-			try {
-				driver.quit();
-			} catch (Exception e) {
-				// no big deal
-			}
+		if (service != null) {
+			service.stop();
 		}
+		if (miniumService != null) {
+			miniumService.stop();
+		}
+	}
+
+	private static File miniumBaseDir() {
+		String path = System.getProperty(MINIUM_HOME_KEY);
+		checkNotNull(path);
+
+		File file = new File(path);
+		checkState(file.exists() && file.isDirectory());
+		
+		return file.getAbsoluteFile();
 	}
 }

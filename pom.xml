@@ -36,7 +36,7 @@
 	    <module>minium-core</module>
    	    <module>minium-speech</module>
    	    <module>minium-webconsole</module>
-   	    <module>minium-webconsole-jetty</module>
+   	    <module>minium-app</module>
 	</modules>
 	
 	<properties>
