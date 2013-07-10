@@ -136,7 +136,7 @@
 								<mainClass>com.jayway.wrappedapplication.Launcher</mainClass>
 								<addDependencies>false</addDependencies>
 							</classpath>
-							<icon>${basedir}/src/main/resources/minium.ico</icon>
+							<icon>${basedir}/src/main/resources/minium_logo.ico</icon>
 						</configuration>
 					</execution>
 				</executions>
