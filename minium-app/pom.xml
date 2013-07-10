@@ -174,7 +174,12 @@
                             src="http://commondatastorage.googleapis.com/chromium-browser-continuous/${chromium.folder.dir}/${chromium.revision}/chrome-${chromium.osname.id}.zip"
                             dest="${java.io.tmpdir}/chrome-${chromium.osname.id}.zip" />
                         <unzip src="${java.io.tmpdir}/chrome-${chromium.osname.id}.zip"
-                            dest="${minium.base}" />
+                            dest="${minium.base}">
+                            <patternset>
+							     <exclude name="chrome-win32/interactive_ui_tests.exe"/>
+							</patternset>
+                        </unzip>
+                            
                         <move file="${minium.base}/chrome-${chromium.osname.id}"
                             tofile="${minium.base}/chrome" />
 
