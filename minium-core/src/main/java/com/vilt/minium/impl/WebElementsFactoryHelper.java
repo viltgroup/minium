@@ -28,21 +28,25 @@ public class WebElementsFactoryHelper {
 	}
 	
 	public static <T extends CoreWebElements<T>> T createWindowWebElements(WebElementsFactory factory, T parent) {
-		return WebElementsFactoryHelper.createWindowWebElements(factory, parent, (T) null, false);
+		return WebElementsFactoryHelper.<T>createWindowWebElements(factory, parent, (T) null, false);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public static <T extends CoreWebElements<T>> T createWindowWebElements(WebElementsFactory factory, T parent, String expr, boolean freeze) {
-		WindowWebElementsImpl<T> webElements = factory.create(WindowWebElementsImpl.class);
-		webElements.init(factory, parent, expr, freeze);
-		return (T) webElements;
+		return WebElementsFactoryHelper.<T>createWindowWebElements(factory, parent, expr == null ? null : parent.window().find(expr), freeze);
 	}
 
 	@SuppressWarnings("unchecked")
 	public static <T extends CoreWebElements<T>> T createWindowWebElements(WebElementsFactory factory, T parent, T filter, boolean freeze) {
-		WindowWebElementsImpl<T> webElements = factory.create(WindowWebElementsImpl.class);
-		webElements.init(factory, parent, filter, freeze);
-		return (T) webElements;
+		if (freeze) {
+			FrozenWindowWebElementsImpl<T> webElements = factory.create(FrozenWindowWebElementsImpl.class);
+			webElements.init(factory, parent, filter);
+			return (T) webElements;
+		}
+		else {
+			WindowWebElementsImpl<T> webElements = factory.create(WindowWebElementsImpl.class);
+			webElements.init(factory, parent, filter);
+			return (T) webElements;
+		}
 	}
 	
 	@SuppressWarnings("unchecked")

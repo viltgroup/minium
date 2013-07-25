@@ -10,18 +10,20 @@
 <h1>Minium</h1>
 <h2>Window Tests</h2>
 
-<ul>
-<li><a id="popup-1" href="jquery-test.html" target="_blank">Popup 1 (simple)</a></li>
-<li><a id="popup-2" href="iframe-test.html" target="_blank">Popup 2 (with iframes)</a></li>
+<ul id="auto">
+<li><a id="popup-1" href="jquery-test.html" target="jquery-window">Popup 1 (simple)</a></li>
+<li><a id="popup-2" href="iframe-test.html" target="iframe-window">Popup 2 (with iframes)</a></li>
 </ul>
+
+<a id="change-popup" href="position-test.html" target="iframe-window">Change Popup</a>
 
 <script type="text/javascript">
 (function($) {
 	var openWindow = function(elem) {
 		window.open($(elem).attr('href'), $(elem).attr('target'), "menubar=1,location=1,toolbar=1,width=640,height=480");
 	};
-	$("a[target='_blank']").each(function() { openWindow(this); });
-	$("a[target='_blank']").click(function() { openWindow(this); return false });
+	$("#auto a[target]").each(function() { openWindow(this); });
+	$("a[target]").click(function() { openWindow(this); return false });
 })(jQuery);
 </script>
 </body>

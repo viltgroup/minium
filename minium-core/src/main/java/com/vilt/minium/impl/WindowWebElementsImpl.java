@@ -15,17 +15,16 @@
  */
 package com.vilt.minium.impl;
 
+import static com.google.common.collect.FluentIterable.from;
+
 import java.util.Collections;
 import java.util.Set;
 
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.collect.FluentIterable;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.WebElementsDriver;
@@ -34,65 +33,29 @@ import com.vilt.minium.WebElementsDriverProvider;
 public class WindowWebElementsImpl<T extends CoreWebElements<T>> extends DocumentRootWebElementsImpl<T> {
 
 	private BaseWebElementsImpl<T> parentImpl;
-	private String handle;
 	private T filter;
-	private boolean freeze;
-
-	public void init(WebElementsFactory factory, T parent, String expr, boolean freeze) {
-		init(factory, parent, parent.window().find(expr), freeze);
-	}
 
 	@SuppressWarnings("unchecked")
-	public void init(WebElementsFactory factory, T parent, T filter, boolean freeze) {
+	public void init(WebElementsFactory factory, T parent, T filter) {
 		super.init(factory);
 		this.parentImpl = (BaseWebElementsImpl<T>) parent;
 		this.filter = filter;
-		this.freeze = freeze;
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public Iterable<WebElementsDriver<T>> candidateWebDrivers() {
-		final WebElementsDriver<T> wd = rootWebDriver();
-		final String currentHandle = wd.getWindowHandle();
-		
-		if (filter != null) {
-			Iterable<WebElementsDriver<T>> webDrivers = ((WebElementsDriverProvider<T>) filter).webDrivers();
-			if (Iterables.size(webDrivers) == 1) {
-				handle = Iterables.get(webDrivers, 0).getWindowHandle();
-				if (freeze) {
-					// this way we won't evaluate filter ever again, so we will keep using the
-					// same window!
-					filter = null;
-				}
-			}
-		}
-		else if (freeze && handle == null) {
-			//we are going to try to capture a new window
-			throw new UnsupportedOperationException("To be implemented...");
-		}
-		
-		Set<String> windowHandles;
-		if (StringUtils.isNotEmpty(handle)) {
-			windowHandles = Sets.newHashSet(Collections.singleton(handle));
-		}
-		else {
-			windowHandles = Sets.newHashSet(wd.getWindowHandles());
-		}
-
-		windowHandles.remove(currentHandle);
+		Set<String> windowHandles = candidateHandles();
 		
 		if (windowHandles.isEmpty()) {
 			return Collections.emptyList();
-		}
-		else {
+		} else {
 			return FluentIterable
 					.from(windowHandles)
 					.transform(new Function<String, WebElementsDriver<T>>() {
 						@Override
 						@Nullable
 						public WebElementsDriver<T> apply(@Nullable String input) {
-							return new WindowWebElementsDriver<T>(wd, factory, input);
+							return new WindowWebElementsDriver<T>(rootWebDriver(), factory, input);
 						}
 					}).toList();
 		}
@@ -108,22 +71,45 @@ public class WindowWebElementsImpl<T extends CoreWebElements<T>> extends Documen
 		return parentImpl.window(filter, freeze);
 	}
 	
+	@SuppressWarnings("unchecked")
+	protected Set<String> candidateHandles() {
+		final WebElementsDriver<T> wd = rootWebDriver();
+		final String currentHandle = wd.getWindowHandle();
+		
+		Set<String> windowHandles;
+		
+		if (filter != null) {
+			Iterable<WebElementsDriver<T>> webDrivers = ((WebElementsDriverProvider<T>) filter).webDrivers();
+			windowHandles = Sets.newHashSet(from(webDrivers).transform(new Function<WebElementsDriver<T>, String>() {
+				@Override
+				public String apply(WebElementsDriver<T> input) {
+					return input.getWindowHandle();
+				}
+			}));
+		}
+		else {
+			windowHandles = Sets.newHashSet(wd.getWindowHandles());
+		}
+	
+		windowHandles.remove(currentHandle);
+		return windowHandles;
+	}
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public boolean equals(Object obj) {
 		if (obj instanceof WindowWebElementsImpl) {
 			WindowWebElementsImpl<T> elem = (WindowWebElementsImpl<T>) obj;
 			return 
-					Objects.equal(elem.parentImpl, this.parentImpl) && 
-					Objects.equal(elem.handle, this.handle);
+				Objects.equal(elem.parentImpl, this.parentImpl) &&
+				Objects.equal(elem.filter, this.filter);
 		}
 		return false;
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(parentImpl, handle);
+		return Objects.hashCode(parentImpl, filter);
 	}
-
 
 }

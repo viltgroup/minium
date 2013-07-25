@@ -16,6 +16,8 @@
 package com.vilt.minium.jquery;
 
 import static com.vilt.minium.Minium.$;
+import static com.vilt.minium.actions.Interactions.checkEmpty;
+import static com.vilt.minium.actions.Interactions.click;
 import static com.vilt.minium.impl.WaitPredicates.whileEmpty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
@@ -30,6 +32,7 @@ import com.google.common.collect.Iterables;
 import com.vilt.minium.DefaultWebElements;
 import com.vilt.minium.MiniumBaseTest;
 import com.vilt.minium.WebElementsException;
+import com.vilt.minium.actions.Interactions;
 
 public class WindowWebElementsTest extends MiniumBaseTest {
 
@@ -58,10 +61,31 @@ public class WindowWebElementsTest extends MiniumBaseTest {
 	@Test
 	public void testWindowsWitnObjectResult() {
 		DefaultWebElements input = $(wd).window().find("input#name");
-		
 		String html = input.html();
-		
 		assertThat(html, notNullValue());
+	}
+	
+	@Test
+	public void testFrozenWindows() {
+		DefaultWebElements frozenWindow = $(wd).window().find("h2").withText("Iframe Tests").root().freeze();
+		String h2Text = frozenWindow.find("h2").text();
+		assertEquals(h2Text , "Iframe Tests");
+		
+		click($(wd, "#change-popup"));
+		
+		h2Text = frozenWindow.find("h2").text();
+		assertEquals(h2Text , "Position Tests");
+	}
+
+	@Test
+	public void testNotFrozenWindows() {
+		DefaultWebElements notFrozenWindow = $(wd).window().find("h2").withText("Iframe Tests").root();
+		String h2Text = notFrozenWindow.find("h2").text();
+		assertEquals(h2Text , "Iframe Tests");
+		
+		click($(wd, "#change-popup"));
+		
+		checkEmpty(notFrozenWindow.find("h2"));
 	}
 	
 	@Test

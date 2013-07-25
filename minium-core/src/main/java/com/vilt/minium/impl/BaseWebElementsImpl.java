@@ -142,11 +142,12 @@ WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, FreezableWebElemen
 				}
 			}
 			else {
-				if (Iterables.size(webDrivers) == 1) {
+				if (Iterables.size(webDrivers) == 0) {
+					throw new WebElementsException("The expression has no frame or window to be evaluated to");								
+				} else if (Iterables.size(webDrivers) == 1) {
 					WebElementsDriver<T> wd = Iterables.get(webDrivers, 0);
 					result = factory.getInvoker().invokeExpression(wd, async, expression);
-				}
-				else {
+				} else {
 					String sizeExpression = computeExpression(this, false, "size");
 					WebElementsDriver<T> webDriverWithResults = null;
 					
