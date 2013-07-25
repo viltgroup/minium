@@ -15,10 +15,11 @@
  */
 package com.vilt.minium.webconsole.controller;
 
-import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_SINGLETON;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.context.WebApplicationContext.SCOPE_SESSION;
 
+import java.awt.FileDialog;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -48,7 +49,7 @@ import com.vilt.minium.debug.DebugWebElements;
 import com.vilt.minium.webconsole.factories.WebDriverFactory;
 
 @Controller
-@Scope(SCOPE_SINGLETON)
+@Scope(SCOPE_SESSION)
 @RequestMapping("/console")
 public class ConsoleController {
 
@@ -95,7 +96,6 @@ public class ConsoleController {
 			try { Closeables.close(reader, true); } catch (IOException e) { }
 		}
 	}
-	
 	
 	protected EvalResult doEval(String expression) {
 		logger.debug("Evaluating {}", expression);

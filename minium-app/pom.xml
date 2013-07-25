@@ -27,6 +27,21 @@
 			<artifactId>jetty-webapp</artifactId>
 			<version>${jetty.version}</version>
 		</dependency>
+		<!-- Chromium and ChromeDriver -->
+		<dependency>
+			<groupId>com.vilt.minium</groupId>
+			<artifactId>minium-chromium</artifactId>
+			<version>${project.version}</version>
+			<classifier>${platform.id}</classifier>
+			<type>zip</type>
+		</dependency>
+		<dependency>
+			<groupId>com.vilt.minium</groupId>
+			<artifactId>minium-chromedriver</artifactId>
+			<version>${project.version}</version>
+			<classifier>${platform.id}</classifier>
+			<type>zip</type>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -83,6 +98,63 @@
 								</artifactItem>
 							</artifactItems>
 							<outputDirectory>${project.build.directory}/${platform.id}/webapp</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>true</overWriteSnapshots>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>unpack-chromium</id>
+						<phase>package</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.vilt.minium</groupId>
+									<artifactId>minium-chromium</artifactId>
+									<version>${project.version}</version>
+									<classifier>${platform.id}</classifier>
+									<type>zip</type>
+									<overWrite>false</overWrite>
+								</artifactItem>
+							</artifactItems>
+							<outputDirectory>${project.build.directory}/${platform.id}</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>true</overWriteSnapshots>
+							<excludes>**/interactive_ui_tests.exe</excludes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>unpack-chromedriver</id>
+						<phase>package</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.vilt.minium</groupId>
+									<artifactId>minium-chromedriver</artifactId>
+									<version>${project.version}</version>
+									<classifier>${platform.id}</classifier>
+									<type>zip</type>
+									<overWrite>false</overWrite>
+								</artifactItem>
+							</artifactItems>
+							<outputDirectory>${project.build.directory}/${platform.id}/drivers</outputDirectory>
 							<overWriteReleases>false</overWriteReleases>
 							<overWriteSnapshots>true</overWriteSnapshots>
 						</configuration>
@@ -156,32 +228,7 @@
                     <target>
                         <property name="minium.base" value="${project.build.directory}/${platform.id}/" />
 
-                        <mkdir dir="${minium.base}/drivers" />
-                        <!-- Get chromedriver -->
-                        <get
-                            src="https://chromedriver.googlecode.com/files/chromedriver_${chromedriver.osname.id}_2.0.zip"
-                            dest="${java.io.tmpdir}/chromedriver_${chromedriver.osname.id}_2.0.zip" />
-                        <unzip
-                            src="${java.io.tmpdir}/chromedriver_${chromedriver.osname.id}_2.0.zip"
-                            dest="${minium.base}/drivers" />
-
-                        <!-- Get chromium -->
-                        <!-- 
-                        To get the proper SVN revision use http://omahaproxy.appspot.com/ > Revision Lookup 
-                        and search for the Chrome version For instance: Chrome Version 28.0.1500.63 -> Revision 208724
-                        -->
-                        <get
-                            src="http://commondatastorage.googleapis.com/chromium-browser-continuous/${chromium.folder.dir}/${chromium.revision}/chrome-${chromium.osname.id}.zip"
-                            dest="${java.io.tmpdir}/chrome-${chromium.osname.id}.zip" />
-                        <unzip src="${java.io.tmpdir}/chrome-${chromium.osname.id}.zip"
-                            dest="${minium.base}">
-                            <patternset>
-							     <exclude name="chrome-win32/interactive_ui_tests.exe"/>
-							</patternset>
-                        </unzip>
-                            
-                        <move file="${minium.base}/chrome-${chromium.osname.id}"
-                            tofile="${minium.base}/chrome" />
+                        <move file="${minium.base}/chrome-${chromium.osname.id}" tofile="${minium.base}/chrome" />
 
 						<zip destfile="${project.build.directory}/${project.build.finalName}-${platform.id}.zip">
 							<fileset dir="${minium.base}">
@@ -199,6 +246,34 @@
                     <detail>true</detail>
                 </configuration>
             </plugin>
+   			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.3.2</version>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+					<execution>
+						<id>attach-artifacts</id>
+						<phase>package</phase>
+						<goals>
+							<goal>attach-artifact</goal>
+						</goals>
+						<configuration>
+							<artifacts>
+								<artifact>
+									<file>${project.build.directory}/${project.build.finalName}-${platform.id}.zip</file>
+									<classifier>${platform.id}</classifier>
+									<type>zip</type>
+								</artifact>
+							</artifacts>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
@@ -232,60 +307,5 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-
-	<profiles>
-		<profile>
-			<id>win32</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-			    <platform.id>win32</platform.id>
-				<chromedriver.osname.id>win32</chromedriver.osname.id>
-				<chromium.revision>208730</chromium.revision>
-				<chromium.osname.id>win32</chromium.osname.id>
-				<chromium.folder.dir>Win</chromium.folder.dir>
-			</properties>
-		</profile>
-		<profile>
-			<id>mac32</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<properties>
-			    <platform.id>mac32</platform.id>
-				<chromedriver.osname.id>mac32</chromedriver.osname.id>
-				<chromium.revision>208742</chromium.revision>
-				<chromium.osname.id>mac</chromium.osname.id>
-				<chromium.folder.dir>Mac</chromium.folder.dir>
-			</properties>
-		</profile>
-		<profile>
-			<id>linux32</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<properties>
-			    <platform.id>linux32</platform.id>
-				<chromedriver.osname.id>linux32</chromedriver.osname.id>
-				<chromium.revision>208727</chromium.revision>
-				<chromium.osname.id>linux</chromium.osname.id>
-				<chromium.folder.dir>Linux</chromium.folder.dir>
-			</properties>
-		</profile>
-		<profile>
-			<id>linux64</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<properties>
-			    <platform.id>linux64</platform.id>
-				<chromedriver.osname.id>linux64</chromedriver.osname.id>
-				<chromium.revision>208727</chromium.revision>
-				<chromium.osname.id>linux</chromium.osname.id>
-				<chromium.folder.dir>Linux_x64</chromium.folder.dir>
-			</properties>
-		</profile>
-	</profiles>
 
 </project>

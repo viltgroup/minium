@@ -36,7 +36,10 @@
 	    <module>minium-core</module>
    	    <module>minium-speech</module>
    	    <module>minium-webconsole</module>
+   	    <module>minium-thirdparty</module>
+   	    <!-- 
    	    <module>minium-app</module>
+   	     -->
 	</modules>
 	
 	<properties>
@@ -87,4 +90,64 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	<profiles>
+        <profile>
+            <id>win32</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <platform.id>win32</platform.id>
+                <chromedriver.osname.id>win32</chromedriver.osname.id>
+                <chromedriver.version>2.1</chromedriver.version>
+                <chromium.revision>208730</chromium.revision>
+                <chromium.osname.id>win32</chromium.osname.id>
+                <chromium.folder.dir>Win</chromium.folder.dir>
+            </properties>
+        </profile>
+        <profile>
+            <id>mac32</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <platform.id>mac32</platform.id>
+                <chromedriver.osname.id>mac32</chromedriver.osname.id>
+                <chromedriver.version>2.1</chromedriver.version>
+                <chromium.revision>208742</chromium.revision>
+                <chromium.osname.id>mac</chromium.osname.id>
+                <chromium.folder.dir>Mac</chromium.folder.dir>
+            </properties>
+        </profile>
+        <profile>
+            <id>linux32</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <platform.id>linux32</platform.id>
+                <chromedriver.osname.id>linux32</chromedriver.osname.id>
+                <chromedriver.version>2.1</chromedriver.version>
+                <chromium.revision>208727</chromium.revision>
+                <chromium.osname.id>linux</chromium.osname.id>
+                <chromium.folder.dir>Linux</chromium.folder.dir>
+            </properties>
+        </profile>
+        <profile>
+            <id>linux64</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <platform.id>linux64</platform.id>
+                <chromedriver.osname.id>linux64</chromedriver.osname.id>
+                <chromedriver.version>2.1</chromedriver.version>
+                <chromium.revision>208727</chromium.revision>
+                <chromium.osname.id>linux</chromium.osname.id>
+                <chromium.folder.dir>Linux_x64</chromium.folder.dir>
+            </properties>
+        </profile>
+    </profiles>
+	
 </project>
