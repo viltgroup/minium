@@ -9,7 +9,7 @@
 	</parent>
 
 	<artifactId>minium-app</artifactId>
-
+	<name>Minium - App</name>
 
 	<dependencies>
 		<dependency>
@@ -27,20 +27,17 @@
 			<artifactId>jetty-webapp</artifactId>
 			<version>${jetty.version}</version>
 		</dependency>
-		<!-- Chromium and ChromeDriver -->
 		<dependency>
 			<groupId>com.vilt.minium</groupId>
 			<artifactId>minium-chromium</artifactId>
 			<version>${project.version}</version>
-			<classifier>${platform.id}</classifier>
-			<type>zip</type>
+			<type>pom</type>
 		</dependency>
 		<dependency>
 			<groupId>com.vilt.minium</groupId>
 			<artifactId>minium-chromedriver</artifactId>
 			<version>${project.version}</version>
-			<classifier>${platform.id}</classifier>
-			<type>zip</type>
+			<type>pom</type>
 		</dependency>
 	</dependencies>
 
@@ -53,29 +50,10 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<addClasspath>true</addClasspath>
-							<classpathPrefix>lib/</classpathPrefix>
 							<mainClass>com.vilt.minium.app.Main</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.8</version>
-				<executions>
-					<execution>
-						<id>copy-dependencies</id>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							 <outputDirectory>${project.build.directory}/${platform.id}/lib</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -162,27 +140,6 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.2.1</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>java</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<mainClass>com.vilt.minium.app.Main</mainClass>
-					<systemProperties>
-						<systemProperty>
-							<key>minium.home</key>
-							<value>${project.build.directory}/${platform.id}</value>
-						</systemProperty>
-					</systemProperties>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>com.akathist.maven.plugins.launch4j</groupId>
 				<artifactId>launch4j-maven-plugin</artifactId>
 				<executions>
@@ -204,15 +161,49 @@
 								    <opt>-Dminium.home="%EXEDIR%"</opt>
 								</opts>
 							</jre>
-							<classpath>
-								<mainClass>com.jayway.wrappedapplication.Launcher</mainClass>
-								<addDependencies>false</addDependencies>
-							</classpath>
+							<classPath>
+								<mainClass>com.vilt.minium.app.Main</mainClass>
+								<addDependencies>true</addDependencies>
+								<jarLocation>lib/</jarLocation>.
+							</classPath>
 							<icon>${basedir}/src/main/resources/minium_logo.ico</icon>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>appassembler-maven-plugin</artifactId>
+				<version>1.4</version>
+				<executions>
+					<execution>
+						<id>generate-scripts</id>
+						<phase>package</phase>
+						<goals>
+							<goal>assemble</goal>
+						</goals>
+						<configuration>
+							<includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>
+							<assembleDirectory>${project.build.directory}/${platform.id}</assembleDirectory>
+							<extraJvmArguments>-Xms128m -Xmx256m -Dminium.home=${basedir.var}</extraJvmArguments>
+							<repositoryLayout>flat</repositoryLayout>
+							<repositoryName>lib</repositoryName>
+							<useWildcardClassPath>true</useWildcardClassPath>
+							<!-- Generate bin scripts for windows and unix pr default -->
+							<platforms>
+								<platform>windows</platform>
+								<platform>unix</platform>
+							</platforms>
+							<programs>
+								<program>
+									<mainClass>com.vilt.minium.app.Main</mainClass>
+									<name>minium-app</name>
+								</program>
+							</programs>
+						</configuration>
+					</execution>
+				</executions>
+		    </plugin>
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>1.7</version>
@@ -236,6 +227,7 @@
 								<include name="drivers/**" />
 								<include name="webapp/**" />
 								<include name="lib/**" />
+								<include name="bin/**" />
 								<include name="${project.build.finalName}.exe" />
 							</fileset>
 							<fileset dir="${project.build.directory}">

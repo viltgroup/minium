@@ -37,9 +37,7 @@
    	    <module>minium-speech</module>
    	    <module>minium-webconsole</module>
    	    <module>minium-thirdparty</module>
-   	    <!-- 
    	    <module>minium-app</module>
-   	     -->
 	</modules>
 	
 	<properties>
@@ -104,6 +102,7 @@
                 <chromium.revision>208730</chromium.revision>
                 <chromium.osname.id>win32</chromium.osname.id>
                 <chromium.folder.dir>Win</chromium.folder.dir>
+                <basedir.var>%BASEDIR%</basedir.var>
             </properties>
         </profile>
         <profile>
@@ -118,6 +117,7 @@
                 <chromium.revision>208742</chromium.revision>
                 <chromium.osname.id>mac</chromium.osname.id>
                 <chromium.folder.dir>Mac</chromium.folder.dir>
+                <basedir.var>$BASEDIR</basedir.var>
             </properties>
         </profile>
         <profile>
@@ -132,6 +132,7 @@
                 <chromium.revision>208727</chromium.revision>
                 <chromium.osname.id>linux</chromium.osname.id>
                 <chromium.folder.dir>Linux</chromium.folder.dir>
+                <basedir.var>$BASEDIR</basedir.var>
             </properties>
         </profile>
         <profile>
@@ -146,8 +147,9 @@
                 <chromium.revision>208727</chromium.revision>
                 <chromium.osname.id>linux</chromium.osname.id>
                 <chromium.folder.dir>Linux_x64</chromium.folder.dir>
+                <basedir.var>$BASEDIR</basedir.var>
             </properties>
         </profile>
     </profiles>
-	
+    
 </project>

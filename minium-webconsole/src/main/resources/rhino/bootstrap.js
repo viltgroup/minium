@@ -33,8 +33,8 @@ function importStatic(obj) {
 }
 
 // all methods from _webDriverFactory
-createMethodsFn(_webDriverFactory);
-createMethodsFn(_controller);
+if (typeof _webDriverFactory !== "undefined") createMethodsFn(_webDriverFactory);
+if (typeof _controller !== "undefined") createMethodsFn(_controller);
 
 // all static methods from Minium, Interactions and TouchInteractions
 importStatic(com.vilt.minium.Minium);

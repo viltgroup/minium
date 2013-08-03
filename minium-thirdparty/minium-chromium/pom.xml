@@ -8,7 +8,7 @@
 		<version>0.9.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>chromium</artifactId>
+	<artifactId>minium-chromium</artifactId>
     <packaging>pom</packaging>
     <name>Minium - Chromium</name>
 	
@@ -37,8 +37,8 @@
 		                        and search for the Chrome version For instance: Chrome Version 28.0.1500.63 -> Revision 208724
 		                        -->
 								<configuration>
-									<url>https://chromedriver.googlecode.com/files</url>
-									<fromFile>chromedriver_${chromedriver.osname.id}_${chromedriver.version}.zip</fromFile>
+									<url>http://commondatastorage.googleapis.com/chromium-browser-continuous/${chromium.folder.dir}/${chromium.revision}</url>
+									<fromFile>chrome-${chromium.osname.id}.zip</fromFile>
 									<toDir>${project.build.directory}</toDir>
 								</configuration>
 							</execution>
@@ -63,8 +63,8 @@
 			                    <configuration>
 			                        <artifacts>
 			                            <artifact>
-			                                <file>${project.build.directory}/chromedriver_${chromedriver.osname.id}_${chromedriver.version}.zip</file>
-			                                <classifier>${chromedriver.osname.id}</classifier>
+			                                <file>${project.build.directory}/chrome-${chromium.osname.id}.zip</file>
+			                                <classifier>${platform.id}</classifier>
 			                                <type>zip</type>
 			                            </artifact>
 			                        </artifacts>
