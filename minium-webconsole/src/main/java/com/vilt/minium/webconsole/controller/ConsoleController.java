@@ -19,7 +19,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import static org.springframework.web.context.WebApplicationContext.SCOPE_SESSION;
 
-import java.awt.FileDialog;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
