@@ -42,6 +42,11 @@
     </servlet-mapping>
     -->
     
+    <session-config>
+    	<!-- session never expires -->
+    	<session-timeout>-1</session-timeout>
+    </session-config>
+    
     <welcome-file-list>
         <welcome-file>webconsole.html</welcome-file>
     </welcome-file-list>
