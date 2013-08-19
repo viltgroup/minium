@@ -37,7 +37,7 @@ public class RootWebElementsImpl<T extends CoreWebElements<T>> extends DocumentR
 	}
 	
 	@Override
-	protected WebElementsDriver<T> rootWebDriver() {
+	public WebElementsDriver<T> rootWebDriver() {
 		return wd;
 	}
 	

@@ -68,17 +68,11 @@ public class FrameWebElementsTest extends MiniumBaseTest {
 		assertThat(label, hasSize(2));
 	}
 	
-	@Test
+	@Test(expectedExceptions = IllegalArgumentException.class)
 	public void testIframesFalseRelativeElements() {
-		try {
-			DefaultWebElements input = $(wd, "input#name");
+		DefaultWebElements input = $(wd, "input#name");
 
-			DefaultWebElements frame = $(wd).frame();
-			/* DefaultWebElements label = */ frame.find("label").rightOf(input);
-
-			Assert.fail("An exception was expected");
-		} catch (IllegalArgumentException e) {
-			// ok
-		}
+		DefaultWebElements frame = $(wd).frame();
+		/* DefaultWebElements label = */ frame.find("label").rightOf(input);
 	}
 }

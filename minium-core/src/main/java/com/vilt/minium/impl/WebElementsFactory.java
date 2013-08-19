@@ -18,6 +18,7 @@ package com.vilt.minium.impl;
 import static com.google.common.collect.FluentIterable.from;
 import static java.lang.String.format;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
@@ -39,6 +40,8 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.vilt.minium.Configuration;
+import com.vilt.minium.ExceptionHandler;
 import com.vilt.minium.JQueryResources;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.WebElementsDriverProvider;
@@ -74,12 +77,32 @@ public class WebElementsFactory implements MethodHandler {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	public Object invoke(Object self, Method thisMethod, Method proceed, Object[] args) throws Throwable {
-		BaseWebElementsImpl<? extends WebElements> parentWebElements = (BaseWebElementsImpl<? extends WebElements>) self;
-		return parentWebElements.invoke(thisMethod, args);
+		BaseWebElementsImpl<?> parentWebElements = (BaseWebElementsImpl<?>) self;
+		try {
+			return doInvoke(self, thisMethod, proceed, args, parentWebElements);
+		} catch (Exception e) {
+			handleException(parentWebElements, e);
+			// if code reaches here, that means exception was handled successfully, so let's retry it once again
+			return doInvoke(self, thisMethod, proceed, args, parentWebElements);
+		}
 	}
-	
+
+	private Object doInvoke(Object self, Method thisMethod, Method proceed, Object[] args, BaseWebElementsImpl<?> parentWebElements) throws Throwable {
+		if (Modifier.isAbstract(thisMethod.getModifiers())) {
+			return parentWebElements.invoke(thisMethod, args);
+		} else {
+			try {
+				return proceed.invoke(self, args);
+			} catch (InvocationTargetException e) {
+				// we need to throw the target exception
+				throw e.getTargetException();
+			} catch (Throwable e) {
+				throw e;
+			}
+		}
+	}
+
 	public JQueryInvoker getInvoker() {
 		return invoker;
 	}
@@ -160,7 +183,7 @@ public class WebElementsFactory implements MethodHandler {
 			factory.setInterfaces(interfaces);
 			factory.setFilter(new MethodFilter() {
 				public boolean isHandled(Method m) {
-					return Modifier.isAbstract(m.getModifiers());
+					return true;
 				}
 			});
 			factory.setSuperclass(superClass);
@@ -169,5 +192,14 @@ public class WebElementsFactory implements MethodHandler {
 			webElementsProxyClasses.put(superClass, proxyClass);
 		}
 		return (Class<T>) proxyClass;
+	}
+	
+	private void handleException(BaseWebElementsImpl<?> parentWebElements, Exception e) throws Exception {
+		Configuration configuration = parentWebElements.configuration();
+		for (ExceptionHandler exceptionHandler : configuration.getGlobalExceptionHandlers()) {
+			boolean handled = exceptionHandler.handle(parentWebElements, e);
+			if (handled) return;
+		}
+		throw e;
 	}
 }

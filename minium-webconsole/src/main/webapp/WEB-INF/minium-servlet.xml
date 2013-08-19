@@ -14,19 +14,6 @@
 
     <context:component-scan base-package="com.vilt.minium.webconsole.controller" />
     
-    <task:scheduler id="scheduler" pool-size="1"/>
-    
-    <!-- 
-    Uncomment org.openqa.selenium.remote.server.DriverServlet in web.xml
-    -->
-    <!-- 
-    <bean class="com.vilt.minium.controller.console.RemoteWebDriverFactory">
-    	<property name="seleniumServerUrl" value="http://localhost:8080/minium-ide/wd" />
-    </bean>
-    -->
-
-    <bean class="com.vilt.minium.webconsole.factories.DefaultWebDriverFactory" />
-    
    	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="messageConverters">
 			<list>

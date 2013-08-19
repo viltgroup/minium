@@ -44,6 +44,7 @@ import com.vilt.minium.impl.WebElementsFactoryHelper;
  *
  * @param <T>
  */
+@SuppressWarnings("deprecation")
 public class WebElementsDriver<T extends CoreWebElements<T>> implements WebElementsFinder<T>, WebDriver, JavascriptExecutor, HasInputDevices, TakesScreenshot {
 
 	final Logger logger = LoggerFactory.getLogger(WebElementsDriver.class);

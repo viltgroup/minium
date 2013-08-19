@@ -66,7 +66,7 @@ public class ExpressionWebElementsImpl<T extends CoreWebElements<T>> extends Bas
 	}
 	
 	@Override
-	protected WebElementsDriver<T> rootWebDriver() {
+	public WebElementsDriver<T> rootWebDriver() {
 		return parentImpl.rootWebDriver();
 	}
 	

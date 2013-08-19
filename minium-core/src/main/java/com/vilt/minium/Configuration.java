@@ -22,13 +22,28 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import com.google.common.collect.Lists;
+import com.vilt.minium.actions.AfterFailInteractionEvent;
 import com.vilt.minium.actions.InteractionListener;
+import com.vilt.minium.impl.BaseWebElementsImpl;
+import com.vilt.minium.impl.actions.DefaultInteractionListener;
 
 /**
  * The Class Configuration.
  */
 public class Configuration implements Serializable {
 
+	private class ExceptionHandlersInteractionListenerAdapter extends DefaultInteractionListener {
+		
+		@Override
+		protected void onAfterFailEvent(AfterFailInteractionEvent event) {
+			BaseWebElementsImpl<?> source = (BaseWebElementsImpl<?>) event.getSource();
+			if (source == null) return;
+			for (ExceptionHandler handler : globalExceptionHandlers) {
+				handler.handle(source, event.getException());
+			}
+		}
+	}
+	
 	private static final long serialVersionUID = -6096136074620998211L;
 
 	private Duration defaultTimeout  = new Duration(5, TimeUnit.SECONDS);
@@ -36,7 +51,11 @@ public class Configuration implements Serializable {
 
 	/** The global listeners. */
 	protected final List<InteractionListener> globalListeners = Lists.newArrayList();
+	protected final List<ExceptionHandler> globalExceptionHandlers = Lists.newArrayList();
 
+	public Configuration() {
+		registerInteractionListener(new ExceptionHandlersInteractionListenerAdapter());
+	}
 	
 	/**
 	 * Gets the default timeout.
@@ -119,6 +138,24 @@ public class Configuration implements Serializable {
 	public void unregisterInteractionListener(InteractionListener listener) {
 		globalListeners.remove(listener);
 	}
+
+	/**
+	 * Register exception handler.
+	 *
+	 * @param handle the exception handler
+	 */
+	public void registerExceptionHandler(ExceptionHandler handler) {
+		globalExceptionHandlers.add(handler);
+	}
+	
+	/**
+	 * Unregister exception handler.
+	 *
+	 * @param handle the exception handler
+	 */
+	public void unregisterExceptionHandler(ExceptionHandler handler) {
+		globalExceptionHandlers.remove(handler);
+	}
 	
 	/**
 	 * Gets the global listeners.
@@ -127,5 +164,9 @@ public class Configuration implements Serializable {
 	 */
 	public List<InteractionListener> getGlobalListeners() {
 		return globalListeners;
+	}
+	
+	public List<ExceptionHandler> getGlobalExceptionHandlers() {
+		return globalExceptionHandlers;
 	}
 }

@@ -62,7 +62,7 @@ public class WindowWebElementsImpl<T extends CoreWebElements<T>> extends Documen
 	}
 
 	@Override
-	protected WebElementsDriver<T> rootWebDriver() {
+	public WebElementsDriver<T> rootWebDriver() {
 		return parentImpl.rootWebDriver();
 	}
 	

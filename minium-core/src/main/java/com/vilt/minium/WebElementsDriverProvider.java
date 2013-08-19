@@ -38,6 +38,13 @@ public interface WebElementsDriverProvider<T extends CoreWebElements<T>> {
 	 * @return the web elements driver
 	 */
 	public WebElementsDriver<T> webDriver();
+	
+	/**
+	 * Root web elements driver.
+	 *
+	 * @return the root web elements driver
+	 */
+	public WebElementsDriver<T> rootWebDriver();
 
 	/**
 	 * Native web driver.
@@ -46,6 +53,7 @@ public interface WebElementsDriverProvider<T extends CoreWebElements<T>> {
 	 */
 	public WebDriver nativeWebDriver();
 
+	
 	/**
 	 * Configuration.
 	 *

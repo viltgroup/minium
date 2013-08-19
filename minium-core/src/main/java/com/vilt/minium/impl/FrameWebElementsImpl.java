@@ -61,7 +61,7 @@ public class FrameWebElementsImpl<T extends CoreWebElements<T>> extends Document
 	}
 
 	@Override
-	protected WebElementsDriver<T> rootWebDriver() {
+	public WebElementsDriver<T> rootWebDriver() {
 		return parentImpl.rootWebDriver();
 	}
 	

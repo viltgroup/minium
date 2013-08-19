@@ -53,6 +53,7 @@
    	    <module>minium-webconsole</module>
    	    <module>minium-thirdparty</module>
    	    <module>minium-app</module>
+   	    <module>minium-script</module>
 	</modules>
 	
 	<properties>
@@ -60,6 +61,8 @@
 	    <selenium.version>2.34.0</selenium.version>
 	    <guava.version>14.0.1</guava.version>
 	    <jetty.version>8.1.11.v20130520</jetty.version>
+	    <phantomjsdriver.version>1.0.3</phantomjsdriver.version>
+	    <spring.version>3.1.2.RELEASE</spring.version>
 	    
 	    <!-- License properties -->
 		<license.name>apache_v2</license.name>
@@ -103,7 +106,6 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-release-plugin</artifactId>
-				<version>2.4.1</version>
 				<configuration>
 					<useReleaseProfile>false</useReleaseProfile>
 					<releaseProfiles>release</releaseProfiles>
@@ -111,8 +113,36 @@
 				</configuration>
 		    </plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-enforcer-plugin</artifactId>
+										<versionRange>[1.0.0,)</versionRange>
+										<goals>
+											<goal>enforce</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
-		
+	
 	<profiles>
 		<profile>
 			<id>release-sign-artifacts</id>

@@ -18,7 +18,7 @@ package com.vilt.minium;
 import org.openqa.selenium.WebDriver;
 
 /**
- * Minium class makes the $ (dollar) method available, so that jQuery developers can fell at home!
+ * Minium class makes the $ (dollar) method available, so that jQuery developers can feel at home!
  *
  * @author Rui
  */

@@ -109,8 +109,6 @@ WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, FreezableWebElemen
 		
 	protected abstract Iterable<WebElementsDriver<T>> candidateWebDrivers();
 
-	protected abstract WebElementsDriver<T> rootWebDriver();
-	
 	protected abstract T documentRootWebElements();
 	
 	@SuppressWarnings("unchecked")
