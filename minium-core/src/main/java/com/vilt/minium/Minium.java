@@ -25,13 +25,13 @@ import org.openqa.selenium.WebDriver;
 public class Minium {
 
 	/**
-	 * The dollar 'function'. As in jQuery, this method is the entry point in the {@link WebElements} 
+	 * The dollar 'function'. As in jQuery, this method is the entry point in the {@link WebElements}
 	 * API.
-	 * 
+	 *
 	 * <pre>
 	 * $(wd, ":text").withLabel("Username").below("h2")
 	 * </pre>
-	 * 
+	 *
 	 *
 	 * @param <T> the generic type
 	 * @param wd the wd
@@ -40,11 +40,11 @@ public class Minium {
 	public static <T extends CoreWebElements<T>> T $(WebElementsDriver<T> wd) {
 		return wd.webElements();
 	}
-	
+
 	/**
-	 * The dollar 'function'. As in jQuery, this method is the entry point for the {@link WebElements} 
+	 * The dollar 'function'. As in jQuery, this method is the entry point for the {@link WebElements}
 	 * API.
-	 * 
+	 *
 	 * <pre>
 	 * $(wd, ":text").withLabel("Username").below("h2")
 	 * </pre>
@@ -57,15 +57,18 @@ public class Minium {
 	public static <T extends CoreWebElements<T>> T $(WebElementsDriver<T> wd, String selector) {
 		return wd.find(selector);
 	}
-	
+
 	/**
-	 * The dollar 'function'. As in jQuery, this method is the entry point for the {@link WebElements} 
+	 * The dollar 'function'. As in jQuery, this method is the entry point for the {@link WebElements}
 	 * API.
 	 *
 	 * @param wd the wd
 	 * @return the default web elements
 	 */
 	public static DefaultWebElements $(WebDriver wd) {
+		if (wd instanceof DefaultWebElementsDriver) {
+			return $((DefaultWebElementsDriver) wd);
+		}
 		return $(new DefaultWebElementsDriver(wd));
 	}
 
