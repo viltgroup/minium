@@ -2,4 +2,5 @@
 .project
 .settings
 target
+test-output
 chromedriver.log
