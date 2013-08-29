@@ -2,10 +2,10 @@
  * jQuery visibleText plugin 0.1.0
  * https://github.com/Krinkle/jquery-visibleText
  *
- * @author Timo Tijhof, 2012
- * @source This plugin is based on Sizzle.getText.
+ * author Timo Tijhof, 2012
+ * source This plugin is based on Sizzle.getText.
  *  Copyright 2012 jQuery Foundation and other contributors http://jquery.com/
- * @license MIT License <http://www.opensource.org/licenses/mit-license.php>
+ * license MIT License <http://www.opensource.org/licenses/mit-license.php>
  */
 // Minium : a few changes to avoid some nasty errors on firefox were made
 (function ($) {

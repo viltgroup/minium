@@ -48,6 +48,12 @@
 			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-library</artifactId>
+			<version>1.2.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
 			<version>6.8</version>

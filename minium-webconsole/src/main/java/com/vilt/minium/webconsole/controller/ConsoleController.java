@@ -56,7 +56,7 @@ public class ConsoleController {
 	@ResponseBody
 	public synchronized EvalResult evalScript(@RequestBody final String script) {
 		return execute(script, new Callable<Object>() { @Override public Object call() throws Exception {
-			return engine.evalScript(script);
+			return engine.load(script);
 		}});
 	}
 	
