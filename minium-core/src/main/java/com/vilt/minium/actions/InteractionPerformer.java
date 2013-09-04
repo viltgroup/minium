@@ -51,6 +51,7 @@ import com.vilt.minium.impl.actions.SelectAllInteraction;
 import com.vilt.minium.impl.actions.SelectInteraction;
 import com.vilt.minium.impl.actions.SelectValInteraction;
 import com.vilt.minium.impl.actions.SendKeysInteraction;
+import com.vilt.minium.impl.actions.SubmitInteraction;
 import com.vilt.minium.impl.actions.TypeInteraction;
 import com.vilt.minium.impl.actions.UncheckInteraction;
 import com.vilt.minium.impl.actions.WaitOrTimeoutForElementsInteraction;
@@ -123,6 +124,15 @@ public class InteractionPerformer {
 	 */
 	public void clear(CoreWebElements<?> elements) {
 		perform(new ClearInteraction(elements));
+	}
+	
+	/**
+	 * Submit.
+	 *
+	 * @param elements the elements
+	 */
+	public void submit(CoreWebElements<?> elements) {
+		perform(new SubmitInteraction(elements));
 	}
 	
 	// from org.openqa.selenium.interactions.Actions

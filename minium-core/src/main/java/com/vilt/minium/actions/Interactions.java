@@ -89,6 +89,15 @@ public class Interactions {
 	public static void clear(CoreWebElements<?> elements) {
 		defaultPerformer().clear(elements);
 	}
+	
+	/**
+	 * Submit.
+	 *
+	 * @param elements the elements
+	 */
+	public static void submit(CoreWebElements<?> elements) {
+		defaultPerformer().submit(elements);
+	}
 
 	// from org.openqa.selenium.interactions.Actions
 	/**
