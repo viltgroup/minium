@@ -28,8 +28,8 @@
 	</developers>
 	
 	<scm>
-		<connection>scm:git:https://github.com/viltgroup/minium.git</connection>
-		<developerConnection>scm:git:git://github.com/viltgroup/minium.git</developerConnection>
+		<connection>scm:git:git://github.com/viltgroup/minium.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/viltgroup/minium.git</developerConnection>
 		<url>https://github.com/viltgroup/minium</url>
 	</scm>
 
