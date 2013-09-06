@@ -23,7 +23,6 @@ import java.util.concurrent.Callable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,8 +40,11 @@ public class ConsoleController {
 
 	private static final Logger logger = LoggerFactory.getLogger(ConsoleController.class);
 	
-	@Autowired
 	private MiniumScriptEngine engine;
+
+	public ConsoleController(MiniumScriptEngine engine) {
+		this.engine = engine;
+	}
 	
 	@RequestMapping(value = "/eval", method = { POST, GET })
 	@ResponseBody

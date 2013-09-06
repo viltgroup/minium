@@ -14,7 +14,7 @@ public class MiniumScriptEngineTest {
 		MiniumScriptEngine engine = new MiniumScriptEngine();
 		
 		// when
-		engine.setWebElementsDrivers(WebElementDrivers.instance());
+		engine.setWebElementsDrivers(WebElementsDrivers.instance());
 		String type = (String) engine.eval("typeof firefoxDriver");
 		
 		// then

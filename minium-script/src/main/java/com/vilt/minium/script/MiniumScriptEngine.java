@@ -31,7 +31,7 @@ public class MiniumScriptEngine {
 	
 	private ScriptEngine engine;
 	private String scriptsDir;
-	private WebElementDrivers webElementsDrivers;
+	private WebElementsDrivers webElementsDrivers;
 	private Map<String, Object> context = Maps.newHashMap();
 	
 	public MiniumScriptEngine() {
@@ -42,7 +42,7 @@ public class MiniumScriptEngine {
 		this.classLoader = classLoader;
 	}
 	
-	public void setWebElementsDrivers(WebElementDrivers webElementsDrivers) {
+	public void setWebElementsDrivers(WebElementsDrivers webElementsDrivers) {
 		this.webElementsDrivers = webElementsDrivers;
 	}
 	

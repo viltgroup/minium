@@ -21,25 +21,24 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.DisposableBean;
 
 import com.vilt.minium.DefaultWebElementsDriver;
 
-public class WebElementDrivers implements DisposableBean {
+public class WebElementsDrivers {
 	
 	private static final String MINIUM_HOME_KEY = "minium.home";
 
-	private static final Logger logger = LoggerFactory.getLogger(WebElementDrivers.class);
+	private static final Logger logger = LoggerFactory.getLogger(WebElementsDrivers.class);
 	
-	private static WebElementDrivers instance;
+	private static WebElementsDrivers instance;
 
 	private ChromeDriverService service;
 	private ChromeDriverService miniumService;
 
 
-	public static WebElementDrivers instance() {
+	public static WebElementsDrivers instance() {
 		if (instance == null) {
-			instance = new WebElementDrivers();
+			instance = new WebElementsDrivers();
 		}
 		return instance;
 	}
@@ -148,7 +147,6 @@ public class WebElementDrivers implements DisposableBean {
 		return driver;
 	}
 
-	@Override
 	public void destroy() {
 		if (service != null) {
 			service.stop();
