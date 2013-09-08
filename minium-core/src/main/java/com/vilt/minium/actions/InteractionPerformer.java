@@ -47,6 +47,7 @@ import com.vilt.minium.impl.actions.KeyDownInteraction;
 import com.vilt.minium.impl.actions.KeyUpInteraction;
 import com.vilt.minium.impl.actions.MoveByOffsetInteraction;
 import com.vilt.minium.impl.actions.MoveMouseInteraction;
+import com.vilt.minium.impl.actions.ScrollIntoViewInteraction;
 import com.vilt.minium.impl.actions.SelectAllInteraction;
 import com.vilt.minium.impl.actions.SelectInteraction;
 import com.vilt.minium.impl.actions.SelectValInteraction;
@@ -433,5 +434,9 @@ public class InteractionPerformer {
 
 	public void close(CoreWebElements<?> elements) {
 		perform(new CloseInteraction(elements));
+	}
+
+	public void scrollIntoView(CoreWebElements<?> elements) {
+		perform(new ScrollIntoViewInteraction(elements));
 	}
 }

@@ -80,6 +80,10 @@ public class Interactions {
 		defaultPerformer().close(elements);
 	}
 	
+	public static void scrollIntoView(CoreWebElements<?> elements) {
+		defaultPerformer().scrollIntoView(elements);
+	}
+	
 	// from org.openqa.selenium.WebElement
 	/**
 	 * Clear.
@@ -265,8 +269,6 @@ public class Interactions {
 		defaultPerformer().uncheck(elements);
 	}
 	
-	
-
 	// select
 	/**
 	 * Select.
