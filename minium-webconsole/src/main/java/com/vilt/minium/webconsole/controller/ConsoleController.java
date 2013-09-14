@@ -23,10 +23,8 @@ import java.util.concurrent.Callable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -41,8 +39,11 @@ public class ConsoleController {
 
 	private static final Logger logger = LoggerFactory.getLogger(ConsoleController.class);
 	
-	@Autowired
 	private MiniumScriptEngine engine;
+
+	public ConsoleController(MiniumScriptEngine engine) {
+		this.engine = engine;
+	}
 	
 	@RequestMapping(value = "/eval", method = { POST, GET })
 	@ResponseBody
@@ -52,14 +53,6 @@ public class ConsoleController {
 		}});
 	}
 
-	@RequestMapping(value = "/evalScript", method = POST)
-	@ResponseBody
-	public synchronized EvalResult evalScript(@RequestBody final String script) {
-		return execute(script, new Callable<Object>() { @Override public Object call() throws Exception {
-			return engine.evalScript(script);
-		}});
-	}
-	
 	protected EvalResult execute(String toDisplay, Callable<?> callable) {
 		try {
 			Object result = callable.call();

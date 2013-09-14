@@ -80,6 +80,10 @@ public class Interactions {
 		defaultPerformer().close(elements);
 	}
 	
+	public static void scrollIntoView(CoreWebElements<?> elements) {
+		defaultPerformer().scrollIntoView(elements);
+	}
+	
 	// from org.openqa.selenium.WebElement
 	/**
 	 * Clear.
@@ -88,6 +92,15 @@ public class Interactions {
 	 */
 	public static void clear(CoreWebElements<?> elements) {
 		defaultPerformer().clear(elements);
+	}
+	
+	/**
+	 * Submit.
+	 *
+	 * @param elements the elements
+	 */
+	public static void submit(CoreWebElements<?> elements) {
+		defaultPerformer().submit(elements);
 	}
 
 	// from org.openqa.selenium.interactions.Actions
@@ -256,8 +269,6 @@ public class Interactions {
 		defaultPerformer().uncheck(elements);
 	}
 	
-	
-
 	// select
 	/**
 	 * Select.

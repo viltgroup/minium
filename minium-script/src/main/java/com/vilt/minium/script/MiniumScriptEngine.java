@@ -1,120 +1,101 @@
 package com.vilt.minium.script;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.util.Enumeration;
+import java.util.Map;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
-
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.tools.shell.Global;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.io.Closeables;
+import com.google.common.collect.Maps;
 
 public class MiniumScriptEngine {
 
 	private static final String RHINO_BOOTSTRAP_JS = "rhino/bootstrap.js";
 	private static final String BOOTSTRAP_EXTS_JS = "rhino/bootstrap-extension.js";
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(MiniumScriptEngine.class);
 	private ClassLoader classLoader;
-	
-	private ScriptEngine engine;
-	private String scriptsDir;
-	private WebElementDrivers webElementsDrivers;
-	
+
+	private WebElementsDrivers webElementsDrivers;
+	private Map<String, Object> context = Maps.newHashMap();
+
+	private Global scope;
+
 	public MiniumScriptEngine() {
-		this(MiniumScriptEngine.class.getClassLoader());
+		this(null);
 	}
-	
-	public MiniumScriptEngine(ClassLoader classLoader) {
-		this.classLoader = classLoader;
+
+	public MiniumScriptEngine(WebElementsDrivers webElementsDrivers) {
+		this(webElementsDrivers, MiniumScriptEngine.class.getClassLoader());
 	}
-	
-	public void setWebElementsDrivers(WebElementDrivers webElementsDrivers) {
+
+	public MiniumScriptEngine(WebElementsDrivers webElementsDrivers, ClassLoader classLoader) {
 		this.webElementsDrivers = webElementsDrivers;
+		this.classLoader = classLoader;
+		initScope();
 	}
-	
-	public void scriptsDir(String scriptsDir) {
-		this.scriptsDir = scriptsDir;
+
+	public void put(String varName, Object object) {
+		if (scope != null) {
+			scope.put(varName, scope, object);
+		} else {
+			context.put(varName, object);
+		}
 	}
+
 	public Object eval(String expression) throws Exception {
-		return doEval(expression);
-	}
+		logger.debug("Evaluating expression: {}", expression);
 
-	public Object evalScript(String script) throws Exception {
-		return doEval(script);
-	}
-
-	public void load(String path) {
-		FileReader reader = null;
+		Context cx = Context.enter();
 		try {
-		
-			File file = new File(path);
-			if (!file.isAbsolute()) {
-				file = new File(scriptsDir, path);
-			}
-			
-			reader = new FileReader(file);
-			engine.eval(reader);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		} finally {
-			try { Closeables.close(reader, true); } catch (IOException e) { }
-		}
-	}
-	
-	protected Object doEval(String expression) throws Exception {
-		logger.debug("Evaluating {}", expression);
-		
-		try {
-			if (engine == null) initScope();
-			
-			Object result = engine.eval(expression);
+			Object result = cx.evaluateString(scope, expression, "<expression>", 1, null);
 			return result;
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			logger.error("Evaluation of {} failed", expression, e);
 			throw e;
+		} finally {
+			Context.exit();
 		}
 	}
-	
-	protected void initScope() throws IOException {
+
+	protected void initScope() {
+		Context cx = Context.enter();
 		try {
-			engine = new ScriptEngineManager().getEngineByName("js");
-			engine.put("webElementsDrivers", webElementsDrivers);
-			engine.put("scriptEngine", this);
+			scope = new Global(cx); // This gives us access to global functions
+									// like load()
+			scope.put("webElementsDrivers", scope, webElementsDrivers);
 
 			logger.debug("Loading minium bootstrap file");
-			engine.eval(resourceFileReader(RHINO_BOOTSTRAP_JS));
-			
+			InputStreamReader bootstrap = new InputStreamReader(classLoader.getResourceAsStream(RHINO_BOOTSTRAP_JS), "UTF-8");
+			cx.evaluateReader(scope, bootstrap, RHINO_BOOTSTRAP_JS, 1, null);
+
 			Enumeration<URL> resources = classLoader.getResources(BOOTSTRAP_EXTS_JS);
-			
-			while(resources.hasMoreElements()) {
+
+			while (resources.hasMoreElements()) {
 				URL resourceUrl = resources.nextElement();
 				Reader reader = resourceUrlReader(resourceUrl);
 				if (reader != null) {
 					logger.debug("Loading extension bootstrap from '{}'", resourceUrl.toString());
-					engine.eval(reader);
+					cx.evaluateReader(scope, reader, resourceUrl.toString(), 1, null);
 				}
 			}
-		} catch (ScriptException e) {
+
+			for (String varName : context.keySet()) {
+				scope.put(varName, scope, context.get(varName));
+			}
+		} catch (Exception e) {
 			throw new RuntimeException(e);
+		} finally {
+			Context.exit();
 		}
-	}
-	
-	private Reader resourceFileReader(String resourceName) {
-		InputStream is = classLoader.getResourceAsStream(resourceName);
-		if (is == null) return null;
-		return new BufferedReader(new InputStreamReader(is));
 	}
 
 	private Reader resourceUrlReader(URL resourceUrl) {
@@ -125,5 +106,4 @@ public class MiniumScriptEngine {
 			throw new RuntimeException(e);
 		}
 	}
-
 }

@@ -756,6 +756,4 @@ public interface JQueryWebElements<T extends CoreWebElements<T>> extends WebElem
 	public int size();
 
 	public String visibleText();
-
-	public <V> V call(String fnName, Object ... args);
 }

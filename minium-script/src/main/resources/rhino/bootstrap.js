@@ -8,6 +8,7 @@ importPackage(org.openqa.selenium.firefox);
 importPackage(org.openqa.selenium.remote);
 
 importPackage(com.vilt.minium);
+importPackage(com.vilt.minium.script);
 
 var MILLISECONDS = TimeUnit.MILLISECONDS;
 var SECONDS      = TimeUnit.SECONDS;
@@ -32,16 +33,11 @@ function importStatic(obj) {
 	createMethodsFn(obj);
 }
 
+if (!webElementsDrivers) webElementsDrivers = WebElementsDrivers.instance();
+	
 // all methods from webElementsDrivers
-if (typeof webElementsDrivers !== "undefined") {
-	createMethodsFn(webElementsDrivers);
-	delete webElementsDrivers;
-}
-// all methods from rhinoEngine
-if (typeof scriptEngine !== "undefined") {
-	createMethodsFn(scriptEngine);
-	delete scriptEngine;
-}
+createMethodsFn(webElementsDrivers);
+delete webElementsDrivers;
 
 // all static methods from Minium, Interactions and TouchInteractions
 importStatic(com.vilt.minium.Minium);

@@ -15,6 +15,7 @@
  */
 package com.vilt.minium.speech.impl;
 
+import static com.vilt.minium.JavascriptFunctions.parse;
 import static com.vilt.minium.Minium.$;
 import static com.vilt.minium.actions.Interactions.clear;
 import static com.vilt.minium.actions.Interactions.click;
@@ -61,7 +62,7 @@ public class ClientSideGoogleSpeechInteraction extends GoogleSpeechInteraction {
 		CoreWebElements<?> source = $(wd, "#source");
 
 		clear(source);
-		source.call("val", text);
+		source.eval(parse("function(text) { $(this).val(text); }"), text);
 		waitTime(200, MILLISECONDS);
 
 		click($(wd, "#gt-submit"));

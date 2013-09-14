@@ -97,7 +97,7 @@ Just type the following code and run it by selecting it and pressing `Ctrl+ENTER
 ```javascript
 wd = firefoxDriver();
 
-get($(wd), "http://www.google.com");
+get(wd, "http://www.google.com");
 
 speak("Hello, I'm Minium, and I'm alive");
 speak("Let me highlight google search box");
@@ -107,8 +107,8 @@ highlight(searchbox);
 
 speak("Minium = Minion + Selenium. Let's find out what is a Minion.");
 
-fill(searchbox, "Minion");
-sendKeys(searchbox, [ Keys.ENTER ]);
+fill(searchbox, "Minion Wikipedia");
+sendKeys(searchbox, Keys.ENTER);
 
 firstResult = $(wd, "h3 a").first();
 click(firstResult);

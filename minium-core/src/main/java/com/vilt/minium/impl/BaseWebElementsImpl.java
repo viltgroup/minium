@@ -81,6 +81,7 @@ WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, FreezableWebElemen
 			if (input instanceof String) return format("'%s'", StringEscapeUtils.escapeEcmaScript((String) input));
 			if (input instanceof Boolean) return input.toString();
 			if (input instanceof Number) return input.toString();
+			if (input instanceof StringJavascriptFunction) return input.toString();
 			if (input instanceof Date) return format("new Date(%d)", ((Date) input).getTime());
 			if (input instanceof BaseWebElementsImpl) return getJQueryWebElementsExpression(input);
 			
