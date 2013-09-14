@@ -10,6 +10,8 @@ import java.util.Enumeration;
 import java.util.Map;
 
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.NativeJavaObject;
+import org.mozilla.javascript.Undefined;
 import org.mozilla.javascript.tools.shell.Global;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,11 +54,17 @@ public class MiniumScriptEngine {
 	}
 
 	public Object eval(String expression) throws Exception {
+	    return eval(expression, 1);
+	}
+	
+	public Object eval(String expression, int lineNumber) throws Exception {
 		logger.debug("Evaluating expression: {}", expression);
 
 		Context cx = Context.enter();
 		try {
-			Object result = cx.evaluateString(scope, expression, "<expression>", 1, null);
+			Object result = cx.evaluateString(scope, expression, "<expression>", lineNumber, null);
+			if (result instanceof Undefined) return null;
+			if (result instanceof NativeJavaObject) return ((NativeJavaObject) result).unwrap();
 			return result;
 		} catch (Exception e) {
 			logger.error("Evaluation of {} failed", expression, e);

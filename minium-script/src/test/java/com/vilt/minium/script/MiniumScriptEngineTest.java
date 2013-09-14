@@ -37,4 +37,16 @@ public class MiniumScriptEngineTest {
 		assertThat(result, instanceOf(String.class));
 		assertThat((String) result, equalTo("bar"));
 	}
+	
+	@Test
+	public void testNativeJavaObjects() throws Exception {
+	    // given
+	    MiniumScriptEngine engine = new MiniumScriptEngine();
+	    
+	    // when
+	    Object result = engine.eval("java.lang.Integer.valueOf(1)");
+	    
+	    // then
+	    assertThat(result, instanceOf(Integer.class));
+	}
 }
