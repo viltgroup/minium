@@ -11,6 +11,7 @@ import java.net.URL;
 import org.apache.commons.lang3.SystemUtils;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeDriverService.Builder;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -35,14 +36,20 @@ public class WebElementsDrivers {
 	private ChromeDriverService service;
 	private ChromeDriverService miniumService;
 
+    private Class<? extends WebElement>[] additionalInterfaces;
 
-	public static WebElementsDrivers instance() {
+	@SuppressWarnings("unchecked")
+    public static WebElementsDrivers instance() {
 		if (instance == null) {
 			instance = new WebElementsDrivers();
 		}
 		return instance;
 	}
 
+	public WebElementsDrivers(Class<? extends WebElement> ... additionalInterfaces) {
+        this.additionalInterfaces = additionalInterfaces;
+    }
+	
 	public void maybeInitChromeDriverService() {
 		try {
 			if (service == null) {
@@ -87,7 +94,8 @@ public class WebElementsDrivers {
 	}
 	
 	public DefaultWebElementsDriver ghostDriver() {
-		return new DefaultWebElementsDriver(new PhantomJSDriver(new DesiredCapabilities()));
+		PhantomJSDriver webDriver = new PhantomJSDriver(new DesiredCapabilities());
+		return createWebElementsDriver(webDriver);
 	}
 	
 	public DefaultWebElementsDriver remoteDriver(String url, Capabilities capabilities) {
@@ -118,7 +126,7 @@ public class WebElementsDrivers {
 		capabilities.setCapability(ChromeOptions.CAPABILITY, options);
 
 		WebDriver wrappedDriver = new RemoteWebDriver(miniumService.getUrl(), capabilities);
-		return new DefaultWebElementsDriver(wrappedDriver);
+		return createWebElementsDriver(wrappedDriver);
 	}
 	
 	public DefaultWebElementsDriver webDriverFor(DesiredCapabilities capabilities) {
@@ -142,12 +150,10 @@ public class WebElementsDrivers {
 			throw new IllegalArgumentException();
 		}
 
-		DefaultWebElementsDriver driver = new DefaultWebElementsDriver(wrappedDriver);
-		
-		return driver;
+		return createWebElementsDriver(wrappedDriver);
 	}
 
-	public void destroy() {
+    public void destroy() {
 		if (service != null) {
 			service.stop();
 		}
@@ -155,7 +161,11 @@ public class WebElementsDrivers {
 			miniumService.stop();
 		}
 	}
-
+    
+    protected DefaultWebElementsDriver createWebElementsDriver(WebDriver webDriver) {
+        return new DefaultWebElementsDriver(webDriver, additionalInterfaces);
+    }
+    
 	private static File miniumBaseDir() {
 		String path = System.getProperty(MINIUM_HOME_KEY);
 		checkNotNull(path);

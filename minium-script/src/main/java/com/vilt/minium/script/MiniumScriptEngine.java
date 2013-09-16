@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.util.Enumeration;
-import java.util.Map;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.NativeJavaObject;
@@ -15,8 +14,6 @@ import org.mozilla.javascript.Undefined;
 import org.mozilla.javascript.tools.shell.Global;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.collect.Maps;
 
 public class MiniumScriptEngine {
 
@@ -27,7 +24,6 @@ public class MiniumScriptEngine {
 	private ClassLoader classLoader;
 
 	private WebElementsDrivers webElementsDrivers;
-	private Map<String, Object> context = Maps.newHashMap();
 
 	private Global scope;
 
@@ -46,11 +42,7 @@ public class MiniumScriptEngine {
 	}
 
 	public void put(String varName, Object object) {
-		if (scope != null) {
-			scope.put(varName, scope, object);
-		} else {
-			context.put(varName, object);
-		}
+		scope.put(varName, scope, object);
 	}
 
 	public Object eval(String expression) throws Exception {
@@ -77,9 +69,10 @@ public class MiniumScriptEngine {
 	protected void initScope() {
 		Context cx = Context.enter();
 		try {
-			scope = new Global(cx); // This gives us access to global functions
-									// like load()
-			scope.put("webElementsDrivers", scope, webElementsDrivers);
+		    // Global gives us access to global functions like load()
+		    scope = new Global(cx); 
+			
+		    scope.put("webElementsDrivers", scope, webElementsDrivers);
 
 			logger.debug("Loading minium bootstrap file");
 			InputStreamReader bootstrap = new InputStreamReader(classLoader.getResourceAsStream(RHINO_BOOTSTRAP_JS), "UTF-8");
@@ -94,10 +87,6 @@ public class MiniumScriptEngine {
 					logger.debug("Loading extension bootstrap from '{}'", resourceUrl.toString());
 					cx.evaluateReader(scope, reader, resourceUrl.toString(), 1, null);
 				}
-			}
-
-			for (String varName : context.keySet()) {
-				scope.put(varName, scope, context.get(varName));
 			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);
