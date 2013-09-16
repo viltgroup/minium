@@ -15,6 +15,8 @@
  */
 package com.vilt.minium;
 
+import org.openqa.selenium.WebDriverException;
+
 /**
  * The Class WebElementsException.
  *
@@ -56,6 +58,21 @@ public class WebElementsException extends RuntimeException {
 	 * @param cause the cause
 	 */
 	public WebElementsException(Throwable cause) {
-		super(cause);
+		super(getMessage(cause), cause);
 	}
+
+    protected static String getMessage(Throwable cause) {
+        if (cause == null) return null;
+        if (!(cause instanceof WebDriverException)) return cause.getMessage();
+        
+        WebDriverException wdCause = (WebDriverException) cause;
+        
+        // we don't really want all that supporUrl and build stuff into our message
+        // so let's remove that
+        String message = wdCause.getMessage();
+        int idx = message.indexOf("\nFor documentation on this error, please visit:");
+        if (idx < 0) idx = message.indexOf("\nBuild info:");
+        
+        return idx < 0 ? message : message.substring(0, idx);
+    }
 }
