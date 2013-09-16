@@ -19,6 +19,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import static org.springframework.web.context.WebApplicationContext.SCOPE_SESSION;
 
+import java.io.IOException;
 import java.util.concurrent.Callable;
 
 import org.slf4j.Logger;
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.vilt.minium.debug.DebugWebElements;
 import com.vilt.minium.script.MiniumScriptEngine;
+import com.vilt.minium.webconsole.SelectorGadgetWebElements;
 
 @Controller
 @Scope(SCOPE_SESSION)
@@ -41,16 +43,30 @@ public class ConsoleController {
 	
 	private MiniumScriptEngine engine;
 
-	public ConsoleController(MiniumScriptEngine engine) {
+	public ConsoleController(MiniumScriptEngine engine) throws IOException {
 		this.engine = engine;
 	}
 	
 	@RequestMapping(value = "/eval", method = { POST, GET })
 	@ResponseBody
-	public synchronized EvalResult eval(@RequestParam("expr") final String expression) {
+	public synchronized EvalResult eval(@RequestParam("expr") final String expression, @RequestParam(value = "lineno", defaultValue = "1") final int lineNumber) {
 		return execute(expression, new Callable<Object>() { @Override public Object call() throws Exception {
-			return engine.eval(expression);
+			return engine.eval(expression, lineNumber);
 		}});
+	}
+
+	@RequestMapping(value = "/activateSelectorGadget", method = { POST, GET })
+	@ResponseBody
+	public synchronized void activateSelectorGadget() throws Exception {
+	    SelectorGadgetWebElements webElements = (SelectorGadgetWebElements) engine.eval("$(wd)");
+	    webElements.activateSelectorGadget();
+	}
+
+	@RequestMapping(value = "/getCssSelector", method = { POST, GET })
+	@ResponseBody
+	public synchronized String getCssSelector() throws Exception {
+	    SelectorGadgetWebElements webElements = (SelectorGadgetWebElements) engine.eval("$(wd)");
+	    return webElements.getCssSelector();
 	}
 
 	protected EvalResult execute(String toDisplay, Callable<?> callable) {

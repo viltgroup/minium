@@ -18,13 +18,16 @@ package com.vilt.minium.webconsole.controller;
 import java.io.Serializable;
 import java.util.Map;
 
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.mozilla.javascript.RhinoException;
+import org.mozilla.javascript.WrappedException;
 import org.openqa.selenium.WebDriverException;
 
+import com.google.common.base.Objects;
+import com.google.common.base.Throwables;
 import com.google.common.collect.Maps;
-import com.vilt.minium.WebElementsException;
 import com.vilt.minium.WebElements;
+import com.vilt.minium.WebElementsException;
 
 public class EvalResult implements Serializable {
 
@@ -36,7 +39,10 @@ public class EvalResult implements Serializable {
 	@JsonIgnore
 	private Throwable realException;
 
-	private int size = -1;	
+	private int size = -1;
+	private int lineNumber = -1;
+    private String sourceName;
+
 
 	public EvalResult(Object value) {
 		this(value, null);
@@ -53,20 +59,27 @@ public class EvalResult implements Serializable {
 	
 	public EvalResult(Object value, Throwable exception) {
 		if (exception != null) {
-			if (!(exception instanceof WebElementsException) && exception.getCause() instanceof WebDriverException) {
-				exception = exception.getCause();
-			}
+		    if (exception instanceof RhinoException) {
+		        lineNumber = ((RhinoException) exception).lineNumber();
+		        sourceName = ((RhinoException) exception).sourceName();
+		        if (Objects.equal(sourceName, "<expression>")) sourceName = null;
+		    }
+		    
+		    if (exception instanceof WrappedException) {
+		        exception = ((WrappedException) exception).getWrappedException();
+		    }
+		    
+		    if (exception instanceof WebDriverException) {
+		        exception = new WebElementsException(exception);
+		    }
+		    
+		    String message = exception.getMessage();
 			
-			String message = exception.getMessage();
-			if (message != null && exception instanceof WebDriverException || (exception instanceof WebElementsException && exception.getCause() instanceof WebDriverException)) {
-				// we only need the first message line, all the rest is additional information
-				message = message.split("\n")[0];
-			}
 			this.realException = exception;
 			this.exception = Maps.newHashMap();
 			this.exception.put("class", exception.getClass().getName());
 			this.exception.put("message", message);
-			this.exception.put("fullStackTrace", ExceptionUtils.getStackTrace(exception));
+			this.exception.put("fullStackTrace", Throwables.getStackTraceAsString(exception));
 		}
 		if (value instanceof WebElements) {
 			this.value = ((WebElements) value).toString();
@@ -83,6 +96,14 @@ public class EvalResult implements Serializable {
 	public int getSize() {
 		return size;
 	}
+	
+	public int getLineNumber() {
+        return lineNumber;
+    }
+	
+	public String getSourceName() {
+        return sourceName;
+    }
 	
 	@JsonIgnore
 	public Throwable getException() {

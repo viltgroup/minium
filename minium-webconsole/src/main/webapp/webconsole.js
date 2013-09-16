@@ -1,99 +1,133 @@
 (function($) {
+    // https://gist.github.com/BMintern/1795519
+    var escapeHtml = function(str) {
+        var div = document.createElement('div');
+        div.appendChild(document.createTextNode(str));
+        return div.innerHTML;
+    };
+    
+    var error = function(options) {
+        $.growl.error($.extend({ title : "", duration : 6400}, options));
+    };
+
+    var notice = function(options) {
+        $.growl.notice($.extend({ title : "", duration : 6400}, options));
+    };
+    
+    var Overlay = function() {
+        this.elem = $("#overlay");
+        var opts = {
+                lines: 13, // The number of lines to draw
+                length: 20, // The length of each line
+                width: 10, // The line thickness
+                radius: 30, // The radius of the inner circle
+                corners: 1, // Corner roundness (0..1)
+                rotate: 0, // The rotation offset
+                direction: 1, // 1: clockwise, -1: counterclockwise
+                color: '#ffffff', // #rgb or #rrggbb or array of colors
+                speed: 0.9, // Rounds per second
+                trail: 60, // Afterglow percentage
+                shadow: false, // Whether to render a shadow
+                hwaccel: false, // Whether to use hardware acceleration
+                className: 'spinner', // The CSS class to assign to the spinner
+                zIndex: 2e9, // The z-index (defaults to 2000000000)
+                top: 'auto', // Top position relative to parent in px
+                left: 'auto' // Left position relative to parent in px
+        };
+        this.spinner = new Spinner(opts);
+    };
+    Overlay.prototype.on = function() {
+        this.elem.on.apply(this.elem, arguments);
+    };
+    Overlay.prototype.off = function() {
+        this.elem.off.apply(this.elem, arguments);
+    };
+    Overlay.prototype.show = function() {
+        this.elem.show();
+        this.spinner.spin(this.elem);
+    };
+    Overlay.prototype.hide = function() {
+        this.spinner.stop();
+        this.elem.hide();
+    };
+    
+    var overlay = new Overlay();
 	
-	var tipDiv = $("<div></div>").hide().appendTo("body");
-	
-	var showTip = function(coords, text, error) {
-		
-		var title = error ? "Error" : "Value";
-		var style = error ? "ui-tooltip-red" : "ui-tooltip-green";
-		
-		tipDiv.qtip({
-			content : {
-				text : text, 
-				title : {
-					text: title
-				}
-			},
-			suppress : false,
-			position : {
-				target : [ coords.x, coords.yBot ],
-				viewport : $(".CodeMirror-scroll")
-			},
-			show : {
-				event: false,
-				solo : true,
-				ready: true
-			},
-			hide : {
-				event: "unfocus"
-			},
-			style : {
-				tip : { corner : true },
-				classes : style
-			}
-		});
-	};
+	var evaluate = function (cm) {
+        var cursor = cm.getCursor("start");
+        var selection = cm.getSelection();
+        if (!selection.trim()) {
+            selection = cm.getLine(cursor.line).trim();
+        }
+        console.debug(selection);
+        overlay.show();
+        $.ajax({
+            dataType : "json",
+            type     : "post",
+            url      : "minium/console/eval",
+            data     : { expr : selection, lineno : cursor.line },
+            complete : function() {
+                overlay.hide();
+            },
+            success  : function(data) {
+                if (data.exceptionInfo) {
+                    var title = "Line " + (data.lineNumber + 1);
+                    error({ title : title, message: data.exceptionInfo.message });
+                }
+                else if (data.size >= 0) {
+                    notice({ message: "Matched " + data.size + " web elements" });
+                }
+                else {
+                    notice({ message: data.value ? escapeHtml(data.value) : "No value" });
+                }
+            }
+        });
+    };
+    
+    var activateSelectorGadget = function (cm) {
+        $.ajax({
+            dataType : "json",
+            type     : "post",
+            url      : "minium/console/activateSelectorGadget",
+            success  : function(data) {
+                overlay.on("click", function() {
+                    getCssSelector(cm);
+                });
+                overlay.show();
+            },
+            error    : function() { 
+                overlay.hide(); 
+            }
+        });
+    };
+
+    var getCssSelector = function (cm) {
+        $.ajax({
+            dataType : "json",
+            type     : "post",
+            url      : "minium/console/getCssSelector",
+            success  : function(data) {
+                cm.replaceSelection("\"" + data + "\"");
+            },
+            complete : function() {
+                overlay.off("click");
+                overlay.hide(); 
+            }
+        });
+    };
 	
 	var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
 		lineNumbers: true,
 		theme: "lesser-dark",
 		tabSize: 2,
 		extraKeys: {
-			"Ctrl-Enter" : function (cm) {
-  				var selection = cm.getSelection();
-				if (!selection.trim()) {
-					var pos = cm.getCursor(false);
-					selection = cm.getLine(pos.line).trim();
-				}
-				var coords = cm.cursorCoords(false, "page");
-				console.debug(selection);
-				$.ajax({
-					dataType : "json",
-					type     : "post",
-					url      : "minium/console/eval",
-					data     : { expr : selection },
-					success  : function(data) {
-						if (data.exceptionInfo) {
-							showTip(coords, data.exceptionInfo.message, true);							
-						}
-						else if (data.size >= 0) {
-							showTip(coords, "Matched " + data.size + " web elements", false);
-						}
-						else {
-							showTip(coords, data.value ? data.value : "No value...", false);
-						}
-					}
-				});
- 			}
+			"Ctrl-Enter" : evaluate,
+	        "Ctrl-Space" : activateSelectorGadget
 		}
 	});
 	
-	var editbox = $(".editbox");
-		
-	editbox.bind("dragover", function() {
-		$(this).addClass("hover");
-		return false;
-	});
-	editbox.bind("dragend", function() {
-		$(this).removeClass("hover");
-		return false;
-	});
-	
-	editbox.bind("drop", function(e) {
-		$(this).removeClass("hover");
-		e.preventDefault();
-
-		var file = e.originalEvent.dataTransfer.files[0];
-		var reader = new FileReader();
-		
-		reader.onload = function(event) {
-			var code = event.target.result;
-			editor.setValue(code);
-		};
-		reader.readAsText(file, "ISO-8859-1");
-
-		return false;
-	});
+	// let's add a container for tips
+	$("<div />", { id : "tipcontainer" }).hide().appendTo("body");
 
 	$(window).unload(function() {
 		$.ajax({
