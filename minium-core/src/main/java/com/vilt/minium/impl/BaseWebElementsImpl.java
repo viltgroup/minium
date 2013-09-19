@@ -257,6 +257,16 @@ WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, FreezableWebElemen
 		return Iterables.get(this, index);
 	}
 	
+	@SuppressWarnings("unchecked")
+    @Override
+	public <WE extends WebElements> WE cast(Class<WE> clazz) {
+	    if (!clazz.isAssignableFrom(this.getClass())) {
+	        throw new ClassCastException(
+	                format("WebElements does not implement %s. Ensure that the class is passed as an extension interface in DefaultWebElementsDriver constructor", clazz.getName()));
+	    }
+	    return (WE) this;
+	}
+	
 	@Override
 	public Iterable<WebElementsDriver<T>> webDrivers() {
 		return candidateWebDrivers();
