@@ -9,5 +9,6 @@ import com.vilt.minium.WebElements;
 )
 public interface SelectorGadgetWebElements extends WebElements {
     public void activateSelectorGadget();
+    public void deactivateSelectorGadget();
     public String getCssSelector();
 }

@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"    
+    xmlns:mvc="http://www.springframework.org/schema/mvc"    
     xmlns:p="http://www.springframework.org/schema/p" 
     xsi:schemaLocation="
         http://www.springframework.org/schema/beans 
-        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.1.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
 
     <bean id="webElementsDrivers" class="com.vilt.minium.script.WebElementsDrivers" destroy-method="destroy">
 	    <constructor-arg>
@@ -15,26 +21,31 @@
 	        </array>
 	    </constructor-arg>
 	</bean>
-    
-    <!-- Controllers -->
-	<bean class="com.vilt.minium.webconsole.controller.ConsoleController" autowire="byName">
-	    <constructor-arg>
-		    <bean class="com.vilt.minium.script.MiniumScriptEngine">
-		        <constructor-arg index="0" ref="webElementsDrivers" />
-		    </bean>
-	    </constructor-arg>
+	
+    <bean class="com.vilt.minium.script.MiniumScriptEngine">
+        <constructor-arg index="0" ref="webElementsDrivers" />
     </bean>
     
+    <!-- Controllers -->
+	<context:component-scan base-package="com.vilt.minium.webconsole" />
+	
     <!-- Converters -->
-   	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-		<property name="messageConverters">
-			<list>
-				<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
-					<property name="prefixJson" value="false"/>
-			    	<property name="supportedMediaTypes" value="application/json"/>
-				</bean>
-			</list>
-		</property>
-	</bean>
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+        	<bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter">
+		        <property name="supportedMediaTypes">
+	                <list>
+	                    <value>image/jpeg</value>
+	                    <value>image/png</value>
+	                    <value>image/gif</value>
+	                </list>
+            	</property>
+		    </bean>
+		    <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+				<property name="prefixJson" value="false"/>
+			   	<property name="supportedMediaTypes" value="application/json"/>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
 	
 </beans>

@@ -17,6 +17,10 @@ import org.slf4j.LoggerFactory;
 
 public class MiniumScriptEngine {
 
+    interface ContextCallable<V, X extends Exception> {
+        public V call(Context cx) throws X;
+    }
+    
 	private static final String RHINO_BOOTSTRAP_JS = "rhino/bootstrap.js";
 	private static final String BOOTSTRAP_EXTS_JS = "rhino/bootstrap-extension.js";
 
@@ -41,58 +45,105 @@ public class MiniumScriptEngine {
 		initScope();
 	}
 
-	public void put(String varName, Object object) {
-		scope.put(varName, scope, object);
+    public boolean contains(final String varName) {
+        return runWithContext(new ContextCallable<Boolean, RuntimeException>() {
+
+            @Override
+            public Boolean call(Context cx) {
+                return scope.get(varName) != null;
+            }
+
+        });
+    }
+
+	public void put(final String varName, final Object object) {
+        runWithContext(new ContextCallable<Void, RuntimeException>() {
+
+            @Override
+            public Void call(Context cx) {
+                scope.put(varName, scope, object);
+                return null;
+            }
+
+        });
+	}
+
+	public void delete(final String varName) {
+        runWithContext(new ContextCallable<Void, RuntimeException>() {
+
+            @Override
+            public Void call(Context cx) {
+                scope.delete(varName);
+                return null;
+            }
+
+        });
 	}
 
 	public Object eval(String expression) throws Exception {
 	    return eval(expression, 1);
 	}
 	
-	public Object eval(String expression, int lineNumber) throws Exception {
+	public Object eval(final String expression, final int lineNumber) throws Exception {
 		logger.debug("Evaluating expression: {}", expression);
-
-		Context cx = Context.enter();
-		try {
-			Object result = cx.evaluateString(scope, expression, "<expression>", lineNumber, null);
-			if (result instanceof Undefined) return null;
-			if (result instanceof NativeJavaObject) return ((NativeJavaObject) result).unwrap();
-			return result;
-		} catch (Exception e) {
-			logger.error("Evaluation of {} failed", expression, e);
-			throw e;
-		} finally {
-			Context.exit();
-		}
+        return runWithContext(new ContextCallable<Object, Exception>() {
+            @Override
+            public Object call(Context cx) throws Exception {
+                try {
+                    Object result = cx.evaluateString(scope, expression, "<expression>", lineNumber, null);
+                    if (result instanceof Undefined)
+                        return null;
+                    if (result instanceof NativeJavaObject)
+                        return ((NativeJavaObject) result).unwrap();
+                    return result;
+                } catch (Exception e) {
+                    logger.error("Evaluation of {} failed", expression, e);
+                    throw e;
+                }
+            }
+        });
 	}
 
 	protected void initScope() {
-		Context cx = Context.enter();
-		try {
-		    // Global gives us access to global functions like load()
-		    scope = new Global(cx); 
-			
-		    scope.put("webElementsDrivers", scope, webElementsDrivers);
+	    runWithContext(new ContextCallable<Void, RuntimeException>() {
+            @Override
+            public Void call(Context cx) {
+                try {
+                    // Global gives us access to global functions like load()
+                    scope = new Global(cx);
 
-			logger.debug("Loading minium bootstrap file");
-			InputStreamReader bootstrap = new InputStreamReader(classLoader.getResourceAsStream(RHINO_BOOTSTRAP_JS), "UTF-8");
-			cx.evaluateReader(scope, bootstrap, RHINO_BOOTSTRAP_JS, 1, null);
+                    scope.put("webElementsDrivers", scope, webElementsDrivers);
 
-			Enumeration<URL> resources = classLoader.getResources(BOOTSTRAP_EXTS_JS);
+                    logger.debug("Loading minium bootstrap file");
+                    InputStreamReader bootstrap = new InputStreamReader(classLoader.getResourceAsStream(RHINO_BOOTSTRAP_JS), "UTF-8");
+                    cx.evaluateReader(scope, bootstrap, RHINO_BOOTSTRAP_JS, 1, null);
 
-			while (resources.hasMoreElements()) {
-				URL resourceUrl = resources.nextElement();
-				Reader reader = resourceUrlReader(resourceUrl);
-				if (reader != null) {
-					logger.debug("Loading extension bootstrap from '{}'", resourceUrl.toString());
-					cx.evaluateReader(scope, reader, resourceUrl.toString(), 1, null);
-				}
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		} finally {
-			Context.exit();
-		}
+                    Enumeration<URL> resources = classLoader.getResources(BOOTSTRAP_EXTS_JS);
+
+                    while (resources.hasMoreElements()) {
+                        URL resourceUrl = resources.nextElement();
+                        Reader reader = resourceUrlReader(resourceUrl);
+                        if (reader != null) {
+                            logger.debug("Loading extension bootstrap from '{}'", resourceUrl.toString());
+                            cx.evaluateReader(scope, reader, resourceUrl.toString(), 1, null);
+                        }
+                    }
+
+                    return null;
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+	}
+	
+	protected <V, X extends Exception> V runWithContext(ContextCallable<V, X> fn) throws X {
+	    Context cx = Context.enter();
+        try {
+            return fn.call(cx);
+    	} finally {
+            Context.exit();
+        }
 	}
 
 	private Reader resourceUrlReader(URL resourceUrl) {

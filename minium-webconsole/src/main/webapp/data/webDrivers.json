@@ -1,0 +1,4 @@
+[
+{ "variableName": "wd", "type": "Chrome" },
+{ "variableName": "wd1", "type": "Chrome", "state" : "invalid" }
+]

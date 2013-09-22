@@ -11,6 +11,12 @@
             selectorGadget.rebindAndMakeInterface();
         }
     };
+    
+    $.fn.deactivateSelectorGadget = function() {
+        if (selectorGadget && !selectorGadget.unbound) {
+            selectorGadget.unbindAndRemoveInterface();
+        }
+    };
 
     $.fn.getCssSelector = function() {
         var cssSelector = $("#selectorgadget_path_field").val();
