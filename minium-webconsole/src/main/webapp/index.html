@@ -122,7 +122,7 @@
                 <td>{{variable.variableName}}</td>
                 <td>{{variable.type}}</td>
                 <td class="text-right">
-                  <button class="btn btn-primary" href="#screenshotDialog" data-toggle="modal" ng-show="variable.state != 'invalid'">
+                  <button class="btn btn-primary" data-toggle="modal" ng-show="variable.state != 'invalid'" ng-click="selectorGadgetDialog.showScreenshot(variable.variableName)">
                     <span class="glyphicon glyphicon-camera"></span>
                   </button>
                   <button type="button" class="btn btn-danger" ng-click="removeWebDriverVariable(variable.variableName)">
@@ -254,17 +254,17 @@
     <div id="screenshotDialog" class="modal fade container" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
-          <form id="screenshotForm" class="form-horizontal" role="form">
+          <form name="screenshotForm" class="form-horizontal" role="form">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
               <h4  class="modal-title">Screenshot</h4>
             </div>
             <div class="modal-body">
-              <img src="data/screenshot1.png" class="img-responsive img-center" alt="Screenshot">
+              <img src="{{selectorGadgetDialog.screenshotUrl}}" class="img-responsive img-center" alt="Screenshot">
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Retake</button>
+              <button type="button" class="btn btn-primary" ng-click="selectorGadgetDialog.showScreenshot()">Retake</button>
             </div>
           </form>
         </div>

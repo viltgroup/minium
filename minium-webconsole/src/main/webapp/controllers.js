@@ -9,11 +9,12 @@ function WebConsoleCtrl($scope, $http, $timeout, promiseTracker) {
       return div.innerHTML;
   };
 
-  var service = {
+  var http = {
     get : function(url, params) {
       var fn = function() {
         return $http.get(baseServiceUrl + url, { params : params });
       };
+      // if we're running inside angular, we don't need $scope.$apply
       return $scope.$$phase ? fn() : $scope.$apply(fn);
     }
   };
@@ -31,12 +32,8 @@ function WebConsoleCtrl($scope, $http, $timeout, promiseTracker) {
     dialog.options = options || {};
     if (options.trackerId) {
       dialog.tracker = promiseTracker(options.trackerId);
-      dialog.tracker.on("start", function() { 
-        if (dialog.shown) dialog.elem.modal("loading", function() { console.debug("Start", this.isLoading); }); 
-      });
-      dialog.tracker.on("done", function() { 
-        if (dialog.shown) dialog.elem.modal("loading", function() { console.debug("Done", this.isLoading); }); 
-      });
+      dialog.tracker.on("start", function() { $('body').modalmanager('loading'); });
+      dialog.tracker.on("done",  function() { $('body').modalmanager('loading'); });
     }
     dialog.model = dialog.options.getInitialValue ? dialog.options.getInitialValue() : {}; 
     dialog.reset = function () {
@@ -61,7 +58,7 @@ function WebConsoleCtrl($scope, $http, $timeout, promiseTracker) {
 
   $scope.globalTracker = promiseTracker("evaluate");
   $scope.globalTracker.on("start", function() { $('body').modalmanager('loading'); });
-  $scope.globalTracker.on("done", function() { $('body').modalmanager('loading'); });
+  $scope.globalTracker.on("done",  function() { $('body').modalmanager('loading'); });
 
   // Editor stuff
   var loadEditorPreferences = function (defaults) {
@@ -93,7 +90,7 @@ function WebConsoleCtrl($scope, $http, $timeout, promiseTracker) {
       var line = range.start.row;
       var code = range.isEmpty() ? session.getLine(line) : session.getTextRange(range);
 
-      var request = service.get("/console/eval", { expr : code, lineno  : line + 1 }).success(function(data) {
+      var request = http.get("/console/eval", { expr : code, lineno  : line + 1 }).success(function(data) {
         if (data.exceptionInfo) {
           console.error(data.exceptionInfo);
           $.bootstrapGrowl(data.exceptionInfo.message, { type: "danger" });
@@ -163,7 +160,7 @@ function WebConsoleCtrl($scope, $http, $timeout, promiseTracker) {
   ];
 
   $scope.webDriverVariables = [];
-  $http.get("data/webDrivers.json").success(function(data) {
+  http.get("/webDrivers").success(function(data) {
     $scope.webDriverVariables = data;
   });
 
@@ -187,7 +184,7 @@ function WebConsoleCtrl($scope, $http, $timeout, promiseTracker) {
       var dialog = this;
       var varName = dialog.model.varName;
       var typeId = dialog.model.type.id;
-      var request = service.get("/webDrivers/" + varName + "/create", { type : typeId }).success(function() {
+      var request = http.get("/webDrivers/" + varName + "/create", { type : typeId }).success(function() {
 
         $scope.webDriverVariables.push({ variableName : varName, type : typeId, valid : true });
         // close modal
@@ -242,28 +239,26 @@ function WebConsoleCtrl($scope, $http, $timeout, promiseTracker) {
       if (dialog.prevWebDriver && dialog.prevWebDriver !== dialog.model.webDriver) {
         params = { previousVar : dialog.prevWebDriver };
       }
-      var request = service.get("/selectorGadget/" + dialog.model.webDriver + "/activate", params).success(function() {
+      var request = http.get("/selectorGadget/" + dialog.model.webDriver + "/activate", params).success(function() {
         $.bootstrapGrowl("You can now select elements in <code>" + dialog.model.webDriver + "</code> window!", { type: "success" });
       });
 
-      if (dialog.shown) {
-        dialog.tracker.addPromise(request);        
-      }
-      else {
-        $scope.globalTracker.addPromise(request);
+      if (!dialog.shown) {
         var showDialog = function() {
           dialog.show();
-          $scope.globalTracker.off("done", showDialog);
+          dialog.tracker.off("done", showDialog);
         };
-        $scope.globalTracker.on("done", showDialog);
+        dialog.tracker.on("done", showDialog);
       }
+      
+      dialog.tracker.addPromise(request);        
       dialog.prevWebDriver = dialog.model.webDriver;
     },
 
     accept : function() {
       var dialog = this;
       var varName = dialog.model.webDriver;
-      var request = service.get("/selectorGadget/" + varName + "/cssSelector").success(function(data) {
+      var request = http.get("/selectorGadget/" + varName + "/cssSelector").success(function(data) {
 
         var session = $scope.aceEditor.getSession();
         var position = dialog.range.start;
@@ -279,4 +274,19 @@ function WebConsoleCtrl($scope, $http, $timeout, promiseTracker) {
       dialog.tracker.addPromise(request);
     }
   });
+
+  $scope.selectorGadgetDialog = new ModalDialog("#screenshotDialog", { 
+    formName : "selectorGadgetForm"
+  });
+  $scope.selectorGadgetDialog.showScreenshot = function(varName) {
+    var dialog = $scope.selectorGadgetDialog;
+    if (varName) {
+      dialog.varName = varName;
+    }
+    // we add a timestamp parameter to force image refresh
+    dialog.screenshotUrl = baseServiceUrl + "/webDrivers/" + dialog.varName + "/screenshot?ts=" + new Date().getTime();
+    if (!dialog.shown) {
+      dialog.show();
+    }
+  }
 }
