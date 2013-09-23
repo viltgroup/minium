@@ -60,9 +60,18 @@ public class EvalResult implements Serializable {
 	public EvalResult(Object value, Throwable exception) {
 		if (exception != null) {
 		    if (exception instanceof RhinoException) {
-		        lineNumber = ((RhinoException) exception).lineNumber();
-		        sourceName = ((RhinoException) exception).sourceName();
-		        if (Objects.equal(sourceName, "<expression>")) sourceName = null;
+		        StackTraceElement[] stackTrace = exception.getStackTrace();
+		        for (StackTraceElement stackTraceElement : stackTrace) {
+                    if (Objects.equal("<expression>", stackTraceElement.getFileName())) {
+                        lineNumber = stackTraceElement.getLineNumber();
+                        sourceName = null;
+                        break;
+                    }
+                }
+		        if (lineNumber < 0) {
+		            lineNumber = ((RhinoException) exception).lineNumber();
+		            sourceName = ((RhinoException) exception).sourceName();
+		        }
 		    }
 		    
 		    if (exception instanceof WrappedException) {

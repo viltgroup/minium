@@ -59,6 +59,10 @@ function WebConsoleCtrl($scope, $http, $timeout, promiseTracker) {
     };
   };
 
+  $scope.globalTracker = promiseTracker("evaluate");
+  $scope.globalTracker.on("start", function() { $('body').modalmanager('loading'); });
+  $scope.globalTracker.on("done", function() { $('body').modalmanager('loading'); });
+
   // Editor stuff
   var loadEditorPreferences = function (defaults) {
     var editorPreferences = $.cookie("editorPreferences");
@@ -88,22 +92,20 @@ function WebConsoleCtrl($scope, $http, $timeout, promiseTracker) {
 
       var line = range.start.row;
       var code = range.isEmpty() ? session.getLine(line) : session.getTextRange(range);
-      
-      var tracker = promiseTracker("evaluate");
-      tracker.on("start", function() { $('body').modalmanager('loading'); });
-      tracker.on("done", function() { $('body').modalmanager('loading'); });
 
       var request = service.get("/console/eval", { expr : code, lineno  : line + 1 }).success(function(data) {
         if (data.exceptionInfo) {
           console.error(data.exceptionInfo);
           $.bootstrapGrowl(data.exceptionInfo.message, { type: "danger" });
-          var errors = [ { 
-            row : data.lineNumber,
-            column : 0,
-            text: data.exceptionInfo.message,
-            type: "error"
-          } ];
-          editor.getSession().setAnnotations(errors);
+          if (data.lineNumber >= 0 && !data.sourceName) {
+            var errors = [ { 
+              row : data.lineNumber - 1,
+              column : 0,
+              text: data.exceptionInfo.message,
+              type: "error"
+            } ];
+            editor.getSession().setAnnotations(errors);
+          }
         }
         else if (data.size >= 0) {
           $.bootstrapGrowl(data.size + " matching web elements", { type: "success" });
@@ -113,14 +115,14 @@ function WebConsoleCtrl($scope, $http, $timeout, promiseTracker) {
         }
       });
 
-      tracker.addPromise(request);
+      $scope.globalTracker.addPromise(request);
     };
 
     var activateSelectorGadget = function(editor) {
       var range = editor.getSelectionRange();
       
       $scope.selectorGadgetDialog.range = range;
-      $scope.selectorGadgetDialog.show();
+      $scope.selectorGadgetDialog.activate();
     };
 
     editor.commands.addCommand({
@@ -228,10 +230,14 @@ function WebConsoleCtrl($scope, $http, $timeout, promiseTracker) {
       }
     }), {
 
-    changedWebDriver : function() {      
-      if (!this.model.webDriver) return;
-      
+    activate : function() {      
       var dialog = this;
+      
+      if (!dialog.model.webDriver) {
+        if (!dialog.shown) dialog.show();
+        return;
+      }
+
       var params = {};
       if (dialog.prevWebDriver && dialog.prevWebDriver !== dialog.model.webDriver) {
         params = { previousVar : dialog.prevWebDriver };
@@ -239,11 +245,22 @@ function WebConsoleCtrl($scope, $http, $timeout, promiseTracker) {
       var request = service.get("/selectorGadget/" + dialog.model.webDriver + "/activate", params).success(function() {
         $.bootstrapGrowl("You can now select elements in <code>" + dialog.model.webDriver + "</code> window!", { type: "success" });
       });
-      dialog.tracker.addPromise(request);
+
+      if (dialog.shown) {
+        dialog.tracker.addPromise(request);        
+      }
+      else {
+        $scope.globalTracker.addPromise(request);
+        var showDialog = function() {
+          dialog.show();
+          $scope.globalTracker.off("done", showDialog);
+        };
+        $scope.globalTracker.on("done", showDialog);
+      }
       dialog.prevWebDriver = dialog.model.webDriver;
     },
 
-    acceptCssSelector : function() {
+    accept : function() {
       var dialog = this;
       var varName = dialog.model.webDriver;
       var request = service.get("/selectorGadget/" + varName + "/cssSelector").success(function(data) {
@@ -261,8 +278,5 @@ function WebConsoleCtrl($scope, $http, $timeout, promiseTracker) {
       });
       dialog.tracker.addPromise(request);
     }
-  });
-  $scope.selectorGadgetDialog.elem.on("show", function() {
-    $scope.selectorGadgetDialog.changedWebDriver();
   });
 }

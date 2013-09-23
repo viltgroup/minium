@@ -71,7 +71,7 @@
     <div id="selectorGadgetDialog" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
-          <form name="selectorGadgetForm" role="form" ng-submit="selectorGadgetDialog.acceptCssSelector()">
+          <form name="selectorGadgetForm" role="form" ng-submit="selectorGadgetDialog.accept()">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
               <h4 class="modal-title">Pick elements with Selector Gadget</h4>
@@ -80,7 +80,7 @@
               <p>Pick elements with Selector Gadget to generate a CSS selector expression.</p>
               <div class="form-group">
                 <label for="selectorGadgetWebDriver" class="control-label">Web Driver</label>
-                <select id="selectorGadgetWebDriver" name="webDriver" class="form-control" ng-model="selectorGadgetDialog.model.webDriver" ng-change="selectorGadgetDialog.changedWebDriver()">
+                <select id="selectorGadgetWebDriver" name="webDriver" class="form-control" ng-model="selectorGadgetDialog.model.webDriver" ng-change="selectorGadgetDialog.activate()">
                   <option ng-repeat="variable in webDriverVariables">{{variable.variableName}}</option>
                 </select>
               </div>
