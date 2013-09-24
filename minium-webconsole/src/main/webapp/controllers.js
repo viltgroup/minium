@@ -29,7 +29,7 @@ function WebConsoleCtrl($scope, $http, $timeout, promiseTracker) {
       .on("hide", function() { dialog.shown = false; })
       .on("show", function() { dialog.shown = true; });
 
-    dialog.options = options || {};
+    dialog.options = options = options || {};
     if (options.trackerId) {
       dialog.tracker = promiseTracker(options.trackerId);
       dialog.tracker.on("start", function() { $('body').modalmanager('loading'); });
@@ -275,11 +275,9 @@ function WebConsoleCtrl($scope, $http, $timeout, promiseTracker) {
     }
   });
 
-  $scope.selectorGadgetDialog = new ModalDialog("#screenshotDialog", { 
-    formName : "selectorGadgetForm"
-  });
-  $scope.selectorGadgetDialog.showScreenshot = function(varName) {
-    var dialog = $scope.selectorGadgetDialog;
+  $scope.screenshotDialog = new ModalDialog("#screenshotDialog");
+  $scope.screenshotDialog.showScreenshot = function(varName) {
+    var dialog = $scope.screenshotDialog;
     if (varName) {
       dialog.varName = varName;
     }
@@ -288,5 +286,5 @@ function WebConsoleCtrl($scope, $http, $timeout, promiseTracker) {
     if (!dialog.shown) {
       dialog.show();
     }
-  }
+  };
 }
