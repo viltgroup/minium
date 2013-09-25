@@ -1,0 +1,34 @@
+<div id="webdriver-create-dialog" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+   <form name="newWebDriverForm" class="form-horizontal" role="form" ng-submit="newWebDriverForm.$valid && submit()" novalidate>
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">New {{type.displayName}} Web Driver</h4>
+        </div>
+        <div class="modal-body">
+          <div class="media">
+            <div class="pull-left">
+              <span class="media-object glyphicon {{type.glyphicon}}"></span>
+            </div>
+            <div class="media-body">
+              <p>Create a new Web Driver by typing the desired variable name for script access.</p> 
+              <div class="form-group" ng-class="{ 'has-error' : newWebDriverForm.varName.$dirty && newWebDriverForm.varName.$invalid}">
+                <label for="webdriver-varname" class="col-lg-3 control-label">Variable</label>
+                <div class="col-lg-9">
+                  <input id="webdriver-varname" name="varName" type="text" class="form-control" ng-model="varName" required ng-pattern="/^[a-zA-Z_$][0-9a-zA-Z_$]*$/">
+                  <span class="help-block" ng-show="newWebDriverForm.varName.$dirty && newWebDriverForm.varName.$error.required">Required field.</span>
+                  <span class="help-block" ng-show="newWebDriverForm.varName.$dirty && newWebDriverForm.varName.$error.pattern">Must be a valid javascript variable.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="reset()">Close</button>
+          <button type="submit" class="btn btn-primary" ng-disabled="newWebDriverForm.$invalid">Create</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

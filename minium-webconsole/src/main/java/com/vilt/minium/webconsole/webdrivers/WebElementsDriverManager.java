@@ -35,10 +35,10 @@ public class WebElementsDriverManager {
     }
     
     public void put(WebDriverInfo wdInfo, WebElementsDriver<?> driver) {
-        String variableName = wdInfo.getVariableName();
+        String variableName = wdInfo.getVarName();
         
         if (engine.contains(variableName)) {
-            throw new IllegalStateException(format("Variable %s already exists in script engine", wdInfo.getVariableName()));
+            throw new IllegalStateException(format("Variable %s already exists in script engine", wdInfo.getVarName()));
         }
         webDrivers.put(variableName, driver);
         webDriversInfo.put(variableName, wdInfo);

@@ -1,29 +1,28 @@
 package com.vilt.minium.webconsole.webdrivers;
 
-
 public class WebDriverInfo {
 
     public enum Type {
         Chrome, Firefox, Safari, InternetExplorer, Opera, PhantomJS
     }
 
-    private String variableName;
+    private String varName;
     private Type type;
     
 //    private List<WindowInfo> windows;
     
-    public WebDriverInfo(String variableName, Type type) {
+    public WebDriverInfo(String varName, Type type) {
         super();
-        this.variableName = variableName;
+        this.varName = varName;
         this.type = type;
     }
 
-    public String getVariableName() {
-        return variableName;
+    public String getVarName() {
+        return varName;
     }
 
-    public void setVariableName(String variableName) {
-        this.variableName = variableName;
+    public void setVarName(String varName) {
+        this.varName = varName;
     }
 
     public Type getType() {
