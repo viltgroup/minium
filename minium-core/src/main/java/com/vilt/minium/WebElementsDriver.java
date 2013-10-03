@@ -152,7 +152,6 @@ public class WebElementsDriver<T extends CoreWebElements<T>> implements WebEleme
 	/** {@inheritDoc} */
 	@Override
 	public void quit() {
-		ensureSwitch();
 		wd.quit();
 	}
 
