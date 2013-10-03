@@ -25,7 +25,6 @@ import org.openqa.selenium.Keys;
 import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.Duration;
 import com.vilt.minium.TimeoutException;
-import com.vilt.minium.WebElements;
 import com.vilt.minium.WebElementsDriver;
 import com.vilt.minium.impl.actions.RetryOnExceptionInteractionListener;
 import com.vilt.minium.impl.actions.TimeoutInteractionListener;
@@ -328,32 +327,10 @@ public class Interactions {
 		defaultPerformer().deselectAll(elems);
 	}
 
-	/**
-	 * Wait for elements.
-	 *
-	 * @param elems the elems
-	 * @deprecated use {@link Interactions#waitWhileEmpty(WebElements)}
-	 */
-	@Deprecated
-	public static void waitForElements(CoreWebElements<?> elems) throws TimeoutException {
-		waitWhileEmpty(elems);
-	}
-
 	public static void waitWhileEmpty(CoreWebElements<?> elems) throws TimeoutException {
 		defaultPerformer().waitWhileEmpty(elems);
 	}
 	
-	/**
-	 * Wait while elements.
-	 *
-	 * @param elems the elems
-	 * @deprecated use {@link Interactions#waitWhileNotEmpty(WebElements)}
-	 */
-	@Deprecated
-	public static void waitWhileElements(CoreWebElements<?> elems) throws TimeoutException {
-		defaultPerformer().waitWhileElements(elems);
-	}
-
 	public static void waitWhileNotEmpty(CoreWebElements<?> elems) throws TimeoutException {
 		defaultPerformer().waitWhileNotEmpty(elems);
 	}

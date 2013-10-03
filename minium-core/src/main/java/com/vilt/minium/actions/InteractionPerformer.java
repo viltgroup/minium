@@ -26,7 +26,6 @@ import com.google.common.collect.Lists;
 import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.Duration;
 import com.vilt.minium.TimeoutException;
-import com.vilt.minium.WebElements;
 import com.vilt.minium.impl.actions.ButtonReleaseInteraction;
 import com.vilt.minium.impl.actions.CheckInteraction;
 import com.vilt.minium.impl.actions.ClearInteraction;
@@ -361,32 +360,10 @@ public class InteractionPerformer {
 		perform(new DeselectAllInteraction(elems));						
 	}
 	
-	/**
-	 * Wait for elements.
-	 *
-	 * @param elems the elems
-	 * @deprecated use {@link InteractionPerformer#waitWhileEmpty(WebElements)} instead
-	 */
-	@Deprecated
-	public void waitForElements(CoreWebElements<?> elems) throws TimeoutException {
-		waitWhileEmpty(elems);
-	}
-	
 	public void waitWhileEmpty(CoreWebElements<?> elems) throws TimeoutException {
 		perform(new WaitWhileEmptyInteraction(elems));
 	}
 	
-	/**
-	 * Wait while elements.
-	 *
-	 * @param elems the elems
-	 * @deprecated use {@link InteractionPerformer#waitWhileNotEmpty(WebElements)} instead
-	 */
-	@Deprecated
-	public void waitWhileElements(CoreWebElements<?> elems) throws TimeoutException {
-		waitWhileNotEmpty(elems);
-	}
-
 	public void waitWhileNotEmpty(CoreWebElements<?> elems) throws TimeoutException {
 		perform(new WaitWhileNotEmptyInteraction(elems));
 	}
