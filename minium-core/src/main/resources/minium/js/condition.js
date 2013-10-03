@@ -1,10 +1,10 @@
 (function($, window, document) {
     
-    $.fn.whenNotEmpty = function(elems) {
+    $.fn.ifNotEmpty = function(elems) {
         return $(elems).length == 0 ? $() : $(this);
     };
 
-    $.fn.whenEmpty = function(elems) {
+    $.fn.ifEmpty = function(elems) {
         return $(elems).length != 0 ? $() : $(this);
     };
 
