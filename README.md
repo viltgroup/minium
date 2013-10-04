@@ -1,150 +1,127 @@
-# Minium [![Build Status](https://travis-ci.org/viltgroup/minium.png)](https://travis-ci.org/viltgroup/minium)
+origSpeak = speak;
+speak = function() {};
 
-![Minium banner](http://viltgroup.github.io/minium/images/banner_minium.png)
+importStatic(com.vilt.minium.JavascriptFunctions);
 
-## What is Minium 
+function debug(arg) {
+  $(wd).eval(parse("function() { console.debug(arguments[0]); }"), arg);
+}
 
-Minium is a framework, developed by Rui Figueira @ VILT, that combines jQuery and Selenium for browser testing 
-and tasks automation. It also provides an interactive console that easily lets you execute Minium instructions, 
-providing you immediate feedback.
+function call(fn) {
+  var args = Array.prototype.slice.call(arguments);
+  args[0] = parse(fn.toString());
+  return $(wd).call.apply($(wd), args);
+}
 
-In today's JavaScript development landscape, jQuery is the dominant auxiliar library. A major contributor for this
-state of affairs is JQuery's powerful element selector engine. Now ubiquous in use, it provides a quick and 
-intelligible way to select precisely the elements we want. At the other end of the development spectrum, Selenium 
-is currently the most popular automation framework due to its innovative WebDriver API. Minium combines Selenium's 
-impressive automation capabilities with jQuery's selector engine to produce a simple way to create elaborate 
-automation tasks in the complex web interfaces of today.
+function getCode(fn) {
+  var match = /^function\s*\(\s*\)\s*\{((?:.*\s*)*)\}$/mg.exec(fn.toString());
+  if (match) {
+    var code = match[1];
+    var lines = code.split(/\r?\n/);
+    var indentation;
+    for (var i = 0; i < lines.length; i++) {
+      var indentMatch = /^(\s+)\S.*/.exec(lines[i]);
+      if (indentMatch) {
+        indentation = indentMatch[1];
+        break;
+      }
+    }
+    if (!indentation) return code;
+	
+    for (var i = 0; i < lines.length; i++) {
+      var tabs = "";
+      var firstTabIgnored = false;
+      while (lines[i].indexOf(indentation) === 0) {
+        lines[i] = lines[i].substr(indentation.length);
+        if (firstTabIgnored) {
+          tabs += "  ";
+        } else {
+          firstTabIgnored = true;
+        }
+      }
+      lines[i] = tabs + lines[i];
+    }
+    return lines.join("\n");
+  }
+}
 
-## Minium can!
+function writeCode(fn) {
+  var code = getCode(fn);
+  if (code) {
+    call(function(code) {
+      var editor = ace.edit("editor");
+      var session = editor.getSession();
+      var position = editor.getSelectionRange().start;
+      session.insert(position, code);
+    }, code);
+  }
+}
 
-![Minium can!](http://viltgroup.github.io/minium/images/minium_can.png)
+function press() {
+  sendKeys($(wd), arguments.length == 1 ? arguments[0] : Keys.chord(Array.prototype.slice.call(arguments)));
+}
 
-You may be thinking: big deal, there are several other tools for browser automation... That's true, but: 
+speak("Hi, I'm Minium. Let me show the features of my new web console.");
 
-* can those tools access another window (for instance, popup windows) in a easy way? **Minium can!**
+var navbar = $(wd, ".navbar-nav");
+var webdriversDropdown = $(wd, ".dropdown-toggle").withText("Web Drivers");
+var preferencesDropdown = $(wd, ".dropdown-toggle").withText("Preferences");
+var editorPreferencesOption = $(wd, ".dropdown-menu a").withText("Editor...");
 
-```javascript
-// will look to ALL opened windows to find a text field with label "Username", and fill it with a value
-usernameFld = $(wd).window().find(":text").withLabel("Username");
-```
+// editor fields
+var fontSizeFld = $(wd, "input").withLabel("Font size");
+var themeFld = $(wd, "select").withLabel("Theme");
+var tabSizeFld = $(wd, "input").withLabel("Tab size");
+var softTabsFld = $(wd, ":checkbox").withName("softTabs");
+var saveBtn = $(wd, ".btn").withText("Save changes");
+var closeBtn = $(wd, ".btn").withText("Close");
 
-* can those tools easily access iframes? **Minium can!**
+// web drivers
+var newChromeOption = $(wd, "#browsers li a").containingText("Chrome");
+var variableFld = $(wd, "input").withLabel("Variable");
+var createBtn = $(wd, ".btn").withText("Create");
 
-```javascript
-// will look to ALL frames in the main page to find a text field with label "Username"
-usernameFld = $(wd).frame().find(":text").withLabel("Username");
-```
-* can those tools select elements based on their relative position to other elements? **Minium can!**
+get(wd, "http://localhost:8080/minium-webconsole/");
+showTip(navbar, "There is a navigation bar at the top, where you can...");
 
-![Minium position methods](http://viltgroup.github.io/minium/images/position_selectors.png)
+click(webdriversDropdown);
+showTip(webdriversDropdown, "... manage your web drivers");
+click(preferencesDropdown);
+showTip(preferencesDropdown, "... and the console preferences");
 
-* can those tools 'speak'? **Minium can!**
+withTip("Let's start with the editor preferences.").click(editorPreferencesOption);
+withTip("Here you can change the font size...").fill(fontSizeFld, "14");
+withTip("...the theme...").select(themeFld, "Twilight");
+withTip("...the tab size...").fill(tabSizeFld, "4");
+withTip("...and whether if tabs are replaced with spaces (soft tabs)...").uncheck(softTabsFld);
 
-[![Minium shows its Interactive Console](http://halgatewood.com/youtube/i/Q7SH216qGko.jpg)](http://www.youtube.com/watch?v=Q7SH216qGko)
+withTip("Let's save the changes").click(saveBtn);
 
-* can those tools write their own documentation? **Minium can!**
+click(webdriversDropdown);
+click(newChromeOption);
+fill(variableFld, "demowd");
+click(createBtn);
 
-[![Minium writes its own documentation](http://halgatewood.com/youtube/i/wgAatRpNv_c.jpg)](http://www.youtube.com/watch?v=wgAatRpNv_c)
+writeCode(function() {
+  get(newwd, "http://www.google.com");
+  
+  speak("Hello, I'm Minium, and I'm alive");
+  speak("Let me highlight google search box");
+  
+  searchbox = $(newwd, ":text").withName("q");
+  highlight(searchbox);
+  
+  speak("Minium = Minion + Selenium. Let's find out what is a Minion.");
+  
+  fill(searchbox, "Minion Wikipedia");
+  sendKeys(searchbox, Keys.ENTER);
+  
+  firstResult = $(newwd, "h3 a").first();
+  click(firstResult);
+  
+  firstParagraph = $(newwd, "#mw-content-text p").first();
+  highlight(firstParagraph);
+  
+  speak("Wikipedia says: " + firstParagraph.text());
+});
 
-You can watch all available Minium videos at 
-[Youtube playlist](http://www.youtube.com/playlist?list=PLtYR_mxVztvMZuYfgjRe5OAl2WL_mb2N_).
-
-# Quick start
-
-The easiest way to try Minium is to use its Interactive Console (you can watch the video ['Minium shows its Interactive Console'](http://www.youtube.com/watch?v=Q7SH216qGko) for a small introducion). You can instruct Minium to do almost anything in a browser with a few lines of Javascript.
-
-Right now, the console is a web application and must run in a servlet container like Tomcat or Jetty. Minium generates a zip containing Jetty and minium console under minium-webconsole-jetty, so you only need to uncompress it and launch it to get started.
-
-## Before you start
-
-Ensure that the following software is installed:
-
-* [Java JDK 1.6+](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (required)
-  * Don't forget to set `JAVA_HOME` environment variable 
-* [Maven 3](http://maven.apache.org/download.cgi)
-* [Mozilla Firefox](http://www.mozilla.org/en-US/firefox/new/)
-* [Google Chrome](https://www.google.com/intl/en/chrome/browser/) (recommended)
-
-## Build Minium
-
-Building Minium is not complicated. Just clone Minium git repository and use Maven to build it:
-
-```bash
-git clone git://github.com/viltgroup/minium.git
-cd minium
-mvn install -DskipTests=true
-```
-
-**Note:** if you really want to run the tests, then make sure you have [PhantomJS](http://phantomjs.org/download.html) installed and available in the `PATH` environment variable. Then just replace `mvn install -DskipTests=true` by `mvn install`.
-
-## Run Minium Console
-
-The fastest way to launch the Minium Console is to use Jetty Maven plugin. For that, just execute:
-
-```bash
-cd minium-webconsole
-mvn jetty:run
-```
-Then just open the console in a browser. If you have Chrome installed:
-
-* Open Chrome and navigate to [http://localhost:8080/minium-webconsole](http://localhost:8080/minium-webconsole)
-* Use Chrome to create a shortcut for Minium Console (Tools > Create application shortcuts...)
-
-## Give it a try
-
-Just type the following code and run it by selecting it and pressing `Ctrl+ENTER`:
-
-```javascript
-wd = firefoxDriver();
-
-get(wd, "http://www.google.com");
-
-speak("Hello, I'm Minium, and I'm alive");
-speak("Let me highlight google search box");
-
-searchbox = $(wd, ":text").withName("q");
-highlight(searchbox);
-
-speak("Minium = Minion + Selenium. Let's find out what is a Minion.");
-
-fill(searchbox, "Minion Wikipedia");
-sendKeys(searchbox, Keys.ENTER);
-
-firstResult = $(wd, "h3 a").first();
-click(firstResult);
-
-firstParagraph = $(wd, "#mw-content-text p").first();
-highlight(firstParagraph);
-
-speak("Wikipedia says: " + firstParagraph.text());
-```
-
-# Documentation
-
-A quick guide on how to use Minium in a Java project or using its Interactive console can be found here:
-
-* [Learning Minium in 6 Steps](https://github.com/viltgroup/minium/wiki/Learning-Minium-in-6-Steps)
-
-If you feel that's too simple, check this one:
-
-* [Minium creates a Google Spreadsheet](https://github.com/viltgroup/minium/wiki/Minium-creates-a-Google-Spreadsheet)
-
-You can also check the [Minium API documentation](http://viltgroup.github.io/minium/apidocs/). For a complete list of allowed methods, check the links below.
-
-## Available element selection methods
-
-* [JQueryWebElements](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/JQueryWebElements.html)
-* [FiltersWebElements](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/FiltersWebElements.html)
-* [PositionWebElements](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/PositionWebElements.html)
-* [TargetLocatorWebElements](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/TargetLocatorWebElements.html)
-
-## Available interactions
-
-* [Interactions](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/actions/Interactions.html)
-* [DebugInteractions](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/actions/DebugInteractions.html)
-* [TipInteractions](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/actions/TipInteractions.html)
-* [TouchInteractions](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/actions/touch/TouchInteractions.html)
-
-# License
-
-Minium is licensed under [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).

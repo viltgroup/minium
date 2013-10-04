@@ -103,4 +103,20 @@
 		</dependency>
 	</dependencies>
 
+	<profiles>
+		<profile>
+			<id>sandbox</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>com.vilt-group.minium</groupId>
+					<artifactId>minium-recorder</artifactId>
+					<version>${project.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
+
 </project>

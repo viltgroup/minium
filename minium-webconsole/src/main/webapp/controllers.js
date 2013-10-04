@@ -142,7 +142,7 @@ function WebConsoleCtrl($rootScope, $scope, $http, $location, promiseTracker) {
       });
       editor.commands.addCommand({
         name: '',
-        bindKey: { win: "Ctrl-Space", mac: "Command-Space" },
+        bindKey: { win: "Ctrl-Shift-C", mac: "Command-Shift-C" },
         exec: activateSelectorGadget,
         readOnly: false // should not apply in readOnly mode
       });
