@@ -36,7 +36,7 @@ public class AlertTest extends MiniumBaseTest {
 	
 	@BeforeClass
 	public void before() throws IOException {
-		wd = new DefaultWebElementsDriver(SuiteTest.createNativeWebDriver());
+		wd = new DefaultWebElementsDriver(createNativeWebDriver());
 	}
 
 	@AfterClass

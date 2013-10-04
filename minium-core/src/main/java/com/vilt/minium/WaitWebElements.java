@@ -59,6 +59,18 @@ public interface WaitWebElements<T extends CoreWebElements<T>> extends WebElemen
 	 */
 	public T wait(Duration timeout, Predicate<? super T> predicate) throws TimeoutException;
 
+	
+	/**
+	 * Waits with a preset timeout and interval for this {@link WebElements} to satisfy a given predicate,
+	 * or throws a {@link TimeoutException} otherwise.
+	 *
+	 * @param preset, as configured in {@link Configuration#addWaitingPreset(String, Duration, Duration)}
+	 * @param predicate the predicate to wait for.
+	 * @return a {@link WebElements}
+	 * {@link Configuration#getDefaultInterval()}.
+	 */
+	public T wait(String preset, Predicate<? super T> predicate) throws TimeoutException;
+
 	/**
 	 * Waits using the default timeout value provided by {@link Configuration#getDefaultInterval()}
 	 * for this {@link WebElements} to satisfy a given predicate, otherwise it just returns.
@@ -92,4 +104,16 @@ public interface WaitWebElements<T extends CoreWebElements<T>> extends WebElemen
 	 * @see {@link Configuration#defaultInterval(Duration)}.
 	 */
 	public T waitOrTimeout(Duration timeout, Predicate<? super T> predicate);
+
+	/**
+	 * Waits with a preset timeout and interval for this {@link WebElements} to satisfy a given predicate,
+	 * otherwise it just returns.
+	 *
+	 * @param timeout the timeout. If null, it will use the default timeout value provided by
+	 * @param predicate the predicate to wait for.
+	 * @return a {@link WebElements}
+	 * 
+	 * @see {@link Configuration#defaultInterval(Duration)}.
+	 */
+	public T waitOrTimeout(String preset, Predicate<? super T> predicate);
 }

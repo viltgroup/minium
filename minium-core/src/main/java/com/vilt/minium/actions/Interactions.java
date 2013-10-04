@@ -28,6 +28,7 @@ import com.vilt.minium.TimeoutException;
 import com.vilt.minium.WebElementsDriver;
 import com.vilt.minium.impl.actions.RetryOnExceptionInteractionListener;
 import com.vilt.minium.impl.actions.TimeoutInteractionListener;
+import com.vilt.minium.impl.actions.WaitingPresetInteractionListener;
 
 /**
  * The Class Interactions.
@@ -43,6 +44,17 @@ public class Interactions {
 	 */
 	public static InteractionListener timeout(long time, TimeUnit units) {
 		return new TimeoutInteractionListener(new Duration(time, units));
+	}
+
+	/**
+	 * Timeout.
+	 *
+	 * @param time the time
+	 * @param units the units
+	 * @return the interaction listener
+	 */
+	public static InteractionListener waitingPreset(String preset) {
+	    return new WaitingPresetInteractionListener(preset);
 	}
 
 	/**
@@ -392,6 +404,16 @@ public class Interactions {
 	 */
 	public static InteractionPerformer withTimeout(long time, TimeUnit units) {
 		return with(timeout(time, units));
+	}
+
+	/**
+	 * With waiting preset.
+	 *
+	 * @param preset the waiting preset name
+	 * @return the interaction performer
+	 */
+	public static InteractionPerformer withWaitingPreset(String preset) {
+	    return with(waitingPreset(preset));
 	}
 
 	/**

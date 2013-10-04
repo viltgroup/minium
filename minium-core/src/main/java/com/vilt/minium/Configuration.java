@@ -19,9 +19,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.vilt.minium.actions.AfterFailInteractionEvent;
 import com.vilt.minium.actions.InteractionListener;
 import com.vilt.minium.impl.BaseWebElementsImpl;
@@ -32,6 +34,25 @@ import com.vilt.minium.impl.actions.DefaultInteractionListener;
  */
 public class Configuration implements Serializable {
 
+    private class TimeoutAndInterval {
+
+        private final Duration timeout;
+        private final Duration interval;
+        
+        public TimeoutAndInterval(Duration timeout, Duration interval) {
+            this.timeout = timeout;
+            this.interval = interval;
+        }
+        
+        public Duration getTimeout() {
+            return timeout;
+        }
+        
+        public Duration getInterval() {
+            return interval;
+        }
+    }
+    
 	private class ExceptionHandlersInteractionListenerAdapter extends DefaultInteractionListener {
 		
 		@Override
@@ -46,9 +67,11 @@ public class Configuration implements Serializable {
 	
 	private static final long serialVersionUID = -6096136074620998211L;
 
-	private Duration defaultTimeout  = new Duration(5, TimeUnit.SECONDS);
-	private Duration defaultInterval = new Duration(1, TimeUnit.SECONDS);
+	private TimeoutAndInterval defaultTimeoutAndInterval  = 
+	        new TimeoutAndInterval(new Duration(5, TimeUnit.SECONDS), new Duration(1, TimeUnit.SECONDS));
 
+	private Map<String, TimeoutAndInterval> durationPresets = Maps.newHashMap();
+	
 	/** The global listeners. */
 	protected final List<InteractionListener> globalListeners = Lists.newArrayList();
 	protected final List<ExceptionHandler> globalExceptionHandlers = Lists.newArrayList();
@@ -63,7 +86,7 @@ public class Configuration implements Serializable {
 	 * @return the default timeout
 	 */
 	public Duration getDefaultTimeout() {
-		return defaultTimeout;
+		return defaultTimeoutAndInterval.getTimeout();
 	}
 
 	/**
@@ -74,7 +97,7 @@ public class Configuration implements Serializable {
 	 */
 	public Configuration defaultTimeout(Duration defaultTimeout) {
 		checkNotNull(defaultTimeout);
-		this.defaultTimeout = defaultTimeout;
+		this.defaultTimeoutAndInterval = new TimeoutAndInterval(defaultTimeout, defaultTimeoutAndInterval.getInterval());
 		return this;
 	}
 
@@ -95,7 +118,7 @@ public class Configuration implements Serializable {
 	 * @return the default interval
 	 */
 	public Duration getDefaultInterval() {
-		return defaultInterval;
+		return defaultTimeoutAndInterval.getInterval();
 	}
 
 	/**
@@ -106,7 +129,7 @@ public class Configuration implements Serializable {
 	 */
 	public Configuration defaultInterval(Duration defaultInterval) {
 		checkNotNull(defaultInterval);
-		this.defaultInterval = defaultInterval;
+		this.defaultTimeoutAndInterval = new TimeoutAndInterval(defaultTimeoutAndInterval.getTimeout(), defaultInterval);
 		return this;
 	}
 
@@ -120,7 +143,21 @@ public class Configuration implements Serializable {
 	public Configuration defaultInterval(long time, TimeUnit unit) {
 		return defaultInterval(new Duration(time, unit));
 	}
+	
+	public void addWaitingPreset(String key, Duration timeout, Duration interval) {
+	    durationPresets.put(key, new TimeoutAndInterval(timeout, interval));
+	}
+	
+	public Duration getWaitingPresetTimeout(String key) {
+	    TimeoutAndInterval timeoutAndInterval = durationPresets.get(key);
+	    return timeoutAndInterval == null ? null : timeoutAndInterval.getTimeout();
+	}
 
+	public Duration getWaitingPresetInterval(String key) {
+	    TimeoutAndInterval timeoutAndInterval = durationPresets.get(key);
+	    return timeoutAndInterval == null ? null : timeoutAndInterval.getInterval();
+	}
+	
 	/**
 	 * Register interaction listener.
 	 *

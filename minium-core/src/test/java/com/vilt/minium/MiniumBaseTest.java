@@ -20,18 +20,30 @@ import java.net.URL;
 
 import org.hamcrest.Matcher;
 import org.hamcrest.collection.IsIterableWithSize;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
-public class MiniumBaseTest {
+@ContextConfiguration(classes = TestConfiguration.class)
+public class MiniumBaseTest extends AbstractTestNGSpringContextTests {
 
-	protected DefaultWebElementsDriver wd;
+	@Autowired
+	@Qualifier("remoteWebDriverUrl")
+	private URL remoteWebDriverUrl;
 
-	@BeforeClass
-	public void before() throws IOException {
-		wd = new DefaultWebElementsDriver(SuiteTest.createNativeWebDriver());
-	}
+    protected DefaultWebElementsDriver wd;
+
+    @BeforeClass
+    public void before() throws IOException {
+        wd = new DefaultWebElementsDriver(createNativeWebDriver());
+    }
 
 	@AfterClass
 	public void after() {
@@ -47,5 +59,7 @@ public class MiniumBaseTest {
 		wd.get(resource.toExternalForm());
 	}
 
-
+	protected WebDriver createNativeWebDriver() {
+	    return new RemoteWebDriver(remoteWebDriverUrl, new DesiredCapabilities());
+	}
 }

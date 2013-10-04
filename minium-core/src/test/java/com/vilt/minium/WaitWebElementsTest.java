@@ -17,7 +17,15 @@ package com.vilt.minium;
 
 import static com.vilt.minium.Minium.$;
 import static com.vilt.minium.impl.WaitPredicates.whileEmpty;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.lessThan;
+import static org.testng.Assert.fail;
 
+import org.hamcrest.Matchers;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -26,7 +34,9 @@ import com.google.common.collect.Iterables;
 
 public class WaitWebElementsTest extends MiniumBaseTest {
 
-	@BeforeMethod
+	private static final double DELTA = 0.4;
+
+    @BeforeMethod
 	public void openPage() {
 		get("minium/tests/jquery-test.html");
 	}
@@ -37,8 +47,41 @@ public class WaitWebElementsTest extends MiniumBaseTest {
 	}
 	
 	@Test
+	public void testWaitWithTimeoutElement() {
+       long start = System.currentTimeMillis();
+        try {
+            // when
+            $(wd, "#no-element").wait(2, SECONDS, whileEmpty());
+            fail();
+        } catch (TimeoutException e) {
+            // then
+            double elapsed = (System.currentTimeMillis() - start) / 1000.0;
+            assertThat(elapsed, Matchers.allOf(greaterThan(2.0), lessThan(2.0 + DELTA)));
+        }
+	}
+	
+	@Test
 	public void testExistingElement() {
 		DefaultWebElements wait = $(wd, "input").wait(whileEmpty());
 		Assert.assertTrue(Iterables.size(wait) > 0);
+	}
+
+	@Test()
+	public void testPreset() {
+	    // given
+	    wd.configuration().addWaitingPreset("fast", new Duration(1, SECONDS), new Duration(100, MILLISECONDS));
+	    // just to force minium to load all the stuff before
+	    $(wd, "input").wait(whileEmpty());
+	    
+	    long start = System.currentTimeMillis();
+	    try {
+	        // when
+            $(wd, "#no-element").wait("fast", whileEmpty());
+            fail();
+        } catch (TimeoutException e) {
+            // then
+            double elapsed = (System.currentTimeMillis() - start) / 1000.0;
+            assertThat(elapsed, allOf(greaterThan(1.0), lessThan(1.0 + DELTA)));
+        }
 	}
 }

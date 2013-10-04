@@ -49,6 +49,7 @@ public abstract class DefaultInteraction implements Interaction {
 	private List<InteractionListener> listeners = Lists.newArrayList();
 	private CoreWebElements<?> source;
 	private Duration timeout;
+    private String preset;
 	
 	/**
 	 * Instantiates a new default interaction.
@@ -81,11 +82,24 @@ public abstract class DefaultInteraction implements Interaction {
 	public Duration getTimeout() {
 		return timeout;
 	}
+
+	public void setWaitingPreset(String preset) {
+	    this.preset = preset;
+    }
 	
-	@Override
+	public String getWaitingPreset() {
+        return preset;
+    }
+
+    @Override
 	public void waitToPerform() {
 		if (source != null) {
-			source = source.wait(timeout, whileEmpty());
+		    if (preset != null) {
+	            source = source.wait(preset, whileEmpty());
+	        }
+		    else {
+		        source = source.wait(timeout, whileEmpty());
+		    }
 		}
 	}
 	

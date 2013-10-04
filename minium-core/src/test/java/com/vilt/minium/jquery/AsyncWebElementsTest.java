@@ -28,7 +28,6 @@ import com.vilt.minium.Async;
 import com.vilt.minium.DefaultWebElementsDriver;
 import com.vilt.minium.JQueryResources;
 import com.vilt.minium.MiniumBaseTest;
-import com.vilt.minium.SuiteTest;
 import com.vilt.minium.WebElements;
 
 public class AsyncWebElementsTest extends MiniumBaseTest {
@@ -42,7 +41,7 @@ public class AsyncWebElementsTest extends MiniumBaseTest {
 	@BeforeClass
 	@Override
 	public void before() {
-		wd = new DefaultWebElementsDriver(SuiteTest.createNativeWebDriver(), AsyncWebElements.class);
+		wd = new DefaultWebElementsDriver(createNativeWebDriver(), AsyncWebElements.class);
 		wd.manage().timeouts().setScriptTimeout(5, TimeUnit.SECONDS);
 	}
 

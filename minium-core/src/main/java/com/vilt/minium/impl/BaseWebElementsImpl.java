@@ -287,7 +287,7 @@ WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, FreezableWebElemen
 
 	@Override
 	public T wait(Predicate<? super T> predicate) {		
-		return this.wait(null, predicate);
+		return this.wait((Duration) null, predicate);
 	}
 
 	@Override
@@ -295,24 +295,36 @@ WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, FreezableWebElemen
 		return this.wait(new Duration(time, unit), predicate);
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public T wait(Duration timeout, Predicate<? super T> predicate) {
-		if (timeout == null) {
-			timeout = rootWebDriver().configuration().getDefaultTimeout();
-		}
-		
-		Wait<T> wait = getWait(timeout);
-		
-		Function<? super T, Boolean> function = Functions.forPredicate(predicate);
-		wait.until(function);
-		
-		return (T) this;
+	    return wait(timeout, null, predicate);
+	}
+
+	@Override
+	public T wait(String preset, Predicate<? super T> predicate) {
+	    return wait(configuration().getWaitingPresetTimeout(preset), configuration().getWaitingPresetInterval(preset), predicate);
+	}
+	
+	@SuppressWarnings("unchecked")
+	protected T wait(Duration timeout, Duration interval, Predicate<? super T> predicate) {
+	    if (timeout == null) {
+	        timeout = rootWebDriver().configuration().getDefaultTimeout();
+	    }
+	    if (interval == null) {
+	        interval = rootWebDriver().configuration().getDefaultInterval();
+	    }
+	    
+	    Wait<T> wait = getWait(timeout, interval);
+	    
+	    Function<? super T, Boolean> function = Functions.forPredicate(predicate);
+	    wait.until(function);
+	    
+	    return (T) this;
 	}
 
 	@Override
 	public T waitOrTimeout(Predicate<? super T> predicate) {
-		return waitOrTimeout(null, predicate);
+		return waitOrTimeout((Duration) null, predicate);
 	}
 
 	@Override
@@ -320,25 +332,14 @@ WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, FreezableWebElemen
 		return waitOrTimeout(new Duration(time, unit), predicate);
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public T waitOrTimeout(Duration timeout, Predicate<? super T> predicate) {
-		if (timeout == null) {
-			timeout = rootWebDriver().configuration().getDefaultTimeout();
-		}
-		
-		Wait<T> wait = getWait(timeout);
-		
-		Function<? super T, Boolean> function = Functions.forPredicate(predicate);
-		
-		try {
-			wait.until(function);
-		}
-		catch(TimeoutException e) {
-			// ignore
-		}
-		
-		return (T) this;
+	    return waitOrTimeout(timeout, null, predicate);
+	}
+
+	@Override
+	public T waitOrTimeout(String preset, Predicate<? super T> predicate) {
+	    return waitOrTimeout(configuration().getWaitingPresetTimeout(preset), configuration().getWaitingPresetInterval(preset), predicate);
 	}
 
 	@Override
@@ -351,11 +352,6 @@ WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, FreezableWebElemen
 		return frame(null, freeze);
 	}
 	
-	protected T frame(T filter, boolean freeze) {
-		T parent = myself.find("iframe, frame").addBack().filter("iframe, frame");
-		return WebElementsFactoryHelper.createFrameWebElements(factory, parent, filter, freeze);
-	}
-
 	@Override
 	public T window() {
 		return window(false);
@@ -364,10 +360,6 @@ WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, FreezableWebElemen
 	@Override
 	public T window(boolean freeze) {
 		return window(null, freeze);
-	}
-	
-	protected T window(T filter, boolean freeze) {
-		return WebElementsFactoryHelper.createWindowWebElements(factory, myself, filter, freeze);
 	}
 	
 	@Override
@@ -380,13 +372,12 @@ WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, FreezableWebElemen
 		return root(myself, freeze);
 	}
 	
-	protected abstract T root(T filter, boolean freeze);
-	
 	@Override
 	public Alert alert() {
 		Duration timeout = rootWebDriver().configuration().getDefaultTimeout();
+		Duration interval = rootWebDriver().configuration().getDefaultInterval();
 	
-		FluentWait<T> wait = getWait(timeout);
+		FluentWait<T> wait = getWait(timeout, interval);
 		
 		return wait.ignoring(NoAlertPresentException.class).until(new Function<T, Alert>() {
 
@@ -406,9 +397,42 @@ WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, FreezableWebElemen
 		}
 	}
 	
-	protected WebElementsWait<T> getWait(Duration timeout) {
-		Duration interval = rootWebDriver().configuration().getDefaultInterval();
-		return new WebElementsWait<T>(myself, timeout, interval);
+	@SuppressWarnings("unchecked")
+    protected T waitOrTimeout(Duration timeout, Duration interval, Predicate<? super T> predicate) {
+        if (timeout == null) {
+            timeout = rootWebDriver().configuration().getDefaultTimeout();
+        }
+        if (interval == null) {
+            interval = rootWebDriver().configuration().getDefaultInterval();
+        }
+        
+        Wait<T> wait = getWait(timeout, interval);
+        
+        Function<? super T, Boolean> function = Functions.forPredicate(predicate);
+        
+        try {
+            wait.until(function);
+        }
+        catch(TimeoutException e) {
+            // ignore
+        }
+        
+        return (T) this;
+    }
+
+    protected T window(T filter, boolean freeze) {
+    	return WebElementsFactoryHelper.createWindowWebElements(factory, myself, filter, freeze);
+    }
+
+    protected T frame(T filter, boolean freeze) {
+    	T parent = myself.find("iframe, frame").addBack().filter("iframe, frame");
+    	return WebElementsFactoryHelper.createFrameWebElements(factory, parent, filter, freeze);
+    }
+
+    protected abstract T root(T filter, boolean freeze);
+
+	protected WebElementsWait<T> getWait(Duration timeout, Duration interval) {
+	    return new WebElementsWait<T>(myself, timeout, interval);
 	}
 	
 	@Override
