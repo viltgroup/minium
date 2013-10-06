@@ -16,4 +16,4 @@ before_script:
   - phantomjs --webdriver=9134 2>&- 1>&- &
   
 install: mvn install -DskipTests=true -Pupdate-thirdparties -B
-script: mvn test -Dminium.remote.url=http://localhost:9134
+script: mvn verify -Dminium.remote.url=http://localhost:9134
