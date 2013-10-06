@@ -111,6 +111,12 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>3.0</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -139,9 +145,6 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.14.1</version>
 				<configuration>
-					<suiteXmlFiles>
-						<suiteXmlFile>${basedir}/src/test/resources/testng.xml</suiteXmlFile>
-					</suiteXmlFiles>
 	                <properties>
 	                    <property>
 	                        <name>usedefaultlisteners</name>
