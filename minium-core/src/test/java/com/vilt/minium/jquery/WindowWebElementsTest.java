@@ -32,7 +32,6 @@ import com.google.common.collect.Iterables;
 import com.vilt.minium.DefaultWebElements;
 import com.vilt.minium.MiniumBaseTest;
 import com.vilt.minium.WebElementsException;
-import com.vilt.minium.actions.Interactions;
 
 public class WindowWebElementsTest extends MiniumBaseTest {
 
