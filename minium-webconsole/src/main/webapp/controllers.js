@@ -1,12 +1,6 @@
 var baseServiceUrl = "/minium-webconsole/minium";
 
 // utilities functions
-var escapeHtml = function(str) {
-    var div = document.createElement('div');
-    div.appendChild(document.createTextNode(str));
-    return div.innerHTML;
-};
-
 var http = function($scope, $http) {
   if(!(this instanceof http)) {
       return new http($scope, $http);
@@ -61,10 +55,6 @@ function WebConsoleCtrl($rootScope, $scope, $http, $location, promiseTracker) {
       "PhantomJS"        : { displayName : "PhantomJS"         , shortDisplayName : "PhantomJS" , glyphicon : "fontello-browser" }
     };
 
-    // $rootScope.webDrivers = [
-    //   { "varName" : "wd"  , "type" : "Chrome" },
-    //   { "varName" : "wd1" , "type" : "Chrome", "state" : "invalid" }
-    // ];
     $rootScope.webDrivers = [];
     http($scope, $http).get("/webDrivers").success(function(data) {
         $rootScope.webDrivers = data;
@@ -77,7 +67,7 @@ function WebConsoleCtrl($rootScope, $scope, $http, $location, promiseTracker) {
     var loadEditorPreferences = function (defaults) {
       var editorPreferences = $.cookie("editorPreferences");
       editorPreferences = editorPreferences ? JSON.parse(editorPreferences) : {};
-      return $.extend({}, defaults, editorPreferences);
+      return _.defaults(editorPreferences, defaults);
     };
 
     var configureEditor = function (editor, editorPreferences) {
@@ -121,7 +111,7 @@ function WebConsoleCtrl($rootScope, $scope, $http, $location, promiseTracker) {
             $.bootstrapGrowl(data.size + " matching web elements", { type: "success" });
           }
           else {
-            $.bootstrapGrowl(data.value ? escapeHtml(data.value) : "No value", { type: "success" });
+            $.bootstrapGrowl(data.value ? _.escape(data.value) : "No value", { type: "success" });
           }
         });
 
@@ -168,7 +158,10 @@ function WebConsoleCtrl($rootScope, $scope, $http, $location, promiseTracker) {
   configureEditor();
 
   $scope.countWebDriversByType = function(typeId) {
-    return $.grep($scope.webDrivers, function(webDriver) { return webDriver.type === typeId; }).length;
+    return _.chain($scope.webDrivers)
+        .where({ type : typeId })
+        .size()
+        .value();
   };
 }
 
@@ -221,7 +214,7 @@ function WebDriverListCtrl($rootScope, $scope, $http, $location) {
   $scope.removeWebDriver = function(varName) {
     var request = http($scope, $http).get("/webDrivers/" + varName + "/quit").success(function(data) {
       // remove from local list of webDrivers
-      $rootScope.webDrivers = $.grep($rootScope.webDrivers, function(webDriver) { return webDriver.varName !== varName; });
+      _.remove($rootScope.webDrivers, { varName : varName });
       
       // close modal
       dialog.modal("hide");
