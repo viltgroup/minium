@@ -4,6 +4,9 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import java.io.File;
+import java.net.URL;
+
 import org.mozilla.javascript.FunctionObject;
 import org.mozilla.javascript.NativeFunction;
 import org.testng.annotations.Test;
@@ -48,5 +51,18 @@ public class MiniumScriptEngineTest {
 	    
 	    // then
 	    assertThat(result, instanceOf(Integer.class));
+	}
+
+	@Test
+	public void testRunScript() throws Exception {
+	    // given
+	    MiniumScriptEngine engine = new MiniumScriptEngine();
+	    
+	    // when
+	    URL resource = getClass().getClassLoader().getResource("test.js");
+	    engine.run(new File(resource.getFile()));
+	    
+	    // then
+	    assertThat((String) engine.get("foo"), equalTo("bar"));
 	}
 }
