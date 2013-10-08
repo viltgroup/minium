@@ -95,23 +95,18 @@ public class MiniumScriptEngine {
 	
 	public void run(final File file) throws Exception {
 	    logger.debug("Executing file: {}", file);
-        runWithContext(new ContextCallable<Void, Exception>() {
+	    FileReader reader = new FileReader(file);
+	    try {
+	        doRun(reader, file.getPath());
+	    }
+	    finally {
+	        IOUtils.closeQuietly(reader);
+	    }
+	}
 
-            @Override
-            public Void call(Context cx) throws Exception {
-                FileReader reader = null;
-                try {
-                    reader = new FileReader(file);
-                    cx.evaluateReader(scope, reader, file.getPath(), 1, null);
-                    return null;
-                } catch (Exception e) {
-                    logger.error("Execution of {} failed", file.getPath(), e);
-                    throw e;
-                } finally {
-                    IOUtils.closeQuietly(reader);
-                }
-            }
-        });
+    public void run(final Reader reader, final String sourceName) throws Exception {
+	    logger.debug("Executing reader for sourceName: {}", sourceName);
+	    doRun(reader, sourceName);
 	}
 
 	public Object eval(String expression) throws Exception {
@@ -134,7 +129,23 @@ public class MiniumScriptEngine {
         });
 	}
 
-	protected void initScope() {
+	protected void doRun(final Reader reader, final String sourceName) throws Exception {
+        runWithContext(new ContextCallable<Void, Exception>() {
+
+            @Override
+            public Void call(Context cx) throws Exception {
+                try {
+                    cx.evaluateReader(scope, reader, sourceName, 1, null);
+                    return null;
+                } catch (Exception e) {
+                    logger.error("Execution of {} failed", sourceName, e);
+                    throw e;
+                } 
+            }
+        });
+    }
+
+    protected void initScope() {
 	    runWithContext(new ContextCallable<Void, RuntimeException>() {
             @Override
             public Void call(Context cx) {
