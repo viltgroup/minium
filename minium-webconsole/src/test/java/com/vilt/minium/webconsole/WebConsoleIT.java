@@ -21,7 +21,6 @@ import static com.vilt.minium.actions.Interactions.checkNotEmpty;
 import static com.vilt.minium.actions.Interactions.click;
 import static com.vilt.minium.actions.Interactions.fill;
 import static com.vilt.minium.actions.Interactions.get;
-import static com.vilt.minium.actions.Interactions.waitWhileEmpty;
 import static com.vilt.minium.actions.Interactions.waitWhileNotEmpty;
 import static com.vilt.minium.actions.Interactions.withWaitingPreset;
 import static org.testng.Assert.assertTrue;
@@ -61,7 +60,7 @@ public class WebConsoleIT extends AbstractTestNGSpringContextTests {
         wd = new DefaultWebElementsDriver(createNativeWebDriver());
         wd.manage().window().setSize(new Dimension(1024, 768));
 
-        wd.configuration().addWaitingPreset("slow", new Duration(20, TimeUnit.SECONDS), new Duration(1, TimeUnit.SECONDS));
+        wd.configure().waitingPresets().add("slow", new Duration(20, TimeUnit.SECONDS), new Duration(1, TimeUnit.SECONDS));
 
         get(wd, "http://localhost:8080/minium-webconsole");
     }
@@ -74,11 +73,6 @@ public class WebConsoleIT extends AbstractTestNGSpringContextTests {
     @BeforeMethod
     public void goToHomePage() throws IOException {
         get(wd, "http://localhost:8080/minium-webconsole");
-    }
-
-    @Test
-    public void testWebConsole() {
-        waitWhileEmpty($(wd, "#editor"));
     }
 
     @Test
@@ -102,8 +96,18 @@ public class WebConsoleIT extends AbstractTestNGSpringContextTests {
         // then
         assertTrue(checkNotEmpty(webDrivers.withText("phantomwd")), "Could not find phantomwd web driver in the list");
     }
-
+    
     @Test(dependsOnMethods = "testCreatePhantomDriver")
+    public void testExecuteScript() {
+        
+    }
+
+    @Test(dependsOnMethods = "testExecuteScript")
+    public void testSelectorGadget() {
+        
+    }
+
+    @Test(dependsOnMethods = "testSelectorGadget")
     public void testRemovePhantomDriver() {
         // given
         // testCreatePhantomDriver

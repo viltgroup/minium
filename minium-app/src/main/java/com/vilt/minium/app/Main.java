@@ -5,6 +5,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static java.lang.String.format;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
@@ -13,29 +14,37 @@ import org.eclipse.jetty.util.component.AbstractLifeCycle;
 import org.eclipse.jetty.util.component.LifeCycle;
 import org.eclipse.jetty.webapp.WebAppContext;
 
+import com.google.common.base.Strings;
+
 public class Main {
 
-	private static final String MINIUM_HOME_KEY = "minium.home";
-
-	static final String LOOPBACK = "127.0.0.1";
-	// Calculated using the formula: abs("minium".hashCode()) % 49152
-	static final int DEFAULT_PORT = 18129;
-	static final int DEFAULT_SHUTDOWN_PORT = 18130;
+    private static final String MINIUM_HOME_KEY = "minium.home";
+	
+	private File baseDir;
+	private Configuration configuration;
 	
 	public static void main(String[] args) throws Exception {
-		System.out.println(format("Using Minium base dir: %s", miniumBaseDir()));
-		
-		final Server server = new Server();
+		Main main = new Main();
+		main.createServer();
+	}
+	
+	public Main() throws IOException {
+       validateAndLoadConfiguration();
+	   System.out.println(format("Using Minium base dir: %s", baseDir));
+    }
+
+    public void createServer() throws Exception, InterruptedException {
+        final Server server = new Server();
 		
 		Connector connector = new SelectChannelConnector();
-		connector.setHost(LOOPBACK);
-		connector.setPort(DEFAULT_PORT);
+		connector.setHost(configuration.getHost());
+		connector.setPort(configuration.getPort());
 		server.addConnector(connector);
 		
 		server.setStopAtShutdown(true);
-		server.setGracefulShutdown(DEFAULT_SHUTDOWN_PORT);
+		server.setGracefulShutdown(configuration.getShutdownPort());
 		
-		File webappDir = new File(miniumBaseDir(), "webapp");
+		File webappDir = new File(baseDir, "webapp");
 		WebAppContext context = new WebAppContext();
         context.setContextPath("/minium-webconsole");
         context.setWar(webappDir.getAbsolutePath());
@@ -45,7 +54,7 @@ public class Main {
         server.addLifeCycleListener(new AbstractLifeCycle.AbstractLifeCycleListener() {
         	@Override
         	public void lifeCycleStarted(LifeCycle event) {
-        		EmbeddedBrowser browser = new EmbeddedBrowser(new EmbeddedBrowser.Listener() {
+        		EmbeddedBrowser browser = new EmbeddedBrowser(configuration, new EmbeddedBrowser.Listener() {
         			@Override
         			public void closed() {
         				try {
@@ -61,17 +70,49 @@ public class Main {
         
 		server.start();
 		server.join();
-	}
-	
+    }
 
-	protected static File miniumBaseDir() {
-		String path = System.getProperty(MINIUM_HOME_KEY);
-		checkNotNull(path);
+    private void validateAndLoadConfiguration() throws IOException {
+        String path = System.getProperty(MINIUM_HOME_KEY);
+        checkNotNull(path, "System property %s is not defined. please ensure that you run Minium App with -D%s=<minium install folder>", MINIUM_HOME_KEY);
+        
+        File file = new File(path);
+        checkState(file.exists(), "Path %s does not exist", path);
+        checkState(file.isDirectory(), "Path %s is not a directory", path);
+        
+        baseDir = file;
+        
+        File configurationFile = new File(path, "app.properties");
+        
+        checkState(configurationFile.exists() , "Configuration file %s does not exist", configurationFile);
+        checkState(configurationFile.isFile() , "Configuration file %s is not a file", configurationFile);
+        checkState(configurationFile.canRead(), "Configuration file %s cannot be read", configurationFile);
+        
+        configuration = new Configuration(configurationFile);
+        
+        File chromeBin  = configuration.getChromeBin();
+        File chromeDriverBin  = configuration.getChromeDriverBin();
+        
+        checkState(chromeBin.exists()    , "Chrome binary path %s does not exist", chromeBin);
+        checkState(chromeBin.isFile()    , "Chrome binary path %s is not a file", chromeBin);
+        checkState(chromeBin.canExecute(), "Chrome binary path %s cannot execute", chromeBin);
 
-		File file = new File(path);
-		checkState(file.exists() && file.isDirectory());
-		
-		return file.getAbsoluteFile();
-	}
-
+        checkState(chromeDriverBin.exists(), "Chromedriver binary path %s does not exist", chromeDriverBin);
+        checkState(chromeBin.isFile()      , "Chromedriver binary path %s is not a file", chromeDriverBin);
+        checkState(chromeBin.canExecute()  , "Chromedriver binary path %s cannot execute", chromeDriverBin);
+        
+        // configuration seems to be ok, let's print it
+        print(Strings.repeat("*", 80));
+        print("* %-16s: %s", MINIUM_HOME_KEY, baseDir);
+        print("* %-16s: %s", Configuration.HOST_KEY, configuration.getHost());
+        print("* %-16s: %d", Configuration.PORT_KEY, configuration.getPort());
+        print("* %-16s: %d", Configuration.SHUTDOWN_PORT_KEY, configuration.getShutdownPort());
+        print("* %-16s: %s", Configuration.CHROME_BIN, configuration.getChromeBin().getAbsolutePath());
+        print("* %-16s: %s", Configuration.CHROME_DRIVER_KEY, configuration.getChromeDriverBin().getAbsolutePath());
+        print(Strings.repeat("*", 80));
+    }
+    
+    private static void print(String msg, Object ... args) {
+        System.out.println(format(msg, args));
+    }
 }

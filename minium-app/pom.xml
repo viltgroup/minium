@@ -18,6 +18,11 @@
 			<version>${guava.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.1</version>
+		</dependency>
+		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-server</artifactId>
 			<version>${jetty.version}</version>
@@ -26,18 +31,6 @@
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-webapp</artifactId>
 			<version>${jetty.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.vilt-group.minium</groupId>
-			<artifactId>minium-chromium</artifactId>
-			<version>${project.version}</version>
-			<type>pom</type>
-		</dependency>
-		<dependency>
-			<groupId>com.vilt-group.minium</groupId>
-			<artifactId>minium-chromedriver</artifactId>
-			<version>${project.version}</version>
-			<type>pom</type>
 		</dependency>
 	</dependencies>
 
@@ -82,63 +75,6 @@
 										</artifactItem>
 									</artifactItems>
 									<outputDirectory>${project.build.directory}/${platform.id}/webapp</outputDirectory>
-									<overWriteReleases>false</overWriteReleases>
-									<overWriteSnapshots>true</overWriteSnapshots>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-dependency-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>unpack-chromium</id>
-								<phase>package</phase>
-								<goals>
-									<goal>unpack</goal>
-								</goals>
-								<configuration>
-									<artifactItems>
-										<artifactItem>
-											<groupId>com.vilt-group.minium</groupId>
-											<artifactId>minium-chromium</artifactId>
-											<version>${project.version}</version>
-											<classifier>${platform.id}</classifier>
-											<type>zip</type>
-											<overWrite>false</overWrite>
-										</artifactItem>
-									</artifactItems>
-									<outputDirectory>${project.build.directory}/${platform.id}</outputDirectory>
-									<overWriteReleases>false</overWriteReleases>
-									<overWriteSnapshots>true</overWriteSnapshots>
-									<excludes>**/interactive_ui_tests.exe</excludes>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-dependency-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>unpack-chromedriver</id>
-								<phase>package</phase>
-								<goals>
-									<goal>unpack</goal>
-								</goals>
-								<configuration>
-									<artifactItems>
-										<artifactItem>
-											<groupId>com.vilt-group.minium</groupId>
-											<artifactId>minium-chromedriver</artifactId>
-											<version>${project.version}</version>
-											<classifier>${platform.id}</classifier>
-											<type>zip</type>
-											<overWrite>false</overWrite>
-										</artifactItem>
-									</artifactItems>
-									<outputDirectory>${project.build.directory}/${platform.id}/drivers</outputDirectory>
 									<overWriteReleases>false</overWriteReleases>
 									<overWriteSnapshots>true</overWriteSnapshots>
 								</configuration>
@@ -225,12 +161,8 @@
 		                    <target>
 		                        <property name="minium.base" value="${project.build.directory}/${platform.id}/" />
 		
-		                        <move file="${minium.base}/chrome-${chromium.osname.id}" tofile="${minium.base}/chrome" />
-		
 								<zip destfile="${project.build.directory}/${project.build.finalName}-${platform.id}.zip">
 									<fileset dir="${minium.base}">
-										<include name="chrome/**" />
-										<include name="drivers/**" />
 										<include name="webapp/**" />
 										<include name="lib/**" />
 										<include name="bin/**" />

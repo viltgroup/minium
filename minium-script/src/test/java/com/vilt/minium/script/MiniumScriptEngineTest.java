@@ -16,7 +16,7 @@ public class MiniumScriptEngineTest {
 	@Test
 	public void testEngineWebElementDrivers() throws Exception {
 		// given
-		MiniumScriptEngine engine = new MiniumScriptEngine(WebElementsDrivers.instance());
+		MiniumScriptEngine engine = new MiniumScriptEngine(WebElementsDriverFactory.instance());
 		
 		// when
 		Object firefoxDriver = engine.eval("firefoxDriver");
@@ -25,6 +25,18 @@ public class MiniumScriptEngineTest {
 		// then
 		assertThat(firefoxDriver, instanceOf(NativeFunction.class));
 		assertThat(load, instanceOf(FunctionObject.class));
+	}
+
+	@Test
+	public void testEngineDefaultConst() throws Exception {
+	    // given
+	    MiniumScriptEngine engine = new MiniumScriptEngine();
+	    
+	    // when
+	    Object firefoxDriver = engine.eval("firefoxDriver");
+	    
+	    // then
+	    assertThat(firefoxDriver, instanceOf(NativeFunction.class));
 	}
 	
 	@Test

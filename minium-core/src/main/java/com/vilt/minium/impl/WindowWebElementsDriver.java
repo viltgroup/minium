@@ -25,7 +25,7 @@ import com.vilt.minium.WebElementsDriver;
 public class WindowWebElementsDriver<T extends CoreWebElements<T>> extends WebElementsDriver<T> {
 
 	public WindowWebElementsDriver(WebElementsDriver<T> wd, WebElementsFactory factory, String handle) {
-		super(wd.getWrappedWebDriver(), factory, wd.configuration(), handle);
+		super(wd.getWrappedWebDriver(), factory, wd.configure(), handle);
 	}
 	
 	@Override

@@ -196,7 +196,7 @@ public class WebElementsFactory implements MethodHandler {
 	
 	private void handleException(BaseWebElementsImpl<?> parentWebElements, Exception e) throws Exception {
 		Configuration configuration = parentWebElements.configuration();
-		for (ExceptionHandler exceptionHandler : configuration.getGlobalExceptionHandlers()) {
+		for (ExceptionHandler exceptionHandler : configuration.exceptionHandlers()) {
 			boolean handled = exceptionHandler.handle(parentWebElements, e);
 			if (handled) return;
 		}

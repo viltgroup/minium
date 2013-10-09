@@ -27,13 +27,13 @@ import org.slf4j.LoggerFactory;
 
 import com.vilt.minium.DefaultWebElementsDriver;
 
-public class WebElementsDrivers {
+public class WebElementsDriverFactory {
 	
 	private static final String MINIUM_HOME_KEY = "minium.home";
 
-	private static final Logger logger = LoggerFactory.getLogger(WebElementsDrivers.class);
+	private static final Logger logger = LoggerFactory.getLogger(WebElementsDriverFactory.class);
 	
-	private static WebElementsDrivers instance;
+	private static WebElementsDriverFactory instance;
 
 	private ChromeDriverService service;
 	private ChromeDriverService miniumService;
@@ -41,14 +41,14 @@ public class WebElementsDrivers {
     private Class<? extends WebElement>[] additionalInterfaces;
 
 	@SuppressWarnings("unchecked")
-    public static WebElementsDrivers instance() {
+    public static WebElementsDriverFactory instance() {
 		if (instance == null) {
-			instance = new WebElementsDrivers();
+			instance = new WebElementsDriverFactory();
 		}
 		return instance;
 	}
 
-	public WebElementsDrivers(Class<? extends WebElement> ... additionalInterfaces) {
+	public WebElementsDriverFactory(Class<? extends WebElement> ... additionalInterfaces) {
         this.additionalInterfaces = additionalInterfaces;
     }
 	

@@ -1,11 +1,9 @@
 package com.vilt.minium.app;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.vilt.minium.app.Main.miniumBaseDir;
 import static java.lang.String.format;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -40,13 +38,15 @@ public class EmbeddedBrowser {
 	}
 	
 	private List<Listener> listeners = Lists.newArrayList();
+    private Configuration configuration;
 	
-	public EmbeddedBrowser() {
-		this(null);
+	public EmbeddedBrowser(Configuration configuration) {
+		this(configuration, null);
 	}
 	
-	public EmbeddedBrowser(Listener listener) {
-		if (listener != null) {
+	public EmbeddedBrowser(Configuration configuration, Listener listener) {
+		this.configuration = configuration;
+        if (listener != null) {
 			addListener(listener);
 		}
 	}
@@ -62,11 +62,14 @@ public class EmbeddedBrowser {
 			@Override
 			public void run() {
 				try {
-					String browserExecPath = new File(miniumBaseDir(), "chrome/chrome").getAbsolutePath();
+					String browserExecPath = configuration.getChromeBin().getAbsolutePath();
+					
+					String host = configuration.getHost();
+					int port = configuration.getPort();
 					
 					Process p = new ProcessBuilder(
 							browserExecPath,
-							format("--app=http://localhost:%d/minium-webconsole/", Main.DEFAULT_PORT),
+							format("--app=http://%s:%d/minium-webconsole/", host, port),
 							"--disable-background-mode"
 							)
 							.start();

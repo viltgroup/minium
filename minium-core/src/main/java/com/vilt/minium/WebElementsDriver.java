@@ -35,6 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Objects;
+import com.vilt.minium.impl.ConfigurationImpl;
 import com.vilt.minium.impl.WebElementsFactory;
 import com.vilt.minium.impl.WebElementsFactoryHelper;
 
@@ -88,7 +89,7 @@ public class WebElementsDriver<T extends CoreWebElements<T>> implements WebEleme
 	 * @param moreInterfaces the more interfaces
 	 */
 	public WebElementsDriver(WebDriver wd, Class<T> elementsInterface, Class<?> ... moreInterfaces) {
-		this(wd, new WebElementsFactory(elementsInterface, moreInterfaces), new Configuration());
+		this(wd, new WebElementsFactory(elementsInterface, moreInterfaces), new ConfigurationImpl());
 	}
 
 	/**
@@ -96,8 +97,13 @@ public class WebElementsDriver<T extends CoreWebElements<T>> implements WebEleme
 	 *
 	 * @return the configuration
 	 */
+	@Deprecated
 	public Configuration configuration() {
 		return configuration;
+	}
+
+	public Configuration configure() {
+	    return configuration;
 	}
 	
 	/** {@inheritDoc} */

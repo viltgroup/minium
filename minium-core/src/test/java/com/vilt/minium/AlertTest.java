@@ -57,7 +57,7 @@ public class AlertTest extends MiniumBaseTest {
 	
 	@Test(enabled = false)
 	public void testAlertTimeout() {
-		wd.configuration().defaultTimeout(3, TimeUnit.SECONDS);
+		wd.configure().defaultTimeout(3, TimeUnit.SECONDS);
 		try {
 			$(wd).alert().accept();
 		} catch (TimeoutException e) {
@@ -67,8 +67,8 @@ public class AlertTest extends MiniumBaseTest {
 
 	@Test(enabled = false)
 	public void testAlertCatch() {
-		wd.configuration().defaultTimeout(3, TimeUnit.SECONDS);
-		wd.configuration().registerExceptionHandler(ExceptionHandlers.alwaysAcceptUnhandledAlerts());
+		wd.configure().defaultTimeout(3, TimeUnit.SECONDS);
+		wd.configure().exceptionHandlers().add(ExceptionHandlers.alwaysAcceptUnhandledAlerts());
 		
 		Interactions.waitTime(3, SECONDS);		
 		DefaultWebElements elem = $(wd, "h2");

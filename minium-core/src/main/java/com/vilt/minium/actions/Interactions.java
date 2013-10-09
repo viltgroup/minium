@@ -27,6 +27,7 @@ import com.vilt.minium.Duration;
 import com.vilt.minium.TimeoutException;
 import com.vilt.minium.WebElementsDriver;
 import com.vilt.minium.impl.actions.RetryOnExceptionInteractionListener;
+import com.vilt.minium.impl.actions.SlowMotionInteractionListener;
 import com.vilt.minium.impl.actions.TimeoutInteractionListener;
 import com.vilt.minium.impl.actions.WaitingPresetInteractionListener;
 
@@ -73,6 +74,10 @@ public class Interactions {
 	 */
 	public static InteractionListener retry() {
 		return new RetryOnExceptionInteractionListener();
+	}
+
+	public static InteractionListener slowMotion(long time, TimeUnit units) {
+	    return new SlowMotionInteractionListener(new Duration(time, units));
 	}
 
 	public static void get(WebElementsDriver<?> wd, String url) {

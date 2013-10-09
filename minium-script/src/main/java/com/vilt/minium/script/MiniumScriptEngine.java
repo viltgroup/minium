@@ -30,7 +30,7 @@ public class MiniumScriptEngine {
 	private static final Logger logger = LoggerFactory.getLogger(MiniumScriptEngine.class);
 	private ClassLoader classLoader;
 
-	private WebElementsDrivers webElementsDrivers;
+	private WebElementsDriverFactory webElementsDriverFactory;
 
 	private Global scope;
 
@@ -38,12 +38,12 @@ public class MiniumScriptEngine {
 		this(null);
 	}
 
-	public MiniumScriptEngine(WebElementsDrivers webElementsDrivers) {
-		this(webElementsDrivers, MiniumScriptEngine.class.getClassLoader());
+	public MiniumScriptEngine(WebElementsDriverFactory webElementsDriverFactory) {
+		this(webElementsDriverFactory, MiniumScriptEngine.class.getClassLoader());
 	}
 
-	public MiniumScriptEngine(WebElementsDrivers webElementsDrivers, ClassLoader classLoader) {
-		this.webElementsDrivers = webElementsDrivers;
+	public MiniumScriptEngine(WebElementsDriverFactory webElementsDriverFactory, ClassLoader classLoader) {
+		this.webElementsDriverFactory = webElementsDriverFactory;
 		this.classLoader = classLoader;
 		initScope();
 	}
@@ -67,6 +67,12 @@ public class MiniumScriptEngine {
             }
             
         });
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T get(final String varName, Class<T> clazz) {
+        Object object = get(varName);
+        return (T) object;
     }
 
 	public void put(final String varName, final Object object) {
@@ -153,7 +159,7 @@ public class MiniumScriptEngine {
                     // Global gives us access to global functions like load()
                     scope = new Global(cx);
 
-                    scope.put("webElementsDrivers", scope, webElementsDrivers);
+                    scope.put("webElementsDriverFactory", scope, webElementsDriverFactory);
 
                     logger.debug("Loading minium bootstrap file");
                     InputStreamReader bootstrap = new InputStreamReader(classLoader.getResourceAsStream(RHINO_BOOTSTRAP_JS), "UTF-8");

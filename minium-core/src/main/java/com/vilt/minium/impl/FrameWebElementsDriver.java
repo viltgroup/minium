@@ -37,7 +37,7 @@ public class FrameWebElementsDriver<T extends CoreWebElements<T>> extends WebEle
 	private WebElementsDriver<T> parentWebDriver;
 
 	public FrameWebElementsDriver(WebElementsDriver<T> wd, WebElementsFactory factory, WebElement elem) {
-		super(wd.getWrappedWebDriver(), factory, wd.configuration());
+		super(wd.getWrappedWebDriver(), factory, wd.configure());
 		this.parentWebDriver = wd;
 		this.elem = elem;
 	}

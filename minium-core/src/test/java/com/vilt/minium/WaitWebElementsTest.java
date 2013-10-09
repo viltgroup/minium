@@ -69,7 +69,7 @@ public class WaitWebElementsTest extends MiniumBaseTest {
 	@Test()
 	public void testPreset() {
 	    // given
-	    wd.configuration().addWaitingPreset("fast", new Duration(1, SECONDS), new Duration(100, MILLISECONDS));
+	    wd.configure().waitingPresets().add("fast", new Duration(1, SECONDS), new Duration(100, MILLISECONDS));
 	    // just to force minium to load all the stuff before
 	    $(wd, "input").wait(whileEmpty());
 	    

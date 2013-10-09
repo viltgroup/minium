@@ -12,7 +12,7 @@
         http://www.springframework.org/schema/mvc 
         http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
 
-    <bean id="webElementsDrivers" class="com.vilt.minium.script.WebElementsDrivers" destroy-method="destroy">
+    <bean id="webElementsDriverFactory" class="com.vilt.minium.script.WebElementsDriverFactory" destroy-method="destroy">
 	    <constructor-arg>
 	        <array value-type="java.lang.Class">
 	            <value>com.vilt.minium.debug.DebugWebElements</value>
@@ -23,7 +23,7 @@
 	</bean>
 	
     <bean class="com.vilt.minium.script.MiniumScriptEngine">
-        <constructor-arg index="0" ref="webElementsDrivers" />
+        <constructor-arg index="0" ref="webElementsDriverFactory" />
     </bean>
     
     <!-- Controllers -->

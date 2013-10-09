@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.vilt.minium.WebElementsDriver;
 import com.vilt.minium.actions.DebugInteractions;
-import com.vilt.minium.script.WebElementsDrivers;
+import com.vilt.minium.script.WebElementsDriverFactory;
 import com.vilt.minium.webconsole.webdrivers.WebDriverInfo;
 import com.vilt.minium.webconsole.webdrivers.WebElementsDriverManager;
 import com.vilt.minium.webconsole.webdrivers.WebDriverInfo.Type;
@@ -31,7 +31,7 @@ import com.vilt.minium.webconsole.webdrivers.WebDriverInfo.Type;
 public class WebDriversController {
     
     @Autowired private WebElementsDriverManager wdManager;
-    @Autowired private WebElementsDrivers factory;
+    @Autowired private WebElementsDriverFactory factory;
     
     @RequestMapping(value = "/{var}/create")
     @ResponseBody

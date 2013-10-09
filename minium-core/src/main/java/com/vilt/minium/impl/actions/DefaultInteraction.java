@@ -261,8 +261,8 @@ public abstract class DefaultInteraction implements Interaction {
 	private List<InteractionListener> getAllListeners() {
 		List<InteractionListener> allListeners = Lists.newArrayList();
 		if (source != null) {
-			List<InteractionListener> globalListeners = ((WebElementsDriverProvider<?>) source).configuration().getGlobalListeners();			
-			allListeners.addAll(globalListeners);
+		    Iterable<InteractionListener> globalListeners = ((WebElementsDriverProvider<?>) source).configuration().interactionListeners();
+			allListeners.addAll(Lists.newArrayList(globalListeners));
 		}
 		allListeners.addAll(listeners);
 		
