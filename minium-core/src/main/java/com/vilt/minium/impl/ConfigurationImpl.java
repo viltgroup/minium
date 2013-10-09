@@ -49,23 +49,58 @@ public class ConfigurationImpl implements Configuration {
 		}
 	}
 	
-	private class WaitingPresetsImpl implements WaitingPresets {
+	private class WaitingPresetImpl implements WaitingPreset {
+        
+	    private final String preset;
 
-	    private Map<String, TimeoutAndInterval> durationPresets = Maps.newHashMap();
-
+        public WaitingPresetImpl(String preset) {
+            this.preset = preset;
+        }
+	    
         @Override
-        public void add(String preset, Duration timeout, Duration interval) {
-            durationPresets.put(preset, new TimeoutAndInterval(timeout, interval));
+        public WaitingPreset timeout(Duration timeout) {
+           timeoutPresets.put(preset, timeout);
+           return this;
         }
 
         @Override
-        public void remove(String preset) {
-            durationPresets.remove(preset);
+        public WaitingPreset interval(Duration interval) {
+            intervalPresets.put(preset, interval);
+            return this;
         }
 
         @Override
-        public TimeoutAndInterval get(String preset) {
-            return durationPresets.get(preset);
+        public WaitingPreset timeout(long time, TimeUnit unit) {
+            return timeout(new Duration(time, unit));
+        }
+
+        @Override
+        public WaitingPreset interval(long time, TimeUnit unit) {
+            return interval(new Duration(time, unit));
+        }
+
+        @Override
+        public Duration timeout() {
+            Duration timeout = timeoutPresets.get(preset);
+            return timeout == null ? defaultTimeout() : timeout;
+        }
+
+        @Override
+        public Duration interval() {
+            Duration interval = intervalPresets.get(preset);
+            return interval == null ? defaultInterval() : interval;
+        }
+
+        @Override
+        public WaitingPreset reset() {
+            timeoutPresets.remove(preset);
+            intervalPresets.remove(preset);
+            return this;
+        }
+        
+        @Override
+        public Configuration done() {
+            return ConfigurationImpl.this;
         }
 	}
 
@@ -79,13 +114,20 @@ public class ConfigurationImpl implements Configuration {
         }
 
         @Override
-        public void add(InteractionListener interactionListener) {
+        public InteractionListeners add(InteractionListener interactionListener) {
             interactionListeners.add(interactionListener);
+            return this;
         }
 
         @Override
-        public void remove(InteractionListener interactionListener) {
+        public InteractionListeners remove(InteractionListener interactionListener) {
             interactionListeners.remove(interactionListener);
+            return this;
+        }
+        
+        @Override
+        public Configuration done() {
+            return ConfigurationImpl.this;
         }
 	}
 
@@ -99,21 +141,29 @@ public class ConfigurationImpl implements Configuration {
 	    }
 	    
 	    @Override
-	    public void add(ExceptionHandler exceptionHandler) {
+	    public ExceptionHandlers add(ExceptionHandler exceptionHandler) {
 	        exceptionHandlers.add(exceptionHandler);
+	        return this;
 	    }
 	    
 	    @Override
-	    public void remove(ExceptionHandler exceptionHandler) {
+	    public ExceptionHandlers remove(ExceptionHandler exceptionHandler) {
 	        exceptionHandlers.remove(exceptionHandler);
+	        return this;
 	    }
+	    
+	    @Override
+        public Configuration done() {
+            return ConfigurationImpl.this;
+        }
 	}
 	
-	private TimeoutAndInterval defaultTimeoutAndInterval  = 
-	        new TimeoutAndInterval(new Duration(5, TimeUnit.SECONDS), new Duration(1, TimeUnit.SECONDS));
+	private Duration defaultTimeout = new Duration(5, TimeUnit.SECONDS);
+	private Duration defaultInterval  = new Duration(1, TimeUnit.SECONDS);
 
-	private WaitingPresets waitingPresets = new WaitingPresetsImpl();
-	private InteractionListeners interactionListeners = new InteractionListenersImpl();
+	private Map<String, Duration> timeoutPresets = Maps.newHashMap();
+    private Map<String, Duration> intervalPresets = Maps.newHashMap();
+    private InteractionListeners interactionListeners = new InteractionListenersImpl();
 	private ExceptionHandlers exceptionHandlers = new ExceptionHandlersImpl();
 	
 	public ConfigurationImpl() {
@@ -124,8 +174,8 @@ public class ConfigurationImpl implements Configuration {
      * @see com.vilt.minium.Conf#getDefaultTimeout()
      */
 	@Override
-    public Duration getDefaultTimeout() {
-		return defaultTimeoutAndInterval.timeout();
+    public Duration defaultTimeout() {
+		return defaultTimeout;
 	}
 
 	/* (non-Javadoc)
@@ -134,7 +184,7 @@ public class ConfigurationImpl implements Configuration {
 	@Override
     public Configuration defaultTimeout(Duration defaultTimeout) {
 		checkNotNull(defaultTimeout);
-		this.defaultTimeoutAndInterval = new TimeoutAndInterval(defaultTimeout, defaultTimeoutAndInterval.interval());
+		this.defaultTimeout = defaultTimeout;
 		return this;
 	}
 
@@ -150,8 +200,8 @@ public class ConfigurationImpl implements Configuration {
      * @see com.vilt.minium.Conf#getDefaultInterval()
      */
 	@Override
-    public Duration getDefaultInterval() {
-		return defaultTimeoutAndInterval.interval();
+    public Duration defaultInterval() {
+		return defaultInterval;
 	}
 
 	/* (non-Javadoc)
@@ -160,7 +210,7 @@ public class ConfigurationImpl implements Configuration {
 	@Override
     public Configuration defaultInterval(Duration defaultInterval) {
 		checkNotNull(defaultInterval);
-		this.defaultTimeoutAndInterval = new TimeoutAndInterval(defaultTimeoutAndInterval.timeout(), defaultInterval);
+		this.defaultInterval = defaultInterval;
 		return this;
 	}
 
@@ -173,8 +223,8 @@ public class ConfigurationImpl implements Configuration {
 	}
 	
 	@Override
-	public WaitingPresets waitingPresets() {
-	    return waitingPresets;
+	public WaitingPreset waitingPreset(String preset) {
+	    return new WaitingPresetImpl(preset);
 	}
 	
 	@Override

@@ -45,7 +45,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.vilt.minium.Async;
 import com.vilt.minium.Configuration;
-import com.vilt.minium.Configuration.TimeoutAndInterval;
+import com.vilt.minium.Configuration.WaitingPreset;
 import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.Duration;
 import com.vilt.minium.FreezableWebElements;
@@ -303,17 +303,17 @@ WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, FreezableWebElemen
 
 	@Override
 	public T wait(String preset, Predicate<? super T> predicate) {
-	    TimeoutAndInterval timeoutAndInterval = configuration().waitingPresets().get(preset);
-        return wait(timeoutAndInterval.timeout(), timeoutAndInterval.interval(), predicate);
+	    WaitingPreset waitingPreset = configuration().waitingPreset(preset);
+        return wait(waitingPreset.timeout(), waitingPreset.interval(), predicate);
 	}
 	
 	@SuppressWarnings("unchecked")
 	protected T wait(Duration timeout, Duration interval, Predicate<? super T> predicate) {
 	    if (timeout == null) {
-	        timeout = rootWebDriver().configure().getDefaultTimeout();
+	        timeout = rootWebDriver().configure().defaultTimeout();
 	    }
 	    if (interval == null) {
-	        interval = rootWebDriver().configure().getDefaultInterval();
+	        interval = rootWebDriver().configure().defaultInterval();
 	    }
 	    
 	    Wait<T> wait = getWait(timeout, interval);
@@ -341,8 +341,8 @@ WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, FreezableWebElemen
 
 	@Override
 	public T waitOrTimeout(String preset, Predicate<? super T> predicate) {
-	    TimeoutAndInterval timeoutAndInterval = configuration().waitingPresets().get(preset);
-        return waitOrTimeout(timeoutAndInterval.timeout(), timeoutAndInterval.interval(), predicate);
+	    WaitingPreset waitingPreset = configuration().waitingPreset(preset);
+        return waitOrTimeout(waitingPreset.timeout(), waitingPreset.interval(), predicate);
 	}
 
 	@Override
@@ -377,8 +377,8 @@ WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, FreezableWebElemen
 	
 	@Override
 	public Alert alert() {
-		Duration timeout = rootWebDriver().configure().getDefaultTimeout();
-		Duration interval = rootWebDriver().configure().getDefaultInterval();
+		Duration timeout = rootWebDriver().configure().defaultTimeout();
+		Duration interval = rootWebDriver().configure().defaultInterval();
 	
 		FluentWait<T> wait = getWait(timeout, interval);
 		
@@ -403,10 +403,10 @@ WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, FreezableWebElemen
 	@SuppressWarnings("unchecked")
     protected T waitOrTimeout(Duration timeout, Duration interval, Predicate<? super T> predicate) {
         if (timeout == null) {
-            timeout = rootWebDriver().configure().getDefaultTimeout();
+            timeout = rootWebDriver().configure().defaultTimeout();
         }
         if (interval == null) {
-            interval = rootWebDriver().configure().getDefaultInterval();
+            interval = rootWebDriver().configure().defaultInterval();
         }
         
         Wait<T> wait = getWait(timeout, interval);

@@ -1,8 +1,7 @@
-package WaitWebElementsTest;
+package com.vilt.minium.actions;
 
 import static com.vilt.minium.Minium.$;
 import static com.vilt.minium.actions.Interactions.withWaitingPreset;
-import static com.vilt.minium.impl.WaitPredicates.whileEmpty;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -14,25 +13,24 @@ import static org.testng.Assert.fail;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.vilt.minium.Duration;
 import com.vilt.minium.MiniumBaseTest;
 import com.vilt.minium.TimeoutException;
 
 public class WaitingPresetInteractionListenerTest extends MiniumBaseTest {
 
-    private static final double DELTA = 0.4;
+    private static final double DELTA = 1.0;
 
     @BeforeMethod
     public void openPage() {
         get("minium/tests/jquery-test.html");
     }
     
-//    @Test()
+    @Test()
     public void testPreset() {
         // given
-        wd.configure().waitingPresets().add("fast", new Duration(1, SECONDS), new Duration(100, MILLISECONDS));
+        wd.configure().waitingPreset("fast").timeout(1, SECONDS).interval(500, MILLISECONDS);
         // just to force minium to load all the stuff before
-        $(wd, "input").wait(whileEmpty());
+        $(wd, "input").size();
         
         long start = System.currentTimeMillis();
         try {

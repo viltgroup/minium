@@ -220,7 +220,7 @@ public class WebElementsDriver<T extends CoreWebElements<T>> implements WebEleme
 	public Object executeAsyncScript(String script, Object... args) {
 		ensureSwitch();
 		
-		wd.manage().timeouts().setScriptTimeout(configuration().getDefaultTimeout().getTime(), configuration().getDefaultTimeout().getUnit());
+		wd.manage().timeouts().setScriptTimeout(configuration().defaultTimeout().getTime(), configuration().defaultTimeout().getUnit());
 		return ((JavascriptExecutor) wd).executeAsyncScript(script, args);
 	}
 

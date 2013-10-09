@@ -21,39 +21,31 @@ import com.vilt.minium.actions.InteractionListener;
 
 public interface Configuration {
     
-    public static class TimeoutAndInterval {
+    public interface WaitingPreset {
+        public WaitingPreset timeout(Duration timeout);
+        public WaitingPreset interval(Duration interval);
+        public WaitingPreset timeout(long time, TimeUnit unit);
+        public WaitingPreset interval(long time, TimeUnit unit);
+        public WaitingPreset reset();
 
-        private final Duration timeout;
-        private final Duration interval;
+        public Duration timeout();
+        public Duration interval();
         
-        public TimeoutAndInterval(Duration timeout, Duration interval) {
-            this.timeout = timeout;
-            this.interval = interval;
-        }
-        
-        public Duration timeout() {
-            return timeout;
-        }
-        
-        public Duration interval() {
-            return interval;
-        }
-    }
-    
-    public interface WaitingPresets {
-        public void add(String preset, Duration timeout, Duration interval);
-        public void remove(String preset);
-        public TimeoutAndInterval get(String preset);
+        public Configuration done();
     }
 
     public interface InteractionListeners extends Iterable<InteractionListener> {
-        public void add(InteractionListener interactionListener);
-        public void remove(InteractionListener interactionListener);
+        public InteractionListeners add(InteractionListener interactionListener);
+        public InteractionListeners remove(InteractionListener interactionListener);
+
+        public Configuration done();
     }
 
     public interface ExceptionHandlers extends Iterable<ExceptionHandler> {
-        public void add(ExceptionHandler exceptionHandler);
-        public void remove(ExceptionHandler exceptionHandler);
+        public ExceptionHandlers add(ExceptionHandler exceptionHandler);
+        public ExceptionHandlers remove(ExceptionHandler exceptionHandler);
+
+        public Configuration done();
     }
     
     /**
@@ -61,7 +53,7 @@ public interface Configuration {
      *
      * @return the default timeout
      */
-    public abstract Duration getDefaultTimeout();
+    public abstract Duration defaultTimeout();
 
     /**
      * Default timeout.
@@ -85,7 +77,7 @@ public interface Configuration {
      *
      * @return the default interval
      */
-    public abstract Duration getDefaultInterval();
+    public abstract Duration defaultInterval();
 
     /**
      * Default interval.
@@ -104,7 +96,7 @@ public interface Configuration {
      */
     public abstract Configuration defaultInterval(long time, TimeUnit unit);
 
-    public abstract WaitingPresets waitingPresets();
+    public abstract WaitingPreset waitingPreset(String preset);
     
     public abstract InteractionListeners interactionListeners();
 

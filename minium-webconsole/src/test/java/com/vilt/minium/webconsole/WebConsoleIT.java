@@ -44,7 +44,6 @@ import org.testng.annotations.Test;
 
 import com.vilt.minium.DefaultWebElements;
 import com.vilt.minium.DefaultWebElementsDriver;
-import com.vilt.minium.Duration;
 
 @ContextConfiguration(classes = TestConfiguration.class)
 public class WebConsoleIT extends AbstractTestNGSpringContextTests {
@@ -60,7 +59,7 @@ public class WebConsoleIT extends AbstractTestNGSpringContextTests {
         wd = new DefaultWebElementsDriver(createNativeWebDriver());
         wd.manage().window().setSize(new Dimension(1024, 768));
 
-        wd.configure().waitingPresets().add("slow", new Duration(20, TimeUnit.SECONDS), new Duration(1, TimeUnit.SECONDS));
+        wd.configure().waitingPreset("slow").timeout(20, TimeUnit.SECONDS).interval(1, TimeUnit.SECONDS);
 
         get(wd, "http://localhost:8080/minium-webconsole");
     }

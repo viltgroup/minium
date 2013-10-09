@@ -29,7 +29,7 @@ import com.vilt.minium.impl.ConfigurationImpl;
 public interface WaitWebElements<T extends CoreWebElements<T>> extends WebElements {
 	
 	/**
-	 * Waits using the default timeout value provided by {@link ConfigurationImpl#getDefaultInterval()}
+	 * Waits using the default timeout value provided by {@link ConfigurationImpl#defaultInterval()}
 	 * for this {@link WebElements} to satisfy a given predicate, or throws a.
 	 *
 	 * @param predicate the predicate to wait for.
@@ -56,7 +56,7 @@ public interface WaitWebElements<T extends CoreWebElements<T>> extends WebElemen
 	 * @param timeout the timeout. If null, it will use the default timeout value provided by
 	 * @param predicate the predicate to wait for.
 	 * @return a {@link WebElements}
-	 * {@link ConfigurationImpl#getDefaultInterval()}.
+	 * {@link ConfigurationImpl#defaultInterval()}.
 	 */
 	public T wait(Duration timeout, Predicate<? super T> predicate) throws TimeoutException;
 
@@ -68,12 +68,12 @@ public interface WaitWebElements<T extends CoreWebElements<T>> extends WebElemen
 	 * @param preset, as configured in {@link ConfigurationImpl#addWaitingPreset(String, Duration, Duration)}
 	 * @param predicate the predicate to wait for.
 	 * @return a {@link WebElements}
-	 * {@link ConfigurationImpl#getDefaultInterval()}.
+	 * {@link ConfigurationImpl#defaultInterval()}.
 	 */
 	public T wait(String preset, Predicate<? super T> predicate) throws TimeoutException;
 
 	/**
-	 * Waits using the default timeout value provided by {@link ConfigurationImpl#getDefaultInterval()}
+	 * Waits using the default timeout value provided by {@link ConfigurationImpl#defaultInterval()}
 	 * for this {@link WebElements} to satisfy a given predicate, otherwise it just returns.
 	 * 
 	 * @param predicate the predicate to wait for.
