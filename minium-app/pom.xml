@@ -34,209 +34,201 @@
 		</dependency>
 	</dependencies>
 
-	<profiles>
-		<profile>
-            <id>app-generation</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-			<build>
-			    <finalName>minium-app</finalName>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-jar-plugin</artifactId>
+	<build>
+	    <finalName>minium-app</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>com.vilt.minium.app.Main</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>unpack-minium</id>
+						<phase>package</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
 						<configuration>
-							<archive>
-								<manifest>
-									<mainClass>com.vilt.minium.app.Main</mainClass>
-								</manifest>
-							</archive>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.vilt-group.minium</groupId>
+									<artifactId>minium-webconsole</artifactId>
+									<version>${project.version}</version>
+									<type>war</type>
+									<overWrite>false</overWrite>
+								</artifactItem>
+							</artifactItems>
+							<outputDirectory>${project.build.directory}/minium-app/webapp</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>true</overWriteSnapshots>
 						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-dependency-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>unpack-minium</id>
-								<phase>package</phase>
-								<goals>
-									<goal>unpack</goal>
-								</goals>
-								<configuration>
-									<artifactItems>
-										<artifactItem>
-											<groupId>com.vilt-group.minium</groupId>
-											<artifactId>minium-webconsole</artifactId>
-											<version>${project.version}</version>
-											<type>war</type>
-											<overWrite>false</overWrite>
-										</artifactItem>
-									</artifactItems>
-									<outputDirectory>${project.build.directory}/minium-app/webapp</outputDirectory>
-									<overWriteReleases>false</overWriteReleases>
-									<overWriteSnapshots>true</overWriteSnapshots>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>com.akathist.maven.plugins.launch4j</groupId>
-						<artifactId>launch4j-maven-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>launch4j</id>
-								<phase>package</phase>
-								<goals>
-									<goal>launch4j</goal>
-								</goals>
-								<configuration>
-									<dontWrapJar>false</dontWrapJar>
-									<headerType>gui</headerType>
-									<outfile>${project.build.directory}/minium-app/${project.build.finalName}.exe</outfile>
-									<jar>${project.build.directory}/${project.build.finalName}.jar</jar>
-									<errTitle>Launcher</errTitle>
-									<jre>
-										<minVersion>1.6.0</minVersion>
-										<opts>
-										    <opt>-Dminium.home="%EXEDIR%"</opt>
-										</opts>
-									</jre>
-									<classPath>
-										<mainClass>com.vilt.minium.app.Main</mainClass>
-										<addDependencies>true</addDependencies>
-										<jarLocation>lib/</jarLocation>.
-									</classPath>
-									<icon>${basedir}/src/main/resources/minium_logo.ico</icon>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>appassembler-maven-plugin</artifactId>
-						<version>1.4</version>
-						<executions>
-							<execution>
-								<id>generate-scripts</id>
-								<phase>package</phase>
-								<goals>
-									<goal>assemble</goal>
-								</goals>
-								<configuration>
-									<includeConfigurationDirectoryInClasspath>false</includeConfigurationDirectoryInClasspath>
-									<assembleDirectory>${project.build.directory}/minium-app</assembleDirectory>
-									<extraJvmArguments>-Xms128m -Xmx256m -Dminium.home=@BASEDIR@</extraJvmArguments>
-									<repositoryLayout>flat</repositoryLayout>
-									<repositoryName>lib</repositoryName>
-									<useWildcardClassPath>true</useWildcardClassPath>
-									<!-- Generate bin scripts for windows and unix pr default -->
-									<platforms>
-										<platform>windows</platform>
-										<platform>unix</platform>
-									</platforms>
-									<programs>
-										<program>
-											<mainClass>com.vilt.minium.app.Main</mainClass>
-											<name>minium-app</name>
-										</program>
-									</programs>
-								</configuration>
-							</execution>
-						</executions>
-				    </plugin>
-		            <plugin>
-		                <artifactId>maven-antrun-plugin</artifactId>
-		                <version>1.7</version>
-		                <executions>
-		                    <execution>
-		                        <phase>package</phase>
-		                        <goals>
-		                            <goal>run</goal>
-		                        </goals>
-		                    </execution>
-		                </executions>
-		                <configuration>
-		                    <target>
-		                        <property name="minium.base" value="${project.build.directory}/minium-app" />
-		
-								<mkdir dir="${minium.base}" />
-								
-								<zip destfile="${project.build.directory}/${project.build.finalName}.zip">
-									<fileset dir="${minium.base}">
-										<include name="webapp/**" />
-										<include name="lib/**" />
-										<include name="bin/**" />
-										<include name="${project.build.finalName}.exe" />
-									</fileset>
-									<fileset dir="${basedir}/src/main/config">
-										<include name="app.properties" />
-									</fileset>
-									<fileset dir="${project.build.directory}">
-										<include name="${project.build.finalName}.jar" />
-									</fileset>
-								</zip>
-		                    </target>
-		                    <detail>true</detail>
-		                </configuration>
-		            </plugin>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>build-helper-maven-plugin</artifactId>
-						<version>1.6</version>
-						<executions>
-							<execution>
-								<id>attach-artifacts</id>
-								<phase>package</phase>
-								<goals>
-									<goal>attach-artifact</goal>
-								</goals>
-								<configuration>
-									<artifacts>
-										<artifact>
-											<file>${project.build.directory}/${project.build.finalName}.zip</file>
-											<type>zip</type>
-										</artifact>
-									</artifacts>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-				<pluginManagement>
-					<plugins>
-						<!--This plugin's configuration is used to store Eclipse m2e settings 
-							only. It has no influence on the Maven build itself. -->
-						<plugin>
-							<groupId>org.eclipse.m2e</groupId>
-							<artifactId>lifecycle-mapping</artifactId>
-							<version>1.0.0</version>
-							<configuration>
-								<lifecycleMappingMetadata>
-									<pluginExecutions>
-										<pluginExecution>
-											<pluginExecutionFilter>
-												<groupId>org.apache.maven.plugins</groupId>
-												<artifactId>maven-dependency-plugin</artifactId>
-												<versionRange>[2.1,)</versionRange>
-												<goals>
-													<goal>unpack</goal>
-													<goal>copy-dependencies</goal>
-												</goals>
-											</pluginExecutionFilter>
-											<action>
-												<ignore></ignore>
-											</action>
-										</pluginExecution>
-									</pluginExecutions>
-								</lifecycleMappingMetadata>
-							</configuration>
-						</plugin>
-					</plugins>
-				</pluginManagement>
-			</build>
-		</profile>
-	</profiles>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.akathist.maven.plugins.launch4j</groupId>
+				<artifactId>launch4j-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>launch4j</id>
+						<phase>package</phase>
+						<goals>
+							<goal>launch4j</goal>
+						</goals>
+						<configuration>
+							<dontWrapJar>false</dontWrapJar>
+							<headerType>gui</headerType>
+							<outfile>${project.build.directory}/minium-app/${project.build.finalName}.exe</outfile>
+							<jar>${project.build.directory}/${project.build.finalName}.jar</jar>
+							<errTitle>Launcher</errTitle>
+							<jre>
+								<minVersion>1.6.0</minVersion>
+								<opts>
+								    <opt>-Dminium.home="%EXEDIR%"</opt>
+								</opts>
+							</jre>
+							<classPath>
+								<mainClass>com.vilt.minium.app.Main</mainClass>
+								<addDependencies>true</addDependencies>
+								<jarLocation>lib/</jarLocation>.
+							</classPath>
+							<icon>${basedir}/src/main/resources/minium_logo.ico</icon>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>appassembler-maven-plugin</artifactId>
+				<version>1.4</version>
+				<executions>
+					<execution>
+						<id>generate-scripts</id>
+						<phase>package</phase>
+						<goals>
+							<goal>assemble</goal>
+						</goals>
+						<configuration>
+							<includeConfigurationDirectoryInClasspath>false</includeConfigurationDirectoryInClasspath>
+							<assembleDirectory>${project.build.directory}/minium-app</assembleDirectory>
+							<extraJvmArguments>-Xms128m -Xmx256m -Dminium.home=@BASEDIR@</extraJvmArguments>
+							<repositoryLayout>flat</repositoryLayout>
+							<repositoryName>lib</repositoryName>
+							<useWildcardClassPath>true</useWildcardClassPath>
+							<!-- Generate bin scripts for windows and unix pr default -->
+							<platforms>
+								<platform>windows</platform>
+								<platform>unix</platform>
+							</platforms>
+							<programs>
+								<program>
+									<mainClass>com.vilt.minium.app.Main</mainClass>
+									<name>minium-app</name>
+								</program>
+							</programs>
+						</configuration>
+					</execution>
+				</executions>
+		    </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <target>
+                        <property name="minium.base" value="${project.build.directory}/minium-app" />
+
+						<mkdir dir="${minium.base}" />
+						
+						<zip destfile="${project.build.directory}/${project.build.finalName}.zip">
+							<fileset dir="${minium.base}">
+								<include name="webapp/**" />
+								<include name="lib/**" />
+								<include name="bin/**" />
+								<include name="${project.build.finalName}.exe" />
+							</fileset>
+							<fileset dir="${basedir}/src/main/config">
+								<include name="app.properties" />
+							</fileset>
+							<fileset dir="${project.build.directory}">
+								<include name="${project.build.finalName}.jar" />
+							</fileset>
+						</zip>
+                    </target>
+                    <detail>true</detail>
+                </configuration>
+            </plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+					<execution>
+						<id>attach-artifacts</id>
+						<phase>package</phase>
+						<goals>
+							<goal>attach-artifact</goal>
+						</goals>
+						<configuration>
+							<artifacts>
+								<artifact>
+									<file>${project.build.directory}/${project.build.finalName}.zip</file>
+									<type>zip</type>
+								</artifact>
+							</artifacts>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-dependency-plugin</artifactId>
+										<versionRange>[2.1,)</versionRange>
+										<goals>
+											<goal>unpack</goal>
+											<goal>copy-dependencies</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 
 </project>
