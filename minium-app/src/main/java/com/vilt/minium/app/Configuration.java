@@ -24,7 +24,6 @@ public class Configuration {
     public static final String HOST_KEY = "minium.app.host";
     public static final String SHUTDOWN_PORT_KEY = "minium.app.shutdown.port";
     public static final String CHROME_BIN = "chrome.bin";
-    public static final String CHROME_DRIVER_KEY = "chromedriver.bin";
 
     private Properties properties;
     private File baseDir;
@@ -71,12 +70,6 @@ public class Configuration {
         return null;
     }
 
-    public File getChromeDriverBin() {
-        File chromeDriverBin = getConfigAsFile(CHROME_DRIVER_KEY, null);
-        if (chromeDriverBin != null) return chromeDriverBin;
-        return null;
-    }
-    
     public File getBaseDir() {
         return baseDir;
     }

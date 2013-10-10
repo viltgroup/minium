@@ -91,6 +91,9 @@ public class Main {
         configuration = new Configuration(baseDir, configurationFile);
         
         File chromeBin  = configuration.getChromeBin();
+        checkNotNull(chromeBin, 
+                "Chrome binary path %s does not exist, please ensure you edit "
+                + "app.properties and set %s to point to chrome binary", Configuration.CHROME_BIN, chromeBin);
         
         checkState(chromeBin.exists()    , "Chrome binary path %s does not exist", chromeBin);
         checkState(chromeBin.isFile()    , "Chrome binary path %s is not a file", chromeBin);
