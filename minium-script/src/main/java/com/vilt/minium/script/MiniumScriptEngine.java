@@ -35,7 +35,7 @@ public class MiniumScriptEngine {
 	private Global scope;
 
 	public MiniumScriptEngine() {
-		this(null);
+		this(WebElementsDriverFactory.instance());
 	}
 
 	public MiniumScriptEngine(WebElementsDriverFactory webElementsDriverFactory) {
@@ -80,7 +80,7 @@ public class MiniumScriptEngine {
 
             @Override
             public Void call(Context cx) {
-                scope.put(varName, scope, object);
+                scope.put(varName, scope, object != null ? Context.javaToJS(object, scope) : null);
                 return null;
             }
 
@@ -159,7 +159,9 @@ public class MiniumScriptEngine {
                     // Global gives us access to global functions like load()
                     scope = new Global(cx);
 
-                    scope.put("webElementsDriverFactory", scope, webElementsDriverFactory);
+                    if (webElementsDriverFactory != null) {
+                        scope.put("webElementsDriverFactory", scope, Context.toObject(webElementsDriverFactory, scope));
+                    }
 
                     logger.debug("Loading minium bootstrap file");
                     InputStreamReader bootstrap = new InputStreamReader(classLoader.getResourceAsStream(RHINO_BOOTSTRAP_JS), "UTF-8");
