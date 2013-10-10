@@ -74,7 +74,7 @@
 											<overWrite>false</overWrite>
 										</artifactItem>
 									</artifactItems>
-									<outputDirectory>${project.build.directory}/${platform.id}/webapp</outputDirectory>
+									<outputDirectory>${project.build.directory}/minium-app/webapp</outputDirectory>
 									<overWriteReleases>false</overWriteReleases>
 									<overWriteSnapshots>true</overWriteSnapshots>
 								</configuration>
@@ -94,7 +94,7 @@
 								<configuration>
 									<dontWrapJar>false</dontWrapJar>
 									<headerType>gui</headerType>
-									<outfile>${project.build.directory}/${platform.id}/${project.build.finalName}.exe</outfile>
+									<outfile>${project.build.directory}/minium-app/${project.build.finalName}.exe</outfile>
 									<jar>${project.build.directory}/${project.build.finalName}.jar</jar>
 									<errTitle>Launcher</errTitle>
 									<jre>
@@ -125,9 +125,9 @@
 									<goal>assemble</goal>
 								</goals>
 								<configuration>
-									<includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>
-									<assembleDirectory>${project.build.directory}/${platform.id}</assembleDirectory>
-									<extraJvmArguments>-Xms128m -Xmx256m -Dminium.home=${basedir.var}</extraJvmArguments>
+									<includeConfigurationDirectoryInClasspath>false</includeConfigurationDirectoryInClasspath>
+									<assembleDirectory>${project.build.directory}/minium-app</assembleDirectory>
+									<extraJvmArguments>-Xms128m -Xmx256m -Dminium.home=@BASEDIR@</extraJvmArguments>
 									<repositoryLayout>flat</repositoryLayout>
 									<repositoryName>lib</repositoryName>
 									<useWildcardClassPath>true</useWildcardClassPath>
@@ -159,14 +159,19 @@
 		                </executions>
 		                <configuration>
 		                    <target>
-		                        <property name="minium.base" value="${project.build.directory}/${platform.id}/" />
+		                        <property name="minium.base" value="${project.build.directory}/minium-app" />
 		
-								<zip destfile="${project.build.directory}/${project.build.finalName}-${platform.id}.zip">
+								<mkdir dir="${minium.base}" />
+								
+								<zip destfile="${project.build.directory}/${project.build.finalName}.zip">
 									<fileset dir="${minium.base}">
 										<include name="webapp/**" />
 										<include name="lib/**" />
 										<include name="bin/**" />
 										<include name="${project.build.finalName}.exe" />
+									</fileset>
+									<fileset dir="${basedir}/src/main/config">
+										<include name="app.properties" />
 									</fileset>
 									<fileset dir="${project.build.directory}">
 										<include name="${project.build.finalName}.jar" />
@@ -190,31 +195,7 @@
 								<configuration>
 									<artifacts>
 										<artifact>
-											<file>${project.build.directory}/${project.build.finalName}-${platform.id}.zip</file>
-											<classifier>${platform.id}</classifier>
-											<type>zip</type>
-										</artifact>
-									</artifacts>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>build-helper-maven-plugin</artifactId>
-						<version>1.6</version>
-						<executions>
-							<execution>
-								<id>attach-artifacts</id>
-								<phase>package</phase>
-								<goals>
-									<goal>attach-artifact</goal>
-								</goals>
-								<configuration>
-									<artifacts>
-										<artifact>
-											<file>${project.build.directory}/${project.build.finalName}-${platform.id}.zip</file>
-											<classifier>${platform.id}</classifier>
+											<file>${project.build.directory}/${project.build.finalName}.zip</file>
 											<type>zip</type>
 										</artifact>
 									</artifacts>

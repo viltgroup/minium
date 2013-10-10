@@ -27,8 +27,10 @@ public class Configuration {
     public static final String CHROME_DRIVER_KEY = "chromedriver.bin";
 
     private Properties properties;
+    private File baseDir;
 
-    public Configuration(File configurationFile) throws IOException {
+    public Configuration(File baseDir, File configurationFile) throws IOException {
+        this.baseDir = baseDir;
         properties = new Properties();
         FileReader reader = null;
         
@@ -73,6 +75,10 @@ public class Configuration {
         File chromeDriverBin = getConfigAsFile(CHROME_DRIVER_KEY, null);
         if (chromeDriverBin != null) return chromeDriverBin;
         return null;
+    }
+    
+    public File getBaseDir() {
+        return baseDir;
     }
     
     public String getConfig(String key, String defaultVal) {

@@ -4,6 +4,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.lang.String.format;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -67,10 +68,13 @@ public class EmbeddedBrowser {
 					String host = configuration.getHost();
 					int port = configuration.getPort();
 					
+					File userDataDir = new File(configuration.getBaseDir(), "user-data");
+					
 					Process p = new ProcessBuilder(
 							browserExecPath,
 							format("--app=http://%s:%d/minium-webconsole/", host, port),
-							"--disable-background-mode"
+							"--disable-background-mode",
+							format("--user-data-dir=%s", userDataDir.getAbsolutePath())
 							)
 							.start();
 					
@@ -82,7 +86,7 @@ public class EmbeddedBrowser {
 					errorGobbler.start();
 					
 					p.waitFor();
-					
+										
 					fireListeners();
 				} catch (IOException e) {
 					throw new RuntimeException(e);

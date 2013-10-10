@@ -88,27 +88,20 @@ public class Main {
         checkState(configurationFile.isFile() , "Configuration file %s is not a file", configurationFile);
         checkState(configurationFile.canRead(), "Configuration file %s cannot be read", configurationFile);
         
-        configuration = new Configuration(configurationFile);
+        configuration = new Configuration(baseDir, configurationFile);
         
         File chromeBin  = configuration.getChromeBin();
-        File chromeDriverBin  = configuration.getChromeDriverBin();
         
         checkState(chromeBin.exists()    , "Chrome binary path %s does not exist", chromeBin);
         checkState(chromeBin.isFile()    , "Chrome binary path %s is not a file", chromeBin);
         checkState(chromeBin.canExecute(), "Chrome binary path %s cannot execute", chromeBin);
 
-        checkState(chromeDriverBin.exists(), "Chromedriver binary path %s does not exist", chromeDriverBin);
-        checkState(chromeBin.isFile()      , "Chromedriver binary path %s is not a file", chromeDriverBin);
-        checkState(chromeBin.canExecute()  , "Chromedriver binary path %s cannot execute", chromeDriverBin);
-        
-        // configuration seems to be ok, let's print it
         print(Strings.repeat("*", 80));
-        print("* %-16s: %s", MINIUM_HOME_KEY, baseDir);
-        print("* %-16s: %s", Configuration.HOST_KEY, configuration.getHost());
-        print("* %-16s: %d", Configuration.PORT_KEY, configuration.getPort());
-        print("* %-16s: %d", Configuration.SHUTDOWN_PORT_KEY, configuration.getShutdownPort());
-        print("* %-16s: %s", Configuration.CHROME_BIN, configuration.getChromeBin().getAbsolutePath());
-        print("* %-16s: %s", Configuration.CHROME_DRIVER_KEY, configuration.getChromeDriverBin().getAbsolutePath());
+        print("* %-26s: %s", MINIUM_HOME_KEY, configuration.getBaseDir().getAbsolutePath());
+        print("* %-26s: %s", Configuration.HOST_KEY, configuration.getHost());
+        print("* %-26s: %d", Configuration.PORT_KEY, configuration.getPort());
+        print("* %-26s: %d", Configuration.SHUTDOWN_PORT_KEY, configuration.getShutdownPort());
+        print("* %-26s: %s", Configuration.CHROME_BIN, configuration.getChromeBin().getAbsolutePath());
         print(Strings.repeat("*", 80));
     }
     
