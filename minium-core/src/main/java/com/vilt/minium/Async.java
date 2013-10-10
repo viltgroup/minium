@@ -28,10 +28,10 @@ import org.openqa.selenium.JavascriptExecutor;
  * this annotation. Right now, only methods that <strong>do not return</strong> 
  * {@link WebElements} are allowed to be marked as asynchronous.</p>
  * <p>In pratical terms, instead of calling the method 
- * {@link JavascriptExecutor#executeScript(String, Object...)} to evaluate the
+ * {@link JavascriptExecutor#executeScript(String, Object...)} to evaluate a
  * Minium expression, the engine will call 
  * {@link JavascriptExecutor#executeAsyncScript(String, Object...)}.</p>
- * <p>Also, the javascript function corresponding to the declared method must receive an
+ * <p>Because of that, the javascript function corresponding to the declared method must receive an
  * extra argument that will correspond to the <code>callback</code> function, which must 
  * be used to return this function asynchronously.</p>
  * 
