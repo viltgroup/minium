@@ -60,7 +60,7 @@ public class ConsoleController {
 		} 
 		catch(Exception e) {
 			logger.error("Evaluation of {} failed", expression, e);
-			return new EvalResult(e);
+			throw new EvalException(e);
 		}
 	}
 }

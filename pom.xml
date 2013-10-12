@@ -61,7 +61,8 @@
 	    <guava.version>14.0.1</guava.version>
 	    <jetty.version>8.1.11.v20130520</jetty.version>
 	    <phantomjsdriver.version>1.0.4</phantomjsdriver.version>
-	    <spring.version>3.1.2.RELEASE</spring.version>
+	    <spring.version>3.2.4.RELEASE</spring.version>
+	    <jackson2.version>2.2.3</jackson2.version>
 	    
 	    <!-- License properties -->
 		<license.name>apache_v2</license.name>

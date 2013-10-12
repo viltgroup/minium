@@ -91,22 +91,14 @@
     <script src="controllers.js"></script>
 
     <script type="text/javascript">
-      // as described in https://github.com/jschr/bootstrap-modal
       $.fn.modal.defaults.spinner = $.fn.modalmanager.defaults.spinner = 
         '<div class="loading-spinner" style="width: 200px; margin-left: -100px;">' +
-            '<div class="progress progress-striped active">' +
-                '<div class="progress-bar" style="width: 100%;"></div>' +
-            '</div>' +
+          '<div class="progress progress-striped active">' +
+            '<div class="progress-bar" style="width: 100%;"></div>' +
+          '</div>' +
         '</div>';
-
       console.debug("Removing .modal-dialog class because of https://github.com/jschr/bootstrap-modal/pull/164#issuecomment-24649686");
       $(".modal-dialog").removeClass("modal-dialog");
-
-      console.debug("Addind .modal-body to .modal[data-remote] because of remote loading issue");
-      $(".modal[data-remote]").append($("<div></div>", { class : "modal-body", style : "padding: 0" }));
-      $(".modal[data-remote]").on("loaded", function() {
-        $(this).find(".modal-dialog").removeClass("modal-dialog");
-      });
     </script>
-  </body>
+</body>
 </html>

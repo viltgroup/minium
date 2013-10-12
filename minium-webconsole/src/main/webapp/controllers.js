@@ -35,12 +35,10 @@ function WebConsoleCtrl($rootScope, $scope, $http, $location, promiseTracker) {
   // global tracker (responsible for displaying the global loading "spinner")
   var createGlobalTracker = function() {
     var tracker = promiseTracker("webconsole");
-
-    var toggleLoading = function() { 
-      $('body').modalmanager('loading');
-    };
-    tracker.on("start", toggleLoading);
-    tracker.on("done",  toggleLoading);
+    // We need to block users from closing the loading meny by clicking in the window
+    // https://github.com/jschr/bootstrap-modal/issues/41#issuecomment-11294437
+    tracker.on("start", function() { $("body").modalmanager("loading").find(".modal-scrollable").off("click.modalmanager"); });
+    tracker.on("done",  function() { $("body").modalmanager("loading"); });
     $rootScope.globalTracker = tracker;
   };
 
@@ -93,27 +91,28 @@ function WebConsoleCtrl($rootScope, $scope, $http, $location, promiseTracker) {
         var line = range.start.row;
         var code = range.isEmpty() ? session.getLine(line) : session.getTextRange(range);
 
-        var request = http($scope, $http).get("/console/eval", { expr : code, lineno  : line + 1 }).success(function(data) {
-          if (data.exceptionInfo) {
-            console.error(data.exceptionInfo);
-            $.bootstrapGrowl(data.exceptionInfo.message, { type: "danger" });
-            if (data.lineNumber >= 0 && !data.sourceName) {
+        var request = http($scope, $http).get("/console/eval", { expr : code, lineno  : line + 1 })
+          .success(function(data) {
+            if (data.size >= 0) {
+              $.bootstrapGrowl(data.size + " matching web elements", { type: "success" });
+            }
+            else {
+              $.bootstrapGrowl(data.value ? _.escape(data.value) : "No value", { type: "success" });
+            }
+          })
+          .error(function(exception) {
+            console.error(exception);
+            $.bootstrapGrowl(exception.message, { type: "danger" });
+            if (exception.lineNumber >= 0 && !exception.sourceName) {
               var errors = [ { 
-                row : data.lineNumber - 1,
+                row : exception.lineNumber - 1,
                 column : 0,
-                text: data.exceptionInfo.message,
+                text: exception.message,
                 type: "error"
               } ];
               editor.getSession().setAnnotations(errors);
             }
-          }
-          else if (data.size >= 0) {
-            $.bootstrapGrowl(data.size + " matching web elements", { type: "success" });
-          }
-          else {
-            $.bootstrapGrowl(data.value ? _.escape(data.value) : "No value", { type: "success" });
-          }
-        });
+          });
 
         $scope.globalTracker.addPromise(request);
       };
