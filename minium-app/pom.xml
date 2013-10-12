@@ -32,12 +32,20 @@
 			<artifactId>jetty-webapp</artifactId>
 			<version>${jetty.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.vilt-group.minium</groupId>
+			<artifactId>minium-webconsole</artifactId>
+			<version>${project.version}</version>
+			<type>war</type>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
 	    <finalName>minium-app</finalName>
-		<plugins>
-			<plugin>
+	    
+	    <plugins>
+	    	<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
@@ -76,33 +84,25 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>com.akathist.maven.plugins.launch4j</groupId>
-				<artifactId>launch4j-maven-plugin</artifactId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.6</version>
 				<executions>
 					<execution>
-						<id>launch4j</id>
+						<id>copy-resources</id>
 						<phase>package</phase>
 						<goals>
-							<goal>launch4j</goal>
+							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<dontWrapJar>false</dontWrapJar>
-							<headerType>gui</headerType>
-							<outfile>${project.build.directory}/minium-app/${project.build.finalName}.exe</outfile>
-							<jar>${project.build.directory}/${project.build.finalName}.jar</jar>
-							<errTitle>Launcher</errTitle>
-							<jre>
-								<minVersion>1.6.0</minVersion>
-								<opts>
-								    <opt>-Dminium.home="%EXEDIR%"</opt>
-								</opts>
-							</jre>
-							<classPath>
-								<mainClass>com.vilt.minium.app.Main</mainClass>
-								<addDependencies>true</addDependencies>
-								<jarLocation>lib/</jarLocation>.
-							</classPath>
-							<icon>${basedir}/src/main/resources/minium_logo.ico</icon>
+							<outputDirectory>${project.build.directory}/minium-app</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/config</directory>
+									<includes>
+										<include>app.properties</include>
+									</includes>
+								</resource>
+							</resources>
 						</configuration>
 					</execution>
 				</executions>
@@ -139,65 +139,9 @@
 						</configuration>
 					</execution>
 				</executions>
-		    </plugin>
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.7</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <target>
-                        <property name="minium.base" value="${project.build.directory}/minium-app" />
-
-						<mkdir dir="${minium.base}" />
-						
-						<zip destfile="${project.build.directory}/${project.build.finalName}.zip">
-							<fileset dir="${minium.base}">
-								<include name="webapp/**" />
-								<include name="lib/**" />
-								<include name="bin/**" />
-								<include name="${project.build.finalName}.exe" />
-							</fileset>
-							<fileset dir="${basedir}/src/main/config">
-								<include name="app.properties" />
-							</fileset>
-							<fileset dir="${project.build.directory}">
-								<include name="${project.build.finalName}.jar" />
-							</fileset>
-						</zip>
-                    </target>
-                    <detail>true</detail>
-                </configuration>
-            </plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>1.6</version>
-				<executions>
-					<execution>
-						<id>attach-artifacts</id>
-						<phase>package</phase>
-						<goals>
-							<goal>attach-artifact</goal>
-						</goals>
-						<configuration>
-							<artifacts>
-								<artifact>
-									<file>${project.build.directory}/${project.build.finalName}.zip</file>
-									<type>zip</type>
-								</artifact>
-							</artifacts>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
-		</plugins>
+	    </plugins>
+	    
 		<pluginManagement>
 			<plugins>
 				<!--This plugin's configuration is used to store Eclipse m2e settings 
@@ -230,5 +174,87 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+
+	<profiles>
+		<!-- 
+		We only run launch4j if we're in a windows machine or if we run it with this profile explicitly.
+		Note: running launch4j in *nix / mac environments requires ia32-libs
+		-->
+		<profile>
+			<id>exe-generation</id>
+			<activation>
+				<os>
+					<family>windows</family>
+				</os>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.akathist.maven.plugins.launch4j</groupId>
+						<artifactId>launch4j-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>launch4j</id>
+								<phase>package</phase>
+								<goals>
+									<goal>launch4j</goal>
+								</goals>
+								<configuration>
+									<dontWrapJar>false</dontWrapJar>
+									<headerType>gui</headerType>
+									<outfile>${project.build.directory}/minium-app/${project.build.finalName}.exe</outfile>
+									<jar>${project.build.directory}/${project.build.finalName}.jar</jar>
+									<errTitle>Launcher</errTitle>
+									<jre>
+										<minVersion>1.6.0</minVersion>
+										<opts>
+											<opt>-Dminium.home="%EXEDIR%"</opt>
+										</opts>
+									</jre>
+									<classPath>
+										<mainClass>com.vilt.minium.app.Main</mainClass>
+										<addDependencies>true</addDependencies>
+										<jarLocation>lib/</jarLocation>
+									</classPath>
+									<icon>${basedir}/src/main/resources/minium_logo.ico</icon>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<!-- By putting the assembly plugin here, we ensure it only runs after running generate-exe profile -->
+		<profile>
+			<id>app-assembly</id>
+			<activation>
+				<property>
+					<name>!disable.app.assembly</name>
+				</property>				
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<version>2.4</version>
+						<executions>
+							<execution>
+								<id>distro-assembly</id>
+								<phase>package</phase>
+								<goals>
+									<goal>single</goal>
+								</goals>
+								<configuration>
+									<descriptors>
+										<descriptor>src/assemble/bin.xml</descriptor>
+									</descriptors>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 </project>

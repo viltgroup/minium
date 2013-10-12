@@ -8,7 +8,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 
 public class Configuration {
@@ -61,12 +60,21 @@ public class Configuration {
         File chromeBin = getConfigAsFile(CHROME_BIN, null);
         if (chromeBin != null) return chromeBin;
         
-        if (SystemUtils.IS_OS_WINDOWS) {
-            String localAppData = System.getenv("LOCALAPPDATA");
-            if (!StringUtils.isEmpty(localAppData)) {
-                return new File(localAppData, "Google/Chrome/Application/chrome.exe");
-            }
+        // Based on expected Chrome default locations:
+        // https://code.google.com/p/selenium/wiki/ChromeDriver
+        if (SystemUtils.IS_OS_WINDOWS_XP) {
+            return new File(System.getenv("HOMEPATH"), "Local Settings\\Application Data\\Google\\Chrome\\Application\\chrome.exe");
         }
+        else if (SystemUtils.IS_OS_WINDOWS) {
+            return new File(format("C:\\Users\\%s\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe", System.getenv("USERNAME")));
+        }
+        else if (SystemUtils.IS_OS_LINUX) {
+            return new File("/usr/bin/google-chrome");
+        }
+        else if (SystemUtils.IS_OS_MAC_OSX) {
+            return new File("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome");
+        }
+        
         return null;
     }
 

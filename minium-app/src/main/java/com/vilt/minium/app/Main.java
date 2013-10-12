@@ -99,13 +99,13 @@ public class Main {
         checkState(chromeBin.isFile()    , "Chrome binary path %s is not a file", chromeBin);
         checkState(chromeBin.canExecute(), "Chrome binary path %s cannot execute", chromeBin);
 
-        print(Strings.repeat("*", 80));
+        print(Strings.repeat("*", 78));
         print("* %-26s: %s", MINIUM_HOME_KEY, configuration.getBaseDir().getAbsolutePath());
         print("* %-26s: %s", Configuration.HOST_KEY, configuration.getHost());
         print("* %-26s: %d", Configuration.PORT_KEY, configuration.getPort());
         print("* %-26s: %d", Configuration.SHUTDOWN_PORT_KEY, configuration.getShutdownPort());
         print("* %-26s: %s", Configuration.CHROME_BIN, configuration.getChromeBin().getAbsolutePath());
-        print(Strings.repeat("*", 80));
+        print(Strings.repeat("*", 78));
     }
     
     private static void print(String msg, Object ... args) {
