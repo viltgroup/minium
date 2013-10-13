@@ -14,6 +14,11 @@ var http = function($scope, $http) {
   };
 };
 
+var createExceptionHandler = _.curry(function(msg, exception) {
+  $.bootstrapGrowl(msg + ": " + exception.message, { type: "danger" });
+  console.error(msg, exception);
+});
+
 //
 // Controllers
 //
@@ -54,9 +59,11 @@ function WebConsoleCtrl($rootScope, $scope, $http, $location, promiseTracker) {
     };
 
     $rootScope.webDrivers = [];
-    http($scope, $http).get("/webDrivers").success(function(data) {
+    http($scope, $http).get("/webDrivers")
+      .success(function(data) {
         $rootScope.webDrivers = data;
-    });
+      })
+      .error(createExceptionHandler("An error occurred while loading web drivers"));
   };
 
   var configureEditor = function() {
@@ -101,7 +108,7 @@ function WebConsoleCtrl($rootScope, $scope, $http, $location, promiseTracker) {
             }
           })
           .error(function(exception) {
-            console.error(exception);
+            console.error("Evaluation failed", exception);
             $.bootstrapGrowl(exception.message, { type: "danger" });
             if (exception.lineNumber >= 0 && !exception.sourceName) {
               var errors = [ { 
@@ -182,14 +189,16 @@ function WebDriverCreateCtrl($rootScope, $scope, $http, $location, $routeParams)
   $scope.submit = function() {
     var varName = $scope.varName;
 
-    var request = http($scope, $http).get("/webDrivers/" + varName + "/create", { type : typeId }).success(function() {
-      $rootScope.webDrivers.push({ varName : varName, type : typeId, valid : true });
-      
-      // close modal
-      dialog.modal("hide");
-
-      $.bootstrapGrowl("Web driver <code>" + varName + "</code> created!", { type: "success" });
-    });
+    var request = http($scope, $http).get("/webDrivers/" + varName + "/create", { type : typeId })
+      .success(function() {
+        $rootScope.webDrivers.push({ varName : varName, type : typeId, valid : true });
+        
+        // close modal
+        dialog.modal("hide");
+  
+        $.bootstrapGrowl("Web driver <code>" + varName + "</code> created!", { type: "success" });
+      })
+      .error(createExceptionHandler("Could not create web driver"));
 
     $rootScope.globalTracker.addPromise(request);
   };
@@ -211,15 +220,17 @@ function WebDriverListCtrl($rootScope, $scope, $http, $location) {
   var screenshotDialog = $("#webdriver-screenshot-dialog");
 
   $scope.removeWebDriver = function(varName) {
-    var request = http($scope, $http).get("/webDrivers/" + varName + "/quit").success(function(data) {
-      // remove from local list of webDrivers
-      _.remove($rootScope.webDrivers, { varName : varName });
-      
-      // close modal
-      dialog.modal("hide");
-
-      $.bootstrapGrowl("Web driver <code>" + varName + "</code> removed!", { type: "success" });
-    });
+    var request = http($scope, $http).get("/webDrivers/" + varName + "/quit")
+      .success(function(data) {
+        // remove from local list of webDrivers
+        _.remove($rootScope.webDrivers, { varName : varName });
+        
+        // close modal
+        dialog.modal("hide");
+  
+        $.bootstrapGrowl("Web driver <code>" + varName + "</code> removed!", { type: "success" });
+      })
+      .error(createExceptionHandler("Could not remove web driver"));
     $rootScope.globalTracker.addPromise(request);
   };
 
@@ -310,9 +321,11 @@ function SelectorGadgetCtrl($rootScope, $scope, $http, $location) {
     
     $rootScope.selectorGadgetVarName = varName;
 
-    var request = http($scope, $http).get("/selectorGadget/" + varName + "/activate", params).success(function() {
-      $.bootstrapGrowl("You can now select elements in <code>" + varName + "</code> window!", { type: "success" });
-    });
+    var request = http($scope, $http).get("/selectorGadget/" + varName + "/activate", params)
+      .success(function() {
+        $.bootstrapGrowl("You can now select elements in <code>" + varName + "</code> window!", { type: "success" });
+      })
+      .error(createExceptionHandler("Could not activate selector gadget"));
 
     if (hidden) {
       var showDialog = function() {
@@ -327,30 +340,33 @@ function SelectorGadgetCtrl($rootScope, $scope, $http, $location) {
 
   $scope.accept = function() {
     var varName = $scope.model.varName;
-    var request = http($scope, $http).get("/selectorGadget/" + varName + "/cssSelector").success(function(data) {
-
-      var session = $rootScope.editor.getSession();
-      var position = range.start;
-      session.remove(range);
-      session.insert(position, "$(" + varName + ", " + data + ")");
-
-      // let's just indicate that selector gadget was accepted and therefore deactivated, so there is no need to deactivate it      
-      $scope.accepted = true;
-
-      // close modal
-      dialog.modal("hide");
-
-      $.bootstrapGrowl("Picked CSS selector is <code>" + data + "</code>!", { type: "success" });
-    });
+    var request = http($scope, $http).get("/selectorGadget/" + varName + "/cssSelector")
+      .success(function(data) {
+        var session = $rootScope.editor.getSession();
+        var position = range.start;
+        session.remove(range);
+        session.insert(position, "$(" + varName + ", " + data + ")");
+  
+        // let's just indicate that selector gadget was accepted and therefore deactivated, so there is no need to deactivate it      
+        $scope.accepted = true;
+  
+        // close modal
+        dialog.modal("hide");
+  
+        $.bootstrapGrowl("Picked CSS selector is <code>" + data + "</code>!", { type: "success" });
+      })
+      .error(createExceptionHandler("Could not pick element"));
     $rootScope.globalTracker.addPromise(request);
   };
 
   $scope.cancel = function() {
     var varName = $scope.model.varName;
-    var request = http($scope, $http).get("/selectorGadget/" + varName + "/deactivate").success(function(data) {
-      // close modal
-      dialog.modal("hide");
-    });
+    var request = http($scope, $http).get("/selectorGadget/" + varName + "/deactivate")
+      .success(function(data) {
+        // close modal
+        dialog.modal("hide");
+      })
+      .error(createExceptionHandler("Could not deactivate selector gadget"));
     $rootScope.globalTracker.addPromise(request);
   };
 
