@@ -53,7 +53,7 @@ You can watch all available Minium videos at
 
 The easiest way to try Minium is to use its Web Console (you can watch the video ['Minium shows its new Web Console'](http://www.youtube.com/watch?v=QlPLNEJD5rc) for a small introducion). You can instruct Minium to do almost anything in a browser with a few lines of Javascript.
 
-Minium provides Minium App, which contains Minium Web Console and a bundled Jetty server.
+Minium also provides Minium App, which contains Minium Web Console and a bundled Jetty server.
 
 
 ## Before you start
@@ -62,40 +62,28 @@ Ensure that the following software is installed:
 
 * [Java JDK 1.6+](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (required)
   * Don't forget to set `JAVA_HOME` environment variable 
-* [Maven 3](http://maven.apache.org/download.cgi)
-* [Mozilla Firefox](http://www.mozilla.org/en-US/firefox/new/)
-* [Google Chrome](https://www.google.com/intl/en/chrome/browser/) (recommended)
+* [Google Chrome](https://www.google.com/intl/en/chrome/browser/) (required)
+* Specific browser drivers (recomended, only Firefox is included in Selenium Web Driver OOTB)
+  * [Chrome Driver](http://chromedriver.storage.googleapis.com/index.html?path=2.4/)
+  * [IE Driver Server](https://code.google.com/p/selenium/downloads/list)
+  * [PhantomJS (headless webkit browse)](http://phantomjs.org/download.html)
 
-# Build Minium
+Ensure that those web driver binaries are available in your `PATH` environment variable, otherwise Minium won't be able to launch them.
+  
+## Run Minium App
 
-Building Minium is not complicated. Ensure that the following software is installed:
+To install and run Minium App, just follow these instructions:
 
-* [Java JDK 1.6+](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (required)
-  * Don't forget to set `JAVA_HOME` environment variable 
-* [Maven 3](http://maven.apache.org/download.cgi)
+* Download one of the following compressed files:
+  * [Zip archive](D:\Dev\workspace\minium\minium-app\target\minium-app-bin.tar.gz to d:\Dev\maven\repository\com\vilt-group\minium\minium-app\0.9.0-SNAPSHOT\minium-app-0.9.0-SNAPSHOT-bin.zip)
+  * [Compressed tarball archive](D:\Dev\workspace\minium\minium-app\target\minium-app-bin.tar.gz to d:\Dev\maven\repository\com\vilt-group\minium\minium-app\0.9.0-SNAPSHOT\minium-app-0.9.0-SNAPSHOT-bin.tar.gz)
+* Uncompress it in some folder (e.g. `c:\Tools\minium-app`)
+* Run one of the following executables:
+  * `minium-app.exe` (in windows)
+  * `bin\minium-app.bat` (also in windows, but this way you can see the stdout)
+  * `bin\minium-app` (linux or mac)
 
-Then, just clone Minium git repository and use Maven to build it:
-
-```bash
-git clone git://github.com/viltgroup/minium.git
-cd minium
-mvn install -DskipTests=true
-```
-
-**Note:** if you really want to run the tests, then make sure you have [PhantomJS](http://phantomjs.org/download.html) installed and available in the `PATH` environment variable. Then just replace `mvn install -DskipTests=true` by `mvn install`.
-
-## Run Minium Console
-
-The fastest way to launch the Minium Console is to use Jetty Maven plugin. For that, just execute:
-
-```bash
-cd minium-webconsole
-mvn jetty:run
-```
-Then just open the console in a browser. If you have Chrome installed:
-
-* Open Chrome and navigate to [http://localhost:8080/minium-webconsole](http://localhost:8080/minium-webconsole)
-* Use Chrome to create a shortcut for Minium Console (Tools > Create application shortcuts...)
+If Minium doesn't open a chrome app when you execute any of those scripts, probably you'll need to indicate where your chrome binary is in `app.properties` (edit specify the full Chrome binary path in the `chrome.bin` property).
 
 ## Give it a try
 
@@ -125,6 +113,24 @@ highlight(firstParagraph);
 
 speak("Wikipedia says: " + firstParagraph.text());
 ```
+
+# Build Minium
+
+Building Minium is not complicated. Ensure that the following software is installed:
+
+* [Java JDK 1.6+](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (required)
+  * Don't forget to set `JAVA_HOME` environment variable 
+* [Maven 3](http://maven.apache.org/download.cgi)
+
+Then, just clone Minium git repository and use Maven to build it:
+
+```bash
+git clone git://github.com/viltgroup/minium.git
+cd minium
+mvn install -DskipTests=true
+```
+
+**Note:** if you really want to run the tests, then make sure you have [PhantomJS](http://phantomjs.org/download.html) installed and available in the `PATH` environment variable. Then just replace `mvn install -DskipTests=true` by `mvn install`.
 
 # Documentation
 
