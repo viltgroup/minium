@@ -51,22 +51,20 @@ You can watch all available Minium videos at
 
 # Quick start
 
-The easiest way to try Minium is to use its Web Console (you can watch the video ['Minium shows its new Web Console'](http://www.youtube.com/watch?v=QlPLNEJD5rc) for a small introducion). You can instruct Minium to do almost anything in a browser with a few lines of Javascript.
-
-Minium also provides Minium App, which contains Minium Web Console and a bundled Jetty server.
-
+The easiest way to try Minium is to use Minium App, which contains Minium Web Console (you can watch the video ['Minium shows its new Web Console'](http://www.youtube.com/watch?v=QlPLNEJD5rc) for a small introducion) and a bundled Jetty server.
+This way, you can instruct Minium to do almost anything in a browser with a few lines of Javascript.
 
 ## Before you start
 
 Ensure that the following software is installed:
 
-* [Java JDK 1.6+](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (required)
+* [Java JDK 1.6+](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (**required**)
   * Don't forget to set `JAVA_HOME` environment variable 
-* [Google Chrome](https://www.google.com/intl/en/chrome/browser/) (required)
+* [Google Chrome](https://www.google.com/intl/en/chrome/browser/) (**required**)
 * Specific browser drivers (recomended, only Firefox is included in Selenium Web Driver OOTB)
   * [Chrome Driver](http://chromedriver.storage.googleapis.com/index.html?path=2.4/)
   * [IE Driver Server](https://code.google.com/p/selenium/downloads/list)
-  * [PhantomJS (headless webkit browse)](http://phantomjs.org/download.html)
+  * [PhantomJS (headless WebKit)](http://phantomjs.org/download.html)
 
 Ensure that those web driver binaries are available in your `PATH` environment variable, otherwise Minium won't be able to launch them.
   
@@ -92,7 +90,7 @@ Just type the following code and run it by selecting it and pressing `Ctrl+ENTER
 ```javascript
 wd = firefoxDriver();
 
-get($(wd), "http://www.google.com");
+get($(wd), "http://www.google.com/ncr");
 
 speak("Hello, I'm Minium, and I'm alive");
 speak("Let me highlight google search box");
@@ -102,7 +100,7 @@ highlight(searchbox);
 
 speak("Minium = Minion + Selenium. Let's find out what is a Minion.");
 
-fill(searchbox, "Minion");
+fill(searchbox, "Minion Wikipedia");
 sendKeys(searchbox, [ Keys.ENTER ]);
 
 firstResult = $(wd, "h3 a").first();
