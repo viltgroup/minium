@@ -38,9 +38,9 @@ usernameFld = $(wd).frame().find(":text").withLabel("Username");
 
 ![Minium position methods](http://viltgroup.github.io/minium/images/position_selectors.png)
 
-* can those tools 'speak'? **Minium can!**
+* can those tools 'speak' and teach you how to use themselves? **Minium can!**
 
-[![Minium shows its Interactive Console](http://halgatewood.com/youtube/i/Q7SH216qGko.jpg)](http://www.youtube.com/watch?v=Q7SH216qGko)
+[![Minium shows its new Web Console](http://halgatewood.com/youtube/i/QlPLNEJD5rc.jpg)](http://www.youtube.com/watch?v=QlPLNEJD5rc)
 
 * can those tools write their own documentation? **Minium can!**
 
@@ -51,9 +51,10 @@ You can watch all available Minium videos at
 
 # Quick start
 
-The easiest way to try Minium is to use its Interactive Console (you can watch the video ['Minium shows its Interactive Console'](http://www.youtube.com/watch?v=Q7SH216qGko) for a small introducion). You can instruct Minium to do almost anything in a browser with a few lines of Javascript.
+The easiest way to try Minium is to use its Web Console (you can watch the video ['Minium shows its new Web Console'](http://www.youtube.com/watch?v=QlPLNEJD5rc) for a small introducion). You can instruct Minium to do almost anything in a browser with a few lines of Javascript.
 
-Right now, the console is a web application and must run in a servlet container like Tomcat or Jetty. Minium generates a zip containing Jetty and minium console under minium-webconsole-jetty, so you only need to uncompress it and launch it to get started.
+Minium provides Minium App, which contains Minium Web Console and a bundled Jetty server.
+
 
 ## Before you start
 
@@ -65,9 +66,15 @@ Ensure that the following software is installed:
 * [Mozilla Firefox](http://www.mozilla.org/en-US/firefox/new/)
 * [Google Chrome](https://www.google.com/intl/en/chrome/browser/) (recommended)
 
-## Build Minium
+# Build Minium
 
-Building Minium is not complicated. Just clone Minium git repository and use Maven to build it:
+Building Minium is not complicated. Ensure that the following software is installed:
+
+* [Java JDK 1.6+](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (required)
+  * Don't forget to set `JAVA_HOME` environment variable 
+* [Maven 3](http://maven.apache.org/download.cgi)
+
+Then, just clone Minium git repository and use Maven to build it:
 
 ```bash
 git clone git://github.com/viltgroup/minium.git
