@@ -73,8 +73,8 @@ Ensure that those web driver binaries are available in your `PATH` environment v
 To install and run Minium App, just follow these instructions:
 
 * Download one of the following compressed files:
-  * [Zip archive](https://oss.sonatype.org/service/local/repositories/snapshots/content/com/vilt-group/minium/minium-app/0.9.0-SNAPSHOT/minium-app-0.9.0-20131014.084012-2-bin.zip)
-  * [Compressed tarball archive](https://oss.sonatype.org/service/local/repositories/snapshots/content/com/vilt-group/minium/minium-app/0.9.0-SNAPSHOT/minium-app-0.9.0-20131014.084012-2-bin.tar.gz)
+  * [Zip archive](https://oss.sonatype.org/content/repositories/releases/com/vilt-group/minium/minium-app/0.9.0/minium-app-0.9.0-bin.zip)
+  * [Compressed tarball archive](https://oss.sonatype.org/content/repositories/releases/com/vilt-group/minium/minium-app/0.9.0/minium-app-0.9.0-bin.tar.gz)
 * Uncompress it in some folder (e.g. `c:\Tools\minium-app`)
 * Run one of the following executables:
   * `minium-app.exe` (in windows)
