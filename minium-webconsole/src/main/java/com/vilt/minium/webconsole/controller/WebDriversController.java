@@ -7,6 +7,8 @@ import static org.springframework.http.HttpStatus.CREATED;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,8 +25,8 @@ import com.vilt.minium.WebElementsDriver;
 import com.vilt.minium.actions.DebugInteractions;
 import com.vilt.minium.script.WebElementsDriverFactory;
 import com.vilt.minium.webconsole.webdrivers.WebDriverInfo;
-import com.vilt.minium.webconsole.webdrivers.WebElementsDriverManager;
 import com.vilt.minium.webconsole.webdrivers.WebDriverInfo.Type;
+import com.vilt.minium.webconsole.webdrivers.WebElementsDriverManager;
 
 @Controller
 @RequestMapping("/webDrivers")
@@ -36,32 +38,65 @@ public class WebDriversController {
     @RequestMapping(value = "/{var}/create")
     @ResponseBody
     @ResponseStatus(CREATED)
-    public void create(@PathVariable String var, @RequestParam("type") Type type) {
+    public void create(@PathVariable String var, @RequestParam("type") Type type, @RequestParam(value = "remoteUrl", required = false) String remoteUrl) {
         if (wdManager.contains(var)) throw new IllegalStateException(format("Variable %s already exists", var));
         
         WebElementsDriver<?> wd;
+        if (StringUtils.isEmpty(remoteUrl)) {
+            wd = createLocalWebDriver(type);
+        }
+        else {
+            wd = createRemoteWebDriver(remoteUrl, type);
+        }
+        
+        wdManager.put(var, type, wd);
+    }
+
+    private WebElementsDriver<?> createRemoteWebDriver(String remoteUrl, Type type) {
+        DesiredCapabilities capabilities;
         switch (type) {
         case Chrome:
-            wd = factory.chromeDriver();
+            capabilities = DesiredCapabilities.chrome();
             break;
         case Firefox:
-            wd = factory.firefoxDriver();
+            capabilities = DesiredCapabilities.firefox();
             break;
         case InternetExplorer:
-            wd = factory.internetExplorerDriver();
+            capabilities = DesiredCapabilities.internetExplorer();
             break;
         case Opera:
-            throw new UnsupportedOperationException("Not implemented yet");
+            capabilities = DesiredCapabilities.opera();
+            break;
         case Safari:
-            throw new UnsupportedOperationException("Not implemented yet");
+            capabilities = DesiredCapabilities.safari();
+            break;
         case PhantomJS:
-            wd = factory.ghostDriver();
+            capabilities = DesiredCapabilities.phantomjs();
             break;
         default:
             throw new IllegalArgumentException("Invalid type");
         }
         
-        wdManager.put(var, type, wd);
+        return factory.remoteDriver(remoteUrl, capabilities);
+    }
+
+    private WebElementsDriver<?> createLocalWebDriver(Type type) {
+        switch (type) {
+        case Chrome:
+            return factory.chromeDriver();
+        case Firefox:
+            return factory.firefoxDriver();
+        case InternetExplorer:
+            return factory.internetExplorerDriver();
+        case Safari:
+            return factory.safariDriver();
+        case PhantomJS:
+            return factory.ghostDriver();
+        case Opera:
+            throw new UnsupportedOperationException("Not implemented yet");
+        default:
+            throw new IllegalArgumentException("Invalid type");
+        }
     }
     
     @RequestMapping(value = "")

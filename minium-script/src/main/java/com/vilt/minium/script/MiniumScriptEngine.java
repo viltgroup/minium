@@ -1,14 +1,8 @@
 package com.vilt.minium.script;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Reader;
-import java.net.URL;
-import java.util.Enumeration;
 
 import org.apache.commons.io.IOUtils;
 import org.mozilla.javascript.Context;
@@ -23,16 +17,11 @@ public class MiniumScriptEngine {
     interface ContextCallable<V, X extends Exception> {
         public V call(Context cx) throws X;
     }
-    
-	private static final String RHINO_BOOTSTRAP_JS = "rhino/bootstrap.js";
-	private static final String BOOTSTRAP_EXTS_JS = "rhino/bootstrap-extension.js";
 
 	private static final Logger logger = LoggerFactory.getLogger(MiniumScriptEngine.class);
-	private ClassLoader classLoader;
-
-	private WebElementsDriverFactory webElementsDriverFactory;
 
 	private Global scope;
+	private MiniumContextLoader contextLoader;
 
 	public MiniumScriptEngine() {
 		this(WebElementsDriverFactory.instance());
@@ -43,10 +32,13 @@ public class MiniumScriptEngine {
 	}
 
 	public MiniumScriptEngine(WebElementsDriverFactory webElementsDriverFactory, ClassLoader classLoader) {
-		this.webElementsDriverFactory = webElementsDriverFactory;
-		this.classLoader = classLoader;
-		initScope();
+	    this(new MiniumContextLoader(webElementsDriverFactory, classLoader));
 	}
+
+    public MiniumScriptEngine(MiniumContextLoader contextLoader) {
+        this.contextLoader = contextLoader;
+        initScope();
+    }
 
     public boolean contains(final String varName) {
         return runWithContext(new ContextCallable<Boolean, RuntimeException>() {
@@ -159,24 +151,7 @@ public class MiniumScriptEngine {
                     // Global gives us access to global functions like load()
                     scope = new Global(cx);
 
-                    if (webElementsDriverFactory != null) {
-                        scope.put("webElementsDriverFactory", scope, Context.toObject(webElementsDriverFactory, scope));
-                    }
-
-                    logger.debug("Loading minium bootstrap file");
-                    InputStreamReader bootstrap = new InputStreamReader(classLoader.getResourceAsStream(RHINO_BOOTSTRAP_JS), "UTF-8");
-                    cx.evaluateReader(scope, bootstrap, RHINO_BOOTSTRAP_JS, 1, null);
-
-                    Enumeration<URL> resources = classLoader.getResources(BOOTSTRAP_EXTS_JS);
-
-                    while (resources.hasMoreElements()) {
-                        URL resourceUrl = resources.nextElement();
-                        Reader reader = resourceUrlReader(resourceUrl);
-                        if (reader != null) {
-                            logger.debug("Loading extension bootstrap from '{}'", resourceUrl.toString());
-                            cx.evaluateReader(scope, reader, resourceUrl.toString(), 1, null);
-                        }
-                    }
+                    contextLoader.load(cx, scope);
 
                     return null;
                 } catch (Exception e) {
@@ -193,15 +168,6 @@ public class MiniumScriptEngine {
     	} finally {
             Context.exit();
         }
-	}
-
-	private Reader resourceUrlReader(URL resourceUrl) {
-		try {
-			InputStream is = resourceUrl.openStream();
-			return new BufferedReader(new InputStreamReader(is));
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
 	}
 
     private Object getUnwrappedResult(Object result) {

@@ -95,6 +95,11 @@ public class WebElementsDriverFactory {
 		return webDriverFor(capabilities);
 	}
 	
+	public DefaultWebElementsDriver safariDriver() {
+        DesiredCapabilities capabilities = DesiredCapabilities.safari();
+        return webDriverFor(capabilities);
+    }
+
 	public DefaultWebElementsDriver ghostDriver() {
 		PhantomJSDriver webDriver = new PhantomJSDriver(new DesiredCapabilities());
 		return createWebElementsDriver(webDriver);

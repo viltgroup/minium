@@ -76,6 +76,12 @@ function WebConsoleCtrl($rootScope, $scope, $http, $location, promiseTracker) {
     };
 
     var configureEditor = function (editor, editorPreferences) {
+      // not customizable
+      editor.setShowPrintMargin(false);
+      editor.getSession().setMode("ace/mode/javascript");
+      editor.getSession().getScreenLength();
+      
+      // customizable
       editor.setTheme(editorPreferences.theme);
       editor.setFontSize(editorPreferences.fontSize + "px");
       editor.getSession().setTabSize(editorPreferences.tabSize);
@@ -84,9 +90,6 @@ function WebConsoleCtrl($rootScope, $scope, $http, $location, promiseTracker) {
 
     var initEditor = function (preferences) {
       var editor = ace.edit("editor");
-      editor.setShowPrintMargin(false);
-      editor.getSession().setMode("ace/mode/javascript");
-      editor.getSession().getScreenLength();
 
       configureEditor(editor, preferences);
       
@@ -130,6 +133,18 @@ function WebConsoleCtrl($rootScope, $scope, $http, $location, promiseTracker) {
         });
       };
 
+      var saveFile = function(editor) {
+        $scope.$apply(function() {
+          $scope.saveFile();
+        });
+      };
+
+      var saveFileAs = function(editor) {
+        $scope.$apply(function() {
+          $scope.saveFileAs();
+        });
+      };
+
       editor.commands.addCommand({
         name: "evaluate",
         bindKey: { win: "Ctrl-Enter", mac: "Command-Enter" },
@@ -137,9 +152,21 @@ function WebConsoleCtrl($rootScope, $scope, $http, $location, promiseTracker) {
         readOnly: false // should not apply in readOnly mode
       });
       editor.commands.addCommand({
-        name: '',
+        name: "activateSelectorGadget",
         bindKey: { win: "Ctrl-Shift-C", mac: "Command-Shift-C" },
         exec: activateSelectorGadget,
+        readOnly: false // should not apply in readOnly mode
+      });
+      editor.commands.addCommand({
+        name: "saveFile",
+        bindKey: { win: "Ctrl-S", mac: "Command-S", sender: "editor|cli" },
+        exec: saveFile,
+        readOnly: false // should not apply in readOnly mode
+      });
+      editor.commands.addCommand({
+        name: "saveFileAs",
+        bindKey: { win: "Ctrl-Shift-S", mac: "Command-Shift-S" },
+        exec: saveFileAs,
         readOnly: false // should not apply in readOnly mode
       });
       
@@ -168,6 +195,55 @@ function WebConsoleCtrl($rootScope, $scope, $http, $location, promiseTracker) {
         .where({ type : typeId })
         .size()
         .value();
+  };
+  
+  var createSession = function(content) {
+    var EditSession = ace.require("ace/edit_session").EditSession;
+    var UndoManager = ace.require("ace/undomanager").UndoManager;
+    var session = new EditSession(content || "");
+    session.setUndoManager(new UndoManager());
+    return session;
+  };
+  
+  $scope.newFile = function() {
+    $scope.filePath = null;
+    $rootScope.editor.setSession(createSession());
+    configureEditor($rootScope.editor, $rootScope.editorPreferences);
+  };
+
+  $scope.openFile = function() {
+    var request = http($scope, $http).get("/file/open")
+      .success(function (fileResult) {
+        $rootScope.editor.setSession(createSession(fileResult.content));
+        $scope.filePath = fileResult.filePath;
+        
+        configureEditor($rootScope.editor, $rootScope.editorPreferences);
+        $.bootstrapGrowl("File opened successfully!", { type: "success" });
+      })
+      .error(createExceptionHandler("Could not open file"));
+
+    $rootScope.globalTracker.addPromise(request);
+  };
+
+  var saveFile = function(filePath) {
+    var content = $rootScope.editor.getSession().getValue();
+    var fileResult = { filePath : filePath, content : content };
+    var request = $http.post(baseServiceUrl + "/file/save", fileResult)
+      .success(function (filePathResult) {
+        $scope.filePath = filePathResult.filePath;
+        $.bootstrapGrowl("File saved successfully!", { type: "success" });
+      })
+      .error(createExceptionHandler("Could not save file"));
+
+    $rootScope.globalTracker.addPromise(request);
+  };
+  
+  $scope.saveFile = function() {
+    saveFile($scope.filePath);
+  };
+
+  $scope.saveFileAs = function() {
+    saveFile();
   };
 }
 
