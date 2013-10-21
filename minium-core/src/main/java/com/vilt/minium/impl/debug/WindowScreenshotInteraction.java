@@ -20,7 +20,7 @@ import java.io.OutputStream;
 
 import org.openqa.selenium.OutputType;
 
-import com.google.common.io.ByteStreams;
+import com.google.common.io.ByteSource;
 import com.google.common.io.Closeables;
 import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.WebElementsDriverProvider;
@@ -48,7 +48,7 @@ public class WindowScreenshotInteraction extends ScreenshotInteraction {
 		try {
 			CoreWebElements<?> coreWebElements = (CoreWebElements<?>) getSource();
 			byte[] screenshot = ((WebElementsDriverProvider<?>) coreWebElements).webDriver().getScreenshotAs(OutputType.BYTES);
-			ByteStreams.asByteSource(screenshot).copyTo(stream);
+			ByteSource.wrap(screenshot).copyTo(stream);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		} finally {

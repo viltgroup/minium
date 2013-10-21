@@ -11,20 +11,22 @@
 	<name>Minium - Rhino Integration</name>
 
 	<dependencies>
+		
 		<dependency>
 			<groupId>com.vilt-group.minium</groupId>
 			<artifactId>minium-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-java</artifactId>
-			<version>${selenium.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.mozilla</groupId>
 			<artifactId>rhino</artifactId>
 			<version>1.7R4</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>${selenium.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.detro.ghostdriver</groupId>
@@ -41,6 +43,8 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
+		<!-- Tests -->
 		<dependency>
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-library</artifactId>

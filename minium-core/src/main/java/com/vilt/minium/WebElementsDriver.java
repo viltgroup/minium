@@ -22,15 +22,15 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.HasInputDevices;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keyboard;
-import org.openqa.selenium.Mouse;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.HasInputDevices;
+import org.openqa.selenium.interactions.Keyboard;
+import org.openqa.selenium.interactions.Mouse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,7 +45,6 @@ import com.vilt.minium.impl.WebElementsFactoryHelper;
  *
  * @param <T>
  */
-@SuppressWarnings("deprecation")
 public class WebElementsDriver<T extends CoreWebElements<T>> implements WebElementsFinder<T>, WebDriver, JavascriptExecutor, HasInputDevices, TakesScreenshot {
 
 	final Logger logger = LoggerFactory.getLogger(WebElementsDriver.class);

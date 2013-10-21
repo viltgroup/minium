@@ -15,7 +15,7 @@
  */
 package com.vilt.minium.impl.actions;
 
-import org.openqa.selenium.Keyboard;
+import org.openqa.selenium.interactions.Keyboard;
 
 import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.WebElementsDriverProvider;
