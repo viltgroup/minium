@@ -23,7 +23,11 @@ public class MiniumContextLoader {
     private ClassLoader classLoader;
     private WebElementsDriverFactory webElementsDriverFactory;
 
-    public MiniumContextLoader(WebElementsDriverFactory webElementsDriverFactory, ClassLoader classLoader) {
+    public MiniumContextLoader(ClassLoader classLoader) {
+        this(classLoader, null);
+    }
+    
+    public MiniumContextLoader(ClassLoader classLoader, WebElementsDriverFactory webElementsDriverFactory) {
         this.webElementsDriverFactory = webElementsDriverFactory;
         this.classLoader = classLoader;
     }

@@ -32,7 +32,7 @@ public class MiniumScriptEngine {
 	}
 
 	public MiniumScriptEngine(WebElementsDriverFactory webElementsDriverFactory, ClassLoader classLoader) {
-	    this(new MiniumContextLoader(webElementsDriverFactory, classLoader));
+	    this(new MiniumContextLoader(classLoader, webElementsDriverFactory));
 	}
 
     public MiniumScriptEngine(MiniumContextLoader contextLoader) {

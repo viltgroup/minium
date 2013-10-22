@@ -23,6 +23,8 @@ public class Configuration {
     public static final String HOST_KEY = "minium.app.host";
     public static final String SHUTDOWN_PORT_KEY = "minium.app.shutdown.port";
     public static final String CHROME_BIN = "chrome.bin";
+    public static final String CHROME_DRIVER_BIN = "chrome.driver.bin";
+    public static final String IE_DRIVER_BIN = "ie.driver.bin";
 
     private Properties properties;
     private File baseDir;
@@ -63,10 +65,14 @@ public class Configuration {
         // Based on expected Chrome default locations:
         // https://code.google.com/p/selenium/wiki/ChromeDriver
         if (SystemUtils.IS_OS_WINDOWS_XP) {
-            return new File(System.getenv("HOMEPATH"), "Local Settings\\Application Data\\Google\\Chrome\\Application\\chrome.exe");
+            return oneOf(
+                new File(System.getenv("HOMEPATH"), "Local Settings\\Application Data\\Google\\Chrome\\Application\\chrome.exe"),
+                new File(System.getenv("PROGRAMFILES"), "Google\\Chrome\\Application\\chrome.exe"));
         }
         else if (SystemUtils.IS_OS_WINDOWS) {
-            return new File(format("C:\\Users\\%s\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe", System.getenv("USERNAME")));
+            return oneOf(
+                new File(format("C:\\Users\\%s\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe", System.getenv("USERNAME"))),
+                new File(System.getenv("PROGRAMFILES"), "Google\\Chrome\\Application\\chrome.exe"));
         }
         else if (SystemUtils.IS_OS_LINUX) {
             return new File("/usr/bin/google-chrome");
@@ -77,21 +83,35 @@ public class Configuration {
         
         return null;
     }
+    
+    public File getChromeDriverBin() {
+        File chromeDriverBin = getConfigAsFile(CHROME_DRIVER_BIN, null);
+        if (chromeDriverBin != null) return chromeDriverBin;
+
+        return new File(getBaseDir(), "drivers/chromedriver");
+    }
+
+    public File getIEDriverBin() {
+        File ieDriverBin = getConfigAsFile(IE_DRIVER_BIN, null);
+        if (ieDriverBin != null) return ieDriverBin;
+        
+        return new File(getBaseDir(), "drivers\\IEDriverServer.exe");
+    }
 
     public File getBaseDir() {
         return baseDir;
     }
     
-    public String getConfig(String key, String defaultVal) {
+    protected String getConfig(String key, String defaultVal) {
         return properties.getProperty(key, defaultVal);
     }
 
-    public File getConfigAsFile(String key, File defaultVal) {
+    protected File getConfigAsFile(String key, File defaultVal) {
         String path = getConfig(key, null);
         return path == null || path.trim().isEmpty() ? null : new File(path);
     }
     
-    public int getConfigInt(String key, int defaultVal) {
+    protected int getConfigInt(String key, int defaultVal) {
             String value = properties.getProperty(key);
         try {
             return value == null || value.trim().isEmpty() ? defaultVal : Integer.parseInt(value);
@@ -99,5 +119,13 @@ public class Configuration {
             System.out.println(format("Property key %s value '%s' is not a valid integer", key, value));
             throw e;
         }
+    }
+
+    private File oneOf(File ... files) {
+        for (File file : files) {
+            if (file.exists()) return file;
+        }
+        
+        return null;
     }
 }
