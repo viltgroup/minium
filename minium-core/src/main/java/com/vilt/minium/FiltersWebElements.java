@@ -53,7 +53,7 @@ public interface FiltersWebElements<T extends CoreWebElements<T>> extends WebEle
 	 * 
 	 * <p>Example:</p>
 	 * 
-	 * <pre>wd.find(":img").withAttr("alt", "Image 1")</pre>
+	 * <pre>wd.find("img").withAttr("alt", "Image 1")</pre>
 	 * 
 	 * evaluates <code>#image1</code> in the following scenario:
 	 * 
@@ -117,7 +117,7 @@ public interface FiltersWebElements<T extends CoreWebElements<T>> extends WebEle
 	 * 
 	 * <p>Example:</p>
 	 * 
-	 * <pre>wd.find(":span").withText("Hello")</pre>
+	 * <pre>wd.find("span").withText("Hello")</pre>
 	 * 
 	 * evaluates <code>#sometext</code> in the following scenario:
 	 * 
@@ -137,7 +137,7 @@ public interface FiltersWebElements<T extends CoreWebElements<T>> extends WebEle
 	 * 
 	 * <p>Example:</p>
 	 * 
-	 * <pre>wd.find(":span").containingText("Hello")</pre>
+	 * <pre>wd.find("span").containingText("Hello")</pre>
 	 * 
 	 * evaluates <code>#sometext</code> in the following scenario:
 	 * 
@@ -158,7 +158,7 @@ public interface FiltersWebElements<T extends CoreWebElements<T>> extends WebEle
 	 * 
 	 * <p>Example:</p>
 	 * 
-	 * <pre>wd.find(":span").matchingText(".* World")</pre>
+	 * <pre>wd.find("span").matchingText(".* World")</pre>
 	 * 
 	 * evaluates <code>#sometext</code> in the following scenario:
 	 * 
@@ -179,7 +179,7 @@ public interface FiltersWebElements<T extends CoreWebElements<T>> extends WebEle
 	 * 
 	 * <p>Example:</p>
 	 * 
-	 * <pre>wd.find(":span").visible()</pre>
+	 * <pre>wd.find("span").visible()</pre>
 	 * 
 	 * evaluates <code>#span2</code> in the following scenario:
 	 * 
