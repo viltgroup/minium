@@ -32,7 +32,7 @@ public class WebElementsFactoryHelper {
 	}
 	
 	public static <T extends CoreWebElements<T>> T createWindowWebElements(WebElementsFactory factory, T parent, String expr, boolean freeze) {
-		return WebElementsFactoryHelper.<T>createWindowWebElements(factory, parent, expr == null ? null : parent.window().find(expr), freeze);
+		return WebElementsFactoryHelper.<T>createWindowWebElements(factory, parent, expr == null ? null : parent.windows().find(expr), freeze);
 	}
 
 	@SuppressWarnings("unchecked")

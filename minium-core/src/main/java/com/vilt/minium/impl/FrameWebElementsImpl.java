@@ -57,7 +57,7 @@ public class FrameWebElementsImpl<T extends CoreWebElements<T>> extends Document
 	
 	@Override
 	protected T root(T filter, boolean freeze) {
-		return parentImpl.frame(filter, freeze);
+		return parentImpl.frames(filter, freeze);
 	}
 
 	@Override

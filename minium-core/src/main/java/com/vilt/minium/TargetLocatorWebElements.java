@@ -29,52 +29,28 @@ public interface TargetLocatorWebElements<T extends CoreWebElements<T>> extends 
 	 * Frame.
 	 *
 	 * @return the t
+	 * @deprecated Use {@link TargetLocatorWebElements#frames()} instead
 	 */
 	public T frame();
 
-	/**
-	 * Frame.
-	 *
-	 * @return the t
-	 * @deprecated use {@link FreezableWebElements#freeze()} instead
-	 */
-	@Deprecated
-	public T frame(boolean freeze);
-	
+	public T frames();
+
 	/**
 	 * Window.
 	 *
 	 * @return the t
+	 * @deprecated Use {@link TargetLocatorWebElements#windows()} instead
 	 */
 	public T window();
-	
-	/**
-	 * Window.
-	 *
-	 * @param freeze the freeze
-	 * @return the t
-	 * 
-	 * @deprecated use {@link FreezableWebElements#freeze()} instead
-	 */
-	@Deprecated
-	public T window(boolean freeze);
 
+	public T windows();
+	
 	/**
 	 * Root.
 	 *
 	 * @return the t
 	 */
 	public T root();
-	
-	/**
-	 * Root.
-	 *
-	 * @param freeze the freeze
-	 * @return the t
-	 * @deprecated use {@link FreezableWebElements#freeze()} instead
-	 */
-	@Deprecated
-	public T root(boolean freeze);
 	
 	/**
 	 * Alert.

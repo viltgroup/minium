@@ -17,7 +17,7 @@ public class FrozenWindowWebElementsImpl<T extends CoreWebElements<T>> extends W
 	private WebElementsDriver<T> frozenWebElementsDriver;
 	
 	public void init(WebElementsFactory factory, T parent, String expr) {
-		init(factory, parent, parent.window().find(expr));
+		init(factory, parent, parent.windows().find(expr));
 	}
 	
 	@Override

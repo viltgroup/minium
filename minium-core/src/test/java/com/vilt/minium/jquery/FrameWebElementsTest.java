@@ -35,14 +35,14 @@ public class FrameWebElementsTest extends MiniumBaseTest {
 	
 	@Test
 	public void testIframe() {
-		DefaultWebElements elems = $(wd, "#jquery-frame-1").frame().find("input#name");
+		DefaultWebElements elems = $(wd, "#jquery-frame-1").frames().find("input#name");
 		assertThat(elems, hasSize(1));
 		Iterables.get(elems, 0).sendKeys("Hello World!");
 	}
 	
 	@Test
 	public void testIframes() {
-		DefaultWebElements elems = $(wd).frame().find("input#name");
+		DefaultWebElements elems = $(wd).frames().find("input#name");
 		assertThat(elems, hasSize(2));
 		
 		for (WebElement elem : elems) {
@@ -53,7 +53,7 @@ public class FrameWebElementsTest extends MiniumBaseTest {
 
 	@Test
 	public void testIframeRelativeElements() {
-		DefaultWebElements frame = $(wd, "#jquery-frame-1").frame();
+		DefaultWebElements frame = $(wd, "#jquery-frame-1").frames();
 		DefaultWebElements input = frame.find("input#name");
 		DefaultWebElements label = frame.find("label").rightOf(input);
 		assertThat(label, hasSize(1));
@@ -61,7 +61,7 @@ public class FrameWebElementsTest extends MiniumBaseTest {
 	
 	@Test
 	public void testIframesRelativeElements() {
-		DefaultWebElements frame = $(wd).frame();
+		DefaultWebElements frame = $(wd).frames();
 		DefaultWebElements input = frame.find("input#name");
 		DefaultWebElements label = frame.find("label").rightOf(input);
 		assertThat(label, hasSize(2));
@@ -71,7 +71,7 @@ public class FrameWebElementsTest extends MiniumBaseTest {
 	public void testIframesFalseRelativeElements() {
 		DefaultWebElements input = $(wd, "input#name");
 
-		DefaultWebElements frame = $(wd).frame();
+		DefaultWebElements frame = $(wd).frames();
 		/* DefaultWebElements label = */ frame.find("label").rightOf(input);
 	}
 }

@@ -68,14 +68,12 @@ public class WindowWebElementsImpl<T extends CoreWebElements<T>> extends Documen
 	
 	@Override
 	protected T root(T filter, boolean freeze) {
-		return parentImpl.window(filter, freeze);
+		return parentImpl.windows(filter, freeze);
 	}
 	
 	@SuppressWarnings("unchecked")
 	protected Set<String> candidateHandles() {
-		final WebElementsDriver<T> wd = rootWebDriver();
-		final String currentHandle = wd.getWindowHandle();
-		
+		final WebElementsDriver<T> wd = rootWebDriver();		
 		Set<String> windowHandles;
 		
 		if (filter != null) {
@@ -91,7 +89,6 @@ public class WindowWebElementsImpl<T extends CoreWebElements<T>> extends Documen
 			windowHandles = Sets.newHashSet(wd.getWindowHandles());
 		}
 	
-		windowHandles.remove(currentHandle);
 		return windowHandles;
 	}
 
