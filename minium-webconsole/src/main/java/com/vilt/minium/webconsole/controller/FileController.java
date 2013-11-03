@@ -10,6 +10,7 @@ import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,12 +23,13 @@ import com.google.common.base.Charsets;
 @Controller
 @Scope(WebApplicationContext.SCOPE_SESSION)
 @RequestMapping("/file")
-public class FileController {
+public class FileController implements DisposableBean {
 
     private FileDialog fileDialog;
 
     public FileController() throws IOException {
         fileDialog = new FileDialog((Frame) null, "");
+        fileDialog.toFront();
         fileDialog.setAlwaysOnTop(true);
         fileDialog.setFilenameFilter(new FilenameFilter() {
             
@@ -76,5 +78,10 @@ public class FileController {
         FileUtils.write(file, fileResult.getContent(), Charsets.UTF_8.name());
         
         return new TextFilePathResult(file);
+    }
+    
+    @Override
+    public void destroy() throws Exception {
+        fileDialog.dispose();
     }
 }
