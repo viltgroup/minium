@@ -28,7 +28,7 @@ public class WaitingPresetInteractionListenerTest extends MiniumBaseTest {
     @Test()
     public void testPreset() {
         // given
-        wd.configure().waitingPreset("fast").timeout(1, SECONDS).interval(500, MILLISECONDS);
+        wd.configure().waitingPreset("fast").timeout(1, SECONDS).interval(100, MILLISECONDS);
         // just to force minium to load all the stuff before
         $(wd, "input").size();
         
