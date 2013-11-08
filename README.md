@@ -112,6 +112,20 @@ highlight(firstParagraph);
 speak("Wikipedia says: " + firstParagraph.text());
 ```
 
+Or try this other script:
+
+```javascript
+get(wd, "https://docs.google.com/spreadsheet/ccc?key=0Al0ulrJIDCUVdEhoSDlRbVZYWUt5ZVJCb1pVb0h1UFE");
+
+var sheetTabs = $(wd, ".docs-sheet-tab-name");
+var numFrames = sheetTabs.size();
+
+for (var time = 0; time < 5 * numFrames; time++) {
+  var sheetTab = sheetTabs.eq(time % numFrames);
+  click(sheetTab);
+}
+```
+
 # Build Minium
 
 Building Minium is not complicated. Ensure that the following software is installed:
