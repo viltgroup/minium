@@ -62,7 +62,7 @@ Ensure that the following software is installed:
   * Don't forget to set `JAVA_HOME` environment variable 
 * [Google Chrome](https://www.google.com/intl/en/chrome/browser/) (**required**)
 * Specific browser drivers (recomended, only Firefox is included in Selenium Web Driver OOTB)
-  * [Chrome Driver](http://chromedriver.storage.googleapis.com/index.html?path=2.4/)
+  * [Chrome Driver](http://chromedriver.storage.googleapis.com/index.html?path=2.5/)
   * [IE Driver Server](https://code.google.com/p/selenium/downloads/list)
   * [PhantomJS (headless WebKit)](http://phantomjs.org/download.html)
 
@@ -100,7 +100,7 @@ highlight(searchbox);
 
 speak("Minium = Minion + Selenium. Let's find out what is a Minion.");
 
-fill(searchbox, "Minion Wikipedia");
+fill(searchbox, "Minion site:wikipedia.org");
 sendKeys(searchbox, [ Keys.ENTER ]);
 
 firstResult = $(wd, "h3 a").first();
