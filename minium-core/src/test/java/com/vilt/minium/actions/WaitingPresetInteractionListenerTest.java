@@ -1,6 +1,7 @@
 package com.vilt.minium.actions;
 
 import static com.vilt.minium.Minium.$;
+import static com.vilt.minium.actions.Interactions.waitWhileEmpty;
 import static com.vilt.minium.actions.Interactions.withWaitingPreset;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -30,7 +31,7 @@ public class WaitingPresetInteractionListenerTest extends MiniumBaseTest {
         // given
         wd.configure().waitingPreset("fast").timeout(1, SECONDS).interval(100, MILLISECONDS);
         // just to force minium to load all the stuff before
-        $(wd, "input").size();
+        waitWhileEmpty($(wd, "input"));
         
         long start = System.currentTimeMillis();
         try {

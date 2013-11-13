@@ -9,5 +9,8 @@ var app = angular
         // editor
         when("/editorPreferences"        , { templateUrl : "partials/dialog-editor-preferences.html" , controller : EditorPreferencesCtrl }).
         when("/selectorGadget/activate"  , { templateUrl : "partials/dialog-selector-gadget.html"    , controller : SelectorGadgetCtrl    }).
+
+        // configuration
+        when("/configuration"            , { templateUrl : "partials/dialog-configuration.html"      , controller : ConfigurationCtrl }).
         otherwise({redirectTo: ""});
   } ]);

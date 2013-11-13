@@ -1,0 +1,59 @@
+<div id="configuration-dialog" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form name="configuration" role="form" ng-submit="accept()">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Minium App Configuration</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group form-inline" ng-class="{ 'has-error' : configurationForm.chromeBin.$dirty && configurationForm.chromeBin.$invalid}">
+            <label for="config-chrome-bin">Chrome binary path</label>
+            <input id="config-chrome-bin" name="chromeBin" ng-model="model.chromeBin" type="text" class="form-control" placeholder="Enter chrome binary path" required>
+            <span class="help-block" ng-show="configurationForm.chromeBin.$dirty && configurationForm.chromeBin.$error.required">Required field.</span>
+          </div>
+          <div class="form-group form-inline" ng-class="{ 'has-error' : configurationForm.chromeDriverBin.$dirty && configurationForm.chromeDriverBin.$invalid}">
+            <label for="config-chromedriver-bin">ChromeDriver binary path</label>
+            <div class="input-group">
+              <input id="config-chromedriver-bin" name="chromeDriverBin" ng-model="model.chromeDriverBin" type="text" class="form-control" placeholder="Enter chromeDriver binary path">
+              <span class="input-group-addon">
+                <a href="http://chromedriver.storage.googleapis.com/index.html" target="_blank" title="Download Chrome Driver">
+                <span class="glyphicon fontello-chrome"></span>
+                Download
+                </a>
+              </span>
+            </div>
+          </div>
+          <div class="form-group form-inline" ng-class="{ 'has-error' : configurationForm.ieDriverBin.$dirty && configurationForm.ieDriverBin.$invalid}">
+            <label for="config-iedriver-bin">IE Driver binary path</label>
+            <div class="input-group">
+              <input id="config-iedriver-bin" name="ieDriverBin" ng-model="model.ieDriverBin" type="text" class="form-control" placeholder="Enter IE driver binary path">
+              <span class="input-group-addon">
+                <a href="https://code.google.com/p/selenium/downloads/list" target="_blank" title="Download IE Driver">
+                <span class="glyphicon fontello-ie"></span>
+                Download
+                </a>
+              </span>
+            </div>
+          </div>
+          <div class="form-group form-inline" ng-class="{ 'has-error' : configurationForm.phantomJsBin.$dirty && configurationForm.phantomJsBin.$invalid}">
+            <label for="config-phantomjs-bin">PhantomJS binary path</label>
+            <div class="input-group">
+              <input id="config-phantomjs-bin" name="phantomJsBin" ng-model="model.phantomJsBin" type="text" class="form-control" placeholder="Enter PhantomJS binary path">
+              <span class="input-group-addon">
+                <a href="http://phantomjs.org/download.html" target="_blank" title="Download Phantom JS">
+                <span class="glyphicon fontello-browser"></span>
+                Download
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Accept</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

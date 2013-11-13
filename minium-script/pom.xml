@@ -11,18 +11,21 @@
 	<name>Minium - Rhino Integration</name>
 
 	<dependencies>
-		
 		<dependency>
 			<groupId>com.vilt-group.minium</groupId>
 			<artifactId>minium-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+		</dependency>
+		<dependency>
 			<groupId>org.mozilla</groupId>
 			<artifactId>rhino</artifactId>
 			<version>1.7R4</version>
 		</dependency>
-		
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
@@ -43,7 +46,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
+		
 		<!-- Tests -->
 		<dependency>
 			<groupId>org.hamcrest</groupId>

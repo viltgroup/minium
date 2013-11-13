@@ -64,6 +64,13 @@ function WebConsoleCtrl($rootScope, $scope, $http, $location, promiseTracker) {
         $rootScope.webDrivers = data;
       })
       .error(createExceptionHandler("An error occurred while loading web drivers"));
+    
+    $rootScope.configuration = {};
+    http($scope, $http).get("/configuration")
+      .success(function(data) {
+        $rootScope.configuration = data;
+      })
+      .error(createExceptionHandler("An error occurred while loading configuration"));
   };
 
   var configureEditor = function() {
@@ -449,3 +456,15 @@ function SelectorGadgetCtrl($rootScope, $scope, $http, $location) {
   // let's activate
   $scope.activate();
 };
+
+// ConfigurationCtrl
+function ConfigurationCtrl($scope) {
+  var dialog = $("#configuration-dialog").one("hidden", function() {
+    $scope.$apply(function() {
+      $location.path("");
+      editor.focus();
+    });
+  });
+  
+  dialog.modal("show");
+}

@@ -76,7 +76,7 @@ public class Main {
         String path = System.getProperty(MINIUM_HOME_KEY);
         checkNotNull(path, "System property %s is not defined. please ensure that you run Minium App with -D%s=<minium install folder>", MINIUM_HOME_KEY);
         
-        File file = new File(path);
+        File file = new File(path).getAbsoluteFile();
         checkState(file.exists(), "Path %s does not exist", path);
         checkState(file.isDirectory(), "Path %s is not a directory", path);
         
@@ -100,11 +100,11 @@ public class Main {
         checkState(chromeBin.canExecute(), "Chrome binary path %s cannot execute", chromeBin);
 
         print(Strings.repeat("*", 78));
-        print("* %-26s: %s", MINIUM_HOME_KEY, configuration.getBaseDir().getAbsolutePath());
-        print("* %-26s: %s", Configuration.HOST_KEY, configuration.getHost());
-        print("* %-26s: %d", Configuration.PORT_KEY, configuration.getPort());
+        print("* %-26s: %s", MINIUM_HOME_KEY                , configuration.getBaseDir().getAbsolutePath());
+        print("* %-26s: %s", Configuration.HOST_KEY         , configuration.getHost());
+        print("* %-26s: %d", Configuration.PORT_KEY         , configuration.getPort());
         print("* %-26s: %d", Configuration.SHUTDOWN_PORT_KEY, configuration.getShutdownPort());
-        print("* %-26s: %s", Configuration.CHROME_BIN, configuration.getChromeBin().getAbsolutePath());
+        print("* %-26s: %s", Configuration.CHROME_BIN       , configuration.getChromeBin().getAbsolutePath());
         print(Strings.repeat("*", 78));
     }
     

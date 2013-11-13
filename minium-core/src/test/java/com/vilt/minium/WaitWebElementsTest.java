@@ -23,9 +23,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.lessThan;
+import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -50,7 +50,7 @@ public class WaitWebElementsTest extends MiniumBaseTest {
     public void testWaitWithTimeoutElement() {
 
         // just to force minium to load all the stuff before
-        $(wd, "input").size();
+        $(wd, "input").wait(whileEmpty());
 
         long start = System.currentTimeMillis();
         try {
@@ -67,7 +67,7 @@ public class WaitWebElementsTest extends MiniumBaseTest {
     @Test
     public void testExistingElement() {
         DefaultWebElements wait = $(wd, "input").wait(whileEmpty());
-        Assert.assertTrue(Iterables.size(wait) > 0);
+        assertTrue(Iterables.size(wait) > 0);
     }
 
     // @Test()
@@ -76,7 +76,7 @@ public class WaitWebElementsTest extends MiniumBaseTest {
         wd.configure().waitingPreset("fast").timeout(1, SECONDS).interval(100, MILLISECONDS);
 
         // just to force minium to load all the stuff before
-        $(wd, "input").size();
+        $(wd, "input").wait(whileEmpty());
 
         long start = System.currentTimeMillis();
         try {
