@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.common.collect.Iterables;
 import com.vilt.minium.debug.DebugWebElements;
 import com.vilt.minium.script.MiniumScriptEngine;
 
@@ -51,8 +52,9 @@ public class ConsoleController {
 			Object result = engine.eval(expression, lineNumber);
 			if (result instanceof DebugWebElements) {
 				DebugWebElements webElements = (DebugWebElements) result;
-				int count = webElements.highlightAndCount();
-				return new EvalResult(expression, count);
+				webElements.highlight();
+				int totalCount = Iterables.size(webElements);
+				return new EvalResult(expression, totalCount);
 			}
 			else {
 				return new EvalResult(result);
