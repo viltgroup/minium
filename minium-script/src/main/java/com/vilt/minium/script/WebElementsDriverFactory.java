@@ -11,7 +11,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
@@ -24,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.vilt.minium.DefaultWebElementsDriver;
+import com.vilt.minium.WebElements;
 
 public class WebElementsDriverFactory {
 
@@ -36,7 +36,7 @@ public class WebElementsDriverFactory {
     private ChromeDriverService service;
     private ChromeDriverService miniumService;
 
-    private Class<? extends WebElement>[] additionalInterfaces;
+    private Class<? extends WebElements>[] additionalInterfaces;
 
     private Properties config = new Properties();
 
@@ -48,7 +48,7 @@ public class WebElementsDriverFactory {
         return instance;
     }
 
-    public WebElementsDriverFactory(Class<? extends WebElement>... additionalInterfaces) {
+    public WebElementsDriverFactory(Class<? extends WebElements>... additionalInterfaces) {
         this.additionalInterfaces = additionalInterfaces;
         loadConfiguration();
     }
