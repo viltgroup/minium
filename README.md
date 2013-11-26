@@ -62,7 +62,7 @@ Ensure that the following software is installed:
   * Don't forget to set `JAVA_HOME` environment variable 
 * [Google Chrome](https://www.google.com/intl/en/chrome/browser/) (**required**)
 * Specific browser drivers (recomended, only Firefox is included in Selenium Web Driver OOTB)
-  * [Chrome Driver](http://chromedriver.storage.googleapis.com/index.html?path=2.5/)
+  * [Chrome Driver](http://chromedriver.storage.googleapis.com/index.html)
   * [IE Driver Server](https://code.google.com/p/selenium/downloads/list)
   * [PhantomJS (headless WebKit)](http://phantomjs.org/download.html)
 
@@ -73,8 +73,8 @@ Ensure that those web driver binaries are available in your `PATH` environment v
 To install and run Minium App, just follow these instructions:
 
 * Download one of the following compressed files:
-  * [Zip archive](https://oss.sonatype.org/content/repositories/releases/com/vilt-group/minium/minium-app/0.9.0/minium-app-0.9.0-bin.zip)
-  * [Compressed tarball archive](https://oss.sonatype.org/content/repositories/releases/com/vilt-group/minium/minium-app/0.9.0/minium-app-0.9.0-bin.tar.gz)
+  * [Zip archive](https://oss.sonatype.org/content/repositories/releases/com/vilt-group/minium/minium-app/0.9.1/minium-app-0.9.1-bin.zip)
+  * [Compressed tarball archive](https://oss.sonatype.org/content/repositories/releases/com/vilt-group/minium/minium-app/0.9.1/minium-app-0.9.1-bin.tar.gz)
 * Uncompress it in some folder (e.g. `c:\Tools\minium-app`)
 * Run one of the following executables:
   * `minium-app.exe` (in windows)
@@ -85,11 +85,9 @@ If Minium doesn't open a chrome app when you execute any of those scripts, proba
 
 ## Give it a try
 
-Just type the following code and run it by selecting it and pressing `Ctrl+ENTER`:
+You're now able to create a web driver. Just go to `Web Drivers`, pick your prefered browser and name it `wd`. Then, just type the following code and run it by selecting it and pressing `Ctrl+ENTER`:
 
 ```javascript
-wd = firefoxDriver();
-
 get($(wd), "http://www.google.com/ncr");
 
 speak("Hello, I'm Minium, and I'm alive");
