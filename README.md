@@ -88,7 +88,7 @@ If Minium doesn't open a chrome app when you execute any of those scripts, proba
 You're now able to create a web driver. Just go to `Web Drivers`, pick your prefered browser and name it `wd`. Then, just type the following code and run it by selecting it and pressing `Ctrl+ENTER`:
 
 ```javascript
-get($(wd), "http://www.google.com/ncr");
+get(wd, "http://www.google.com/ncr");
 
 speak("Hello, I'm Minium, and I'm alive");
 speak("Let me highlight google search box");
@@ -115,13 +115,17 @@ Or try this other script:
 ```javascript
 get(wd, "https://docs.google.com/spreadsheet/ccc?key=0Al0ulrJIDCUVdEhoSDlRbVZYWUt5ZVJCb1pVb0h1UFE");
 
+var loading = $(wd, "#waffle-loading-screen").visible();
+
 var sheetTabs = $(wd, ".docs-sheet-tab-name");
 var numFrames = sheetTabs.size();
 
-for (var time = 0; time < 5 * numFrames; time++) {
+for (var time = 0; time < 4 * numFrames; time++) {
+  waitWhileNotEmpty(loading);
   var sheetTab = sheetTabs.eq(time % numFrames);
   click(sheetTab);
 }
+
 ```
 
 # Build Minium
