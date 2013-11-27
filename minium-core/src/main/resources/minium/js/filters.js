@@ -17,13 +17,13 @@
 	
 	$.fn.withText = function(text) {
 		return $(this).filter(function() {
-			return clearExtraWhitespaces($(this).visibleText()) === clearExtraWhitespaces(text);
+			return clearExtraWhitespaces($(this).text()) === clearExtraWhitespaces(text);
 		});
 	};
 	
 	$.fn.withVisibleText = function(text) {
 	  return $(this).filter(function() {
-	    return clearExtraWhitespaces($(this).text()) === clearExtraWhitespaces(text);
+	    return clearExtraWhitespaces($(this).visibleText()) === clearExtraWhitespaces(text);
 	  });
 	};
 	
