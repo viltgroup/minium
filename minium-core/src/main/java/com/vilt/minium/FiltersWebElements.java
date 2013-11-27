@@ -113,7 +113,7 @@ public interface FiltersWebElements<T extends CoreWebElements<T>> extends WebEle
 	public T withName(final String name);
 
 	/**
-	 * <p>Filters elements which have a specified visible text.</p>
+	 * <p>Filters elements which have a specified text.</p>
 	 * 
 	 * <p>Example:</p>
 	 * 
@@ -133,7 +133,27 @@ public interface FiltersWebElements<T extends CoreWebElements<T>> extends WebEle
 	public T withText(final String text);
 	
 	/**
-	 * <p>Filters elements which have a specified visible text as a substring.</p>
+	 * <p>Filters elements which have a specified visible text.</p>
+	 * 
+	 * <p>Example:</p>
+	 * 
+	 * <pre>wd.find("span").withVisibleText("Hello")</pre>
+	 * 
+	 * evaluates <code>#sometext</code> in the following scenario:
+	 * 
+	 * <pre>
+	 * {@code
+	 * <span id="sometext">Hello</span>
+	 * }
+	 * </pre>
+	 *
+	 * @param text the text to match
+	 * @return filtered {@link WebElements}
+	 */
+	public T withVisibleText(final String text);
+	
+	/**
+	 * <p>Filters elements which have a specified text as a substring.</p>
 	 * 
 	 * <p>Example:</p>
 	 * 
@@ -153,7 +173,27 @@ public interface FiltersWebElements<T extends CoreWebElements<T>> extends WebEle
 	public T containingText(final String text);
 	
 	/**
-	 * <p>Filters elements which have visible text that matches the specified regular
+	 * <p>Filters elements which have a specified visible text as a substring.</p>
+	 * 
+	 * <p>Example:</p>
+	 * 
+	 * <pre>wd.find("span").containingVisibleText("Hello")</pre>
+	 * 
+	 * evaluates <code>#sometext</code> in the following scenario:
+	 * 
+	 * <pre>
+	 * {@code
+	 * <span id="sometext">Hello World</span>
+	 * }
+	 * </pre>
+	 *
+	 * @param text the text to match
+	 * @return filtered {@link WebElements}
+	 */
+	public T containingVisibleText(final String text);
+	
+	/**
+	 * <p>Filters elements which have text that matches the specified regular
 	 * expression.</p>
 	 * 
 	 * <p>Example:</p>
@@ -172,6 +212,27 @@ public interface FiltersWebElements<T extends CoreWebElements<T>> extends WebEle
 	 * @return filtered {@link WebElements}
 	 */
 	public T matchingText(final String regex);
+	
+	/**
+	 * <p>Filters elements which have visible text that matches the specified regular
+	 * expression.</p>
+	 * 
+	 * <p>Example:</p>
+	 * 
+	 * <pre>wd.find("span").matchingVisibleText(".* World")</pre>
+	 * 
+	 * evaluates <code>#sometext</code> in the following scenario:
+	 * 
+	 * <pre>
+	 * {@code
+	 * <span id="sometext">Hello World</span>
+	 * }
+	 * </pre>
+	 *
+	 * @param regex the regex
+	 * @return filtered {@link WebElements}
+	 */
+	public T matchingVisibleText(final String regex);
 
 	/**
 	 * <p>Filters elements tht are visible. Visibility is computed using

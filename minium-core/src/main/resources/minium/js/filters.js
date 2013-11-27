@@ -21,16 +21,34 @@
 		});
 	};
 	
+	$.fn.withVisibleText = function(text) {
+	  return $(this).filter(function() {
+	    return clearExtraWhitespaces($(this).text()) === clearExtraWhitespaces(text);
+	  });
+	};
+	
 	$.fn.matchingText = function(pattern) {
 		return $(this).filter(function() {
-			return new RegExp(pattern).test($(this).visibleText());
+			return new RegExp(pattern).test($(this).text());
 		});
+	};
+	
+	$.fn.matchingVisibleText = function(pattern) {
+	  return $(this).filter(function() {
+	    return new RegExp(pattern).test($(this).visibleText());
+	  });
 	};
 	
 	$.fn.containingText = function(text) {
 		return $(this).filter(function() {
-			return clearExtraWhitespaces($(this).visibleText()).indexOf(clearExtraWhitespaces(text)) !== -1;
+			return clearExtraWhitespaces($(this).text()).indexOf(clearExtraWhitespaces(text)) !== -1;
 		});
+	};
+	
+	$.fn.containingVisibleText = function(text) {
+	  return $(this).filter(function() {
+	    return clearExtraWhitespaces($(this).visibleText()).indexOf(clearExtraWhitespaces(text)) !== -1;
+	  });
 	};
 	
 	$.fn.withLabel = function(text) {
