@@ -3,6 +3,7 @@ package com.vilt.minium.script;
 import java.io.File;
 import java.io.FileReader;
 import java.io.Reader;
+import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.mozilla.javascript.Context;
@@ -22,7 +23,7 @@ public class MiniumScriptEngine {
 
 	private Global scope;
 	private MiniumContextLoader contextLoader;
-
+	
 	public MiniumScriptEngine() {
 		this(WebElementsDriverFactory.instance());
 	}
@@ -150,7 +151,8 @@ public class MiniumScriptEngine {
                 try {
                     // Global gives us access to global functions like load()
                     scope = new Global(cx);
-
+                    List<String> modulePath = Configuration.getInstance().getAsPath("rhino.require.module.path");
+                    scope.installRequire(cx, modulePath, false);
                     contextLoader.load(cx, scope);
 
                     return null;

@@ -1,13 +1,9 @@
 package com.vilt.minium.script;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Properties;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
@@ -27,8 +23,6 @@ import com.vilt.minium.WebElements;
 
 public class WebElementsDriverFactory {
 
-    private static final String MINIUM_HOME_KEY = "minium.home";
-
     private static final Logger logger = LoggerFactory.getLogger(WebElementsDriverFactory.class);
 
     private static WebElementsDriverFactory instance;
@@ -37,9 +31,7 @@ public class WebElementsDriverFactory {
     private ChromeDriverService miniumService;
 
     private Class<? extends WebElements>[] additionalInterfaces;
-
-    private Properties config = new Properties();
-
+    
     @SuppressWarnings("unchecked")
     public static WebElementsDriverFactory instance() {
         if (instance == null) {
@@ -50,7 +42,6 @@ public class WebElementsDriverFactory {
 
     public WebElementsDriverFactory(Class<? extends WebElements>... additionalInterfaces) {
         this.additionalInterfaces = additionalInterfaces;
-        loadConfiguration();
     }
 
     public void maybeInitChromeDriverService() {
@@ -67,7 +58,7 @@ public class WebElementsDriverFactory {
 
     public DefaultWebElementsDriver chromeDriver() {
         DesiredCapabilities capabilities = DesiredCapabilities.chrome();
-        String chromeBin = config.getProperty("chrome.bin");
+        String chromeBin = Configuration.getInstance().get("chrome.bin");
         if (!StringUtils.isEmpty(chromeBin)) {
             capabilities.setCapability("chrome.binary", chromeBin);
         }
@@ -136,25 +127,5 @@ public class WebElementsDriverFactory {
 
     protected DefaultWebElementsDriver createWebElementsDriver(WebDriver webDriver) {
         return new DefaultWebElementsDriver(webDriver, additionalInterfaces);
-    }
-
-    private void loadConfiguration() {
-        // try to load configuration
-        String miniumBaseDir = System.getProperty(MINIUM_HOME_KEY);
-        if (!StringUtils.isEmpty(miniumBaseDir)) {
-            File configFile = new File(miniumBaseDir, "app.properties");
-            if (configFile.exists()) {
-                FileInputStream is = null;
-                try {
-                    is = new FileInputStream(configFile);
-                    config.load(is);
-                } catch (Exception e) {
-                    // oh well
-                    logger.warn("Could not read configuration file", e);
-                } finally {
-                    IOUtils.closeQuietly(is);
-                }
-            }
-        }
     }
 }
