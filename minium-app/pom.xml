@@ -17,6 +17,11 @@
 			<version>${guava.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>com.vilt-group.minium</groupId>
+			<artifactId>minium-prefs</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.1</version>
@@ -98,7 +103,7 @@
 								<resource>
 									<directory>src/main/config</directory>
 									<includes>
-										<include>app.properties</include>
+										<include>minium-prefs.json</include>
 									</includes>
 								</resource>
 							</resources>

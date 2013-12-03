@@ -12,6 +12,8 @@
         http://www.springframework.org/schema/mvc 
         http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
 
+    <bean id="appPreferences" class="com.vilt.minium.prefs.AppPreferences" />
+    
     <bean id="webElementsDriverFactory" class="com.vilt.minium.script.WebElementsDriverFactory" destroy-method="destroy">
 	    <constructor-arg>
 	        <array value-type="java.lang.Class">
@@ -20,10 +22,12 @@
 	            <value>com.vilt.minium.webconsole.SelectorGadgetWebElements</value>
 	        </array>
 	    </constructor-arg>
+	    <property name="preferences" ref="appPreferences" />
 	</bean>
 	
     <bean class="com.vilt.minium.script.MiniumScriptEngine">
         <constructor-arg index="0" ref="webElementsDriverFactory" />
+	    <property name="preferences" ref="appPreferences" />
     </bean>
     
     <!-- Controllers -->

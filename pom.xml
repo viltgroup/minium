@@ -52,6 +52,7 @@
    	    <module>minium-webconsole</module>
    	    <module>minium-app</module>
    	    <module>minium-script</module>
+   	    <module>minium-prefs</module>
 	</modules>
 	
 	<properties>

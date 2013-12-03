@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.vilt.minium.prefs.WebConsolePreferences;
 
 public class EmbeddedBrowser {
 	
@@ -39,14 +40,16 @@ public class EmbeddedBrowser {
 	}
 	
 	private List<Listener> listeners = Lists.newArrayList();
-    private Configuration configuration;
+	private File baseDir;
+    private WebConsolePreferences webConsolePreferences;
 	
-	public EmbeddedBrowser(Configuration configuration) {
-		this(configuration, null);
+	public EmbeddedBrowser(File baseDir, WebConsolePreferences webConsolePreferences) {
+		this(baseDir, webConsolePreferences, null);
 	}
 	
-	public EmbeddedBrowser(Configuration configuration, Listener listener) {
-		this.configuration = configuration;
+	public EmbeddedBrowser(File baseDir, WebConsolePreferences webConsolePreferences, Listener listener) {
+		this.baseDir = baseDir;
+        this.webConsolePreferences = webConsolePreferences;
         if (listener != null) {
 			addListener(listener);
 		}
@@ -63,12 +66,12 @@ public class EmbeddedBrowser {
 			@Override
 			public void run() {
 				try {
-					String browserExecPath = configuration.getChromeBin().getAbsolutePath();
+					String browserExecPath = webConsolePreferences.getChromeBin().getAbsolutePath();
 					
-					String host = configuration.getHost();
-					int port = configuration.getPort();
+					String host = webConsolePreferences.getHost();
+					int port = webConsolePreferences.getPort();
 					
-					File userDataDir = new File(configuration.getBaseDir(), "user-data");
+					File userDataDir = new File(baseDir, "user-data");
 					
 					Process p = new ProcessBuilder(
 							browserExecPath,

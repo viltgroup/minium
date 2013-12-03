@@ -1,10 +1,10 @@
 package com.vilt.minium.script;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
@@ -20,6 +20,8 @@ import org.slf4j.LoggerFactory;
 
 import com.vilt.minium.DefaultWebElementsDriver;
 import com.vilt.minium.WebElements;
+import com.vilt.minium.prefs.AppPreferences;
+import com.vilt.minium.prefs.WebConsolePreferences;
 
 public class WebElementsDriverFactory {
 
@@ -27,8 +29,9 @@ public class WebElementsDriverFactory {
 
     private static WebElementsDriverFactory instance;
 
+    private AppPreferences preferences;
+
     private ChromeDriverService service;
-    private ChromeDriverService miniumService;
 
     private Class<? extends WebElements>[] additionalInterfaces;
     
@@ -42,6 +45,10 @@ public class WebElementsDriverFactory {
 
     public WebElementsDriverFactory(Class<? extends WebElements>... additionalInterfaces) {
         this.additionalInterfaces = additionalInterfaces;
+    }
+    
+    public void setPreferences(AppPreferences preferences) {
+        this.preferences = preferences;
     }
 
     public void maybeInitChromeDriverService() {
@@ -58,8 +65,8 @@ public class WebElementsDriverFactory {
 
     public DefaultWebElementsDriver chromeDriver() {
         DesiredCapabilities capabilities = DesiredCapabilities.chrome();
-        String chromeBin = Configuration.getInstance().get("chrome.bin");
-        if (!StringUtils.isEmpty(chromeBin)) {
+        File chromeBin = WebConsolePreferences.from(preferences).getChromeBin();
+        if (chromeBin.exists()) {
             capabilities.setCapability("chrome.binary", chromeBin);
         }
         return webDriverFor(capabilities);
@@ -119,9 +126,6 @@ public class WebElementsDriverFactory {
     public void destroy() {
         if (service != null) {
             service.stop();
-        }
-        if (miniumService != null) {
-            miniumService.stop();
         }
     }
 

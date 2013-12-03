@@ -3,7 +3,6 @@ package com.vilt.minium.script;
 import java.io.File;
 import java.io.FileReader;
 import java.io.Reader;
-import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.mozilla.javascript.Context;
@@ -12,6 +11,8 @@ import org.mozilla.javascript.Wrapper;
 import org.mozilla.javascript.tools.shell.Global;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.vilt.minium.prefs.AppPreferences;
 
 public class MiniumScriptEngine {
 
@@ -23,6 +24,7 @@ public class MiniumScriptEngine {
 
 	private Global scope;
 	private MiniumContextLoader contextLoader;
+	private AppPreferences preferences;
 	
 	public MiniumScriptEngine() {
 		this(WebElementsDriverFactory.instance());
@@ -41,6 +43,10 @@ public class MiniumScriptEngine {
         initScope();
     }
 
+    public void setPreferences(AppPreferences preferences) {
+        this.preferences = preferences;
+    }
+    
     public boolean contains(final String varName) {
         return runWithContext(new ContextCallable<Boolean, RuntimeException>() {
 
@@ -151,10 +157,8 @@ public class MiniumScriptEngine {
                 try {
                     // Global gives us access to global functions like load()
                     scope = new Global(cx);
-                    List<String> modulePath = Configuration.getInstance().getAsPath("rhino.require.module.path");
-                    scope.installRequire(cx, modulePath, false);
+                    scope.installRequire(cx, RhinoPreferences.from(preferences).getModulePath(), false);
                     contextLoader.load(cx, scope);
-
                     return null;
                 } catch (Exception e) {
                     throw new RuntimeException(e);

@@ -65,10 +65,10 @@ function WebConsoleCtrl($rootScope, $scope, $http, $location, promiseTracker) {
       })
       .error(createExceptionHandler("An error occurred while loading web drivers"));
     
-    $rootScope.configuration = {};
-    http($scope, $http).get("/configuration")
+    $rootScope.appPreferences = {};
+    http($scope, $http).get("/appPreferences")
       .success(function(data) {
-        $rootScope.configuration = data;
+        $rootScope.appPreferences = data;
       })
       .error(createExceptionHandler("An error occurred while loading configuration"));
   };

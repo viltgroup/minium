@@ -15,13 +15,15 @@ import org.eclipse.jetty.util.component.LifeCycle;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 import com.google.common.base.Strings;
+import com.vilt.minium.prefs.AppPreferences;
+import com.vilt.minium.prefs.WebConsolePreferences;
 
 public class Main {
 
     private static final String MINIUM_HOME_KEY = "minium.home";
 	
-	private File baseDir;
-	private Configuration configuration;
+	private AppPreferences appPreferences;
+	private WebConsolePreferences webConsolePreferences;
 	
 	public static void main(String[] args) throws Exception {
 		Main main = new Main();
@@ -30,21 +32,23 @@ public class Main {
 	
 	public Main() throws IOException {
        validateAndLoadConfiguration();
-	   System.out.println(format("Using Minium base dir: %s", baseDir));
+	   System.out.println(format("Using Minium base dir: %s", appPreferences.getBaseDir()));
     }
 
     public void createServer() throws Exception, InterruptedException {
         final Server server = new Server();
 		
 		Connector connector = new SelectChannelConnector();
-		connector.setHost(configuration.getHost());
-		connector.setPort(configuration.getPort());
+		connector.setHost(webConsolePreferences.getHost());
+		connector.setPort(webConsolePreferences.getPort());
 		server.addConnector(connector);
 		
 		server.setStopAtShutdown(true);
-		server.setGracefulShutdown(configuration.getShutdownPort());
+		server.setGracefulShutdown(webConsolePreferences.getShutdownPort());
 		
-		File webappDir = new File(baseDir, "webapp");
+		final File baseDir = appPreferences.getBaseDir();
+		
+        File webappDir = new File(baseDir, "webapp");
 		WebAppContext context = new WebAppContext();
         context.setContextPath("/minium-webconsole");
         context.setWar(webappDir.getAbsolutePath());
@@ -54,7 +58,7 @@ public class Main {
         server.addLifeCycleListener(new AbstractLifeCycle.AbstractLifeCycleListener() {
         	@Override
         	public void lifeCycleStarted(LifeCycle event) {
-        		EmbeddedBrowser browser = new EmbeddedBrowser(configuration, new EmbeddedBrowser.Listener() {
+        		EmbeddedBrowser browser = new EmbeddedBrowser(baseDir, webConsolePreferences, new EmbeddedBrowser.Listener() {
         			@Override
         			public void closed() {
         				try {
@@ -80,31 +84,30 @@ public class Main {
         checkState(file.exists(), "Path %s does not exist", path);
         checkState(file.isDirectory(), "Path %s is not a directory", path);
         
-        baseDir = file;
-        
-        File configurationFile = new File(path, "app.properties");
+        File configurationFile = new File(path, "minium-prefs.json");
         
         checkState(configurationFile.exists() , "Configuration file %s does not exist", configurationFile);
         checkState(configurationFile.isFile() , "Configuration file %s is not a file", configurationFile);
         checkState(configurationFile.canRead(), "Configuration file %s cannot be read", configurationFile);
         
-        configuration = new Configuration(baseDir, configurationFile);
+        appPreferences = new AppPreferences(configurationFile);
+        webConsolePreferences = WebConsolePreferences.from(appPreferences);
         
-        File chromeBin  = configuration.getChromeBin();
+        File chromeBin  = webConsolePreferences.getChromeBin();
         checkNotNull(chromeBin, 
                 "Chrome binary path %s does not exist, please ensure you edit " + 
-                "app.properties and set %s to point to chrome binary", Configuration.CHROME_BIN, chromeBin);
+                "minium-prefs.json and set webconsole.chromeBin to point to chrome binary", chromeBin);
         
         checkState(chromeBin.exists()    , "Chrome binary path %s does not exist", chromeBin);
         checkState(chromeBin.isFile()    , "Chrome binary path %s is not a file", chromeBin);
         checkState(chromeBin.canExecute(), "Chrome binary path %s cannot execute", chromeBin);
 
         print(Strings.repeat("*", 78));
-        print("* %-26s: %s", MINIUM_HOME_KEY                , configuration.getBaseDir().getAbsolutePath());
-        print("* %-26s: %s", Configuration.HOST_KEY         , configuration.getHost());
-        print("* %-26s: %d", Configuration.PORT_KEY         , configuration.getPort());
-        print("* %-26s: %d", Configuration.SHUTDOWN_PORT_KEY, configuration.getShutdownPort());
-        print("* %-26s: %s", Configuration.CHROME_BIN       , configuration.getChromeBin().getAbsolutePath());
+        print("* %-26s: %s", MINIUM_HOME_KEY           , appPreferences.getBaseDir().getAbsolutePath());
+        print("* %-26s: %s", "webconsole.host"         , webConsolePreferences.getHost());
+        print("* %-26s: %d", "webconsole.port"         , webConsolePreferences.getPort());
+        print("* %-26s: %d", "webconsole.shutdownPort" , webConsolePreferences.getShutdownPort());
+        print("* %-26s: %s", "webconsole.chromeBin"    , webConsolePreferences.getChromeBin().getAbsolutePath());
         print(Strings.repeat("*", 78));
     }
     
