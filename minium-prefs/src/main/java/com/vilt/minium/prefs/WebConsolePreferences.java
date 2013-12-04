@@ -4,7 +4,7 @@ import static java.lang.String.format;
 
 import java.io.File;
 
-import org.apache.commons.lang.SystemUtils;
+import org.apache.commons.lang3.SystemUtils;
 
 public class WebConsolePreferences {
 

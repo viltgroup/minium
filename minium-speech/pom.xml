@@ -8,18 +8,17 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>minium-speech</artifactId>
+	<name>Minium - Speech (powered by Google Translate)</name>
 	
 	<dependencies>
 		<dependency>
 			<groupId>com.vilt-group.minium</groupId>
 			<artifactId>minium-core</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>javazoom</groupId>
 			<artifactId>jlayer</artifactId>
-			<version>1.0.1</version>
 		</dependency>
 	</dependencies>
-	<name>Minium - Speech (powered by Google Translate)</name>
+	
 </project>
