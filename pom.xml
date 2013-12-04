@@ -56,6 +56,8 @@
 	</modules>
 	
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	
 	    <java.version>1.6</java.version>
 	    <selenium.version>2.35.0</selenium.version>
 	    <guava.version>15.0</guava.version>
@@ -63,7 +65,19 @@
 	    <phantomjsdriver.version>1.0.4</phantomjsdriver.version>
 	    <spring.version>3.2.4.RELEASE</spring.version>
 	    <jackson2.version>2.2.3</jackson2.version>
+		<rhino.version>1.7R4</rhino.version>
 	    <closure.version>v20131014</closure.version>
+	    <slf4j.version>1.7.5</slf4j.version>
+	    <log4j.version>1.2.17</log4j.version>
+	    <commons.io.version>2.4</commons.io.version>
+		<commons.lang3.version>3.1</commons.lang3.version>
+		<jlayer.version>1.0.1</jlayer.version>
+		<javassist.version>3.16.1-GA</javassist.version>
+		<guice.version>3.0</guice.version>
+		<servlet.version>2.5</servlet.version>
+		<hamcrest.version>1.2.1</hamcrest.version>
+		<testng.version>6.8</testng.version>
+		<mockito.version>1.9.0</mockito.version>
 	    
 	    <!-- License properties -->
 		<license.name>apache_v2</license.name>
@@ -106,27 +120,32 @@
 			<dependency>
 				<groupId>commons-io</groupId>
 				<artifactId>commons-io</artifactId>
-				<version>2.4</version>
-			</dependency>
-			<dependency>
-				<groupId>org.mozilla</groupId>
-				<artifactId>rhino</artifactId>
-				<version>1.7R4</version>
+				<version>${commons.io.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-lang3</artifactId>
-				<version>3.1</version>
+				<version>${commons.lang3.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mozilla</groupId>
+				<artifactId>rhino</artifactId>
+				<version>${rhino.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.javascript</groupId>
+				<artifactId>closure-compiler</artifactId>
+				<version>${closure.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>javazoom</groupId>
 				<artifactId>jlayer</artifactId>
-				<version>1.0.1</version>
+				<version>${jlayer.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.javassist</groupId>
 				<artifactId>javassist</artifactId>
-				<version>3.16.1-GA</version>
+				<version>${javassist.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.google.guava</groupId>
@@ -136,7 +155,7 @@
 			<dependency>
 				<groupId>com.google.inject</groupId>
 				<artifactId>guice</artifactId>
-				<version>3.0</version>
+				<version>${guice.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
@@ -148,6 +167,8 @@
 				<artifactId>jackson-annotations</artifactId>
 				<version>${jackson2.version}</version>
 			</dependency>
+			
+			<!-- Jetty Server -->
 			<dependency>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-server</artifactId>
@@ -158,37 +179,34 @@
 				<artifactId>jetty-webapp</artifactId>
 				<version>${jetty.version}</version>
 			</dependency>
+
+			<!-- Logging -->
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>${log4j.version}</version>
+			</dependency>
 	        <dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
-				<version>1.6.1</version>
-			</dependency>
-			<dependency>
-				<groupId>com.google.javascript</groupId>
-				<artifactId>closure-compiler</artifactId>
-				<version>${closure.version}</version>
+				<version>${slf4j.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-log4j12</artifactId>
-				<version>1.7.5</version>
-			</dependency>
-			<dependency>
-				<groupId>log4j</groupId>
-				<artifactId>log4j</artifactId>
-				<version>1.2.17</version>
+				<version>${slf4j.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>jcl-over-slf4j</artifactId>
-				<version>1.7.5</version>
+				<version>${slf4j.version}</version>
 			</dependency>
 			
 			<!-- Servlet -->
 			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>servlet-api</artifactId>
-				<version>2.5</version>
+				<version>${servlet.version}</version>
 			</dependency>
 			
 			<!-- Spring -->
@@ -276,12 +294,12 @@
 			<dependency>
 				<groupId>org.hamcrest</groupId>
 				<artifactId>hamcrest-library</artifactId>
-				<version>1.2.1</version>
+				<version>${hamcrest.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.testng</groupId>
 				<artifactId>testng</artifactId>
-				<version>6.8</version>
+				<version>${testng.version}</version>
 				<exclusions>
 					<exclusion>
 						<groupId>junit</groupId>
@@ -292,7 +310,7 @@
 			<dependency>
 				<groupId>org.mockito</groupId>
 				<artifactId>mockito-core</artifactId>
-				<version>1.9.0</version>
+				<version>${mockito.version}</version>
 			</dependency>
 
 		</dependencies>
@@ -571,7 +589,7 @@
 												<dependency>
 													<groupId>org.mozilla</groupId>
 													<artifactId>rhino</artifactId>
-													<version>1.7R4</version>
+													<version>${rhino.version}</version>
 												</dependency>
 											</conflictingDependencies>
 											<packages>
