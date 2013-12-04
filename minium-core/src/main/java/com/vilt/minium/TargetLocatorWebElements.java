@@ -31,6 +31,7 @@ public interface TargetLocatorWebElements<T extends CoreWebElements<T>> extends 
 	 * @return the t
 	 * @deprecated Use {@link TargetLocatorWebElements#frames()} instead
 	 */
+    @Deprecated
 	public T frame();
 
 	public T frames();
@@ -41,6 +42,7 @@ public interface TargetLocatorWebElements<T extends CoreWebElements<T>> extends 
 	 * @return the t
 	 * @deprecated Use {@link TargetLocatorWebElements#windows()} instead
 	 */
+	@Deprecated
 	public T window();
 
 	public T windows();

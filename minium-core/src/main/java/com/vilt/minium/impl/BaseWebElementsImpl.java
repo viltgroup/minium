@@ -368,6 +368,7 @@ WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, FreezableWebElemen
         return (T) this;
     }
 
+	@Deprecated
     @Override
 	public T frame() {
 	    return frames();
@@ -377,7 +378,8 @@ WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, FreezableWebElemen
 	public T frames() {
 	    return frames(null, false);
 	}
-	
+
+	@Deprecated
 	@Override
 	public T window() {
 	    return windows();

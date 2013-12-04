@@ -74,6 +74,7 @@
 	
 	<dependencyManagement>
 		<dependencies>
+			<!-- Minium modules -->
 			<dependency>
 				<groupId>com.vilt-group.minium</groupId>
 				<artifactId>minium-core</artifactId>
@@ -100,6 +101,8 @@
 				<version>${project.version}</version>
 				<type>war</type>
 			</dependency>
+			
+			<!-- Utilities -->
 			<dependency>
 				<groupId>commons-io</groupId>
 				<artifactId>commons-io</artifactId>
@@ -131,14 +134,9 @@
 				<version>${guava.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.seleniumhq.selenium</groupId>
-				<artifactId>selenium-api</artifactId>
-				<version>${selenium.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.seleniumhq.selenium</groupId>
-				<artifactId>selenium-support</artifactId>
-				<version>${selenium.version}</version>
+				<groupId>com.google.inject</groupId>
+				<artifactId>guice</artifactId>
+				<version>3.0</version>
 			</dependency>
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
@@ -171,22 +169,6 @@
 				<version>${closure.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.seleniumhq.selenium</groupId>
-				<artifactId>selenium-java</artifactId>
-				<version>${selenium.version}</version>
-				<exclusions>
-					<exclusion>
-						<artifactId>selenium-htmlunit-driver</artifactId>
-						<groupId>org.seleniumhq.selenium</groupId>
-					</exclusion>
-					<!-- Exclude Commons Logging in favor of SLF4j -->
-					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-log4j12</artifactId>
 				<version>1.7.5</version>
@@ -201,6 +183,15 @@
 				<artifactId>jcl-over-slf4j</artifactId>
 				<version>1.7.5</version>
 			</dependency>
+			
+			<!-- Servlet -->
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>servlet-api</artifactId>
+				<version>2.5</version>
+			</dependency>
+			
+			<!-- Spring -->
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-core</artifactId>
@@ -233,10 +224,33 @@
 				<artifactId>spring-test</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
+			
+			<!-- Selenium -->
 			<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>servlet-api</artifactId>
-				<version>2.5</version>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-api</artifactId>
+				<version>${selenium.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-support</artifactId>
+				<version>${selenium.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-java</artifactId>
+				<version>${selenium.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>selenium-htmlunit-driver</artifactId>
+						<groupId>org.seleniumhq.selenium</groupId>
+					</exclusion>
+					<!-- Exclude Commons Logging in favor of SLF4j -->
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>com.github.detro.ghostdriver</groupId>
@@ -257,6 +271,8 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
+			
+			<!-- Test -->
 			<dependency>
 				<groupId>org.hamcrest</groupId>
 				<artifactId>hamcrest-library</artifactId>
@@ -278,11 +294,7 @@
 				<artifactId>mockito-core</artifactId>
 				<version>1.9.0</version>
 			</dependency>
-			<dependency>
-				<groupId>com.google.inject</groupId>
-				<artifactId>guice</artifactId>
-				<version>3.0</version>
-			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 	
@@ -293,9 +305,19 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
 				<configuration>
+					<fork>false</fork>
+					<verbose>false</verbose>
+					<debug>true</debug>
+					<maxmem>128m</maxmem>
+					<encoding>UTF-8</encoding>
 					<compilerversion>${java.version}</compilerversion>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
+					<compilerArgs>
+						<arg>-Werror</arg>
+						<arg>-Xlint:-options</arg>
+					</compilerArgs>
+					<showDeprecation>true</showDeprecation>
 				</configuration>
 			</plugin>
 			<plugin>
