@@ -321,51 +321,23 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
-				<configuration>
-					<fork>false</fork>
-					<verbose>false</verbose>
-					<debug>true</debug>
-					<maxmem>128m</maxmem>
-					<encoding>UTF-8</encoding>
-					<compilerversion>${java.version}</compilerversion>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
-					<compilerArgs>
-						<arg>-Werror</arg>
-						<arg>-Xlint:-options</arg>
-					</compilerArgs>
-					<showDeprecation>true</showDeprecation>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.9</version>
-				<configuration>
-					<excludePackageNames>*.impl.*</excludePackageNames>
-					<links>
-						<link>http://selenium.googlecode.com/svn/trunk/docs/api/java/</link>
-						<link>http://docs.guava-libraries.googlecode.com/git-history/v${guava.version}/javadoc/</link>
-					</links>
-				</configuration>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<useReleaseProfile>false</useReleaseProfile>
-					<releaseProfiles>release</releaseProfiles>
-					<autoVersionSubmodules>true</autoVersionSubmodules>
-				</configuration>
-		    </plugin>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>animal-sniffer-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>com.ning.maven.plugins</groupId>
+				<artifactId>maven-duplicate-finder-plugin</artifactId>
+			</plugin>	
 		</plugins>
 		<pluginManagement>
 			<plugins>
@@ -441,6 +413,75 @@
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.1</version>
+					<configuration>
+						<fork>false</fork>
+						<verbose>false</verbose>
+						<debug>true</debug>
+						<maxmem>128m</maxmem>
+						<encoding>UTF-8</encoding>
+						<compilerversion>${java.version}</compilerversion>
+						<source>${java.version}</source>
+						<target>${java.version}</target>
+						<compilerArgs>
+							<arg>-Werror</arg>
+							<arg>-Xlint:-options</arg>
+						</compilerArgs>
+						<showDeprecation>true</showDeprecation>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>2.9</version>
+					<configuration>
+						<excludePackageNames>*.impl.*</excludePackageNames>
+						<links>
+							<link>http://selenium.googlecode.com/svn/trunk/docs/api/java/</link>
+							<link>http://docs.guava-libraries.googlecode.com/git-history/v${guava.version}/javadoc/</link>
+						</links>
+					</configuration>
+					<executions>
+						<execution>
+							<id>attach-javadocs</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<artifactId>maven-release-plugin</artifactId>
+					<configuration>
+						<useReleaseProfile>false</useReleaseProfile>
+						<releaseProfiles>release</releaseProfiles>
+						<autoVersionSubmodules>true</autoVersionSubmodules>
+					</configuration>
+			    </plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>animal-sniffer-maven-plugin</artifactId>
+					<version>1.9</version>
+					<configuration>
+						<signature>
+			                <groupId>org.codehaus.mojo.signature</groupId>
+			                <artifactId>java16</artifactId>
+			                <version>1.1</version>
+						</signature>
+					</configuration>
+					<executions>
+						<execution>
+							<id>check-java-1.6-compat</id>
+							<phase>process-classes</phase>
+							<goals>
+								<goal>check</goal>
+							</goals>
+						</execution>
+					</executions>
+		        </plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-enforcer-plugin</artifactId>
 					<version>1.3.1</version>
 					<executions>
@@ -458,6 +499,80 @@
 									</bannedDependencies>
 								</rules>
 								<fail>true</fail>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>com.ning.maven.plugins</groupId>
+					<artifactId>maven-duplicate-finder-plugin</artifactId>
+					<version>1.0.4</version>
+					<executions>
+						<execution>
+							<id>check-duplicates</id>
+							<phase>test</phase>
+							<goals>
+								<goal>check</goal>
+							</goals>
+							<configuration>
+								<failBuildInCaseOfConflict>true</failBuildInCaseOfConflict>
+								<exceptions>
+									<exception>
+										<conflictingDependencies>
+											<dependency>
+												<groupId>commons-beanutils</groupId>
+												<artifactId>commons-beanutils</artifactId>
+												<version>[1.0,)</version>
+											</dependency>
+											<dependency>
+												<groupId>commons-collections</groupId>
+												<artifactId>commons-collections</artifactId>
+												<version>[1.0,)</version>
+											</dependency>
+										</conflictingDependencies>
+										<packages>
+											<package>org.apache.commons.collections</package>
+										</packages>
+									</exception>
+									<exception>
+										<conflictingDependencies>
+											<dependency>
+												<groupId>com.google.javascript</groupId>
+												<artifactId>closure-compiler</artifactId>
+												<version>${closure.version}</version>
+											</dependency>
+											<dependency>
+												<groupId>org.mozilla</groupId>
+												<artifactId>rhino</artifactId>
+												<version>${rhino.version}</version>
+											</dependency>
+										</conflictingDependencies>
+										<packages>
+											<package>org.mozilla.classfile</package>
+										</packages>
+									</exception>
+									<exception>
+										<conflictingDependencies>
+											<dependency>
+												<groupId>org.bouncycastle</groupId>
+												<artifactId>bcpkix-jdk15on</artifactId>
+												<version>[1.0,)</version>
+											</dependency>
+											<dependency>
+												<groupId>org.bouncycastle</groupId>
+												<artifactId>bcprov-jdk15on</artifactId>
+												<version>[1.0,)</version>
+											</dependency>
+										</conflictingDependencies>
+										<resources>
+											<resource>META-INF/BCKEY.DSA</resource>
+											<resource>META-INF/BCKEY.SF</resource>
+										</resources>
+									</exception>
+								</exceptions>
+								<ignoredResources>
+									<ignoredResource>about\.html</ignoredResource>
+								</ignoredResources>
 							</configuration>
 						</execution>
 					</executions>
@@ -538,87 +653,6 @@
 								<goals>
 									<goal>sign</goal>
 								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		<profile>
-			<id>check-duplicates</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>com.ning.maven.plugins</groupId>
-						<artifactId>maven-duplicate-finder-plugin</artifactId>
-						<version>1.0.4</version>
-						<executions>
-							<execution>
-								<id>check-duplicates</id>
-								<phase>test</phase>
-								<goals>
-									<goal>check</goal>
-								</goals>
-								<configuration>
-									<failBuildInCaseOfConflict>true</failBuildInCaseOfConflict>
-									<exceptions>
-										<exception>
-											<conflictingDependencies>
-												<dependency>
-													<groupId>commons-beanutils</groupId>
-													<artifactId>commons-beanutils</artifactId>
-													<version>[1.0,)</version>
-												</dependency>
-												<dependency>
-													<groupId>commons-collections</groupId>
-													<artifactId>commons-collections</artifactId>
-													<version>[1.0,)</version>
-												</dependency>
-											</conflictingDependencies>
-											<packages>
-												<package>org.apache.commons.collections</package>
-											</packages>
-										</exception>
-										<exception>
-											<conflictingDependencies>
-												<dependency>
-													<groupId>com.google.javascript</groupId>
-													<artifactId>closure-compiler</artifactId>
-													<version>${closure.version}</version>
-												</dependency>
-												<dependency>
-													<groupId>org.mozilla</groupId>
-													<artifactId>rhino</artifactId>
-													<version>${rhino.version}</version>
-												</dependency>
-											</conflictingDependencies>
-											<packages>
-												<package>org.mozilla.classfile</package>
-											</packages>
-										</exception>
-										<exception>
-											<conflictingDependencies>
-												<dependency>
-													<groupId>org.bouncycastle</groupId>
-													<artifactId>bcpkix-jdk15on</artifactId>
-													<version>[1.0,)</version>
-												</dependency>
-												<dependency>
-													<groupId>org.bouncycastle</groupId>
-													<artifactId>bcprov-jdk15on</artifactId>
-													<version>[1.0,)</version>
-												</dependency>
-											</conflictingDependencies>
-											<resources>
-												<resource>META-INF/BCKEY.DSA</resource>
-												<resource>META-INF/BCKEY.SF</resource>
-											</resources>
-										</exception>
-									</exceptions>
-									<ignoredResources>
-										<ignoredResource>about\.html</ignoredResource>
-									</ignoredResources>
-								</configuration>
 							</execution>
 						</executions>
 					</plugin>
