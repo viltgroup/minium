@@ -196,8 +196,8 @@
 						<artifactId>testng</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>org.uncommons</groupId>
-						<artifactId>reportng-dep</artifactId>
+						<groupId>velocity</groupId>
+						<artifactId>velocity-dep</artifactId>					
 					</exclusion>
 				</exclusions>
 			</dependency>
