@@ -26,24 +26,24 @@ import com.google.common.collect.Lists;
 
 public class JQueryInvokerTest {
 
-	private JQueryInvoker positionInvoker;
+    private JQueryInvoker positionInvoker;
 
-	@BeforeMethod
-	public void before() {
-		positionInvoker = new JQueryInvoker(Lists.newArrayList("minium/js/jquery.min.js", "minium/js/position.js"), null);
-	}
-	
-	@Test
-	public void testLoadJsResourcesFull() {
-		String script = positionInvoker.fullInvokerScript("return 'Hello world!';");
-		assertThat(script, containsString("below"));
-	}
-	
-	@Test
-	public void testLoadJsResourcesLight() {
-		String script = positionInvoker.lightInvokerScript("return 'Hello world!';");
-		assertThat(script, containsString("Hello world"));
-		assertThat(script, not(containsString("below")));
-	}
-	
+    @BeforeMethod
+    public void before() {
+        positionInvoker = new JQueryInvoker(Lists.newArrayList("minium/js/jquery.min.js", "minium/js/position.js"), null);
+    }
+
+    @Test
+    public void testLoadJsResourcesFull() {
+        String script = positionInvoker.fullInvokerScript("return 'Hello world!';");
+        assertThat(script, containsString("below"));
+    }
+
+    @Test
+    public void testLoadJsResourcesLight() {
+        String script = positionInvoker.lightInvokerScript("return 'Hello world!';");
+        assertThat(script, containsString("Hello world"));
+        assertThat(script, not(containsString("below")));
+    }
+
 }

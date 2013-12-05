@@ -23,33 +23,33 @@ import com.vilt.minium.actions.touch.TouchInteraction;
  */
 public class FlickInteraction extends TouchInteraction {
 
-	/**
-	 * Instantiates a new flick interaction.
-	 *
-	 * @param elements the elements
-	 * @param xSpeed the x speed
-	 * @param ySpeed the y speed
-	 */
-	public FlickInteraction(CoreWebElements<?> elements, int xSpeed, int ySpeed) {
-		super(elements);
-	}
+    /**
+     * Instantiates a new flick interaction.
+     *
+     * @param elements the elements
+     * @param xSpeed the x speed
+     * @param ySpeed the y speed
+     */
+    public FlickInteraction(CoreWebElements<?> elements, int xSpeed, int ySpeed) {
+        super(elements);
+    }
 
-	/**
-	 * Instantiates a new flick interaction.
-	 *
-	 * @param elements the elements
-	 * @param xOffset the x offset
-	 * @param yOffset the y offset
-	 * @param speed the speed
-	 */
-	public FlickInteraction(CoreWebElements<?> elements, int xOffset, int yOffset, int speed) {
-		super(elements);
-	}
+    /**
+     * Instantiates a new flick interaction.
+     *
+     * @param elements the elements
+     * @param xOffset the x offset
+     * @param yOffset the y offset
+     * @param speed the speed
+     */
+    public FlickInteraction(CoreWebElements<?> elements, int xOffset, int yOffset, int speed) {
+        super(elements);
+    }
 
-	@Override
-	protected void doPerform() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet");
-	}
-	
+    @Override
+    protected void doPerform() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
 }

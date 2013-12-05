@@ -22,13 +22,13 @@ import com.vilt.minium.CoreWebElements;
  */
 public abstract class MouseInteraction extends DefaultInteraction {
 
-	/**
-	 * Instantiates a new mouse interaction.
-	 *
-	 * @param elems the elems
-	 */
-	public MouseInteraction(CoreWebElements<?> elems) {
-		super(elems);
-	}
+    /**
+     * Instantiates a new mouse interaction.
+     *
+     * @param elems the elems
+     */
+    public MouseInteraction(CoreWebElements<?> elems) {
+        super(elems);
+    }
 
 }

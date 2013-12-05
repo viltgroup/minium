@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2013 The Minium Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.vilt.minium.webconsole.webdrivers;
 
 import static java.lang.String.format;
@@ -16,16 +31,16 @@ import com.vilt.minium.webconsole.webdrivers.WebDriverInfo.Type;
 
 @Component
 public class WebElementsDriverManager {
-    
+
     @Autowired private MiniumScriptEngine engine;
-    
+
     private Map<String, WebElementsDriver<?>> webDrivers = Maps.newHashMap();
     private Map<String, WebDriverInfo> webDriversInfo = Maps.newHashMap();
-    
+
     public boolean contains(String var) {
         return webDrivers.get(var) != null;
     }
-    
+
     public WebElementsDriver<?> get(String var) {
         return webDrivers.get(var);
     }
@@ -33,10 +48,10 @@ public class WebElementsDriverManager {
     public void put(String var, Type type, WebElementsDriver<?> driver) {
         put(new WebDriverInfo(var, type), driver);
     }
-    
+
     public void put(WebDriverInfo wdInfo, WebElementsDriver<?> driver) {
         String variableName = wdInfo.getVarName();
-        
+
         if (engine.contains(variableName)) {
             throw new IllegalStateException(format("Variable %s already exists in script engine", wdInfo.getVarName()));
         }
@@ -49,16 +64,16 @@ public class WebElementsDriverManager {
         webDriversInfo.remove(var);
         WebElementsDriver<?> wd = webDrivers.remove(var);
         engine.delete(var);
-        
+
         if (wd != null) {
             wd.quit();
             return true;
         }
         return false;
     }
-    
+
     public List<WebDriverInfo> getWebDriverVariables() {
-        return Lists.newArrayList(webDriversInfo.values()); 
+        return Lists.newArrayList(webDriversInfo.values());
     }
 
 }

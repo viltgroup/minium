@@ -18,58 +18,59 @@ package com.vilt.minium;
 import org.openqa.selenium.WebDriver;
 
 /**
- * Minium class makes the $ (dollar) method available, so that jQuery developers can feel at home!
+ * Minium class makes the $ (dollar) method available, so that jQuery developers
+ * can feel at home!
  *
  * @author Rui
  */
 public class Minium {
 
-	/**
-	 * The dollar 'function'. As in jQuery, this method is the entry point in the {@link WebElements}
-	 * API.
-	 *
-	 * <pre>
-	 * $(wd, ":text").withLabel("Username").below("h2")
-	 * </pre>
-	 *
-	 *
-	 * @param <T> the generic type
-	 * @param wd the wd
-	 * @return the t
-	 */
-	public static <T extends CoreWebElements<T>> T $(WebElementsDriver<T> wd) {
-		return wd.webElements();
-	}
+    /**
+     * The dollar 'function'. As in jQuery, this method is the entry point in
+     * the {@link WebElements} API.
+     *
+     * <pre>
+     * $(wd, &quot;:text&quot;).withLabel(&quot;Username&quot;).below(&quot;h2&quot;)
+     * </pre>
+     *
+     *
+     * @param <T> the generic type
+     * @param wd the wd
+     * @return the t
+     */
+    public static <T extends CoreWebElements<T>> T $(WebElementsDriver<T> wd) {
+        return wd.webElements();
+    }
 
-	/**
-	 * The dollar 'function'. As in jQuery, this method is the entry point for the {@link WebElements}
-	 * API.
-	 *
-	 * <pre>
-	 * $(wd, ":text").withLabel("Username").below("h2")
-	 * </pre>
-	 *
-	 * @param <T> the generic type
-	 * @param wd the wd
-	 * @param selector the selector
-	 * @return the t
-	 */
-	public static <T extends CoreWebElements<T>> T $(WebElementsDriver<T> wd, String selector) {
-		return wd.find(selector);
-	}
+    /**
+     * The dollar 'function'. As in jQuery, this method is the entry point for
+     * the {@link WebElements} API.
+     *
+     * <pre>
+     * $(wd, &quot;:text&quot;).withLabel(&quot;Username&quot;).below(&quot;h2&quot;)
+     * </pre>
+     *
+     * @param <T> the generic type
+     * @param wd the wd
+     * @param selector the selector
+     * @return the t
+     */
+    public static <T extends CoreWebElements<T>> T $(WebElementsDriver<T> wd, String selector) {
+        return wd.find(selector);
+    }
 
-	/**
-	 * The dollar 'function'. As in jQuery, this method is the entry point for the {@link WebElements}
-	 * API.
-	 *
-	 * @param wd the wd
-	 * @return the default web elements
-	 */
-	public static DefaultWebElements $(WebDriver wd) {
-		if (wd instanceof DefaultWebElementsDriver) {
-			return $((DefaultWebElementsDriver) wd);
-		}
-		return $(new DefaultWebElementsDriver(wd));
-	}
+    /**
+     * The dollar 'function'. As in jQuery, this method is the entry point for
+     * the {@link WebElements} API.
+     *
+     * @param wd the wd
+     * @return the default web elements
+     */
+    public static DefaultWebElements $(WebDriver wd) {
+        if (wd instanceof DefaultWebElementsDriver) {
+            return $((DefaultWebElementsDriver) wd);
+        }
+        return $(new DefaultWebElementsDriver(wd));
+    }
 
 }

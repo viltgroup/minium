@@ -31,10 +31,10 @@ import org.springframework.context.annotation.Configuration;
 public class TestConfiguration implements DisposableBean {
 
     private PhantomJSDriverService service;
-    
+
     @Value("#{systemProperties['minium.remote.url']}")
     private String remoteUrl;
-    
+
     @SuppressWarnings("deprecation")
     @Bean(name = "remoteWebDriverUrl")
     public URL remoteWebDriverUrl() throws IOException {
@@ -46,17 +46,16 @@ public class TestConfiguration implements DisposableBean {
                 .build();
             service.start();
             return service.getUrl();
-        }
-        else {
+        } else {
             return new URL(remoteUrl);
         }
     }
-    
+
     @Override
     public void destroy() throws Exception {
         if (service != null) {
             service.stop();
         }
     }
-    
+
 }

@@ -25,29 +25,29 @@ import com.vilt.minium.CoreWebElements;
  */
 public class SelectAllInteraction extends SelectionInteraction {
 
-	/**
-	 * Instantiates a new select all interaction.
-	 *
-	 * @param source the source
-	 */
-	public SelectAllInteraction(CoreWebElements<?> source) {
-		super(source);
-	}
+    /**
+     * Instantiates a new select all interaction.
+     *
+     * @param source the source
+     */
+    public SelectAllInteraction(CoreWebElements<?> source) {
+        super(source);
+    }
 
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
-	 */
-	@Override
-	protected void doPerform() {
-		Select select = getSelectElement();
-		if (!select.isMultiple()) {
-			throw new UnsupportedOperationException("You may only deselect all options of a multi-select");
-		}
+    /* (non-Javadoc)
+     * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
+     */
+    @Override
+    protected void doPerform() {
+        Select select = getSelectElement();
+        if (!select.isMultiple()) {
+            throw new UnsupportedOperationException("You may only deselect all options of a multi-select");
+        }
 
-		for (WebElement option : select.getOptions()) {
-			if (!option.isSelected()) {
-				option.click();
-			}
-		}
-	}
+        for (WebElement option : select.getOptions()) {
+            if (!option.isSelected()) {
+                option.click();
+            }
+        }
+    }
 }

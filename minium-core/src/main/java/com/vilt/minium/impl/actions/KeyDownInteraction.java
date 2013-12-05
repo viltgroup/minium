@@ -24,30 +24,31 @@ import com.vilt.minium.CoreWebElements;
  */
 public class KeyDownInteraction extends KeyboardInteraction {
 
-	private Keys keys;
+    private Keys keys;
 
-	/**
-	 * Instantiates a new key down interaction.
-	 *
-	 * @param source the source
-	 * @param keys the keys
-	 */
-	public KeyDownInteraction(CoreWebElements<?> source, Keys keys) {
-		super(source);
-		this.keys = keys;
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
-	 */
-	@Override
-	protected void doPerform() {
-		if (isSourceDocumentRoot()) {
-			keyboard().pressKey(keys);
-		}
-		else {
-			getActions().keyDown(getFirstElement(), keys).perform();
-		}
-	}
+    /**
+     * Instantiates a new key down interaction.
+     *
+     * @param source the source
+     * @param keys the keys
+     */
+    public KeyDownInteraction(CoreWebElements<?> source, Keys keys) {
+        super(source);
+        this.keys = keys;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
+     */
+    @Override
+    protected void doPerform() {
+        if (isSourceDocumentRoot()) {
+            keyboard().pressKey(keys);
+        } else {
+            getActions().keyDown(getFirstElement(), keys).perform();
+        }
+    }
 
 }

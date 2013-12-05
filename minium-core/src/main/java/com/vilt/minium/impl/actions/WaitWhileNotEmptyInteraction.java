@@ -25,25 +25,26 @@ import com.vilt.minium.TimeoutException;
  */
 public class WaitWhileNotEmptyInteraction extends WaitInteraction {
 
-	/**
-	 * Instantiates a new wait while elements interaction.
-	 *
-	 * @param elems the elems
-	 */
-	public WaitWhileNotEmptyInteraction(CoreWebElements<?> elems) {
-		super(elems);
-	}
+    /**
+     * Instantiates a new wait while elements interaction.
+     *
+     * @param elems the elems
+     */
+    public WaitWhileNotEmptyInteraction(CoreWebElements<?> elems) {
+        super(elems);
+    }
 
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
-	 */
-	@Override
-	protected void doPerform() throws TimeoutException {
-	    if (getWaitingPreset() != null) {
+    /*
+     * (non-Javadoc)
+     *
+     * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
+     */
+    @Override
+    protected void doPerform() throws TimeoutException {
+        if (getWaitingPreset() != null) {
             getSource().wait(getWaitingPreset(), whileNotEmpty());
-	    }
-	    else {
-	        getSource().wait(getTimeout(), whileNotEmpty());
-	    }
-	}
+        } else {
+            getSource().wait(getTimeout(), whileNotEmpty());
+        }
+    }
 }

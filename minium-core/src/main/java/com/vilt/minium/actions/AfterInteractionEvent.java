@@ -22,9 +22,9 @@ import com.vilt.minium.CoreWebElements;
  */
 public abstract class AfterInteractionEvent extends InteractionEvent {
 
-	private static final long serialVersionUID = 4826758132095640515L;
-	
-	public AfterInteractionEvent(CoreWebElements<?> source, Interaction interaction) {
-		super(source, interaction);
-	}
+    private static final long serialVersionUID = 4826758132095640515L;
+
+    public AfterInteractionEvent(CoreWebElements<?> source, Interaction interaction) {
+        super(source, interaction);
+    }
 }

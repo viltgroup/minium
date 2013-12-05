@@ -37,162 +37,164 @@ import com.google.javascript.jscomp.CompilationLevel;
 import com.google.javascript.jscomp.Compiler;
 import com.google.javascript.jscomp.CompilerOptions;
 import com.google.javascript.jscomp.SourceFile;
-import com.vilt.minium.WebElementsException;
 import com.vilt.minium.WebElementsDriver;
+import com.vilt.minium.WebElementsException;
 
 /**
  * This class is responsible for injecting the necessary javascript code in the
  * current page so that jQuery expressions can be evaluated.
- * 
+ *
  * @author Rui
  */
 public class JQueryInvoker {
 
-	private final class ClasspathFileToSourceFileFunction implements Function<String, SourceFile> {
-		public SourceFile apply(String input) {
-			try {
-				return SourceFile.fromInputStream(input, getClasspathFileInputStream(input));
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
-	}
-	
-	private final class ClasspathFileToStringFunction implements Function<String, String> {
-		public String apply(String input) {
-			return getFileContent(input);
-		}
-	}
+    private final class ClasspathFileToSourceFileFunction implements Function<String, SourceFile> {
+        @Override
+        public SourceFile apply(String input) {
+            try {
+                return SourceFile.fromInputStream(input, getClasspathFileInputStream(input));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
-	// resource paths
-	private final Collection<String> jsResources;
-	private final Collection<String> cssResources;
+    private final class ClasspathFileToStringFunction implements Function<String, String> {
+        @Override
+        public String apply(String input) {
+            return getFileContent(input);
+        }
+    }
 
-	// concatenated styles resources content
-	private String styles;
+    // resource paths
+    private final Collection<String> jsResources;
+    private final Collection<String> cssResources;
 
-	private String lightInvokerScriptTemplate;
-	private String fullInvokerScriptTemplate;
+    // concatenated styles resources content
+    private String styles;
 
-	public JQueryInvoker(Collection<String> jsResources, Collection<String> cssResources) {
-		this.jsResources = jsResources;
-		this.cssResources = cssResources;
+    private String lightInvokerScriptTemplate;
+    private String fullInvokerScriptTemplate;
 
-		try {
-			String jsScripts = compressCode(Collections2.transform(jsResources, new ClasspathFileToSourceFileFunction()));
+    public JQueryInvoker(Collection<String> jsResources, Collection<String> cssResources) {
+        this.jsResources = jsResources;
+        this.cssResources = cssResources;
 
-			if (cssResources != null) {
-				styles = StringUtils.join(Collections2.transform(cssResources, new ClasspathFileToStringFunction()), "\n\n");
-			}
+        try {
+            String jsScripts = compressCode(Collections2.transform(jsResources, new ClasspathFileToSourceFileFunction()));
 
-			lightInvokerScriptTemplate = getFileContent("minium/templates/jquery-invoker-light.template");
-			fullInvokerScriptTemplate = getFileContent("minium/templates/jquery-invoker-full.template");
-			fullInvokerScriptTemplate = fullInvokerScriptTemplate.replace("{{jsScript}}", jsScripts);
+            if (cssResources != null) {
+                styles = StringUtils.join(Collections2.transform(cssResources, new ClasspathFileToStringFunction()), "\n\n");
+            }
 
-		} catch (Exception e) {
-			throw new WebElementsException(e);
-		}
-	}
+            lightInvokerScriptTemplate = getFileContent("minium/templates/jquery-invoker-light.template");
+            fullInvokerScriptTemplate = getFileContent("minium/templates/jquery-invoker-full.template");
+            fullInvokerScriptTemplate = fullInvokerScriptTemplate.replace("{{jsScript}}", jsScripts);
 
-	public String compressCode(Collection<SourceFile> inputs) {
-		try {
-			Compiler compiler = new Compiler();
-			compiler.disableThreads();
-			
-			CompilerOptions options = new CompilerOptions();
-			CompilationLevel.SIMPLE_OPTIMIZATIONS.setOptionsForCompilationLevel(options);
-			compiler.compile(CommandLineRunner.getDefaultExterns(), Lists.newArrayList(inputs), options);
-			return compiler.toSource();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
+        } catch (Exception e) {
+            throw new WebElementsException(e);
+        }
+    }
 
-	public <T> T invoke(JavascriptExecutor wd, String expression, Object... args) {
-		return this.<T> invoke(wd, false, expression, args);
-	}
+    public String compressCode(Collection<SourceFile> inputs) {
+        try {
+            Compiler compiler = new Compiler();
+            compiler.disableThreads();
 
-	@SuppressWarnings("unchecked")
-	public <T> T invoke(JavascriptExecutor wd, boolean async, String expression, Object... args) {
-		try {
-			args = convertToValidArgs(args);
+            CompilerOptions options = new CompilerOptions();
+            CompilationLevel.SIMPLE_OPTIMIZATIONS.setOptionsForCompilationLevel(options);
+            compiler.compile(CommandLineRunner.getDefaultExterns(), Lists.newArrayList(inputs), options);
+            return compiler.toSource();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-			Object[] fullArgs = args == null ? new Object[1] : new Object[args.length + 1];
-			fullArgs[0] = async;
-			if (args != null)
-				System.arraycopy(args, 0, fullArgs, 1, args.length);
+    public <T> T invoke(JavascriptExecutor wd, String expression, Object... args) {
+        return this.<T> invoke(wd, false, expression, args);
+    }
 
-			Object result = async ? wd.executeAsyncScript(lightInvokerScript(expression), fullArgs) : wd
-				.executeScript(lightInvokerScript(expression), fullArgs);
+    @SuppressWarnings("unchecked")
+    public <T> T invoke(JavascriptExecutor wd, boolean async, String expression, Object... args) {
+        try {
+            args = convertToValidArgs(args);
 
-			if (result instanceof Boolean && ((Boolean) result) == false) {
-				fullArgs = args == null ? new Object[2] : new Object[args.length + 2];
-				fullArgs[0] = async;
-				fullArgs[1] = styles;
-				if (args != null)
-					System.arraycopy(args, 0, fullArgs, 2, args.length);
-				result = async ? wd.executeAsyncScript(fullInvokerScript(expression), fullArgs) : wd.executeScript(fullInvokerScript(expression), fullArgs);
-			}
+            Object[] fullArgs = args == null ? new Object[1] : new Object[args.length + 1];
+            fullArgs[0] = async;
+            if (args != null)
+                System.arraycopy(args, 0, fullArgs, 1, args.length);
 
-			if (!(result instanceof List))
-				throw new IllegalStateException(format("Expected a list with the result in the first position..."));
+            Object result = async ? wd.executeAsyncScript(lightInvokerScript(expression), fullArgs) : wd
+                    .executeScript(lightInvokerScript(expression), fullArgs);
 
-			return (T) ((List<?>) result).get(0);
-		} catch (Exception e) {
-			throw new WebElementsException(e);
-		}
-	}
+            if (result instanceof Boolean && !((Boolean) result).booleanValue()) {
+                fullArgs = args == null ? new Object[2] : new Object[args.length + 2];
+                fullArgs[0] = async;
+                fullArgs[1] = styles;
+                if (args != null)
+                    System.arraycopy(args, 0, fullArgs, 2, args.length);
+                result = async ? wd.executeAsyncScript(fullInvokerScript(expression), fullArgs) : wd.executeScript(fullInvokerScript(expression), fullArgs);
+            }
 
-	public Object invokeExpression(WebElementsDriver<?> wd, boolean async, String expression, Object... args) {
-		return invoke(wd, async, format("return %s;", expression), args);
-	}
+            if (!(result instanceof List))
+                throw new IllegalStateException(format("Expected a list with the result in the first position..."));
 
-	protected String lightInvokerScript(String expression) {
-		return lightInvokerScriptTemplate.replace("{{expression}}", expression);
-	}
+            return (T) ((List<?>) result).get(0);
+        } catch (Exception e) {
+            throw new WebElementsException(e);
+        }
+    }
 
-	protected String fullInvokerScript(String expression) {
-		return fullInvokerScriptTemplate.replace("{{expression}}", expression);
-	}
+    public Object invokeExpression(WebElementsDriver<?> wd, boolean async, String expression, Object... args) {
+        return invoke(wd, async, format("return %s;", expression), args);
+    }
 
-	protected Collection<String> getJsResources() {
-		return jsResources;
-	}
+    protected String lightInvokerScript(String expression) {
+        return lightInvokerScriptTemplate.replace("{{expression}}", expression);
+    }
 
-	protected Collection<String> getCssResources() {
-		return cssResources;
-	}
+    protected String fullInvokerScript(String expression) {
+        return fullInvokerScriptTemplate.replace("{{expression}}", expression);
+    }
 
-	private String getFileContent(String filename) {
-		InputStream in = null;
-		try {
-			in = getClasspathFileInputStream(filename);
-			return CharStreams.toString(new InputStreamReader(in, Charsets.UTF_8));
-		} catch (IOException e) {
-			throw new WebElementsException(format("Could not load %s from classpath", filename), e);
-		} finally {
-			try { Closeables.close(in, true); } catch (IOException e) { }
-		}
-	}
+    protected Collection<String> getJsResources() {
+        return jsResources;
+    }
 
-	public InputStream getClasspathFileInputStream(String filename) {
-		return JQueryInvoker.class.getClassLoader().getResourceAsStream(filename);
-	}
+    protected Collection<String> getCssResources() {
+        return cssResources;
+    }
 
-	private Object[] convertToValidArgs(Object[] args) {
-		// we need to get the wrapped web element from every DelegateWebElement
-		// in arguments
-		Object[] validArgs = new Object[args.length];
-		System.arraycopy(args, 0, validArgs, 0, args.length);
+    private String getFileContent(String filename) {
+        InputStream in = null;
+        try {
+            in = getClasspathFileInputStream(filename);
+            return CharStreams.toString(new InputStreamReader(in, Charsets.UTF_8));
+        } catch (IOException e) {
+            throw new WebElementsException(format("Could not load %s from classpath", filename), e);
+        } finally {
+            try { Closeables.close(in, true); } catch (IOException e) { }
+        }
+    }
 
-		for (int i = 0; i < validArgs.length; i++) {
-			Object arg = validArgs[i];
-			if (arg instanceof DelegateWebElement) {
-				validArgs[i] = ((DelegateWebElement) arg).getWrappedWebElement();
-			} else if (arg instanceof Object[]) {
-				validArgs[i] = convertToValidArgs((Object[]) arg);
-			}
-		}
-		return validArgs;
-	}
+    public InputStream getClasspathFileInputStream(String filename) {
+        return JQueryInvoker.class.getClassLoader().getResourceAsStream(filename);
+    }
+
+    private Object[] convertToValidArgs(Object[] args) {
+        // we need to get the wrapped web element from every DelegateWebElement
+        // in arguments
+        Object[] validArgs = new Object[args.length];
+        System.arraycopy(args, 0, validArgs, 0, args.length);
+
+        for (int i = 0; i < validArgs.length; i++) {
+            Object arg = validArgs[i];
+            if (arg instanceof DelegateWebElement) {
+                validArgs[i] = ((DelegateWebElement) arg).getWrappedWebElement();
+            } else if (arg instanceof Object[]) {
+                validArgs[i] = convertToValidArgs((Object[]) arg);
+            }
+        }
+        return validArgs;
+    }
 }

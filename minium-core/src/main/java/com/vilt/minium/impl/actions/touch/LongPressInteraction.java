@@ -23,18 +23,18 @@ import com.vilt.minium.actions.touch.TouchInteraction;
  */
 public class LongPressInteraction extends TouchInteraction {
 
-	/**
-	 * Instantiates a new long press interaction.
-	 *
-	 * @param elems the elems
-	 */
-	public LongPressInteraction(CoreWebElements<?> elems) {
-		super(elems);
-	}
+    /**
+     * Instantiates a new long press interaction.
+     *
+     * @param elems the elems
+     */
+    public LongPressInteraction(CoreWebElements<?> elems) {
+        super(elems);
+    }
 
-	@Override
-	protected void doPerform() {
-		getActions().longPress(getFirstElement()).perform();
-	}
+    @Override
+    protected void doPerform() {
+        getActions().longPress(getFirstElement()).perform();
+    }
 
 }

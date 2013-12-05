@@ -27,23 +27,23 @@ import com.vilt.minium.tips.TipWebElements;
  */
 public class DefaultWebElementsDriver extends WebElementsDriver<DefaultWebElements> {
 
-	/**
-	 * Instantiates a new default web elements driver.
-	 *
-	 * @param wd the wd
-	 */
-	public DefaultWebElementsDriver(WebDriver wd) {
-		this(wd, DefaultWebElements.class, DebugWebElements.class, TipWebElements.class);
-	}
-	
-	/**
-	 * Instantiates a new default web elements driver.
-	 *
-	 * @param wd the wd
-	 * @param moreInterfaces the more interfaces
-	 */
-	public DefaultWebElementsDriver(WebDriver wd, Class<?> ... moreInterfaces) {
-		super(wd, DefaultWebElements.class, moreInterfaces);
-	}
-	
+    /**
+     * Instantiates a new default web elements driver.
+     *
+     * @param wd the wd
+     */
+    public DefaultWebElementsDriver(WebDriver wd) {
+        this(wd, DefaultWebElements.class, DebugWebElements.class, TipWebElements.class);
+    }
+
+    /**
+     * Instantiates a new default web elements driver.
+     *
+     * @param wd the wd
+     * @param moreInterfaces the more interfaces
+     */
+    public DefaultWebElementsDriver(WebDriver wd, Class<?>... moreInterfaces) {
+        super(wd, DefaultWebElements.class, moreInterfaces);
+    }
+
 }

@@ -22,25 +22,25 @@ import com.vilt.minium.CoreWebElements;
  */
 public class DeselectValInteraction extends SelectionInteraction {
 
-	private String val;
+    private String val;
 
-	/**
-	 * Instantiates a new deselect val interaction.
-	 *
-	 * @param source the source
-	 * @param val the val
-	 */
-	public DeselectValInteraction(CoreWebElements<?> source, String val) {
-		super(source);
-		this.val = val;
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
-	 */
-	@Override
-	protected void doPerform() {
-		getSelectElement().deselectByValue(val);
-	}
+    /**
+     * Instantiates a new deselect val interaction.
+     *
+     * @param source the source
+     * @param val the val
+     */
+    public DeselectValInteraction(CoreWebElements<?> source, String val) {
+        super(source);
+        this.val = val;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
+     */
+    @Override
+    protected void doPerform() {
+        getSelectElement().deselectByValue(val);
+    }
 
 }

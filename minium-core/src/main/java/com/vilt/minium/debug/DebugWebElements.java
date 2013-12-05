@@ -28,42 +28,40 @@ import com.vilt.minium.WebElements;
 @JQueryResources({ "minium/js/jquery-ui.effect-highlight.min.js", "minium/js/debug.js" })
 public interface DebugWebElements extends WebElements {
 
-	/**
-	 * Highlight.
-	 */
-	public void highlight();
+    /**
+     * Highlight.
+     */
+    public void highlight();
 
-	/**
-	 * Highlight.
-	 *
-	 * @param color the color
-	 */
-	public void highlight(String color);
-	
-	/**
-	 * Highlight.
-	 *
-	 * @param time the time
-	 * @param units the units
-	 */
-	public void highlight(long time, TimeUnit units);
-	
-	/**
-	 * Highlight.
-	 *
-	 * @param color the color
-	 * @param time the time
-	 * @param units the units
-	 */
-	public void highlight(String color, long time, TimeUnit units);
-	
+    /**
+     * Highlight.
+     *
+     * @param color the color
+     */
+    public void highlight(String color);
 
-	/**
-	 * Highlight and count.
-	 *
-	 * @return the int
-	 */
-	public int highlightAndCount();
+    /**
+     * Highlight.
+     *
+     * @param time the time
+     * @param units the units
+     */
+    public void highlight(long time, TimeUnit units);
 
-	
+    /**
+     * Highlight.
+     *
+     * @param color the color
+     * @param time the time
+     * @param units the units
+     */
+    public void highlight(String color, long time, TimeUnit units);
+
+    /**
+     * Highlight and count.
+     *
+     * @return the int
+     */
+    public int highlightAndCount();
+
 }

@@ -30,32 +30,32 @@ import com.vilt.minium.WebElementsDriverProvider;
  */
 public class WindowScreenshotInteraction extends ScreenshotInteraction {
 
-	/**
-	 * Instantiates a new window screenshot interaction.
-	 *
-	 * @param elems the elems
-	 * @param stream the stream
-	 */
-	public WindowScreenshotInteraction(CoreWebElements<?> elems, OutputStream stream) {
-		super(elems, stream);
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
-	 */
-	@Override
-	protected void doPerform() {
-		try {
-			CoreWebElements<?> coreWebElements = (CoreWebElements<?>) getSource();
-			byte[] screenshot = ((WebElementsDriverProvider<?>) coreWebElements).webDriver().getScreenshotAs(OutputType.BYTES);
-			ByteSource.wrap(screenshot).copyTo(stream);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		} finally {
-			try {
-				Closeables.close(stream, true);
-			} catch (IOException e) { }
-		}
-	}
-	
+    /**
+     * Instantiates a new window screenshot interaction.
+     *
+     * @param elems the elems
+     * @param stream the stream
+     */
+    public WindowScreenshotInteraction(CoreWebElements<?> elems, OutputStream stream) {
+        super(elems, stream);
+    }
+
+    /* (non-Javadoc)
+     * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
+     */
+    @Override
+    protected void doPerform() {
+        try {
+            CoreWebElements<?> coreWebElements = getSource();
+            byte[] screenshot = ((WebElementsDriverProvider<?>) coreWebElements).webDriver().getScreenshotAs(OutputType.BYTES);
+            ByteSource.wrap(screenshot).copyTo(stream);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                Closeables.close(stream, true);
+            } catch (IOException e) { }
+        }
+    }
+
 }

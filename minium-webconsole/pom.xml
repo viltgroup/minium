@@ -14,6 +14,13 @@
 	<build>
 		<finalName>minium-webconsole</finalName>
 		<plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <packagingExcludes>WEB-INF/web.xml</packagingExcludes>
+                </configuration>
+            </plugin>
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
@@ -147,6 +154,12 @@
 									<webApp>
 										<contextPath>/${project.build.finalName}</contextPath>
 									</webApp>
+									<systemProperties>
+										<systemProperty>
+											<name>minium.home</name>
+											<value>${basedir}/src/test/resources/minium.home</value>
+										</systemProperty>
+									</systemProperties>
 								</configuration>
 							</execution>
 							<execution>

@@ -22,20 +22,20 @@ import com.vilt.minium.CoreWebElements;
  */
 public class DeselectAllInteraction extends SelectionInteraction {
 
-	/**
-	 * Instantiates a new deselect all interaction.
-	 *
-	 * @param source the source
-	 */
-	public DeselectAllInteraction(CoreWebElements<?> source) {
-		super(source);
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
-	 */
-	@Override
-	protected void doPerform() {
-		getSelectElement().deselectAll();
-	}
+    /**
+     * Instantiates a new deselect all interaction.
+     *
+     * @param source the source
+     */
+    public DeselectAllInteraction(CoreWebElements<?> source) {
+        super(source);
+    }
+
+    /* (non-Javadoc)
+     * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
+     */
+    @Override
+    protected void doPerform() {
+        getSelectElement().deselectAll();
+    }
 }

@@ -31,118 +31,118 @@ import com.vilt.minium.impl.debug.WindowScreenshotInteraction;
  */
 public class DebugInteractions {
 
-	/**
-	 * Highlighter.
-	 *
-	 * @return the interaction listener
-	 */
-	public static InteractionListener highlighter() {
-		return new HighlightListener();
-	}
+    /**
+     * Highlighter.
+     *
+     * @return the interaction listener
+     */
+    public static InteractionListener highlighter() {
+        return new HighlightListener();
+    }
 
-	/**
-	 * Interaction logger.
-	 *
-	 * @return the interaction listener
-	 */
-	public static InteractionListener interactionLogger() {
-		return new LogInteractionListener();
-	}
-	
-	/**
-	 * Highlight.
-	 *
-	 * @param webElements the web elements
-	 */
-	public static void highlight(CoreWebElements<?> webElements) {
-		new InteractionPerformer().performAndWait(new HighlightInteraction(webElements));
-	}
+    /**
+     * Interaction logger.
+     *
+     * @return the interaction listener
+     */
+    public static InteractionListener interactionLogger() {
+        return new LogInteractionListener();
+    }
 
-	/**
-	 * Highlight.
-	 *
-	 * @param webElements the web elements
-	 */
-	public static void highlightAsync(CoreWebElements<?> webElements) {
-		new InteractionPerformer().perform(new HighlightInteraction(webElements));
-	}
+    /**
+     * Highlight.
+     *
+     * @param webElements the web elements
+     */
+    public static void highlight(CoreWebElements<?> webElements) {
+        new InteractionPerformer().performAndWait(new HighlightInteraction(webElements));
+    }
 
-	/**
-	 * Take screenshot.
-	 *
-	 * @param webElements the web elements
-	 * @param file the file
-	 */
-	public static void takeScreenshot(CoreWebElements<?> webElements, File file) {
-		new InteractionPerformer().perform(new ElementsScreenshotInteraction(webElements, outputStreamFor(file)));
-	}
+    /**
+     * Highlight.
+     *
+     * @param webElements the web elements
+     */
+    public static void highlightAsync(CoreWebElements<?> webElements) {
+        new InteractionPerformer().perform(new HighlightInteraction(webElements));
+    }
 
-	/**
-	 * Take screenshot.
-	 *
-	 * @param webElements the web elements
-	 * @param stream the stream
-	 */
-	public static void takeScreenshot(CoreWebElements<?> webElements, OutputStream stream) {
-		new InteractionPerformer().perform(new ElementsScreenshotInteraction(webElements, stream));
-	}
-	
-	/**
-	 * Take window screenshot.
-	 *
-	 * @param webElements the web elements
-	 * @param file the file
-	 */
-	public static void takeWindowScreenshot(CoreWebElements<?> webElements, String file) {
-		new InteractionPerformer().perform(new WindowScreenshotInteraction(webElements, outputStreamFor(file)));
-	}
-	
-	/**
-	 * Take window screenshot.
-	 *
-	 * @param webElements the web elements
-	 * @param file the file
-	 */
-	public static void takeWindowScreenshot(CoreWebElements<?> webElements, File file) {
-		new InteractionPerformer().perform(new WindowScreenshotInteraction(webElements, outputStreamFor(file)));
-	}
-	
-	/**
-	 * Take window screenshot.
-	 *
-	 * @param webElements the web elements
-	 * @param stream the stream
-	 */
-	public static void takeWindowScreenshot(CoreWebElements<?> webElements, OutputStream stream) {
-		new InteractionPerformer().perform(new WindowScreenshotInteraction(webElements, stream));
-	}
+    /**
+     * Take screenshot.
+     *
+     * @param webElements the web elements
+     * @param file the file
+     */
+    public static void takeScreenshot(CoreWebElements<?> webElements, File file) {
+        new InteractionPerformer().perform(new ElementsScreenshotInteraction(webElements, outputStreamFor(file)));
+    }
 
-	/**
-	 * Output stream for.
-	 *
-	 * @param file the file
-	 * @return the file output stream
-	 */
-	protected static FileOutputStream outputStreamFor(File file) {
-		try {
-			return new FileOutputStream(file);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
+    /**
+     * Take screenshot.
+     *
+     * @param webElements the web elements
+     * @param stream the stream
+     */
+    public static void takeScreenshot(CoreWebElements<?> webElements, OutputStream stream) {
+        new InteractionPerformer().perform(new ElementsScreenshotInteraction(webElements, stream));
+    }
 
-	/**
-	 * Output stream for.
-	 *
-	 * @param file the file
-	 * @return the file output stream
-	 */
-	protected static FileOutputStream outputStreamFor(String file) {
-		try {
-			return new FileOutputStream(file);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-	
+    /**
+     * Take window screenshot.
+     *
+     * @param webElements the web elements
+     * @param file the file
+     */
+    public static void takeWindowScreenshot(CoreWebElements<?> webElements, String file) {
+        new InteractionPerformer().perform(new WindowScreenshotInteraction(webElements, outputStreamFor(file)));
+    }
+
+    /**
+     * Take window screenshot.
+     *
+     * @param webElements the web elements
+     * @param file the file
+     */
+    public static void takeWindowScreenshot(CoreWebElements<?> webElements, File file) {
+        new InteractionPerformer().perform(new WindowScreenshotInteraction(webElements, outputStreamFor(file)));
+    }
+
+    /**
+     * Take window screenshot.
+     *
+     * @param webElements the web elements
+     * @param stream the stream
+     */
+    public static void takeWindowScreenshot(CoreWebElements<?> webElements, OutputStream stream) {
+        new InteractionPerformer().perform(new WindowScreenshotInteraction(webElements, stream));
+    }
+
+    /**
+     * Output stream for.
+     *
+     * @param file the file
+     * @return the file output stream
+     */
+    protected static FileOutputStream outputStreamFor(File file) {
+        try {
+            return new FileOutputStream(file);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Output stream for.
+     *
+     * @param file the file
+     * @return the file output stream
+     */
+    protected static FileOutputStream outputStreamFor(String file) {
+        try {
+            return new FileOutputStream(file);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

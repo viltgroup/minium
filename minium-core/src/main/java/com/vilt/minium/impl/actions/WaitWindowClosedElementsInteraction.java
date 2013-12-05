@@ -25,20 +25,20 @@ import com.vilt.minium.TimeoutException;
  */
 public class WaitWindowClosedElementsInteraction extends WaitInteraction {
 
-	/**
-	 * Instantiates a new wait window closed elements interaction.
-	 *
-	 * @param elems the elems
-	 */
-	public WaitWindowClosedElementsInteraction(CoreWebElements<?> elems) {
-		super(elems);
-	}
+    /**
+     * Instantiates a new wait window closed elements interaction.
+     *
+     * @param elems the elems
+     */
+    public WaitWindowClosedElementsInteraction(CoreWebElements<?> elems) {
+        super(elems);
+    }
 
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
-	 */
-	@Override
-	protected void doPerform() throws TimeoutException {
-		getSource().wait(getTimeout(), untilWindowClosed());
-	}
+    /* (non-Javadoc)
+     * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
+     */
+    @Override
+    protected void doPerform() throws TimeoutException {
+        getSource().wait(getTimeout(), untilWindowClosed());
+    }
 }

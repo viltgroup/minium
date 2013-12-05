@@ -24,43 +24,43 @@ import org.openqa.selenium.Alert;
  * @author Rui
  */
 public interface TargetLocatorWebElements<T extends CoreWebElements<T>> extends WebElements {
-	
-	/**
-	 * Frame.
-	 *
-	 * @return the t
-	 * @deprecated Use {@link TargetLocatorWebElements#frames()} instead
-	 */
+
+    /**
+     * Frame.
+     *
+     * @return the t
+     * @deprecated Use {@link TargetLocatorWebElements#frames()} instead
+     */
     @Deprecated
-	public T frame();
+    public T frame();
 
-	public T frames();
+    public T frames();
 
-	/**
-	 * Window.
-	 *
-	 * @return the t
-	 * @deprecated Use {@link TargetLocatorWebElements#windows()} instead
-	 */
-	@Deprecated
-	public T window();
+    /**
+     * Window.
+     *
+     * @return the t
+     * @deprecated Use {@link TargetLocatorWebElements#windows()} instead
+     */
+    @Deprecated
+    public T window();
 
-	public T windows();
-	
-	/**
-	 * Root.
-	 *
-	 * @return the t
-	 */
-	public T root();
-	
-	/**
-	 * Alert.
-	 *
-	 * @return the alert
-	 */
-	public Alert alert();
-	
-	public void close();
+    public T windows();
+
+    /**
+     * Root.
+     *
+     * @return the t
+     */
+    public T root();
+
+    /**
+     * Alert.
+     *
+     * @return the alert
+     */
+    public Alert alert();
+
+    public void close();
 
 }

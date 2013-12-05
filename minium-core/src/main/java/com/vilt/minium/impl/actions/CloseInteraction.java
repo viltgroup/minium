@@ -19,13 +19,13 @@ import com.vilt.minium.CoreWebElements;
 
 public class CloseInteraction extends DefaultInteraction {
 
-	public CloseInteraction(CoreWebElements<?> elems) {
-		super(elems);
-	}
+    public CloseInteraction(CoreWebElements<?> elems) {
+        super(elems);
+    }
 
-	@Override
-	protected void doPerform() {
-		getSource().close();
-	}
+    @Override
+    protected void doPerform() {
+        getSource().close();
+    }
 
 }

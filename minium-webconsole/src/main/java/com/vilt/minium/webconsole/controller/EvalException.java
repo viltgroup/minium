@@ -26,49 +26,48 @@ import com.vilt.minium.WebElementsException;
 
 public class EvalException extends RuntimeException {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String sourceName;
-	private int lineNumber = -1;
+    private String sourceName;
+    private int lineNumber = -1;
 
-	public EvalException(Throwable exception) {
-       super(getBaseException(exception));
-	    
-	   if (exception instanceof RhinoException) {
-	        StackTraceElement[] stackTrace = exception.getStackTrace();
-	        for (StackTraceElement stackTraceElement : stackTrace) {
+    public EvalException(Throwable exception) {
+        super(getBaseException(exception));
+
+        if (exception instanceof RhinoException) {
+            StackTraceElement[] stackTrace = exception.getStackTrace();
+            for (StackTraceElement stackTraceElement : stackTrace) {
                 if (Objects.equal("<expression>", stackTraceElement.getFileName())) {
                     lineNumber = stackTraceElement.getLineNumber();
                     sourceName = null;
                     break;
                 }
             }
-	        if (lineNumber < 0) {
-	            lineNumber = ((RhinoException) exception).lineNumber();
-	            sourceName = ((RhinoException) exception).sourceName();
-	        }
-	    }
-	}
+            if (lineNumber < 0) {
+                lineNumber = ((RhinoException) exception).lineNumber();
+                sourceName = ((RhinoException) exception).sourceName();
+            }
+        }
+    }
 
-	
-	public int getLineNumber() {
+    public int getLineNumber() {
         return lineNumber;
     }
-	
-	public String getSourceName() {
+
+    public String getSourceName() {
         return sourceName;
     }
 
-	private static Throwable getBaseException(Throwable exception) {
-	    checkNotNull(exception);
-	    
-	    if (exception instanceof WrappedException) {
-	        exception = ((WrappedException) exception).getWrappedException();
-	    }
-	    
-	    if (exception instanceof WebDriverException) {
-	        exception = new WebElementsException(exception);
-	    }
-	    return exception;
-	}
+    private static Throwable getBaseException(Throwable exception) {
+        checkNotNull(exception);
+
+        if (exception instanceof WrappedException) {
+            exception = ((WrappedException) exception).getWrappedException();
+        }
+
+        if (exception instanceof WebDriverException) {
+            exception = new WebElementsException(exception);
+        }
+        return exception;
+    }
 }

@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2013 The Minium Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.vilt.minium.prefs;
 
 import static java.lang.String.format;
@@ -17,7 +32,7 @@ public class WebConsolePreferences {
     public static WebConsolePreferences from(AppPreferences preferences) {
         return preferences == null ? new WebConsolePreferences() : preferences.get("webconsole", WebConsolePreferences.class);
     }
-    
+
     public String getHost() {
         return host;
     }
@@ -49,40 +64,36 @@ public class WebConsolePreferences {
     public void setEnableFileMenu(boolean enableFileMenu) {
         this.enableFileMenu = enableFileMenu;
     }
-    
+
     public File getChromeBin() {
         if (chromeBin == null) {
             // Based on expected Chrome default locations:
             // https://code.google.com/p/selenium/wiki/ChromeDriver
             if (SystemUtils.IS_OS_WINDOWS_XP) {
-                return oneOf(
-                    new File(System.getenv("HOMEPATH"), "Local Settings\\Application Data\\Google\\Chrome\\Application\\chrome.exe"),
-                    new File(System.getenv("PROGRAMFILES"), "Google\\Chrome\\Application\\chrome.exe"));
-            }
-            else if (SystemUtils.IS_OS_WINDOWS) {
-                return oneOf(
-                    new File(format("C:\\Users\\%s\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe", System.getenv("USERNAME"))),
-                    new File(System.getenv("PROGRAMFILES"), "Google\\Chrome\\Application\\chrome.exe"));
-            }
-            else if (SystemUtils.IS_OS_LINUX) {
+                return oneOf(new File(System.getenv("HOMEPATH"), "Local Settings\\Application Data\\Google\\Chrome\\Application\\chrome.exe"),
+                        new File(System.getenv("PROGRAMFILES"), "Google\\Chrome\\Application\\chrome.exe"));
+            } else if (SystemUtils.IS_OS_WINDOWS) {
+                return oneOf(new File(format("C:\\Users\\%s\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe", System.getenv("USERNAME"))), new File(
+                        System.getenv("PROGRAMFILES"), "Google\\Chrome\\Application\\chrome.exe"));
+            } else if (SystemUtils.IS_OS_LINUX) {
                 return new File("/usr/bin/google-chrome");
-            }
-            else if (SystemUtils.IS_OS_MAC_OSX) {
+            } else if (SystemUtils.IS_OS_MAC_OSX) {
                 return new File("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome");
             }
         }
         return chromeBin;
     }
-    
+
     public void setChromeBin(File chromeBin) {
         this.chromeBin = chromeBin;
     }
-    
-    private File oneOf(File ... files) {
+
+    private File oneOf(File... files) {
         for (File file : files) {
-            if (file.exists()) return file;
+            if (file.exists())
+                return file;
         }
-        
+
         return null;
     }
 }

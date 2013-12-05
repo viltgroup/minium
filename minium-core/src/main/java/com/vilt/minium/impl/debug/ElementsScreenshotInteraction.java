@@ -33,40 +33,40 @@ import com.vilt.minium.WebElementsDriverProvider;
  */
 public class ElementsScreenshotInteraction extends ScreenshotInteraction {
 
-	/**
-	 * Instantiates a new elements screenshot interaction.
-	 *
-	 * @param elems the elems
-	 * @param stream the stream
-	 */
-	public ElementsScreenshotInteraction(CoreWebElements<?> elems, OutputStream stream) {
-		super(elems, stream);
-	}
+    /**
+     * Instantiates a new elements screenshot interaction.
+     *
+     * @param elems the elems
+     * @param stream the stream
+     */
+    public ElementsScreenshotInteraction(CoreWebElements<?> elems, OutputStream stream) {
+        super(elems, stream);
+    }
 
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
-	 */
-	@Override
-	protected void doPerform() {
-		try {
-			WebElement elem = getFirstElement();
-			
-			Point p = elem.getLocation();
-			int width = elem.getSize().getWidth();
-			int height = elem.getSize().getHeight();
+    /* (non-Javadoc)
+     * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
+     */
+    @Override
+    protected void doPerform() {
+        try {
+            WebElement elem = getFirstElement();
 
-			CoreWebElements<?> coreWebElements = (CoreWebElements<?>) getSource();
-			byte[] screenshot = ((WebElementsDriverProvider<?>) coreWebElements).webDriver().getScreenshotAs(OutputType.BYTES);
+            Point p = elem.getLocation();
+            int width = elem.getSize().getWidth();
+            int height = elem.getSize().getHeight();
 
-			BufferedImage img = null;
+            CoreWebElements<?> coreWebElements = getSource();
+            byte[] screenshot = ((WebElementsDriverProvider<?>) coreWebElements).webDriver().getScreenshotAs(OutputType.BYTES);
 
-			img = ImageIO.read(new ByteArrayInputStream(screenshot));
-			BufferedImage dest = img.getSubimage(p.getX(), p.getY(), width, height);
+            BufferedImage img = null;
 
-			ImageIO.write(dest, "png", stream);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-	
+            img = ImageIO.read(new ByteArrayInputStream(screenshot));
+            BufferedImage dest = img.getSubimage(p.getX(), p.getY(), width, height);
+
+            ImageIO.write(dest, "png", stream);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

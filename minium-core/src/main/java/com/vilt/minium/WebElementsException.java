@@ -24,55 +24,59 @@ import org.openqa.selenium.WebDriverException;
  */
 public class WebElementsException extends RuntimeException {
 
-	private static final long serialVersionUID = -8909663978475197389L;
+    private static final long serialVersionUID = -8909663978475197389L;
 
-	/**
-	 * Instantiates a new minium exception.
-	 */
-	public WebElementsException() {
-		super();
-	}
+    /**
+     * Instantiates a new minium exception.
+     */
+    public WebElementsException() {
+        super();
+    }
 
-	/**
-	 * Instantiates a new minium exception.
-	 *
-	 * @param message the message
-	 * @param cause the cause
-	 */
-	public WebElementsException(String message, Throwable cause) {
-		super(message, cause);
-	}
+    /**
+     * Instantiates a new minium exception.
+     *
+     * @param message the message
+     * @param cause the cause
+     */
+    public WebElementsException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
-	/**
-	 * Instantiates a new minium exception.
-	 *
-	 * @param message the message
-	 */
-	public WebElementsException(String message) {
-		super(message);
-	}
+    /**
+     * Instantiates a new minium exception.
+     *
+     * @param message the message
+     */
+    public WebElementsException(String message) {
+        super(message);
+    }
 
-	/**
-	 * Instantiates a new minium exception.
-	 *
-	 * @param cause the cause
-	 */
-	public WebElementsException(Throwable cause) {
-		super(getMessage(cause), cause);
-	}
+    /**
+     * Instantiates a new minium exception.
+     *
+     * @param cause the cause
+     */
+    public WebElementsException(Throwable cause) {
+        super(getMessage(cause), cause);
+    }
 
     protected static String getMessage(Throwable cause) {
-        if (cause == null) return null;
-        if (!(cause instanceof WebDriverException)) return cause.getMessage();
-        
+        if (cause == null)
+            return null;
+        if (!(cause instanceof WebDriverException))
+            return cause.getMessage();
+
         WebDriverException wdCause = (WebDriverException) cause;
-        
-        // we don't really want all that supporUrl and build stuff into our message
+
+        // we don't really want all that supporUrl and build stuff into our
+        // message
         // so let's remove that
         String message = wdCause.getMessage();
         int idx = message.indexOf("\nFor documentation on this error, please visit:");
-        if (idx < 0) idx = message.indexOf("\nBuild info:");
-        
+        if (idx < 0)
+            idx = message.indexOf("\nBuild info:");
+
         return idx < 0 ? message : message.substring(0, idx);
     }
 }

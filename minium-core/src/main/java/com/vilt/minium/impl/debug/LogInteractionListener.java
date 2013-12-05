@@ -31,19 +31,19 @@ import com.vilt.minium.impl.actions.DefaultInteractionListener;
  * @see LogInteractionEvent
  */
 public class LogInteractionListener extends DefaultInteractionListener {
-	
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteractionListener#onAfterInteractingEvent(com.vilt.minium.actions.InteractionEvent)
-	 */
-	@Override
-	protected void onAfterSuccessEvent(AfterSuccessInteractionEvent event) {
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteractionListener#onAfterFailingEvent(com.vilt.minium.actions.InteractionEvent)
-	 */
-	@Override
-	protected void onAfterFailEvent(AfterFailInteractionEvent event) {
-	}
+
+    /* (non-Javadoc)
+     * @see com.vilt.minium.actions.DefaultInteractionListener#onAfterInteractingEvent(com.vilt.minium.actions.InteractionEvent)
+     */
+    @Override
+    protected void onAfterSuccessEvent(AfterSuccessInteractionEvent event) {
+    }
+
+    /* (non-Javadoc)
+     * @see com.vilt.minium.actions.DefaultInteractionListener#onAfterFailingEvent(com.vilt.minium.actions.InteractionEvent)
+     */
+    @Override
+    protected void onAfterFailEvent(AfterFailInteractionEvent event) {
+    }
 
 }

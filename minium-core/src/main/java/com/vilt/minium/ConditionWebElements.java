@@ -18,19 +18,19 @@ package com.vilt.minium;
 @JQueryResources("minium/js/condition.js")
 public interface ConditionWebElements<T extends CoreWebElements<T>> extends WebElements {
 
-	public T ifNotEmpty(String selector);
-	
-	public T ifNotEmpty(T elems);
-	
-	public T ifEmpty(String elems);
+    public T ifNotEmpty(String selector);
 
-	public T ifEmpty(T elems);
+    public T ifNotEmpty(T elems);
 
-	public T notEmptyThen(String selector);
-	
-	public T notEmptyThen(T elems);
-	
-	public T emptyThen(String elems);
-	
-	public T emptyThen(T elems);
+    public T ifEmpty(String elems);
+
+    public T ifEmpty(T elems);
+
+    public T notEmptyThen(String selector);
+
+    public T notEmptyThen(T elems);
+
+    public T emptyThen(String elems);
+
+    public T emptyThen(T elems);
 }

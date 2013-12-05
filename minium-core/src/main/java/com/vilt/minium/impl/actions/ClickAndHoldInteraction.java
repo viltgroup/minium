@@ -22,26 +22,27 @@ import com.vilt.minium.CoreWebElements;
  */
 public class ClickAndHoldInteraction extends MouseInteraction {
 
-	/**
-	 * Instantiates a new click and hold interaction.
-	 *
-	 * @param source the source
-	 */
-	public ClickAndHoldInteraction(CoreWebElements<?> source) {
-		super(source);
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
-	 */
-	@Override
-	protected void doPerform() {
-		if (isSourceDocumentRoot()) {
-			getActions().clickAndHold().perform();
-		}
-		else {
-			getActions().clickAndHold(getFirstElement()).perform();
-		}
-	}
+    /**
+     * Instantiates a new click and hold interaction.
+     *
+     * @param source the source
+     */
+    public ClickAndHoldInteraction(CoreWebElements<?> source) {
+        super(source);
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
+     */
+    @Override
+    protected void doPerform() {
+        if (isSourceDocumentRoot()) {
+            getActions().clickAndHold().perform();
+        } else {
+            getActions().clickAndHold(getFirstElement()).perform();
+        }
+    }
 
 }

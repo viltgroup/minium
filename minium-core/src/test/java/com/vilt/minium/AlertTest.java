@@ -33,46 +33,47 @@ import org.testng.annotations.Test;
 import com.vilt.minium.actions.Interactions;
 
 public class AlertTest extends MiniumBaseTest {
-	
-	@BeforeClass
-	public void before() throws IOException {
-		wd = new DefaultWebElementsDriver(createNativeWebDriver());
-	}
 
-	@AfterClass
-	public void after() {
-		wd.quit();
-	}
-	
-	@BeforeMethod
-	public void openPage() {
-		get("minium/tests/alert-test.html");
-	}
+    @Override
+    @BeforeClass
+    public void before() throws IOException {
+        wd = new DefaultWebElementsDriver(createNativeWebDriver());
+    }
 
-	
-	@Test(enabled = false)
-	public void testAlert() {
-		$(wd).alert().accept();
-	}
-	
-	@Test(enabled = false)
-	public void testAlertTimeout() {
-		wd.configure().defaultTimeout(3, TimeUnit.SECONDS);
-		try {
-			$(wd).alert().accept();
-		} catch (TimeoutException e) {
-			assertTrue(e.getCause() instanceof NoAlertPresentException);
-		}
-	}
+    @Override
+    @AfterClass
+    public void after() {
+        wd.quit();
+    }
 
-	@Test(enabled = false)
-	public void testAlertCatch() {
-		wd.configure().defaultTimeout(3, TimeUnit.SECONDS);
-		wd.configure().exceptionHandlers().add(ExceptionHandlers.alwaysAcceptUnhandledAlerts());
-		
-		Interactions.waitTime(3, SECONDS);		
-		DefaultWebElements elem = $(wd, "h2");
-		
-		assertEquals(elem.text(), "Alert Tests");
-	}
+    @BeforeMethod
+    public void openPage() {
+        get("minium/tests/alert-test.html");
+    }
+
+    @Test(enabled = false)
+    public void testAlert() {
+        $(wd).alert().accept();
+    }
+
+    @Test(enabled = false)
+    public void testAlertTimeout() {
+        wd.configure().defaultTimeout(3, TimeUnit.SECONDS);
+        try {
+            $(wd).alert().accept();
+        } catch (TimeoutException e) {
+            assertTrue(e.getCause() instanceof NoAlertPresentException);
+        }
+    }
+
+    @Test(enabled = false)
+    public void testAlertCatch() {
+        wd.configure().defaultTimeout(3, TimeUnit.SECONDS);
+        wd.configure().exceptionHandlers().add(ExceptionHandlers.alwaysAcceptUnhandledAlerts());
+
+        Interactions.waitTime(3, SECONDS);
+        DefaultWebElements elem = $(wd, "h2");
+
+        assertEquals(elem.text(), "Alert Tests");
+    }
 }

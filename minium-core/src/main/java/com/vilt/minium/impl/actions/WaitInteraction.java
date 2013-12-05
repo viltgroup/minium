@@ -22,25 +22,25 @@ import com.vilt.minium.CoreWebElements;
  */
 public abstract class WaitInteraction extends DefaultInteraction {
 
-	/**
-	 * Instantiates a new wait interaction.
-	 *
-	 * @param elems the elems
-	 */
-	public WaitInteraction(CoreWebElements<?> elems) {
-		super(elems);
-	}
-	
-	@Override
-	public void waitToPerform() {
-		// do nothing
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteraction#getSource()
-	 */
-	@Override
-	public CoreWebElements<?> getSource() {
-		return (CoreWebElements<?>) super.getSource();
-	}
+    /**
+     * Instantiates a new wait interaction.
+     *
+     * @param elems the elems
+     */
+    public WaitInteraction(CoreWebElements<?> elems) {
+        super(elems);
+    }
+
+    @Override
+    public void waitToPerform() {
+        // do nothing
+    }
+
+    /* (non-Javadoc)
+     * @see com.vilt.minium.actions.DefaultInteraction#getSource()
+     */
+    @Override
+    public CoreWebElements<?> getSource() {
+        return super.getSource();
+    }
 }

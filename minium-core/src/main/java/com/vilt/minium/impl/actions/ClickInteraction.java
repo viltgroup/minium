@@ -22,25 +22,26 @@ import com.vilt.minium.CoreWebElements;
  */
 public class ClickInteraction extends MouseInteraction {
 
-	/**
-	 * Instantiates a new click interaction.
-	 *
-	 * @param source the source
-	 */
-	public ClickInteraction(CoreWebElements<?> source) {
-		super(source);
-	}
+    /**
+     * Instantiates a new click interaction.
+     *
+     * @param source the source
+     */
+    public ClickInteraction(CoreWebElements<?> source) {
+        super(source);
+    }
 
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
-	 */
-	@Override
-	protected void doPerform() {
-		if (isSourceDocumentRoot()) {
-			getActions().click().perform();
-		}
-		else {
-			getFirstElement().click();
-		}
-	}
+    /*
+     * (non-Javadoc)
+     *
+     * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
+     */
+    @Override
+    protected void doPerform() {
+        if (isSourceDocumentRoot()) {
+            getActions().click().perform();
+        } else {
+            getFirstElement().click();
+        }
+    }
 }

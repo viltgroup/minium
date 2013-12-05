@@ -29,34 +29,34 @@ import com.vilt.minium.WebElementsException;
  */
 public class WaitTimeInteraction extends WaitInteraction {
 
-	private Duration waitTime;
+    private Duration waitTime;
 
-	/**
-	 * Instantiates a new wait time interaction.
-	 *
-	 * @param waitTime the wait time
-	 */
-	public WaitTimeInteraction(Duration waitTime) {
-		super(null);
-		
-		checkNotNull(waitTime);
-		this.waitTime = waitTime;
-	}
+    /**
+     * Instantiates a new wait time interaction.
+     *
+     * @param waitTime the wait time
+     */
+    public WaitTimeInteraction(Duration waitTime) {
+        super(null);
 
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
-	 */
-	@Override
-	protected void doPerform() {
-		long time = waitTime.getTime();
-		TimeUnit unit = waitTime.getUnit();
+        checkNotNull(waitTime);
+        this.waitTime = waitTime;
+    }
 
-		org.openqa.selenium.support.ui.Duration duration = new org.openqa.selenium.support.ui.Duration(time, unit);
-		try {
-			Sleeper.SYSTEM_SLEEPER.sleep(duration);
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
-			throw new WebElementsException(e);
-		}
-	}
+    /* (non-Javadoc)
+     * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
+     */
+    @Override
+    protected void doPerform() {
+        long time = waitTime.getTime();
+        TimeUnit unit = waitTime.getUnit();
+
+        org.openqa.selenium.support.ui.Duration duration = new org.openqa.selenium.support.ui.Duration(time, unit);
+        try {
+            Sleeper.SYSTEM_SLEEPER.sleep(duration);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new WebElementsException(e);
+        }
+    }
 }

@@ -22,25 +22,24 @@ import com.vilt.minium.CoreWebElements;
  */
 public class ContextClickInteraction extends MouseInteraction {
 
-	/**
-	 * Instantiates a new context click interaction.
-	 *
-	 * @param source the source
-	 */
-	public ContextClickInteraction(CoreWebElements<?> source) {
-		super(source);
-	}
+    /**
+     * Instantiates a new context click interaction.
+     *
+     * @param source the source
+     */
+    public ContextClickInteraction(CoreWebElements<?> source) {
+        super(source);
+    }
 
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
-	 */
-	@Override
-	protected void doPerform() {
-		if (isSourceDocumentRoot()) {
-			getActions().contextClick().perform();
-		}
-		else {
-			getActions().contextClick(getFirstElement()).perform();
-		}
-	}
+    /* (non-Javadoc)
+     * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
+     */
+    @Override
+    protected void doPerform() {
+        if (isSourceDocumentRoot()) {
+            getActions().contextClick().perform();
+        } else {
+            getActions().contextClick(getFirstElement()).perform();
+        }
+    }
 }

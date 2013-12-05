@@ -21,16 +21,16 @@ import com.vilt.minium.WebElementsDriverProvider;
 
 public class GetInteraction extends DefaultInteraction {
 
-	private String url;
+    private String url;
 
-	public GetInteraction(CoreWebElements<?> elems, String url) {
-		super(elems);
-		this.url = url;
-	}
+    public GetInteraction(CoreWebElements<?> elems, String url) {
+        super(elems);
+        this.url = url;
+    }
 
-	@Override
-	protected void doPerform() {
-		WebElementsDriver<?> webDriver = ((WebElementsDriverProvider<?>) getSource()).webDriver();
-		webDriver.get(url);
-	}
+    @Override
+    protected void doPerform() {
+        WebElementsDriver<?> webDriver = ((WebElementsDriverProvider<?>) getSource()).webDriver();
+        webDriver.get(url);
+    }
 }

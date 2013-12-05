@@ -27,25 +27,25 @@ import com.vilt.minium.impl.actions.AsyncTimeElapsedInteraction;
  */
 public class HighlightInteraction extends AsyncTimeElapsedInteraction {
 
-	/**
-	 * Instantiates a new highlight interaction.
-	 *
-	 * @param elems the elems
-	 */
-	public HighlightInteraction(CoreWebElements<?> elems) {
-		this(elems, new Duration(2, TimeUnit.SECONDS));
-	}
+    /**
+     * Instantiates a new highlight interaction.
+     *
+     * @param elems the elems
+     */
+    public HighlightInteraction(CoreWebElements<?> elems) {
+        this(elems, new Duration(2, TimeUnit.SECONDS));
+    }
 
-	public HighlightInteraction(CoreWebElements<?> elems, Duration duration) {
-		super(elems, duration);
-	}
+    public HighlightInteraction(CoreWebElements<?> elems, Duration duration) {
+        super(elems, duration);
+    }
 
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
-	 */
-	@Override
-	protected void doPerform() {
-		super.doPerform();
-		((DebugWebElements) getSource()).highlight();
-	}
+    /* (non-Javadoc)
+     * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
+     */
+    @Override
+    protected void doPerform() {
+        super.doPerform();
+        ((DebugWebElements) getSource()).highlight();
+    }
 }

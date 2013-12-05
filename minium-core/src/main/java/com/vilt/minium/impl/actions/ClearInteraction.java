@@ -21,21 +21,21 @@ import com.vilt.minium.CoreWebElements;
  * The Class ClearInteraction.
  */
 public class ClearInteraction extends KeyboardInteraction {
-	
-	/**
-	 * Instantiates a new clear interaction.
-	 *
-	 * @param source the source
-	 */
-	public ClearInteraction(CoreWebElements<?> source) {
-		super(source);
-	}
 
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
-	 */
-	@Override
-	protected void doPerform() {
-		getFirstElement().clear();
-	}
+    /**
+     * Instantiates a new clear interaction.
+     *
+     * @param source the source
+     */
+    public ClearInteraction(CoreWebElements<?> source) {
+        super(source);
+    }
+
+    /* (non-Javadoc)
+     * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
+     */
+    @Override
+    protected void doPerform() {
+        getFirstElement().clear();
+    }
 }

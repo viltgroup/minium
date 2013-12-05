@@ -22,24 +22,24 @@ import com.vilt.minium.CoreWebElements;
  */
 public class DragAndDropInteraction extends MouseInteraction {
 
-	private CoreWebElements<?> target;
+    private CoreWebElements<?> target;
 
-	/**
-	 * Instantiates a new drag and drop interaction.
-	 *
-	 * @param source the source
-	 * @param target the target
-	 */
-	public DragAndDropInteraction(CoreWebElements<?> source, CoreWebElements<?> target) {
-		super(source);
-		this.target = target;
-	}
+    /**
+     * Instantiates a new drag and drop interaction.
+     *
+     * @param source the source
+     * @param target the target
+     */
+    public DragAndDropInteraction(CoreWebElements<?> source, CoreWebElements<?> target) {
+        super(source);
+        this.target = target;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
-	 */
-	@Override
-	protected void doPerform() {
-		getActions().dragAndDrop(getFirstElement(), getFirstElement(target)).perform();
-	}
+    /* (non-Javadoc)
+     * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
+     */
+    @Override
+    protected void doPerform() {
+        getActions().dragAndDrop(getFirstElement(), getFirstElement(target)).perform();
+    }
 }

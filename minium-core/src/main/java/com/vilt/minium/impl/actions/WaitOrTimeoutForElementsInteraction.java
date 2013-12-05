@@ -24,20 +24,20 @@ import com.vilt.minium.CoreWebElements;
  */
 public class WaitOrTimeoutForElementsInteraction extends WaitInteraction {
 
-	/**
-	 * Instantiates a new wait or timeout for elements interaction.
-	 *
-	 * @param elems the elems
-	 */
-	public WaitOrTimeoutForElementsInteraction(CoreWebElements<?> elems) {
-		super(elems);
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
-	 */
-	@Override
-	protected void doPerform() {
-		getSource().waitOrTimeout(getTimeout(), whileEmpty());
-	}
+    /**
+     * Instantiates a new wait or timeout for elements interaction.
+     *
+     * @param elems the elems
+     */
+    public WaitOrTimeoutForElementsInteraction(CoreWebElements<?> elems) {
+        super(elems);
+    }
+
+    /* (non-Javadoc)
+     * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
+     */
+    @Override
+    protected void doPerform() {
+        getSource().waitOrTimeout(getTimeout(), whileEmpty());
+    }
 }

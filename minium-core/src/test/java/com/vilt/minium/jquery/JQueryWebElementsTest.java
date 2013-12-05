@@ -27,15 +27,15 @@ import com.vilt.minium.MiniumBaseTest;
 
 public class JQueryWebElementsTest extends MiniumBaseTest {
 
-	@BeforeMethod
-	public void openPage() {
-		get("minium/tests/jquery-test.html");
-	}
-	
-	@Test
-	public void testTextInputs() {
-		assertThat(Iterables.size($(wd, "input:text")), equalTo(1));
-		assertThat(Iterables.size($(wd, "input:password")), equalTo(1));
-	}
-	
+    @BeforeMethod
+    public void openPage() {
+        get("minium/tests/jquery-test.html");
+    }
+
+    @Test
+    public void testTextInputs() {
+        assertThat(Iterables.size($(wd, "input:text")), equalTo(1));
+        assertThat(Iterables.size($(wd, "input:password")), equalTo(1));
+    }
+
 }

@@ -24,27 +24,28 @@ import com.vilt.minium.CoreWebElements;
  */
 public class ClickAllInteraction extends MouseInteraction {
 
-	/**
-	 * Instantiates a new click all interaction.
-	 *
-	 * @param source the source
-	 */
-	public ClickAllInteraction(CoreWebElements<?> source) {
-		super(source);
-	}
+    /**
+     * Instantiates a new click all interaction.
+     *
+     * @param source the source
+     */
+    public ClickAllInteraction(CoreWebElements<?> source) {
+        super(source);
+    }
 
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
-	 */
-	@Override
-	protected void doPerform() {
-		if (isSourceDocumentRoot()) {
-			getActions().click().perform();
-		}
-		else {
-			for (WebElement elem : getSource()) {
-				elem.click();
-			}
-		}
-	}
+    /*
+     * (non-Javadoc)
+     *
+     * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
+     */
+    @Override
+    protected void doPerform() {
+        if (isSourceDocumentRoot()) {
+            getActions().click().perform();
+        } else {
+            for (WebElement elem : getSource()) {
+                elem.click();
+            }
+        }
+    }
 }

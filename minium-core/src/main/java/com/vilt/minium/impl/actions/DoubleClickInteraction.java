@@ -22,25 +22,26 @@ import com.vilt.minium.CoreWebElements;
  */
 public class DoubleClickInteraction extends MouseInteraction {
 
-	/**
-	 * Instantiates a new double click interaction.
-	 *
-	 * @param source the source
-	 */
-	public DoubleClickInteraction(CoreWebElements<?> source) {
-		super(source);
-	}
+    /**
+     * Instantiates a new double click interaction.
+     *
+     * @param source the source
+     */
+    public DoubleClickInteraction(CoreWebElements<?> source) {
+        super(source);
+    }
 
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
-	 */
-	@Override
-	protected void doPerform() {
-		if (isSourceDocumentRoot()) {
-			getActions().doubleClick().perform();
-		}
-		else {
-			getActions().doubleClick(getFirstElement()).perform();
-		}
-	}
+    /*
+     * (non-Javadoc)
+     *
+     * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
+     */
+    @Override
+    protected void doPerform() {
+        if (isSourceDocumentRoot()) {
+            getActions().doubleClick().perform();
+        } else {
+            getActions().doubleClick(getFirstElement()).perform();
+        }
+    }
 }

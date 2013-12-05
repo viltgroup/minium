@@ -23,21 +23,21 @@ import com.vilt.minium.actions.touch.TouchInteraction;
  */
 public class TouchUpInteraction extends TouchInteraction {
 
-	/**
-	 * Instantiates a new touch up interaction.
-	 *
-	 * @param elems the elems
-	 * @param x the x
-	 * @param y the y
-	 */
-	public TouchUpInteraction(CoreWebElements<?> elems, int x, int y) {
-		super(elems);
-	}
+    /**
+     * Instantiates a new touch up interaction.
+     *
+     * @param elems the elems
+     * @param x the x
+     * @param y the y
+     */
+    public TouchUpInteraction(CoreWebElements<?> elems, int x, int y) {
+        super(elems);
+    }
 
-	@Override
-	protected void doPerform() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet");
-	}
+    @Override
+    protected void doPerform() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
 
 }

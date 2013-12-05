@@ -1,20 +1,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<parent>
-	    <groupId>org.sonatype.oss</groupId>
-	    <artifactId>oss-parent</artifactId>
-	    <version>7</version>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
 	</parent>
-	
+
 	<groupId>com.vilt-group.minium</groupId>
 	<artifactId>minium</artifactId>
 	<version>0.9.2-SNAPSHOT</version>
-	
+
 	<name>Minium - Parent</name>
 	<packaging>pom</packaging>
-	
+
 	<developers>
 		<developer>
 			<id>rui.figueira</id>
@@ -25,7 +25,7 @@
 			<timezone>Europe/Lisbon</timezone>
 		</developer>
 	</developers>
-	
+
 	<scm>
 		<connection>scm:git:git://github.com/viltgroup/minium.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/viltgroup/minium.git</developerConnection>
@@ -45,31 +45,34 @@
 			<comments>A business-friendly OSS license</comments>
 		</license>
 	</licenses>
-		
+
 	<modules>
-	    <module>minium-core</module>
-   	    <module>minium-speech</module>
-   	    <module>minium-webconsole</module>
-   	    <module>minium-app</module>
-   	    <module>minium-script</module>
-   	    <module>minium-prefs</module>
+		<module>minium-core</module>
+		<module>minium-speech</module>
+		<module>minium-webconsole</module>
+		<module>minium-app</module>
+		<module>minium-script</module>
+		<module>minium-prefs</module>
+		<!-- Check http://maven.apache.org/plugins/maven-checkstyle-plugin/examples/multi-module-config.html -->
+		<module>build-tools</module>
 	</modules>
-	
+
 	<properties>
+		<target.jdk>1.6</target.jdk>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	
-	    <java.version>1.6</java.version>
-	    <selenium.version>2.35.0</selenium.version>
-	    <guava.version>15.0</guava.version>
-	    <jetty.version>8.1.11.v20130520</jetty.version>
-	    <phantomjsdriver.version>1.0.4</phantomjsdriver.version>
-	    <spring.version>3.2.4.RELEASE</spring.version>
-	    <jackson2.version>2.2.3</jackson2.version>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<selenium.version>2.35.0</selenium.version>
+		<guava.version>15.0</guava.version>
+		<jetty.version>8.1.11.v20130520</jetty.version>
+		<phantomjsdriver.version>1.0.4</phantomjsdriver.version>
+		<spring.version>3.2.4.RELEASE</spring.version>
+		<jackson2.version>2.2.3</jackson2.version>
 		<rhino.version>1.7R4</rhino.version>
-	    <closure.version>v20131014</closure.version>
-	    <slf4j.version>1.7.5</slf4j.version>
-	    <log4j.version>1.2.17</log4j.version>
-	    <commons.io.version>2.4</commons.io.version>
+		<closure.version>v20131014</closure.version>
+		<slf4j.version>1.7.5</slf4j.version>
+		<log4j.version>1.2.17</log4j.version>
+		<commons.io.version>2.4</commons.io.version>
 		<commons.lang3.version>3.1</commons.lang3.version>
 		<jlayer.version>1.0.1</jlayer.version>
 		<javassist.version>3.16.1-GA</javassist.version>
@@ -78,14 +81,14 @@
 		<hamcrest.version>1.2.1</hamcrest.version>
 		<testng.version>6.8</testng.version>
 		<mockito.version>1.9.0</mockito.version>
-	    
-	    <!-- License properties -->
+
+		<!-- License properties -->
 		<license.name>apache_v2</license.name>
 		<license.inception.year>2013</license.inception.year>
 		<license.organization.name>VILT Group</license.organization.name>
 		<license.project.name>Minium</license.project.name>
 	</properties>
-	
+
 	<dependencyManagement>
 		<dependencies>
 			<!-- Minium modules -->
@@ -115,7 +118,14 @@
 				<version>${project.version}</version>
 				<type>war</type>
 			</dependency>
-			
+			<dependency>
+				<groupId>com.vilt-group.minium</groupId>
+				<artifactId>build-tools</artifactId>
+				<version>${project.version}</version>
+				<scope>provided</scope>
+				<optional>true</optional>
+			</dependency>
+
 			<!-- Utilities -->
 			<dependency>
 				<groupId>commons-io</groupId>
@@ -167,7 +177,7 @@
 				<artifactId>jackson-annotations</artifactId>
 				<version>${jackson2.version}</version>
 			</dependency>
-			
+
 			<!-- Jetty Server -->
 			<dependency>
 				<groupId>org.eclipse.jetty</groupId>
@@ -186,7 +196,7 @@
 				<artifactId>log4j</artifactId>
 				<version>${log4j.version}</version>
 			</dependency>
-	        <dependency>
+			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
 				<version>${slf4j.version}</version>
@@ -201,14 +211,14 @@
 				<artifactId>jcl-over-slf4j</artifactId>
 				<version>${slf4j.version}</version>
 			</dependency>
-			
+
 			<!-- Servlet -->
 			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>servlet-api</artifactId>
 				<version>${servlet.version}</version>
 			</dependency>
-			
+
 			<!-- Spring -->
 			<dependency>
 				<groupId>org.springframework</groupId>
@@ -242,7 +252,7 @@
 				<artifactId>spring-test</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
-			
+
 			<!-- Selenium -->
 			<dependency>
 				<groupId>org.seleniumhq.selenium</groupId>
@@ -289,7 +299,7 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
-			
+
 			<!-- Test -->
 			<dependency>
 				<groupId>org.hamcrest</groupId>
@@ -312,19 +322,14 @@
 				<artifactId>mockito-core</artifactId>
 				<version>${mockito.version}</version>
 			</dependency>
-
 		</dependencies>
 	</dependencyManagement>
-	
+
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -337,7 +342,12 @@
 			<plugin>
 				<groupId>com.ning.maven.plugins</groupId>
 				<artifactId>maven-duplicate-finder-plugin</artifactId>
-			</plugin>	
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+			</plugin>
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-eclipse-plugin</artifactId> </plugin> -->
 		</plugins>
 		<pluginManagement>
 			<plugins>
@@ -373,11 +383,6 @@
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-resources-plugin</artifactId>
-					<version>2.6</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>2.16</version>
 				</plugin>
@@ -402,14 +407,19 @@
 					<version>9.1.0.RC0</version>
 				</plugin>
 				<plugin>
-		       		<groupId>org.apache.maven.plugins</groupId>
+					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-antrun-plugin</artifactId>
 					<version>1.3</version>
-	     		</plugin>
+				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>2.14.1</version>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>2.6</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>2.4</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -420,10 +430,10 @@
 						<verbose>false</verbose>
 						<debug>true</debug>
 						<maxmem>128m</maxmem>
-						<encoding>UTF-8</encoding>
-						<compilerversion>${java.version}</compilerversion>
-						<source>${java.version}</source>
-						<target>${java.version}</target>
+						<encoding>${project.build.sourceEncoding}</encoding>
+						<compilerversion>${target.jdk}</compilerversion>
+						<source>${target.jdk}</source>
+						<target>${target.jdk}</target>
 						<compilerArgs>
 							<arg>-Werror</arg>
 							<arg>-Xlint:-options</arg>
@@ -433,41 +443,54 @@
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>2.9</version>
-					<configuration>
-						<excludePackageNames>*.impl.*</excludePackageNames>
-						<links>
-							<link>http://selenium.googlecode.com/svn/trunk/docs/api/java/</link>
-							<link>http://docs.guava-libraries.googlecode.com/git-history/v${guava.version}/javadoc/</link>
-						</links>
-					</configuration>
-					<executions>
-						<execution>
-							<id>attach-javadocs</id>
-							<goals>
-								<goal>jar</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-				<plugin>
 					<artifactId>maven-release-plugin</artifactId>
 					<configuration>
 						<useReleaseProfile>false</useReleaseProfile>
 						<releaseProfiles>release</releaseProfiles>
 						<autoVersionSubmodules>true</autoVersionSubmodules>
 					</configuration>
-			    </plugin>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-checkstyle-plugin</artifactId>
+					<version>2.11</version>
+					<configuration>
+						<configLocation>minium/checkstyle.xml</configLocation>
+						<headerLocation>/minium/LICENSE.txt</headerLocation>
+						<suppressionsLocation>minium/suppressions.xml</suppressionsLocation>
+						<propertiesLocation>checkstyle.properties</propertiesLocation>
+						<propertyExpansion>basedir=${basedir}</propertyExpansion>
+						<consoleOutput>true</consoleOutput>
+						<failsOnError>true</failsOnError>
+						<linkXRef>false</linkXRef>
+						<includeTestSourceDirectory>true</includeTestSourceDirectory>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>build-tools</artifactId>
+							<version>${project.version}</version>
+						</dependency>
+					</dependencies>
+					<executions>
+						<execution>
+							<id>validate</id>
+							<phase>validate</phase>
+							<goals>
+								<goal>checkstyle</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>animal-sniffer-maven-plugin</artifactId>
 					<version>1.9</version>
 					<configuration>
 						<signature>
-			                <groupId>org.codehaus.mojo.signature</groupId>
-			                <artifactId>java16</artifactId>
-			                <version>1.1</version>
+							<groupId>org.codehaus.mojo.signature</groupId>
+							<artifactId>java16</artifactId>
+							<version>1.1</version>
 						</signature>
 					</configuration>
 					<executions>
@@ -479,7 +502,7 @@
 							</goals>
 						</execution>
 					</executions>
-		        </plugin>
+				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-enforcer-plugin</artifactId>
@@ -578,6 +601,42 @@
 					</executions>
 				</plugin>
 				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>2.9</version>
+					<configuration>
+						<excludePackageNames>*.impl.*</excludePackageNames>
+						<links>
+							<link>http://selenium.googlecode.com/svn/trunk/docs/api/java/</link>
+							<link>http://docs.guava-libraries.googlecode.com/git-history/v${guava.version}/javadoc/</link>
+						</links>
+					</configuration>
+					<executions>
+						<execution>
+							<id>attach-javadocs</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-gpg-plugin</artifactId>
+					<version>1.1</version>
+					<executions>
+						<execution>
+							<id>sign-artifacts</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>sign</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
+				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
 					<version>1.0.0</version>
@@ -630,8 +689,25 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-	
+
 	<profiles>
+		<profile>
+			<id>release-javadocs</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 		<profile>
 			<id>release-sign-artifacts</id>
 			<activation>
@@ -645,20 +721,10 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
-						<version>1.1</version>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
 					</plugin>
 				</plugins>
 			</build>
 		</profile>
-    </profiles>
-    
+	</profiles>
+
 </project>

@@ -24,26 +24,26 @@ import com.vilt.minium.CoreWebElements;
  */
 public class FillInteraction extends KeyboardInteraction {
 
-	private CharSequence text;
+    private CharSequence text;
 
-	/**
-	 * Instantiates a new fill interaction.
-	 *
-	 * @param source the source
-	 * @param text the text
-	 */
-	public FillInteraction(CoreWebElements<?> source, CharSequence text) {
-		super(source);
-		this.text = text;
-	}
+    /**
+     * Instantiates a new fill interaction.
+     *
+     * @param source the source
+     * @param text the text
+     */
+    public FillInteraction(CoreWebElements<?> source, CharSequence text) {
+        super(source);
+        this.text = text;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
-	 */
-	@Override
-	protected void doPerform() {
-		WebElement elem = getFirstElement();
-		elem.clear();
-		elem.sendKeys(text);
-	}
+    /* (non-Javadoc)
+     * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
+     */
+    @Override
+    protected void doPerform() {
+        WebElement elem = getFirstElement();
+        elem.clear();
+        elem.sendKeys(text);
+    }
 }

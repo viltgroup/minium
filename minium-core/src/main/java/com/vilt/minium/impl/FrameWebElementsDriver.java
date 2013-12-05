@@ -31,65 +31,56 @@ import com.vilt.minium.WebElementsDriver;
 
 public class FrameWebElementsDriver<T extends CoreWebElements<T>> extends WebElementsDriver<T> {
 
-	final Logger logger = LoggerFactory.getLogger(FrameWebElementsDriver.class);
-	
-	private final WebElement elem;
-	private WebElementsDriver<T> parentWebDriver;
+    final Logger logger = LoggerFactory.getLogger(FrameWebElementsDriver.class);
 
-	public FrameWebElementsDriver(WebElementsDriver<T> wd, WebElementsFactory factory, WebElement elem) {
-		super(wd.getWrappedWebDriver(), factory, wd.configure());
-		this.parentWebDriver = wd;
-		this.elem = elem;
-	}
+    private final WebElement elem;
+    private WebElementsDriver<T> parentWebDriver;
 
-	@Override
-	public void ensureSwitch() {
-		parentWebDriver.ensureSwitch();
-		// we reposition the WebDriver to the corresponding frame
-		if (getNativeWebElement() != null) {
-//			// workaround as described in http://code.google.com/p/selenium/issues/detail?id=1969#c13
-//			String id = getFrameId();
-//			
-//			try {
-//				wd.switchTo().frame(id);
-//				logger.debug("Switched to frame with id '{}'", id, windowHandle);
-//			} catch (Exception e) {
-//				wd.switchTo().frame(getNativeWebElement());
-//			}
-			wd.switchTo().frame(getNativeWebElement());
-		}
-	}
+    public FrameWebElementsDriver(WebElementsDriver<T> wd, WebElementsFactory factory, WebElement elem) {
+        super(wd.getWrappedWebDriver(), factory, wd.configure());
+        this.parentWebDriver = wd;
+        this.elem = elem;
+    }
 
-	protected String getFrameId() {
-		String id = getNativeWebElement().getAttribute("id");
-		if (StringUtils.isEmpty(id)) {
-			// if no id is set, then we generate a random one and set the iframe with it
-			id = UUID.randomUUID().toString();
-			((JavascriptExecutor) wd).executeScript("arguments[0].setAttribute('id', arguments[1]);", getNativeWebElement(), id);					
-		}
-		return id;
-	}
+    @Override
+    public void ensureSwitch() {
+        parentWebDriver.ensureSwitch();
+        // we reposition the WebDriver to the corresponding frame
+        if (getNativeWebElement() != null) {
+            wd.switchTo().frame(getNativeWebElement());
+        }
+    }
 
-	public WebElement getNativeWebElement() {
-		return elem instanceof DelegateWebElement ? ((DelegateWebElement) elem).getWrappedWebElement() : elem;
-	}
+    protected String getFrameId() {
+        String id = getNativeWebElement().getAttribute("id");
+        if (StringUtils.isEmpty(id)) {
+            // if no id is set, then we generate a random one and set the iframe with it
+            id = UUID.randomUUID().toString();
+            ((JavascriptExecutor) wd).executeScript("arguments[0].setAttribute('id', arguments[1]);", getNativeWebElement(), id);
+        }
+        return id;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null || !(obj instanceof FrameWebElementsDriver))
-			return false;
+    public WebElement getNativeWebElement() {
+        return elem instanceof DelegateWebElement ? ((DelegateWebElement) elem).getWrappedWebElement() : elem;
+    }
 
-		return Objects.equal(parentWebDriver, ((FrameWebElementsDriver<?>) obj).parentWebDriver) &&
-			   Objects.equal(getNativeWebElement(), ((FrameWebElementsDriver<?>) obj).elem);
-	}
-	
-	@Override
-	public int hashCode() {
-		return Objects.hashCode(getNativeWebElement(), getNativeWebElement());
-	}
-	
-	@Override
-	public String toString() {
-		return format("frame(id='%s')", getNativeWebElement().getAttribute("id"));
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || !(obj instanceof FrameWebElementsDriver))
+            return false;
+
+        return Objects.equal(parentWebDriver, ((FrameWebElementsDriver<?>) obj).parentWebDriver) &&
+                Objects.equal(getNativeWebElement(), ((FrameWebElementsDriver<?>) obj).elem);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getNativeWebElement(), getNativeWebElement());
+    }
+
+    @Override
+    public String toString() {
+        return format("frame(id='%s')", getNativeWebElement().getAttribute("id"));
+    }
 }

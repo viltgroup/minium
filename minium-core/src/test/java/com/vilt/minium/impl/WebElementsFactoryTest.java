@@ -28,18 +28,18 @@ import com.vilt.minium.JQueryWebElements;
 
 public class WebElementsFactoryTest {
 
-	@Test
-	public void testInterfaces() {
-		WebElementsFactory factory = new WebElementsFactory(DefaultWebElements.class);
-		DefaultWebElementsDriver wd = mock(DefaultWebElementsDriver.class);
-		DefaultWebElements elem = WebElementsFactoryHelper.createRootWebElements(factory, wd);
-		assertTrue(elem instanceof JQueryWebElements<?>);
-	}
+    @Test
+    public void testInterfaces() {
+        WebElementsFactory factory = new WebElementsFactory(DefaultWebElements.class);
+        DefaultWebElementsDriver wd = mock(DefaultWebElementsDriver.class);
+        DefaultWebElements elem = WebElementsFactoryHelper.createRootWebElements(factory, wd);
+        assertTrue(elem instanceof JQueryWebElements<?>);
+    }
 
-	@Test
-	public void testResources() {
-		WebElementsFactory factory = new WebElementsFactory(DefaultWebElements.class);
-		JQueryInvoker invoker = factory.getInvoker();
-		assertThat(invoker.getJsResources(), hasItems("minium/js/jquery.min.js", "minium/js/position.js"));
-	}
+    @Test
+    public void testResources() {
+        WebElementsFactory factory = new WebElementsFactory(DefaultWebElements.class);
+        JQueryInvoker invoker = factory.getInvoker();
+        assertThat(invoker.getJsResources(), hasItems("minium/js/jquery.min.js", "minium/js/position.js"));
+    }
 }

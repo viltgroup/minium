@@ -33,68 +33,70 @@ import com.vilt.minium.WebElementsDriver;
 
 public class ClientSideGoogleSpeechInteraction extends GoogleSpeechInteraction {
 
-	private WebElementsDriver<?> wd;
+    private WebElementsDriver<?> wd;
 
-	public ClientSideGoogleSpeechInteraction(WebElementsDriver<?> wd, Locale locale, String text) {
-		super(locale, text);
-		this.wd = wd;
-	}
+    public ClientSideGoogleSpeechInteraction(WebElementsDriver<?> wd, Locale locale, String text) {
+        super(locale, text);
+        this.wd = wd;
+    }
 
-	@Override
-	public void waitToPerform() {
-		if (withoutWaiting().checkEmpty($(wd, "#gt-appname").withText("Translate"))) {
-			wd.get("http://translate.google.com/");
-		}
-		
-		String displayLanguage = locale.getDisplayLanguage(Locale.ENGLISH);
-		if (withoutWaiting().checkEmpty($(wd, "#gt-src-lang-sugg div").withAttr("aria-pressed", "true").withText(displayLanguage))) {
-			CoreWebElements<?> srcItem = $(wd, ".goog-menuitem-content").withText(displayLanguage);
+    @Override
+    public void waitToPerform() {
+        if (withoutWaiting().checkEmpty($(wd, "#gt-appname").withText("Translate"))) {
+            wd.get("http://translate.google.com/");
+        }
 
-			waitTime(500, MILLISECONDS);
-			click($(wd, "#gt-lang-src"));
-			waitTime(500, MILLISECONDS);
-			click(srcItem);
-		}
-	}
+        String displayLanguage = locale.getDisplayLanguage(Locale.ENGLISH);
+        if (withoutWaiting().checkEmpty($(wd, "#gt-src-lang-sugg div").withAttr("aria-pressed", "true").withText(displayLanguage))) {
+            CoreWebElements<?> srcItem = $(wd, ".goog-menuitem-content").withText(displayLanguage);
 
-	@Override
-	protected void doPerform() {
-		CoreWebElements<?> source = $(wd, "#source");
+            waitTime(500, MILLISECONDS);
+            click($(wd, "#gt-lang-src"));
+            waitTime(500, MILLISECONDS);
+            click(srcItem);
+        }
+    }
 
-		clear(source);
-		source.call(parse("function(text) { $(this).val(text); }"), text);
-		waitTime(200, MILLISECONDS);
+    @Override
+    protected void doPerform() {
+        CoreWebElements<?> source = $(wd, "#source");
 
-		click($(wd, "#gt-submit"));
+        clear(source);
+        source.call(parse("function(text) { $(this).val(text); }"), text);
+        waitTime(200, MILLISECONDS);
 
-		CoreWebElements<?> soundBtn = $(wd, "#gt-src-listen");
-		CoreWebElements<?> listenNotPressed = soundBtn.filter(":not(.goog-toolbar-button-checked)").displayed();
+        click($(wd, "#gt-submit"));
 
-		waitWhileEmpty(listenNotPressed);
-		click(listenNotPressed);
-	}
+        CoreWebElements<?> soundBtn = $(wd, "#gt-src-listen");
+        CoreWebElements<?> listenNotPressed = soundBtn.filter(":not(.goog-toolbar-button-checked)").displayed();
 
-	public boolean isComplete() {
-		CoreWebElements<?> soundBtn = $(wd, "#gt-src-listen");
+        waitWhileEmpty(listenNotPressed);
+        click(listenNotPressed);
+    }
 
-		CoreWebElements<?> listenPressed = soundBtn.filter(".goog-toolbar-button-checked").displayed();
-		return withoutWaiting().checkEmpty(listenPressed);
-	}
+    @Override
+    public boolean isComplete() {
+        CoreWebElements<?> soundBtn = $(wd, "#gt-src-listen");
 
-	public void waitUntilCompleted() {
-		CoreWebElements<?> soundBtn = $(wd, "#gt-src-listen");
+        CoreWebElements<?> listenPressed = soundBtn.filter(".goog-toolbar-button-checked").displayed();
+        return withoutWaiting().checkEmpty(listenPressed);
+    }
 
-		CoreWebElements<?> listenPressed = soundBtn.filter(".goog-toolbar-button-checked").displayed();
-		CoreWebElements<?> listenNotPressed = soundBtn.filter(":not(.goog-toolbar-button-checked)").displayed();
+    @Override
+    public void waitUntilCompleted() {
+        CoreWebElements<?> soundBtn = $(wd, "#gt-src-listen");
 
-		withTimeout(60, SECONDS).waitWhileEmpty(listenPressed);
+        CoreWebElements<?> listenPressed = soundBtn.filter(".goog-toolbar-button-checked").displayed();
+        CoreWebElements<?> listenNotPressed = soundBtn.filter(":not(.goog-toolbar-button-checked)").displayed();
 
-		CoreWebElements<?> clear = $(wd, "#clear span").displayed();
+        withTimeout(60, SECONDS).waitWhileEmpty(listenPressed);
 
-		if (withoutWaiting().checkNotEmpty(clear)) {
-			click(clear);
-			withTimeout(5, SECONDS).waitWhileEmpty(listenNotPressed);
-		}
-	}
+        CoreWebElements<?> clear = $(wd, "#clear span").displayed();
+
+        if (withoutWaiting().checkNotEmpty(clear)) {
+            click(clear);
+            withTimeout(5, SECONDS).waitWhileEmpty(listenNotPressed);
+        }
+    }
 
 }

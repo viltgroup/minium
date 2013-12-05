@@ -17,7 +17,6 @@ package com.vilt.minium;
 
 import org.openqa.selenium.WebDriver;
 
-
 /**
  * The Interface WebElementsDriverProvider.
  *
@@ -25,39 +24,38 @@ import org.openqa.selenium.WebDriver;
  */
 public interface WebElementsDriverProvider<T extends CoreWebElements<T>> extends WebElements {
 
-	/**
-	 * Web drivers.
-	 *
-	 * @return the iterable
-	 */
-	public Iterable<WebElementsDriver<T>> webDrivers();
-	
-	/**
-	 * Web driver.
-	 *
-	 * @return the web elements driver
-	 */
-	public WebElementsDriver<T> webDriver();
-	
-	/**
-	 * Root web elements driver.
-	 *
-	 * @return the root web elements driver
-	 */
-	public WebElementsDriver<T> rootWebDriver();
+    /**
+     * Web drivers.
+     *
+     * @return the iterable
+     */
+    public Iterable<WebElementsDriver<T>> webDrivers();
 
-	/**
-	 * Native web driver.
-	 *
-	 * @return the web driver
-	 */
-	public WebDriver nativeWebDriver();
+    /**
+     * Web driver.
+     *
+     * @return the web elements driver
+     */
+    public WebElementsDriver<T> webDriver();
 
-	
-	/**
-	 * Configuration.
-	 *
-	 * @return the configuration
-	 */
-	public Configuration configuration();
+    /**
+     * Root web elements driver.
+     *
+     * @return the root web elements driver
+     */
+    public WebElementsDriver<T> rootWebDriver();
+
+    /**
+     * Native web driver.
+     *
+     * @return the web driver
+     */
+    public WebDriver nativeWebDriver();
+
+    /**
+     * Configuration.
+     *
+     * @return the configuration
+     */
+    public Configuration configuration();
 }

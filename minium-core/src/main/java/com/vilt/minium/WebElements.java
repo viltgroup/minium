@@ -24,14 +24,14 @@ import org.openqa.selenium.WebElement;
  */
 public interface WebElements extends Iterable<WebElement> {
 
-	/**
-	 * Gets the {@link WebElement} at a given position.
-	 *
-	 * @param index the index
-	 * @return the web element
-	 */
-	public WebElement get(int index);
-	
-	public <T extends WebElements> T cast(Class<T> clazz);
+    /**
+     * Gets the {@link WebElement} at a given position.
+     *
+     * @param index the index
+     * @return the web element
+     */
+    public WebElement get(int index);
+
+    public <T extends WebElements> T cast(Class<T> clazz);
 
 }

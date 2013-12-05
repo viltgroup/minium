@@ -26,14 +26,14 @@ import com.vilt.minium.debug.DebugWebElements;
 
 public class DebugWebElementsTest extends MiniumBaseTest {
 
-	@BeforeMethod
-	public void openPage() {
-		get("minium/tests/jquery-test.html");
-	}
-	
-	@Test
-	public void testDebugInterface() {
-		assertTrue($(wd, "input:text") instanceof DebugWebElements);
-	}
-	
+    @BeforeMethod
+    public void openPage() {
+        get("minium/tests/jquery-test.html");
+    }
+
+    @Test
+    public void testDebugInterface() {
+        assertTrue($(wd, "input:text") instanceof DebugWebElements);
+    }
+
 }

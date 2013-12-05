@@ -36,33 +36,31 @@ import com.vilt.minium.script.MiniumScriptEngine;
 @RequestMapping("/console")
 public class ConsoleController {
 
-	private static final Logger logger = LoggerFactory.getLogger(ConsoleController.class);
-	
-	private MiniumScriptEngine engine;
+    private static final Logger logger = LoggerFactory.getLogger(ConsoleController.class);
 
-	@Autowired
-	public ConsoleController(MiniumScriptEngine engine) throws IOException {
-		this.engine = engine;
-	}
-	
-	@RequestMapping(value = "/eval", method = { POST, GET })
-	@ResponseBody
-	public synchronized EvalResult eval(@RequestParam("expr") final String expression, @RequestParam(value = "lineno", defaultValue = "1") final int lineNumber) {
-		try {
-			Object result = engine.eval(expression, lineNumber);
-			if (result instanceof DebugWebElements) {
-				DebugWebElements webElements = (DebugWebElements) result;
-				webElements.highlight();
-				int totalCount = Iterables.size(webElements);
-				return new EvalResult(expression, totalCount);
-			}
-			else {
-				return new EvalResult(result);
-			}
-		} 
-		catch(Exception e) {
-			logger.error("Evaluation of {} failed", expression, e);
-			throw new EvalException(e);
-		}
-	}
+    private MiniumScriptEngine engine;
+
+    @Autowired
+    public ConsoleController(MiniumScriptEngine engine) throws IOException {
+        this.engine = engine;
+    }
+
+    @RequestMapping(value = "/eval", method = { POST, GET })
+    @ResponseBody
+    public synchronized EvalResult eval(@RequestParam("expr") final String expression, @RequestParam(value = "lineno", defaultValue = "1") final int lineNumber) {
+        try {
+            Object result = engine.eval(expression, lineNumber);
+            if (result instanceof DebugWebElements) {
+                DebugWebElements webElements = (DebugWebElements) result;
+                webElements.highlight();
+                int totalCount = Iterables.size(webElements);
+                return new EvalResult(expression, totalCount);
+            } else {
+                return new EvalResult(result);
+            }
+        } catch (Exception e) {
+            logger.error("Evaluation of {} failed", expression, e);
+            throw new EvalException(e);
+        }
+    }
 }

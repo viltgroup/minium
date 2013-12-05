@@ -25,17 +25,17 @@ import com.vilt.minium.WebElementsDriverProvider;
  */
 public abstract class KeyboardInteraction extends DefaultInteraction {
 
-	/**
-	 * Instantiates a new keyboard interaction.
-	 *
-	 * @param elems the elems
-	 */
-	public KeyboardInteraction(CoreWebElements<?> elems) {
-		super(elems);
-	}
-	
-	protected Keyboard keyboard() {
-		return ((WebElementsDriverProvider<?>) getSource()).webDriver().getKeyboard();
-	}
+    /**
+     * Instantiates a new keyboard interaction.
+     *
+     * @param elems the elems
+     */
+    public KeyboardInteraction(CoreWebElements<?> elems) {
+        super(elems);
+    }
+
+    protected Keyboard keyboard() {
+        return ((WebElementsDriverProvider<?>) getSource()).webDriver().getKeyboard();
+    }
 
 }

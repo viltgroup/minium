@@ -30,33 +30,32 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class TestConfiguration implements DisposableBean {
 
-	private PhantomJSDriverService service;
-	
-	@Value("#{systemProperties['minium.remote.url']}")
-	private String remoteUrl;
-	
+    private PhantomJSDriverService service;
+
+    @Value("#{systemProperties['minium.remote.url']}")
+    private String remoteUrl;
+
     @SuppressWarnings("deprecation")
     @Bean(name = "remoteWebDriverUrl")
-	public URL remoteWebDriverUrl() throws IOException {
+    public URL remoteWebDriverUrl() throws IOException {
         if (StringUtils.isEmpty(remoteUrl)) {
             service = new PhantomJSDriverService.Builder()
-                .usingPhantomJSExecutable(new File(CommandLine.find("phantomjs")))
-                .usingCommandLineArguments(new String[] { "--webdriver-loglevel=ERROR" })
-                .withLogFile(new File(System.getProperty("java.io.tmpdir"), "phantomjsdriver.log"))
-                .build();
+            .usingPhantomJSExecutable(new File(CommandLine.find("phantomjs")))
+            .usingCommandLineArguments(new String[] { "--webdriver-loglevel=ERROR" })
+            .withLogFile(new File(System.getProperty("java.io.tmpdir"), "phantomjsdriver.log"))
+            .build();
             service.start();
             return service.getUrl();
-        }
-        else {
+        } else {
             return new URL(remoteUrl);
         }
-	}
-    
+    }
+
     @Override
     public void destroy() throws Exception {
         if (service != null) {
             service.stop();
         }
     }
-    
+
 }

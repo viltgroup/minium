@@ -24,17 +24,16 @@ import com.vilt.minium.WebElementsDriver;
 
 public class WindowWebElementsDriver<T extends CoreWebElements<T>> extends WebElementsDriver<T> {
 
-	public WindowWebElementsDriver(WebElementsDriver<T> wd, WebElementsFactory factory, String handle) {
-		super(wd.getWrappedWebDriver(), factory, wd.configure(), handle);
-	}
-	
-	@Override
-	public String toString() {
-		if (StringUtils.isEmpty(windowHandle)) {
-			return "window";
-		}
-		else {
-			return format("window(handle='%s')", windowHandle);
-		}
-	}
+    public WindowWebElementsDriver(WebElementsDriver<T> wd, WebElementsFactory factory, String handle) {
+        super(wd.getWrappedWebDriver(), factory, wd.configure(), handle);
+    }
+
+    @Override
+    public String toString() {
+        if (StringUtils.isEmpty(windowHandle)) {
+            return "window";
+        } else {
+            return format("window(handle='%s')", windowHandle);
+        }
+    }
 }

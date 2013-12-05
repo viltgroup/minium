@@ -20,40 +20,40 @@ import java.util.concurrent.TimeUnit;
 import com.vilt.minium.actions.InteractionListener;
 
 public interface Configuration {
-    
-    public interface WaitingPreset {
-        public WaitingPreset timeout(Duration timeout);
-        public WaitingPreset interval(Duration interval);
-        public WaitingPreset timeout(long time, TimeUnit unit);
-        public WaitingPreset interval(long time, TimeUnit unit);
-        public WaitingPreset reset();
 
-        public Duration timeout();
-        public Duration interval();
-        
-        public Configuration done();
+    public interface WaitingPreset {
+        WaitingPreset timeout(Duration timeout);
+        WaitingPreset interval(Duration interval);
+        WaitingPreset timeout(long time, TimeUnit unit);
+        WaitingPreset interval(long time, TimeUnit unit);
+        WaitingPreset reset();
+
+        Duration timeout();
+        Duration interval();
+
+        Configuration done();
     }
 
     public interface InteractionListeners extends Iterable<InteractionListener> {
-        public InteractionListeners add(InteractionListener interactionListener);
-        public InteractionListeners remove(InteractionListener interactionListener);
+        InteractionListeners add(InteractionListener interactionListener);
+        InteractionListeners remove(InteractionListener interactionListener);
 
-        public Configuration done();
+        Configuration done();
     }
 
     public interface ExceptionHandlers extends Iterable<ExceptionHandler> {
-        public ExceptionHandlers add(ExceptionHandler exceptionHandler);
-        public ExceptionHandlers remove(ExceptionHandler exceptionHandler);
+        ExceptionHandlers add(ExceptionHandler exceptionHandler);
+        ExceptionHandlers remove(ExceptionHandler exceptionHandler);
 
-        public Configuration done();
+        Configuration done();
     }
-    
+
     /**
      * Gets the default timeout.
      *
      * @return the default timeout
      */
-    public abstract Duration defaultTimeout();
+    Duration defaultTimeout();
 
     /**
      * Default timeout.
@@ -61,7 +61,7 @@ public interface Configuration {
      * @param defaultTimeout the default timeout
      * @return the configuration
      */
-    public abstract Configuration defaultTimeout(Duration defaultTimeout);
+    Configuration defaultTimeout(Duration defaultTimeout);
 
     /**
      * Default timeout.
@@ -70,14 +70,14 @@ public interface Configuration {
      * @param unit the unit
      * @return the configuration
      */
-    public abstract Configuration defaultTimeout(long time, TimeUnit unit);
+    Configuration defaultTimeout(long time, TimeUnit unit);
 
     /**
      * Gets the default interval.
      *
      * @return the default interval
      */
-    public abstract Duration defaultInterval();
+    Duration defaultInterval();
 
     /**
      * Default interval.
@@ -85,7 +85,7 @@ public interface Configuration {
      * @param defaultInterval the default interval
      * @return the configuration
      */
-    public abstract Configuration defaultInterval(Duration defaultInterval);
+    Configuration defaultInterval(Duration defaultInterval);
 
     /**
      * Default interval.
@@ -94,12 +94,12 @@ public interface Configuration {
      * @param unit the unit
      * @return the configuration
      */
-    public abstract Configuration defaultInterval(long time, TimeUnit unit);
+    Configuration defaultInterval(long time, TimeUnit unit);
 
-    public abstract WaitingPreset waitingPreset(String preset);
-    
-    public abstract InteractionListeners interactionListeners();
+    WaitingPreset waitingPreset(String preset);
 
-    public abstract ExceptionHandlers exceptionHandlers();
+    InteractionListeners interactionListeners();
+
+    ExceptionHandlers exceptionHandlers();
 
 }

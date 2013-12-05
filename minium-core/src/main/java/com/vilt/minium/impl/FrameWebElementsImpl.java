@@ -29,57 +29,57 @@ import com.vilt.minium.WebElementsDriver;
 
 public class FrameWebElementsImpl<T extends CoreWebElements<T>> extends DocumentRootWebElementsImpl<T> {
 
-	private BaseWebElementsImpl<T> parentImpl;
-	private T filter;
+    private BaseWebElementsImpl<T> parentImpl;
+    private T filter;
 
-	@SuppressWarnings("unchecked")
-	public void init(WebElementsFactory factory, T parent, T filter) {
-		super.init(factory);
-		this.parentImpl = (BaseWebElementsImpl<T>) parent;
-		this.filter = (T) filter;
-	}
+    @SuppressWarnings("unchecked")
+    public void init(WebElementsFactory factory, T parent, T filter) {
+        super.init(factory);
+        this.parentImpl = (BaseWebElementsImpl<T>) parent;
+        this.filter = filter;
+    }
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public Iterable<WebElementsDriver<T>> candidateWebDrivers() {
-		 return from(parentImpl).transform(new Function<WebElement, WebElementsDriver<T>>() {
-			@Override
-			@Nullable
-			public WebElementsDriver<T> apply(@Nullable WebElement input) {
-				FrameWebElementsDriver<T> webElementsDriver = new FrameWebElementsDriver<T>((WebElementsDriver<T>) ((DelegateWebElement) input).getWrappedDriver(), factory, input);
-				if (filter != null && webElementsDriver.find(filter).size() == 0) {
-					return null;
-				}
-				return webElementsDriver;
-			}
-		}).filter(notNull());
-	}
-	
-	@Override
-	protected T root(T filter, boolean freeze) {
-		return parentImpl.frames(filter, freeze);
-	}
+    @Override
+    @SuppressWarnings("unchecked")
+    public Iterable<WebElementsDriver<T>> candidateWebDrivers() {
+        return from(parentImpl).transform(new Function<WebElement, WebElementsDriver<T>>() {
+            @Override
+            @Nullable
+            public WebElementsDriver<T> apply(@Nullable WebElement input) {
+                FrameWebElementsDriver<T> webElementsDriver = new FrameWebElementsDriver<T>((WebElementsDriver<T>) ((DelegateWebElement) input).getWrappedDriver(), factory, input);
+                if (filter != null && webElementsDriver.find(filter).size() == 0) {
+                    return null;
+                }
+                return webElementsDriver;
+            }
+        }).filter(notNull());
+    }
 
-	@Override
-	public WebElementsDriver<T> rootWebDriver() {
-		return parentImpl.rootWebDriver();
-	}
-	
-	@Override
-	@SuppressWarnings("unchecked")
-	public boolean equals(Object obj) {
-		if (obj instanceof FrameWebElementsImpl) {
-			FrameWebElementsImpl<T> elem = (FrameWebElementsImpl<T>) obj;
-			return 
-				Objects.equal(elem.parentImpl, this.parentImpl) && 
-				Objects.equal(elem.filter, this.filter);
-		}
-		return false;
-	}
-	
-	@Override
-	public int hashCode() {
-		return Objects.hashCode(parentImpl);
-	}
-	
+    @Override
+    protected T root(T filter, boolean freeze) {
+        return parentImpl.frames(filter, freeze);
+    }
+
+    @Override
+    public WebElementsDriver<T> rootWebDriver() {
+        return parentImpl.rootWebDriver();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public boolean equals(Object obj) {
+        if (obj instanceof FrameWebElementsImpl) {
+            FrameWebElementsImpl<T> elem = (FrameWebElementsImpl<T>) obj;
+            return
+                    Objects.equal(elem.parentImpl, this.parentImpl) &&
+                    Objects.equal(elem.filter, this.filter);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(parentImpl);
+    }
+
 }

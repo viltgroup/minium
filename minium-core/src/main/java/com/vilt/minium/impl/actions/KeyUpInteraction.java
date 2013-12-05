@@ -24,29 +24,30 @@ import com.vilt.minium.CoreWebElements;
  */
 public class KeyUpInteraction extends KeyboardInteraction {
 
-	private Keys keys;
+    private Keys keys;
 
-	/**
-	 * Instantiates a new key up interaction.
-	 *
-	 * @param elements the elements
-	 * @param keys the keys
-	 */
-	public KeyUpInteraction(CoreWebElements<?> elements, Keys keys) {
-		super(elements);
-		this.keys = keys;
-	}
+    /**
+     * Instantiates a new key up interaction.
+     *
+     * @param elements the elements
+     * @param keys the keys
+     */
+    public KeyUpInteraction(CoreWebElements<?> elements, Keys keys) {
+        super(elements);
+        this.keys = keys;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
-	 */
-	@Override
-	protected void doPerform() {
-		if (isSourceDocumentRoot()) {
-			keyboard().releaseKey(keys);
-		}
-		else {
-			getActions().keyUp(getFirstElement(), keys).perform();
-		}
-	}
+    /*
+     * (non-Javadoc)
+     *
+     * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
+     */
+    @Override
+    protected void doPerform() {
+        if (isSourceDocumentRoot()) {
+            keyboard().releaseKey(keys);
+        } else {
+            getActions().keyUp(getFirstElement(), keys).perform();
+        }
+    }
 }

@@ -65,355 +65,355 @@ import com.vilt.minium.impl.actions.WaitWindowClosedElementsInteraction;
  * The Class InteractionPerformer.
  */
 public class InteractionPerformer {
-	
-	private List<InteractionListener> listeners = Lists.newArrayList();
 
-	/**
-	 * Instantiates a new interaction performer.
-	 *
-	 * @param listeners the listeners
-	 */
-	public InteractionPerformer(InteractionListener ... listeners) {
-		with(listeners);
-	}
-	
-	/**
-	 * With.
-	 *
-	 * @param listeners the listeners
-	 * @return the interaction performer
-	 */
-	public InteractionPerformer with(InteractionListener ... listeners) {
-		if (listeners != null) {
-			this.listeners.addAll(Arrays.asList(listeners));
-		}
-		return this;
-	}
+    private List<InteractionListener> listeners = Lists.newArrayList();
 
-	/**
-	 * Perform.
-	 *
-	 * @param interaction the interaction
-	 */
-	public void perform(Interaction interaction) {
-		for (InteractionListener listener : listeners) {
-			interaction.registerListener(listener);
-		}
-		interaction.perform();
-	}
-	
-	/**
-	 * Perform.
-	 *
-	 * @param interaction the interaction
-	 */
-	public void performAndWait(AsyncInteraction interaction) {
-		perform(interaction);
-		interaction.waitUntilCompleted();
-	}
-	
-	public void get(CoreWebElements<?> elements, String url) {
-		perform(new GetInteraction(elements, url));
-	}
-	
-	// from org.openqa.selenium.WebElement
-	/**
-	 * Clear.
-	 *
-	 * @param elements the elements
-	 */
-	public void clear(CoreWebElements<?> elements) {
-		perform(new ClearInteraction(elements));
-	}
-	
-	/**
-	 * Submit.
-	 *
-	 * @param elements the elements
-	 */
-	public void submit(CoreWebElements<?> elements) {
-		perform(new SubmitInteraction(elements));
-	}
-	
-	// from org.openqa.selenium.interactions.Actions
-	/**
-	 * Key down.
-	 *
-	 * @param elements the elements
-	 * @param keys the keys
-	 */
-	public void keyDown(CoreWebElements<?> elements, Keys keys) {
-		perform(new KeyDownInteraction(elements, keys));
-	}
-	
-	/**
-	 * Key up.
-	 *
-	 * @param elements the elements
-	 * @param keys the keys
-	 */
-	public void keyUp(CoreWebElements<?> elements, Keys keys) {
-		perform(new KeyUpInteraction(elements, keys));
-	}
-	
-	/**
-	 * Send keys.
-	 *
-	 * @param elements the elements
-	 * @param keys the keys
-	 */
-	public void sendKeys(CoreWebElements<?> elements, CharSequence ... keys) {
-		perform(new SendKeysInteraction(elements, keys));
-	}
-	
-	/**
-	 * Click and hold.
-	 *
-	 * @param elements the elements
-	 */
-	public void clickAndHold(CoreWebElements<?> elements) {
-		perform(new ClickAndHoldInteraction(elements));
-	}
-	
-	/**
-	 * Release.
-	 *
-	 * @param elements the elements
-	 */
-	public void release(CoreWebElements<?> elements) {
-		perform(new ButtonReleaseInteraction(elements));
-	}
-	
-	/**
-	 * Click.
-	 *
-	 * @param elements the elements
-	 */
-	public void click(CoreWebElements<?> elements) {
-		perform(new ClickInteraction(elements));		
-	}
-	
-	/**
-	 * Double click.
-	 *
-	 * @param elements the elements
-	 */
-	public void doubleClick(CoreWebElements<?> elements) {
-		perform(new DoubleClickInteraction(elements));		
-	}
-	
-	/**
-	 * Move to element.
-	 *
-	 * @param elements the elements
-	 */
-	public void moveToElement(CoreWebElements<?> elements) {
-		perform(new MoveMouseInteraction(elements, 0, 0));
-	}
-	
-	/**
-	 * Move to element.
-	 *
-	 * @param elements the elements
-	 * @param xOffset the x offset
-	 * @param yOffset the y offset
-	 */
-	public void moveToElement(CoreWebElements<?> elements, int xOffset, int yOffset) {
-		perform(new MoveMouseInteraction(elements, xOffset, yOffset));
-	}
-	
-	/**
-	 * Move by offset.
-	 *
-	 * @param elements the elements
-	 * @param xOffset the x offset
-	 * @param yOffset the y offset
-	 */
-	public void moveByOffset(CoreWebElements<?> elements, int xOffset, int yOffset) {
-		perform(new MoveByOffsetInteraction(elements, xOffset, yOffset));		
-	}
-	
-	/**
-	 * Context click.
-	 *
-	 * @param elements the elements
-	 */
-	public void contextClick(CoreWebElements<?> elements) {
-		perform(new ContextClickInteraction(elements));
-	}
-	
-	/**
-	 * Drag and drop.
-	 *
-	 * @param source the source
-	 * @param target the target
-	 */
-	public void dragAndDrop(CoreWebElements<?> source, CoreWebElements<?> target) {
-		perform(new DragAndDropInteraction(source, target));
-	}
-	
-	/**
-	 * Drag and drop by.
-	 *
-	 * @param source the source
-	 * @param xOffset the x offset
-	 * @param yOffset the y offset
-	 */
-	public void dragAndDropBy(CoreWebElements<?> source, int xOffset, int yOffset) {
-		perform(new DragAndDropByInteraction(source, xOffset, yOffset));
-	}
-	
-	// additional methods
-	/**
-	 * Click all.
-	 *
-	 * @param elements the elements
-	 */
-	public void clickAll(CoreWebElements<?> elements) {
-		perform(new ClickAllInteraction(elements));
-	}
-	
-	/**
-	 * Type.
-	 *
-	 * @param elements the elements
-	 * @param text the text
-	 */
-	public void type(CoreWebElements<?> elements, CharSequence text) {
-		perform(new TypeInteraction(elements, text));
-	}
-		
-	/**
-	 * Clear and type.
-	 *
-	 * @param elements the elements
-	 * @param text the text
-	 */
-	public void fill(CoreWebElements<?> elements, CharSequence text) {
-		perform(new FillInteraction(elements, text));
-	}
+    /**
+     * Instantiates a new interaction performer.
+     *
+     * @param listeners the listeners
+     */
+    public InteractionPerformer(InteractionListener... listeners) {
+        with(listeners);
+    }
 
-	public void check(CoreWebElements<?> elements) {
-		perform(new CheckInteraction(elements));
-	}
+    /**
+     * With.
+     *
+     * @param listeners the listeners
+     * @return the interaction performer
+     */
+    public InteractionPerformer with(InteractionListener... listeners) {
+        if (listeners != null) {
+            this.listeners.addAll(Arrays.asList(listeners));
+        }
+        return this;
+    }
 
-	public void uncheck(CoreWebElements<?> elements) {
-		perform(new UncheckInteraction(elements));
-	}
-	
-	// select
-	/**
-	 * Select.
-	 *
-	 * @param elems the elems
-	 * @param text the text
-	 */
-	public void select(CoreWebElements<?> elems, String text) {
-		perform(new SelectInteraction(elems, text));
-	}
-	
-	/**
-	 * Deselect.
-	 *
-	 * @param elems the elems
-	 * @param text the text
-	 */
-	public void deselect(CoreWebElements<?> elems, String text) {
-		perform(new DeselectInteraction(elems, text));		
-	}
-	
-	/**
-	 * Select val.
-	 *
-	 * @param elems the elems
-	 * @param val the val
-	 */
-	public void selectVal(CoreWebElements<?> elems, String val) {
-		perform(new SelectValInteraction(elems, val));		
-	}
-	
-	/**
-	 * Deselect val.
-	 *
-	 * @param elems the elems
-	 * @param val the val
-	 */
-	public void deselectVal(CoreWebElements<?> elems, String val) {
-		perform(new DeselectValInteraction(elems, val));				
-	}
-	
-	/**
-	 * Select all.
-	 *
-	 * @param elems the elems
-	 */
-	public void selectAll(CoreWebElements<?> elems) {
-		perform(new SelectAllInteraction(elems));						
-	}
-	
-	/**
-	 * Deselect all.
-	 *
-	 * @param elems the elems
-	 */
-	public void deselectAll(CoreWebElements<?> elems) {
-		perform(new DeselectAllInteraction(elems));						
-	}
-	
-	public void waitWhileEmpty(CoreWebElements<?> elems) throws TimeoutException {
-		perform(new WaitWhileEmptyInteraction(elems));
-	}
-	
-	public void waitWhileNotEmpty(CoreWebElements<?> elems) throws TimeoutException {
-		perform(new WaitWhileNotEmptyInteraction(elems));
-	}
-	
-	/**
-	 * Check not empty.
-	 *
-	 * @param elems the elems
-	 * @return true, if successful
-	 */
-	public boolean checkNotEmpty(CoreWebElements<?> elems) {
-		perform(new WaitOrTimeoutForElementsInteraction(elems));
-		return !Iterables.isEmpty(elems);
-	}
-	
-	/**
-	 * Check empty.
-	 *
-	 * @param elems the elems
-	 * @return true, if successful
-	 */
-	public boolean checkEmpty(CoreWebElements<?> elems) {
-		perform(new WaitOrTimeoutWhileElementsInteraction(elems));
-		return Iterables.isEmpty(elems);
-	}
-	
-	/**
-	 * Wait until closed.
-	 *
-	 * @param elems the elems
-	 */
-	public void waitUntilClosed(CoreWebElements<?> elems) throws TimeoutException {
-		perform(new WaitWindowClosedElementsInteraction(elems));
-	}
+    /**
+     * Perform.
+     *
+     * @param interaction the interaction
+     */
+    public void perform(Interaction interaction) {
+        for (InteractionListener listener : listeners) {
+            interaction.registerListener(listener);
+        }
+        interaction.perform();
+    }
 
-	/**
-	 * Wait time.
-	 *
-	 * @param time the time
-	 * @param unit the unit
-	 */
-	public void waitTime(long time, TimeUnit unit) {
-		perform(new WaitTimeInteraction(new Duration(time, unit)));
-	}
+    /**
+     * Perform.
+     *
+     * @param interaction the interaction
+     */
+    public void performAndWait(AsyncInteraction interaction) {
+        perform(interaction);
+        interaction.waitUntilCompleted();
+    }
 
-	public void close(CoreWebElements<?> elements) {
-		perform(new CloseInteraction(elements));
-	}
+    public void get(CoreWebElements<?> elements, String url) {
+        perform(new GetInteraction(elements, url));
+    }
 
-	public void scrollIntoView(CoreWebElements<?> elements) {
-		perform(new ScrollIntoViewInteraction(elements));
-	}
+    // from org.openqa.selenium.WebElement
+    /**
+     * Clear.
+     *
+     * @param elements the elements
+     */
+    public void clear(CoreWebElements<?> elements) {
+        perform(new ClearInteraction(elements));
+    }
+
+    /**
+     * Submit.
+     *
+     * @param elements the elements
+     */
+    public void submit(CoreWebElements<?> elements) {
+        perform(new SubmitInteraction(elements));
+    }
+
+    // from org.openqa.selenium.interactions.Actions
+    /**
+     * Key down.
+     *
+     * @param elements the elements
+     * @param keys the keys
+     */
+    public void keyDown(CoreWebElements<?> elements, Keys keys) {
+        perform(new KeyDownInteraction(elements, keys));
+    }
+
+    /**
+     * Key up.
+     *
+     * @param elements the elements
+     * @param keys the keys
+     */
+    public void keyUp(CoreWebElements<?> elements, Keys keys) {
+        perform(new KeyUpInteraction(elements, keys));
+    }
+
+    /**
+     * Send keys.
+     *
+     * @param elements the elements
+     * @param keys the keys
+     */
+    public void sendKeys(CoreWebElements<?> elements, CharSequence... keys) {
+        perform(new SendKeysInteraction(elements, keys));
+    }
+
+    /**
+     * Click and hold.
+     *
+     * @param elements the elements
+     */
+    public void clickAndHold(CoreWebElements<?> elements) {
+        perform(new ClickAndHoldInteraction(elements));
+    }
+
+    /**
+     * Release.
+     *
+     * @param elements the elements
+     */
+    public void release(CoreWebElements<?> elements) {
+        perform(new ButtonReleaseInteraction(elements));
+    }
+
+    /**
+     * Click.
+     *
+     * @param elements the elements
+     */
+    public void click(CoreWebElements<?> elements) {
+        perform(new ClickInteraction(elements));
+    }
+
+    /**
+     * Double click.
+     *
+     * @param elements the elements
+     */
+    public void doubleClick(CoreWebElements<?> elements) {
+        perform(new DoubleClickInteraction(elements));
+    }
+
+    /**
+     * Move to element.
+     *
+     * @param elements the elements
+     */
+    public void moveToElement(CoreWebElements<?> elements) {
+        perform(new MoveMouseInteraction(elements, 0, 0));
+    }
+
+    /**
+     * Move to element.
+     *
+     * @param elements the elements
+     * @param xOffset the x offset
+     * @param yOffset the y offset
+     */
+    public void moveToElement(CoreWebElements<?> elements, int xOffset, int yOffset) {
+        perform(new MoveMouseInteraction(elements, xOffset, yOffset));
+    }
+
+    /**
+     * Move by offset.
+     *
+     * @param elements the elements
+     * @param xOffset the x offset
+     * @param yOffset the y offset
+     */
+    public void moveByOffset(CoreWebElements<?> elements, int xOffset, int yOffset) {
+        perform(new MoveByOffsetInteraction(elements, xOffset, yOffset));
+    }
+
+    /**
+     * Context click.
+     *
+     * @param elements the elements
+     */
+    public void contextClick(CoreWebElements<?> elements) {
+        perform(new ContextClickInteraction(elements));
+    }
+
+    /**
+     * Drag and drop.
+     *
+     * @param source the source
+     * @param target the target
+     */
+    public void dragAndDrop(CoreWebElements<?> source, CoreWebElements<?> target) {
+        perform(new DragAndDropInteraction(source, target));
+    }
+
+    /**
+     * Drag and drop by.
+     *
+     * @param source the source
+     * @param xOffset the x offset
+     * @param yOffset the y offset
+     */
+    public void dragAndDropBy(CoreWebElements<?> source, int xOffset, int yOffset) {
+        perform(new DragAndDropByInteraction(source, xOffset, yOffset));
+    }
+
+    // additional methods
+    /**
+     * Click all.
+     *
+     * @param elements the elements
+     */
+    public void clickAll(CoreWebElements<?> elements) {
+        perform(new ClickAllInteraction(elements));
+    }
+
+    /**
+     * Type.
+     *
+     * @param elements the elements
+     * @param text the text
+     */
+    public void type(CoreWebElements<?> elements, CharSequence text) {
+        perform(new TypeInteraction(elements, text));
+    }
+
+    /**
+     * Clear and type.
+     *
+     * @param elements the elements
+     * @param text the text
+     */
+    public void fill(CoreWebElements<?> elements, CharSequence text) {
+        perform(new FillInteraction(elements, text));
+    }
+
+    public void check(CoreWebElements<?> elements) {
+        perform(new CheckInteraction(elements));
+    }
+
+    public void uncheck(CoreWebElements<?> elements) {
+        perform(new UncheckInteraction(elements));
+    }
+
+    // select
+    /**
+     * Select.
+     *
+     * @param elems the elems
+     * @param text the text
+     */
+    public void select(CoreWebElements<?> elems, String text) {
+        perform(new SelectInteraction(elems, text));
+    }
+
+    /**
+     * Deselect.
+     *
+     * @param elems the elems
+     * @param text the text
+     */
+    public void deselect(CoreWebElements<?> elems, String text) {
+        perform(new DeselectInteraction(elems, text));
+    }
+
+    /**
+     * Select val.
+     *
+     * @param elems the elems
+     * @param val the val
+     */
+    public void selectVal(CoreWebElements<?> elems, String val) {
+        perform(new SelectValInteraction(elems, val));
+    }
+
+    /**
+     * Deselect val.
+     *
+     * @param elems the elems
+     * @param val the val
+     */
+    public void deselectVal(CoreWebElements<?> elems, String val) {
+        perform(new DeselectValInteraction(elems, val));
+    }
+
+    /**
+     * Select all.
+     *
+     * @param elems the elems
+     */
+    public void selectAll(CoreWebElements<?> elems) {
+        perform(new SelectAllInteraction(elems));
+    }
+
+    /**
+     * Deselect all.
+     *
+     * @param elems the elems
+     */
+    public void deselectAll(CoreWebElements<?> elems) {
+        perform(new DeselectAllInteraction(elems));
+    }
+
+    public void waitWhileEmpty(CoreWebElements<?> elems) throws TimeoutException {
+        perform(new WaitWhileEmptyInteraction(elems));
+    }
+
+    public void waitWhileNotEmpty(CoreWebElements<?> elems) throws TimeoutException {
+        perform(new WaitWhileNotEmptyInteraction(elems));
+    }
+
+    /**
+     * Check not empty.
+     *
+     * @param elems the elems
+     * @return true, if successful
+     */
+    public boolean checkNotEmpty(CoreWebElements<?> elems) {
+        perform(new WaitOrTimeoutForElementsInteraction(elems));
+        return !Iterables.isEmpty(elems);
+    }
+
+    /**
+     * Check empty.
+     *
+     * @param elems the elems
+     * @return true, if successful
+     */
+    public boolean checkEmpty(CoreWebElements<?> elems) {
+        perform(new WaitOrTimeoutWhileElementsInteraction(elems));
+        return Iterables.isEmpty(elems);
+    }
+
+    /**
+     * Wait until closed.
+     *
+     * @param elems the elems
+     */
+    public void waitUntilClosed(CoreWebElements<?> elems) throws TimeoutException {
+        perform(new WaitWindowClosedElementsInteraction(elems));
+    }
+
+    /**
+     * Wait time.
+     *
+     * @param time the time
+     * @param unit the unit
+     */
+    public void waitTime(long time, TimeUnit unit) {
+        perform(new WaitTimeInteraction(new Duration(time, unit)));
+    }
+
+    public void close(CoreWebElements<?> elements) {
+        perform(new CloseInteraction(elements));
+    }
+
+    public void scrollIntoView(CoreWebElements<?> elements) {
+        perform(new ScrollIntoViewInteraction(elements));
+    }
 }

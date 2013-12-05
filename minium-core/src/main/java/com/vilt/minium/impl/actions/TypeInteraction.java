@@ -22,13 +22,13 @@ import com.vilt.minium.CoreWebElements;
  */
 public class TypeInteraction extends SendKeysInteraction {
 
-	/**
-	 * Instantiates a new type interaction.
-	 *
-	 * @param source the source
-	 * @param text the text
-	 */
-	public TypeInteraction(CoreWebElements<?> source, CharSequence text) {
-		super(source, text);
-	}
+    /**
+     * Instantiates a new type interaction.
+     *
+     * @param source the source
+     * @param text the text
+     */
+    public TypeInteraction(CoreWebElements<?> source, CharSequence text) {
+        super(source, text);
+    }
 }

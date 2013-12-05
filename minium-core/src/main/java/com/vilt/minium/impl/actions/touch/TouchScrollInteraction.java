@@ -23,21 +23,21 @@ import com.vilt.minium.actions.touch.TouchInteraction;
  */
 public class TouchScrollInteraction extends TouchInteraction {
 
-	/**
-	 * Instantiates a new touch scroll interaction.
-	 *
-	 * @param elems the elems
-	 * @param xOffset the x offset
-	 * @param yOffset the y offset
-	 */
-	public TouchScrollInteraction(CoreWebElements<?> elems, int xOffset, int yOffset) {
-		super(elems);
-	}
+    /**
+     * Instantiates a new touch scroll interaction.
+     *
+     * @param elems the elems
+     * @param xOffset the x offset
+     * @param yOffset the y offset
+     */
+    public TouchScrollInteraction(CoreWebElements<?> elems, int xOffset, int yOffset) {
+        super(elems);
+    }
 
-	@Override
-	protected void doPerform() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet");
-	}
+    @Override
+    protected void doPerform() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
 
 }

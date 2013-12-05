@@ -22,29 +22,30 @@ import com.vilt.minium.CoreWebElements;
  */
 public class SendKeysInteraction extends KeyboardInteraction {
 
-	private CharSequence[] keys;
+    private CharSequence[] keys;
 
-	/**
-	 * Instantiates a new send keys interaction.
-	 *
-	 * @param source the source
-	 * @param keys the keys
-	 */
-	public SendKeysInteraction(CoreWebElements<?> source, CharSequence ... keys) {
-		super(source);
-		this.keys = keys;
-	}
+    /**
+     * Instantiates a new send keys interaction.
+     *
+     * @param source the source
+     * @param keys the keys
+     */
+    public SendKeysInteraction(CoreWebElements<?> source, CharSequence... keys) {
+        super(source);
+        this.keys = keys;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
-	 */
-	@Override
-	protected void doPerform() {
-		if (isSourceDocumentRoot()) {
-			keyboard().sendKeys(keys);
-		}
-		else {
-			getFirstElement().sendKeys(keys);
-		}
-	}
+    /*
+     * (non-Javadoc)
+     *
+     * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
+     */
+    @Override
+    protected void doPerform() {
+        if (isSourceDocumentRoot()) {
+            keyboard().sendKeys(keys);
+        } else {
+            getFirstElement().sendKeys(keys);
+        }
+    }
 }

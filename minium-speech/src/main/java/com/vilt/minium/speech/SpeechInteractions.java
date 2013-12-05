@@ -27,38 +27,38 @@ import com.vilt.minium.speech.impl.GoogleSpeechTipInteractionListener;
 import com.vilt.minium.speech.impl.ServerSideGoogleSpeechInteraction;
 
 public class SpeechInteractions {
-	
-	private static WebElementsDriver<?> speechWebDriver;
 
-	public static void speakWith(WebElementsDriver<?> wd) {
-		speechWebDriver = wd;
-	}
+    private static WebElementsDriver<?> speechWebDriver;
 
-	public static InteractionListener speechForTips() {
-		return speechForTips(speechWebDriver, null);
-	}
-	
-	public static InteractionListener speechForTips(Locale locale) {
-		return speechForTips(speechWebDriver, locale);
-	}
+    public static void speakWith(WebElementsDriver<?> wd) {
+        speechWebDriver = wd;
+    }
 
-	public static InteractionListener speechForTips(WebElementsDriver<?> wd) {
-		return speechForTips(wd, null);
-	}
+    public static InteractionListener speechForTips() {
+        return speechForTips(speechWebDriver, null);
+    }
 
-	public static InteractionListener speechForTips(WebElementsDriver<?> wd, Locale locale) {
-		return new GoogleSpeechTipInteractionListener(wd, locale);
-	}
-	
-	public static void speak(String text) {
-		speak(null, text);
-	}
+    public static InteractionListener speechForTips(Locale locale) {
+        return speechForTips(speechWebDriver, locale);
+    }
 
-	public static void speak(Locale locale, String text) {
-		GoogleSpeechInteraction interaction = speechWebDriver == null ? 
-			new ServerSideGoogleSpeechInteraction(locale, text) : new ClientSideGoogleSpeechInteraction(speechWebDriver, locale, text);
-		perform(interaction);
-		interaction.waitUntilCompleted();
-	}
+    public static InteractionListener speechForTips(WebElementsDriver<?> wd) {
+        return speechForTips(wd, null);
+    }
+
+    public static InteractionListener speechForTips(WebElementsDriver<?> wd, Locale locale) {
+        return new GoogleSpeechTipInteractionListener(wd, locale);
+    }
+
+    public static void speak(String text) {
+        speak(null, text);
+    }
+
+    public static void speak(Locale locale, String text) {
+        GoogleSpeechInteraction interaction = speechWebDriver == null ? new ServerSideGoogleSpeechInteraction(locale, text)
+                : new ClientSideGoogleSpeechInteraction(speechWebDriver, locale, text);
+        perform(interaction);
+        interaction.waitUntilCompleted();
+    }
 
 }

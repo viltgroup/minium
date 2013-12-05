@@ -23,25 +23,25 @@ import com.vilt.minium.actions.touch.TouchInteraction;
  */
 public class TouchMoveInteraction extends TouchInteraction {
 
-	private int x;
-	private int y;
+    private int x;
+    private int y;
 
-	/**
-	 * Instantiates a new touch move interaction.
-	 *
-	 * @param elems the elems
-	 * @param x the x
-	 * @param y the y
-	 */
-	public TouchMoveInteraction(CoreWebElements<?> elems, int x, int y) {
-		super(elems);
-		this.x = x;
-		this.y = y;
-	}
+    /**
+     * Instantiates a new touch move interaction.
+     *
+     * @param elems the elems
+     * @param x the x
+     * @param y the y
+     */
+    public TouchMoveInteraction(CoreWebElements<?> elems, int x, int y) {
+        super(elems);
+        this.x = x;
+        this.y = y;
+    }
 
-	@Override
-	protected void doPerform() {
-		getActions().move(x, y);
-	}
+    @Override
+    protected void doPerform() {
+        getActions().move(x, y);
+    }
 
 }

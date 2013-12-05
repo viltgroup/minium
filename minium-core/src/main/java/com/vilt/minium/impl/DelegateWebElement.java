@@ -31,119 +31,134 @@ import com.vilt.minium.WebElementsDriver;
 
 public class DelegateWebElement implements WebElement, WrapsDriver, Locatable {
 
-	private WebElement webElement;
-	private WebElementsDriver<?> webDriver;
+    private WebElement webElement;
+    private WebElementsDriver<?> webDriver;
 
-	public DelegateWebElement(WebElement webElement, WebElementsDriver<?> webDriver) {
-		checkNotNull(webElement);
-		checkNotNull(webDriver);
-		
-		this.webElement = webElement;
-		this.webDriver = webDriver;
-	}
-	
-	public void click() {
-		webDriver.ensureSwitch();
-		webElement.click();
-	}
+    public DelegateWebElement(WebElement webElement, WebElementsDriver<?> webDriver) {
+        checkNotNull(webElement);
+        checkNotNull(webDriver);
 
-	public void submit() {
-		webDriver.ensureSwitch();
-		webElement.submit();
-	}
+        this.webElement = webElement;
+        this.webDriver = webDriver;
+    }
 
-	public void sendKeys(CharSequence... keysToSend) {
-		webDriver.ensureSwitch();
-		webElement.sendKeys(keysToSend);
-	}
+    @Override
+    public void click() {
+        webDriver.ensureSwitch();
+        webElement.click();
+    }
 
-	public void clear() {
-		webDriver.ensureSwitch();
-		webElement.clear();
-	}
+    @Override
+    public void submit() {
+        webDriver.ensureSwitch();
+        webElement.submit();
+    }
 
-	public String getTagName() {
-		webDriver.ensureSwitch();
-		return webElement.getTagName();
-	}
+    @Override
+    public void sendKeys(CharSequence... keysToSend) {
+        webDriver.ensureSwitch();
+        webElement.sendKeys(keysToSend);
+    }
 
-	public String getAttribute(String name) {
-		webDriver.ensureSwitch();
-		return webElement.getAttribute(name);
-	}
+    @Override
+    public void clear() {
+        webDriver.ensureSwitch();
+        webElement.clear();
+    }
 
-	public boolean isSelected() {
-		webDriver.ensureSwitch();
-		return webElement.isSelected();
-	}
+    @Override
+    public String getTagName() {
+        webDriver.ensureSwitch();
+        return webElement.getTagName();
+    }
 
-	public boolean isEnabled() {
-		webDriver.ensureSwitch();
-		return webElement.isEnabled();
-	}
+    @Override
+    public String getAttribute(String name) {
+        webDriver.ensureSwitch();
+        return webElement.getAttribute(name);
+    }
 
-	public String getText() {
-		webDriver.ensureSwitch();
-		return webElement.getText();
-	}
+    @Override
+    public boolean isSelected() {
+        webDriver.ensureSwitch();
+        return webElement.isSelected();
+    }
 
-	public List<WebElement> findElements(By by) {
-		webDriver.ensureSwitch();
-		return webElement.findElements(by);
-	}
+    @Override
+    public boolean isEnabled() {
+        webDriver.ensureSwitch();
+        return webElement.isEnabled();
+    }
 
-	public WebElement findElement(By by) {
-		webDriver.ensureSwitch();
-		return webElement.findElement(by);
-	}
+    @Override
+    public String getText() {
+        webDriver.ensureSwitch();
+        return webElement.getText();
+    }
 
-	public boolean isDisplayed() {
-		webDriver.ensureSwitch();
-		return webElement.isDisplayed();
-	}
+    @Override
+    public List<WebElement> findElements(By by) {
+        webDriver.ensureSwitch();
+        return webElement.findElements(by);
+    }
 
-	public Point getLocation() {
-		webDriver.ensureSwitch();
-		return webElement.getLocation();
-	}
+    @Override
+    public WebElement findElement(By by) {
+        webDriver.ensureSwitch();
+        return webElement.findElement(by);
+    }
 
-	public Dimension getSize() {
-		webDriver.ensureSwitch();
-		return webElement.getSize();
-	}
+    @Override
+    public boolean isDisplayed() {
+        webDriver.ensureSwitch();
+        return webElement.isDisplayed();
+    }
 
-	public String getCssValue(String propertyName) {
-		webDriver.ensureSwitch();
-		return webElement.getCssValue(propertyName);
-	}
+    @Override
+    public Point getLocation() {
+        webDriver.ensureSwitch();
+        return webElement.getLocation();
+    }
 
-	@Override
-	public Coordinates getCoordinates() {
-		webDriver.ensureSwitch();
-		return ((Locatable) webElement).getCoordinates();
-	}
+    @Override
+    public Dimension getSize() {
+        webDriver.ensureSwitch();
+        return webElement.getSize();
+    }
 
-	@Override
-	public WebElementsDriver<?> getWrappedDriver() {
-		return webDriver;
-	}
-	
-	public WebElement getWrappedWebElement() {
-		return webElement;
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		return webElement.equals(obj);
-	}
-	
-	@Override
-	public int hashCode() {
-		return webElement.hashCode();
-	}
-	
-	@Override
-	public String toString() {
-		return webElement.toString();
-	}
+    @Override
+    public String getCssValue(String propertyName) {
+        webDriver.ensureSwitch();
+        return webElement.getCssValue(propertyName);
+    }
+
+    @Override
+    public Coordinates getCoordinates() {
+        webDriver.ensureSwitch();
+        return ((Locatable) webElement).getCoordinates();
+    }
+
+    @Override
+    public WebElementsDriver<?> getWrappedDriver() {
+        return webDriver;
+    }
+
+    public WebElement getWrappedWebElement() {
+        return webElement;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return webElement.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return webElement.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return webElement.toString();
+    }
 }

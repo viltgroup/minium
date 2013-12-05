@@ -210,6 +210,7 @@
 									<goal>single</goal>
 								</goals>
 								<configuration>
+									<tarLongFileMode>gnu</tarLongFileMode>
 									<descriptors>
 										<descriptor>src/assemble/bin.xml</descriptor>
 									</descriptors>

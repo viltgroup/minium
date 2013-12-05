@@ -25,25 +25,24 @@ import com.vilt.minium.WebElementsDriver;
 
 public class FrozenFrameWebElementsImpl<T extends CoreWebElements<T>> extends FrameWebElementsImpl<T> {
 
-	private WebElementsDriver<T> frozenWebElementsDriver;
-	
-	@Override
-	public Iterable<WebElementsDriver<T>> candidateWebDrivers() {
-		if (frozenWebElementsDriver == null) {
-			Iterable<WebElementsDriver<T>> candidateWebDrivers = super.candidateWebDrivers();
-			Iterator<WebElementsDriver<T>> iterator = candidateWebDrivers.iterator();
-			if (iterator.hasNext()) {
-				WebElementsDriver<T> webElementsDriver = iterator.next();
-				checkState(!iterator.hasNext(), "Found more than one frame / iframe matching the filter condition");
-				frozenWebElementsDriver = webElementsDriver;
-			}
-		}
-		if (frozenWebElementsDriver == null) {
-			return Collections.<WebElementsDriver<T>>emptyList();
-		}
-		else {
-			return Collections.<WebElementsDriver<T>>singletonList(frozenWebElementsDriver);
-		}
-	}
-	
+    private WebElementsDriver<T> frozenWebElementsDriver;
+
+    @Override
+    public Iterable<WebElementsDriver<T>> candidateWebDrivers() {
+        if (frozenWebElementsDriver == null) {
+            Iterable<WebElementsDriver<T>> candidateWebDrivers = super.candidateWebDrivers();
+            Iterator<WebElementsDriver<T>> iterator = candidateWebDrivers.iterator();
+            if (iterator.hasNext()) {
+                WebElementsDriver<T> webElementsDriver = iterator.next();
+                checkState(!iterator.hasNext(), "Found more than one frame / iframe matching the filter condition");
+                frozenWebElementsDriver = webElementsDriver;
+            }
+        }
+        if (frozenWebElementsDriver == null) {
+            return Collections.<WebElementsDriver<T>>emptyList();
+        } else {
+            return Collections.<WebElementsDriver<T>>singletonList(frozenWebElementsDriver);
+        }
+    }
+
 }

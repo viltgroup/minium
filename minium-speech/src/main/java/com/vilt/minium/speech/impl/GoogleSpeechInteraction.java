@@ -21,13 +21,13 @@ import com.vilt.minium.actions.AsyncInteraction;
 import com.vilt.minium.impl.actions.DefaultInteraction;
 
 public abstract class GoogleSpeechInteraction extends DefaultInteraction implements AsyncInteraction {
-	Locale locale;
-	String text;
-	
-	public GoogleSpeechInteraction(Locale locale, String text) {
-		super(null);
-		this.locale = locale == null ? Locale.ENGLISH : locale;
-		this.text = text;
-	}
+    Locale locale;
+    String text;
+
+    public GoogleSpeechInteraction(Locale locale, String text) {
+        super(null);
+        this.locale = locale == null ? Locale.ENGLISH : locale;
+        this.text = text;
+    }
 
 }

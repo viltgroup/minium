@@ -44,232 +44,231 @@ import com.vilt.minium.impl.DocumentRootWebElementsImpl;
  */
 public abstract class DefaultInteraction implements Interaction {
 
-	private static final Logger logger = LoggerFactory.getLogger(DefaultInteraction.class);
-	
-	private List<InteractionListener> listeners = Lists.newArrayList();
-	private CoreWebElements<?> source;
-	private Duration timeout;
-    private String preset;
-	
-	/**
-	 * Instantiates a new default interaction.
-	 *
-	 * @param elems the elems
-	 */
-	public DefaultInteraction(CoreWebElements<?> elems) {
-		if (elems != null) {
-			this.source = elems;
-			if (!(this.source instanceof DocumentRootWebElementsImpl)) {
-				this.source = this.source.displayed();
-			}
- 		}
-	}
-	
-	/**
-	 * Sets the timeout.
-	 *
-	 * @param timeout the new timeout
-	 */
-	public void setTimeout(Duration timeout) {
-		this.timeout = timeout;
-	}
-	
-	/**
-	 * Gets the timeout.
-	 *
-	 * @return the timeout
-	 */
-	public Duration getTimeout() {
-		return timeout;
-	}
+    private static final Logger logger = LoggerFactory.getLogger(DefaultInteraction.class);
 
-	public void setWaitingPreset(String preset) {
-	    this.preset = preset;
+    private List<InteractionListener> listeners = Lists.newArrayList();
+    private CoreWebElements<?> source;
+    private Duration timeout;
+    private String preset;
+
+    /**
+     * Instantiates a new default interaction.
+     *
+     * @param elems the elems
+     */
+    public DefaultInteraction(CoreWebElements<?> elems) {
+        if (elems != null) {
+            this.source = elems;
+            if (!(this.source instanceof DocumentRootWebElementsImpl)) {
+                this.source = this.source.displayed();
+            }
+        }
     }
-	
-	public String getWaitingPreset() {
+
+    /**
+     * Sets the timeout.
+     *
+     * @param timeout the new timeout
+     */
+    public void setTimeout(Duration timeout) {
+        this.timeout = timeout;
+    }
+
+    /**
+     * Gets the timeout.
+     *
+     * @return the timeout
+     */
+    public Duration getTimeout() {
+        return timeout;
+    }
+
+    public void setWaitingPreset(String preset) {
+        this.preset = preset;
+    }
+
+    public String getWaitingPreset() {
         return preset;
     }
 
     @Override
-	public void waitToPerform() {
-		if (source != null) {
-		    if (preset != null) {
-	            source = source.wait(preset, whileEmpty());
-	        }
-		    else {
-		        source = source.wait(timeout, whileEmpty());
-		    }
-		}
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.Interaction#perform()
-	 */
-	public void perform() {
-		perform(true);
-	}
+    public void waitToPerform() {
+        if (source != null) {
+            if (preset != null) {
+                source = source.wait(preset, whileEmpty());
+            } else {
+                source = source.wait(timeout, whileEmpty());
+            }
+        }
+    }
 
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.Interaction#registerListener(com.vilt.minium.actions.InteractionListener)
-	 */
-	@Override
-	public void registerListener(InteractionListener listener) {
-		listeners.add(listener);
-	}
+    /* (non-Javadoc)
+     * @see com.vilt.minium.actions.Interaction#perform()
+     */
+    @Override
+    public void perform() {
+        perform(true);
+    }
 
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.Interaction#unregisterListener(com.vilt.minium.actions.InteractionListener)
-	 */
-	@Override
-	public void unregisterListener(InteractionListener listener) {
-		listeners.remove(listener);
-	}
-		
-	/**
-	 * Gets the source.
-	 *
-	 * @return the source
-	 */
-	protected CoreWebElements<?> getSource() {
-		return source;
-	}
+    /* (non-Javadoc)
+     * @see com.vilt.minium.actions.Interaction#registerListener(com.vilt.minium.actions.InteractionListener)
+     */
+    @Override
+    public void registerListener(InteractionListener listener) {
+        listeners.add(listener);
+    }
 
-	/**
-	 * Do perform.
-	 */
-	protected abstract void doPerform();
+    /* (non-Javadoc)
+     * @see com.vilt.minium.actions.Interaction#unregisterListener(com.vilt.minium.actions.InteractionListener)
+     */
+    @Override
+    public void unregisterListener(InteractionListener listener) {
+        listeners.remove(listener);
+    }
 
-	/**
-	 * Gets the first.
-	 *
-	 * @param elems the elems
-	 * @return the first
-	 */
-	protected CoreWebElements<?> getFirst(CoreWebElements<?> elems) {
-		CoreWebElements<?> first = elems.displayed().first();
-		return first;
-	}
+    /**
+     * Gets the source.
+     *
+     * @return the source
+     */
+    protected CoreWebElements<?> getSource() {
+        return source;
+    }
 
-	/**
-	 * Gets the first element.
-	 *
-	 * @param elems the elems
-	 * @return the first element
-	 */
-	protected WebElement getFirstElement(CoreWebElements<?> elems) {
-		CoreWebElements<?> first = getFirst(elems);
-		return first.get(0);
-	}
+    /**
+     * Do perform.
+     */
+    protected abstract void doPerform();
 
-	/**
-	 * New actions.
-	 *
-	 * @param elem the elem
-	 * @return the actions
-	 */
-	protected Actions newActions(WebElement elem) {
-		return new Actions(((WrapsDriver) elem).getWrappedDriver());
-	}
-	
-	/**
-	 * Gets the first element.
-	 *
-	 * @return the first element
-	 */
-	protected WebElement getFirstElement() {
-		return getFirstElement(source);
-	}
+    /**
+     * Gets the first.
+     *
+     * @param elems the elems
+     * @return the first
+     */
+    protected CoreWebElements<?> getFirst(CoreWebElements<?> elems) {
+        CoreWebElements<?> first = elems.displayed().first();
+        return first;
+    }
 
-	/**
-	 * Gets the actions.
-	 *
-	 * @return the actions
-	 */
-	protected Actions getActions() {
-		return newActions(getFirstElement(source));
-	}
-	
-	/**
-	 * Trigger.
-	 *
-	 * @param type the type
-	 */
-	protected boolean trigger(Type type, Throwable e) {
-		return trigger(getAllListeners(), type, e);
-	}
+    /**
+     * Gets the first element.
+     *
+     * @param elems the elems
+     * @return the first element
+     */
+    protected WebElement getFirstElement(CoreWebElements<?> elems) {
+        CoreWebElements<?> first = getFirst(elems);
+        return first.get(0);
+    }
 
-	/**
-	 * Trigger reverse.
-	 *
-	 * @param type the type
-	 */
-	protected boolean triggerReverse(Type type, Throwable e) {
-		return trigger(Lists.reverse(getAllListeners()), type, e);
-	}
+    /**
+     * New actions.
+     *
+     * @param elem the elem
+     * @return the actions
+     */
+    protected Actions newActions(WebElement elem) {
+        return new Actions(((WrapsDriver) elem).getWrappedDriver());
+    }
 
-	/**
-	 * Trigger.
-	 *
-	 * @param listeners the listeners
-	 * @param type the type
-	 */
-	protected boolean trigger(List<InteractionListener> listeners, Type type, Throwable e) {
-		if (listeners.isEmpty()) return false;
-		InteractionEvent event = createInteractionEvent(type, e);
-		for (InteractionListener listener : listeners) {
-			listener.onEvent(event);
-		}
-		if (event instanceof AfterFailInteractionEvent) return ((AfterFailInteractionEvent) event).isRetry();
-		return false;
-	}
+    /**
+     * Gets the first element.
+     *
+     * @return the first element
+     */
+    protected WebElement getFirstElement() {
+        return getFirstElement(source);
+    }
 
-	private void perform(boolean canRetry) {
-		waitToPerform();
-		
-		trigger(Type.BEFORE, null);
-		try {
-			doPerform();
-			triggerReverse(Type.AFTER_SUCCESS, null);
-		} catch (RuntimeException e) {
-			boolean retry = triggerReverse(Type.AFTER_FAIL, e);
-			if (retry && canRetry) {
-				logger.debug("Interaction was marked as retriable, let's retry it");
-				perform(false);
-			}
-			else {
-				throw e;
-			}
-		}
-	}
+    /**
+     * Gets the actions.
+     *
+     * @return the actions
+     */
+    protected Actions getActions() {
+        return newActions(getFirstElement(source));
+    }
 
-	private InteractionEvent createInteractionEvent(Type type, Throwable e) {
-		checkNotNull(type);
-		switch (type) {
-		case BEFORE:
-			return new BeforeInteractionEvent(source, this);
-		case AFTER_FAIL:
-			return new AfterFailInteractionEvent(source, this, e);
-		case AFTER_SUCCESS:
-			return new AfterSuccessInteractionEvent(source, this);
-		}
-		
-		// shouldn't occurr
-		throw new IllegalArgumentException("Type must be not null and valid");
-	}
+    /**
+     * Trigger.
+     *
+     * @param type the type
+     */
+    protected boolean trigger(Type type, Throwable e) {
+        return trigger(getAllListeners(), type, e);
+    }
 
-	private List<InteractionListener> getAllListeners() {
-		List<InteractionListener> allListeners = Lists.newArrayList();
-		if (source != null) {
-		    Iterable<InteractionListener> globalListeners = ((WebElementsDriverProvider<?>) source).configuration().interactionListeners();
-			allListeners.addAll(Lists.newArrayList(globalListeners));
-		}
-		allListeners.addAll(listeners);
-		
-		return allListeners;
-	}
+    /**
+     * Trigger reverse.
+     *
+     * @param type the type
+     */
+    protected boolean triggerReverse(Type type, Throwable e) {
+        return trigger(Lists.reverse(getAllListeners()), type, e);
+    }
 
-	protected boolean isSourceDocumentRoot() {
-		return getSource() instanceof DocumentRootWebElementsImpl;
-	}
+    /**
+     * Trigger.
+     *
+     * @param listeners the listeners
+     * @param type the type
+     */
+    protected boolean trigger(List<InteractionListener> listeners, Type type, Throwable e) {
+        if (listeners.isEmpty()) return false;
+        InteractionEvent event = createInteractionEvent(type, e);
+        for (InteractionListener listener : listeners) {
+            listener.onEvent(event);
+        }
+        if (event instanceof AfterFailInteractionEvent) return ((AfterFailInteractionEvent) event).isRetry();
+        return false;
+    }
+
+    private void perform(boolean canRetry) {
+        waitToPerform();
+
+        trigger(Type.BEFORE, null);
+        try {
+            doPerform();
+            triggerReverse(Type.AFTER_SUCCESS, null);
+        } catch (RuntimeException e) {
+            boolean retry = triggerReverse(Type.AFTER_FAIL, e);
+            if (retry && canRetry) {
+                logger.debug("Interaction was marked as retriable, let's retry it");
+                perform(false);
+            } else {
+                throw e;
+            }
+        }
+    }
+
+    private InteractionEvent createInteractionEvent(Type type, Throwable e) {
+        checkNotNull(type);
+        switch (type) {
+        case BEFORE:
+            return new BeforeInteractionEvent(source, this);
+        case AFTER_FAIL:
+            return new AfterFailInteractionEvent(source, this, e);
+        case AFTER_SUCCESS:
+            return new AfterSuccessInteractionEvent(source, this);
+        }
+
+        // shouldn't occurr
+        throw new IllegalArgumentException("Type must be not null and valid");
+    }
+
+    private List<InteractionListener> getAllListeners() {
+        List<InteractionListener> allListeners = Lists.newArrayList();
+        if (source != null) {
+            Iterable<InteractionListener> globalListeners = ((WebElementsDriverProvider<?>) source).configuration().interactionListeners();
+            allListeners.addAll(Lists.newArrayList(globalListeners));
+        }
+        allListeners.addAll(listeners);
+
+        return allListeners;
+    }
+
+    protected boolean isSourceDocumentRoot() {
+        return getSource() instanceof DocumentRootWebElementsImpl;
+    }
 }

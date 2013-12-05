@@ -23,85 +23,85 @@ package com.vilt.minium;
  */
 @JQueryResources("minium/js/position.js")
 public interface PositionWebElements<T extends CoreWebElements<T>> extends WebElements {
-	
-	/**
-	 * Filters elements above this element.
-	 *
-	 * @param elems elements to filter
-	 * @return filtered elements
-	 */
-	public T above(WebElements elems);
-	
-	/**
-	 * Returns elements above this element that match the expression.
-	 *
-	 * @param expr the expression to use for matching elements.
-	 * @return elements
-	 */
-	public T above(String expr);
-	
-	/**
-	 * Filters elements at the left of this element.
-	 *
-	 * @param elems elements to filter
-	 * @return filtered elements
-	 */
-	public T leftOf(WebElements fromElems);
-	
-	/**
-	 * Returns elements at the left this element that match the expression.
-	 *
-	 * @param expr the expression to use for matching elements.
-	 * @return elements
-	 */
-	public T leftOf(String expr);
-	
-	/**
-	 * Filters elements below this element.
-	 *
-	 * @param elems elements to filter
-	 * @return filtered elements
-	 */
-	public T below(WebElements fromElems);
 
-	/**
-	 * Returns elements below this element that match the expression.
-	 *
-	 * @param expr the expression to use for matching elements.
-	 * @return elements
-	 */
-	public T below(String expr);
+    /**
+     * Filters elements above this element.
+     *
+     * @param elems elements to filter
+     * @return filtered elements
+     */
+    public T above(WebElements elems);
 
-	/**
-	 * Filters elements at the right of this element.
-	 *
-	 * @param elems elements to filter
-	 * @return filtered elements
-	 */
-	public T rightOf(WebElements fromElems);
-	
-	/**
-	 * Returns elements at the right of this element that match the expression.
-	 *
-	 * @param expr the expression to use for matching elements.
-	 * @return elements
-	 */
-	public T rightOf(String expr);
+    /**
+     * Returns elements above this element that match the expression.
+     *
+     * @param expr the expression to use for matching elements.
+     * @return elements
+     */
+    public T above(String expr);
 
-	/**
-	 * Overlaps.
-	 *
-	 * @param fromElems the from elems
-	 * @return the t
-	 */
-	public T overlaps(WebElements fromElems);
-	
-	/**
-	 * Overlaps.
-	 *
-	 * @param expr the expr
-	 * @return the t
-	 */
-	public T overlaps(String expr);
-	
+    /**
+     * Filters elements at the left of this element.
+     *
+     * @param fromElems elements to filter
+     * @return filtered elements
+     */
+    public T leftOf(WebElements fromElems);
+
+    /**
+     * Returns elements at the left this element that match the expression.
+     *
+     * @param expr the expression to use for matching elements.
+     * @return elements
+     */
+    public T leftOf(String expr);
+
+    /**
+     * Filters elements below this element.
+     *
+     * @param fromElems elements to filter
+     * @return filtered elements
+     */
+    public T below(WebElements fromElems);
+
+    /**
+     * Returns elements below this element that match the expression.
+     *
+     * @param expr the expression to use for matching elements.
+     * @return elements
+     */
+    public T below(String expr);
+
+    /**
+     * Filters elements at the right of this element.
+     *
+     * @param fromElems elements to filter
+     * @return filtered elements
+     */
+    public T rightOf(WebElements fromElems);
+
+    /**
+     * Returns elements at the right of this element that match the expression.
+     *
+     * @param expr the expression to use for matching elements.
+     * @return elements
+     */
+    public T rightOf(String expr);
+
+    /**
+     * Overlaps.
+     *
+     * @param fromElems the from elems
+     * @return the t
+     */
+    public T overlaps(WebElements fromElems);
+
+    /**
+     * Overlaps.
+     *
+     * @param expr the expr
+     * @return the t
+     */
+    public T overlaps(String expr);
+
 }

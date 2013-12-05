@@ -21,31 +21,30 @@ import com.vilt.minium.WebElements;
 
 public class EvalResult implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private Object value;
-	private int size = -1;
+    private Object value;
+    private int size = -1;
 
-	public EvalResult(Object value) {
-		this(value, -1);
-	}
-	
-	public EvalResult(Object value, int size) {
-		this.value = value;
-		this.size = size;
-		if (value instanceof WebElements) {
-			this.value = ((WebElements) value).toString();
-		}
-		else {
-			this.value = value == null ? null : value.toString();
-		}
-	}
-	
-	public Object getValue() {
-		return value;
-	}
-	
-	public int getSize() {
-		return size;
-	}
+    public EvalResult(Object value) {
+        this(value, -1);
+    }
+
+    public EvalResult(Object value, int size) {
+        this.value = value;
+        this.size = size;
+        if (value instanceof WebElements) {
+            this.value = ((WebElements) value).toString();
+        } else {
+            this.value = value == null ? null : value.toString();
+        }
+    }
+
+    public Object getValue() {
+        return value;
+    }
+
+    public int getSize() {
+        return size;
+    }
 }

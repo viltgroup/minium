@@ -32,12 +32,12 @@ import com.vilt.minium.impl.actions.DefaultInteractionListener;
  */
 public class HighlightListener extends DefaultInteractionListener {
 
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteractionListener#onBeforeEvent(com.vilt.minium.actions.BeforeInteractionEvent)
-	 */
-	@Override
-	protected void onBeforeEvent(BeforeInteractionEvent event) {
-		((DebugWebElements) event.getSource()).highlight();
-	}
-	
+    /* (non-Javadoc)
+     * @see com.vilt.minium.actions.DefaultInteractionListener#onBeforeEvent(com.vilt.minium.actions.BeforeInteractionEvent)
+     */
+    @Override
+    protected void onBeforeEvent(BeforeInteractionEvent event) {
+        ((DebugWebElements) event.getSource()).highlight();
+    }
+
 }

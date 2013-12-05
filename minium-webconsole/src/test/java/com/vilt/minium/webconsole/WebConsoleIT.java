@@ -105,7 +105,7 @@ public class WebConsoleIT extends AbstractTestNGSpringContextTests {
         // then
         assertTrue(checkNotEmpty(webDrivers.withText("wd")), "Could not find wd web driver in the list");
     }
-    
+
     @Test(groups = "actions-with-webdrivers", dependsOnGroups = "webdriver-creation")
     public void testRunSingleLine() {
         // when
@@ -114,7 +114,7 @@ public class WebConsoleIT extends AbstractTestNGSpringContextTests {
         aceEditor().writeCode("\n");
         aceEditor().writeCode("a");
         runCode();
-        
+
         waitProgressBar();
 
         DefaultWebElements notification = notificationWithText("Hello world");
@@ -133,16 +133,16 @@ public class WebConsoleIT extends AbstractTestNGSpringContextTests {
                 "var firstParagraph = $(wd, \"#mw-content-text p\").first();");
         aceEditor().writeCode(code, true);
         runCode();
-        
+
         waitProgressBar();
-        
+
         aceEditor().writeCode("\n");
         aceEditor().writeCode("firstParagraph.text()");
         runCode();
 
         // then
         DefaultWebElements notification = notificationWithText("A minion is a follower devoted to serve his/her master/mistress relentlessly.");
-        
+
         assertTrue(checkNotEmpty(notification));
     }
 
@@ -159,17 +159,17 @@ public class WebConsoleIT extends AbstractTestNGSpringContextTests {
         DefaultWebElements webDriverRemoveBtn = $(wd, "#webdriver-list-dialog .btn-danger").has(".fontello-cancel").rightOf(webDriver);
         DefaultWebElements progressBar = $(wd, ".progress-bar");
         DefaultWebElements successAlertMsg = $(wd, ".alert-success");
-        
+
         click(webDriversDropdown);
         click(webDriversListOption);
         click(webDriverRemoveBtn);
-        
+
         withWaitingPreset("slow").waitWhileNotEmpty(progressBar);
         waitWhileNotEmpty(successAlertMsg.containingText("removed!"));
 
         click(webDriversDropdown);
         click(webDriversListOption);
-        
+
         // then
         assertTrue(checkEmpty(webDriver));
     }

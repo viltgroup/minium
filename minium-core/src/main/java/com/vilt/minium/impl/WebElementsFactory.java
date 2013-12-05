@@ -49,157 +49,159 @@ import com.vilt.minium.WebElementsException;
 
 public class WebElementsFactory implements MethodHandler {
 
-	private static final Logger logger = LoggerFactory.getLogger(WebElementsFactory.class);
-	
-	private Map<Class<?>, Class<?>> webElementsProxyClasses = Maps.newHashMap();
-	private JQueryInvoker invoker;
-	private Class<?> elementsInterface;
-	private Set<Class<?>> moreInterfaces;
+    private static final Logger logger = LoggerFactory.getLogger(WebElementsFactory.class);
 
-	public WebElementsFactory(Class<? extends WebElements> elementsInterface, Class<?> ... moreInterfaces) {
-		this.elementsInterface = elementsInterface;
-		this.moreInterfaces = Sets.newHashSet(moreInterfaces);
-		// we always add the WebElementsDriverProvider class
-		this.moreInterfaces.add(WebElementsDriverProvider.class);
-		this.moreInterfaces.remove(elementsInterface);
-		initInvoker();
-	}
+    private Map<Class<?>, Class<?>> webElementsProxyClasses = Maps.newHashMap();
+    private JQueryInvoker invoker;
+    private Class<?> elementsInterface;
+    private Set<Class<?>> moreInterfaces;
 
-	public <T extends WebElements> T create(Class<T> superClass) {
-		try {
-			T webElements = this.<T>getProxyClassFor(superClass).newInstance();
-			((Proxy) webElements).setHandler(this);
-			return webElements;
-		} catch (InstantiationException e) {
-			throw new WebElementsException(e);
-		} catch (IllegalAccessException e) {
-			throw new WebElementsException(e);
-		}
-	}
-	
-	public Object invoke(Object self, Method thisMethod, Method proceed, Object[] args) throws Throwable {
-		BaseWebElementsImpl<?> parentWebElements = (BaseWebElementsImpl<?>) self;
-		try {
-			return doInvoke(self, thisMethod, proceed, args, parentWebElements);
-		} catch (Exception e) {
-			handleException(parentWebElements, e);
-			// if code reaches here, that means exception was handled successfully, so let's retry it once again
-			return doInvoke(self, thisMethod, proceed, args, parentWebElements);
-		}
-	}
+    public WebElementsFactory(Class<? extends WebElements> elementsInterface, Class<?> ... moreInterfaces) {
+        this.elementsInterface = elementsInterface;
+        this.moreInterfaces = Sets.newHashSet(moreInterfaces);
+        // we always add the WebElementsDriverProvider class
+        this.moreInterfaces.add(WebElementsDriverProvider.class);
+        this.moreInterfaces.remove(elementsInterface);
+        initInvoker();
+    }
 
-	private Object doInvoke(Object self, Method thisMethod, Method proceed, Object[] args, BaseWebElementsImpl<?> parentWebElements) throws Throwable {
-		if (Modifier.isAbstract(thisMethod.getModifiers())) {
-			return parentWebElements.invoke(thisMethod, args);
-		} else {
-			try {
-				return proceed.invoke(self, args);
-			} catch (InvocationTargetException e) {
-				// we need to throw the target exception
-				throw e.getTargetException();
-			} catch (Throwable e) {
-				throw e;
-			}
-		}
-	}
+    public <T extends WebElements> T create(Class<T> superClass) {
+        try {
+            T webElements = this.<T>getProxyClassFor(superClass).newInstance();
+            ((Proxy) webElements).setHandler(this);
+            return webElements;
+        } catch (InstantiationException e) {
+            throw new WebElementsException(e);
+        } catch (IllegalAccessException e) {
+            throw new WebElementsException(e);
+        }
+    }
 
-	public JQueryInvoker getInvoker() {
-		return invoker;
-	}
-	
-	@SuppressWarnings("unchecked")
-	private void initInvoker() {
-		
-		// we need to ensure that insertion order is maintained, as first resources 
-		// must have priority (normally, dependent resources go after those dependencies, e.g
-		// position.js after jquery.js)
-		Set<String> jsResources = Sets.newLinkedHashSet();
-		Set<String> cssResources = Sets.newLinkedHashSet();
-		
-		// jquery is required, nothing will work without it...
-		jsResources.add("minium/js/jquery.min.js");
-		
-		Queue<Class<?>> toCheck = Lists.newLinkedList();
-		toCheck.add(elementsInterface);
-		
-		if (moreInterfaces != null) {
-			toCheck.addAll(moreInterfaces);
-		}
-		
-		while (!toCheck.isEmpty()) {
-			Class<?> interfaze = toCheck.poll();
-			JQueryResources annotation = interfaze.getAnnotation(JQueryResources.class);
-			
-			// we only expand sub-interfaces if no JQuery annotation was found 
-			if (annotation == null) {
-				Class<?>[] subInterfaces = interfaze.getInterfaces();
-				
-				toCheck.addAll(
-						from(Arrays.asList(subInterfaces)).
-						filter(new Predicate<Class<?>>() {
-							public boolean apply(Class<?> input) {
-								return WebElements.class.isAssignableFrom(input);
-							}
-						}).
-						transform(new Function<Class<?>, Class<WebElements>>() {
-							public Class<WebElements> apply(Class<?> input) {
-								return (Class<WebElements>) input;
-							}
-						}).
-						toList());
-			}
-			else {
-				// collect css and javascript resources
-				if (annotation.value() != null) jsResources.addAll(Arrays.asList(annotation.value()));
-				if (annotation.styles() != null) cssResources.addAll(Arrays.asList(annotation.styles()));
-			}
-		}
-		
-		if (logger.isDebugEnabled()) {
-			logger.debug(format("Found the following resources for %s:", elementsInterface.getName()));
-			logger.debug(format(" Javascript: %s", StringUtils.join(jsResources, "; ")));
-			logger.debug(format(" CSS styles: %s", StringUtils.join(cssResources, "; ")));
-		}
-		
-		invoker = new JQueryInvoker(jsResources, cssResources);
-	}
+    @Override
+    public Object invoke(Object self, Method thisMethod, Method proceed, Object[] args) throws Throwable {
+        BaseWebElementsImpl<?> parentWebElements = (BaseWebElementsImpl<?>) self;
+        try {
+            return doInvoke(self, thisMethod, proceed, args, parentWebElements);
+        } catch (Exception e) {
+            handleException(parentWebElements, e);
+            // if code reaches here, that means exception was handled successfully, so let's retry it once again
+            return doInvoke(self, thisMethod, proceed, args, parentWebElements);
+        }
+    }
 
-	@SuppressWarnings("unchecked")
-	private <T extends WebElements> Class<T> getProxyClassFor(final Class<?> superClass) {
-		Class<?> proxyClass = webElementsProxyClasses.get(superClass);
-		if (proxyClass == null) {
-			ProxyFactory factory = new ProxyFactory();
-			
-			Class<?>[] interfaces;
-			if (moreInterfaces == null) {
-				interfaces = new Class<?>[] { elementsInterface };
-			}
-			else {
-				interfaces = new Class<?>[moreInterfaces.size() + 1];
-				interfaces[0] = elementsInterface;
-				System.arraycopy(moreInterfaces.toArray(), 0, interfaces, 1, moreInterfaces.size());
-			}
-			
-			factory.setInterfaces(interfaces);
-			factory.setFilter(new MethodFilter() {
-				public boolean isHandled(Method m) {
-					return true;
-				}
-			});
-			factory.setSuperclass(superClass);
-			proxyClass = factory.createClass();
-			
-			webElementsProxyClasses.put(superClass, proxyClass);
-		}
-		return (Class<T>) proxyClass;
-	}
-	
-	private void handleException(BaseWebElementsImpl<?> parentWebElements, Exception e) throws Exception {
-		Configuration configuration = parentWebElements.configuration();
-		for (ExceptionHandler exceptionHandler : configuration.exceptionHandlers()) {
-			boolean handled = exceptionHandler.handle(parentWebElements, e);
-			if (handled) return;
-		}
-		throw e;
-	}
+    private Object doInvoke(Object self, Method thisMethod, Method proceed, Object[] args, BaseWebElementsImpl<?> parentWebElements) throws Throwable {
+        if (Modifier.isAbstract(thisMethod.getModifiers())) {
+            return parentWebElements.invoke(thisMethod, args);
+        } else {
+            try {
+                return proceed.invoke(self, args);
+            } catch (InvocationTargetException e) {
+                // we need to throw the target exception
+                throw e.getTargetException();
+            } catch (Throwable e) {
+                throw e;
+            }
+        }
+    }
+
+    public JQueryInvoker getInvoker() {
+        return invoker;
+    }
+
+    @SuppressWarnings("unchecked")
+    private void initInvoker() {
+
+        // we need to ensure that insertion order is maintained, as first resources
+        // must have priority (normally, dependent resources go after those dependencies, e.g
+        // position.js after jquery.js)
+        Set<String> jsResources = Sets.newLinkedHashSet();
+        Set<String> cssResources = Sets.newLinkedHashSet();
+
+        // jquery is required, nothing will work without it...
+        jsResources.add("minium/js/jquery.min.js");
+
+        Queue<Class<?>> toCheck = Lists.newLinkedList();
+        toCheck.add(elementsInterface);
+
+        if (moreInterfaces != null) {
+            toCheck.addAll(moreInterfaces);
+        }
+
+        while (!toCheck.isEmpty()) {
+            Class<?> interfaze = toCheck.poll();
+            JQueryResources annotation = interfaze.getAnnotation(JQueryResources.class);
+
+            // we only expand sub-interfaces if no JQuery annotation was found
+            if (annotation == null) {
+                Class<?>[] subInterfaces = interfaze.getInterfaces();
+
+                toCheck.addAll(
+                        from(Arrays.asList(subInterfaces))
+                        .filter(new Predicate<Class<?>>() {
+                            @Override
+                            public boolean apply(Class<?> input) {
+                                return WebElements.class.isAssignableFrom(input);
+                            }
+                        })
+                        .transform(new Function<Class<?>, Class<WebElements>>() {
+                            @Override
+                            public Class<WebElements> apply(Class<?> input) {
+                                return (Class<WebElements>) input;
+                            }
+                        })
+                        .toList());
+            } else {
+                // collect css and javascript resources
+                if (annotation.value() != null) jsResources.addAll(Arrays.asList(annotation.value()));
+                if (annotation.styles() != null) cssResources.addAll(Arrays.asList(annotation.styles()));
+            }
+        }
+
+        if (logger.isDebugEnabled()) {
+            logger.debug(format("Found the following resources for %s:", elementsInterface.getName()));
+            logger.debug(format(" Javascript: %s", StringUtils.join(jsResources, "; ")));
+            logger.debug(format(" CSS styles: %s", StringUtils.join(cssResources, "; ")));
+        }
+
+        invoker = new JQueryInvoker(jsResources, cssResources);
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T extends WebElements> Class<T> getProxyClassFor(final Class<?> superClass) {
+        Class<?> proxyClass = webElementsProxyClasses.get(superClass);
+        if (proxyClass == null) {
+            ProxyFactory factory = new ProxyFactory();
+
+            Class<?>[] interfaces;
+            if (moreInterfaces == null) {
+                interfaces = new Class<?>[] { elementsInterface };
+            } else {
+                interfaces = new Class<?>[moreInterfaces.size() + 1];
+                interfaces[0] = elementsInterface;
+                System.arraycopy(moreInterfaces.toArray(), 0, interfaces, 1, moreInterfaces.size());
+            }
+
+            factory.setInterfaces(interfaces);
+            factory.setFilter(new MethodFilter() {
+                @Override
+                public boolean isHandled(Method m) {
+                    return true;
+                }
+            });
+            factory.setSuperclass(superClass);
+            proxyClass = factory.createClass();
+
+            webElementsProxyClasses.put(superClass, proxyClass);
+        }
+        return (Class<T>) proxyClass;
+    }
+
+    private void handleException(BaseWebElementsImpl<?> parentWebElements, Exception e) throws Exception {
+        Configuration configuration = parentWebElements.configuration();
+        for (ExceptionHandler exceptionHandler : configuration.exceptionHandlers()) {
+            boolean handled = exceptionHandler.handle(parentWebElements, e);
+            if (handled) return;
+        }
+        throw e;
+    }
 }

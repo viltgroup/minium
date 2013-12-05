@@ -35,422 +35,421 @@ import com.vilt.minium.impl.actions.WaitingPresetInteractionListener;
  * The Class Interactions.
  */
 public class Interactions {
-	
-	/**
-	 * Timeout.
-	 *
-	 * @param time the time
-	 * @param units the units
-	 * @return the interaction listener
-	 */
-	public static InteractionListener timeout(long time, TimeUnit units) {
-		return new TimeoutInteractionListener(new Duration(time, units));
-	}
 
-	/**
-	 * Timeout.
-	 *
-	 * @param time the time
-	 * @param units the units
-	 * @return the interaction listener
-	 */
-	public static InteractionListener waitingPreset(String preset) {
-	    return new WaitingPresetInteractionListener(preset);
-	}
+    /**
+     * Timeout.
+     *
+     * @param time the time
+     * @param units the units
+     * @return the interaction listener
+     */
+    public static InteractionListener timeout(long time, TimeUnit units) {
+        return new TimeoutInteractionListener(new Duration(time, units));
+    }
 
-	/**
-	 * Instant timeout.
-	 *
-	 * @return the interaction listener
-	 */
-	public static InteractionListener instantTimeout() {
-		return timeout(0, SECONDS);
-	}
-	
-	/**
-	 * Instant timeout.
-	 *
-	 * @return the interaction listener
-	 */
-	public static InteractionListener retry() {
-		return new RetryOnExceptionInteractionListener();
-	}
+    /**
+     * Timeout.
+     *
+     * @param preset the waiting preset
+     * @return the interaction listener
+     */
+    public static InteractionListener waitingPreset(String preset) {
+        return new WaitingPresetInteractionListener(preset);
+    }
 
-	public static InteractionListener slowMotion(long time, TimeUnit units) {
-	    return new SlowMotionInteractionListener(new Duration(time, units));
-	}
+    /**
+     * Instant timeout.
+     *
+     * @return the interaction listener
+     */
+    public static InteractionListener instantTimeout() {
+        return timeout(0, SECONDS);
+    }
 
-	public static void get(WebElementsDriver<?> wd, String url) {
-		defaultPerformer().get($(wd), url);
-	}
-	
-	public static void get(CoreWebElements<?> elements, String url) {
-		defaultPerformer().get(elements, url);
-	}
-	
-	public static void close(WebElementsDriver<?> wd) {
-		defaultPerformer().close($(wd));
-	}
-	
-	public static void close(CoreWebElements<?> elements) {
-		defaultPerformer().close(elements);
-	}
-	
-	public static void scrollIntoView(CoreWebElements<?> elements) {
-		defaultPerformer().scrollIntoView(elements);
-	}
-	
-	// from org.openqa.selenium.WebElement
-	/**
-	 * Clear.
-	 *
-	 * @param elements the elements
-	 */
-	public static void clear(CoreWebElements<?> elements) {
-		defaultPerformer().clear(elements);
-	}
-	
-	/**
-	 * Submit.
-	 *
-	 * @param elements the elements
-	 */
-	public static void submit(CoreWebElements<?> elements) {
-		defaultPerformer().submit(elements);
-	}
+    /**
+     * Instant timeout.
+     *
+     * @return the interaction listener
+     */
+    public static InteractionListener retry() {
+        return new RetryOnExceptionInteractionListener();
+    }
 
-	// from org.openqa.selenium.interactions.Actions
-	/**
-	 * Key down.
-	 *
-	 * @param elements the elements
-	 * @param keys the keys
-	 */
-	public static void keyDown(CoreWebElements<?> elements, Keys keys) {
-		defaultPerformer().keyDown(elements, keys);
-	}
+    public static InteractionListener slowMotion(long time, TimeUnit units) {
+        return new SlowMotionInteractionListener(new Duration(time, units));
+    }
 
-	/**
-	 * Key up.
-	 *
-	 * @param elements the elements
-	 * @param keys the keys
-	 */
-	public static void keyUp(CoreWebElements<?> elements, Keys keys) {
-		defaultPerformer().keyUp(elements, keys);
-	}
+    public static void get(WebElementsDriver<?> wd, String url) {
+        defaultPerformer().get($(wd), url);
+    }
 
-	/**
-	 * Send keys.
-	 *
-	 * @param elements the elements
-	 * @param keys the keys
-	 */
-	public static void sendKeys(CoreWebElements<?> elements, CharSequence... keys) {
-		defaultPerformer().sendKeys(elements, keys);
-	}
+    public static void get(CoreWebElements<?> elements, String url) {
+        defaultPerformer().get(elements, url);
+    }
 
-	/**
-	 * Click and hold.
-	 *
-	 * @param elements the elements
-	 */
-	public static void clickAndHold(CoreWebElements<?> elements) {
-		defaultPerformer().clickAndHold(elements);
-	}
+    public static void close(WebElementsDriver<?> wd) {
+        defaultPerformer().close($(wd));
+    }
 
-	/**
-	 * Release.
-	 *
-	 * @param elements the elements
-	 */
-	public static void release(CoreWebElements<?> elements) {
-		defaultPerformer().release(elements);
-	}
+    public static void close(CoreWebElements<?> elements) {
+        defaultPerformer().close(elements);
+    }
 
-	/**
-	 * Click.
-	 *
-	 * @param elements the elements
-	 */
-	public static void click(CoreWebElements<?> elements) {
-		defaultPerformer().click(elements);
-	}
+    public static void scrollIntoView(CoreWebElements<?> elements) {
+        defaultPerformer().scrollIntoView(elements);
+    }
 
-	/**
-	 * Double click.
-	 *
-	 * @param elements the elements
-	 */
-	public static void doubleClick(CoreWebElements<?> elements) {
-		defaultPerformer().doubleClick(elements);
-	}
+    // from org.openqa.selenium.WebElement
+    /**
+     * Clear.
+     *
+     * @param elements the elements
+     */
+    public static void clear(CoreWebElements<?> elements) {
+        defaultPerformer().clear(elements);
+    }
 
-	/**
-	 * Move to element.
-	 *
-	 * @param elements the elements
-	 */
-	public static void moveToElement(CoreWebElements<?> elements) {
-		defaultPerformer().moveToElement(elements);
-	}
+    /**
+     * Submit.
+     *
+     * @param elements the elements
+     */
+    public static void submit(CoreWebElements<?> elements) {
+        defaultPerformer().submit(elements);
+    }
 
-	/**
-	 * Move to element.
-	 *
-	 * @param elements the elements
-	 * @param xOffset the x offset
-	 * @param yOffset the y offset
-	 */
-	public static void moveToElement(CoreWebElements<?> elements, int xOffset, int yOffset) {
-		defaultPerformer().moveToElement(elements, xOffset, yOffset);
-	}
+    // from org.openqa.selenium.interactions.Actions
+    /**
+     * Key down.
+     *
+     * @param elements the elements
+     * @param keys the keys
+     */
+    public static void keyDown(CoreWebElements<?> elements, Keys keys) {
+        defaultPerformer().keyDown(elements, keys);
+    }
 
-	/**
-	 * Move by offset.
-	 *
-	 * @param elements the elements
-	 * @param xOffset the x offset
-	 * @param yOffset the y offset
-	 */
-	public static void moveByOffset(CoreWebElements<?> elements, int xOffset, int yOffset) {
-		defaultPerformer().moveByOffset(elements, xOffset, yOffset);
-	}
+    /**
+     * Key up.
+     *
+     * @param elements the elements
+     * @param keys the keys
+     */
+    public static void keyUp(CoreWebElements<?> elements, Keys keys) {
+        defaultPerformer().keyUp(elements, keys);
+    }
 
-	/**
-	 * Context click.
-	 *
-	 * @param elements the elements
-	 */
-	public static void contextClick(CoreWebElements<?> elements) {
-		defaultPerformer().contextClick(elements);
-	}
+    /**
+     * Send keys.
+     *
+     * @param elements the elements
+     * @param keys the keys
+     */
+    public static void sendKeys(CoreWebElements<?> elements, CharSequence... keys) {
+        defaultPerformer().sendKeys(elements, keys);
+    }
 
-	/**
-	 * Drag and drop.
-	 *
-	 * @param source the source
-	 * @param target the target
-	 */
-	public static void dragAndDrop(CoreWebElements<?> source, CoreWebElements<?> target) {
-		defaultPerformer().dragAndDrop(source, target);
-	}
+    /**
+     * Click and hold.
+     *
+     * @param elements the elements
+     */
+    public static void clickAndHold(CoreWebElements<?> elements) {
+        defaultPerformer().clickAndHold(elements);
+    }
 
-	/**
-	 * Drag and drop by.
-	 *
-	 * @param source the source
-	 * @param xOffset the x offset
-	 * @param yOffset the y offset
-	 */
-	public static void dragAndDropBy(CoreWebElements<?> source, int xOffset, int yOffset) {
-		defaultPerformer().dragAndDropBy(source, xOffset, yOffset);
-	}
+    /**
+     * Release.
+     *
+     * @param elements the elements
+     */
+    public static void release(CoreWebElements<?> elements) {
+        defaultPerformer().release(elements);
+    }
 
-	// additional methods
-	/**
-	 * Click all.
-	 *
-	 * @param elements the elements
-	 */
-	public static void clickAll(CoreWebElements<?> elements) {
-		defaultPerformer().clickAll(elements);
-	}
+    /**
+     * Click.
+     *
+     * @param elements the elements
+     */
+    public static void click(CoreWebElements<?> elements) {
+        defaultPerformer().click(elements);
+    }
 
-	/**
-	 * Type.
-	 *
-	 * @param elements the elements
-	 * @param text the text
-	 */
-	public static void type(CoreWebElements<?> elements, CharSequence text) {
-		defaultPerformer().type(elements, text);
-	}
+    /**
+     * Double click.
+     *
+     * @param elements the elements
+     */
+    public static void doubleClick(CoreWebElements<?> elements) {
+        defaultPerformer().doubleClick(elements);
+    }
 
-	/**
-	 * Clear and type.
-	 *
-	 * @param elements the elements
-	 * @param text the text
-	 */
-	public static void fill(CoreWebElements<?> elements, CharSequence text) {
-		defaultPerformer().fill(elements, text);
-	}
+    /**
+     * Move to element.
+     *
+     * @param elements the elements
+     */
+    public static void moveToElement(CoreWebElements<?> elements) {
+        defaultPerformer().moveToElement(elements);
+    }
 
-	public static void check(CoreWebElements<?> elements) {
-		defaultPerformer().check(elements);
-	}
-	
-	public static void uncheck(CoreWebElements<?> elements) {
-		defaultPerformer().uncheck(elements);
-	}
-	
-	// select
-	/**
-	 * Select.
-	 *
-	 * @param elems the elems
-	 * @param text the text
-	 */
-	public static void select(CoreWebElements<?> elems, String text) {
-		defaultPerformer().select(elems, text);
-	}
+    /**
+     * Move to element.
+     *
+     * @param elements the elements
+     * @param xOffset the x offset
+     * @param yOffset the y offset
+     */
+    public static void moveToElement(CoreWebElements<?> elements, int xOffset, int yOffset) {
+        defaultPerformer().moveToElement(elements, xOffset, yOffset);
+    }
 
-	/**
-	 * Deselect.
-	 *
-	 * @param elems the elems
-	 * @param text the text
-	 */
-	public static void deselect(CoreWebElements<?> elems, String text) {
-		defaultPerformer().deselect(elems, text);
-	}
+    /**
+     * Move by offset.
+     *
+     * @param elements the elements
+     * @param xOffset the x offset
+     * @param yOffset the y offset
+     */
+    public static void moveByOffset(CoreWebElements<?> elements, int xOffset, int yOffset) {
+        defaultPerformer().moveByOffset(elements, xOffset, yOffset);
+    }
 
-	/**
-	 * Select val.
-	 *
-	 * @param elems the elems
-	 * @param val the val
-	 */
-	public static void selectVal(CoreWebElements<?> elems, String val) {
-		defaultPerformer().selectVal(elems, val);
-	}
+    /**
+     * Context click.
+     *
+     * @param elements the elements
+     */
+    public static void contextClick(CoreWebElements<?> elements) {
+        defaultPerformer().contextClick(elements);
+    }
 
-	/**
-	 * Deselect val.
-	 *
-	 * @param elems the elems
-	 * @param val the val
-	 */
-	public static void deselectVal(CoreWebElements<?> elems, String val) {
-		defaultPerformer().deselectVal(elems, val);
-	}
+    /**
+     * Drag and drop.
+     *
+     * @param source the source
+     * @param target the target
+     */
+    public static void dragAndDrop(CoreWebElements<?> source, CoreWebElements<?> target) {
+        defaultPerformer().dragAndDrop(source, target);
+    }
 
-	/**
-	 * Select all.
-	 *
-	 * @param elems the elems
-	 */
-	public static void selectAll(CoreWebElements<?> elems) {
-		defaultPerformer().selectAll(elems);
-	}
+    /**
+     * Drag and drop by.
+     *
+     * @param source the source
+     * @param xOffset the x offset
+     * @param yOffset the y offset
+     */
+    public static void dragAndDropBy(CoreWebElements<?> source, int xOffset, int yOffset) {
+        defaultPerformer().dragAndDropBy(source, xOffset, yOffset);
+    }
 
-	/**
-	 * Deselect all.
-	 *
-	 * @param elems the elems
-	 */
-	public static void deselectAll(CoreWebElements<?> elems) {
-		defaultPerformer().deselectAll(elems);
-	}
+    // additional methods
+    /**
+     * Click all.
+     *
+     * @param elements the elements
+     */
+    public static void clickAll(CoreWebElements<?> elements) {
+        defaultPerformer().clickAll(elements);
+    }
 
-	public static void waitWhileEmpty(CoreWebElements<?> elems) throws TimeoutException {
-		defaultPerformer().waitWhileEmpty(elems);
-	}
-	
-	public static void waitWhileNotEmpty(CoreWebElements<?> elems) throws TimeoutException {
-		defaultPerformer().waitWhileNotEmpty(elems);
-	}
-	
-	/**
-	 * Check not empty.
-	 *
-	 * @param elems the elems
-	 * @return true, if successful
-	 */
-	public static boolean checkNotEmpty(CoreWebElements<?> elems) {
-		return defaultPerformer().checkNotEmpty(elems);
-	}
-	
-	/**
-	 * Check empty.
-	 *
-	 * @param elems the elems
-	 * @return true, if successful
-	 */
-	public static boolean checkEmpty(CoreWebElements<?> elems) {
-		return defaultPerformer().checkEmpty(elems);
-	}
-	
-	/**
-	 * Wait until closed.
-	 *
-	 * @param elems the elems
-	 */
-	public static void waitUntilClosed(CoreWebElements<?> elems) throws TimeoutException {
-		defaultPerformer().waitUntilClosed(elems);
-	}
-	
-	/**
-	 * Wait time.
-	 *
-	 * @param time the time
-	 * @param unit the unit
-	 */
-	public static void waitTime(long time, TimeUnit unit) {
-		defaultPerformer().waitTime(time, unit);
-	}
-	
-	/**
-	 * Without waiting.
-	 *
-	 * @return the interaction performer
-	 */
-	public static InteractionPerformer withoutWaiting() {
-		return with(instantTimeout());
-	}
+    /**
+     * Type.
+     *
+     * @param elements the elements
+     * @param text the text
+     */
+    public static void type(CoreWebElements<?> elements, CharSequence text) {
+        defaultPerformer().type(elements, text);
+    }
 
-	/**
-	 * With timeout.
-	 *
-	 * @param time the time
-	 * @param units the units
-	 * @return the interaction performer
-	 */
-	public static InteractionPerformer withTimeout(long time, TimeUnit units) {
-		return with(timeout(time, units));
-	}
+    /**
+     * Clear and type.
+     *
+     * @param elements the elements
+     * @param text the text
+     */
+    public static void fill(CoreWebElements<?> elements, CharSequence text) {
+        defaultPerformer().fill(elements, text);
+    }
 
-	/**
-	 * With waiting preset.
-	 *
-	 * @param preset the waiting preset name
-	 * @return the interaction performer
-	 */
-	public static InteractionPerformer withWaitingPreset(String preset) {
-	    return with(waitingPreset(preset));
-	}
+    public static void check(CoreWebElements<?> elements) {
+        defaultPerformer().check(elements);
+    }
 
-	/**
-	 * With.
-	 *
-	 * @param listeners the listeners
-	 * @return the interaction performer
-	 */
-	public static InteractionPerformer with(InteractionListener ... listeners) {
-		return new InteractionPerformer(listeners);
-	}
-	
-	/**
-	 * Perform.
-	 *
-	 * @param interaction the interaction
-	 */
-	public static void perform(Interaction interaction) {
-		interaction.perform();
-	}
+    public static void uncheck(CoreWebElements<?> elements) {
+        defaultPerformer().uncheck(elements);
+    }
 
-	/**
-	 * Perform.
-	 *
-	 * @param interaction the interaction
-	 */
-	public static void performAndWait(AsyncInteraction interaction) {
-		interaction.perform();
-		interaction.waitUntilCompleted();
-	}
+    // select
+    /**
+     * Select.
+     *
+     * @param elems the elems
+     * @param text the text
+     */
+    public static void select(CoreWebElements<?> elems, String text) {
+        defaultPerformer().select(elems, text);
+    }
 
-	private static InteractionPerformer defaultPerformer() {
-		return new InteractionPerformer();
-	}
+    /**
+     * Deselect.
+     *
+     * @param elems the elems
+     * @param text the text
+     */
+    public static void deselect(CoreWebElements<?> elems, String text) {
+        defaultPerformer().deselect(elems, text);
+    }
+
+    /**
+     * Select val.
+     *
+     * @param elems the elems
+     * @param val the val
+     */
+    public static void selectVal(CoreWebElements<?> elems, String val) {
+        defaultPerformer().selectVal(elems, val);
+    }
+
+    /**
+     * Deselect val.
+     *
+     * @param elems the elems
+     * @param val the val
+     */
+    public static void deselectVal(CoreWebElements<?> elems, String val) {
+        defaultPerformer().deselectVal(elems, val);
+    }
+
+    /**
+     * Select all.
+     *
+     * @param elems the elems
+     */
+    public static void selectAll(CoreWebElements<?> elems) {
+        defaultPerformer().selectAll(elems);
+    }
+
+    /**
+     * Deselect all.
+     *
+     * @param elems the elems
+     */
+    public static void deselectAll(CoreWebElements<?> elems) {
+        defaultPerformer().deselectAll(elems);
+    }
+
+    public static void waitWhileEmpty(CoreWebElements<?> elems) throws TimeoutException {
+        defaultPerformer().waitWhileEmpty(elems);
+    }
+
+    public static void waitWhileNotEmpty(CoreWebElements<?> elems) throws TimeoutException {
+        defaultPerformer().waitWhileNotEmpty(elems);
+    }
+
+    /**
+     * Check not empty.
+     *
+     * @param elems the elems
+     * @return true, if successful
+     */
+    public static boolean checkNotEmpty(CoreWebElements<?> elems) {
+        return defaultPerformer().checkNotEmpty(elems);
+    }
+
+    /**
+     * Check empty.
+     *
+     * @param elems the elems
+     * @return true, if successful
+     */
+    public static boolean checkEmpty(CoreWebElements<?> elems) {
+        return defaultPerformer().checkEmpty(elems);
+    }
+
+    /**
+     * Wait until closed.
+     *
+     * @param elems the elems
+     */
+    public static void waitUntilClosed(CoreWebElements<?> elems) throws TimeoutException {
+        defaultPerformer().waitUntilClosed(elems);
+    }
+
+    /**
+     * Wait time.
+     *
+     * @param time the time
+     * @param unit the unit
+     */
+    public static void waitTime(long time, TimeUnit unit) {
+        defaultPerformer().waitTime(time, unit);
+    }
+
+    /**
+     * Without waiting.
+     *
+     * @return the interaction performer
+     */
+    public static InteractionPerformer withoutWaiting() {
+        return with(instantTimeout());
+    }
+
+    /**
+     * With timeout.
+     *
+     * @param time the time
+     * @param units the units
+     * @return the interaction performer
+     */
+    public static InteractionPerformer withTimeout(long time, TimeUnit units) {
+        return with(timeout(time, units));
+    }
+
+    /**
+     * With waiting preset.
+     *
+     * @param preset the waiting preset name
+     * @return the interaction performer
+     */
+    public static InteractionPerformer withWaitingPreset(String preset) {
+        return with(waitingPreset(preset));
+    }
+
+    /**
+     * With.
+     *
+     * @param listeners the listeners
+     * @return the interaction performer
+     */
+    public static InteractionPerformer with(InteractionListener... listeners) {
+        return new InteractionPerformer(listeners);
+    }
+
+    /**
+     * Perform.
+     *
+     * @param interaction the interaction
+     */
+    public static void perform(Interaction interaction) {
+        interaction.perform();
+    }
+
+    /**
+     * Perform.
+     *
+     * @param interaction the interaction
+     */
+    public static void performAndWait(AsyncInteraction interaction) {
+        interaction.perform();
+        interaction.waitUntilCompleted();
+    }
+
+    private static InteractionPerformer defaultPerformer() {
+        return new InteractionPerformer();
+    }
 }

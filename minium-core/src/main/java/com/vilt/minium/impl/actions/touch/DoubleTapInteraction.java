@@ -23,18 +23,18 @@ import com.vilt.minium.actions.touch.TouchInteraction;
  */
 public class DoubleTapInteraction extends TouchInteraction {
 
-	/**
-	 * Instantiates a new double tap interaction.
-	 *
-	 * @param elems the elems
-	 */
-	public DoubleTapInteraction(CoreWebElements<?> elems) {
-		super(elems);
-	}
-	
-	@Override
-	protected void doPerform() {
-		getActions().doubleTap(getFirstElement()).perform();
-	}
+    /**
+     * Instantiates a new double tap interaction.
+     *
+     * @param elems the elems
+     */
+    public DoubleTapInteraction(CoreWebElements<?> elems) {
+        super(elems);
+    }
+
+    @Override
+    protected void doPerform() {
+        getActions().doubleTap(getFirstElement()).perform();
+    }
 
 }

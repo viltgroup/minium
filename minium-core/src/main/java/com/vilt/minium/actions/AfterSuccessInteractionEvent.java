@@ -22,14 +22,14 @@ import com.vilt.minium.CoreWebElements;
  */
 public class AfterSuccessInteractionEvent extends AfterInteractionEvent {
 
-	private static final long serialVersionUID = 4826758132095640515L;
-	
-	public AfterSuccessInteractionEvent(CoreWebElements<?> source, Interaction interaction) {
-		super(source, interaction);
-	}
-	
-	@Override
-	public Type getType() {
-		return Type.AFTER_SUCCESS;
-	}
+    private static final long serialVersionUID = 4826758132095640515L;
+
+    public AfterSuccessInteractionEvent(CoreWebElements<?> source, Interaction interaction) {
+        super(source, interaction);
+    }
+
+    @Override
+    public Type getType() {
+        return Type.AFTER_SUCCESS;
+    }
 }

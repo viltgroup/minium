@@ -22,25 +22,25 @@ import com.vilt.minium.CoreWebElements;
  */
 public class SelectInteraction extends SelectionInteraction {
 
-	private String text;
+    private String text;
 
-	/**
-	 * Instantiates a new select interaction.
-	 *
-	 * @param source the source
-	 * @param text the text
-	 */
-	public SelectInteraction(CoreWebElements<?> source, String text) {
-		super(source);
-		this.text = text;
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
-	 */
-	@Override
-	protected void doPerform() {
-		getSelectElement().selectByVisibleText(text);
-	}
+    /**
+     * Instantiates a new select interaction.
+     *
+     * @param source the source
+     * @param text the text
+     */
+    public SelectInteraction(CoreWebElements<?> source, String text) {
+        super(source);
+        this.text = text;
+    }
+
+    /* (non-Javadoc)
+     * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
+     */
+    @Override
+    protected void doPerform() {
+        getSelectElement().selectByVisibleText(text);
+    }
 
 }

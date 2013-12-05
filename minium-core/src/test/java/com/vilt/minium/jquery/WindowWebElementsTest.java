@@ -35,72 +35,72 @@ import com.vilt.minium.WebElementsException;
 
 public class WindowWebElementsTest extends MiniumBaseTest {
 
-	@BeforeMethod
-	public void openPage() {
-		get("minium/tests/window-test.html");
-	}
-	
-	@AfterMethod
-	public void closeWindows() {
-	    DefaultWebElements windows = $(wd).windows();
-	    // windows that do not have a h2 tag with text "Windows Tests"
-	    DefaultWebElements popupWindows = windows.not(windows.has(windows.find("h2").withText("Window Tests"))).root();
-	    
-	    popupWindows.close();
-	}
-	
-	@Test
-	public void testWindows() {
-		DefaultWebElements elems = $(wd).windows().find("input#name").waitOrTimeout(whileEmpty());
-		assertEquals(1, Iterables.size(elems));
-	}
-	
-	@Test
-	public void testWindowsWithFrames() {
-		DefaultWebElements elems = $(wd).windows().frames().find("input#name");
-		assertEquals(2, Iterables.size(elems));
-	}
-	
-	@Test
-	public void testWindowsWithObjectResult() {
-		DefaultWebElements input = $(wd).windows().find("input#name");
-		String html = input.html();
-		assertThat(html, notNullValue());
-	}
-	
-	@Test
-	public void testFrozenWindows() {
-		DefaultWebElements frozenWindow = $(wd).windows().find("h2").withText("Iframe Tests").root().freeze();
-		String h2Text = frozenWindow.find("h2").text();
-		assertEquals(h2Text , "Iframe Tests");
-		
-		click($(wd, "#change-popup"));
-		
-		h2Text = frozenWindow.find("h2").text();
-		assertEquals(h2Text , "Position Tests");
-	}
+    @BeforeMethod
+    public void openPage() {
+        get("minium/tests/window-test.html");
+    }
 
-	@Test
-	public void testNotFrozenWindows() {
-		DefaultWebElements notFrozenWindow = $(wd).windows().find("h2").withText("Iframe Tests").root();
-		String h2Text = notFrozenWindow.find("h2").text();
-		assertEquals(h2Text , "Iframe Tests");
-		
-		click($(wd, "#change-popup"));
-		
-		checkEmpty(notFrozenWindow.find("h2"));
-	}
-	
-	@Test
-	public void testWindowsWithObjectResultFailed() {
-		try {
-			DefaultWebElements input = $(wd).windows().find("h1");
-			
-			/* String html = */ input.html();
-			
-			Assert.fail("An exception was expected");
-		} catch (WebElementsException e) {
-			// ok
-		}
-	}
+    @AfterMethod
+    public void closeWindows() {
+        DefaultWebElements windows = $(wd).windows();
+        // windows that do not have a h2 tag with text "Windows Tests"
+        DefaultWebElements popupWindows = windows.not(windows.has(windows.find("h2").withText("Window Tests"))).root();
+
+        popupWindows.close();
+    }
+
+    @Test
+    public void testWindows() {
+        DefaultWebElements elems = $(wd).windows().find("input#name").waitOrTimeout(whileEmpty());
+        assertEquals(1, Iterables.size(elems));
+    }
+
+    @Test
+    public void testWindowsWithFrames() {
+        DefaultWebElements elems = $(wd).windows().frames().find("input#name");
+        assertEquals(2, Iterables.size(elems));
+    }
+
+    @Test
+    public void testWindowsWithObjectResult() {
+        DefaultWebElements input = $(wd).windows().find("input#name");
+        String html = input.html();
+        assertThat(html, notNullValue());
+    }
+
+    @Test
+    public void testFrozenWindows() {
+        DefaultWebElements frozenWindow = $(wd).windows().find("h2").withText("Iframe Tests").root().freeze();
+        String h2Text = frozenWindow.find("h2").text();
+        assertEquals(h2Text , "Iframe Tests");
+
+        click($(wd, "#change-popup"));
+
+        h2Text = frozenWindow.find("h2").text();
+        assertEquals(h2Text , "Position Tests");
+    }
+
+    @Test
+    public void testNotFrozenWindows() {
+        DefaultWebElements notFrozenWindow = $(wd).windows().find("h2").withText("Iframe Tests").root();
+        String h2Text = notFrozenWindow.find("h2").text();
+        assertEquals(h2Text , "Iframe Tests");
+
+        click($(wd, "#change-popup"));
+
+        checkEmpty(notFrozenWindow.find("h2"));
+    }
+
+    @Test
+    public void testWindowsWithObjectResultFailed() {
+        try {
+            DefaultWebElements input = $(wd).windows().find("h1");
+
+            /* String html = */ input.html();
+
+            Assert.fail("An exception was expected");
+        } catch (WebElementsException e) {
+            // ok
+        }
+    }
 }

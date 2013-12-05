@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2013 The Minium Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.vilt.minium.script;
 
 import java.io.File;
@@ -20,23 +35,23 @@ public class MiniumScriptEngine {
         public V call(Context cx) throws X;
     }
 
-	private static final Logger logger = LoggerFactory.getLogger(MiniumScriptEngine.class);
+   private static final Logger logger = LoggerFactory.getLogger(MiniumScriptEngine.class);
 
-	private Global scope;
-	private MiniumContextLoader contextLoader;
-	private AppPreferences preferences;
-	
-	public MiniumScriptEngine() {
-		this(WebElementsDriverFactory.instance());
-	}
+   private Global scope;
+   private MiniumContextLoader contextLoader;
+   private AppPreferences preferences;
 
-	public MiniumScriptEngine(WebElementsDriverFactory webElementsDriverFactory) {
-		this(webElementsDriverFactory, MiniumScriptEngine.class.getClassLoader());
-	}
+   public MiniumScriptEngine() {
+      this(WebElementsDriverFactory.instance());
+   }
 
-	public MiniumScriptEngine(WebElementsDriverFactory webElementsDriverFactory, ClassLoader classLoader) {
-	    this(new MiniumContextLoader(classLoader, webElementsDriverFactory));
-	}
+   public MiniumScriptEngine(WebElementsDriverFactory webElementsDriverFactory) {
+      this(webElementsDriverFactory, MiniumScriptEngine.class.getClassLoader());
+   }
+
+   public MiniumScriptEngine(WebElementsDriverFactory webElementsDriverFactory, ClassLoader classLoader) {
+       this(new MiniumContextLoader(classLoader, webElementsDriverFactory));
+   }
 
     public MiniumScriptEngine(MiniumContextLoader contextLoader) {
         this.contextLoader = contextLoader;
@@ -46,7 +61,7 @@ public class MiniumScriptEngine {
     public void setPreferences(AppPreferences preferences) {
         this.preferences = preferences;
     }
-    
+
     public boolean contains(final String varName) {
         return runWithContext(new ContextCallable<Boolean, RuntimeException>() {
 
@@ -59,12 +74,12 @@ public class MiniumScriptEngine {
     }
     public Object get(final String varName) {
         return runWithContext(new ContextCallable<Object, RuntimeException>() {
-            
+
             @Override
             public Object call(Context cx) {
                 return getUnwrappedResult(scope.get(varName));
             }
-            
+
         });
     }
 
@@ -74,7 +89,7 @@ public class MiniumScriptEngine {
         return (T) object;
     }
 
-	public void put(final String varName, final Object object) {
+   public void put(final String varName, final Object object) {
         runWithContext(new ContextCallable<Void, RuntimeException>() {
 
             @Override
@@ -84,9 +99,9 @@ public class MiniumScriptEngine {
             }
 
         });
-	}
+   }
 
-	public void delete(final String varName) {
+   public void delete(final String varName) {
         runWithContext(new ContextCallable<Void, RuntimeException>() {
 
             @Override
@@ -96,30 +111,29 @@ public class MiniumScriptEngine {
             }
 
         });
-	}
-	
-	public void run(final File file) throws Exception {
-	    logger.debug("Executing file: {}", file);
-	    FileReader reader = new FileReader(file);
-	    try {
-	        doRun(reader, file.getPath());
-	    }
-	    finally {
-	        IOUtils.closeQuietly(reader);
-	    }
-	}
+   }
+
+   public void run(final File file) throws Exception {
+       logger.debug("Executing file: {}", file);
+       FileReader reader = new FileReader(file);
+       try {
+           doRun(reader, file.getPath());
+       } finally {
+           IOUtils.closeQuietly(reader);
+       }
+   }
 
     public void run(final Reader reader, final String sourceName) throws Exception {
-	    logger.debug("Executing reader for sourceName: {}", sourceName);
-	    doRun(reader, sourceName);
-	}
+       logger.debug("Executing reader for sourceName: {}", sourceName);
+       doRun(reader, sourceName);
+   }
 
-	public Object eval(String expression) throws Exception {
-	    return eval(expression, 1);
-	}
-	
-	public Object eval(final String expression, final int lineNumber) throws Exception {
-		logger.debug("Evaluating expression: {}", expression);
+   public Object eval(String expression) throws Exception {
+       return eval(expression, 1);
+   }
+
+   public Object eval(final String expression, final int lineNumber) throws Exception {
+      logger.debug("Evaluating expression: {}", expression);
         return runWithContext(new ContextCallable<Object, Exception>() {
             @Override
             public Object call(Context cx) throws Exception {
@@ -132,9 +146,9 @@ public class MiniumScriptEngine {
                 }
             }
         });
-	}
+   }
 
-	protected void doRun(final Reader reader, final String sourceName) throws Exception {
+   protected void doRun(final Reader reader, final String sourceName) throws Exception {
         runWithContext(new ContextCallable<Void, Exception>() {
 
             @Override
@@ -145,13 +159,13 @@ public class MiniumScriptEngine {
                 } catch (Exception e) {
                     logger.error("Execution of {} failed", sourceName, e);
                     throw e;
-                } 
+                }
             }
         });
     }
 
     protected void initScope() {
-	    runWithContext(new ContextCallable<Void, RuntimeException>() {
+       runWithContext(new ContextCallable<Void, RuntimeException>() {
             @Override
             public Void call(Context cx) {
                 try {
@@ -165,16 +179,16 @@ public class MiniumScriptEngine {
                 }
             }
         });
-	}
-	
-	protected <V, X extends Exception> V runWithContext(ContextCallable<V, X> fn) throws X {
-	    Context cx = Context.enter();
+   }
+
+   protected <V, X extends Exception> V runWithContext(ContextCallable<V, X> fn) throws X {
+       Context cx = Context.enter();
         try {
             return fn.call(cx);
-    	} finally {
+       } finally {
             Context.exit();
         }
-	}
+   }
 
     private Object getUnwrappedResult(Object result) {
         if (result instanceof Undefined)

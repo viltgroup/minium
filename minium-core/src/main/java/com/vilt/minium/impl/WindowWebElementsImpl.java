@@ -32,81 +32,76 @@ import com.vilt.minium.WebElementsDriverProvider;
 
 public class WindowWebElementsImpl<T extends CoreWebElements<T>> extends DocumentRootWebElementsImpl<T> {
 
-	private BaseWebElementsImpl<T> parentImpl;
-	private T filter;
+    private BaseWebElementsImpl<T> parentImpl;
+    private T filter;
 
-	@SuppressWarnings("unchecked")
-	public void init(WebElementsFactory factory, T parent, T filter) {
-		super.init(factory);
-		this.parentImpl = (BaseWebElementsImpl<T>) parent;
-		this.filter = filter;
-	}
+    @SuppressWarnings("unchecked")
+    public void init(WebElementsFactory factory, T parent, T filter) {
+        super.init(factory);
+        this.parentImpl = (BaseWebElementsImpl<T>) parent;
+        this.filter = filter;
+    }
 
-	@Override
-	public Iterable<WebElementsDriver<T>> candidateWebDrivers() {
-		Set<String> windowHandles = candidateHandles();
-		
-		if (windowHandles.isEmpty()) {
-			return Collections.emptyList();
-		} else {
-			return FluentIterable
-					.from(windowHandles)
-					.transform(new Function<String, WebElementsDriver<T>>() {
-						@Override
-						@Nullable
-						public WebElementsDriver<T> apply(@Nullable String input) {
-							return new WindowWebElementsDriver<T>(rootWebDriver(), factory, input);
-						}
-					}).toList();
-		}
-	}
+    @Override
+    public Iterable<WebElementsDriver<T>> candidateWebDrivers() {
+        Set<String> windowHandles = candidateHandles();
 
-	@Override
-	public WebElementsDriver<T> rootWebDriver() {
-		return parentImpl.rootWebDriver();
-	}
-	
-	@Override
-	protected T root(T filter, boolean freeze) {
-		return parentImpl.windows(filter, freeze);
-	}
-	
-	@SuppressWarnings("unchecked")
-	protected Set<String> candidateHandles() {
-		final WebElementsDriver<T> wd = rootWebDriver();		
-		Set<String> windowHandles;
-		
-		if (filter != null) {
-			Iterable<WebElementsDriver<T>> webDrivers = ((WebElementsDriverProvider<T>) filter).webDrivers();
-			windowHandles = Sets.newHashSet(from(webDrivers).transform(new Function<WebElementsDriver<T>, String>() {
-				@Override
-				public String apply(WebElementsDriver<T> input) {
-					return input.getWindowHandle();
-				}
-			}));
-		}
-		else {
-			windowHandles = Sets.newHashSet(wd.getWindowHandles());
-		}
-	
-		return windowHandles;
-	}
+        if (windowHandles.isEmpty()) {
+            return Collections.emptyList();
+        } else {
+            return FluentIterable.from(windowHandles).transform(new Function<String, WebElementsDriver<T>>() {
+                @Override
+                @Nullable
+                public WebElementsDriver<T> apply(@Nullable String input) {
+                    return new WindowWebElementsDriver<T>(rootWebDriver(), factory, input);
+                }
+            }).toList();
+        }
+    }
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public boolean equals(Object obj) {
-		if (obj instanceof WindowWebElementsImpl) {
-			WindowWebElementsImpl<T> elem = (WindowWebElementsImpl<T>) obj;
-			return 
-				Objects.equal(elem.parentImpl, this.parentImpl) &&
-				Objects.equal(elem.filter, this.filter);
-		}
-		return false;
-	}
-	
-	@Override
-	public int hashCode() {
-		return Objects.hashCode(parentImpl, filter);
-	}
+    @Override
+    public WebElementsDriver<T> rootWebDriver() {
+        return parentImpl.rootWebDriver();
+    }
+
+    @Override
+    protected T root(T filter, boolean freeze) {
+        return parentImpl.windows(filter, freeze);
+    }
+
+    @SuppressWarnings("unchecked")
+    protected Set<String> candidateHandles() {
+        final WebElementsDriver<T> wd = rootWebDriver();
+        Set<String> windowHandles;
+
+        if (filter != null) {
+            Iterable<WebElementsDriver<T>> webDrivers = ((WebElementsDriverProvider<T>) filter).webDrivers();
+            windowHandles = Sets.newHashSet(from(webDrivers).transform(new Function<WebElementsDriver<T>, String>() {
+                @Override
+                public String apply(WebElementsDriver<T> input) {
+                    return input.getWindowHandle();
+                }
+            }));
+        } else {
+            windowHandles = Sets.newHashSet(wd.getWindowHandles());
+        }
+
+        return windowHandles;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public boolean equals(Object obj) {
+        if (obj instanceof WindowWebElementsImpl) {
+            WindowWebElementsImpl<T> elem = (WindowWebElementsImpl<T>) obj;
+            return Objects.equal(elem.parentImpl, this.parentImpl) && Objects.equal(elem.filter, this.filter);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(parentImpl, filter);
+    }
 
 }

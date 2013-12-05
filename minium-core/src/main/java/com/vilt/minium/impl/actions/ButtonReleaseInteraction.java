@@ -22,26 +22,27 @@ import com.vilt.minium.CoreWebElements;
  */
 public class ButtonReleaseInteraction extends MouseInteraction {
 
-	/**
-	 * Instantiates a new button release interaction.
-	 *
-	 * @param source the source
-	 */
-	public ButtonReleaseInteraction(CoreWebElements<?> source) {
-		super(source);
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
-	 */
-	@Override
-	protected void doPerform() {
-		if (isSourceDocumentRoot()) {
-			getActions().release().perform();
-		}
-		else {
-			getActions().release(getFirstElement()).perform();
-		}
-	}
+    /**
+     * Instantiates a new button release interaction.
+     *
+     * @param source the source
+     */
+    public ButtonReleaseInteraction(CoreWebElements<?> source) {
+        super(source);
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
+     */
+    @Override
+    protected void doPerform() {
+        if (isSourceDocumentRoot()) {
+            getActions().release().perform();
+        } else {
+            getActions().release(getFirstElement()).perform();
+        }
+    }
 
 }

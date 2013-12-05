@@ -25,16 +25,16 @@ import org.testng.annotations.Test;
 import com.vilt.minium.MiniumBaseTest;
 
 public class TipWebElementsTest extends MiniumBaseTest {
-	
-	@BeforeMethod
-	public void openPage() {
-		get("minium/tests/jquery-test.html");
-	}
-	@Test
-	public void testWaitTime() {
-		long start = System.currentTimeMillis();
-		withTip("Hello World").fill($(wd, "input:text"), "Hello World");
-		long elapsed = System.currentTimeMillis() - start;
-		assertTrue(elapsed > 5000L);
-	}
+
+    @BeforeMethod
+    public void openPage() {
+        get("minium/tests/jquery-test.html");
+    }
+    @Test
+    public void testWaitTime() {
+        long start = System.currentTimeMillis();
+        withTip("Hello World").fill($(wd, "input:text"), "Hello World");
+        long elapsed = System.currentTimeMillis() - start;
+        assertTrue(elapsed > 5000L);
+    }
 }

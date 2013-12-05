@@ -24,22 +24,22 @@ import com.vilt.minium.CoreWebElements;
  */
 public abstract class SelectionInteraction extends DefaultInteraction {
 
-	/**
-	 * Instantiates a new selection interaction.
-	 *
-	 * @param source the source
-	 */
-	public SelectionInteraction(CoreWebElements<?> source) {
-		super(source);
-	}
-	
-	/**
-	 * Gets the select element.
-	 *
-	 * @return the select element
-	 */
-	protected Select getSelectElement() {
-		return new Select(getFirstElement());
-	}
+    /**
+     * Instantiates a new selection interaction.
+     *
+     * @param source the source
+     */
+    public SelectionInteraction(CoreWebElements<?> source) {
+        super(source);
+    }
+
+    /**
+     * Gets the select element.
+     *
+     * @return the select element
+     */
+    protected Select getSelectElement() {
+        return new Select(getFirstElement());
+    }
 
 }

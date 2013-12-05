@@ -22,30 +22,30 @@ import com.vilt.minium.WebElementsDriver;
 
 public abstract class DocumentRootWebElementsImpl<T extends CoreWebElements<T>> extends BaseWebElementsImpl<T> {
 
-	/**
-	 * we return the root element from that page
-	 */
-	@Override
-	@SuppressWarnings("unchecked")
-	protected Iterable<WebElement> computeElements(final WebElementsDriver<T> wd) {
-		BaseWebElementsImpl<T> impl = (BaseWebElementsImpl<T>) myself.find(":eq(0)");
-		return impl.computeElements(wd);
-	}
+    /**
+     * we return the root element from that page
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    protected Iterable<WebElement> computeElements(final WebElementsDriver<T> wd) {
+        BaseWebElementsImpl<T> impl = (BaseWebElementsImpl<T>) myself.find(":eq(0)");
+        return impl.computeElements(wd);
+    }
 
-	@Override
-	protected String getExpression() {
-		return "$(':eq(0)')";
-	}
-	
-	@Override
-	@SuppressWarnings("unchecked")
-	protected T documentRootWebElements() {
-		return (T) this;
-	}
-	
-	@Override
-	public T freeze() {
-		return root(true);
-	}
-	
+    @Override
+    protected String getExpression() {
+        return "$(':eq(0)')";
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    protected T documentRootWebElements() {
+        return (T) this;
+    }
+
+    @Override
+    public T freeze() {
+        return root(true);
+    }
+
 }

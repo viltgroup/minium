@@ -27,40 +27,36 @@ import com.vilt.minium.MiniumBaseTest;
 
 public class FiltersWebElementsTest extends MiniumBaseTest {
 
-	@BeforeMethod
-	public void openPage() {
-		get("minium/tests/filters-test.html");
-	}
-	
-	@Test
-	public void testWithLabel() {
-		DefaultWebElements nameInputElem = $(wd, "input").withLabel("Name");
-		DefaultWebElements passInputElem = $(wd, "input").withLabel("Password");
-		
-		assertThat(nameInputElem, hasSize(1));
-		assertThat(nameInputElem.attr("name"), equalTo("name"));
-				
-		assertThat(passInputElem, hasSize(1));
-		assertThat((String) passInputElem.attr("name"), equalTo("password"));
-	}
-	
-	@Test
-	public void testWithText() {
-		
-	}
-	
-	@Test
-	public void testWithTagNames() {
-		
-	}
-	
-	@Test
-	public void testContainingText() {
-		
-	}
-	
-	@Test
-	public void testMatchingText() {
-		
-	}
+    @BeforeMethod
+    public void openPage() {
+        get("minium/tests/filters-test.html");
+    }
+
+    @Test
+    public void testWithLabel() {
+        DefaultWebElements nameInputElem = $(wd, "input").withLabel("Name");
+        DefaultWebElements passInputElem = $(wd, "input").withLabel("Password");
+
+        assertThat(nameInputElem, hasSize(1));
+        assertThat(nameInputElem.attr("name"), equalTo("name"));
+
+        assertThat(passInputElem, hasSize(1));
+        assertThat(passInputElem.attr("name"), equalTo("password"));
+    }
+
+    @Test
+    public void testWithText() {
+    }
+
+    @Test
+    public void testWithTagNames() {
+    }
+
+    @Test
+    public void testContainingText() {
+    }
+
+    @Test
+    public void testMatchingText() {
+    }
 }

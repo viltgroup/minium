@@ -24,26 +24,26 @@ import com.vilt.minium.tips.TipWebElements;
 
 public class TipInteraction extends AsyncTimeElapsedInteraction {
 
-	private String tip;
+    private String tip;
 
-	public TipInteraction(CoreWebElements<?> elems, String tip, Duration duration) {
-		super(elems, duration);
-		this.tip = tip;
-	}
+    public TipInteraction(CoreWebElements<?> elems, String tip, Duration duration) {
+        super(elems, duration);
+        this.tip = tip;
+    }
 
-	public TipInteraction(CoreWebElements<?> elems, String tip) {
-		super(elems, new Duration(5, SECONDS));
-		this.tip = tip;
-	}
+    public TipInteraction(CoreWebElements<?> elems, String tip) {
+        super(elems, new Duration(5, SECONDS));
+        this.tip = tip;
+    }
 
-	public String getTip() {
-		return tip;
-	}
-	
-	@Override
-	protected void doPerform() {
-		super.doPerform();
-		TipWebElements tipsElems = (TipWebElements) getSource();
-		tipsElems.showTip(tip, duration.getTime(), duration.getUnit());
-	}
+    public String getTip() {
+        return tip;
+    }
+
+    @Override
+    protected void doPerform() {
+        super.doPerform();
+        TipWebElements tipsElems = (TipWebElements) getSource();
+        tipsElems.showTip(tip, duration.getTime(), duration.getUnit());
+    }
 }

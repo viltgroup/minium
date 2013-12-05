@@ -25,18 +25,20 @@ import com.vilt.minium.impl.actions.DefaultInteraction;
  */
 public abstract class ScreenshotInteraction extends DefaultInteraction {
 
-	/** The stream. */
-	protected OutputStream stream;
+    /**
+     * The stream.
+     */
+    protected OutputStream stream;
 
-	/**
-	 * Instantiates a new screenshot interaction.
-	 *
-	 * @param elems the elems
-	 * @param stream the stream
-	 */
-	public ScreenshotInteraction(CoreWebElements<?> elems, OutputStream stream) {
-		super(elems);
-		this.stream = stream;
-	}
+    /**
+     * Instantiates a new screenshot interaction.
+     *
+     * @param elems the elems
+     * @param stream the stream
+     */
+    public ScreenshotInteraction(CoreWebElements<?> elems, OutputStream stream) {
+        super(elems);
+        this.stream = stream;
+    }
 
 }

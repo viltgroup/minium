@@ -27,28 +27,34 @@ import com.vilt.minium.impl.actions.DefaultInteraction;
  */
 public abstract class TouchInteraction extends DefaultInteraction {
 
-	/**
-	 * Instantiates a new touch interaction.
-	 *
-	 * @param elems the elems
-	 */
-	public TouchInteraction(CoreWebElements<?> elems) {
-		super(elems);
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteraction#getActions()
-	 */
-	@Override
-	protected TouchActions getActions() {
-		return newActions(getFirstElement(getSource()));
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteraction#newActions(org.openqa.selenium.WebElement)
-	 */
-	@Override
-	protected TouchActions newActions(WebElement elem) {
-		return new TouchActions(((WrapsDriver) elem).getWrappedDriver());
-	}
+    /**
+     * Instantiates a new touch interaction.
+     *
+     * @param elems the elems
+     */
+    public TouchInteraction(CoreWebElements<?> elems) {
+        super(elems);
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see com.vilt.minium.actions.DefaultInteraction#getActions()
+     */
+    @Override
+    protected TouchActions getActions() {
+        return newActions(getFirstElement(getSource()));
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * com.vilt.minium.actions.DefaultInteraction#newActions(org.openqa.selenium
+     * .WebElement)
+     */
+    @Override
+    protected TouchActions newActions(WebElement elem) {
+        return new TouchActions(((WrapsDriver) elem).getWrappedDriver());
+    }
 }

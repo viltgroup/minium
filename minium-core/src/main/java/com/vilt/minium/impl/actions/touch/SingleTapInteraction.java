@@ -23,20 +23,20 @@ import com.vilt.minium.actions.touch.TouchInteraction;
  */
 public class SingleTapInteraction extends TouchInteraction {
 
-	/**
-	 * Instantiates a new single tap interaction.
-	 *
-	 * @param elems the elems
-	 */
-	public SingleTapInteraction(CoreWebElements<?> elems) {
-		super(elems);
-	}
+    /**
+     * Instantiates a new single tap interaction.
+     *
+     * @param elems the elems
+     */
+    public SingleTapInteraction(CoreWebElements<?> elems) {
+        super(elems);
+    }
 
-	/* (non-Javadoc)
-	 * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
-	 */
-	@Override
-	protected void doPerform() {
-		getActions().singleTap(getFirstElement()).perform();
-	}
+    /* (non-Javadoc)
+     * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
+     */
+    @Override
+    protected void doPerform() {
+        getActions().singleTap(getFirstElement()).perform();
+    }
 }

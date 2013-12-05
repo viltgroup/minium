@@ -22,14 +22,14 @@ import com.vilt.minium.CoreWebElements;
  */
 public class BeforeInteractionEvent extends InteractionEvent {
 
-	private static final long serialVersionUID = 4826758132095640515L;
-	
-	public BeforeInteractionEvent(CoreWebElements<?> source, Interaction interaction) {
-		super(source, interaction);
-	}
-	
-	@Override
-	public Type getType() {
-		return Type.BEFORE;
-	}
+    private static final long serialVersionUID = 4826758132095640515L;
+
+    public BeforeInteractionEvent(CoreWebElements<?> source, Interaction interaction) {
+        super(source, interaction);
+    }
+
+    @Override
+    public Type getType() {
+        return Type.BEFORE;
+    }
 }

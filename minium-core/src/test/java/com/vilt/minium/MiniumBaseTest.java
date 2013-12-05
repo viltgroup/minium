@@ -34,9 +34,9 @@ import org.testng.annotations.BeforeClass;
 @ContextConfiguration(classes = TestConfiguration.class)
 public class MiniumBaseTest extends AbstractTestNGSpringContextTests {
 
-	@Autowired
-	@Qualifier("remoteWebDriverUrl")
-	private URL remoteWebDriverUrl;
+    @Autowired
+    @Qualifier("remoteWebDriverUrl")
+    private URL remoteWebDriverUrl;
 
     protected DefaultWebElementsDriver wd;
 
@@ -45,21 +45,21 @@ public class MiniumBaseTest extends AbstractTestNGSpringContextTests {
         wd = new DefaultWebElementsDriver(createNativeWebDriver());
     }
 
-	@AfterClass
-	public void after() {
-		wd.quit();
-	}
-	
-	public Matcher<Iterable<WebElement>> hasSize(int size) {
-		return IsIterableWithSize.<WebElement>iterableWithSize(size);		
-	}
+    @AfterClass
+    public void after() {
+        wd.quit();
+    }
 
-	protected void get(String resourcePath) {
-		URL resource = MiniumBaseTest.class.getClassLoader().getResource(resourcePath);
-		wd.get(resource.toExternalForm());
-	}
+    public Matcher<Iterable<WebElement>> hasSize(int size) {
+        return IsIterableWithSize.<WebElement>iterableWithSize(size);
+    }
 
-	protected WebDriver createNativeWebDriver() {
-	    return new RemoteWebDriver(remoteWebDriverUrl, new DesiredCapabilities());
-	}
+    protected void get(String resourcePath) {
+        URL resource = MiniumBaseTest.class.getClassLoader().getResource(resourcePath);
+        wd.get(resource.toExternalForm());
+    }
+
+    protected WebDriver createNativeWebDriver() {
+        return new RemoteWebDriver(remoteWebDriverUrl, new DesiredCapabilities());
+    }
 }

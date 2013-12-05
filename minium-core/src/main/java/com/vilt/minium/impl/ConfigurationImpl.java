@@ -36,31 +36,31 @@ import com.vilt.minium.impl.actions.DefaultInteractionListener;
  * The Class Configuration.
  */
 public class ConfigurationImpl implements Configuration {
-    
-	private class ExceptionHandlersInteractionListenerAdapter extends DefaultInteractionListener {
-		
-		@Override
-		protected void onAfterFailEvent(AfterFailInteractionEvent event) {
-			BaseWebElementsImpl<?> source = (BaseWebElementsImpl<?>) event.getSource();
-			if (source == null) return;
-			for (ExceptionHandler handler : exceptionHandlers) {
-				handler.handle(source, event.getException());
-			}
-		}
-	}
-	
-	private class WaitingPresetImpl implements WaitingPreset {
-        
-	    private final String preset;
+
+    private class ExceptionHandlersInteractionListenerAdapter extends DefaultInteractionListener {
+
+        @Override
+        protected void onAfterFailEvent(AfterFailInteractionEvent event) {
+            BaseWebElementsImpl<?> source = (BaseWebElementsImpl<?>) event.getSource();
+            if (source == null) return;
+            for (ExceptionHandler handler : exceptionHandlers) {
+                handler.handle(source, event.getException());
+            }
+        }
+    }
+
+    private class WaitingPresetImpl implements WaitingPreset {
+
+        private final String preset;
 
         public WaitingPresetImpl(String preset) {
             this.preset = preset;
         }
-	    
+
         @Override
         public WaitingPreset timeout(Duration timeout) {
-           timeoutPresets.put(preset, timeout);
-           return this;
+            timeoutPresets.put(preset, timeout);
+            return this;
         }
 
         @Override
@@ -97,17 +97,17 @@ public class ConfigurationImpl implements Configuration {
             intervalPresets.remove(preset);
             return this;
         }
-        
+
         @Override
         public Configuration done() {
             return ConfigurationImpl.this;
         }
-	}
+    }
 
-	private class InteractionListenersImpl implements InteractionListeners {
+    private class InteractionListenersImpl implements InteractionListeners {
 
-	    private List<InteractionListener> interactionListeners = Lists.newArrayList();
-	    
+        private List<InteractionListener> interactionListeners = Lists.newArrayList();
+
         @Override
         public Iterator<InteractionListener> iterator() {
             return Iterators.unmodifiableIterator(interactionListeners.iterator());
@@ -124,116 +124,116 @@ public class ConfigurationImpl implements Configuration {
             interactionListeners.remove(interactionListener);
             return this;
         }
-        
+
         @Override
         public Configuration done() {
             return ConfigurationImpl.this;
         }
-	}
+    }
 
-	private class ExceptionHandlersImpl implements ExceptionHandlers {
-	    
-	    private List<ExceptionHandler> exceptionHandlers = Lists.newArrayList();
-	    
-	    @Override
-	    public Iterator<ExceptionHandler> iterator() {
-	        return Iterators.unmodifiableIterator(exceptionHandlers.iterator());
-	    }
-	    
-	    @Override
-	    public ExceptionHandlers add(ExceptionHandler exceptionHandler) {
-	        exceptionHandlers.add(exceptionHandler);
-	        return this;
-	    }
-	    
-	    @Override
-	    public ExceptionHandlers remove(ExceptionHandler exceptionHandler) {
-	        exceptionHandlers.remove(exceptionHandler);
-	        return this;
-	    }
-	    
-	    @Override
+    private class ExceptionHandlersImpl implements ExceptionHandlers {
+
+        private List<ExceptionHandler> exceptionHandlers = Lists.newArrayList();
+
+        @Override
+        public Iterator<ExceptionHandler> iterator() {
+            return Iterators.unmodifiableIterator(exceptionHandlers.iterator());
+        }
+
+        @Override
+        public ExceptionHandlers add(ExceptionHandler exceptionHandler) {
+            exceptionHandlers.add(exceptionHandler);
+            return this;
+        }
+
+        @Override
+        public ExceptionHandlers remove(ExceptionHandler exceptionHandler) {
+            exceptionHandlers.remove(exceptionHandler);
+            return this;
+        }
+
+        @Override
         public Configuration done() {
             return ConfigurationImpl.this;
         }
-	}
-	
-	private Duration defaultTimeout = new Duration(5, TimeUnit.SECONDS);
-	private Duration defaultInterval  = new Duration(1, TimeUnit.SECONDS);
+    }
 
-	private Map<String, Duration> timeoutPresets = Maps.newHashMap();
+    private Duration defaultTimeout = new Duration(5, TimeUnit.SECONDS);
+    private Duration defaultInterval  = new Duration(1, TimeUnit.SECONDS);
+
+    private Map<String, Duration> timeoutPresets = Maps.newHashMap();
     private Map<String, Duration> intervalPresets = Maps.newHashMap();
     private InteractionListeners interactionListeners = new InteractionListenersImpl();
-	private ExceptionHandlers exceptionHandlers = new ExceptionHandlersImpl();
-	
-	public ConfigurationImpl() {
-		interactionListeners.add(new ExceptionHandlersInteractionListenerAdapter());
-	}
-	
-	/* (non-Javadoc)
+    private ExceptionHandlers exceptionHandlers = new ExceptionHandlersImpl();
+
+    public ConfigurationImpl() {
+        interactionListeners.add(new ExceptionHandlersInteractionListenerAdapter());
+    }
+
+    /* (non-Javadoc)
      * @see com.vilt.minium.Conf#getDefaultTimeout()
      */
-	@Override
+    @Override
     public Duration defaultTimeout() {
-		return defaultTimeout;
-	}
+        return defaultTimeout;
+    }
 
-	/* (non-Javadoc)
+    /* (non-Javadoc)
      * @see com.vilt.minium.Conf#defaultTimeout(com.vilt.minium.Duration)
      */
-	@Override
+    @Override
     public Configuration defaultTimeout(Duration defaultTimeout) {
-		checkNotNull(defaultTimeout);
-		this.defaultTimeout = defaultTimeout;
-		return this;
-	}
+        checkNotNull(defaultTimeout);
+        this.defaultTimeout = defaultTimeout;
+        return this;
+    }
 
-	/* (non-Javadoc)
+    /* (non-Javadoc)
      * @see com.vilt.minium.Conf#defaultTimeout(long, java.util.concurrent.TimeUnit)
      */
-	@Override
+    @Override
     public Configuration defaultTimeout(long time, TimeUnit unit) {
-		return defaultTimeout(new Duration(time, unit));
-	}
+        return defaultTimeout(new Duration(time, unit));
+    }
 
-	/* (non-Javadoc)
+    /* (non-Javadoc)
      * @see com.vilt.minium.Conf#getDefaultInterval()
      */
-	@Override
+    @Override
     public Duration defaultInterval() {
-		return defaultInterval;
-	}
+        return defaultInterval;
+    }
 
-	/* (non-Javadoc)
+    /* (non-Javadoc)
      * @see com.vilt.minium.Conf#defaultInterval(com.vilt.minium.Duration)
      */
-	@Override
+    @Override
     public Configuration defaultInterval(Duration defaultInterval) {
-		checkNotNull(defaultInterval);
-		this.defaultInterval = defaultInterval;
-		return this;
-	}
+        checkNotNull(defaultInterval);
+        this.defaultInterval = defaultInterval;
+        return this;
+    }
 
-	/* (non-Javadoc)
+    /* (non-Javadoc)
      * @see com.vilt.minium.Conf#defaultInterval(long, java.util.concurrent.TimeUnit)
      */
-	@Override
+    @Override
     public Configuration defaultInterval(long time, TimeUnit unit) {
-		return defaultInterval(new Duration(time, unit));
-	}
-	
-	@Override
-	public WaitingPreset waitingPreset(String preset) {
-	    return new WaitingPresetImpl(preset);
-	}
-	
-	@Override
-	public InteractionListeners interactionListeners() {
-	    return interactionListeners;
-	}
+        return defaultInterval(new Duration(time, unit));
+    }
 
-	@Override
-	public ExceptionHandlers exceptionHandlers() {
-	    return exceptionHandlers;
-	}
+    @Override
+    public WaitingPreset waitingPreset(String preset) {
+        return new WaitingPresetImpl(preset);
+    }
+
+    @Override
+    public InteractionListeners interactionListeners() {
+        return interactionListeners;
+    }
+
+    @Override
+    public ExceptionHandlers exceptionHandlers() {
+        return exceptionHandlers;
+    }
 }

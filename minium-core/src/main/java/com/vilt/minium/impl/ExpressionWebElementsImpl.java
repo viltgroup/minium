@@ -29,84 +29,86 @@ import com.vilt.minium.WebElementsDriver;
 
 public class ExpressionWebElementsImpl<T extends CoreWebElements<T>> extends BaseWebElementsImpl<T> {
 
-	private BaseWebElementsImpl<T> parentImpl;
-	private String expression;
-	private Object[] args;
-	
-	@SuppressWarnings("unchecked")
-	public void init(WebElementsFactory factory, T parent, String expression, Object ... args) {
-		super.init(factory);
-		this.parentImpl = (BaseWebElementsImpl<T>) parent;
-		this.expression = expression;
-		this.args = args;
-	}
+    private BaseWebElementsImpl<T> parentImpl;
+    private String expression;
+    private Object[] args;
 
-	protected Iterable<WebElement> computeElements(final WebElementsDriver<T> wd) {
-		return factory.getInvoker().invoke(wd, false, format("return %s;", expression));
-	}
-	
-	@Override
-	protected Iterable<WebElementsDriver<T>> candidateWebDrivers() {
-		return parentImpl.candidateWebDrivers();
-	}
-	
-	@Override
-	public Iterable<WebElementsDriver<T>> webDrivers() {
-		return FluentIterable.from(this)
-		.transform(new Function<WebElement, WebElementsDriver<T>>() {
+    @SuppressWarnings("unchecked")
+    public void init(WebElementsFactory factory, T parent, String expression, Object ... args) {
+        super.init(factory);
+        this.parentImpl = (BaseWebElementsImpl<T>) parent;
+        this.expression = expression;
+        this.args = args;
+    }
 
-			@Override
-			@Nullable
-			@SuppressWarnings("unchecked")
-			public WebElementsDriver<T> apply(@Nullable WebElement input) {
-				return (WebElementsDriver<T>) ((DelegateWebElement) input).getWrappedDriver();
-			}
-		})
-		.toSet();
-	}
-	
-	@Override
-	public WebElementsDriver<T> rootWebDriver() {
-		return parentImpl.rootWebDriver();
-	}
-	
-	@Override
-	protected String getExpression() {
-		return expression;
-	}
-	
-	public Object[] getArgs() {
-		return args;
-	}
-	
-	@Override
-	protected T documentRootWebElements() {
-		return parentImpl.documentRootWebElements();
-	}
-	
-	@Override
-	protected T root(T filter, boolean freeze) {
-		return parentImpl.root(filter, freeze);
-	}
-	
-	public T freeze() {
-		throw new UnsupportedOperationException("Only root web elements can call freeze method for now");
-	}
-	
-	@Override
-	@SuppressWarnings("unchecked")
-	public boolean equals(Object obj) {
-		if (obj instanceof ExpressionWebElementsImpl) {
-			ExpressionWebElementsImpl<T> elem = (ExpressionWebElementsImpl<T>) obj;
-			return 
-				Objects.equal(elem.getExpression(), this.getExpression()) &&
-				Objects.equal(elem.documentRootWebElements(), this.documentRootWebElements());
-		}
-		return false;
-	}
-	
-	@Override
-	public int hashCode() {
-		return Objects.hashCode(documentRootWebElements(), getExpression());
-	}
+    @Override
+    protected Iterable<WebElement> computeElements(final WebElementsDriver<T> wd) {
+        return factory.getInvoker().invoke(wd, false, format("return %s;", expression));
+    }
+
+    @Override
+    protected Iterable<WebElementsDriver<T>> candidateWebDrivers() {
+        return parentImpl.candidateWebDrivers();
+    }
+
+    @Override
+    public Iterable<WebElementsDriver<T>> webDrivers() {
+        return FluentIterable.from(this)
+                .transform(new Function<WebElement, WebElementsDriver<T>>() {
+
+                    @Override
+                    @Nullable
+                    @SuppressWarnings("unchecked")
+                    public WebElementsDriver<T> apply(@Nullable WebElement input) {
+                        return (WebElementsDriver<T>) ((DelegateWebElement) input).getWrappedDriver();
+                    }
+                })
+                .toSet();
+    }
+
+    @Override
+    public WebElementsDriver<T> rootWebDriver() {
+        return parentImpl.rootWebDriver();
+    }
+
+    @Override
+    protected String getExpression() {
+        return expression;
+    }
+
+    public Object[] getArgs() {
+        return args;
+    }
+
+    @Override
+    protected T documentRootWebElements() {
+        return parentImpl.documentRootWebElements();
+    }
+
+    @Override
+    protected T root(T filter, boolean freeze) {
+        return parentImpl.root(filter, freeze);
+    }
+
+    @Override
+    public T freeze() {
+        throw new UnsupportedOperationException("Only root web elements can call freeze method for now");
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public boolean equals(Object obj) {
+        if (obj instanceof ExpressionWebElementsImpl) {
+            ExpressionWebElementsImpl<T> elem = (ExpressionWebElementsImpl<T>) obj;
+            return
+                    Objects.equal(elem.getExpression(), this.getExpression()) &&
+                    Objects.equal(elem.documentRootWebElements(), this.documentRootWebElements());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(documentRootWebElements(), getExpression());
+    }
 }

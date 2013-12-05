@@ -28,50 +28,49 @@ import com.vilt.minium.MiniumBaseTest;
 
 public class FrameWebElementsTest extends MiniumBaseTest {
 
-	@BeforeMethod
-	public void openPage() {
-		get("minium/tests/iframe-test.html");
-	}
-	
-	@Test
-	public void testIframe() {
-		DefaultWebElements elems = $(wd, "#jquery-frame-1").frames().find("input#name");
-		assertThat(elems, hasSize(1));
-		Iterables.get(elems, 0).sendKeys("Hello World!");
-	}
-	
-	@Test
-	public void testIframes() {
-		DefaultWebElements elems = $(wd).frames().find("input#name");
-		assertThat(elems, hasSize(2));
-		
-		for (WebElement elem : elems) {
-			elem.sendKeys("Hello World!");
-		}
-	}
-	
+    @BeforeMethod
+    public void openPage() {
+        get("minium/tests/iframe-test.html");
+    }
 
-	@Test
-	public void testIframeRelativeElements() {
-		DefaultWebElements frame = $(wd, "#jquery-frame-1").frames();
-		DefaultWebElements input = frame.find("input#name");
-		DefaultWebElements label = frame.find("label").rightOf(input);
-		assertThat(label, hasSize(1));
-	}
-	
-	@Test
-	public void testIframesRelativeElements() {
-		DefaultWebElements frame = $(wd).frames();
-		DefaultWebElements input = frame.find("input#name");
-		DefaultWebElements label = frame.find("label").rightOf(input);
-		assertThat(label, hasSize(2));
-	}
-	
-	@Test(expectedExceptions = IllegalArgumentException.class)
-	public void testIframesFalseRelativeElements() {
-		DefaultWebElements input = $(wd, "input#name");
+    @Test
+    public void testIframe() {
+        DefaultWebElements elems = $(wd, "#jquery-frame-1").frames().find("input#name");
+        assertThat(elems, hasSize(1));
+        Iterables.get(elems, 0).sendKeys("Hello World!");
+    }
 
-		DefaultWebElements frame = $(wd).frames();
-		/* DefaultWebElements label = */ frame.find("label").rightOf(input);
-	}
+    @Test
+    public void testIframes() {
+        DefaultWebElements elems = $(wd).frames().find("input#name");
+        assertThat(elems, hasSize(2));
+
+        for (WebElement elem : elems) {
+            elem.sendKeys("Hello World!");
+        }
+    }
+
+    @Test
+    public void testIframeRelativeElements() {
+        DefaultWebElements frame = $(wd, "#jquery-frame-1").frames();
+        DefaultWebElements input = frame.find("input#name");
+        DefaultWebElements label = frame.find("label").rightOf(input);
+        assertThat(label, hasSize(1));
+    }
+
+    @Test
+    public void testIframesRelativeElements() {
+        DefaultWebElements frame = $(wd).frames();
+        DefaultWebElements input = frame.find("input#name");
+        DefaultWebElements label = frame.find("label").rightOf(input);
+        assertThat(label, hasSize(2));
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testIframesFalseRelativeElements() {
+        DefaultWebElements input = $(wd, "input#name");
+
+        DefaultWebElements frame = $(wd).frames();
+        /* DefaultWebElements label = */ frame.find("label").rightOf(input);
+    }
 }

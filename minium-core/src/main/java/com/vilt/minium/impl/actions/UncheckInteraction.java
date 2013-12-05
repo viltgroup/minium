@@ -19,14 +19,14 @@ import com.vilt.minium.CoreWebElements;
 
 public class UncheckInteraction extends ClickInteraction {
 
-	public UncheckInteraction(CoreWebElements<?> elems) {
-		super(elems);
-	}
+    public UncheckInteraction(CoreWebElements<?> elems) {
+        super(elems);
+    }
 
-	@Override
-	protected void doPerform() {
-		if (getSource().is(":checked")) {
-			super.doPerform();
-		}
-	}
+    @Override
+    protected void doPerform() {
+        if (getSource().is(":checked")) {
+            super.doPerform();
+        }
+    }
 }

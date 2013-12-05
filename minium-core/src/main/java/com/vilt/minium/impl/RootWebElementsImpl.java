@@ -23,41 +23,41 @@ import com.vilt.minium.WebElementsDriver;
 
 public class RootWebElementsImpl<T extends CoreWebElements<T>> extends DocumentRootWebElementsImpl<T> {
 
-	private WebElementsDriver<T> wd;
+    private WebElementsDriver<T> wd;
 
-	@SuppressWarnings("unchecked")
-	public void init(WebElementsFactory factory, WebElementsDriver<?> wd) {
-		super.init(factory);
-		this.wd = (WebElementsDriver<T>) wd;
-	}
-	
-	@Override
-	protected Iterable<WebElementsDriver<T>> candidateWebDrivers() {
-		return Collections.<WebElementsDriver<T>>singletonList(wd);
-	}
-	
-	@Override
-	public WebElementsDriver<T> rootWebDriver() {
-		return wd;
-	}
-	
-	@Override
-	protected T root(T filter, boolean freeze) {
-		throw new UnsupportedOperationException("Not implemented yet");
-	}
-	
-	@Override
-	@SuppressWarnings("unchecked")
-	public boolean equals(Object obj) {
-		if (obj instanceof RootWebElementsImpl) {
-			RootWebElementsImpl<T> elem = (RootWebElementsImpl<T>) obj;
-			return Objects.equal(elem.wd, this.wd);
-		}
-		return false;
-	}
-	
-	@Override
-	public int hashCode() {
-		return Objects.hashCode(wd);
-	}
+    @SuppressWarnings("unchecked")
+    public void init(WebElementsFactory factory, WebElementsDriver<?> wd) {
+        super.init(factory);
+        this.wd = (WebElementsDriver<T>) wd;
+    }
+
+    @Override
+    protected Iterable<WebElementsDriver<T>> candidateWebDrivers() {
+        return Collections.<WebElementsDriver<T>>singletonList(wd);
+    }
+
+    @Override
+    public WebElementsDriver<T> rootWebDriver() {
+        return wd;
+    }
+
+    @Override
+    protected T root(T filter, boolean freeze) {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public boolean equals(Object obj) {
+        if (obj instanceof RootWebElementsImpl) {
+            RootWebElementsImpl<T> elem = (RootWebElementsImpl<T>) obj;
+            return Objects.equal(elem.wd, this.wd);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(wd);
+    }
 }

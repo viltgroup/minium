@@ -18,14 +18,14 @@ package com.vilt.minium;
 /**
  * The Interface CoreWebElements.
  *
- * @param <T> "self type" for {@link WebElements} 
+ * @param <T> "self type" for {@link WebElements}
  * @author rui.figueira
  */
-public interface CoreWebElements<T extends CoreWebElements<T>> extends 
-	TargetLocatorWebElements<T>, 
-	JQueryWebElements<T>, 
-	WaitWebElements<T>,
-	FiltersWebElements<T>,
-	FreezableWebElements<T>,
-	JavascriptExecutorWebElements<T> {
+public interface CoreWebElements<T extends CoreWebElements<T>> extends
+    TargetLocatorWebElements<T>,
+    JQueryWebElements<T>,
+    WaitWebElements<T>,
+    FiltersWebElements<T>,
+    FreezableWebElements<T>,
+    JavascriptExecutorWebElements<T> {
 }

@@ -32,26 +32,26 @@ import com.vilt.minium.WebElements;
 
 public class AsyncWebElementsTest extends MiniumBaseTest {
 
-	@JQueryResources("js/async-test.js")
-	public interface AsyncWebElements extends WebElements {
-		@Async
-		public String asyncHelloWorld(String name);
-	}
-	
-	@BeforeClass
-	@Override
-	public void before() {
-		wd = new DefaultWebElementsDriver(createNativeWebDriver(), AsyncWebElements.class);
-		wd.manage().timeouts().setScriptTimeout(5, TimeUnit.SECONDS);
-	}
+    @JQueryResources("js/async-test.js")
+    public interface AsyncWebElements extends WebElements {
+        @Async
+        public String asyncHelloWorld(String name);
+    }
 
-	@BeforeMethod
-	public void openPage() {
-		get("minium/tests/jquery-test.html");
-	}
-	
-	@Test
-	public void testAsyncHelloWorld() {
-		assertEquals("Hello, World!", ((AsyncWebElements) $(wd)).asyncHelloWorld("World"));
-	}
+    @BeforeClass
+    @Override
+    public void before() {
+        wd = new DefaultWebElementsDriver(createNativeWebDriver(), AsyncWebElements.class);
+        wd.manage().timeouts().setScriptTimeout(5, TimeUnit.SECONDS);
+    }
+
+    @BeforeMethod
+    public void openPage() {
+        get("minium/tests/jquery-test.html");
+    }
+
+    @Test
+    public void testAsyncHelloWorld() {
+        assertEquals("Hello, World!", ((AsyncWebElements) $(wd)).asyncHelloWorld("World"));
+    }
 }
