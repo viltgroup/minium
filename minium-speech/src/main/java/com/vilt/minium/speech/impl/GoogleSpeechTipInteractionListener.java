@@ -20,8 +20,8 @@ import static com.vilt.minium.actions.Interactions.perform;
 import java.util.Locale;
 
 import com.vilt.minium.WebElementsDriver;
-import com.vilt.minium.actions.AfterInteractionEvent;
-import com.vilt.minium.actions.BeforeInteractionEvent;
+import com.vilt.minium.impl.actions.AfterInteractionEvent;
+import com.vilt.minium.impl.actions.BeforeInteractionEvent;
 import com.vilt.minium.impl.actions.DefaultInteractionListener;
 import com.vilt.minium.impl.tips.TipInteraction;
 

@@ -16,7 +16,6 @@
 package com.vilt.minium.impl.actions;
 
 import com.vilt.minium.Duration;
-import com.vilt.minium.actions.BeforeInteractionEvent;
 import com.vilt.minium.actions.Interaction;
 
 /**

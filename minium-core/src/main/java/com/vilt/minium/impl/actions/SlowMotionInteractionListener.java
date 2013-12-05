@@ -18,7 +18,6 @@ package com.vilt.minium.impl.actions;
 import static com.vilt.minium.actions.Interactions.waitTime;
 
 import com.vilt.minium.Duration;
-import com.vilt.minium.actions.BeforeInteractionEvent;
 import com.vilt.minium.actions.Interaction;
 
 public class SlowMotionInteractionListener extends DefaultInteractionListener {

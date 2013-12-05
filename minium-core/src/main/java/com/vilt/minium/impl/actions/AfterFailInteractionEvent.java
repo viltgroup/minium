@@ -13,23 +13,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.vilt.minium.actions;
+package com.vilt.minium.impl.actions;
 
 import com.vilt.minium.CoreWebElements;
+import com.vilt.minium.actions.Interaction;
+import com.vilt.minium.actions.InteractionEvent;
+import com.vilt.minium.actions.InteractionEvent.Type;
 
 /**
  * The Class BeforeInteractionEvent.
  */
-public class BeforeInteractionEvent extends InteractionEvent {
+public class AfterFailInteractionEvent extends AfterInteractionEvent {
 
     private static final long serialVersionUID = 4826758132095640515L;
+    private Throwable exception;
+    private boolean retry;
 
-    public BeforeInteractionEvent(CoreWebElements<?> source, Interaction interaction) {
+    public AfterFailInteractionEvent(CoreWebElements<?> source, Interaction interaction, Throwable exception) {
         super(source, interaction);
+        this.exception = exception;
     }
 
     @Override
     public Type getType() {
-        return Type.BEFORE;
+        return Type.AFTER_FAIL;
+    }
+
+    public Throwable getException() {
+        return exception;
+    }
+
+    public boolean isRetry() {
+        return retry;
+    }
+
+    public void setRetry(boolean retry) {
+        this.retry = retry;
     }
 }

@@ -18,9 +18,9 @@ package com.vilt.minium.impl.tips;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.vilt.minium.Duration;
-import com.vilt.minium.actions.AfterInteractionEvent;
-import com.vilt.minium.actions.BeforeInteractionEvent;
 import com.vilt.minium.actions.Interaction;
+import com.vilt.minium.impl.actions.AfterInteractionEvent;
+import com.vilt.minium.impl.actions.BeforeInteractionEvent;
 import com.vilt.minium.impl.actions.DefaultInteractionListener;
 import com.vilt.minium.impl.actions.MouseInteraction;
 import com.vilt.minium.impl.actions.SelectionInteraction;

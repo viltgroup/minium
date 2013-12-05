@@ -13,9 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.vilt.minium.actions;
+package com.vilt.minium.impl.actions;
 
 import com.vilt.minium.CoreWebElements;
+import com.vilt.minium.actions.Interaction;
+import com.vilt.minium.actions.InteractionEvent;
+import com.vilt.minium.actions.InteractionEvent.Type;
 
 /**
  * The Class BeforeInteractionEvent.

@@ -15,10 +15,6 @@
  */
 package com.vilt.minium.impl.actions;
 
-import com.vilt.minium.actions.AfterFailInteractionEvent;
-import com.vilt.minium.actions.AfterInteractionEvent;
-import com.vilt.minium.actions.AfterSuccessInteractionEvent;
-import com.vilt.minium.actions.BeforeInteractionEvent;
 import com.vilt.minium.actions.InteractionEvent;
 import com.vilt.minium.actions.InteractionListener;
 

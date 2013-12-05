@@ -28,8 +28,8 @@ import com.google.common.collect.Maps;
 import com.vilt.minium.Configuration;
 import com.vilt.minium.Duration;
 import com.vilt.minium.ExceptionHandler;
-import com.vilt.minium.actions.AfterFailInteractionEvent;
 import com.vilt.minium.actions.InteractionListener;
+import com.vilt.minium.impl.actions.AfterFailInteractionEvent;
 import com.vilt.minium.impl.actions.DefaultInteractionListener;
 
 /**

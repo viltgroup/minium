@@ -15,8 +15,8 @@
  */
 package com.vilt.minium.impl.debug;
 
-import com.vilt.minium.actions.BeforeInteractionEvent;
 import com.vilt.minium.debug.DebugWebElements;
+import com.vilt.minium.impl.actions.BeforeInteractionEvent;
 import com.vilt.minium.impl.actions.DefaultInteractionListener;
 
 /**

@@ -66,7 +66,9 @@
 	};
 	
 	$.fn.withAttr = function(name, value) {
-		return $(this).filter("[" + escapeSelector(name) + "=\"" + escapeSelector(value) + "\"]");
+		return value ? 
+		    $(this).filter("[" + escapeSelector(name) + "=\"" + escapeSelector(value) + "\"]") :
+		    $(this).filter("[" + escapeSelector(name) + "]");
 	};
 	
 	$.fn.withName = function(value) {

@@ -46,7 +46,6 @@ public abstract class InteractionEvent extends EventObject {
      *
      * @param source the source
      * @param interaction the interaction
-     * @param type the type
      */
     public InteractionEvent(CoreWebElements<?> source, Interaction interaction) {
         super(source);

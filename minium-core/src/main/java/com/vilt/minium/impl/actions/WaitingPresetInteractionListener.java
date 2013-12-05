@@ -15,7 +15,6 @@
  */
 package com.vilt.minium.impl.actions;
 
-import com.vilt.minium.actions.BeforeInteractionEvent;
 import com.vilt.minium.actions.Interaction;
 
 public class WaitingPresetInteractionListener  extends DefaultInteractionListener {
