@@ -18,7 +18,6 @@ package com.vilt.minium.impl.actions;
 import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.actions.Interaction;
 import com.vilt.minium.actions.InteractionEvent;
-import com.vilt.minium.actions.InteractionEvent.Type;
 
 /**
  * The Class BeforeInteractionEvent.
