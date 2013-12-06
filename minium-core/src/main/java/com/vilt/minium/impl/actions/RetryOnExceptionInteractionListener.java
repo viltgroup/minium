@@ -15,7 +15,6 @@
  */
 package com.vilt.minium.impl.actions;
 
-
 public class RetryOnExceptionInteractionListener extends DefaultInteractionListener {
 
     @Override

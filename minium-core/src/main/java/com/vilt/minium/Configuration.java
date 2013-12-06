@@ -19,6 +19,32 @@ import java.util.concurrent.TimeUnit;
 
 import com.vilt.minium.actions.InteractionListener;
 
+/**
+ * Fluent API for Minium configuration. For instance, you can write code like this:
+ *
+ * <pre>
+ * configuration
+ *   .defaultTimeout(2, TimeUnit.SECONDS)
+ *   .defaultInterval(1, TimeUnit.SECONDS)
+ *   .waitingPreset("slow")
+ *     .timeout(20, TimeUnit.SECONDS)
+ *     .interval(5, TimeUnit.SECONDS)
+ *   .done()
+ *   .waitingPreset("fast")
+ *     .timeout(1, TimeUnit.SECONDS)
+ *     .interval(200, TimeUnit.MILLISECONDS)
+ *   .done()
+ *   .interactionListeners()
+ *     .add(slowMotion(2, TimeUnit.SECONDS))
+ *     .add(retry())
+ *   .done()
+ *   .exceptionHandlers()
+ *     .add(alwaysAcceptUnhandledAlerts())
+ *   .done();
+ * </pre>
+ *
+ * @author rui.figueira
+ */
 public interface Configuration {
 
     public interface WaitingPreset {
