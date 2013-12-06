@@ -29,7 +29,9 @@ import static org.testng.Assert.fail;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
+import com.vilt.minium.impl.WaitWebElements;
 
 public class WaitWebElementsTest extends MiniumBaseTest {
 
@@ -43,19 +45,19 @@ public class WaitWebElementsTest extends MiniumBaseTest {
 
     @Test(expectedExceptions = TimeoutException.class)
     public void testUnexistingElement() {
-        $(wd, "#no-element").wait(whileEmpty());
+        wait($(wd, "#no-element"), whileEmpty());
     }
 
     @Test
     public void testWaitWithTimeoutElement() {
 
         // just to force minium to load all the stuff before
-        $(wd, "input").wait(whileEmpty());
+        wait($(wd, "input"), whileEmpty());
 
         long start = System.currentTimeMillis();
         try {
             // when
-            $(wd, "#no-element").wait(1, SECONDS, whileEmpty());
+            wait($(wd, "#no-element"), new Duration(1, SECONDS), whileEmpty());
             fail();
         } catch (TimeoutException e) {
             // then
@@ -66,8 +68,9 @@ public class WaitWebElementsTest extends MiniumBaseTest {
 
     @Test
     public void testExistingElement() {
-        DefaultWebElements wait = $(wd, "input").wait(whileEmpty());
-        assertTrue(Iterables.size(wait) > 0);
+        DefaultWebElements elems = $(wd, "input");
+        wait(elems, whileEmpty());
+        assertTrue(Iterables.size(elems) > 0);
     }
 
     // @Test()
@@ -76,17 +79,29 @@ public class WaitWebElementsTest extends MiniumBaseTest {
         wd.configure().waitingPreset("fast").timeout(1, SECONDS).interval(100, MILLISECONDS);
 
         // just to force minium to load all the stuff before
-        $(wd, "input").wait(whileEmpty());
+        wait($(wd, "input"), whileEmpty());
 
         long start = System.currentTimeMillis();
         try {
             // when
-            $(wd, "#no-element").wait("fast", whileEmpty());
+            wait($(wd, "#no-element"), "fast", whileEmpty());
             fail();
         } catch (TimeoutException e) {
             // then
             double elapsed = (System.currentTimeMillis() - start) / 1000.0;
             assertThat(elapsed, allOf(greaterThan(1.0), lessThan(1.0 + DELTA)));
         }
+    }
+
+    private void wait(DefaultWebElements elems, Predicate<WebElements> predicate) {
+        wait(elems, (Duration) null, predicate);
+    }
+
+    private void wait(DefaultWebElements elems, Duration duration, Predicate<WebElements> predicate) {
+        ((WaitWebElements<?>) elems).wait(duration, predicate);
+    }
+
+    private void wait(DefaultWebElements elems, String preset, Predicate<WebElements> predicate) {
+        ((WaitWebElements<?>) elems).wait(preset, predicate);
     }
 }

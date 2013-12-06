@@ -59,8 +59,9 @@ public class WebElementsFactory implements MethodHandler {
     public WebElementsFactory(Class<? extends WebElements> elementsInterface, Class<?> ... moreInterfaces) {
         this.elementsInterface = elementsInterface;
         this.moreInterfaces = Sets.newHashSet(moreInterfaces);
-        // we always add the WebElementsDriverProvider class
+        // we always add the WebElementsDriverProvider class and WaitWebElements.class
         this.moreInterfaces.add(WebElementsDriverProvider.class);
+        this.moreInterfaces.add(WaitWebElements.class);
         this.moreInterfaces.remove(elementsInterface);
         initInvoker();
     }

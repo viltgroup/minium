@@ -23,7 +23,7 @@ import org.openqa.selenium.WebElement;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
-import com.vilt.minium.WaitWebElements;
+import com.vilt.minium.WebElements;
 import com.vilt.minium.WebElementsDriver;
 import com.vilt.minium.WebElementsDriverProvider;
 
@@ -37,7 +37,7 @@ public class WaitPredicates {
      * @param <T> the generic type
      * @return predicate that returns true if it is empty
      */
-    public static <T extends WaitWebElements<?>> Predicate<T> whileNotEmpty() {
+    public static <T extends WebElements> Predicate<T> whileNotEmpty() {
         return new Predicate<T>() {
             @Override
             public boolean apply(T input) {
@@ -59,7 +59,7 @@ public class WaitPredicates {
      * @param <T> the generic type
      * @return predicate that returns true if it is empty
      */
-    public static <T extends WaitWebElements<?>> Predicate<T> whileEmpty() {
+    public static <T extends WebElements> Predicate<T> whileEmpty() {
         return new Predicate<T>() {
             @Override
             public boolean apply(T input) {
@@ -81,7 +81,7 @@ public class WaitPredicates {
      * @param size number of matched {@link WebElement} instances
      * @return predicate that returns true if it has the exact size
      */
-    public static <T extends WaitWebElements<?>> Predicate<T> untilSize(final int size) {
+    public static <T extends WebElements> Predicate<T> untilSize(final int size) {
         return new Predicate<T>() {
             @Override
             public boolean apply(T input) {
@@ -100,7 +100,7 @@ public class WaitPredicates {
      * @param <T> the generic type
      * @return the predicate
      */
-    public static <T extends WaitWebElements<?>> Predicate<T> untilWindowClosed() {
+    public static <T extends WebElements> Predicate<T> untilWindowClosed() {
         return new Predicate<T>() {
 
             private WebElementsDriver<?> webDriver;

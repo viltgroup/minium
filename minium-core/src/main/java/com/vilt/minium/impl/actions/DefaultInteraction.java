@@ -35,6 +35,7 @@ import com.vilt.minium.actions.InteractionEvent;
 import com.vilt.minium.actions.InteractionEvent.Type;
 import com.vilt.minium.actions.InteractionListener;
 import com.vilt.minium.impl.DocumentRootWebElementsImpl;
+import com.vilt.minium.impl.WaitWebElements;
 
 /**
  * The Class DefaultInteraction.
@@ -92,9 +93,9 @@ public abstract class DefaultInteraction implements Interaction {
     public void waitToPerform() {
         if (source != null) {
             if (preset != null) {
-                source = source.wait(preset, whileEmpty());
+                ((WaitWebElements<?>) source).wait(preset, whileEmpty());
             } else {
-                source = source.wait(timeout, whileEmpty());
+                ((WaitWebElements<?>) source).wait(timeout, whileEmpty());
             }
         }
     }

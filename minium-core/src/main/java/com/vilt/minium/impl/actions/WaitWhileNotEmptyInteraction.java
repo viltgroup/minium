@@ -42,9 +42,9 @@ public class WaitWhileNotEmptyInteraction extends WaitInteraction {
     @Override
     protected void doPerform() throws TimeoutException {
         if (getWaitingPreset() != null) {
-            getSource().wait(getWaitingPreset(), whileNotEmpty());
+            getWaitSource().wait(getWaitingPreset(), whileNotEmpty());
         } else {
-            getSource().wait(getTimeout(), whileNotEmpty());
+            getWaitSource().wait(getTimeout(), whileNotEmpty());
         }
     }
 }

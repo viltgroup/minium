@@ -51,7 +51,6 @@ import com.vilt.minium.Duration;
 import com.vilt.minium.FreezableWebElements;
 import com.vilt.minium.TargetLocatorWebElements;
 import com.vilt.minium.TimeoutException;
-import com.vilt.minium.WaitWebElements;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.WebElementsDriver;
 import com.vilt.minium.WebElementsDriverProvider;
@@ -282,11 +281,6 @@ WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, FreezableWebElemen
     }
 
     @Override
-    public T wait(Predicate<? super T> predicate) {
-        return this.wait((Duration) null, predicate);
-    }
-
-    @Override
     public T wait(long time, TimeUnit unit, Predicate<? super T> predicate) {
         return this.wait(new Duration(time, unit), predicate);
     }
@@ -317,11 +311,6 @@ WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, FreezableWebElemen
         wait.until(function);
 
         return (T) this;
-    }
-
-    @Override
-    public T waitOrTimeout(Predicate<? super T> predicate) {
-        return waitOrTimeout((Duration) null, predicate);
     }
 
     @Override

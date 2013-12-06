@@ -38,6 +38,6 @@ public class WaitOrTimeoutForElementsInteraction extends WaitInteraction {
      */
     @Override
     protected void doPerform() {
-        getSource().waitOrTimeout(getTimeout(), whileEmpty());
+        getWaitSource().waitOrTimeout(getTimeout(), whileEmpty());
     }
 }
