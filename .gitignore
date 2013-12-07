@@ -4,4 +4,6 @@
 target
 test-output
 chromedriver.log
+phantomjsdriver.log
 .gitignore
+.checkstyle
