@@ -146,6 +146,8 @@ mvn install -DskipTests=true
 
 **Note:** if you really want to run the tests, then make sure you have [PhantomJS](http://phantomjs.org/download.html) installed and available in the `PATH` environment variable. Then just replace `mvn install -DskipTests=true` by `mvn install`.
 
+You can then use the built Minium App found at `minium-app/target/minium-app`.
+
 # Documentation
 
 A quick guide on how to use Minium in a Java project or using its Interactive console can be found here:
