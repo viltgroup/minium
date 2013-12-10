@@ -29,6 +29,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import java.util.Locale;
 
 import com.vilt.minium.CoreWebElements;
+import com.vilt.minium.JavascriptExecutorWebElements;
 import com.vilt.minium.WebElementsDriver;
 
 public class ClientSideGoogleSpeechInteraction extends GoogleSpeechInteraction {
@@ -62,7 +63,7 @@ public class ClientSideGoogleSpeechInteraction extends GoogleSpeechInteraction {
         CoreWebElements<?> source = $(wd, "#source");
 
         clear(source);
-        source.call(parse("function(text) { $(this).val(text); }"), text);
+        source.cast(JavascriptExecutorWebElements.class).call(parse("function(text) { $(this).val(text); }"), text);
         waitTime(200, MILLISECONDS);
 
         click($(wd, "#gt-submit"));
