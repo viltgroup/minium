@@ -38,6 +38,6 @@ public abstract class WaitInteraction extends DefaultInteraction {
     }
 
     public WaitWebElements<?> getWaitSource() {
-        return (WaitWebElements<?>) super.getSource();
+        return super.getSource().as(WaitWebElements.class);
     }
 }

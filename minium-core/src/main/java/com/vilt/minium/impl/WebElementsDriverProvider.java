@@ -13,9 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.vilt.minium;
+package com.vilt.minium.impl;
 
 import org.openqa.selenium.WebDriver;
+
+import com.vilt.minium.Configuration;
+import com.vilt.minium.CoreWebElements;
+import com.vilt.minium.WebElements;
+import com.vilt.minium.WebElementsDriver;
 
 /**
  * The Interface WebElementsDriverProvider.
@@ -57,5 +62,5 @@ public interface WebElementsDriverProvider<T extends CoreWebElements<T>> extends
      *
      * @return the configuration
      */
-    public Configuration configuration();
+    public Configuration configure();
 }

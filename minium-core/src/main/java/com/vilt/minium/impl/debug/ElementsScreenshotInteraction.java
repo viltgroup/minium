@@ -26,7 +26,8 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 
 import com.vilt.minium.CoreWebElements;
-import com.vilt.minium.WebElementsDriverProvider;
+import com.vilt.minium.WebElementsDriver;
+import com.vilt.minium.impl.WebElementsDriverProvider;
 
 /**
  * The Class ElementsScreenshotInteraction.
@@ -56,7 +57,8 @@ public class ElementsScreenshotInteraction extends ScreenshotInteraction {
             int height = elem.getSize().getHeight();
 
             CoreWebElements<?> coreWebElements = getSource();
-            byte[] screenshot = ((WebElementsDriverProvider<?>) coreWebElements).webDriver().getScreenshotAs(OutputType.BYTES);
+            WebElementsDriver<?> webDriver = coreWebElements.as(WebElementsDriverProvider.class).webDriver();
+            byte[] screenshot = webDriver.getScreenshotAs(OutputType.BYTES);
 
             BufferedImage img = null;
 

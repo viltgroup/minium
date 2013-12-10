@@ -17,7 +17,7 @@ package com.vilt.minium.impl.actions;
 
 import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.WebElementsDriver;
-import com.vilt.minium.WebElementsDriverProvider;
+import com.vilt.minium.impl.WebElementsDriverProvider;
 
 public class GetInteraction extends DefaultInteraction {
 
@@ -30,7 +30,7 @@ public class GetInteraction extends DefaultInteraction {
 
     @Override
     protected void doPerform() {
-        WebElementsDriver<?> webDriver = ((WebElementsDriverProvider<?>) getSource()).webDriver();
+        WebElementsDriver<?> webDriver = getSource().as(WebElementsDriverProvider.class).webDriver();
         webDriver.get(url);
     }
 }

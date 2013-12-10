@@ -63,7 +63,7 @@ public class ClientSideGoogleSpeechInteraction extends GoogleSpeechInteraction {
         CoreWebElements<?> source = $(wd, "#source");
 
         clear(source);
-        source.cast(JavascriptExecutorWebElements.class).call(parse("function(text) { $(this).val(text); }"), text);
+        source.as(JavascriptExecutorWebElements.class).call(parse("function(text) { $(this).val(text); }"), text);
         waitTime(200, MILLISECONDS);
 
         click($(wd, "#gt-submit"));

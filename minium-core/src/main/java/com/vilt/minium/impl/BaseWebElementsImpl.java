@@ -23,7 +23,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nullable;
 
@@ -53,7 +52,6 @@ import com.vilt.minium.TargetLocatorWebElements;
 import com.vilt.minium.TimeoutException;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.WebElementsDriver;
-import com.vilt.minium.WebElementsDriverProvider;
 import com.vilt.minium.WebElementsException;
 
 public abstract class BaseWebElementsImpl<T extends CoreWebElements<T>> implements
@@ -255,7 +253,7 @@ WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, FreezableWebElemen
 
     @SuppressWarnings("unchecked")
     @Override
-    public <WE extends WebElements> WE cast(Class<WE> clazz) {
+    public <WE extends WebElements> WE as(Class<WE> clazz) {
         if (!clazz.isAssignableFrom(this.getClass())) {
             throw new ClassCastException(
                     format("WebElements does not implement %s. Ensure that the class is passed as an extension interface in DefaultWebElementsDriver constructor", clazz.getName()));
@@ -281,18 +279,13 @@ WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, FreezableWebElemen
     }
 
     @Override
-    public T wait(long time, TimeUnit unit, Predicate<? super T> predicate) {
-        return this.wait(new Duration(time, unit), predicate);
-    }
-
-    @Override
     public T wait(Duration timeout, Predicate<? super T> predicate) {
         return wait(timeout, null, predicate);
     }
 
     @Override
     public T wait(String preset, Predicate<? super T> predicate) {
-        WaitingPreset waitingPreset = configuration().waitingPreset(preset);
+        WaitingPreset waitingPreset = configure().waitingPreset(preset);
         return wait(waitingPreset.timeout(), waitingPreset.interval(), predicate);
     }
 
@@ -314,18 +307,13 @@ WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, FreezableWebElemen
     }
 
     @Override
-    public T waitOrTimeout(long time, TimeUnit unit, Predicate<? super T> predicate) {
-        return waitOrTimeout(new Duration(time, unit), predicate);
-    }
-
-    @Override
     public T waitOrTimeout(Duration timeout, Predicate<? super T> predicate) {
         return waitOrTimeout(timeout, null, predicate);
     }
 
     @Override
     public T waitOrTimeout(String preset, Predicate<? super T> predicate) {
-        WaitingPreset waitingPreset = configuration().waitingPreset(preset);
+        WaitingPreset waitingPreset = configure().waitingPreset(preset);
         return waitOrTimeout(waitingPreset.timeout(), waitingPreset.interval(), predicate);
     }
 
@@ -428,7 +416,7 @@ WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, FreezableWebElemen
     }
 
     @Override
-    public Configuration configuration() {
+    public Configuration configure() {
         return rootWebDriver().configure();
     }
 

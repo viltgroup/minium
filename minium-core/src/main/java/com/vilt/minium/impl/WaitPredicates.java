@@ -25,7 +25,6 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.WebElementsDriver;
-import com.vilt.minium.WebElementsDriverProvider;
 
 public class WaitPredicates {
 
@@ -113,7 +112,7 @@ public class WaitPredicates {
 
             protected WebElementsDriver<?> getWebDriver(T elems) {
                 if (webDriver == null) {
-                    webDriver = ((WebElementsDriverProvider<?>) elems).webDriver();
+                    webDriver = elems.as(WebElementsDriverProvider.class).webDriver();
                 }
                 return webDriver;
             }

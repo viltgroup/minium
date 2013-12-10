@@ -40,11 +40,10 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.vilt.minium.Configuration;
+import com.vilt.minium.Configuration.ExceptionHandlers;
 import com.vilt.minium.ExceptionHandler;
 import com.vilt.minium.JQueryResources;
 import com.vilt.minium.WebElements;
-import com.vilt.minium.WebElementsDriverProvider;
 import com.vilt.minium.WebElementsException;
 
 public class WebElementsFactory implements MethodHandler {
@@ -198,8 +197,8 @@ public class WebElementsFactory implements MethodHandler {
     }
 
     private void handleException(BaseWebElementsImpl<?> parentWebElements, Exception e) throws Exception {
-        Configuration configuration = parentWebElements.configuration();
-        for (ExceptionHandler exceptionHandler : configuration.exceptionHandlers()) {
+        ExceptionHandlers exceptionHandlers = parentWebElements.configure().exceptionHandlers();
+        for (ExceptionHandler exceptionHandler : exceptionHandlers) {
             boolean handled = exceptionHandler.handle(parentWebElements, e);
             if (handled) return;
         }

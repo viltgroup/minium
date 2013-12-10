@@ -29,13 +29,13 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.Lists;
 import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.Duration;
-import com.vilt.minium.WebElementsDriverProvider;
 import com.vilt.minium.actions.Interaction;
 import com.vilt.minium.actions.InteractionEvent;
 import com.vilt.minium.actions.InteractionEvent.Type;
 import com.vilt.minium.actions.InteractionListener;
 import com.vilt.minium.impl.DocumentRootWebElementsImpl;
 import com.vilt.minium.impl.WaitWebElements;
+import com.vilt.minium.impl.WebElementsDriverProvider;
 
 /**
  * The Class DefaultInteraction.
@@ -258,7 +258,7 @@ public abstract class DefaultInteraction implements Interaction {
     private List<InteractionListener> getAllListeners() {
         List<InteractionListener> allListeners = Lists.newArrayList();
         if (source != null) {
-            Iterable<InteractionListener> globalListeners = ((WebElementsDriverProvider<?>) source).configuration().interactionListeners();
+            Iterable<InteractionListener> globalListeners = source.as(WebElementsDriverProvider.class).configure().interactionListeners();
             allListeners.addAll(Lists.newArrayList(globalListeners));
         }
         allListeners.addAll(listeners);

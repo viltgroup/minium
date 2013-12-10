@@ -86,6 +86,6 @@ public class SelectorGadgetController {
         if (wd == null) {
             return null;
         }
-        return $(wd).cast(SelectorGadgetWebElements.class);
+        return $(wd).as(SelectorGadgetWebElements.class);
     }
 }

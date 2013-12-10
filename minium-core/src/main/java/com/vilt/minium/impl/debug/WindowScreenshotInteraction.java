@@ -23,7 +23,8 @@ import org.openqa.selenium.OutputType;
 import com.google.common.io.ByteSource;
 import com.google.common.io.Closeables;
 import com.vilt.minium.CoreWebElements;
-import com.vilt.minium.WebElementsDriverProvider;
+import com.vilt.minium.WebElementsDriver;
+import com.vilt.minium.impl.WebElementsDriverProvider;
 
 /**
  * The Class WindowScreenshotInteraction.
@@ -47,7 +48,8 @@ public class WindowScreenshotInteraction extends ScreenshotInteraction {
     protected void doPerform() {
         try {
             CoreWebElements<?> coreWebElements = getSource();
-            byte[] screenshot = ((WebElementsDriverProvider<?>) coreWebElements).webDriver().getScreenshotAs(OutputType.BYTES);
+            WebElementsDriver<?> webDriver = coreWebElements.as(WebElementsDriverProvider.class).webDriver();
+            byte[] screenshot = webDriver.getScreenshotAs(OutputType.BYTES);
             ByteSource.wrap(screenshot).copyTo(stream);
         } catch (Exception e) {
             throw new RuntimeException(e);

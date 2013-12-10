@@ -18,7 +18,7 @@ package com.vilt.minium.impl.actions;
 import org.openqa.selenium.interactions.Keyboard;
 
 import com.vilt.minium.CoreWebElements;
-import com.vilt.minium.WebElementsDriverProvider;
+import com.vilt.minium.impl.WebElementsDriverProvider;
 
 /**
  * The Class KeyboardInteraction.
@@ -35,7 +35,7 @@ public abstract class KeyboardInteraction extends DefaultInteraction {
     }
 
     protected Keyboard keyboard() {
-        return ((WebElementsDriverProvider<?>) getSource()).webDriver().getKeyboard();
+        return getSource().as(WebElementsDriverProvider.class).webDriver().getKeyboard();
     }
 
 }

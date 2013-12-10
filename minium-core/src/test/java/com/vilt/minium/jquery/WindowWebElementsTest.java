@@ -33,7 +33,6 @@ import com.google.common.collect.Iterables;
 import com.vilt.minium.DefaultWebElements;
 import com.vilt.minium.Duration;
 import com.vilt.minium.MiniumBaseTest;
-import com.vilt.minium.WebElements;
 import com.vilt.minium.WebElementsException;
 import com.vilt.minium.impl.WaitWebElements;
 
@@ -109,7 +108,8 @@ public class WindowWebElementsTest extends MiniumBaseTest {
         }
     }
 
-    private void waitOrTimeout(DefaultWebElements elems, Predicate<WebElements> predicate) {
-        ((WaitWebElements<?>) elems).waitOrTimeout((Duration) null, predicate);
+    @SuppressWarnings("unchecked")
+    private void waitOrTimeout(DefaultWebElements elems, Predicate<?> predicate) {
+        elems.as(WaitWebElements.class).waitOrTimeout((Duration) null, predicate);
     }
 }

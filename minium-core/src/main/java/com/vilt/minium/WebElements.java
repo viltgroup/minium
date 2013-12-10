@@ -32,6 +32,6 @@ public interface WebElements extends Iterable<WebElement> {
      */
     public WebElement get(int index);
 
-    public <T extends WebElements> T cast(Class<T> clazz);
+    public <T extends WebElements> T as(Class<T> clazz);
 
 }

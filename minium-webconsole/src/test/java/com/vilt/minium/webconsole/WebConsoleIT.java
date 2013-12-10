@@ -185,7 +185,7 @@ public class WebConsoleIT extends AbstractTestNGSpringContextTests {
     }
 
     private AceEditorWebElements aceEditor() {
-        return $(wd).cast(AceEditorWebElements.class);
+        return $(wd).as(AceEditorWebElements.class);
     }
 
     private void waitProgressBar() {

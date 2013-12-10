@@ -28,7 +28,6 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Sets;
 import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.WebElementsDriver;
-import com.vilt.minium.WebElementsDriverProvider;
 
 public class WindowWebElementsImpl<T extends CoreWebElements<T>> extends DocumentRootWebElementsImpl<T> {
 
@@ -75,7 +74,7 @@ public class WindowWebElementsImpl<T extends CoreWebElements<T>> extends Documen
         Set<String> windowHandles;
 
         if (filter != null) {
-            Iterable<WebElementsDriver<T>> webDrivers = ((WebElementsDriverProvider<T>) filter).webDrivers();
+            Iterable<WebElementsDriver<T>> webDrivers = filter.as(WebElementsDriverProvider.class).webDrivers();
             windowHandles = Sets.newHashSet(from(webDrivers).transform(new Function<WebElementsDriver<T>, String>() {
                 @Override
                 public String apply(WebElementsDriver<T> input) {
