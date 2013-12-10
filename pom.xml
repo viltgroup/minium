@@ -53,14 +53,15 @@
 		<module>minium-app</module>
 		<module>minium-script</module>
 		<module>minium-prefs</module>
-		<!-- Check http://maven.apache.org/plugins/maven-checkstyle-plugin/examples/multi-module-config.html -->
-		<module>build-tools</module>
 	</modules>
 
 	<properties>
-		<target.jdk>1.6</target.jdk>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <checkstyle.config.dir>${basedir}/../src/main/checkstyle</checkstyle.config.dir>
+
+        <!-- Versions -->
+		<target.jdk>1.6</target.jdk>
 
 		<selenium.version>2.35.0</selenium.version>
 		<guava.version>15.0</guava.version>
@@ -87,6 +88,7 @@
 		<license.inception.year>2013</license.inception.year>
 		<license.organization.name>VILT Group</license.organization.name>
 		<license.project.name>Minium</license.project.name>
+        
 	</properties>
 
 	<dependencyManagement>
@@ -460,23 +462,17 @@
 					<artifactId>maven-checkstyle-plugin</artifactId>
 					<version>2.11</version>
 					<configuration>
-						<configLocation>minium/checkstyle.xml</configLocation>
-						<headerLocation>/minium/LICENSE.txt</headerLocation>
-						<suppressionsLocation>minium/suppressions.xml</suppressionsLocation>
-						<propertiesLocation>checkstyle.properties</propertiesLocation>
-						<propertyExpansion>basedir=${basedir}</propertyExpansion>
+						<configLocation>${checkstyle.config.dir}/checkstyle.xml</configLocation>
+						<headerLocation>${checkstyle.config.dir}/LICENSE.txt</headerLocation>
+						<suppressionsLocation>${checkstyle.config.dir}/suppressions.xml</suppressionsLocation>
+                        <propertyExpansion>
+                        checkstyle.config.dir=${checkstyle.config.dir}
+                        </propertyExpansion>
 						<consoleOutput>true</consoleOutput>
 						<failsOnError>true</failsOnError>
 						<linkXRef>false</linkXRef>
 						<includeTestSourceDirectory>true</includeTestSourceDirectory>
 					</configuration>
-					<dependencies>
-						<dependency>
-							<groupId>${project.groupId}</groupId>
-							<artifactId>build-tools</artifactId>
-							<version>${project.version}</version>
-						</dependency>
-					</dependencies>
 					<executions>
 						<execution>
 							<id>validate</id>
