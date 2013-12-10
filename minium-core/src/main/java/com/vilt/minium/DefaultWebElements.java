@@ -24,6 +24,6 @@ public interface DefaultWebElements extends
     CoreWebElements<DefaultWebElements>,
     PositionWebElements<DefaultWebElements>,
     ConditionWebElements<DefaultWebElements>,
-    FiltersWebElements<DefaultWebElements>,
+    JavascriptExecutorWebElements<DefaultWebElements>,
     ScrollWebElements {
 }

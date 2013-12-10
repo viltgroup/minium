@@ -25,6 +25,5 @@ public interface CoreWebElements<T extends CoreWebElements<T>> extends
     TargetLocatorWebElements<T>,
     JQueryWebElements<T>,
     FiltersWebElements<T>,
-    FreezableWebElements<T>,
-    JavascriptExecutorWebElements<T> {
+    FreezableWebElements<T> {
 }
