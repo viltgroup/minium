@@ -13,25 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.vilt.minium.prefs;
+package com.vilt.minium.app.controller;
 
-import java.io.File;
+public class CanceledException extends RuntimeException {
 
-public abstract class BasePreferences implements Preferences {
+    private static final long serialVersionUID = -712490542066321031L;
 
-    private AppPreferences appPreferences;
-
-    protected void setAppPreferences(AppPreferences appPreferences) {
-        this.appPreferences = appPreferences;
-    }
-
-    @Override
-    public File getBaseDir() {
-        return appPreferences == null ? new File(System.getProperty("user.dir")) : appPreferences.getBaseDir();
-    }
-
-    @Override
-    public void validate() {
-        // TODO Auto-generated method stub
+    public CanceledException(String msg) {
+        super(msg);
     }
 }

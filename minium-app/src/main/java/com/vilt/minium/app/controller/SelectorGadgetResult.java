@@ -13,25 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.vilt.minium.prefs;
+package com.vilt.minium.app.controller;
 
-import java.io.File;
+public class SelectorGadgetResult {
 
-public abstract class BasePreferences implements Preferences {
+    private String webDriverVarName;
+    private String expression;
 
-    private AppPreferences appPreferences;
-
-    protected void setAppPreferences(AppPreferences appPreferences) {
-        this.appPreferences = appPreferences;
+    public String getWebDriverVarName() {
+        return webDriverVarName;
     }
 
-    @Override
-    public File getBaseDir() {
-        return appPreferences == null ? new File(System.getProperty("user.dir")) : appPreferences.getBaseDir();
+    public String getExpression() {
+        return expression;
     }
 
-    @Override
-    public void validate() {
-        // TODO Auto-generated method stub
+    public void setWebDriverVarName(String var) {
+        this.webDriverVarName = var;
+    }
+
+    public void setExpression(String expression) {
+        this.expression = expression;
     }
 }

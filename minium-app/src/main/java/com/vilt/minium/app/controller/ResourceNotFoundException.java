@@ -13,25 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.vilt.minium.prefs;
+package com.vilt.minium.app.controller;
 
-import java.io.File;
+public class ResourceNotFoundException extends RuntimeException {
 
-public abstract class BasePreferences implements Preferences {
+    private static final long serialVersionUID = 2630603252258781374L;
 
-    private AppPreferences appPreferences;
-
-    protected void setAppPreferences(AppPreferences appPreferences) {
-        this.appPreferences = appPreferences;
+    public ResourceNotFoundException() {
+        super();
     }
 
-    @Override
-    public File getBaseDir() {
-        return appPreferences == null ? new File(System.getProperty("user.dir")) : appPreferences.getBaseDir();
+    public ResourceNotFoundException(String message, Throwable cause) {
+        super(message, cause);
     }
 
-    @Override
-    public void validate() {
-        // TODO Auto-generated method stub
+    public ResourceNotFoundException(String message) {
+        super(message);
     }
+
+    public ResourceNotFoundException(Throwable cause) {
+        super(cause);
+    }
+
 }

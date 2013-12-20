@@ -15,13 +15,14 @@
  */
 package com.vilt.minium.prefs;
 
+import static com.google.common.base.Preconditions.checkState;
 import static java.lang.String.format;
 
 import java.io.File;
 
 import org.apache.commons.lang3.SystemUtils;
 
-public class WebConsolePreferences {
+public class WebConsolePreferences extends BasePreferences {
 
     private String host = "127.0.0.1";
     private int port = 18129;
@@ -86,6 +87,18 @@ public class WebConsolePreferences {
 
     public void setChromeBin(File chromeBin) {
         this.chromeBin = chromeBin;
+    }
+
+    @Override
+    public void validate() {
+        super.validate();
+
+        File chromeBin = getChromeBin();
+        checkState(chromeBin != null && chromeBin.exists(), "Chrome binary path %s does not exist, please ensure you edit "
+                + "minium-prefs.json and set webconsole.chromeBin to point to chrome binary", chromeBin);
+
+        checkState(chromeBin.isFile(), "Chrome binary path %s is not a file", chromeBin);
+        checkState(chromeBin.canExecute(), "Chrome binary path %s cannot execute", chromeBin);
     }
 
     private File oneOf(File... files) {

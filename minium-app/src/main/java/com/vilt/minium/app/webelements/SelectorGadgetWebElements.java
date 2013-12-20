@@ -13,25 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.vilt.minium.prefs;
+package com.vilt.minium.app.webelements;
 
-import java.io.File;
+import com.vilt.minium.JQueryResources;
+import com.vilt.minium.WebElements;
 
-public abstract class BasePreferences implements Preferences {
+@JQueryResources(
+        value = { "minium/selectorgadget/selectorgadget_combined.js", "minium/selectorgadget/selectorgadget_minium.js" },
+        styles = "minium/selectorgadget/selectorgadget_combined.css"
+)
+public interface SelectorGadgetWebElements extends WebElements {
+    public void activateSelectorGadget();
 
-    private AppPreferences appPreferences;
+    public void deactivateSelectorGadget();
 
-    protected void setAppPreferences(AppPreferences appPreferences) {
-        this.appPreferences = appPreferences;
-    }
-
-    @Override
-    public File getBaseDir() {
-        return appPreferences == null ? new File(System.getProperty("user.dir")) : appPreferences.getBaseDir();
-    }
-
-    @Override
-    public void validate() {
-        // TODO Auto-generated method stub
-    }
+    public String getCssSelector();
 }

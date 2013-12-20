@@ -21,4 +21,6 @@ public interface Preferences {
 
     public abstract File getBaseDir();
 
+    public abstract void validate();
+
 }

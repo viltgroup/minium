@@ -13,25 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.vilt.minium.prefs;
+package com.vilt.minium.app.webdrivers;
 
-import java.io.File;
+public class WebDriverInfo {
 
-public abstract class BasePreferences implements Preferences {
-
-    private AppPreferences appPreferences;
-
-    protected void setAppPreferences(AppPreferences appPreferences) {
-        this.appPreferences = appPreferences;
+    public enum Type {
+        Chrome, Firefox, Safari, InternetExplorer, Opera, PhantomJS
     }
 
-    @Override
-    public File getBaseDir() {
-        return appPreferences == null ? new File(System.getProperty("user.dir")) : appPreferences.getBaseDir();
+    private String varName;
+    private Type type;
+
+    public WebDriverInfo(String varName, Type type) {
+        super();
+        this.varName = varName;
+        this.type = type;
     }
 
-    @Override
-    public void validate() {
-        // TODO Auto-generated method stub
+    public String getVarName() {
+        return varName;
     }
+
+    public void setVarName(String varName) {
+        this.varName = varName;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
 }

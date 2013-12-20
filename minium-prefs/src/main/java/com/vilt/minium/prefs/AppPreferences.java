@@ -17,11 +17,11 @@ package com.vilt.minium.prefs;
 
 import static com.google.common.base.Throwables.propagate;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -40,12 +40,13 @@ public class AppPreferences implements Preferences {
     private File baseDir;
 
     public AppPreferences() throws IOException {
-        this(new File(System.getProperty(MINIUM_HOME_KEY), "minium-prefs.json"));
+        this(getDefaultPrefsFile());
     }
 
     public AppPreferences(File file) throws IOException {
-        this(new BufferedReader(new FileReader(file)));
         baseDir = file.getParentFile();
+        mapper = new ObjectMapper();
+        rootNode = mapper.readTree(file);
     }
 
     public AppPreferences(Reader reader) throws IOException {
@@ -118,5 +119,22 @@ public class AppPreferences implements Preferences {
 
     public JsonNode asJson() {
         return rootNode;
+    }
+
+    private static File getDefaultPrefsFile() {
+        try {
+            if (System.getProperty(MINIUM_HOME_KEY) == null) {
+                URL resource = AppPreferences.class.getClassLoader().getResource("minium-prefs.json");
+                return new File(resource.toURI());
+            } else {
+                return new File(System.getProperty(MINIUM_HOME_KEY), "minium-prefs.json");
+            }
+        } catch (URISyntaxException e) {
+            throw propagate(e);
+        }
+    }
+
+    @Override
+    public void validate() {
     }
 }

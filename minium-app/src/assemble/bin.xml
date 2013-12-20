@@ -12,7 +12,7 @@
 
 	<fileSets>
 		<fileSet>
-			<directory>${project.build.directory}/minium-app</directory>
+			<directory>${project.build.directory}/${project.build.finalName}</directory>
 			<outputDirectory></outputDirectory>
 			<fileMode>0744</fileMode>
 			<directoryMode>0755</directoryMode>
@@ -21,13 +21,12 @@
 			</includes>
 		</fileSet>
 		<fileSet>
-			<directory>${project.build.directory}/minium-app</directory>
+			<directory>${project.build.directory}/${project.build.finalName}</directory>
 			<outputDirectory></outputDirectory>
 			<includes>
 				<include>lib/**</include>
-				<include>webapp/**</include>
 				<include>minium-prefs.json</include>
-				<include>minium-app.exe</include>
+				<include>${project.build.finalName}.exe</include>
 			</includes>
 		</fileSet>
 	</fileSets>

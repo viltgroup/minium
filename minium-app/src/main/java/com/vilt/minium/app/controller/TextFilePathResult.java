@@ -13,25 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.vilt.minium.prefs;
+package com.vilt.minium.app.controller;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.Serializable;
 
-public abstract class BasePreferences implements Preferences {
+public class TextFilePathResult implements Serializable {
 
-    private AppPreferences appPreferences;
+    private static final long serialVersionUID = 5206630144168166026L;
 
-    protected void setAppPreferences(AppPreferences appPreferences) {
-        this.appPreferences = appPreferences;
+    private String filePath;
+
+    public TextFilePathResult() {
     }
 
-    @Override
-    public File getBaseDir() {
-        return appPreferences == null ? new File(System.getProperty("user.dir")) : appPreferences.getBaseDir();
+    public TextFilePathResult(File file) throws IOException {
+        filePath = file.getAbsolutePath();
     }
 
-    @Override
-    public void validate() {
-        // TODO Auto-generated method stub
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public String getFilePath() {
+        return filePath;
     }
 }

@@ -65,6 +65,7 @@ public class EmbeddedBrowser {
     }
 
     public EmbeddedBrowser(File baseDir, WebConsolePreferences webConsolePreferences, Listener listener) {
+        webConsolePreferences.validate();
         this.baseDir = baseDir;
         this.webConsolePreferences = webConsolePreferences;
         if (listener != null) {
@@ -77,7 +78,7 @@ public class EmbeddedBrowser {
         listeners.add(listener);
     }
 
-    public void start() {
+    public void start() throws IOException {
         new Thread(new Runnable() {
 
             @Override
@@ -90,7 +91,7 @@ public class EmbeddedBrowser {
 
                     File userDataDir = new File(baseDir, "user-data");
 
-                    Process p = new ProcessBuilder(browserExecPath, format("--app=http://%s:%d/minium-webconsole/", host, port), "--disable-background-mode",
+                    Process p = new ProcessBuilder(browserExecPath, format("--app=http://%s:%d/", host, port), "--disable-background-mode",
                             format("--user-data-dir=%s", userDataDir.getAbsolutePath())).start();
 
                     StreamGobbler inGobbler = new StreamGobbler(p.getInputStream());
@@ -102,11 +103,12 @@ public class EmbeddedBrowser {
 
                     p.waitFor();
 
-                    fireListeners();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
+                } finally {
+                    fireListeners();
                 }
             }
 

@@ -13,25 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.vilt.minium.prefs;
+package com.vilt.minium.app;
 
-import java.io.File;
+import com.vilt.minium.JQueryResources;
+import com.vilt.minium.WebElements;
 
-public abstract class BasePreferences implements Preferences {
+@JQueryResources("minium/aceEditor.js")
+public interface AceEditorWebElements extends WebElements {
 
-    private AppPreferences appPreferences;
+    public void writeCode(String code);
 
-    protected void setAppPreferences(AppPreferences appPreferences) {
-        this.appPreferences = appPreferences;
-    }
+    public void writeCode(String code, boolean selected);
 
-    @Override
-    public File getBaseDir() {
-        return appPreferences == null ? new File(System.getProperty("user.dir")) : appPreferences.getBaseDir();
-    }
-
-    @Override
-    public void validate() {
-        // TODO Auto-generated method stub
-    }
+    public void focus();
 }

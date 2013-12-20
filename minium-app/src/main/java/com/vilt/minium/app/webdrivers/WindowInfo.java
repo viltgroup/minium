@@ -13,25 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.vilt.minium.prefs;
+package com.vilt.minium.app.webdrivers;
 
-import java.io.File;
+public class WindowInfo {
 
-public abstract class BasePreferences implements Preferences {
+    private String handle;
+    private Point position;
+    private Dimension size;
 
-    private AppPreferences appPreferences;
-
-    protected void setAppPreferences(AppPreferences appPreferences) {
-        this.appPreferences = appPreferences;
+    public String getHandle() {
+        return handle;
     }
 
-    @Override
-    public File getBaseDir() {
-        return appPreferences == null ? new File(System.getProperty("user.dir")) : appPreferences.getBaseDir();
+    public void setHandle(String handle) {
+        this.handle = handle;
     }
 
-    @Override
-    public void validate() {
-        // TODO Auto-generated method stub
+    public Point getPosition() {
+        return position;
+    }
+
+    public void setPosition(Point position) {
+        this.position = position;
+    }
+
+    public Dimension getSize() {
+        return size;
+    }
+
+    public void setSize(Dimension size) {
+        this.size = size;
     }
 }
