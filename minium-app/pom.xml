@@ -8,7 +8,7 @@
 	</parent>
 
 	<artifactId>minium-app</artifactId>
-	<name>Minium - Console</name>
+	<name>Minium - App</name>
 	<packaging>jar</packaging>
 
 	<build>
