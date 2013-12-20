@@ -119,6 +119,12 @@ public class MiniumApp {
         final ConfigurableApplicationContext context = new SpringApplicationBuilder(MiniumApp.class)
             .showBanner(false)
             .run(args);
+
+        final AppPreferences appPreferences = context.getBean(AppPreferences.class);
+        final WebConsolePreferences webConsolePreferences = WebConsolePreferences.from(appPreferences);
+
+        webConsolePreferences.validate();
+
         final EmbeddedBrowser browser = context.getBean(EmbeddedBrowser.class);
         browser.addListener(new Listener() {
 

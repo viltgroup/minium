@@ -65,7 +65,6 @@ public class EmbeddedBrowser {
     }
 
     public EmbeddedBrowser(File baseDir, WebConsolePreferences webConsolePreferences, Listener listener) {
-        webConsolePreferences.validate();
         this.baseDir = baseDir;
         this.webConsolePreferences = webConsolePreferences;
         if (listener != null) {
