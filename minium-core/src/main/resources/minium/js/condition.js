@@ -9,11 +9,11 @@
     };
 
     $.fn.notEmptyThen = function(elems) {
-        return $(elems).whenNotEmpty($(this));
+        return $(elems).ifNotEmpty($(this));
     };
     
     $.fn.emptyThen = function(elems) {
-        return $(elems).whenEmpty($(this));
+        return $(elems).ifEmpty($(this));
     };
     
 })(jQuery, window, document);

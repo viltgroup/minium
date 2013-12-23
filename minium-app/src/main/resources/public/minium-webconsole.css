@@ -7,7 +7,7 @@ body, html {
 }
 
 .container {
-  max-width: none !important;
+  width: auto !important;
 }
 
 .container-editor {
@@ -33,6 +33,10 @@ body, html {
 
 #browsers > li {
   min-width: 200px;
+}
+
+#browsers .glyphicon {
+  left: -4px;
 }
 
 .modal-backdrop, 
@@ -75,6 +79,7 @@ body, html {
 
 .media-object.glyphicon {
   font-size: 64px;
+  left: -12px;
 }
 
 .alert-success code {

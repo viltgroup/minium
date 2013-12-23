@@ -1,0 +1,145 @@
+<project>
+
+	<property name="bower.dir" value="${basedir}/target/bower" />
+	<property name="target.dir" value="${basedir}/src/main/resources/public" />
+
+	<target name="check-operating-system">
+		<condition property="os.windows">
+			<os family="windows" />
+		</condition>
+	</target>
+
+	<target name="bower-install-windows" depends="check-operating-system" if="os.windows">
+		<exec executable="cmd">
+			<arg value="/c" />
+			<arg value="bower" />
+			<arg value="install" />
+		</exec>
+	</target>
+
+	<target name="bower-install-not-windows" depends="check-operating-system" unless="os.windows">
+		<exec executable="bower">
+			<arg value="install" />
+		</exec>
+	</target>
+
+	<target name="bower-install" depends="bower-install-not-windows, bower-install-windows" />
+
+	<target name="install-resources" depends="bower-install">
+
+        <delete dir="${target.dir}/jquery" />
+		<delete dir="${target.dir}/jquery.cookie" />
+		<delete dir="${target.dir}/ace-builds" />
+		<delete dir="${target.dir}/angular" />
+		<delete dir="${target.dir}/angular-resource" />
+		<delete dir="${target.dir}/angular-route" />
+		<delete dir="${target.dir}/angular-promise-tracker" />
+		<delete dir="${target.dir}/lodash" />
+		<delete dir="${target.dir}/bootstrap" />
+		<delete dir="${target.dir}/bootstrap-growl" />
+		<!-- No release yet with bootstrap-modal-bs3patch.css ... -->
+		<!--
+		<delete dir="${target.dir}/bootstrap-modal" />
+		-->
+		<delete dir="${target.dir}/respond" />
+		<delete dir="${target.dir}/html5shiv" />
+		
+		<copy todir="${target.dir}/jquery">
+			<fileset dir="${bower.dir}/jquery">
+				<include name=".bower.json" />
+				<include name="jquery.min.js" />
+				<include name="jquery.min.map" />
+			</fileset>
+		</copy>
+		
+		<copy todir="${target.dir}/jquery.cookie">
+			<fileset dir="${bower.dir}/jquery.cookie">
+				<include name=".bower.json" />
+				<include name="jquery.cookie.js" />
+			</fileset>
+		</copy>
+		
+        <copy todir="${target.dir}/ace-builds">
+            <fileset dir="${bower.dir}/ace-builds">
+                <include name=".bower.json" />
+                <include name="src-min/ace.js" />
+                <include name="src-min/theme-*.js" />
+                <include name="src-min/ext-*.js" />
+                <include name="src-min/keybinding-*.js" />
+                <include name="src-min/mode-javascript.js" />
+                <include name="src-min/worker-javascript.js" />
+            </fileset>
+        </copy>
+		
+		<copy todir="${target.dir}/lodash">
+			<fileset dir="${bower.dir}/lodash">
+				<include name=".bower.json" />
+				<include name="dist/lodash.min.js" />
+			</fileset>
+		</copy>
+		
+		<copy todir="${target.dir}/angular">
+			<fileset dir="${bower.dir}/angular">
+				<include name=".bower.json" />
+				<include name="angular.js" />
+				<include name="angular.min.js" />
+				<include name="angular.min.js.map" />
+			</fileset>
+		</copy>
+		
+		<copy todir="${target.dir}/angular-resource">
+			<fileset dir="${bower.dir}/angular-resource">
+				<include name=".bower.json" />
+				<include name="angular-resource.min.js" />
+				<include name="angular-resource.min.js.map" />
+			</fileset>
+		</copy>
+
+		<copy todir="${target.dir}/angular-route">
+			<fileset dir="${bower.dir}/angular-route">
+				<include name=".bower.json" />
+				<include name="angular-route.min.js" />
+				<include name="angular-route.min.js.map" />
+			</fileset>
+		</copy>
+
+		<copy todir="${target.dir}/angular-promise-tracker">
+			<fileset dir="${bower.dir}/angular-promise-tracker">
+				<include name=".bower.json" />
+				<include name="promise-tracker.js" />
+				<include name="promise-tracker.min.js" />
+			</fileset>
+		</copy>
+
+		<copy todir="${target.dir}/bootstrap">
+			<fileset dir="${bower.dir}/bootstrap">
+				<include name=".bower.json" />
+				<include name="dist/js/bootstrap.min.js" />
+				<include name="dist/css/bootstrap.min.css" />
+				<include name="dist/fonts/glyphicons-halflings-regular.*" />
+			</fileset>
+		</copy>
+		
+		<copy todir="${target.dir}/bootstrap-growl">
+			<fileset dir="${bower.dir}/bootstrap-growl">
+				<include name=".bower.json" />
+				<include name="jquery.bootstrap-growl.min.js" />
+			</fileset>
+		</copy>
+		
+		<copy todir="${target.dir}/respond">
+			<fileset dir="${bower.dir}/respond">
+				<include name=".bower.json" />
+				<include name="dest/respond.min.js" />
+			</fileset>
+		</copy>
+		
+		<copy todir="${target.dir}/html5shiv">
+			<fileset dir="${bower.dir}/html5shiv">
+				<include name=".bower.json" />
+				<include name="dist/html5shiv.js" />
+			</fileset>
+		</copy>
+		
+	</target>
+</project>
