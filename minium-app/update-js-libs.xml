@@ -59,7 +59,6 @@
 		<copy todir="${target.dir}/angular">
 			<fileset dir="${bower.dir}/angular">
 				<include name=".bower.json" />
-				<include name="angular.js" />
 				<include name="angular.min.js" />
 				<include name="angular.min.js.map" />
 			</fileset>
