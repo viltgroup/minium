@@ -24,8 +24,13 @@ import com.vilt.minium.WebElements;
  * The Interface TipsWebElements.
  */
 @JQueryResources(
-        value  = { "minium/js/jquery.qtip.min.js", "minium/js/jquery.ba-dotimeout.min.js", "minium/js/tip.js" },
-        styles = { "minium/css/jquery.qtip.min.css", "minium/css/tip.css" })
+        value  = {
+                "minium/qtip2/jquery.qtip.min.js",
+                "minium/ba-dotimeout/jquery.ba-dotimeout.min.js",
+                "minium/internal/js/jquery.tip.js" },
+        styles = {
+                "minium/qtip2/jquery.qtip.min.css",
+                "minium/internal/css/tip.css" })
 public interface TipWebElements extends WebElements {
 
     /**

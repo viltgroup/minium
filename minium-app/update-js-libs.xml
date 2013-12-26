@@ -3,29 +3,7 @@
 	<property name="bower.dir" value="${basedir}/target/bower" />
 	<property name="target.dir" value="${basedir}/src/main/resources/public" />
 
-	<target name="check-operating-system">
-		<condition property="os.windows">
-			<os family="windows" />
-		</condition>
-	</target>
-
-	<target name="bower-install-windows" depends="check-operating-system" if="os.windows">
-		<exec executable="cmd">
-			<arg value="/c" />
-			<arg value="bower" />
-			<arg value="install" />
-		</exec>
-	</target>
-
-	<target name="bower-install-not-windows" depends="check-operating-system" unless="os.windows">
-		<exec executable="bower">
-			<arg value="install" />
-		</exec>
-	</target>
-
-	<target name="bower-install" depends="bower-install-not-windows, bower-install-windows" />
-
-	<target name="update-resources" depends="bower-install">
+	<target name="update-resources">
 
         <delete dir="${target.dir}/jquery" />
 		<delete dir="${target.dir}/jquery.cookie" />

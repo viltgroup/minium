@@ -64,10 +64,10 @@
 
         <selenium.version>2.35.0</selenium.version>
         <guava.version>15.0</guava.version>
-        <jetty.version>8.1.11.v20130520</jetty.version>
         <phantomjsdriver.version>1.0.4</phantomjsdriver.version>
         <spring.version>4.0.0.RELEASE</spring.version>
         <spring.boot.version>0.5.0.M6</spring.boot.version>
+        <tomcat.version>7.0.47</tomcat.version>
         <jackson2.version>2.2.3</jackson2.version>
         <rhino.version>1.7R4</rhino.version>
         <closure.version>v20131014</closure.version>
@@ -251,12 +251,22 @@
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
+                <artifactId>spring-websocket</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId>
                 <version>${spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-websocket</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
             <dependency>
@@ -273,6 +283,16 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-tomcat</artifactId>
                 <version>${spring.boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-core</artifactId>
+                <version>${tomcat.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-logging-juli</artifactId>
+                <version>${tomcat.version}</version>
             </dependency>
             
             <!-- Selenium -->
@@ -433,11 +453,6 @@
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-antrun-plugin</artifactId>
-                    <version>1.3</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
                     <version>2.6</version>
                 </plugin>
@@ -573,6 +588,62 @@
                     </executions>
                 </plugin>
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <version>1.3</version>
+                    <executions>
+                        <execution>
+                            <id>update-js-libs</id>
+                            <phase>generate-resources</phase>
+                            <goals>
+                                <goal>run</goal>
+                            </goals>
+                            <configuration>
+                                <tasks>
+                                    <taskdef resource="net/sf/antcontrib/antcontrib.properties" classpathref="maven.plugin.classpath"/>
+                        
+                                    <condition property="os.windows">
+                                        <os family="windows" />
+                                    </condition>
+                                    
+                                    <if>
+                                        <equals arg1="${os.windows}" arg2="true" />
+                                        <then>
+                                            <exec executable="cmd">
+                                                <arg value="/c" />
+                                                <arg value="bower" />
+                                                <arg value="install" />
+                                            </exec>
+                                        </then>
+                                        <else>
+                                            <exec executable="bower">
+                                                <arg value="install" />
+                                            </exec>
+                                        </else>
+                                    </if>
+            
+                                    <ant antfile="${basedir}/update-js-libs.xml">
+                                        <target name="update-resources"/>
+                                    </ant>
+                                </tasks>
+                            </configuration>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>ant-contrib</groupId>
+                            <artifactId>ant-contrib</artifactId>
+                            <version>1.0b3</version>
+                            <exclusions>
+                                <exclusion>
+                                    <artifactId>ant</artifactId>
+                                    <groupId>ant</groupId>
+                                </exclusion>
+                            </exclusions>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+                <plugin>
                     <groupId>com.ning.maven.plugins</groupId>
                     <artifactId>maven-duplicate-finder-plugin</artifactId>
                     <version>1.0.4</version>
@@ -663,6 +734,23 @@
                                         </conflictingDependencies>
                                         <resources>
                                             <resource>META-INF/spring.factories</resource>
+                                        </resources>
+                                    </exception>
+                                    <exception>
+                                        <conflictingDependencies>
+                                            <dependency>
+                                                <groupId>org.apache.tomcat.embed</groupId>
+                                                <artifactId>tomcat-embed-core</artifactId>
+                                                <version>${tomcat.version}</version>
+                                            </dependency>
+                                            <dependency>
+                                                <groupId>org.springframework</groupId>
+                                                <artifactId>spring-web</artifactId>
+                                                <version>${spring.version}</version>
+                                            </dependency>
+                                        </conflictingDependencies>
+                                        <resources>
+                                            <resource>META-INF/web-fragment.xml</resource>
                                         </resources>
                                     </exception>
                                 </exceptions>

@@ -1,0 +1,42 @@
+<project>
+
+	<property name="bower.dir" value="${basedir}/target/bower" />
+	<property name="target.dir" value="${basedir}/src/main/resources/minium" />
+
+	<target name="update-resources">
+
+        <delete dir="${target.dir}/jquery" />
+        <delete dir="${target.dir}/jquery-ui" />
+		
+		<copy todir="${target.dir}/jquery">
+			<fileset dir="${bower.dir}/jquery">
+				<include name=".bower.json" />
+				<include name="jquery.min.js" />
+			</fileset>
+		</copy>
+
+		<copy todir="${target.dir}/jquery-ui">
+			<fileset dir="${bower.dir}/jquery-ui">
+				<include name=".bower.json" />
+				<include name="ui/minified/jquery.ui.effect.min.js" /> 
+				<include name="ui/minified/jquery.ui.effect-highlight.min.js" />
+			</fileset>
+		</copy>
+		
+		<copy todir="${target.dir}/qtip2">
+			<fileset dir="${bower.dir}/qtip2">
+				<include name=".bower.json" />
+				<include name="jquery.qtip.min.js" /> 
+				<include name="jquery.qtip.min.css" />
+			</fileset>
+		</copy>
+		
+		<copy todir="${target.dir}/ba-dotimeout">
+			<fileset dir="${bower.dir}/ba-dotimeout">
+				<include name=".bower.json" />
+				<include name="jquery.ba-dotimeout.min.js" />
+			</fileset>
+		</copy>
+		
+	</target>
+</project>

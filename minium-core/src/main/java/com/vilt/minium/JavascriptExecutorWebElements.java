@@ -15,7 +15,7 @@
  */
 package com.vilt.minium;
 
-@JQueryResources("minium/js/jsexecutor.js")
+@JQueryResources("minium/internal/js/jquery.jsexecutor.js")
 public interface JavascriptExecutorWebElements<T extends CoreWebElements<T>> extends WebElements {
 
     public <R> R call(JavascriptFunction fn, Object... args);

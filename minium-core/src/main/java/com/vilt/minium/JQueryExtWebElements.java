@@ -16,14 +16,14 @@
 package com.vilt.minium;
 
 /**
- * This interface provides useful filter methods for Minium {@link WebElements}, like
+ * This interface provides useful jQuery extension methods for Minium {@link WebElements}, like
  * contained text filtering or attribute value filtering.
  *
  * @param <T> "self-type" for {@link WebElements}
  * @author rui.figueira
  */
-@JQueryResources("minium/js/filters.js")
-public interface FiltersWebElements<T extends CoreWebElements<T>> extends WebElements {
+@JQueryResources({ "minium/internal/js/jquery.minium-exts.js", "minium/internal/js/jquery.visibleText.js" })
+public interface JQueryExtWebElements<T extends CoreWebElements<T>> extends WebElements {
 
     /**
      * <p>Filters elements that have a label with the given text. That means that
@@ -252,7 +252,7 @@ public interface FiltersWebElements<T extends CoreWebElements<T>> extends WebEle
      * </pre>
      *
      * @return filtered {@link WebElements}
-     * @deprecated Use {@link FiltersWebElements#displayed()} instead
+     * @deprecated Use {@link JQueryExtWebElements#displayed()} instead
      */
     @Deprecated
     public T visible();
@@ -260,4 +260,21 @@ public interface FiltersWebElements<T extends CoreWebElements<T>> extends WebEle
     public T displayed();
 
     public T selected();
+
+
+    public String visibleText();
+
+    /**
+     * Get the values from the set of matched elements.
+     *
+     * @return an array with the value of each matched element, in the same order.
+     */
+    public String[] vals();
+    /**
+     * Get the values of a specific attribute from the set of matched elements.
+     *
+     * @param attributeName The name of the attribute to get.
+     * @return an array with the attribute value from each matched element, in the same order.
+     */
+    public String[] attrs(String attributeName);
 }

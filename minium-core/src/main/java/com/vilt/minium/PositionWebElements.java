@@ -21,7 +21,7 @@ package com.vilt.minium;
  * @param <T> the generic type
  * @author Rui
  */
-@JQueryResources("minium/js/position.js")
+@JQueryResources("minium/internal/js/jquery.position.js")
 public interface PositionWebElements<T extends CoreWebElements<T>> extends WebElements {
 
     /**

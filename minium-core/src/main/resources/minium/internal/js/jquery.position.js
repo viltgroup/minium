@@ -10,7 +10,7 @@
 		var xmax2 = other.right;
 		var ymax2 = other.bottom;        
         
-        return (xmin1 < xmax2 && xmax1 > xmin2 && ymin1 < ymax2 && ymax1 > ymin2);
+    return (xmin1 < xmax2 && xmax1 > xmin2 && ymin1 < ymax2 && ymax1 > ymin2);
 	};
 	
 	var relativePosition = function(elems, fromElems, boxExtensionFn, distanceFn) {

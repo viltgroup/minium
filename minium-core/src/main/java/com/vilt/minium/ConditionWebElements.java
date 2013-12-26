@@ -15,7 +15,7 @@
  */
 package com.vilt.minium;
 
-@JQueryResources("minium/js/condition.js")
+@JQueryResources("minium/internal/js/jquery.condition.js")
 public interface ConditionWebElements<T extends CoreWebElements<T>> extends WebElements {
 
     public T ifNotEmpty(String selector);

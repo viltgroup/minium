@@ -183,6 +183,25 @@
 				</plugins>
 			</build>
 		</profile>
+        <profile>
+            <id>update-js-libs</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>update-js-libs</id>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
         <!-- 
         We only run launch4j if we're in a windows machine or if we run it with this profile explicitly.
         Note: running launch4j in *nix / mac environments requires ia32-libs
@@ -256,39 +275,6 @@
                                     <descriptors>
                                         <descriptor>src/assemble/bin.xml</descriptor>
                                     </descriptors>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>update-javascript-libraries</id>
-            <activation>
-                <property>
-                    <name>update-javascript-libraries</name>
-                    <value>true</value>
-                </property>             
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>update-javascript-libraries</id>
-                                <phase>generate-resources</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <tasks>
-                                        <ant antfile="${basedir}/build.xml">
-                                            <target name="update-resources"/>
-                                        </ant>
-                                    </tasks>
                                 </configuration>
                             </execution>
                         </executions>

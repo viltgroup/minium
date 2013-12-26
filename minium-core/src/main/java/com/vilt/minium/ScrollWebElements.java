@@ -23,7 +23,7 @@ package com.vilt.minium;
  * @param <T> the generic type
  * @author Rui
  */
-@JQueryResources("minium/js/scroll.js")
+@JQueryResources("minium/internal/js/jquery.scroll.js")
 public interface ScrollWebElements extends WebElements {
 
     /**

@@ -102,7 +102,7 @@ public class WebConsoleIT extends AbstractTestNGSpringContextTests {
 
         click($(wd, "#webdriver-create-dialog .btn").withText("Create"));
 
-        waitProgressBar();
+        waitBackdrop();
 
         click($(wd, ".dropdown-toggle").withText("Web Drivers"));
         click($(wd, "#browsers a").withText("List..."));
@@ -198,6 +198,10 @@ public class WebConsoleIT extends AbstractTestNGSpringContextTests {
 
     private void waitProgressBar() {
         withWaitingPreset("slow").waitWhileNotEmpty($(wd, ".progress-bar"));
+    }
+
+    private void waitBackdrop() {
+        withWaitingPreset("slow").waitWhileNotEmpty($(wd, ".modal-backdrop"));
     }
 
     private DefaultWebElements notificationWithText(String text) {

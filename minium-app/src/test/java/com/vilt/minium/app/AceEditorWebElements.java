@@ -18,7 +18,7 @@ package com.vilt.minium.app;
 import com.vilt.minium.JQueryResources;
 import com.vilt.minium.WebElements;
 
-@JQueryResources("minium/aceEditor.js")
+@JQueryResources("minium/app/aceEditor.js")
 public interface AceEditorWebElements extends WebElements {
 
     public void writeCode(String code);

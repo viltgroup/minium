@@ -20,7 +20,7 @@ package com.vilt.minium;
  *
  * @param <T> "self-type" for {@link WebElements}
  */
-@JQueryResources({ "minium/js/jquery.min.js", "minium/js/jquery.visibleText.js", "minium/js/jquery-ext.js" })
+@JQueryResources("minium/jquery/jquery.min.js")
 public interface JQueryWebElements<T extends CoreWebElements<T>> extends WebElements, WebElementsFinder<T> {
 
     /**
@@ -33,14 +33,6 @@ public interface JQueryWebElements<T extends CoreWebElements<T>> extends WebElem
      * <!-- end-minium-doc -->
      */
     public String attr(String attributeName);
-
-    /**
-     * Get the values of a specific attribute from the set of matched elements.
-     *
-     * @param attributeName The name of the attribute to get.
-     * @return an array with the attribute value from each matched element, in the same order.
-     */
-    public String[] attrs(String attributeName);
 
     /**
      * <!-- begin-minium-doc http://api.jquery.com/html/ -->
@@ -71,13 +63,6 @@ public interface JQueryWebElements<T extends CoreWebElements<T>> extends WebElem
      * <!-- end-minium-doc -->
      */
     public String val();
-
-    /**
-     * Get the values from the set of matched elements.
-     *
-     * @return an array with the value of each matched element, in the same order.
-     */
-    public String[] vals();
 
     /**
      * <!-- begin-minium-doc http://api.jquery.com/add/#add-selector -->
@@ -755,5 +740,4 @@ public interface JQueryWebElements<T extends CoreWebElements<T>> extends WebElem
      */
     public int size();
 
-    public String visibleText();
 }

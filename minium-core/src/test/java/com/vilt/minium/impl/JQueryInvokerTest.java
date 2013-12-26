@@ -30,7 +30,7 @@ public class JQueryInvokerTest {
 
     @BeforeMethod
     public void before() {
-        positionInvoker = new JQueryInvoker(Lists.newArrayList("minium/js/jquery.min.js", "minium/js/position.js"), null);
+        positionInvoker = new JQueryInvoker(Lists.newArrayList("minium/jquery/jquery.min.js", "minium/internal/js/jquery.position.js"), null);
     }
 
     @Test
