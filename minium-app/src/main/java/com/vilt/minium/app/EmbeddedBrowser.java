@@ -90,8 +90,13 @@ public class EmbeddedBrowser {
 
                     File userDataDir = new File(baseDir, "user-data");
 
-                    Process p = new ProcessBuilder(browserExecPath, format("--app=http://%s:%d/", host, port), "--disable-background-mode",
-                            format("--user-data-dir=%s", userDataDir.getAbsolutePath())).start();
+                    Process p = new ProcessBuilder(
+                            browserExecPath,
+                            format("--app=http://%s:%d/", host, port),
+                            format("--user-data-dir=%s", userDataDir.getAbsolutePath()),
+                            "--disable-background-mode",
+                            "--disable-translate"
+                            ).start();
 
                     StreamGobbler inGobbler = new StreamGobbler(p.getInputStream());
                     StreamGobbler errorGobbler = new StreamGobbler(p.getErrorStream());
