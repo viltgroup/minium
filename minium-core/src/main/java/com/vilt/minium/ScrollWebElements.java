@@ -20,7 +20,6 @@ package com.vilt.minium;
  * href="https://developer.mozilla.org/en-US/docs/DOM/element.scrollIntoView">
  * element.scrollIntoView</a>)
  *
- * @param <T> the generic type
  * @author Rui
  */
 @JQueryResources("minium/internal/js/jquery.scroll.js")
