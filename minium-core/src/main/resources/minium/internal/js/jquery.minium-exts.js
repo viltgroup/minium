@@ -66,11 +66,13 @@
   };
 
   $.fn.withAttr = function(name, value) {
-    return value ?
-        $(this).filter("[" + escapeSelector(name) + "=\"" + escapeSelector(value) + "\"]") :
-        $(this).filter("[" + escapeSelector(name) + "]");
+    return $(this).filter(function() { return value ? $(this).attr(name) === value : $(this).attr(name); });
   };
-
+  
+  $.fn.withCss = function(name, value) {
+    return $(this).filter(function() { return value ? $(this).css(name) === value : $(this).css(name); });
+  };
+  
   $.fn.withName = function(value) {
     return $(this).withAttr("name", value);
   };

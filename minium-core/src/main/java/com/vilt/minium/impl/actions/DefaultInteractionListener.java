@@ -37,6 +37,9 @@ public abstract class DefaultInteractionListener implements InteractionListener 
     @Override
     public void onEvent(InteractionEvent event) {
         switch (event.getType()) {
+        case BEFORE_WAIT:
+            onBeforeWaitEvent((BeforeWaitInteractionEvent) event);
+            break;
         case BEFORE:
             onBeforeEvent((BeforeInteractionEvent) event);
             break;
@@ -49,6 +52,15 @@ public abstract class DefaultInteractionListener implements InteractionListener 
             onAfterEvent((AfterInteractionEvent) event);
             break;
         }
+    }
+
+    /**
+     * On before wait event.
+     *
+     * @param event the event
+     */
+    protected void onBeforeWaitEvent(BeforeWaitInteractionEvent event) {
+        // do nothing
     }
 
     /**

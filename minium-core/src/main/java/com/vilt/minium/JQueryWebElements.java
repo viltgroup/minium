@@ -35,6 +35,17 @@ public interface JQueryWebElements<T extends CoreWebElements<T>> extends WebElem
     public String attr(String attributeName);
 
     /**
+     * <!-- begin-minium-doc http://api.jquery.com/css/#css-propertyName -->
+     * Get the value of style properties for the first element in the set of matched elements.
+     *
+     * @param propertyName A CSS property.
+     * @return result of jQuery .css() method
+     * @see <a href="http://api.jquery.com/css/#css-propertyName">jQuery .css() method</a>
+     * <!-- end-minium-doc -->
+     */
+    public String css(String propertyName);
+
+    /**
      * <!-- begin-minium-doc http://api.jquery.com/html/ -->
      * Get the HTML contents of the first element in the set of matched elements.
      *

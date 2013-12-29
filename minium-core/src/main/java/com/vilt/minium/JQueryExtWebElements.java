@@ -49,6 +49,27 @@ public interface JQueryExtWebElements<T extends CoreWebElements<T>> extends WebE
     public T withLabel(final String label);
 
     /**
+     * <p>Filters elements that have an attribute.
+     *
+     * <p>Example:</p>
+     *
+     * <pre>wd.find("img").withAttr("alt")</pre>
+     *
+     * evaluates <code>#image2</code> in the following scenario:
+     *
+     * <pre>
+     * {@code
+     * <img id="image1" src="image1.gif" />
+     * <img id="image2" src="image2.gif" alt="Image 2" />
+     * }
+     * </pre>
+     *
+     * @param name the attribute name
+     * @return filtered {@link WebElements}
+     */
+    public T withAttr(final String name);
+
+    /**
      * <p>Filters elements that have an attribute with a given value.
      *
      * <p>Example:</p>
@@ -69,6 +90,49 @@ public interface JQueryExtWebElements<T extends CoreWebElements<T>> extends WebE
      * @return filtered {@link WebElements}
      */
     public T withAttr(final String name, final String value);
+
+    /**
+     * <p>Filters elements that have a style property.
+     *
+     * <p>Example:</p>
+     *
+     * <pre>wd.find("img").withCss("display")</pre>
+     *
+     * evaluates <code>#image2</code> in the following scenario:
+     *
+     * <pre>
+     * {@code
+     * <img id="image1" src="image1.gif" />
+     * <img id="image2" src="image2.gif" style="display: block" />
+     * }
+     * </pre>
+     *
+     * @param name the style property name
+     * @return filtered {@link WebElements}
+     */
+    public T withCss(final String name);
+
+    /**
+     * <p>Filters elements that have a style property with a given value.
+     *
+     * <p>Example:</p>
+     *
+     * <pre>wd.find("img").withAttr("display", "block")</pre>
+     *
+     * evaluates <code>#image1</code> in the following scenario:
+     *
+     * <pre>
+     * {@code
+     * <img id="image1" src="image1.gif" style="display: block" />
+     * <img id="image2" src="image2.gif" style="display: none" />
+     * }
+     * </pre>
+     *
+     * @param name the style property name
+     * @param value the style property value
+     * @return filtered {@link WebElements}
+     */
+    public T withCss(final String name, final String value);
 
     /**
      * <p>Filters elements that have a <code>value</code> attribute with a given value.

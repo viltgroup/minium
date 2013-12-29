@@ -42,11 +42,8 @@ public class TimeoutInteractionListener extends DefaultInteractionListener {
         this.timeout = timeout;
     }
 
-    /* (non-Javadoc)
-     * @see com.vilt.minium.actions.DefaultInteractionListener#onBeforeEvent(com.vilt.minium.actions.InteractionEvent)
-     */
     @Override
-    protected void onBeforeEvent(BeforeInteractionEvent event) {
+    protected void onBeforeWaitEvent(BeforeWaitInteractionEvent event) {
         Interaction interaction = event.getInteraction();
         if (interaction instanceof DefaultInteraction) {
             DefaultInteraction defInteraction = (DefaultInteraction) interaction;

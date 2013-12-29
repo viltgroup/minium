@@ -223,8 +223,8 @@ public abstract class DefaultInteraction implements Interaction {
     }
 
     private void perform(boolean canRetry) {
+        trigger(Type.BEFORE_WAIT, null);
         waitToPerform();
-
         trigger(Type.BEFORE, null);
         try {
             doPerform();
@@ -243,6 +243,8 @@ public abstract class DefaultInteraction implements Interaction {
     private InteractionEvent createInteractionEvent(Type type, Throwable e) {
         checkNotNull(type);
         switch (type) {
+        case BEFORE_WAIT:
+            return new BeforeWaitInteractionEvent(source, this);
         case BEFORE:
             return new BeforeInteractionEvent(source, this);
         case AFTER_FAIL:

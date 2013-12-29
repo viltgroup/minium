@@ -30,7 +30,8 @@ public abstract class InteractionEvent extends EventObject {
      * The Enum Type.
      */
     public static enum Type {
-
+        /** The before wait. */
+        BEFORE_WAIT,
         /** The before. */
         BEFORE,
         /** The after. */

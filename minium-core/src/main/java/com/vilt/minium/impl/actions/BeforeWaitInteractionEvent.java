@@ -15,27 +15,21 @@
  */
 package com.vilt.minium.impl.actions;
 
+import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.actions.Interaction;
+import com.vilt.minium.actions.InteractionEvent;
 
-public class WaitingPresetInteractionListener  extends DefaultInteractionListener {
+public class BeforeWaitInteractionEvent extends InteractionEvent {
 
-    private String preset;
+    private static final long serialVersionUID = 7244100369572656863L;
 
-    /**
-     * Instantiates a new timeout interaction listener.
-     *
-     * @param timeout the timeout
-     */
-    public WaitingPresetInteractionListener(String preset) {
-        this.preset = preset;
+    public BeforeWaitInteractionEvent(CoreWebElements<?> source, Interaction interaction) {
+        super(source, interaction);
     }
 
     @Override
-    protected void onBeforeWaitEvent(BeforeWaitInteractionEvent event) {
-        Interaction interaction = event.getInteraction();
-        if (interaction instanceof DefaultInteraction) {
-            DefaultInteraction defInteraction = (DefaultInteraction) interaction;
-            defInteraction.setWaitingPreset(preset);
-        }
+    public Type getType() {
+        return Type.BEFORE_WAIT;
     }
+
 }
