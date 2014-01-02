@@ -1,21 +1,57 @@
 language: java
 env:
-  global: PHANTOM_VERSION=1.9.2
+  global:
+    - PHANTOM_VERSION=1.9.2
+    - DISPLAY=:99.0
+  matrix:
+    - BROWSER=phantomjs
+    - BROWSER=chrome
+matrix:
+  allow_failures:
+    - env: BROWSER=phantomjs
 before_install:
   # Install ia32-libs
   # From https://github.com/JakeWharton/ActionBarSherlock/blob/dev/.travis.yml
   - sudo apt-get update -qq
   - if [ `uname -m` = x86_64 ]; then sudo apt-get install -qq --force-yes libgd2-xpm ia32-libs ia32-libs-multiarch; fi
-  
+
   # Install PhantomJS 1.9.2
-  - wget https://phantomjs.googlecode.com/files/phantomjs-${PHANTOM_VERSION}-linux-x86_64.tar.bz2
-  - tar -xf phantomjs-${PHANTOM_VERSION}-linux-x86_64.tar.bz2
-  - sudo rm -rf /usr/local/phantomjs
-  - sudo mv phantomjs-${PHANTOM_VERSION}-linux-x86_64 /usr/local/phantomjs
-  
+  - if [ "$BROWSER" = "phantomjs" ]; then
+      wget https://phantomjs.googlecode.com/files/phantomjs-${PHANTOM_VERSION}-linux-x86_64.tar.bz2;
+      tar -xf phantomjs-${PHANTOM_VERSION}-linux-x86_64.tar.bz2;
+      sudo rm -rf /usr/local/phantomjs;
+      sudo mv phantomjs-${PHANTOM_VERSION}-linux-x86_64 /usr/local/phantomjs;
+    fi
+  - if [ "$BROWSER" = "chrome" ]; then
+      /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1366x768x24;
+      wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb;
+      sudo dpkg -i google-chrome-stable_current_amd64.deb;
+      sudo apt-get -f install;
+      wget http://chromedriver.storage.googleapis.com/2.8/chromedriver_linux64.zip;
+      unzip chromedriver_linux64.zip;
+      sudo mv chromedriver /usr/local/bin;
+    fi
+
 before_script:
-  - phantomjs --version
-  - phantomjs --webdriver=9134 2>&- 1>&- &
-  
+  - if [ "$BROWSER" = "phantomjs" ]; then
+      phantomjs --version;
+      phantomjs --webdriver=9515 >&- 1>&- &
+    fi
+  # google-chrome --remote-debugging-port=9222 --no-sandbox &
+  - if [ "$BROWSER" = "chrome" ]; then
+      sudo chmod 1777 /dev/shm;
+      if [ -f /opt/google/chrome/chrome-sandbox ]; then
+        export CHROME_SANDBOX=/opt/google/chrome/chrome-sandbox;
+      else
+        export CHROME_SANDBOX=$(ls /opt/google/chrome*/chrome-sandbox);
+      fi;
+      sudo rm -f $CHROME_SANDBOX;
+      sudo wget https://googledrive.com/host/0B5VlNZ_Rvdw6NTJoZDBSVy1ZdkE -O $CHROME_SANDBOX;
+      sudo chown root:root $CHROME_SANDBOX; sudo chmod 4755 $CHROME_SANDBOX;
+      sudo md5sum $CHROME_SANDBOX;
+      google-chrome --version;
+      chromedriver &
+    fi
+
 install: mvn install -DskipTests=true -Pexe-generation -B
-script: mvn verify -Pintegration-test -Dminium.remote.url=http://localhost:9134
+script: mvn verify -Pintegration-test -Dminium.remote.url=http://localhost:9515
