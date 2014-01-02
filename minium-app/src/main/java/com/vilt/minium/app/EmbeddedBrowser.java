@@ -95,7 +95,8 @@ public class EmbeddedBrowser {
                             format("--app=http://%s:%d/", host, port),
                             format("--user-data-dir=%s", userDataDir.getAbsolutePath()),
                             "--disable-background-mode",
-                            "--disable-translate"
+                            "--disable-translate",
+                            "--no-proxy-server"
                             ).start();
 
                     StreamGobbler inGobbler = new StreamGobbler(p.getInputStream());
