@@ -69,7 +69,7 @@ public class WebConsoleIT extends AbstractTestNGSpringContextTests {
 
     @BeforeClass
     public void before() throws IOException {
-        applicationContext = SpringApplication.run(MiniumApp.class, new String[] {});
+        applicationContext = MiniumApp.run();
 
         wd = new DefaultWebElementsDriver(createNativeWebDriver(), AceEditorWebElements.class);
         wd.manage().window().setSize(new Dimension(1024, 768));

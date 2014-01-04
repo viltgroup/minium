@@ -19,9 +19,13 @@ import static java.lang.String.format;
 import static org.apache.commons.io.IOUtils.copy;
 import static org.apache.commons.lang3.StringUtils.center;
 
+import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
+import java.io.StringWriter;
 
+import org.apache.commons.lang3.SystemUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -52,6 +56,16 @@ import com.vilt.minium.tips.TipWebElements;
 @EnableAutoConfiguration
 @ComponentScan
 public class MiniumApp {
+
+    static {
+        File baseDir = System.getProperty("minium.home") != null ?
+            new File(System.getProperty("minium.home")) :
+            SystemUtils.getJavaIoTmpDir();
+        File logFile = new File(baseDir, "minium-app.log");
+        System.setProperty("LOG_FILE", logFile.getAbsolutePath());
+    }
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MiniumApp.class);
 
     @SuppressWarnings("unchecked")
     private static final Class<? extends WebElements>[] WEB_ELEMS_INTFS = (Class<? extends WebElements>[]) new Class<?>[] {
@@ -114,7 +128,11 @@ public class MiniumApp {
     }
 
     public static void main(String[] args) throws Exception {
-        printBanner(System.out);
+        run(args);
+    }
+
+    public static ConfigurableApplicationContext run(String ... args) throws IOException {
+        printBanner();
 
         final ConfigurableApplicationContext context = new SpringApplicationBuilder(MiniumApp.class)
             .showBanner(false)
@@ -134,15 +152,20 @@ public class MiniumApp {
             }
         });
         browser.start();
+
+        return context;
     }
 
-    protected static void printBanner(PrintStream out) throws IOException {
+    protected static void printBanner() throws IOException {
+        StringWriter out = new StringWriter();
+        out.write('\n');
         copy(MiniumApp.class.getResourceAsStream("minium-asciiart.txt"), out);
-        out.println();
+        out.write('\n');
         String version = MiniumApp.class.getPackage().getImplementationVersion();
         if (version != null) {
-            out.println(center(format("(v%s)", version), 40));
+            out.write(center(format("(v%s)", version), 40));
+            out.write('\n');
         }
-        out.println();
+        LOGGER.info(out.toString());
     }
 }
