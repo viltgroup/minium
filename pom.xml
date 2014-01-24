@@ -66,7 +66,7 @@
         <guava.version>15.0</guava.version>
         <phantomjsdriver.version>1.0.4</phantomjsdriver.version>
         <spring.version>4.0.0.RELEASE</spring.version>
-        <spring.boot.version>0.5.0.M6</spring.boot.version>
+        <spring.boot.version>1.0.0.RC1</spring.boot.version>
         <tomcat.version>7.0.47</tomcat.version>
         <jackson2.version>2.2.3</jackson2.version>
         <rhino.version>1.7R4</rhino.version>
@@ -770,6 +770,7 @@
                         <quiet>true</quiet>
                         <failOnError>true</failOnError>
                         <links>
+                            <value>http://docs.oracle.com/javase/6/docs/api/</value>
                             <link>http://selenium.googlecode.com/svn/trunk/docs/api/java/</link>
                             <link>http://docs.guava-libraries.googlecode.com/git-history/v${guava.version}/javadoc/</link>
                         </links>
