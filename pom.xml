@@ -739,6 +739,38 @@
                                     <exception>
                                         <conflictingDependencies>
                                             <dependency>
+                                                <groupId>org.springframework.boot</groupId>
+                                                <artifactId>spring-boot-starter</artifactId>
+                                                <version>${spring.boot.version}</version>
+                                            </dependency>
+                                            <dependency>
+                                                <groupId>org.springframework.boot</groupId>
+                                                <artifactId>spring-boot-starter-actuator</artifactId>
+                                                <version>${spring.boot.version}</version>
+                                            </dependency>
+                                            <dependency>
+                                                <groupId>org.springframework.boot</groupId>
+                                                <artifactId>spring-boot-starter-logging</artifactId>
+                                                <version>${spring.boot.version}</version>
+                                            </dependency>
+                                            <dependency>
+                                                <groupId>org.springframework.boot</groupId>
+                                                <artifactId>spring-boot-starter-tomcat</artifactId>
+                                                <version>${spring.boot.version}</version>
+                                            </dependency>
+                                            <dependency>
+                                                <groupId>org.springframework.boot</groupId>
+                                                <artifactId>spring-boot-starter-web</artifactId>
+                                                <version>${spring.boot.version}</version>
+                                            </dependency>
+                                        </conflictingDependencies>
+                                        <resources>
+                                            <resource>META-INF/spring.provides</resource>
+                                        </resources>
+                                    </exception>
+                                    <exception>
+                                        <conflictingDependencies>
+                                            <dependency>
                                                 <groupId>org.apache.tomcat.embed</groupId>
                                                 <artifactId>tomcat-embed-core</artifactId>
                                                 <version>${tomcat.version}</version>
