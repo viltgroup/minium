@@ -37,7 +37,6 @@ before_script:
       phantomjs --version;
       phantomjs --webdriver=9515 >&- 1>&- &
     fi
-  # google-chrome --remote-debugging-port=9222 --no-sandbox &
   - if [ "$BROWSER" = "chrome" ]; then
       sudo chmod 1777 /dev/shm;
       if [ -f /opt/google/chrome/chrome-sandbox ]; then
@@ -53,5 +52,5 @@ before_script:
       chromedriver &
     fi
 
-install: mvn install -DskipTests=true -Pexe-generation -B
+install: mvn install -DskipTests=true -Pexe-generation -q -B
 script: mvn verify -Pintegration-test -Dminium.remote.url=http://localhost:9515
