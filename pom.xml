@@ -62,7 +62,7 @@
         <!-- Versions -->
         <target.jdk>1.6</target.jdk>
 
-        <selenium.version>2.35.0</selenium.version>
+        <selenium.version>2.39.0</selenium.version>
         <guava.version>15.0</guava.version>
         <phantomjsdriver.version>1.0.4</phantomjsdriver.version>
         <spring.version>4.0.0.RELEASE</spring.version>
@@ -179,6 +179,11 @@
                 <artifactId>jackson-annotations</artifactId>
                 <version>${jackson2.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.google.code.findbugs</groupId>
+                <artifactId>jsr305</artifactId>
+                <version>2.0.3</version>
+            </dependency>
 
             <!-- Jetty Server -->
             <dependency>
@@ -201,6 +206,11 @@
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
                 <version>${slf4j.version}</version>
             </dependency>
             <dependency>
