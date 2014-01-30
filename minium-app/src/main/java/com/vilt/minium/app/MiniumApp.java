@@ -132,6 +132,24 @@ public class MiniumApp {
     }
 
     public static ConfigurableApplicationContext run(String ... args) throws IOException {
+        final ConfigurableApplicationContext context = launchService(args);
+        launchBrowser(context);
+        return context;
+    }
+
+    protected static void launchBrowser(final ConfigurableApplicationContext context) throws IOException {
+        final EmbeddedBrowser browser = context.getBean(EmbeddedBrowser.class);
+        browser.addListener(new Listener() {
+
+            @Override
+            public void closed() {
+                SpringApplication.exit(context);
+            }
+        });
+        browser.start();
+    }
+
+    public static ConfigurableApplicationContext launchService(String... args) throws IOException {
         printBanner();
 
         final ConfigurableApplicationContext context = new SpringApplicationBuilder(MiniumApp.class)
@@ -142,17 +160,6 @@ public class MiniumApp {
         final WebConsolePreferences webConsolePreferences = WebConsolePreferences.from(appPreferences);
 
         webConsolePreferences.validate();
-
-        final EmbeddedBrowser browser = context.getBean(EmbeddedBrowser.class);
-        browser.addListener(new Listener() {
-
-            @Override
-            public void closed() {
-                SpringApplication.exit(context);
-            }
-        });
-        browser.start();
-
         return context;
     }
 
