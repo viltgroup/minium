@@ -1,7 +1,8 @@
 language: java
 env:
   global:
-    - PHANTOM_VERSION=1.9.2
+    - PHANTOM_VERSION=1.9.7
+    - CHROME_DRIVER_VERSION=2.8
     - DISPLAY=:99.0
   matrix:
     - BROWSER=phantomjs
@@ -15,7 +16,7 @@ before_install:
   - sudo apt-get update -qq
   - if [ `uname -m` = x86_64 ]; then sudo apt-get install -qq --force-yes libgd2-xpm ia32-libs ia32-libs-multiarch; fi
 
-  # Install PhantomJS 1.9.2
+  # Install PhantomJS 1.9.7
   - if [ "$BROWSER" = "phantomjs" ]; then
       wget https://phantomjs.googlecode.com/files/phantomjs-${PHANTOM_VERSION}-linux-x86_64.tar.bz2;
       tar -xf phantomjs-${PHANTOM_VERSION}-linux-x86_64.tar.bz2;
@@ -29,7 +30,7 @@ before_install:
       wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb;
       sudo dpkg -i google-chrome-stable_current_amd64.deb;
       sudo apt-get -f install;
-      wget http://chromedriver.storage.googleapis.com/2.8/chromedriver_linux64.zip;
+      wget http://chromedriver.storage.googleapis.com/${CHROME_DRIVER_VERSION}/chromedriver_linux64.zip;
       unzip chromedriver_linux64.zip;
       sudo mv chromedriver /usr/local/bin;
     fi
@@ -58,8 +59,8 @@ install: mvn install -DskipTests=true -Pexe-generation -q -B
 script: 
   # We only run integration tests with Google Chrome
   - if [ "$BROWSER" = "phantomjs" ]; then
-      mvn verify -Dminium.remote.url=http://localhost:9515
+      mvn verify -Dminium.remote.url=http://localhost:9515;
     fi
   - if [ "$BROWSER" = "chrome" ]; then
-      mvn verify -Pintegration-test -Dminium.remote.url=http://localhost:9515
+      mvn verify -Pintegration-test -Dminium.remote.url=http://localhost:9515;
     fi
