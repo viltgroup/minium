@@ -69,7 +69,7 @@ public class WebConsoleIT extends AbstractTestNGSpringContextTests {
 
     @BeforeClass
     public void before() throws IOException {
-        applicationContext = MiniumApp.run();
+        applicationContext = MiniumApp.launchService();
 
         wd = new DefaultWebElementsDriver(createNativeWebDriver(), AceEditorWebElements.class);
         wd.manage().window().setSize(new Dimension(1024, 768));
@@ -93,11 +93,11 @@ public class WebConsoleIT extends AbstractTestNGSpringContextTests {
     }
 
     @Test(groups = "webdriver-creation")
-    public void testCreatePhantomDriver() {
+    public void testCreateChromeDriver() {
         // when
         click($(wd, ".dropdown-toggle").withText("Web Drivers"));
 
-        click($(wd, "#browsers a").containingText("PhantomJS"));
+        click($(wd, "#browsers a").containingText("Chrome"));
         fill($(wd, "#webdriver-varname"), "wd");
 
         click($(wd, "#webdriver-create-dialog .btn").withText("Create"));
@@ -149,7 +149,7 @@ public class WebConsoleIT extends AbstractTestNGSpringContextTests {
         runCode();
 
         // then
-        DefaultWebElements notification = notificationWithText("A minion is a follower devoted to serve his/her master/mistress relentlessly.");
+        DefaultWebElements notification = notificationWithText("A minion is a loyal servant of another, usually a more powerful being.");
 
         assertTrue(checkNotEmpty(notification));
     }
