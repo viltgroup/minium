@@ -18,7 +18,7 @@ before_install:
 
   # Install PhantomJS 1.9.7
   - if [ "$BROWSER" = "phantomjs" ]; then
-      wget https://phantomjs.googlecode.com/files/phantomjs-${PHANTOM_VERSION}-linux-x86_64.tar.bz2;
+      wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-${PHANTOM_VERSION}-linux-x86_64.tar.bz2;
       tar -xf phantomjs-${PHANTOM_VERSION}-linux-x86_64.tar.bz2;
       sudo rm -rf /usr/local/phantomjs;
       sudo mv phantomjs-${PHANTOM_VERSION}-linux-x86_64 /usr/local/phantomjs;
