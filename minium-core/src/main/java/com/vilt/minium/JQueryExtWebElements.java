@@ -325,7 +325,6 @@ public interface JQueryExtWebElements<T extends CoreWebElements<T>> extends WebE
 
     public T selected();
 
-
     public String visibleText();
 
     /**

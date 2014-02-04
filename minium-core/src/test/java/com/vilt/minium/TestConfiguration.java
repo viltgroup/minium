@@ -15,13 +15,11 @@
  */
 package com.vilt.minium;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.os.CommandLine;
-import org.openqa.selenium.phantomjs.PhantomJSDriverService;
+import org.openqa.selenium.chrome.ChromeDriverService;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -30,20 +28,15 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class TestConfiguration implements DisposableBean {
 
-    private PhantomJSDriverService service;
+    private ChromeDriverService service;
 
     @Value("#{systemProperties['minium.remote.url']}")
     private String remoteUrl;
 
-    @SuppressWarnings("deprecation")
     @Bean(name = "remoteWebDriverUrl")
     public URL remoteWebDriverUrl() throws IOException {
         if (StringUtils.isEmpty(remoteUrl)) {
-            service = new PhantomJSDriverService.Builder()
-            .usingPhantomJSExecutable(new File(CommandLine.find("phantomjs")))
-            .usingCommandLineArguments(new String[] { "--webdriver-loglevel=ERROR" })
-            .withLogFile(new File(System.getProperty("java.io.tmpdir"), "phantomjsdriver.log"))
-            .build();
+            service = ChromeDriverService.createDefaultService();
             service.start();
             return service.getUrl();
         } else {

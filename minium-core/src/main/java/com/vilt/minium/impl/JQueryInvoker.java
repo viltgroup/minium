@@ -23,20 +23,16 @@ import java.io.InputStreamReader;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.JavascriptExecutor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Function;
+import com.google.common.base.Joiner;
 import com.google.common.collect.Collections2;
-import com.google.common.collect.Lists;
 import com.google.common.io.CharStreams;
 import com.google.common.io.Closeables;
-import com.google.javascript.jscomp.CommandLineRunner;
-import com.google.javascript.jscomp.CompilationLevel;
-import com.google.javascript.jscomp.Compiler;
-import com.google.javascript.jscomp.CompilerOptions;
-import com.google.javascript.jscomp.SourceFile;
 import com.vilt.minium.WebElementsDriver;
 import com.vilt.minium.WebElementsException;
 
@@ -48,21 +44,35 @@ import com.vilt.minium.WebElementsException;
  */
 public class JQueryInvoker {
 
-    private final class ClasspathFileToSourceFileFunction implements Function<String, SourceFile> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(JQueryInvoker.class);
+
+    public interface Compressor {
+        String compress(ClassLoader classLoader, Collection<String> jsResources);
+    }
+
+    private static class NullCompressor implements Compressor {
         @Override
-        public SourceFile apply(String input) {
-            try {
-                return SourceFile.fromInputStream(input, getClasspathFileInputStream(input));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        public String compress(ClassLoader classLoader, Collection<String> jsResources) {
+            return combineResources(jsResources);
         }
     }
 
-    private final class ClasspathFileToStringFunction implements Function<String, String> {
+    private static class ClasspathFileToStringFunction implements Function<String, String> {
         @Override
         public String apply(String input) {
             return getFileContent(input);
+        }
+    }
+
+    private static Compressor compressor;
+
+    static {
+        try {
+            Class.forName("com.google.javascript.jscomp.Compiler", false, JQueryInvoker.class.getClassLoader());
+            compressor = (Compressor) Class.forName("com.vilt.minium.impl.ClosureCompressor").newInstance();
+        } catch (Exception e) {
+            LOGGER.info("Google Closure Compiler not found in classpath, javascript will not be compressed");
+            compressor = new NullCompressor();
         }
     }
 
@@ -81,10 +91,10 @@ public class JQueryInvoker {
         this.cssResources = cssResources;
 
         try {
-            String jsScripts = compressCode(Collections2.transform(jsResources, new ClasspathFileToSourceFileFunction()));
+            String jsScripts = compressor.compress(JQueryInvoker.class.getClassLoader(), jsResources);
 
             if (cssResources != null) {
-                styles = StringUtils.join(Collections2.transform(cssResources, new ClasspathFileToStringFunction()), "\n\n");
+                styles = combineResources(cssResources);
             }
 
             lightInvokerScriptTemplate = getFileContent("minium/templates/jquery-invoker-light.template");
@@ -93,20 +103,6 @@ public class JQueryInvoker {
 
         } catch (Exception e) {
             throw new WebElementsException(e);
-        }
-    }
-
-    public String compressCode(Collection<SourceFile> inputs) {
-        try {
-            Compiler compiler = new Compiler();
-            compiler.disableThreads();
-
-            CompilerOptions options = new CompilerOptions();
-            CompilationLevel.SIMPLE_OPTIMIZATIONS.setOptionsForCompilationLevel(options);
-            compiler.compile(CommandLineRunner.getDefaultExterns(), Lists.newArrayList(inputs), options);
-            return compiler.toSource();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -165,22 +161,6 @@ public class JQueryInvoker {
         return cssResources;
     }
 
-    private String getFileContent(String filename) {
-        InputStream in = null;
-        try {
-            in = getClasspathFileInputStream(filename);
-            return CharStreams.toString(new InputStreamReader(in, Charsets.UTF_8));
-        } catch (IOException e) {
-            throw new WebElementsException(format("Could not load %s from classpath", filename), e);
-        } finally {
-            try { Closeables.close(in, true); } catch (IOException e) { }
-        }
-    }
-
-    public InputStream getClasspathFileInputStream(String filename) {
-        return JQueryInvoker.class.getClassLoader().getResourceAsStream(filename);
-    }
-
     private Object[] convertToValidArgs(Object[] args) {
         // we need to get the wrapped web element from every DelegateWebElement
         // in arguments
@@ -196,5 +176,25 @@ public class JQueryInvoker {
             }
         }
         return validArgs;
+    }
+
+    protected static String getFileContent(String filename) {
+        InputStream in = null;
+        try {
+            in = getClasspathFileInputStream(filename);
+            return CharStreams.toString(new InputStreamReader(in, Charsets.UTF_8));
+        } catch (IOException e) {
+            throw new WebElementsException(format("Could not load %s from classpath", filename), e);
+        } finally {
+            try { Closeables.close(in, true); } catch (IOException e) { }
+        }
+    }
+
+    protected static InputStream getClasspathFileInputStream(String filename) {
+        return JQueryInvoker.class.getClassLoader().getResourceAsStream(filename);
+    }
+
+    protected static String combineResources(Collection<String> resources) {
+        return Joiner.on("\n\n").join(Collections2.transform(resources, new ClasspathFileToStringFunction()));
     }
 }

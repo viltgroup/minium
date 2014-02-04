@@ -31,11 +31,11 @@ import javassist.util.proxy.MethodHandler;
 import javassist.util.proxy.Proxy;
 import javassist.util.proxy.ProxyFactory;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Function;
+import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -159,8 +159,8 @@ public class WebElementsFactory implements MethodHandler {
 
         if (logger.isDebugEnabled()) {
             logger.debug(format("Found the following resources for %s:", elementsInterface.getName()));
-            logger.debug(format(" Javascript: %s", StringUtils.join(jsResources, "; ")));
-            logger.debug(format(" CSS styles: %s", StringUtils.join(cssResources, "; ")));
+            logger.debug(format(" Javascript: %s", Joiner.on("; ").join(jsResources, "; ")));
+            logger.debug(format(" CSS styles: %s", Joiner.on("; ").join(cssResources, "; ")));
         }
 
         invoker = new JQueryInvoker(jsResources, cssResources);
