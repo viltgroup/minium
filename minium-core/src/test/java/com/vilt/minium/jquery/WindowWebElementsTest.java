@@ -18,7 +18,7 @@ package com.vilt.minium.jquery;
 import static com.vilt.minium.Minium.$;
 import static com.vilt.minium.actions.Interactions.checkEmpty;
 import static com.vilt.minium.actions.Interactions.click;
-import static com.vilt.minium.impl.WaitPredicates.whileEmpty;
+import static com.vilt.minium.actions.Interactions.waitWhileEmpty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.testng.Assert.assertEquals;
@@ -28,13 +28,10 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.vilt.minium.DefaultWebElements;
-import com.vilt.minium.Duration;
 import com.vilt.minium.MiniumBaseTest;
 import com.vilt.minium.WebElementsException;
-import com.vilt.minium.impl.WaitWebElements;
 
 public class WindowWebElementsTest extends MiniumBaseTest {
 
@@ -55,7 +52,7 @@ public class WindowWebElementsTest extends MiniumBaseTest {
     @Test
     public void testWindows() {
         DefaultWebElements elems = $(wd).windows().find("input#name");
-        waitOrTimeout(elems, whileEmpty());
+        waitWhileEmpty(elems);
         assertEquals(1, Iterables.size(elems));
     }
 
@@ -106,10 +103,5 @@ public class WindowWebElementsTest extends MiniumBaseTest {
         } catch (WebElementsException e) {
             // ok
         }
-    }
-
-    @SuppressWarnings("unchecked")
-    private void waitOrTimeout(DefaultWebElements elems, Predicate<?> predicate) {
-        elems.as(WaitWebElements.class).waitOrTimeout((Duration) null, predicate);
     }
 }

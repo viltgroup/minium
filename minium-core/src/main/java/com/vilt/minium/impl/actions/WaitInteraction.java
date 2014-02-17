@@ -16,7 +16,6 @@
 package com.vilt.minium.impl.actions;
 
 import com.vilt.minium.CoreWebElements;
-import com.vilt.minium.impl.WaitWebElements;
 
 /**
  * The Class WaitInteraction.
@@ -35,9 +34,5 @@ public abstract class WaitInteraction extends DefaultInteraction {
     @Override
     public void waitToPerform() {
         // do nothing
-    }
-
-    public WaitWebElements<?> getWaitSource() {
-        return super.getSource().as(WaitWebElements.class);
     }
 }

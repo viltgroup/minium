@@ -32,47 +32,26 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Wait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Function;
-import com.google.common.base.Functions;
-import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.vilt.minium.Async;
 import com.vilt.minium.Configuration;
-import com.vilt.minium.Configuration.WaitingPreset;
 import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.Duration;
 import com.vilt.minium.FreezableWebElements;
 import com.vilt.minium.TargetLocatorWebElements;
-import com.vilt.minium.TimeoutException;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.WebElementsDriver;
 import com.vilt.minium.WebElementsException;
 
 public abstract class BaseWebElementsImpl<T extends CoreWebElements<T>> implements
-WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, FreezableWebElements<T>, WebElementsDriverProvider<T> {
+WebElements, TargetLocatorWebElements<T>, FreezableWebElements<T>, WebElementsDriverProvider<T> {
 
     final Logger logger = LoggerFactory.getLogger(WebElements.class);
-
-    private static class WebElementsWait<T> extends FluentWait<T> {
-
-        public WebElementsWait(T input, Duration timeout, Duration interval) {
-            super(input);
-            withTimeout(timeout.getTime(), timeout.getUnit());
-            pollingEvery(interval.getTime(), interval.getUnit());
-        }
-
-        @Override
-        protected RuntimeException timeoutException(String message, Throwable lasteException) {
-            return new TimeoutException(message, lasteException);
-        }
-    }
-
     private final Function<Object, String> argToStringFunction = new Function<Object, String>() {
         @Override
         public String apply(Object input) {
@@ -278,67 +257,6 @@ WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, FreezableWebElemen
         return Iterables.get(webDrivers, 0);
     }
 
-    @Override
-    public T wait(Duration timeout, Predicate<? super T> predicate) {
-        return wait(timeout, null, predicate);
-    }
-
-    @Override
-    public T wait(String preset, Predicate<? super T> predicate) {
-        WaitingPreset waitingPreset = configure().waitingPreset(preset);
-        return wait(waitingPreset.timeout(), waitingPreset.interval(), predicate);
-    }
-
-    @SuppressWarnings("unchecked")
-    protected T wait(Duration timeout, Duration interval, Predicate<? super T> predicate) {
-        if (timeout == null) {
-            timeout = rootWebDriver().configure().defaultTimeout();
-        }
-        if (interval == null) {
-            interval = rootWebDriver().configure().defaultInterval();
-        }
-
-        Wait<T> wait = getWait(timeout, interval);
-
-        Function<? super T, Boolean> function = Functions.forPredicate(predicate);
-        wait.until(function);
-
-        return (T) this;
-    }
-
-    @Override
-    public T waitOrTimeout(Duration timeout, Predicate<? super T> predicate) {
-        return waitOrTimeout(timeout, null, predicate);
-    }
-
-    @Override
-    public T waitOrTimeout(String preset, Predicate<? super T> predicate) {
-        WaitingPreset waitingPreset = configure().waitingPreset(preset);
-        return waitOrTimeout(waitingPreset.timeout(), waitingPreset.interval(), predicate);
-    }
-
-    @SuppressWarnings("unchecked")
-    protected T waitOrTimeout(Duration timeout, Duration interval, Predicate<? super T> predicate) {
-        if (timeout == null) {
-            timeout = rootWebDriver().configure().defaultTimeout();
-        }
-        if (interval == null) {
-            interval = rootWebDriver().configure().defaultInterval();
-        }
-
-        Wait<T> wait = getWait(timeout, interval);
-
-        Function<? super T, Boolean> function = Functions.forPredicate(predicate);
-
-        try {
-            wait.until(function);
-        } catch (TimeoutException e) {
-            // ignore
-        }
-
-        return (T) this;
-    }
-
     @Deprecated
     @Override
     public T frame() {
@@ -375,13 +293,13 @@ WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, FreezableWebElemen
         Duration timeout = rootWebDriver().configure().defaultTimeout();
         Duration interval = rootWebDriver().configure().defaultInterval();
 
-        FluentWait<T> wait = getWait(timeout, interval);
+        WebElementsWait wait = getWait(timeout, interval);
 
-        return wait.ignoring(NoAlertPresentException.class).until(new Function<T, Alert>() {
+        return wait.ignoring(NoAlertPresentException.class).until(new Function<CoreWebElements<?>, Alert>() {
 
             @Override
             @Nullable
-            public Alert apply(@Nullable T input) {
+            public Alert apply(@Nullable CoreWebElements<?> input) {
                 return nativeWebDriver().switchTo().alert();
             }
         });
@@ -406,8 +324,8 @@ WebElements, TargetLocatorWebElements<T>, WaitWebElements<T>, FreezableWebElemen
 
     protected abstract T root(T filter, boolean freeze);
 
-    protected WebElementsWait<T> getWait(Duration timeout, Duration interval) {
-        return new WebElementsWait<T>(myself, timeout, interval);
+    protected WebElementsWait getWait(Duration timeout, Duration interval) {
+        return new WebElementsWait(myself, timeout, interval);
     }
 
     @Override

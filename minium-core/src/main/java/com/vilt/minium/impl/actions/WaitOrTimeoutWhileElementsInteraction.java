@@ -38,6 +38,10 @@ public class WaitOrTimeoutWhileElementsInteraction extends WaitInteraction {
      */
     @Override
     protected void doPerform() {
-        getWaitSource().waitOrTimeout(getTimeout(), whileNotEmpty());
+        if (getWaitingPreset() != null) {
+            waitOrTimeout(getSource(), getWaitingPreset(), whileNotEmpty());
+        } else {
+            waitOrTimeout(getSource(), getTimeout(), getInterval(), whileNotEmpty());
+        }
     }
 }
