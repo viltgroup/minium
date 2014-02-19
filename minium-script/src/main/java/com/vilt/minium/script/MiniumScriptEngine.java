@@ -17,6 +17,7 @@ package com.vilt.minium.script;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.Reader;
 
 import org.apache.commons.io.IOUtils;
@@ -35,26 +36,31 @@ public class MiniumScriptEngine {
         public V call(Context cx) throws X;
     }
 
-   private static final Logger logger = LoggerFactory.getLogger(MiniumScriptEngine.class);
+    private static final Logger logger = LoggerFactory.getLogger(MiniumScriptEngine.class);
 
-   private Global scope;
-   private MiniumContextLoader contextLoader;
-   private AppPreferences preferences;
+    private Global scope;
+    private MiniumContextLoader contextLoader;
+    private AppPreferences preferences;
 
-   public MiniumScriptEngine() {
-      this(WebElementsDriverFactory.instance());
-   }
+    public MiniumScriptEngine() throws IOException {
+        this(WebElementsDriverFactory.instance());
+    }
 
-   public MiniumScriptEngine(WebElementsDriverFactory webElementsDriverFactory) {
-      this(webElementsDriverFactory, MiniumScriptEngine.class.getClassLoader());
-   }
+    public MiniumScriptEngine(WebElementsDriverFactory webElementsDriverFactory) throws IOException {
+        this(webElementsDriverFactory, new AppPreferences());
+    }
 
-   public MiniumScriptEngine(WebElementsDriverFactory webElementsDriverFactory, ClassLoader classLoader) {
-       this(new MiniumContextLoader(classLoader, webElementsDriverFactory));
-   }
+    public MiniumScriptEngine(WebElementsDriverFactory webElementsDriverFactory, AppPreferences preferences) {
+        this(webElementsDriverFactory, preferences, MiniumScriptEngine.class.getClassLoader());
+    }
 
-    public MiniumScriptEngine(MiniumContextLoader contextLoader) {
+    public MiniumScriptEngine(WebElementsDriverFactory webElementsDriverFactory, AppPreferences preferences, ClassLoader classLoader) {
+        this(new MiniumContextLoader(classLoader, webElementsDriverFactory), preferences);
+    }
+
+    public MiniumScriptEngine(MiniumContextLoader contextLoader, AppPreferences preferences) {
         this.contextLoader = contextLoader;
+        this.preferences = preferences;
         initScope();
     }
 
@@ -72,6 +78,7 @@ public class MiniumScriptEngine {
 
         });
     }
+
     public Object get(final String varName) {
         return runWithContext(new ContextCallable<Object, RuntimeException>() {
 
@@ -89,7 +96,7 @@ public class MiniumScriptEngine {
         return (T) object;
     }
 
-   public void put(final String varName, final Object object) {
+    public void put(final String varName, final Object object) {
         runWithContext(new ContextCallable<Void, RuntimeException>() {
 
             @Override
@@ -99,9 +106,9 @@ public class MiniumScriptEngine {
             }
 
         });
-   }
+    }
 
-   public void delete(final String varName) {
+    public void delete(final String varName) {
         runWithContext(new ContextCallable<Void, RuntimeException>() {
 
             @Override
@@ -111,29 +118,29 @@ public class MiniumScriptEngine {
             }
 
         });
-   }
+    }
 
-   public void run(final File file) throws Exception {
-       logger.debug("Executing file: {}", file);
-       FileReader reader = new FileReader(file);
-       try {
-           doRun(reader, file.getPath());
-       } finally {
-           IOUtils.closeQuietly(reader);
-       }
-   }
+    public void run(final File file) throws Exception {
+        logger.debug("Executing file: {}", file);
+        FileReader reader = new FileReader(file);
+        try {
+            doRun(reader, file.getPath());
+        } finally {
+            IOUtils.closeQuietly(reader);
+        }
+    }
 
     public void run(final Reader reader, final String sourceName) throws Exception {
-       logger.debug("Executing reader for sourceName: {}", sourceName);
-       doRun(reader, sourceName);
-   }
+        logger.debug("Executing reader for sourceName: {}", sourceName);
+        doRun(reader, sourceName);
+    }
 
-   public Object eval(String expression) throws Exception {
-       return eval(expression, 1);
-   }
+    public Object eval(String expression) throws Exception {
+        return eval(expression, 1);
+    }
 
-   public Object eval(final String expression, final int lineNumber) throws Exception {
-      logger.debug("Evaluating expression: {}", expression);
+    public Object eval(final String expression, final int lineNumber) throws Exception {
+        logger.debug("Evaluating expression: {}", expression);
         return runWithContext(new ContextCallable<Object, Exception>() {
             @Override
             public Object call(Context cx) throws Exception {
@@ -146,9 +153,9 @@ public class MiniumScriptEngine {
                 }
             }
         });
-   }
+    }
 
-   protected void doRun(final Reader reader, final String sourceName) throws Exception {
+    protected void doRun(final Reader reader, final String sourceName) throws Exception {
         runWithContext(new ContextCallable<Void, Exception>() {
 
             @Override
@@ -165,7 +172,7 @@ public class MiniumScriptEngine {
     }
 
     protected void initScope() {
-       runWithContext(new ContextCallable<Void, RuntimeException>() {
+        runWithContext(new ContextCallable<Void, RuntimeException>() {
             @Override
             public Void call(Context cx) {
                 try {
@@ -179,16 +186,16 @@ public class MiniumScriptEngine {
                 }
             }
         });
-   }
+    }
 
-   protected <V, X extends Exception> V runWithContext(ContextCallable<V, X> fn) throws X {
-       Context cx = Context.enter();
+    protected <V, X extends Exception> V runWithContext(ContextCallable<V, X> fn) throws X {
+        Context cx = Context.enter();
         try {
             return fn.call(cx);
-       } finally {
+        } finally {
             Context.exit();
         }
-   }
+    }
 
     private Object getUnwrappedResult(Object result) {
         if (result instanceof Undefined)

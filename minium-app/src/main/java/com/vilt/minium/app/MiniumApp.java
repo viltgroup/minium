@@ -110,8 +110,7 @@ public class MiniumApp {
 
     @Bean
     public MiniumScriptEngine scriptEngine() throws IOException {
-        MiniumScriptEngine scriptEngine = new MiniumScriptEngine(webElementsDriverFactory());
-        scriptEngine.setPreferences(appPreferences());
+        MiniumScriptEngine scriptEngine = new MiniumScriptEngine(webElementsDriverFactory(), appPreferences());
         return scriptEngine;
     }
 
