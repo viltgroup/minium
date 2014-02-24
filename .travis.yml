@@ -2,7 +2,7 @@ language: java
 env:
   global:
     - PHANTOM_VERSION=1.9.7
-    - CHROME_DRIVER_VERSION=2.8
+    - CHROME_DRIVER_VERSION=2.9
     - DISPLAY=:99.0
   matrix:
     - BROWSER=phantomjs
@@ -24,7 +24,7 @@ before_install:
       sudo mv phantomjs-${PHANTOM_VERSION}-linux-x86_64 /usr/local/phantomjs;
     fi
 
-  # Install Latest Chrome and Chrome Driver 2.8
+  # Install Latest Chrome and Chrome Driver 2.9
   - if [ "$BROWSER" = "chrome" ]; then
       /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1366x768x24;
       wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb;
