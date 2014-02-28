@@ -57,13 +57,17 @@ public class WebDriversController {
         if (wdManager.contains(var)) throw new IllegalStateException(format("Variable %s already exists", var));
 
         WebElementsDriver<?> wd;
+        WebDriverInfo driverInfo;
+
         if (StringUtils.isEmpty(remoteUrl)) {
             wd = createLocalWebDriver(type);
+            driverInfo = new WebDriverInfo(var, type, false);
         } else {
             wd = createRemoteWebDriver(remoteUrl, type);
+            driverInfo = new WebDriverInfo(var, type, true);
         }
 
-        wdManager.put(var, type, wd);
+        wdManager.put(driverInfo, wd);
     }
 
     private WebElementsDriver<?> createRemoteWebDriver(String remoteUrl, Type type) {

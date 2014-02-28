@@ -62,6 +62,12 @@
                     <span class="glyphicon {{type.glyphicon}}" ></span> {{type.shortDisplayName}} <span class="badge pull-right" ng-hide="countWebDriversByType(id) == 0">{{countWebDriversByType(id)}}</span>
                   </a>
                 </li>
+                <li role="presentation" class="divider"></li>
+                <li>
+                  <a href="#/webDrivers/create/remote">
+                    <span class="glyphicon fontello-browser" ></span> Remote <span class="badge pull-right" ng-hide="countRemoteWebDrivers() == 0">{{countRemoteWebDrivers()}}</span>
+                  </a>
+                </li>
               </ul>
             </li>
             <li class="dropdown">

@@ -15,9 +15,6 @@
  */
 package com.vilt.minium.app.controller;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
-
 import java.io.IOException;
 
 import org.slf4j.Logger;
@@ -45,7 +42,7 @@ public class ConsoleController {
         this.engine = engine;
     }
 
-    @RequestMapping(value = "/eval", method = { POST, GET })
+    @RequestMapping(value = "/eval")
     @ResponseBody
     public synchronized EvalResult eval(@RequestParam("expr") final String expression, @RequestParam(value = "lineno", defaultValue = "1") final int lineNumber) {
         try {

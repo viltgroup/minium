@@ -18,16 +18,22 @@ package com.vilt.minium.app.webdrivers;
 public class WebDriverInfo {
 
     public enum Type {
-        Chrome, Firefox, Safari, InternetExplorer, Opera, PhantomJS
+        Chrome, Firefox, Safari, InternetExplorer, Opera, PhantomJS, Remote
     }
 
     private String varName;
     private Type type;
+    private boolean remote;
 
     public WebDriverInfo(String varName, Type type) {
+        this(varName, type, false);
+    }
+
+    public WebDriverInfo(String varName, Type type, boolean remote) {
         super();
         this.varName = varName;
         this.type = type;
+        this.remote = remote;
     }
 
     public String getVarName() {
@@ -44,6 +50,14 @@ public class WebDriverInfo {
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    public boolean isRemote() {
+        return remote;
+    }
+
+    public void setRemote(boolean remote) {
+        this.remote = remote;
     }
 
 }

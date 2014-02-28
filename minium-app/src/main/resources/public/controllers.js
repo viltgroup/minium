@@ -12,6 +12,20 @@ var http = function($scope, $http) {
     };
     return $scope.$$phase ? fn() : $scope.$apply(fn);
   };
+
+  this.post = function(url, params) {
+    var fn = function() {
+      return $http({
+        method  : "POST",
+        url     : baseServiceUrl + url, 
+        data    : $.param(params),
+        headers : {
+          "Content-Type" : "application/x-www-form-urlencoded"
+        }
+      });
+    };
+    return $scope.$$phase ? fn() : $scope.$apply(fn);
+  };
 };
 
 var createExceptionHandler = _.curry(function(msg, exception) {
@@ -62,6 +76,7 @@ function WebConsoleCtrl($rootScope, $scope, $http, $location, promiseTracker) {
     http($scope, $http).get("/webDrivers")
       .success(function(data) {
         $rootScope.webDrivers = data;
+        console.debug(data);
       })
       .error(createExceptionHandler("An error occurred while loading web drivers"));
     
@@ -108,7 +123,7 @@ function WebConsoleCtrl($rootScope, $scope, $http, $location, promiseTracker) {
         var line = range.start.row;
         var code = range.isEmpty() ? session.getLine(line) : session.getTextRange(range);
 
-        var request = http($scope, $http).get("/console/eval", { expr : code, lineno  : line + 1 })
+        var request = http($scope, $http).post("/console/eval", { expr : code, lineno  : line + 1 })
           .success(function(data) {
             if (data.size >= 0) {
               $.bootstrapGrowl(data.size + " matching web elements", { type: "success" });
@@ -199,7 +214,15 @@ function WebConsoleCtrl($rootScope, $scope, $http, $location, promiseTracker) {
 
   $scope.countWebDriversByType = function(typeId) {
     return _.chain($scope.webDrivers)
+        .filter({ remote : false })
         .where({ type : typeId })
+        .size()
+        .value();
+  };
+  
+  $scope.countRemoteWebDrivers = function() {
+    return _.chain($scope.webDrivers)
+        .filter({ remote : true })
         .size()
         .value();
   };
@@ -219,7 +242,7 @@ function WebConsoleCtrl($rootScope, $scope, $http, $location, promiseTracker) {
   };
 
   $scope.openFile = function() {
-    var request = http($scope, $http).get("/file/open")
+    var request = http($scope, $http).post("/file/open")
       .success(function (fileResult) {
         $rootScope.editor.setSession(createSession(fileResult.content));
         $scope.filePath = fileResult.filePath;
@@ -272,9 +295,9 @@ function WebDriverCreateCtrl($rootScope, $scope, $http, $location, $routeParams)
   $scope.submit = function() {
     var varName = $scope.varName;
 
-    var request = http($scope, $http).get("/webDrivers/" + varName + "/create", { type : typeId })
+    var request = http($scope, $http).post("/webDrivers/" + varName + "/create", { type : typeId })
       .success(function() {
-        $rootScope.webDrivers.push({ varName : varName, type : typeId, valid : true });
+        $rootScope.webDrivers.push({ varName : varName, type : typeId, remote : false, valid : true });
         
         // close modal
         dialog.modal("hide");
@@ -286,6 +309,40 @@ function WebDriverCreateCtrl($rootScope, $scope, $http, $location, $routeParams)
     $rootScope.globalTracker.addPromise(request);
   };
 
+  // now, let's show the dialog
+  dialog.modal("show");
+};
+
+//
+// RemoteWebDriverCreateCtrl
+//
+function RemoteWebDriverCreateCtrl($rootScope, $scope, $http, $location) {
+  var dialog = $("#remotewebdriver-create-dialog").one("hidden", function() {
+    $scope.$apply(function() {
+      $location.path("");
+      editor.focus();
+    });
+  });
+  
+  $scope.varName = "";
+  
+  $scope.submit = function() {
+    var varName = $scope.varName;
+    
+    var request = http($scope, $http).post("/webDrivers/" + varName + "/create", { type : $scope.type, remoteUrl : $scope.url })
+    .success(function() {
+      $rootScope.webDrivers.push({ varName : varName, type : $scope.type, remote : true, valid : true });
+      
+      // close modal
+      dialog.modal("hide");
+      
+      $.bootstrapGrowl("Remote Web driver <code>" + varName + "</code> created!", { type: "success" });
+    })
+    .error(createExceptionHandler("Could not create web driver"));
+    
+    $rootScope.globalTracker.addPromise(request);
+  };
+  
   // now, let's show the dialog
   dialog.modal("show");
 };
@@ -303,7 +360,7 @@ function WebDriverListCtrl($rootScope, $scope, $http, $location) {
   var screenshotDialog = $("#webdriver-screenshot-dialog");
 
   $scope.removeWebDriver = function(varName) {
-    var request = http($scope, $http).get("/webDrivers/" + varName + "/quit")
+    var request = http($scope, $http).post("/webDrivers/" + varName + "/quit")
       .success(function(data) {
         // remove from local list of webDrivers
         _.remove($rootScope.webDrivers, { varName : varName });
@@ -404,7 +461,7 @@ function SelectorGadgetCtrl($rootScope, $scope, $http, $location) {
     
     $rootScope.selectorGadgetVarName = varName;
 
-    var request = http($scope, $http).get("/selectorGadget/" + varName + "/activate", params)
+    var request = http($scope, $http).post("/selectorGadget/" + varName + "/activate", params)
       .success(function() {
         $.bootstrapGrowl("You can now select elements in <code>" + varName + "</code> window!", { type: "success" });
       })
@@ -452,7 +509,7 @@ function SelectorGadgetCtrl($rootScope, $scope, $http, $location) {
 
   $scope.cancel = function() {
     var varName = $scope.model.varName;
-    var request = http($scope, $http).get("/selectorGadget/" + varName + "/deactivate")
+    var request = http($scope, $http).post("/selectorGadget/" + varName + "/deactivate")
       .success(function(data) {
         // close modal
         dialog.modal("hide");

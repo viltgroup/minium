@@ -26,7 +26,6 @@ import org.springframework.stereotype.Component;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.vilt.minium.WebElementsDriver;
-import com.vilt.minium.app.webdrivers.WebDriverInfo.Type;
 import com.vilt.minium.script.MiniumScriptEngine;
 
 @Component
@@ -43,10 +42,6 @@ public class WebElementsDriverManager {
 
     public WebElementsDriver<?> get(String var) {
         return webDrivers.get(var);
-    }
-
-    public void put(String var, Type type, WebElementsDriver<?> driver) {
-        put(new WebDriverInfo(var, type), driver);
     }
 
     public void put(WebDriverInfo wdInfo, WebElementsDriver<?> driver) {
