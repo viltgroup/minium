@@ -19,112 +19,22 @@ import static java.lang.String.format;
 import static org.apache.commons.io.IOUtils.copy;
 import static org.apache.commons.lang3.StringUtils.center;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 
-import org.apache.commons.lang3.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.ByteArrayHttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.filter.CharacterEncodingFilter;
 
-import com.google.common.base.Charsets;
-import com.google.common.collect.Lists;
-import com.vilt.minium.WebElements;
 import com.vilt.minium.app.EmbeddedBrowser.Listener;
-import com.vilt.minium.app.json.ConsoleObjectMapper;
-import com.vilt.minium.app.webelements.SelectorGadgetWebElements;
-import com.vilt.minium.debug.DebugWebElements;
 import com.vilt.minium.prefs.AppPreferences;
 import com.vilt.minium.prefs.WebConsolePreferences;
-import com.vilt.minium.script.MiniumScriptEngine;
-import com.vilt.minium.script.WebElementsDriverFactory;
-import com.vilt.minium.tips.TipWebElements;
 
-@Configuration
-@EnableAutoConfiguration
-@ComponentScan
 public class MiniumApp {
 
-    static {
-        File baseDir = System.getProperty("minium.home") != null ?
-            new File(System.getProperty("minium.home")) :
-            SystemUtils.getJavaIoTmpDir();
-        File logFile = new File(baseDir, "minium-app.log");
-        System.setProperty("LOG_FILE", logFile.getAbsolutePath());
-    }
-
     private static final Logger LOGGER = LoggerFactory.getLogger(MiniumApp.class);
-
-    @SuppressWarnings("unchecked")
-    private static final Class<? extends WebElements>[] WEB_ELEMS_INTFS = (Class<? extends WebElements>[]) new Class<?>[] {
-        DebugWebElements.class,
-        TipWebElements.class,
-        SelectorGadgetWebElements.class
-    };
-
-    @Bean
-    public CharacterEncodingFilter characterEncodingFilter() {
-        CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
-        characterEncodingFilter.setEncoding(Charsets.UTF_8.name());
-        characterEncodingFilter.setForceEncoding(true);
-        return characterEncodingFilter;
-    }
-
-    @Bean
-    public ByteArrayHttpMessageConverter byteArrayConverter() {
-        ByteArrayHttpMessageConverter converter = new ByteArrayHttpMessageConverter();
-        converter.setSupportedMediaTypes(Lists.newArrayList(MediaType.IMAGE_JPEG, MediaType.IMAGE_PNG, MediaType.IMAGE_GIF));
-        return converter;
-    }
-
-    @Bean
-    public MappingJackson2HttpMessageConverter mappingJacksonConverter() {
-        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setObjectMapper(new ConsoleObjectMapper());
-        return converter;
-    }
-
-    @Bean
-    public AppPreferences appPreferences() throws IOException {
-        return new AppPreferences();
-    }
-
-    @Bean(destroyMethod = "destroy")
-    public WebElementsDriverFactory webElementsDriverFactory() throws IOException {
-        WebElementsDriverFactory webElementsDriverFactory = new WebElementsDriverFactory(WEB_ELEMS_INTFS);
-        webElementsDriverFactory.setPreferences(appPreferences());
-        return webElementsDriverFactory;
-    }
-
-    @Bean
-    public MiniumScriptEngine scriptEngine() throws IOException {
-        MiniumScriptEngine scriptEngine = new MiniumScriptEngine(webElementsDriverFactory(), appPreferences());
-        return scriptEngine;
-    }
-
-    @Bean
-    public EmbeddedBrowser embeddedBrowser() throws IOException {
-        EmbeddedBrowser browser = new EmbeddedBrowser(appPreferences().getBaseDir(), WebConsolePreferences.from(appPreferences()));
-        return browser;
-    }
-
-    @Bean
-    public TomcatEmbeddedServletContainerFactory tomcatEmbeddedServletContainerFactory() throws IOException {
-        WebConsolePreferences prefs = WebConsolePreferences.from(appPreferences());
-        return new TomcatEmbeddedServletContainerFactory(prefs.getPort());
-    }
 
     public static void main(String[] args) throws Exception {
         run(args);
@@ -151,7 +61,8 @@ public class MiniumApp {
     public static ConfigurableApplicationContext launchService(String... args) throws IOException {
         printBanner();
 
-        final ConfigurableApplicationContext context = new SpringApplicationBuilder(MiniumApp.class)
+        final ConfigurableApplicationContext context = new SpringApplicationBuilder(MiniumAppWebConfig.class)
+            .headless(false)
             .showBanner(false)
             .run(args);
 
