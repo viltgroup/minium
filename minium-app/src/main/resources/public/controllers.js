@@ -18,7 +18,7 @@ var http = function($scope, $http) {
       return $http({
         method  : "POST",
         url     : baseServiceUrl + url, 
-        data    : $.param(params),
+        data    : params ? $.param(params) : '',
         headers : {
           "Content-Type" : "application/x-www-form-urlencoded"
         }
@@ -50,14 +50,66 @@ function WebConsoleCtrl($rootScope, $scope, $http, $location, promiseTracker) {
       $(".modal-dialog").removeClass("modal-dialog");
     });
   };
+  
+  // modalmanager allow us to toggle loading state, but when requests are too fast it can occur that we "disable" loading before it is
+  // completely "enabled", because of the transition animation. So, we need to ensure that we only disable loading after it finishes the 
+  // transition.
+  var LoadingManager = function() {};
+  LoadingManager.prototype = {
+      processing : false,
+      stack : [],
+      loadingCompletedHandler : function() {
+        this.processing = false;
+        if (this.stack.length > 0) {
+          (this.stack.shift())();
+        }
+      },
+      start : function() {
+        if (this.processing) {
+          this.stack.push(_.bind(this._start, this));
+        }
+        else {
+          this._start();
+        }
+      },
+      done : function() {
+        if (this.processing) {
+          this.stack.push(_.bind(this._done, this));
+        }
+        else {
+          this._done();
+        }
+      },
+      _start : function() {
+        this.processing = true;
+        $("body").modalmanager("loading", _.bind(this.loadingCompletedHandler, this)).find(".modal-scrollable").off("click.modalmanager");
+      },
+      _done : function() {
+        // unfortunatelly, when disabling loading, modalmanager doesn't support a callback, but we still need to signal the end of it.
+        // So, we force modalmanager.removeLoading to call our loadingCompletedHandler.
+        var modalmanager = $("body").data("modalmanager");
+        var removeLoading = modalmanager.removeLoading;
+        var that = this;
+        modalmanager.removeLoading = function() {
+          removeLoading.apply(modalmanager);
+          that.loadingCompletedHandler();
+          modalmanager.removeLoading = removeLoading;
+        };
+        this.processing = true;
+        $("body").modalmanager("loading");
+      }
+  };
 
   // global tracker (responsible for displaying the global loading "spinner")
   var createGlobalTracker = function() {
     var tracker = promiseTracker("webconsole");
-    // We need to block users from closing the loading meny by clicking in the window
+    
+    // We need to block users from closing the loading menu by clicking in the window
     // https://github.com/jschr/bootstrap-modal/issues/41#issuecomment-11294437
-    tracker.on("start", function() { $("body").modalmanager("loading").find(".modal-scrollable").off("click.modalmanager"); });
-    tracker.on("done",  function() { $("body").modalmanager("loading"); });
+    var loadingManager = new LoadingManager();
+    tracker.on("start", _.bind(loadingManager.start, loadingManager));
+    tracker.on("done" , _.bind(loadingManager.done, loadingManager));
+      
     $rootScope.globalTracker = tracker;
   };
 
@@ -76,7 +128,6 @@ function WebConsoleCtrl($rootScope, $scope, $http, $location, promiseTracker) {
     http($scope, $http).get("/webDrivers")
       .success(function(data) {
         $rootScope.webDrivers = data;
-        console.debug(data);
       })
       .error(createExceptionHandler("An error occurred while loading web drivers"));
     
