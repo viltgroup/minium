@@ -34,4 +34,14 @@ public abstract class BasePreferences implements Preferences {
     public void validate() {
         // TODO Auto-generated method stub
     }
+
+
+    protected File oneOf(File... files) {
+        for (File file : files) {
+            if (file.exists())
+                return file;
+        }
+
+        return null;
+    }
 }

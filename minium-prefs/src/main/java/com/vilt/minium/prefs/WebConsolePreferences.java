@@ -101,12 +101,4 @@ public class WebConsolePreferences extends BasePreferences {
         checkState(chromeBin.canExecute(), "Chrome binary path %s cannot execute", chromeBin);
     }
 
-    private File oneOf(File... files) {
-        for (File file : files) {
-            if (file.exists())
-                return file;
-        }
-
-        return null;
-    }
 }
