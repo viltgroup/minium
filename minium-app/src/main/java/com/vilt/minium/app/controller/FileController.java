@@ -26,17 +26,14 @@ import java.io.IOException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.DisposableBean;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.WebApplicationContext;
 
 import com.google.common.base.Charsets;
 
 @Controller
-@Scope(WebApplicationContext.SCOPE_SESSION)
 @RequestMapping("/file")
 public class FileController implements DisposableBean {
 
