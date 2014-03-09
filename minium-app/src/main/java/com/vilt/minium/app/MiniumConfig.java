@@ -15,10 +15,8 @@
  */
 package com.vilt.minium.app;
 
-import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.lang3.SystemUtils;
 import org.springframework.context.annotation.Bean;
 
 import com.vilt.minium.WebElements;
@@ -30,14 +28,6 @@ import com.vilt.minium.script.WebElementsDriverFactory;
 import com.vilt.minium.tips.TipWebElements;
 
 public class MiniumConfig {
-
-    static {
-        File baseDir = System.getProperty("minium.home") != null ?
-            new File(System.getProperty("minium.home")) :
-            SystemUtils.getJavaIoTmpDir();
-        File logFile = new File(baseDir, "minium-app.log");
-        System.setProperty("LOG_FILE", logFile.getAbsolutePath());
-    }
 
     @SuppressWarnings("unchecked")
     private static final Class<? extends WebElements>[] WEB_ELEMS_INTFS = (Class<? extends WebElements>[]) new Class<?>[] {

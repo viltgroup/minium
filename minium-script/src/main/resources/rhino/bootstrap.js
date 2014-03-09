@@ -39,7 +39,6 @@ if (typeof webElementsDriverFactory !== "undefined") {
     delete webElementsDriverFactory;
 }
 	
-
 // all static methods from Minium, Interactions and TouchInteractions
 importStatic(com.vilt.minium.Minium);
 importStatic(com.vilt.minium.ExceptionHandlers);

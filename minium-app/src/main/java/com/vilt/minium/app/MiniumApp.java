@@ -19,9 +19,11 @@ import static java.lang.String.format;
 import static org.apache.commons.io.IOUtils.copy;
 import static org.apache.commons.lang3.StringUtils.center;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 
+import org.apache.commons.lang3.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -33,6 +35,14 @@ import com.vilt.minium.prefs.AppPreferences;
 import com.vilt.minium.prefs.WebConsolePreferences;
 
 public class MiniumApp {
+
+    static {
+        File baseDir = System.getProperty("minium.home") != null ?
+            new File(System.getProperty("minium.home")) :
+            SystemUtils.getJavaIoTmpDir();
+        File logFile = new File(baseDir, "minium-app.log");
+        System.setProperty("LOG_FILE", logFile.getAbsolutePath());
+    }
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MiniumApp.class);
 
