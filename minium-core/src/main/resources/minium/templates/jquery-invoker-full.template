@@ -1,3 +1,11 @@
+var pagejQuery;
+if (typeof jQuery !== "undefined") {
+    // store page jquery in temporary variable
+    pagejQuery = jQuery;
+    delete jQuery;
+}
+
+// load jQuery and all minium extensions
 {{jsScript}}
 
 minium = {
@@ -11,6 +19,15 @@ minium = {
 		return [ result ];
 	}
 };
+if (pagejQuery) {
+    // restore page jquery
+    jQuery = pagejQuery;
+}
+else {
+    // jQuery must not exist
+    delete jQuery;
+}
+delete pagejQuery;
 
 // arguments[0] -> async
 // arguments[1] -> styles
