@@ -53,8 +53,7 @@ public class MiniumConfig {
 
     @Bean(destroyMethod = "destroy")
     public WebElementsDriverFactory webElementsDriverFactory() throws IOException {
-        WebElementsDriverFactory webElementsDriverFactory = new WebElementsDriverFactory(WEB_ELEMS_INTFS);
-        webElementsDriverFactory.setPreferences(appPreferences());
+        WebElementsDriverFactory webElementsDriverFactory = new WebElementsDriverFactory(appPreferences(), WEB_ELEMS_INTFS);
         return webElementsDriverFactory;
     }
 

@@ -15,96 +15,77 @@
  */
 package com.vilt.minium.script;
 
-import java.io.File;
+import static java.lang.String.format;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Map;
 
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriverService;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
-import org.openqa.selenium.remote.Augmenter;
+import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.safari.SafariDriver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Throwables;
+import com.google.common.collect.Maps;
 import com.vilt.minium.DefaultWebElementsDriver;
 import com.vilt.minium.WebElements;
 import com.vilt.minium.prefs.AppPreferences;
-import com.vilt.minium.prefs.WebConsolePreferences;
+import com.vilt.minium.script.impl.ChromeDriverFactory;
+import com.vilt.minium.script.impl.FirefoxDriverFactory;
+import com.vilt.minium.script.impl.InternetExplorerDriverFactory;
+import com.vilt.minium.script.impl.PhantomJsDriverFactory;
+import com.vilt.minium.script.impl.SafariDriverFactory;
+import com.vilt.minium.script.impl.WebDriverFactory;
 
 public class WebElementsDriverFactory {
 
-    private static final Logger logger = LoggerFactory.getLogger(WebElementsDriverFactory.class);
-
     private static WebElementsDriverFactory instance;
 
-    private AppPreferences preferences;
-
-    private ChromeDriverService service;
-
     private Class<? extends WebElements>[] additionalInterfaces;
+    private Map<String, WebDriverFactory> driverFactories = Maps.newHashMap();
 
     @SuppressWarnings("unchecked")
-    public static WebElementsDriverFactory instance() {
+    public static WebElementsDriverFactory instance() throws IOException {
         if (instance == null) {
-            instance = new WebElementsDriverFactory();
+            instance = new WebElementsDriverFactory(new AppPreferences());
         }
         return instance;
     }
 
-    public WebElementsDriverFactory(Class<? extends WebElements>... additionalInterfaces) {
+    public WebElementsDriverFactory(AppPreferences preferences, Class<? extends WebElements>... additionalInterfaces) {
         this.additionalInterfaces = additionalInterfaces;
+
+        driverFactories.put(BrowserType.CHROME, new ChromeDriverFactory(preferences));
+        driverFactories.put(BrowserType.FIREFOX, new FirefoxDriverFactory());
+        driverFactories.put(BrowserType.IE, new InternetExplorerDriverFactory(preferences));
+        driverFactories.put(BrowserType.SAFARI, new SafariDriverFactory());
+        driverFactories.put(BrowserType.PHANTOMJS, new PhantomJsDriverFactory(preferences));
     }
 
     public void setPreferences(AppPreferences preferences) {
-        this.preferences = preferences;
-    }
-
-    public void maybeInitChromeDriverService() {
-        try {
-            if (service == null) {
-                service = ChromeDriverService.createDefaultService();
-                service.start();
-                logger.debug("Chrome driver service initialized: {}", service.getUrl());
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public DefaultWebElementsDriver chromeDriver() {
-        DesiredCapabilities capabilities = DesiredCapabilities.chrome();
-        File chromeBin = WebConsolePreferences.from(preferences).getChromeBin();
-        if (chromeBin.exists()) {
-            capabilities.setCapability("chrome.binary", chromeBin);
-        }
-        return webDriverFor(capabilities);
+        return webDriverFor(DesiredCapabilities.chrome());
     }
 
     public DefaultWebElementsDriver firefoxDriver() {
-        DesiredCapabilities capabilities = DesiredCapabilities.firefox();
-        return webDriverFor(capabilities);
+        return webDriverFor(DesiredCapabilities.firefox());
     }
 
     public DefaultWebElementsDriver internetExplorerDriver() {
-        DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();
-        return webDriverFor(capabilities);
+        return webDriverFor(DesiredCapabilities.internetExplorer());
     }
 
     public DefaultWebElementsDriver safariDriver() {
-        DesiredCapabilities capabilities = DesiredCapabilities.safari();
-        return webDriverFor(capabilities);
+        return webDriverFor(DesiredCapabilities.safari());
     }
 
-    public DefaultWebElementsDriver ghostDriver() {
-        PhantomJSDriver webDriver = new PhantomJSDriver(new DesiredCapabilities());
-        return createWebElementsDriver(webDriver);
+    public DefaultWebElementsDriver phantomjsDriver() {
+        return webDriverFor(DesiredCapabilities.phantomjs());
     }
 
     public DefaultWebElementsDriver remoteDriver(String url, Capabilities capabilities) {
@@ -112,35 +93,31 @@ public class WebElementsDriverFactory {
             WebDriver wrappedDriver = new RemoteWebDriver(new URL(url), capabilities);
             return new DefaultWebElementsDriver(wrappedDriver);
         } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
+            throw Throwables.propagate(e);
         }
     }
 
     public DefaultWebElementsDriver webDriverFor(DesiredCapabilities capabilities) {
-        WebDriver wrappedDriver = null;
+        String browserName = capabilities.getBrowserName();
+        WebDriverFactory factory = driverFactories.get(browserName);
 
-        if (DesiredCapabilities.chrome().getBrowserName().equals(capabilities.getBrowserName())) {
-            maybeInitChromeDriverService();
-            wrappedDriver = new RemoteWebDriver(service.getUrl(), capabilities);
-            wrappedDriver = new Augmenter().augment(wrappedDriver);
-        } else if (DesiredCapabilities.firefox().getBrowserName().equals(capabilities.getBrowserName())) {
-            wrappedDriver = new FirefoxDriver(capabilities);
-        } else if (DesiredCapabilities.safari().getBrowserName().equals(capabilities.getBrowserName())) {
-            wrappedDriver = new SafariDriver(capabilities);
-        } else if (DesiredCapabilities.internetExplorer().getBrowserName().equals(capabilities.getBrowserName())) {
-            wrappedDriver = new InternetExplorerDriver(capabilities);
+        if (factory == null) {
+            for (WebDriverFactory candidate : driverFactories.values()) {
+                if (candidate.supports(capabilities)) {
+                    factory = candidate;
+                    break;
+                }
+            }
         }
 
-        if (wrappedDriver == null) {
-            throw new IllegalArgumentException();
-        }
+        if (factory == null) throw new IllegalArgumentException(format("No suitable driver for capabilities %s", capabilities));
 
-        return createWebElementsDriver(wrappedDriver);
+        return createWebElementsDriver(factory.create(capabilities));
     }
 
     public void destroy() {
-        if (service != null) {
-            service.stop();
+        for (WebDriverFactory factory : driverFactories.values()) {
+            factory.destroy();
         }
     }
 

@@ -109,7 +109,7 @@ public class WebDriversController {
         case Safari:
             return factory.safariDriver();
         case PhantomJS:
-            return factory.ghostDriver();
+            return factory.phantomjsDriver();
         case Opera:
             throw new UnsupportedOperationException("Not implemented yet");
         default:
