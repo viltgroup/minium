@@ -67,7 +67,7 @@
         <phantomjsdriver.version>1.0.4</phantomjsdriver.version>
         <spring.version>4.0.2.RELEASE</spring.version>
         <spring.boot.version>1.0.0.RC4</spring.boot.version>
-        <tomcat.version>7.0.47</tomcat.version>
+        <tomcat.version>7.0.52</tomcat.version>
         <jackson2.version>2.3.0</jackson2.version>
         <rhino.version>1.7R4</rhino.version>
         <closure.version>v20131014</closure.version>
