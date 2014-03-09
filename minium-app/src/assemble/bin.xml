@@ -25,6 +25,7 @@
 			<outputDirectory></outputDirectory>
 			<includes>
 				<include>lib/**</include>
+				<include>drivers/**</include>
 				<include>minium-prefs.json</include>
 				<include>${project.build.finalName}.exe</include>
 			</includes>

@@ -45,9 +45,6 @@
                             <resources>
                                 <resource>
                                     <directory>src/main/config</directory>
-                                    <includes>
-                                        <include>minium-prefs.json</include>
-                                    </includes>
                                 </resource>
                             </resources>
                         </configuration>
