@@ -46,3 +46,5 @@ importStatic(com.vilt.minium.actions.Interactions);
 importStatic(com.vilt.minium.actions.DebugInteractions);
 importStatic(com.vilt.minium.actions.TipInteractions);
 importStatic(com.vilt.minium.actions.touch.TouchInteractions);
+
+var logger = org.slf4j.LoggerFactory.getLogger("com.vilt.minium.script.Console");
