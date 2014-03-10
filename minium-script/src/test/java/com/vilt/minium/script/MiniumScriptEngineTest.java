@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.mozilla.javascript.FunctionObject;
 import org.mozilla.javascript.NativeFunction;
+import org.openqa.selenium.Platform;
 import org.testng.annotations.Test;
 
 import com.vilt.minium.prefs.AppPreferences;
@@ -100,13 +101,14 @@ public class MiniumScriptEngineTest {
    @Test
    public void testModulePathURIs() throws Exception {
        // given
-       System.setProperty("basedir", "c:\\minium-app");
+       System.setProperty("basedir", Platform.getCurrent().is(Platform.WINDOWS) ? "c:\\minium-app" : "/opt/minium-app");
        MiniumScriptEngine engine = new MiniumScriptEngine(WebElementsDriverFactory.instance(), new AppPreferences());
 
        // when
        List<String> modulePathURIs = engine.getModulePathURIs();
 
        // then
-       assertThat(modulePathURIs, containsInAnyOrder("file:/c:/minium-app/modules", "http://www.lodash.com"));
+       String modules = Platform.getCurrent().is(Platform.WINDOWS) ? "file:/c:/minium-app/modules" : "file:/opt/minium-app/modules";
+       assertThat(modulePathURIs, containsInAnyOrder(modules, "http://www.lodash.com"));
    }
 }
