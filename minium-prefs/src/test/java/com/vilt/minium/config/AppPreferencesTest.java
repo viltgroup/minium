@@ -34,19 +34,20 @@ public class AppPreferencesTest {
 
     @BeforeMethod
     public void setUp() throws IOException {
+        System.setProperty("minium.home", "c:/minium-app");
         InputStream stream = AppPreferences.class.getClassLoader().getResourceAsStream("minium-test-config.json");
         preferences = new AppPreferences(new InputStreamReader(stream));
     }
 
     @Test
     public void testWebConsolePreferences() {
-        WebConsolePreferences wcPrefs = preferences.get("webconsole", WebConsolePreferences.class);
+        WebConsolePreferences wcPrefs = WebConsolePreferences.from(preferences);
 
         assertEquals(wcPrefs.getHost(), "testhost");
         assertEquals(wcPrefs.getPort(), 12345);
         assertEquals(wcPrefs.getShutdownPort(), 54321);
         assertEquals(wcPrefs.isEnableFileMenu(), false);
-        assertEquals(wcPrefs.getChromeBin(), new File("c:/foo/chrome.exe"));
+        assertEquals(wcPrefs.getChromeBin(), new File("c:/minium-app/chrome.exe"));
     }
 
     @Test

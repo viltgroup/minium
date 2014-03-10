@@ -35,7 +35,7 @@ public class RhinoPreferences extends BasePreferences {
 
     protected List<String> getDefaultModulePath() {
         File modulesDir = new File(getBaseDir(), "modules");
-        return Collections.singletonList(modulesDir.toURI().toString());
+        return Collections.singletonList(modulesDir.getAbsolutePath());
     }
 
     public void setModulePath(List<String> modulePath) {

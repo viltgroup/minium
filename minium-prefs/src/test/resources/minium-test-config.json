@@ -1,20 +1,12 @@
 {
 	"webconsole" : {
+		"chromeBin" : "${minium.home}/chrome.exe",
 		"host" : "testhost",
 		"port" : 12345,
 		"shutdownPort" : 54321,
-		"enableFileMenu" : false,
-		"chromeBin" : "c:/foo/chrome.exe"
-	},
-	"rhino" : {
-		"modulePath" : [
-			"modules",
-			"file:///c:/foo/bar.txt",
-			"http://www.lodash.org"
-		]
+		"enableFileMenu" : false
 	},
 	"webDrivers" : [
 	
 	]
-	
 }

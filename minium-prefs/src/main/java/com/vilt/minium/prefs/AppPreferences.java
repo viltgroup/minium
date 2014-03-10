@@ -24,9 +24,13 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
@@ -44,14 +48,17 @@ public class AppPreferences implements Preferences {
     }
 
     public AppPreferences(File file) throws IOException {
+        this(FileUtils.readFileToString(file, Charsets.UTF_8.toString()));
         baseDir = file.getParentFile();
-        mapper = new ObjectMapper();
-        rootNode = mapper.readTree(file);
     }
 
     public AppPreferences(Reader reader) throws IOException {
-        mapper = new ObjectMapper();
-        rootNode = mapper.readTree(reader);
+        this(IOUtils.toString(reader));
+    }
+
+    public AppPreferences(String configuration) throws IOException {
+        mapper = new PreferencesObjectMapper();
+        rootNode = mapper.readTree(configuration);
     }
 
     @Override

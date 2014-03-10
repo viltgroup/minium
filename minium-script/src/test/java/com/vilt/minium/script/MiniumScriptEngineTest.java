@@ -18,13 +18,17 @@ package com.vilt.minium.script;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 
 import java.io.File;
 import java.net.URL;
+import java.util.List;
 
 import org.mozilla.javascript.FunctionObject;
 import org.mozilla.javascript.NativeFunction;
 import org.testng.annotations.Test;
+
+import com.vilt.minium.prefs.AppPreferences;
 
 public class MiniumScriptEngineTest {
 
@@ -91,5 +95,18 @@ public class MiniumScriptEngineTest {
 
        // then
        assertThat((String) engine.get("foo"), equalTo("bar"));
+   }
+
+   @Test
+   public void testModulePathURIs() throws Exception {
+       // given
+       System.setProperty("basedir", "c:\\minium-app");
+       MiniumScriptEngine engine = new MiniumScriptEngine(WebElementsDriverFactory.instance(), new AppPreferences());
+
+       // when
+       List<String> modulePathURIs = engine.getModulePathURIs();
+
+       // then
+       assertThat(modulePathURIs, containsInAnyOrder("file:/c:/minium-app/modules", "http://www.lodash.com"));
    }
 }

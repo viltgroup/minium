@@ -8,6 +8,8 @@
 	},
 	"rhino" : {
 		"modulePath" : [
+		  "${basedir}/modules",
+		  "http://www.lodash.com"
 		]
 	}
 }
