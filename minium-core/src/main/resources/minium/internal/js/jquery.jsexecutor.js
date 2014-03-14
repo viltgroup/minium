@@ -5,8 +5,7 @@
     };
 
     $.fn.eval = $.fn.evalWebElements = $.fn.evalAsync = function(script) {
-        var scriptFn = eval("(function() { " + script + " });");
-        return scriptFn.apply(this, Array.prototype.slice.call(arguments, 1));
+        return eval("var $ = minium.jQuery; " + script);
     };
 
 })(jQuery, window, document);

@@ -27,14 +27,14 @@ public class NoConflictWebElementsTest extends MiniumBaseTest {
 
     @BeforeMethod
     public void openPage() {
-        get("minium/tests/noconflict-test.html");
+        get("minium/tests/jQuery-test.html");
     }
 
     @Test
     public void testNoConflict() {
         // ensure jQuery and minium.jQuery are not the same object
-        assertTrue((Boolean) $(wd).eval("return minium.jQuery !== jQuery"));
+        assertTrue((Boolean) $(wd).eval("jQuery && minium.jQuery !== jQuery"));
         // ensure jQuery does not have minium extension functions
-        assertTrue((Boolean) $(wd).eval("return minium.jQuery.withText === undefined"));
+        assertTrue((Boolean) $(wd).eval("minium.jQuery.withText === undefined"));
     }
 }

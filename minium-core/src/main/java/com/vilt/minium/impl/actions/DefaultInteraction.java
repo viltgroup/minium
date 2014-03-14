@@ -239,9 +239,9 @@ public abstract class DefaultInteraction implements Interaction {
 
     private void perform(boolean canRetry) {
         trigger(Type.BEFORE_WAIT, null);
-        waitToPerform();
-        trigger(Type.BEFORE, null);
         try {
+            waitToPerform();
+            trigger(Type.BEFORE, null);
             doPerform();
             triggerReverse(Type.AFTER_SUCCESS, null);
         } catch (RuntimeException e) {

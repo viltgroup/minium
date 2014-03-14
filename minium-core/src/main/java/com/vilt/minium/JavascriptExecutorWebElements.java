@@ -28,7 +28,4 @@ public interface JavascriptExecutorWebElements<T extends CoreWebElements<T>> ext
     public <R> R eval(String script, Object... args);
 
     public T evalWebElements(String script, Object... args);
-
-    @Async
-    public <R> R evalAsync(String script, Object... args);
 }

@@ -26,6 +26,7 @@ import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.Duration;
 import com.vilt.minium.TimeoutException;
 import com.vilt.minium.WebElementsDriver;
+import com.vilt.minium.impl.actions.RetryAfterWaitingWhileEmptyInteractionListener;
 import com.vilt.minium.impl.actions.RetryOnExceptionInteractionListener;
 import com.vilt.minium.impl.actions.SlowMotionInteractionListener;
 import com.vilt.minium.impl.actions.TimeoutInteractionListener;
@@ -66,13 +67,12 @@ public class Interactions {
         return timeout(0, SECONDS);
     }
 
-    /**
-     * Instant timeout.
-     *
-     * @return the interaction listener
-     */
     public static InteractionListener retry() {
         return new RetryOnExceptionInteractionListener();
+    }
+
+    public static InteractionListener retryAfterWaitingWhileEmpty(CoreWebElements<?> elems, String preset) {
+        return new RetryAfterWaitingWhileEmptyInteractionListener(elems, preset);
     }
 
     public static InteractionListener slowMotion(long time, TimeUnit units) {

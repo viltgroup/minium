@@ -51,18 +51,19 @@ public class JavascriptExecutorWebElementsTest extends MiniumBaseTest {
         assertThat($(wd, "h2").callAsync(fn, "H2 text is: "), equalTo((Object) "H2 text is: JQuery Tests"));
     }
 
-    // @Test
+    @Test
+    public void testEvalQueryIsMiniumVersion() {
+        assertThat($(wd, "h2").eval("minium.jQuery === $"), equalTo((Object) Boolean.TRUE));
+        assertThat($(wd, "h2").eval("$.fn.withText !== undefined"), equalTo((Object) Boolean.TRUE));
+    }
+
+    @Test
     public void testEval() {
-        assertThat($(wd, "h2").eval("return arguments[0] + $(this).text();", "H2 text is: "), equalTo((Object) "H2 text is: JQuery Tests"));
+        assertThat($(wd, "h2").eval("'H2 text is: ' + $(this).text();"), equalTo((Object) "H2 text is: JQuery Tests"));
     }
 
-    // @Test
+    @Test
     public void testEvalWebElements() {
-        assertThat($(wd, "h2").evalWebElements("$(this).text(arguments[0] + $(this).text()); return $(this);", "H2 text is: ").text(), equalTo((Object) "H2 text is: JQuery Tests"));
-    }
-
-    // @Test
-    public void testEvalAsync() {
-        assertThat($(wd, "h2").evalAsync("var callback = arguments[1]; var text = $(this).text(); setTimeout(function() { callback(arguments[0] + text); }, 10);", "H2 text is: "), equalTo((Object) "H2 text is: JQuery Tests"));
+        assertThat($(wd, "h2").evalWebElements("$(this).text('H2 text is: ' + $(this).text()); $(this);").text(), equalTo((Object) "H2 text is: JQuery Tests"));
     }
 }
