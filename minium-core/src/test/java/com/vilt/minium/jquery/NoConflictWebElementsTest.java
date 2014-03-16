@@ -27,7 +27,7 @@ public class NoConflictWebElementsTest extends MiniumBaseTest {
 
     @BeforeMethod
     public void openPage() {
-        get("minium/tests/jQuery-test.html");
+        get("minium/tests/jquery-test.html");
     }
 
     @Test
