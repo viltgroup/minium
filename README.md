@@ -61,27 +61,25 @@ Ensure that the following software is installed:
 * [Java JDK 1.6+](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (**required**)
   * Don't forget to set `JAVA_HOME` environment variable 
 * [Google Chrome](https://www.google.com/intl/en/chrome/browser/) (**required**)
-* Specific browser drivers (recomended, only Firefox is included in Selenium Web Driver OOTB)
-  * [Chrome Driver](http://chromedriver.storage.googleapis.com/index.html)
-  * [IE Driver Server](https://code.google.com/p/selenium/downloads/list)
-  * [PhantomJS (headless WebKit)](http://phantomjs.org/download.html)
-
-Ensure that those web driver binaries are available in your `PATH` environment variable, otherwise Minium won't be able to launch them.
   
 ## Run Minium App
 
 To install and run Minium App, just follow these instructions:
 
 * Download one of the following compressed files:
-  * [Zip archive](https://oss.sonatype.org/content/repositories/releases/com/vilt-group/minium/minium-app/0.9.1/minium-app-0.9.1-bin.zip)
-  * [Compressed tarball archive](https://oss.sonatype.org/content/repositories/releases/com/vilt-group/minium/minium-app/0.9.1/minium-app-0.9.1-bin.tar.gz)
+  * [Zip archive](https://oss.sonatype.org/content/repositories/releases/com/vilt-group/minium/minium-app/0.9.2/minium-app-0.9.2-bin.zip)
+  * [Compressed tarball archive](https://oss.sonatype.org/content/repositories/releases/com/vilt-group/minium/minium-app/0.9.2/minium-app-0.9.2-bin.tar.gz)
 * Uncompress it in some folder (e.g. `c:\Tools\minium-app`)
-* Run one of the following executables:
+* By default, Selenium (and therefore Minium) can run Firefox out of the box. For other browsers, you will need specific drivers. Just download the ones you want to use (see links below) and place the corresponding executable files in `drivers` folder:
+  * [Chrome Driver](http://chromedriver.storage.googleapis.com/index.html)
+  * [IE Driver Server](https://code.google.com/p/selenium/downloads/list)
+  * [PhantomJS (headless WebKit)](http://phantomjs.org/download.html)
+* To launch Minium, just run one of the following executables:
   * `minium-app.exe` (in windows)
   * `bin\minium-app.bat` (also in windows, but this way you can see the stdout)
   * `bin\minium-app` (linux or mac)
 
-If Minium doesn't open a chrome app when you execute any of those scripts, probably you'll need to indicate where your chrome binary is in `app.properties` (edit specify the full Chrome binary path in the `chrome.bin` property).
+If Minium doesn't open a chrome app when you execute any of those scripts, probably you'll need to indicate where your chrome binary is in `minium-prefs.json` (edit specify the full Chrome binary path in the `chromeBin` property).
 
 ## Give it a try
 
