@@ -40,11 +40,11 @@ usernameFld = $(wd).frame().find(":text").withLabel("Username");
 
 * can those tools 'speak' and teach you how to use themselves? **Minium can!**
 
-[![Minium shows its new Web Console](http://halgatewood.com/youtube/i/QlPLNEJD5rc.jpg)](http://www.youtube.com/watch?v=QlPLNEJD5rc)
+[![Minium shows its new Web Console](http://img.youtube.com/vi/QlPLNEJD5rc/hqdefault.jpg)](http://www.youtube.com/watch?v=QlPLNEJD5rc)
 
 * can those tools write their own documentation? **Minium can!**
 
-[![Minium writes its own documentation](http://halgatewood.com/youtube/i/wgAatRpNv_c.jpg)](http://www.youtube.com/watch?v=wgAatRpNv_c)
+[![Minium writes its own documentation](http://img.youtube.com/vi/wgAatRpNv_c/hqdefault.jpg)](http://www.youtube.com/watch?v=wgAatRpNv_c)
 
 You can watch all available Minium videos at 
 [Youtube playlist](http://www.youtube.com/playlist?list=PLtYR_mxVztvMZuYfgjRe5OAl2WL_mb2N_).
