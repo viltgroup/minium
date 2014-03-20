@@ -73,4 +73,11 @@ public class FrameWebElementsTest extends MiniumBaseTest {
         DefaultWebElements frame = $(wd).frames();
         /* DefaultWebElements label = */ frame.find("label").rightOf(input);
     }
+
+    @Test
+    public void testIframesRoot() {
+        DefaultWebElements frame = $(wd).frames().find("h2").withText("JQuery Tests (frame2)").root();
+        DefaultWebElements input = frame.find("input#name");
+        assertThat(input, hasSize(1));
+    }
 }

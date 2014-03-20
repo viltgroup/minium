@@ -18,5 +18,13 @@
 <input type="submit" name="Login">
 </form>
 <script type="text/javascript" src="../js/jquery.js"></script>
+<script>
+jQuery(function ($) {
+  var hash = window.location.hash;
+  if (hash) {
+    $("h2").text("JQuery Tests (" + hash.substring(1) + ")");
+  }
+});
+</script>
 </body>
 </html>

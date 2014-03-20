@@ -15,7 +15,6 @@
  */
 package com.vilt.minium.impl;
 
-import static com.google.common.base.Predicates.notNull;
 import static com.google.common.collect.FluentIterable.from;
 
 import javax.annotation.Nullable;
@@ -42,17 +41,17 @@ public class FrameWebElementsImpl<T extends CoreWebElements<T>> extends Document
     @Override
     @SuppressWarnings("unchecked")
     public Iterable<WebElementsDriver<T>> candidateWebDrivers() {
-        return from(parentImpl).transform(new Function<WebElement, WebElementsDriver<T>>() {
-            @Override
-            @Nullable
-            public WebElementsDriver<T> apply(@Nullable WebElement input) {
-                FrameWebElementsDriver<T> webElementsDriver = new FrameWebElementsDriver<T>((WebElementsDriver<T>) ((DelegateWebElement) input).getWrappedDriver(), factory, input);
-                if (filter != null && webElementsDriver.find(filter).size() == 0) {
-                    return null;
+        if (filter == null) {
+            return from(parentImpl).transform(new Function<WebElement, WebElementsDriver<T>>() {
+                @Override
+                @Nullable
+                public WebElementsDriver<T> apply(@Nullable WebElement input) {
+                    return new FrameWebElementsDriver<T>((WebElementsDriver<T>) ((DelegateWebElement) input).getWrappedDriver(), factory, input);
                 }
-                return webElementsDriver;
-            }
-        }).filter(notNull());
+            });
+        } else {
+            return filter.as(WebElementsDriverProvider.class).webDrivers();
+        }
     }
 
     @Override
