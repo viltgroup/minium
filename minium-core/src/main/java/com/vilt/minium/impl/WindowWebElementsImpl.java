@@ -20,11 +20,8 @@ import static com.google.common.collect.FluentIterable.from;
 import java.util.Collections;
 import java.util.Set;
 
-import javax.annotation.Nullable;
-
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Sets;
 import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.WebElementsDriver;
@@ -41,20 +38,24 @@ public class WindowWebElementsImpl<T extends CoreWebElements<T>> extends Documen
         this.filter = filter;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Iterable<WebElementsDriver<T>> candidateWebDrivers() {
-        Set<String> windowHandles = candidateHandles();
+        Set<String> windowHandles = Sets.newHashSet(rootWebDriver().getWindowHandles());
 
         if (windowHandles.isEmpty()) {
             return Collections.emptyList();
         } else {
-            return FluentIterable.from(windowHandles).transform(new Function<String, WebElementsDriver<T>>() {
-                @Override
-                @Nullable
-                public WebElementsDriver<T> apply(@Nullable String input) {
-                    return new WindowWebElementsDriver<T>(rootWebDriver(), factory, input);
-                }
-            }).toList();
+            if (filter == null) {
+                return from(windowHandles).transform(new Function<String, WebElementsDriver<T>>() {
+                    @Override
+                    public WebElementsDriver<T> apply(String input) {
+                        return new WindowWebElementsDriver<T>(rootWebDriver(), factory, input);
+                    }
+                }).toList();
+            } else {
+                return filter.as(WebElementsDriverProvider.class).webDrivers();
+            }
         }
     }
 
@@ -66,26 +67,6 @@ public class WindowWebElementsImpl<T extends CoreWebElements<T>> extends Documen
     @Override
     protected T root(T filter, boolean freeze) {
         return parentImpl.windows(filter, freeze);
-    }
-
-    @SuppressWarnings("unchecked")
-    protected Set<String> candidateHandles() {
-        final WebElementsDriver<T> wd = rootWebDriver();
-        Set<String> windowHandles;
-
-        if (filter != null) {
-            Iterable<WebElementsDriver<T>> webDrivers = filter.as(WebElementsDriverProvider.class).webDrivers();
-            windowHandles = Sets.newHashSet(from(webDrivers).transform(new Function<WebElementsDriver<T>, String>() {
-                @Override
-                public String apply(WebElementsDriver<T> input) {
-                    return input.getWindowHandle();
-                }
-            }));
-        } else {
-            windowHandles = Sets.newHashSet(wd.getWindowHandles());
-        }
-
-        return windowHandles;
     }
 
     @Override
