@@ -18,13 +18,13 @@ package com.vilt.minium.impl;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import com.google.common.collect.Iterators;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.vilt.minium.Configuration;
 import com.vilt.minium.Duration;
 import com.vilt.minium.ExceptionHandler;
@@ -106,7 +106,7 @@ public class ConfigurationImpl implements Configuration {
 
     private class InteractionListenersImpl implements InteractionListeners {
 
-        private List<InteractionListener> interactionListeners = Lists.newArrayList();
+        private Set<InteractionListener> interactionListeners = Sets.newLinkedHashSet();
 
         @Override
         public Iterator<InteractionListener> iterator() {
@@ -133,7 +133,7 @@ public class ConfigurationImpl implements Configuration {
 
     private class ExceptionHandlersImpl implements ExceptionHandlers {
 
-        private List<ExceptionHandler> exceptionHandlers = Lists.newArrayList();
+        private Set<ExceptionHandler> exceptionHandlers = Sets.newLinkedHashSet();
 
         @Override
         public Iterator<ExceptionHandler> iterator() {
