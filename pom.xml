@@ -79,7 +79,7 @@
         <javassist.version>3.16.1-GA</javassist.version>
         <guice.version>3.0</guice.version>
         <servlet.version>2.5</servlet.version>
-        <hamcrest.version>1.2.1</hamcrest.version>
+        <hamcrest.version>1.3</hamcrest.version>
         <testng.version>6.8</testng.version>
         <mockito.version>1.9.0</mockito.version>
 

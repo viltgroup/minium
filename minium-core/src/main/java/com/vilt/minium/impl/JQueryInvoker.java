@@ -24,6 +24,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -120,8 +121,9 @@ public class JQueryInvoker {
             if (args != null)
                 System.arraycopy(args, 0, fullArgs, 1, args.length);
 
-            Object result = async ? wd.executeAsyncScript(lightInvokerScript(expression), fullArgs) : wd
-                    .executeScript(lightInvokerScript(expression), fullArgs);
+            Object result = async ?
+                    wd.executeAsyncScript(lightInvokerScript(expression), fullArgs) :
+                    wd.executeScript(lightInvokerScript(expression), fullArgs);
 
             if (result instanceof Boolean && !((Boolean) result).booleanValue()) {
                 fullArgs = args == null ? new Object[2] : new Object[args.length + 2];
@@ -129,13 +131,23 @@ public class JQueryInvoker {
                 fullArgs[1] = styles;
                 if (args != null)
                     System.arraycopy(args, 0, fullArgs, 2, args.length);
-                result = async ? wd.executeAsyncScript(fullInvokerScript(expression), fullArgs) : wd.executeScript(fullInvokerScript(expression), fullArgs);
+                result = async ?
+                        wd.executeAsyncScript(fullInvokerScript(expression), fullArgs) :
+                        wd.executeScript(fullInvokerScript(expression), fullArgs);
             }
 
             if (!(result instanceof List))
                 throw new IllegalStateException(format("Expected a list with the result in the first position..."));
 
-            return (T) ((List<?>) result).get(0);
+            List<?> resultAsList = (List<?>) result;
+            if (resultAsList.isEmpty()) return null;
+
+            if (resultAsList.get(0) instanceof WebElement) {
+                // it's an array of web elements
+                return (T) resultAsList;
+            }
+
+            return (T) resultAsList.get(0);
         } catch (Exception e) {
             throw new WebElementsException(e);
         }

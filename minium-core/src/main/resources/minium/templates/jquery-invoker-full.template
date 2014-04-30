@@ -14,9 +14,10 @@ minium = {
 		var result = fn();
 		if (result instanceof $) {
 			// converts result to a normal array
-			result = $.makeArray(result);
+			return $.makeArray(result);
+		} else {
+    		return [ result ];
 		}
-		return [ result ];
 	}
 };
 if (pagejQuery) {
@@ -43,7 +44,7 @@ return (function($, async, styles, args) {
 	}
 
 	// appends css styles to head
-	$("<style type='text/css'>\n" + styles + "</style>").appendTo($("head"));
+	if (styles) $("<style type='text/css'>\n" + styles + "</style>").appendTo($("head"));
 	
 	var fn = function() {
 		{{expression}}
