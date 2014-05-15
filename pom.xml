@@ -62,26 +62,28 @@
         <!-- Versions -->
         <target.jdk>1.6</target.jdk>
 
-        <selenium.version>2.40.0</selenium.version>
-        <guava.version>16.0.1</guava.version>
-        <phantomjsdriver.version>1.0.4</phantomjsdriver.version>
-        <spring.version>4.0.2.RELEASE</spring.version>
-        <spring.boot.version>1.0.0.RC4</spring.boot.version>
-        <tomcat.version>7.0.52</tomcat.version>
-        <jackson2.version>2.3.0</jackson2.version>
+        <selenium.version>2.41.0</selenium.version>
+        <guava.version>17.0</guava.version>
+        <phantomjsdriver.version>1.2.0</phantomjsdriver.version>
+        <spring.version>4.0.3.RELEASE</spring.version>
+        <spring.boot.version>1.0.2.RELEASE</spring.boot.version>
+        <tomcat.version>7.0.53</tomcat.version>
+        <jackson2.version>2.3.3</jackson2.version>
         <rhino.version>1.7R4</rhino.version>
-        <closure.version>v20131014</closure.version>
-        <slf4j.version>1.7.5</slf4j.version>
+        <closure.version>v20140407</closure.version>
+        <slf4j.version>1.7.7</slf4j.version>
         <log4j.version>1.2.17</log4j.version>
         <commons.io.version>2.4</commons.io.version>
-        <commons.lang3.version>3.1</commons.lang3.version>
+        <commons.lang3.version>3.3.2</commons.lang3.version>
         <jlayer.version>1.0.1</jlayer.version>
-        <javassist.version>3.16.1-GA</javassist.version>
+        <javassist.version>3.18.1-GA</javassist.version>
         <guice.version>3.0</guice.version>
         <servlet.version>2.5</servlet.version>
+        <args4j.version>2.0.28</args4j.version>
+        <jsr305.version>2.0.3</jsr305.version>
         <hamcrest.version>1.3</hamcrest.version>
-        <testng.version>6.8</testng.version>
-        <mockito.version>1.9.0</mockito.version>
+        <testng.version>6.8.8</testng.version>
+        <mockito.version>1.9.5</mockito.version>
 
         <!-- License properties -->
         <license.name>apache_v2</license.name>
@@ -187,7 +189,7 @@
             <dependency>
                 <groupId>args4j</groupId>
                 <artifactId>args4j</artifactId>
-                <version>2.0.26</version>
+                <version>${args4j.version}</version>
             </dependency>
 
             <!-- Jetty Server -->
@@ -338,7 +340,7 @@
                 </exclusions>
             </dependency>
             <dependency>
-                <groupId>com.github.detro.ghostdriver</groupId>
+                <groupId>com.github.detro</groupId>
                 <artifactId>phantomjsdriver</artifactId>
                 <version>${phantomjsdriver.version}</version>
                 <exclusions>
@@ -662,7 +664,7 @@
                 <plugin>
                     <groupId>com.ning.maven.plugins</groupId>
                     <artifactId>maven-duplicate-finder-plugin</artifactId>
-                    <version>1.0.4</version>
+                    <version>1.0.7</version>
                     <executions>
                         <execution>
                             <id>check-duplicates</id>
@@ -698,14 +700,25 @@
                                                 <version>${closure.version}</version>
                                             </dependency>
                                             <dependency>
-                                                <groupId>org.mozilla</groupId>
-                                                <artifactId>rhino</artifactId>
-                                                <version>${rhino.version}</version>
+                                                <groupId>com.google.javascript</groupId>
+                                                <artifactId>closure-compiler-rhino</artifactId>
+                                                <version>${closure.version}</version>
+                                                <classifier>shaded</classifier>
                                             </dependency>
                                         </conflictingDependencies>
                                         <packages>
-                                            <package>org.mozilla.classfile</package>
+                                            <package>com.google.javascript.rhino.head</package>
                                         </packages>
+                                        <resources>
+                                            <resource>com/google/javascript/rhino/head/resources/Messages.properties</resource>
+                                            <resource>com/google/javascript/rhino/head/resources/Messages_fr.properties</resource>
+                                            <resource>com/google/javascript/rhino/head/tools/debugger/build.xml</resource>
+                                            <resource>com/google/javascript/rhino/head/tools/debugger/test.js </resource>
+                                            <resource>com/google/javascript/rhino/head/tools/idswitch/README</resource>
+                                            <resource>com/google/javascript/rhino/head/tools/resources/Messages.properties</resource>
+                                            <resource>build.xml</resource>
+                                            <resource>manifest</resource>
+                                        </resources>
                                     </exception>
                                     <exception>
                                         <conflictingDependencies>

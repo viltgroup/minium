@@ -132,7 +132,7 @@
             <artifactId>args4j</artifactId>
         </dependency>
 		<dependency>
-			<groupId>com.github.detro.ghostdriver</groupId>
+			<groupId>com.github.detro</groupId>
 			<artifactId>phantomjsdriver</artifactId>
 		</dependency>
 		<dependency>

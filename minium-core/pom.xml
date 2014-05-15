@@ -74,7 +74,7 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.github.detro.ghostdriver</groupId>
+			<groupId>com.github.detro</groupId>
 			<artifactId>phantomjsdriver</artifactId>
 			<scope>test</scope>
 		</dependency>

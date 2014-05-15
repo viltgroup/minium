@@ -25,6 +25,8 @@
 		<copy todir="${target.dir}/jquery">
 			<fileset dir="${bower.dir}/jquery">
 				<include name=".bower.json" />
+			</fileset>
+			<fileset dir="${bower.dir}/jquery/dist">
 				<include name="jquery.min.js" />
 				<include name="jquery.min.map" />
 			</fileset>
