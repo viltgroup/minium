@@ -15,6 +15,8 @@
  */
 package com.vilt.minium.actions;
 
+import static com.vilt.minium.Offsets.at;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -25,6 +27,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.Duration;
+import com.vilt.minium.Offsets.Offset;
 import com.vilt.minium.TimeoutException;
 import com.vilt.minium.impl.actions.ButtonReleaseInteraction;
 import com.vilt.minium.impl.actions.CheckInteraction;
@@ -38,13 +41,11 @@ import com.vilt.minium.impl.actions.DeselectAllInteraction;
 import com.vilt.minium.impl.actions.DeselectInteraction;
 import com.vilt.minium.impl.actions.DeselectValInteraction;
 import com.vilt.minium.impl.actions.DoubleClickInteraction;
-import com.vilt.minium.impl.actions.DragAndDropByInteraction;
 import com.vilt.minium.impl.actions.DragAndDropInteraction;
 import com.vilt.minium.impl.actions.FillInteraction;
 import com.vilt.minium.impl.actions.GetInteraction;
 import com.vilt.minium.impl.actions.KeyDownInteraction;
 import com.vilt.minium.impl.actions.KeyUpInteraction;
-import com.vilt.minium.impl.actions.MoveByOffsetInteraction;
 import com.vilt.minium.impl.actions.MoveMouseInteraction;
 import com.vilt.minium.impl.actions.ScrollIntoViewInteraction;
 import com.vilt.minium.impl.actions.SelectAllInteraction;
@@ -172,7 +173,15 @@ public class InteractionPerformer {
      * @param elements the elements
      */
     public void clickAndHold(CoreWebElements<?> elements) {
-        perform(new ClickAndHoldInteraction(elements));
+        clickAndHold(elements, (Offset) null);
+    }
+
+    public void clickAndHold(CoreWebElements<?> elements, String offset) {
+        clickAndHold(elements, offset == null ? null : at(offset));
+    }
+
+    public void clickAndHold(CoreWebElements<?> elements, Offset offset) {
+        perform(new ClickAndHoldInteraction(elements, offset));
     }
 
     /**
@@ -181,7 +190,15 @@ public class InteractionPerformer {
      * @param elements the elements
      */
     public void release(CoreWebElements<?> elements) {
-        perform(new ButtonReleaseInteraction(elements));
+        release(elements, (Offset) null);
+    }
+
+    public void release(CoreWebElements<?> elements, String offset) {
+        release(elements, offset == null ? null : at(offset));
+    }
+
+    public void release(CoreWebElements<?> elements, Offset offset) {
+        perform(new ButtonReleaseInteraction(elements, offset));
     }
 
     /**
@@ -190,7 +207,15 @@ public class InteractionPerformer {
      * @param elements the elements
      */
     public void click(CoreWebElements<?> elements) {
-        perform(new ClickInteraction(elements));
+        click(elements, (Offset) null);
+    }
+
+    public void click(CoreWebElements<?> elements, String offset) {
+        click(elements, offset == null ? null : at(offset));
+    }
+
+    public void click(CoreWebElements<?> elements, Offset offset) {
+        perform(new ClickInteraction(elements, offset));
     }
 
     /**
@@ -199,7 +224,15 @@ public class InteractionPerformer {
      * @param elements the elements
      */
     public void doubleClick(CoreWebElements<?> elements) {
-        perform(new DoubleClickInteraction(elements));
+        doubleClick(elements, (Offset) null);
+    }
+
+    public void doubleClick(CoreWebElements<?> elements, String offset) {
+        doubleClick(elements, offset == null ? null : at(offset));
+    }
+
+    public void doubleClick(CoreWebElements<?> elements, Offset offset) {
+        perform(new DoubleClickInteraction(elements, offset));
     }
 
     /**
@@ -208,29 +241,15 @@ public class InteractionPerformer {
      * @param elements the elements
      */
     public void moveToElement(CoreWebElements<?> elements) {
-        perform(new MoveMouseInteraction(elements, 0, 0));
+        moveToElement(elements, (Offset) null);
     }
 
-    /**
-     * Move to element.
-     *
-     * @param elements the elements
-     * @param xOffset the x offset
-     * @param yOffset the y offset
-     */
-    public void moveToElement(CoreWebElements<?> elements, int xOffset, int yOffset) {
-        perform(new MoveMouseInteraction(elements, xOffset, yOffset));
+    public void moveToElement(CoreWebElements<?> elements, String offset) {
+        moveToElement(elements, offset == null ? null : at(offset));
     }
 
-    /**
-     * Move by offset.
-     *
-     * @param elements the elements
-     * @param xOffset the x offset
-     * @param yOffset the y offset
-     */
-    public void moveByOffset(CoreWebElements<?> elements, int xOffset, int yOffset) {
-        perform(new MoveByOffsetInteraction(elements, xOffset, yOffset));
+    public void moveToElement(CoreWebElements<?> elements, Offset offset) {
+        perform(new MoveMouseInteraction(elements, offset));
     }
 
     /**
@@ -239,7 +258,15 @@ public class InteractionPerformer {
      * @param elements the elements
      */
     public void contextClick(CoreWebElements<?> elements) {
-        perform(new ContextClickInteraction(elements));
+        contextClick(elements, (Offset) null);
+    }
+
+    public void contextClick(CoreWebElements<?> elements, String offset) {
+        contextClick(elements, offset == null ? null : at(offset));
+    }
+
+    public void contextClick(CoreWebElements<?> elements, Offset offset) {
+        perform(new ContextClickInteraction(elements, offset));
     }
 
     /**
@@ -252,17 +279,6 @@ public class InteractionPerformer {
         perform(new DragAndDropInteraction(source, target));
     }
 
-    /**
-     * Drag and drop by.
-     *
-     * @param source the source
-     * @param xOffset the x offset
-     * @param yOffset the y offset
-     */
-    public void dragAndDropBy(CoreWebElements<?> source, int xOffset, int yOffset) {
-        perform(new DragAndDropByInteraction(source, xOffset, yOffset));
-    }
-
     // additional methods
     /**
      * Click all.
@@ -270,7 +286,15 @@ public class InteractionPerformer {
      * @param elements the elements
      */
     public void clickAll(CoreWebElements<?> elements) {
-        perform(new ClickAllInteraction(elements));
+        clickAll(elements, (Offset) null);
+    }
+
+    public void clickAll(CoreWebElements<?> elements, String offset) {
+        clickAll(elements, offset == null ? null : at(offset));
+    }
+
+    public void clickAll(CoreWebElements<?> elements, Offset offset) {
+        perform(new ClickAllInteraction(elements, offset));
     }
 
     /**

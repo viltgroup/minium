@@ -15,7 +15,11 @@
  */
 package com.vilt.minium.impl.actions;
 
+import org.openqa.selenium.WebElement;
+
 import com.vilt.minium.CoreWebElements;
+import com.vilt.minium.Offsets.Offset;
+import com.vilt.minium.Point;
 
 /**
  * The Class ContextClickInteraction.
@@ -27,8 +31,8 @@ public class ContextClickInteraction extends MouseInteraction {
      *
      * @param source the source
      */
-    public ContextClickInteraction(CoreWebElements<?> source) {
-        super(source);
+    public ContextClickInteraction(CoreWebElements<?> source, Offset offset) {
+        super(source, offset);
     }
 
     /* (non-Javadoc)
@@ -36,10 +40,12 @@ public class ContextClickInteraction extends MouseInteraction {
      */
     @Override
     protected void doPerform() {
-        if (isSourceDocumentRoot()) {
-            getActions().contextClick().perform();
+        WebElement source = isSourceDocumentRoot() ? null : getFirstElement();
+        Point offsetPoint = getOffsetPoint(source);
+        if (offsetPoint == null) {
+            getActions().contextClick(source).perform();
         } else {
-            getActions().contextClick(getFirstElement()).perform();
+            getActions().moveToElement(source, offsetPoint.x(), offsetPoint.y()).contextClick().perform();
         }
     }
 }

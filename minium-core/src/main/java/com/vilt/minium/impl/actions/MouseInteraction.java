@@ -15,20 +15,38 @@
  */
 package com.vilt.minium.impl.actions;
 
+import org.openqa.selenium.WebElement;
+
 import com.vilt.minium.CoreWebElements;
+import com.vilt.minium.Dimension;
+import com.vilt.minium.Offsets.Offset;
+import com.vilt.minium.Point;
 
 /**
  * The Class MouseInteraction.
  */
 public abstract class MouseInteraction extends DefaultInteraction {
 
+    protected Offset offset;
+
     /**
      * Instantiates a new mouse interaction.
      *
      * @param elems the elems
+     * @param offset
      */
-    public MouseInteraction(CoreWebElements<?> elems) {
+    public MouseInteraction(CoreWebElements<?> elems, Offset offset) {
         super(elems);
+        this.offset = offset;
+    }
+
+    protected Point getOffsetPoint(WebElement source) {
+        if (source != null && offset != null) {
+            org.openqa.selenium.Dimension size = source.getSize();
+            Dimension dimension = new Dimension(size.width, size.height);
+            return offset.offset(dimension);
+        }
+        return null;
     }
 
 }

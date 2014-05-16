@@ -18,6 +18,8 @@ package com.vilt.minium.impl.actions;
 import org.openqa.selenium.WebElement;
 
 import com.vilt.minium.CoreWebElements;
+import com.vilt.minium.Offsets.Offset;
+import com.vilt.minium.Point;
 
 /**
  * The Class ClickAllInteraction.
@@ -29,8 +31,8 @@ public class ClickAllInteraction extends MouseInteraction {
      *
      * @param source the source
      */
-    public ClickAllInteraction(CoreWebElements<?> source) {
-        super(source);
+    public ClickAllInteraction(CoreWebElements<?> source, Offset offset) {
+        super(source, offset);
     }
 
     /*
@@ -41,11 +43,20 @@ public class ClickAllInteraction extends MouseInteraction {
     @Override
     protected void doPerform() {
         if (isSourceDocumentRoot()) {
-            getActions().click().perform();
+            click(null);
         } else {
-            for (WebElement elem : getSource()) {
-                elem.click();
+            for (WebElement source : getSource()) {
+                click(source);
             }
+        }
+    }
+
+    protected void click(WebElement source) {
+        Point offsetPoint = getOffsetPoint(source);
+        if (offsetPoint == null) {
+            getActions().click(source).perform();
+        } else {
+            getActions().moveToElement(source, offsetPoint.x(), offsetPoint.y()).click().perform();
         }
     }
 }

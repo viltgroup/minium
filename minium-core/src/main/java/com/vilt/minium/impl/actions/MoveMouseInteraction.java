@@ -15,15 +15,16 @@
  */
 package com.vilt.minium.impl.actions;
 
+import org.openqa.selenium.WebElement;
+
 import com.vilt.minium.CoreWebElements;
+import com.vilt.minium.Offsets.Offset;
+import com.vilt.minium.Point;
 
 /**
  * The Class MoveMouseInteraction.
  */
 public class MoveMouseInteraction extends MouseInteraction {
-
-    private int xOffset;
-    private int yOffset;
 
     /**
      * Instantiates a new move mouse interaction.
@@ -32,10 +33,8 @@ public class MoveMouseInteraction extends MouseInteraction {
      * @param xOffset the x offset
      * @param yOffset the y offset
      */
-    public MoveMouseInteraction(CoreWebElements<?> source, int xOffset, int yOffset) {
-        super(source);
-        this.xOffset = xOffset;
-        this.yOffset = yOffset;
+    public MoveMouseInteraction(CoreWebElements<?> source, Offset offset) {
+        super(source, offset);
     }
 
     /* (non-Javadoc)
@@ -43,6 +42,12 @@ public class MoveMouseInteraction extends MouseInteraction {
      */
     @Override
     protected void doPerform() {
-        getActions().moveToElement(getFirstElement(), xOffset, yOffset).perform();
+        WebElement source = isSourceDocumentRoot() ? null : getFirstElement();
+        Point offsetPoint = getOffsetPoint(source);
+        if (offsetPoint == null) {
+            getActions().moveToElement(source).perform();
+        } else {
+            getActions().moveToElement(source, offsetPoint.x(), offsetPoint.y()).perform();
+        }
     }
 }

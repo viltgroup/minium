@@ -15,7 +15,11 @@
  */
 package com.vilt.minium.impl.actions;
 
+import org.openqa.selenium.WebElement;
+
 import com.vilt.minium.CoreWebElements;
+import com.vilt.minium.Offsets.Offset;
+import com.vilt.minium.Point;
 
 /**
  * The Class ClickAndHoldInteraction.
@@ -27,8 +31,8 @@ public class ClickAndHoldInteraction extends MouseInteraction {
      *
      * @param source the source
      */
-    public ClickAndHoldInteraction(CoreWebElements<?> source) {
-        super(source);
+    public ClickAndHoldInteraction(CoreWebElements<?> source, Offset offset) {
+        super(source, offset);
     }
 
     /*
@@ -38,10 +42,12 @@ public class ClickAndHoldInteraction extends MouseInteraction {
      */
     @Override
     protected void doPerform() {
-        if (isSourceDocumentRoot()) {
-            getActions().clickAndHold().perform();
+        WebElement source = isSourceDocumentRoot() ? null : getFirstElement();
+        Point offsetPoint = getOffsetPoint(source);
+        if (offsetPoint == null) {
+            getActions().clickAndHold(source).perform();
         } else {
-            getActions().clickAndHold(getFirstElement()).perform();
+            getActions().moveToElement(source, offsetPoint.x(), offsetPoint.y()).clickAndHold().perform();
         }
     }
 

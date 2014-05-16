@@ -24,6 +24,7 @@ import org.openqa.selenium.Keys;
 
 import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.Duration;
+import com.vilt.minium.Offsets.Offset;
 import com.vilt.minium.TimeoutException;
 import com.vilt.minium.WebElementsDriver;
 import com.vilt.minium.impl.actions.RetryAfterWaitingWhileEmptyInteractionListener;
@@ -158,6 +159,14 @@ public class Interactions {
         defaultPerformer().clickAndHold(elements);
     }
 
+    public static void clickAndHold(CoreWebElements<?> elements, String offset) {
+        defaultPerformer().clickAndHold(elements, offset);
+    }
+
+    public static void clickAndHold(CoreWebElements<?> elements, Offset offset) {
+        defaultPerformer().clickAndHold(elements, offset);
+    }
+
     /**
      * Release.
      *
@@ -165,6 +174,14 @@ public class Interactions {
      */
     public static void release(CoreWebElements<?> elements) {
         defaultPerformer().release(elements);
+    }
+
+    public static void release(CoreWebElements<?> elements, String offset) {
+        defaultPerformer().release(elements, offset);
+    }
+
+    public static void release(CoreWebElements<?> elements, Offset offset) {
+        defaultPerformer().release(elements, offset);
     }
 
     /**
@@ -176,6 +193,14 @@ public class Interactions {
         defaultPerformer().click(elements);
     }
 
+    public static void click(CoreWebElements<?> elements, String offset) {
+        defaultPerformer().click(elements, offset);
+    }
+
+    public static void click(CoreWebElements<?> elements, Offset offset) {
+        defaultPerformer().click(elements, offset);
+    }
+
     /**
      * Double click.
      *
@@ -183,6 +208,14 @@ public class Interactions {
      */
     public static void doubleClick(CoreWebElements<?> elements) {
         defaultPerformer().doubleClick(elements);
+    }
+
+    public static void doubleClick(CoreWebElements<?> elements, String offset) {
+        defaultPerformer().doubleClick(elements, offset);
+    }
+
+    public static void doubleClick(CoreWebElements<?> elements, Offset offset) {
+        defaultPerformer().doubleClick(elements, offset);
     }
 
     /**
@@ -194,26 +227,12 @@ public class Interactions {
         defaultPerformer().moveToElement(elements);
     }
 
-    /**
-     * Move to element.
-     *
-     * @param elements the elements
-     * @param xOffset the x offset
-     * @param yOffset the y offset
-     */
-    public static void moveToElement(CoreWebElements<?> elements, int xOffset, int yOffset) {
-        defaultPerformer().moveToElement(elements, xOffset, yOffset);
+    public static void moveToElement(CoreWebElements<?> elements, String offset) {
+        defaultPerformer().moveToElement(elements, offset);
     }
 
-    /**
-     * Move by offset.
-     *
-     * @param elements the elements
-     * @param xOffset the x offset
-     * @param yOffset the y offset
-     */
-    public static void moveByOffset(CoreWebElements<?> elements, int xOffset, int yOffset) {
-        defaultPerformer().moveByOffset(elements, xOffset, yOffset);
+    public static void moveToElement(CoreWebElements<?> elements, Offset offset) {
+        defaultPerformer().moveToElement(elements, offset);
     }
 
     /**
@@ -223,6 +242,14 @@ public class Interactions {
      */
     public static void contextClick(CoreWebElements<?> elements) {
         defaultPerformer().contextClick(elements);
+    }
+
+    public static void contextClick(CoreWebElements<?> elements, String offset) {
+        defaultPerformer().contextClick(elements, offset);
+    }
+
+    public static void contextClick(CoreWebElements<?> elements, Offset offset) {
+        defaultPerformer().contextClick(elements, offset);
     }
 
     /**
@@ -235,17 +262,6 @@ public class Interactions {
         defaultPerformer().dragAndDrop(source, target);
     }
 
-    /**
-     * Drag and drop by.
-     *
-     * @param source the source
-     * @param xOffset the x offset
-     * @param yOffset the y offset
-     */
-    public static void dragAndDropBy(CoreWebElements<?> source, int xOffset, int yOffset) {
-        defaultPerformer().dragAndDropBy(source, xOffset, yOffset);
-    }
-
     // additional methods
     /**
      * Click all.
@@ -254,6 +270,12 @@ public class Interactions {
      */
     public static void clickAll(CoreWebElements<?> elements) {
         defaultPerformer().clickAll(elements);
+    }
+    public static void clickAll(CoreWebElements<?> elements, String offset) {
+        defaultPerformer().clickAll(elements, offset);
+    }
+    public static void clickAll(CoreWebElements<?> elements, Offset offset) {
+        defaultPerformer().clickAll(elements, offset);
     }
 
     /**

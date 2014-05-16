@@ -15,7 +15,11 @@
  */
 package com.vilt.minium.impl.actions;
 
+import org.openqa.selenium.WebElement;
+
 import com.vilt.minium.CoreWebElements;
+import com.vilt.minium.Offsets.Offset;
+import com.vilt.minium.Point;
 
 /**
  * The Class DoubleClickInteraction.
@@ -27,8 +31,8 @@ public class DoubleClickInteraction extends MouseInteraction {
      *
      * @param source the source
      */
-    public DoubleClickInteraction(CoreWebElements<?> source) {
-        super(source);
+    public DoubleClickInteraction(CoreWebElements<?> source, Offset offset) {
+        super(source, offset);
     }
 
     /*
@@ -38,10 +42,12 @@ public class DoubleClickInteraction extends MouseInteraction {
      */
     @Override
     protected void doPerform() {
-        if (isSourceDocumentRoot()) {
-            getActions().doubleClick().perform();
+        WebElement source = isSourceDocumentRoot() ? null : getFirstElement();
+        Point offsetPoint = getOffsetPoint(source);
+        if (offsetPoint == null) {
+            getActions().doubleClick(source).perform();
         } else {
-            getActions().doubleClick(getFirstElement()).perform();
+            getActions().moveToElement(source, offsetPoint.x(), offsetPoint.y()).doubleClick().perform();
         }
     }
 }

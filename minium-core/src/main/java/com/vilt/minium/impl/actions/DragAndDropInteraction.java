@@ -31,7 +31,7 @@ public class DragAndDropInteraction extends MouseInteraction {
      * @param target the target
      */
     public DragAndDropInteraction(CoreWebElements<?> source, CoreWebElements<?> target) {
-        super(source);
+        super(source, null);
         this.target = target;
     }
 

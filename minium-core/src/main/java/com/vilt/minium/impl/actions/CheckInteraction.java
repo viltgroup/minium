@@ -20,7 +20,7 @@ import com.vilt.minium.CoreWebElements;
 public class CheckInteraction extends ClickInteraction {
 
     public CheckInteraction(CoreWebElements<?> elems) {
-        super(elems);
+        super(elems, null);
     }
 
     @Override

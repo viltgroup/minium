@@ -20,7 +20,7 @@ import com.vilt.minium.CoreWebElements;
 public class UncheckInteraction extends ClickInteraction {
 
     public UncheckInteraction(CoreWebElements<?> elems) {
-        super(elems);
+        super(elems, null);
     }
 
     @Override

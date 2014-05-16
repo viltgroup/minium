@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.util.Collection;
 
 import com.google.common.base.Function;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import com.google.javascript.jscomp.CommandLineRunner;
@@ -60,6 +61,7 @@ public class ClosureCompressor implements Compressor {
     }
 
     public InputStream getClasspathFileInputStream(String filename) {
-        return JQueryInvoker.class.getClassLoader().getResourceAsStream(filename);
+        InputStream is = JQueryInvoker.class.getClassLoader().getResourceAsStream(filename);
+        return Preconditions.checkNotNull(is, "File %s not found in classpath", filename);
     }
 }
