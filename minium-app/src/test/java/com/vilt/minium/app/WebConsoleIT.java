@@ -149,7 +149,7 @@ public class WebConsoleIT extends AbstractTestNGSpringContextTests {
         runCode();
 
         // then
-        DefaultWebElements notification = notificationWithText("A minion is a loyal servant of another, usually a more powerful being.");
+        DefaultWebElements notification = notificationWithText("A minion is a loyal servant of another, usually more powerful, being.");
 
         assertTrue(checkNotEmpty(notification));
     }
