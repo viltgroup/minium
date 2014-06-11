@@ -58,7 +58,7 @@ This way, you can instruct Minium to do almost anything in a browser with a few 
 
 Ensure that the following software is installed:
 
-* [Java JDK 1.6+](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (**required**)
+* [Java JDK 1.7+](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (**required**)
   * Don't forget to set `JAVA_HOME` environment variable 
 * [Google Chrome](https://www.google.com/intl/en/chrome/browser/) (**required**)
   
