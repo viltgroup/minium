@@ -58,7 +58,7 @@ This way, you can instruct Minium to do almost anything in a browser with a few 
 
 Ensure that the following software is installed:
 
-* [Java JDK 1.6+](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (**required**)
+* [Java JDK 1.7+](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (**required**)
   * Don't forget to set `JAVA_HOME` environment variable 
 * [Google Chrome](https://www.google.com/intl/en/chrome/browser/) (**required**)
   
@@ -67,8 +67,8 @@ Ensure that the following software is installed:
 To install and run Minium App, just follow these instructions:
 
 * Download one of the following compressed files:
-  * [Zip archive](https://oss.sonatype.org/content/repositories/releases/com/vilt-group/minium/minium-app/0.9.2/minium-app-0.9.2-bin.zip)
-  * [Compressed tarball archive](https://oss.sonatype.org/content/repositories/releases/com/vilt-group/minium/minium-app/0.9.2/minium-app-0.9.2-bin.tar.gz)
+  * [Zip archive](https://oss.sonatype.org/content/repositories/releases/com/vilt-group/minium/minium-app/0.9.3/minium-app-0.9.3-bin.zip)
+  * [Compressed tarball archive](https://oss.sonatype.org/content/repositories/releases/com/vilt-group/minium/minium-app/0.9.3/minium-app-0.9.3-bin.tar.gz)
 * Uncompress it in some folder (e.g. `c:\Tools\minium-app`)
 * By default, Selenium (and therefore Minium) can run Firefox out of the box. For other browsers, you will need specific drivers. Just download the ones you want to use (see links below) and place the corresponding executable files in `drivers` folder:
   * [Chrome Driver](http://chromedriver.storage.googleapis.com/index.html)
