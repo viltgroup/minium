@@ -71,11 +71,14 @@ public class WebConsolePreferences extends BasePreferences {
             // Based on expected Chrome default locations:
             // https://code.google.com/p/selenium/wiki/ChromeDriver
             if (SystemUtils.IS_OS_WINDOWS_XP) {
-                return oneOf(new File(System.getenv("HOMEPATH"), "Local Settings\\Application Data\\Google\\Chrome\\Application\\chrome.exe"),
+                return oneOf(
+                        new File(System.getenv("HOMEPATH"), "Local Settings\\Application Data\\Google\\Chrome\\Application\\chrome.exe"),
                         new File(System.getenv("PROGRAMFILES"), "Google\\Chrome\\Application\\chrome.exe"));
             } else if (SystemUtils.IS_OS_WINDOWS) {
-                return oneOf(new File(format("C:\\Users\\%s\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe", System.getenv("USERNAME"))), new File(
-                        System.getenv("PROGRAMFILES"), "Google\\Chrome\\Application\\chrome.exe"));
+                return oneOf(
+                        new File(format("C:\\Users\\%s\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe", System.getenv("USERNAME"))),
+                        new File(System.getenv("PROGRAMFILES"), "Google\\Chrome\\Application\\chrome.exe"),
+                        new File(System.getenv("ProgramFiles(x86)"), "Google\\Chrome\\Application\\chrome.exe"));
             } else if (SystemUtils.IS_OS_LINUX) {
                 return new File("/usr/bin/google-chrome");
             } else if (SystemUtils.IS_OS_MAC_OSX) {
