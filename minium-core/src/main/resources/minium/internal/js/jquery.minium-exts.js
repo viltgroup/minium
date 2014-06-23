@@ -52,11 +52,13 @@
   };
 
   $.fn.withLabel = function(text) {
-    var id = $("label[for]").withText(text).attr("for");
+    var ids = $.map($("label[for]").withText(text), function (elem) { return $(elem).attr("for") });
 
-    if (!id) return $();
+    if (ids.length === 0) return $();
 
-    return $(this).filter("#" + escapeSelector(id));
+    return $(this).filter(function () {
+      return ids.indexOf($(this).attr("id")) >= 0;
+    });
   };
 
   $.fn.withValue = function(value) {
