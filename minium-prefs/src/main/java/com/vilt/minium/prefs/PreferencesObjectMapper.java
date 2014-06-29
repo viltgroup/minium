@@ -64,6 +64,10 @@ public class PreferencesObjectMapper extends ObjectMapper {
                                 public String getValueAsString(String defaultVal) throws IOException, JsonParseException {
                                     return SystemPropertyUtils.resolvePlaceholders(super.getValueAsString(defaultVal), true);
                                 }
+                                @Override
+                                public String getText() throws IOException, JsonParseException {
+                                    return SystemPropertyUtils.resolvePlaceholders(super.getText(), true);
+                                }
                             }, ctxt);
                         }
 

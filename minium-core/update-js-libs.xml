@@ -20,8 +20,8 @@
 		<copy todir="${target.dir}/jquery-ui">
 			<fileset dir="${bower.dir}/jquery-ui">
 				<include name=".bower.json" />
-				<include name="ui/minified/jquery.ui.effect.min.js" /> 
-				<include name="ui/minified/jquery.ui.effect-highlight.min.js" />
+				<include name="ui/minified/effect.min.js" /> 
+				<include name="ui/minified/effect-highlight.min.js" />
 			</fileset>
 		</copy>
 		

@@ -62,20 +62,20 @@
         <!-- Versions -->
         <target.jdk>1.6</target.jdk>
 
-        <selenium.version>2.41.0</selenium.version>
+        <selenium.version>2.42.2</selenium.version>
         <guava.version>17.0</guava.version>
         <phantomjsdriver.version>1.2.0</phantomjsdriver.version>
-        <spring.version>4.0.3.RELEASE</spring.version>
-        <spring.boot.version>1.0.2.RELEASE</spring.boot.version>
-        <tomcat.version>7.0.53</tomcat.version>
-        <jackson2.version>2.3.3</jackson2.version>
+        <spring.version>4.0.5.RELEASE</spring.version>
+        <spring.boot.version>1.1.3.RELEASE</spring.boot.version>
+        <tomcat.version>7.0.54</tomcat.version>
+        <jackson2.version>2.4.1</jackson2.version>
         <rhino.version>1.7R4</rhino.version>
         <slf4j.version>1.7.7</slf4j.version>
         <log4j.version>1.2.17</log4j.version>
         <commons.io.version>2.4</commons.io.version>
         <commons.lang3.version>3.3.2</commons.lang3.version>
         <jlayer.version>1.0.1</jlayer.version>
-        <javassist.version>3.18.1-GA</javassist.version>
+        <javassist.version>3.18.2-GA</javassist.version>
         <guice.version>3.0</guice.version>
         <servlet.version>2.5</servlet.version>
         <args4j.version>2.0.28</args4j.version>
@@ -86,7 +86,7 @@
 
         <!-- latest closure compiler versions are only JDK 1.7 compatible, so for JDK 1.76 we use the last compatible version -->        
         <closure.version.jdk16>v20131014</closure.version.jdk16>
-        <closure.version.jdk17>v20140508</closure.version.jdk17>
+        <closure.version.jdk17>v20140625</closure.version.jdk17>
 
         <!-- License properties -->
         <license.name>apache_v2</license.name>
@@ -1000,27 +1000,5 @@
             </properties>
         </profile>
     </profiles>
-
-    <repositories>
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>http://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>http://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
 
 </project>
