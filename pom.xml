@@ -70,7 +70,6 @@
         <tomcat.version>7.0.53</tomcat.version>
         <jackson2.version>2.3.3</jackson2.version>
         <rhino.version>1.7R4</rhino.version>
-        <closure.version>v20140407</closure.version>
         <slf4j.version>1.7.7</slf4j.version>
         <log4j.version>1.2.17</log4j.version>
         <commons.io.version>2.4</commons.io.version>
@@ -84,6 +83,10 @@
         <hamcrest.version>1.3</hamcrest.version>
         <testng.version>6.8.8</testng.version>
         <mockito.version>1.9.5</mockito.version>
+
+        <!-- latest closure compiler versions are only JDK 1.7 compatible, so for JDK 1.76 we use the last compatible version -->        
+        <closure.version.jdk16>v20131014</closure.version.jdk16>
+        <closure.version.jdk17>v20140508</closure.version.jdk17>
 
         <!-- License properties -->
         <license.name>apache_v2</license.name>
@@ -533,6 +536,7 @@
                         <failsOnError>true</failsOnError>
                         <linkXRef>false</linkXRef>
                         <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                        <includes>com/vilt/minium/**/*.java</includes>
                     </configuration>
                     <executions>
                         <execution>
@@ -665,6 +669,172 @@
                     <groupId>com.ning.maven.plugins</groupId>
                     <artifactId>maven-duplicate-finder-plugin</artifactId>
                     <version>1.0.7</version>
+                    <configuration>
+                        <failBuildInCaseOfConflict>true</failBuildInCaseOfConflict>
+                        <exceptions>
+                            <exception>
+                                <conflictingDependencies>
+                                    <dependency>
+                                        <groupId>commons-beanutils</groupId>
+                                        <artifactId>commons-beanutils</artifactId>
+                                        <version>[1.0,)</version>
+                                    </dependency>
+                                    <dependency>
+                                        <groupId>commons-collections</groupId>
+                                        <artifactId>commons-collections</artifactId>
+                                        <version>[1.0,)</version>
+                                    </dependency>
+                                </conflictingDependencies>
+                                <packages>
+                                    <package>org.apache.commons.collections</package>
+                                </packages>
+                            </exception>
+                            <exception>
+                                <conflictingDependencies>
+                                    <dependency>
+                                        <groupId>org.bouncycastle</groupId>
+                                        <artifactId>bcpkix-jdk15on</artifactId>
+                                        <version>[1.0,)</version>
+                                    </dependency>
+                                    <dependency>
+                                        <groupId>org.bouncycastle</groupId>
+                                        <artifactId>bcprov-jdk15on</artifactId>
+                                        <version>[1.0,)</version>
+                                    </dependency>
+                                </conflictingDependencies>
+                                <resources>
+                                    <resource>META-INF/BCKEY.DSA</resource>
+                                    <resource>META-INF/BCKEY.SF</resource>
+                                </resources>
+                            </exception>
+                            <exception>
+                                <conflictingDependencies>
+                                    <dependency>
+                                        <groupId>org.springframework</groupId>
+                                        <artifactId>spring-beans</artifactId>
+                                        <version>${spring.version}</version>
+                                    </dependency>
+                                    <dependency>
+                                        <groupId>org.springframework.boot</groupId>
+                                        <artifactId>spring-boot</artifactId>
+                                        <version>${spring.boot.version}</version>
+                                    </dependency>
+                                    <dependency>
+                                        <groupId>org.springframework.boot</groupId>
+                                        <artifactId>spring-boot-autoconfigure</artifactId>
+                                        <version>${spring.boot.version}</version>
+                                    </dependency>
+                                    <dependency>
+                                        <groupId>org.springframework.boot</groupId>
+                                        <artifactId>spring-boot-actuator</artifactId>
+                                        <version>${spring.boot.version}</version>
+                                    </dependency>
+                                </conflictingDependencies>
+                                <resources>
+                                    <resource>META-INF/spring.factories</resource>
+                                </resources>
+                            </exception>
+                            <exception>
+                                <conflictingDependencies>
+                                    <dependency>
+                                        <groupId>org.springframework.boot</groupId>
+                                        <artifactId>spring-boot-starter</artifactId>
+                                        <version>${spring.boot.version}</version>
+                                    </dependency>
+                                    <dependency>
+                                        <groupId>org.springframework.boot</groupId>
+                                        <artifactId>spring-boot-starter-actuator</artifactId>
+                                        <version>${spring.boot.version}</version>
+                                    </dependency>
+                                    <dependency>
+                                        <groupId>org.springframework.boot</groupId>
+                                        <artifactId>spring-boot-starter-logging</artifactId>
+                                        <version>${spring.boot.version}</version>
+                                    </dependency>
+                                    <dependency>
+                                        <groupId>org.springframework.boot</groupId>
+                                        <artifactId>spring-boot-starter-tomcat</artifactId>
+                                        <version>${spring.boot.version}</version>
+                                    </dependency>
+                                    <dependency>
+                                        <groupId>org.springframework.boot</groupId>
+                                        <artifactId>spring-boot-starter-web</artifactId>
+                                        <version>${spring.boot.version}</version>
+                                    </dependency>
+                                </conflictingDependencies>
+                                <resources>
+                                    <resource>META-INF/spring.provides</resource>
+                                </resources>
+                            </exception>
+                            <exception>
+                                <conflictingDependencies>
+                                    <dependency>
+                                        <groupId>org.apache.tomcat.embed</groupId>
+                                        <artifactId>tomcat-embed-core</artifactId>
+                                        <version>${tomcat.version}</version>
+                                    </dependency>
+                                    <dependency>
+                                        <groupId>org.springframework</groupId>
+                                        <artifactId>spring-web</artifactId>
+                                        <version>${spring.version}</version>
+                                    </dependency>
+                                </conflictingDependencies>
+                                <resources>
+                                    <resource>META-INF/web-fragment.xml</resource>
+                                </resources>
+                            </exception>
+                            <!-- for closure compatible with JDK 1.7 -->
+                            <exception>
+                                <conflictingDependencies>
+                                    <dependency>
+                                        <groupId>com.google.javascript</groupId>
+                                        <artifactId>closure-compiler</artifactId>
+                                        <version>${closure.version.jdk17}</version>
+                                    </dependency>
+                                    <dependency>
+                                        <groupId>com.google.javascript</groupId>
+                                        <artifactId>closure-compiler-rhino</artifactId>
+                                        <version>${closure.version.jdk17}</version>
+                                        <classifier>shaded</classifier>
+                                    </dependency>
+                                </conflictingDependencies>
+                                <packages>
+                                    <package>com.google.javascript.rhino.head</package>
+                                </packages>
+                                <resources>
+                                    <resource>com/google/javascript/rhino/head/resources/Messages.properties</resource>
+                                    <resource>com/google/javascript/rhino/head/resources/Messages_fr.properties</resource>
+                                    <resource>com/google/javascript/rhino/head/tools/debugger/build.xml</resource>
+                                    <resource>com/google/javascript/rhino/head/tools/debugger/test.js </resource>
+                                    <resource>com/google/javascript/rhino/head/tools/idswitch/README</resource>
+                                    <resource>com/google/javascript/rhino/head/tools/resources/Messages.properties</resource>
+                                    <resource>build.xml</resource>
+                                    <resource>manifest</resource>
+                                </resources>
+                            </exception>
+                            <!-- for closure compatible with JDK 1.6 -->
+                            <exception>
+                                <conflictingDependencies>
+                                    <dependency>
+                                        <groupId>com.google.javascript</groupId>
+                                        <artifactId>closure-compiler</artifactId>
+                                        <version>${closure.version.jdk16}</version>
+                                    </dependency>
+                                    <dependency>
+                                        <groupId>org.mozilla</groupId>
+                                        <artifactId>rhino</artifactId>
+                                        <version>${rhino.version.jdk16}</version>
+                                    </dependency>
+                                </conflictingDependencies>
+                                <packages>
+                                    <package>org.mozilla.classfile</package>
+                                </packages>
+                            </exception>
+                        </exceptions>
+                        <ignoredResources>
+                            <ignoredResource>about\.html</ignoredResource>
+                        </ignoredResources>
+                    </configuration>
                     <executions>
                         <execution>
                             <id>check-duplicates</id>
@@ -672,153 +842,6 @@
                             <goals>
                                 <goal>check</goal>
                             </goals>
-                            <configuration>
-                                <failBuildInCaseOfConflict>true</failBuildInCaseOfConflict>
-                                <exceptions>
-                                    <exception>
-                                        <conflictingDependencies>
-                                            <dependency>
-                                                <groupId>commons-beanutils</groupId>
-                                                <artifactId>commons-beanutils</artifactId>
-                                                <version>[1.0,)</version>
-                                            </dependency>
-                                            <dependency>
-                                                <groupId>commons-collections</groupId>
-                                                <artifactId>commons-collections</artifactId>
-                                                <version>[1.0,)</version>
-                                            </dependency>
-                                        </conflictingDependencies>
-                                        <packages>
-                                            <package>org.apache.commons.collections</package>
-                                        </packages>
-                                    </exception>
-                                    <exception>
-                                        <conflictingDependencies>
-                                            <dependency>
-                                                <groupId>com.google.javascript</groupId>
-                                                <artifactId>closure-compiler</artifactId>
-                                                <version>${closure.version}</version>
-                                            </dependency>
-                                            <dependency>
-                                                <groupId>com.google.javascript</groupId>
-                                                <artifactId>closure-compiler-rhino</artifactId>
-                                                <version>${closure.version}</version>
-                                                <classifier>shaded</classifier>
-                                            </dependency>
-                                        </conflictingDependencies>
-                                        <packages>
-                                            <package>com.google.javascript.rhino.head</package>
-                                        </packages>
-                                        <resources>
-                                            <resource>com/google/javascript/rhino/head/resources/Messages.properties</resource>
-                                            <resource>com/google/javascript/rhino/head/resources/Messages_fr.properties</resource>
-                                            <resource>com/google/javascript/rhino/head/tools/debugger/build.xml</resource>
-                                            <resource>com/google/javascript/rhino/head/tools/debugger/test.js </resource>
-                                            <resource>com/google/javascript/rhino/head/tools/idswitch/README</resource>
-                                            <resource>com/google/javascript/rhino/head/tools/resources/Messages.properties</resource>
-                                            <resource>build.xml</resource>
-                                            <resource>manifest</resource>
-                                        </resources>
-                                    </exception>
-                                    <exception>
-                                        <conflictingDependencies>
-                                            <dependency>
-                                                <groupId>org.bouncycastle</groupId>
-                                                <artifactId>bcpkix-jdk15on</artifactId>
-                                                <version>[1.0,)</version>
-                                            </dependency>
-                                            <dependency>
-                                                <groupId>org.bouncycastle</groupId>
-                                                <artifactId>bcprov-jdk15on</artifactId>
-                                                <version>[1.0,)</version>
-                                            </dependency>
-                                        </conflictingDependencies>
-                                        <resources>
-                                            <resource>META-INF/BCKEY.DSA</resource>
-                                            <resource>META-INF/BCKEY.SF</resource>
-                                        </resources>
-                                    </exception>
-                                    <exception>
-                                        <conflictingDependencies>
-                                            <dependency>
-                                                <groupId>org.springframework</groupId>
-                                                <artifactId>spring-beans</artifactId>
-                                                <version>${spring.version}</version>
-                                            </dependency>
-                                            <dependency>
-                                                <groupId>org.springframework.boot</groupId>
-                                                <artifactId>spring-boot</artifactId>
-                                                <version>${spring.boot.version}</version>
-                                            </dependency>
-                                            <dependency>
-                                                <groupId>org.springframework.boot</groupId>
-                                                <artifactId>spring-boot-autoconfigure</artifactId>
-                                                <version>${spring.boot.version}</version>
-                                            </dependency>
-                                            <dependency>
-                                                <groupId>org.springframework.boot</groupId>
-                                                <artifactId>spring-boot-actuator</artifactId>
-                                                <version>${spring.boot.version}</version>
-                                            </dependency>
-                                        </conflictingDependencies>
-                                        <resources>
-                                            <resource>META-INF/spring.factories</resource>
-                                        </resources>
-                                    </exception>
-                                    <exception>
-                                        <conflictingDependencies>
-                                            <dependency>
-                                                <groupId>org.springframework.boot</groupId>
-                                                <artifactId>spring-boot-starter</artifactId>
-                                                <version>${spring.boot.version}</version>
-                                            </dependency>
-                                            <dependency>
-                                                <groupId>org.springframework.boot</groupId>
-                                                <artifactId>spring-boot-starter-actuator</artifactId>
-                                                <version>${spring.boot.version}</version>
-                                            </dependency>
-                                            <dependency>
-                                                <groupId>org.springframework.boot</groupId>
-                                                <artifactId>spring-boot-starter-logging</artifactId>
-                                                <version>${spring.boot.version}</version>
-                                            </dependency>
-                                            <dependency>
-                                                <groupId>org.springframework.boot</groupId>
-                                                <artifactId>spring-boot-starter-tomcat</artifactId>
-                                                <version>${spring.boot.version}</version>
-                                            </dependency>
-                                            <dependency>
-                                                <groupId>org.springframework.boot</groupId>
-                                                <artifactId>spring-boot-starter-web</artifactId>
-                                                <version>${spring.boot.version}</version>
-                                            </dependency>
-                                        </conflictingDependencies>
-                                        <resources>
-                                            <resource>META-INF/spring.provides</resource>
-                                        </resources>
-                                    </exception>
-                                    <exception>
-                                        <conflictingDependencies>
-                                            <dependency>
-                                                <groupId>org.apache.tomcat.embed</groupId>
-                                                <artifactId>tomcat-embed-core</artifactId>
-                                                <version>${tomcat.version}</version>
-                                            </dependency>
-                                            <dependency>
-                                                <groupId>org.springframework</groupId>
-                                                <artifactId>spring-web</artifactId>
-                                                <version>${spring.version}</version>
-                                            </dependency>
-                                        </conflictingDependencies>
-                                        <resources>
-                                            <resource>META-INF/web-fragment.xml</resource>
-                                        </resources>
-                                    </exception>
-                                </exceptions>
-                                <ignoredResources>
-                                    <ignoredResource>about\.html</ignoredResource>
-                                </ignoredResources>
-                            </configuration>
                         </execution>
                     </executions>
                 </plugin>
@@ -957,6 +980,24 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile> 
+        <profile>
+            <id>jdk-1.6</id>
+            <activation>
+                <jdk>[1.6,1.7)</jdk>
+            </activation>
+            <properties>
+                <closure.version>${closure.version.jdk16}</closure.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>jdk-1.7</id>
+            <activation>
+                <jdk>[1.7,</jdk>
+            </activation>
+            <properties>
+                <closure.version>${closure.version.jdk17}</closure.version>
+            </properties>
         </profile>
     </profiles>
 
