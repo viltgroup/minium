@@ -96,7 +96,7 @@ highlight(searchbox);
 
 speak("Minium = Minion + Selenium. Let's find out what is a Minion.");
 
-fill(searchbox, "Minion site:wikipedia.org");
+fill(searchbox, "what is a minion");
 sendKeys(searchbox, [ Keys.ENTER ]);
 
 firstResult = $(wd, "h3 a").first();

@@ -134,7 +134,7 @@ public class WebConsoleIT extends AbstractTestNGSpringContextTests {
         String code = Joiner.on("\n").join(
                 "get(wd, \"http://www.google.com/ncr\");",
                 "var searchbox = $(wd, \":text\").withName(\"q\");",
-                "fill(searchbox, \"Minion site:wikipedia.org\");",
+                "fill(searchbox, \"what is a minion\");",
                 "sendKeys(searchbox, Keys.ENTER);",
                 "var firstResult = $(wd, \"h3 a\").first();",
                 "click(firstResult);",
