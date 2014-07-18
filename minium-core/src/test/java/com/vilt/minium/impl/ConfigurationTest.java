@@ -15,7 +15,7 @@
  */
 package com.vilt.minium.impl;
 
-import static com.vilt.minium.ExceptionHandlers.alwaysAcceptUnhandledAlerts;
+import static com.vilt.minium.actions.Interactions.alwaysAcceptUnhandledAlerts;
 import static com.vilt.minium.actions.Interactions.retry;
 import static com.vilt.minium.actions.Interactions.slowMotion;
 import static org.hamcrest.CoreMatchers.equalTo;

@@ -16,6 +16,7 @@
 package com.vilt.minium.impl.actions;
 
 import static com.vilt.minium.impl.WaitPredicates.whileEmpty;
+import static com.vilt.minium.impl.Waits.waitForPredicate;
 
 import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.TimeoutException;
@@ -42,9 +43,9 @@ public class WaitWhileEmptyInteraction extends WaitInteraction {
     @Override
     protected void doPerform() throws TimeoutException {
         if (getWaitingPreset() != null) {
-            wait(getSource(), getWaitingPreset(), whileEmpty());
+            waitForPredicate(getSource(), getWaitingPreset(), whileEmpty());
         } else {
-            wait(getSource(), getTimeout(), getInterval(), whileEmpty());
+            waitForPredicate(getSource(), getTimeout(), getInterval(), whileEmpty());
         }
     }
 }

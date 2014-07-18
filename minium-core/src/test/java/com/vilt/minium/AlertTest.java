@@ -16,6 +16,7 @@
 package com.vilt.minium;
 
 import static com.vilt.minium.Minium.$;
+import static com.vilt.minium.actions.Interactions.alwaysAcceptUnhandledAlerts;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -69,7 +70,7 @@ public class AlertTest extends MiniumBaseTest {
     @Test(enabled = false)
     public void testAlertCatch() {
         wd.configure().defaultTimeout(3, TimeUnit.SECONDS);
-        wd.configure().exceptionHandlers().add(ExceptionHandlers.alwaysAcceptUnhandledAlerts());
+        wd.configure().exceptionHandlers().add(alwaysAcceptUnhandledAlerts());
 
         Interactions.waitTime(3, SECONDS);
         DefaultWebElements elem = $(wd, "h2");

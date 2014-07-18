@@ -134,10 +134,10 @@ public class WebConsoleIT extends AbstractTestNGSpringContextTests {
         String code = Joiner.on("\n").join(
                 "get(wd, \"http://www.google.com/ncr\");",
                 "var searchbox = $(wd, \":text\").withName(\"q\");",
-                "fill(searchbox, \"what is a minion\");",
+                "fill(searchbox, \"minion site:wikipedia.org\");",
                 "sendKeys(searchbox, Keys.ENTER);",
-                "var firstResult = $(wd, \"h3 a\").first();",
-                "click(firstResult);",
+                "var wikipediaResult = $(wd, \"h3 a\").withText(\"Minion - Wikipedia, the free encyclopedia\");",
+                "click(wikipediaResult);",
                 "var firstParagraph = $(wd, \"#mw-content-text p\").first();");
         aceEditor().writeCode(code, true);
         runCode();

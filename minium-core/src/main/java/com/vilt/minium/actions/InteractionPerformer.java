@@ -23,7 +23,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.Keys;
 
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.Duration;
@@ -55,8 +54,6 @@ import com.vilt.minium.impl.actions.SendKeysInteraction;
 import com.vilt.minium.impl.actions.SubmitInteraction;
 import com.vilt.minium.impl.actions.TypeInteraction;
 import com.vilt.minium.impl.actions.UncheckInteraction;
-import com.vilt.minium.impl.actions.WaitOrTimeoutForElementsInteraction;
-import com.vilt.minium.impl.actions.WaitOrTimeoutWhileElementsInteraction;
 import com.vilt.minium.impl.actions.WaitTimeInteraction;
 import com.vilt.minium.impl.actions.WaitWhileEmptyInteraction;
 import com.vilt.minium.impl.actions.WaitWhileNotEmptyInteraction;
@@ -399,8 +396,12 @@ public class InteractionPerformer {
      * @return true, if successful
      */
     public boolean checkNotEmpty(CoreWebElements<?> elems) {
-        perform(new WaitOrTimeoutForElementsInteraction(elems));
-        return !Iterables.isEmpty(elems);
+        try {
+            perform(new WaitWhileEmptyInteraction(elems));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 
     /**
@@ -410,8 +411,12 @@ public class InteractionPerformer {
      * @return true, if successful
      */
     public boolean checkEmpty(CoreWebElements<?> elems) {
-        perform(new WaitOrTimeoutWhileElementsInteraction(elems));
-        return Iterables.isEmpty(elems);
+        try {
+            perform(new WaitWhileNotEmptyInteraction(elems));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 
     /**

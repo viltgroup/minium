@@ -106,7 +106,13 @@ public class ConfigurationImpl implements Configuration {
 
     private class InteractionListenersImpl implements InteractionListeners {
 
+        private final ExceptionHandlersInteractionListenerAdapter exceptionHandlersAdapter = new ExceptionHandlersInteractionListenerAdapter();
+
         private Set<InteractionListener> interactionListeners = Sets.newLinkedHashSet();
+
+        public InteractionListenersImpl() {
+            interactionListeners.add(exceptionHandlersAdapter);
+        }
 
         @Override
         public Iterator<InteractionListener> iterator() {
@@ -122,6 +128,13 @@ public class ConfigurationImpl implements Configuration {
         @Override
         public InteractionListeners remove(InteractionListener interactionListener) {
             interactionListeners.remove(interactionListener);
+            return this;
+        }
+
+        @Override
+        public InteractionListeners clear() {
+            interactionListeners.clear();
+            interactionListeners.add(exceptionHandlersAdapter);
             return this;
         }
 
@@ -153,6 +166,12 @@ public class ConfigurationImpl implements Configuration {
         }
 
         @Override
+        public ExceptionHandlers clear() {
+            exceptionHandlers.clear();
+            return this;
+        }
+
+        @Override
         public Configuration done() {
             return ConfigurationImpl.this;
         }
@@ -167,7 +186,6 @@ public class ConfigurationImpl implements Configuration {
     private ExceptionHandlers exceptionHandlers = new ExceptionHandlersImpl();
 
     public ConfigurationImpl() {
-        interactionListeners.add(new ExceptionHandlersInteractionListenerAdapter());
     }
 
     /* (non-Javadoc)

@@ -17,6 +17,7 @@ package com.vilt.minium.impl.actions;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.vilt.minium.impl.WaitPredicates.whileEmpty;
+import static com.vilt.minium.impl.Waits.waitForPredicate;
 
 import java.util.List;
 
@@ -26,22 +27,15 @@ import org.openqa.selenium.internal.WrapsDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Function;
-import com.google.common.base.Functions;
-import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
-import com.vilt.minium.Configuration;
-import com.vilt.minium.Configuration.WaitingPreset;
 import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.Duration;
-import com.vilt.minium.TimeoutException;
 import com.vilt.minium.actions.Interaction;
 import com.vilt.minium.actions.InteractionEvent;
 import com.vilt.minium.actions.InteractionEvent.Type;
 import com.vilt.minium.actions.InteractionListener;
 import com.vilt.minium.impl.DocumentRootWebElementsImpl;
 import com.vilt.minium.impl.WebElementsDriverProvider;
-import com.vilt.minium.impl.WebElementsWait;
 
 /**
  * The Class DefaultInteraction.
@@ -108,9 +102,9 @@ public abstract class DefaultInteraction implements Interaction {
     public void waitToPerform() {
         if (source != null) {
             if (preset != null) {
-                wait(source, preset, whileEmpty());
+                waitForPredicate(source, preset, whileEmpty());
             } else {
-                wait(source, timeout, interval, whileEmpty());
+                waitForPredicate(source, timeout, interval, whileEmpty());
             }
         }
     }
@@ -287,54 +281,4 @@ public abstract class DefaultInteraction implements Interaction {
         return getSource() instanceof DocumentRootWebElementsImpl;
     }
 
-    protected void wait(CoreWebElements<?> webElements, String preset, Predicate<? super CoreWebElements<?>> predicate) {
-        WaitingPreset waitingPreset = configure().waitingPreset(preset);
-        wait(webElements, waitingPreset.timeout(), waitingPreset.interval(), predicate);
-    }
-
-    protected void wait(CoreWebElements<?> webElements, Duration timeout, Duration interval, Predicate<? super CoreWebElements<?>> predicate) {
-        if (timeout == null) {
-            timeout = configure().defaultTimeout();
-        }
-        if (interval == null) {
-            interval = configure().defaultInterval();
-        }
-
-        WebElementsWait wait = getWait(timeout, interval);
-
-        Function<? super CoreWebElements<?>, Boolean> function = Functions.forPredicate(predicate);
-        wait.until(function);
-    }
-
-    protected void waitOrTimeout(CoreWebElements<?> webElements, String preset, Predicate<? super CoreWebElements<?>> predicate) {
-        WaitingPreset waitingPreset = configure().waitingPreset(preset);
-        waitOrTimeout(webElements, waitingPreset.timeout(), waitingPreset.interval(), predicate);
-    }
-
-    protected void waitOrTimeout(CoreWebElements<?> webElements, Duration timeout, Duration interval, Predicate<? super CoreWebElements<?>> predicate) {
-        if (timeout == null) {
-            timeout = configure().defaultTimeout();
-        }
-        if (interval == null) {
-            interval = configure().defaultInterval();
-        }
-
-        WebElementsWait wait = getWait(timeout, interval);
-
-        Function<? super CoreWebElements<?>, Boolean> function = Functions.forPredicate(predicate);
-
-        try {
-            wait.until(function);
-        } catch (TimeoutException e) {
-            // ignore
-        }
-    }
-
-    private WebElementsWait getWait(Duration timeout, Duration interval) {
-        return new WebElementsWait(getSource(), timeout, interval);
-    }
-
-    private Configuration configure() {
-        return getSource().as(WebElementsDriverProvider.class).rootWebDriver().configure();
-    }
 }

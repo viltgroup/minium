@@ -41,7 +41,6 @@ if (typeof webElementsDriverFactory !== "undefined") {
 	
 // all static methods from Minium, Interactions and TouchInteractions
 importStatic(com.vilt.minium.Minium);
-importStatic(com.vilt.minium.ExceptionHandlers);
 importStatic(com.vilt.minium.actions.Interactions);
 importStatic(com.vilt.minium.actions.DebugInteractions);
 importStatic(com.vilt.minium.actions.TipInteractions);

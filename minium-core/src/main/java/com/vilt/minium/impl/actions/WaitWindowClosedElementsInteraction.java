@@ -16,6 +16,7 @@
 package com.vilt.minium.impl.actions;
 
 import static com.vilt.minium.impl.WaitPredicates.untilWindowClosed;
+import static com.vilt.minium.impl.Waits.waitForPredicate;
 
 import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.TimeoutException;
@@ -40,9 +41,9 @@ public class WaitWindowClosedElementsInteraction extends WaitInteraction {
     @Override
     protected void doPerform() throws TimeoutException {
         if (getWaitingPreset() != null) {
-            wait(getSource(), getWaitingPreset(), untilWindowClosed());
+            waitForPredicate(getSource(), getWaitingPreset(), untilWindowClosed());
         } else {
-            wait(getSource(), getTimeout(), getInterval(), untilWindowClosed());
+            waitForPredicate(getSource(), getTimeout(), getInterval(), untilWindowClosed());
         }
     }
 }

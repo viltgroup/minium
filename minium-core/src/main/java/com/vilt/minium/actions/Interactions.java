@@ -24,9 +24,11 @@ import org.openqa.selenium.Keys;
 
 import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.Duration;
+import com.vilt.minium.ExceptionHandler;
 import com.vilt.minium.Offsets.Offset;
 import com.vilt.minium.TimeoutException;
 import com.vilt.minium.WebElementsDriver;
+import com.vilt.minium.impl.AcceptAlertExceptionHandler;
 import com.vilt.minium.impl.actions.RetryAfterWaitingWhileEmptyInteractionListener;
 import com.vilt.minium.impl.actions.RetryOnExceptionInteractionListener;
 import com.vilt.minium.impl.actions.SlowMotionInteractionListener;
@@ -74,6 +76,10 @@ public class Interactions {
 
     public static InteractionListener retryAfterWaitingWhileEmpty(CoreWebElements<?> elems, String preset) {
         return new RetryAfterWaitingWhileEmptyInteractionListener(elems, preset);
+    }
+
+    public static ExceptionHandler alwaysAcceptUnhandledAlerts() {
+        return new AcceptAlertExceptionHandler();
     }
 
     public static InteractionListener slowMotion(long time, TimeUnit units) {

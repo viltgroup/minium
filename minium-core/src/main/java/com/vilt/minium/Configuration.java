@@ -63,14 +63,14 @@ public interface Configuration {
     public interface InteractionListeners extends Iterable<InteractionListener> {
         InteractionListeners add(InteractionListener interactionListener);
         InteractionListeners remove(InteractionListener interactionListener);
-
+        InteractionListeners clear();
         Configuration done();
     }
 
     public interface ExceptionHandlers extends Iterable<ExceptionHandler> {
         ExceptionHandlers add(ExceptionHandler exceptionHandler);
         ExceptionHandlers remove(ExceptionHandler exceptionHandler);
-
+        ExceptionHandlers clear();
         Configuration done();
     }
 

@@ -15,8 +15,9 @@
  */
 package com.vilt.minium.impl.actions;
 
-import static com.vilt.minium.actions.Interactions.withWaitingPreset;
 import static com.vilt.minium.actions.Interactions.withoutWaiting;
+import static com.vilt.minium.impl.WaitPredicates.whileEmpty;
+import static com.vilt.minium.impl.Waits.waitForPredicate;
 
 import com.vilt.minium.CoreWebElements;
 import com.vilt.minium.TimeoutException;
@@ -35,7 +36,7 @@ public class RetryAfterWaitingWhileEmptyInteractionListener extends DefaultInter
     protected void onAfterFailEvent(AfterFailInteractionEvent event) {
         if (event.getException() instanceof TimeoutException && withoutWaiting().checkEmpty(waitElements)) {
             try {
-                withWaitingPreset(waitingPreset).waitWhileEmpty(waitElements);
+                waitForPredicate(event.getSource(), waitingPreset, whileEmpty());
                 event.setRetry(true);
             } catch (Exception e) {
                 // we tried...
