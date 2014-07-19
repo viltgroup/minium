@@ -99,7 +99,7 @@ public class WaitingInteractionListenerTest extends MiniumBaseTest {
     public void testCheckNotEmptyWithRetry() {
         DefaultWebElements base = $(wd, "#no-element");
 
-        wd.configure().interactionListeners().add(retryOnTimeout().withWaitingPreset("slow").whenEmpty(base));
+        wd.configure().interactionListeners().add(retryOnTimeout().whenNotEmpty(base).withWaitingPreset("slow"));
 
         long start = System.currentTimeMillis();
 
