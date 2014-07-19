@@ -1,4 +1,5 @@
-# Selenium Drivers for Minium
+Selenium Drivers for Minium
+===========================
 
 Minium will lookup this folder for Chrome, Internet Explorer and PhantomJS
 drivers. Just download them at:
