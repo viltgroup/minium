@@ -1,8 +1,10 @@
-# Minium [![Build Status](https://travis-ci.org/viltgroup/minium.png)](https://travis-ci.org/viltgroup/minium)
+Minium [![Build Status](https://travis-ci.org/viltgroup/minium.png)](https://travis-ci.org/viltgroup/minium)
+======
 
 ![Minium banner](http://viltgroup.github.io/minium/images/banner_minium.png)
 
-## What is Minium 
+What is Minium 
+--------------
 
 Minium is a framework, developed by Rui Figueira @ VILT, that combines jQuery and Selenium for browser testing 
 and tasks automation. It also provides an interactive console that easily lets you execute Minium instructions, 
@@ -15,7 +17,8 @@ is currently the most popular automation framework due to its innovative WebDriv
 impressive automation capabilities with jQuery's selector engine to produce a simple way to create elaborate 
 automation tasks in the complex web interfaces of today.
 
-## Minium can!
+Minium can!
+-----------
 
 ![Minium can!](http://viltgroup.github.io/minium/images/minium_can.png)
 
@@ -49,12 +52,14 @@ usernameFld = $(wd).frame().find(":text").withLabel("Username");
 You can watch all available Minium videos at 
 [Youtube playlist](http://www.youtube.com/playlist?list=PLtYR_mxVztvMZuYfgjRe5OAl2WL_mb2N_).
 
-# Quick start
+Quick start
+===========
 
 The easiest way to try Minium is to use Minium App, which contains Minium Web Console (you can watch the video ['Minium shows its new Web Console'](http://www.youtube.com/watch?v=QlPLNEJD5rc) for a small introducion) and a bundled Jetty server.
 This way, you can instruct Minium to do almost anything in a browser with a few lines of Javascript.
 
-## Before you start
+Before you start
+----------------
 
 Ensure that the following software is installed:
 
@@ -62,13 +67,14 @@ Ensure that the following software is installed:
   * Don't forget to set `JAVA_HOME` environment variable 
 * [Google Chrome](https://www.google.com/intl/en/chrome/browser/) (**required**)
   
-## Run Minium App
+Run Minium App
+--------------
 
 To install and run Minium App, just follow these instructions:
 
 * Download one of the following compressed files:
-  * [Zip archive](https://oss.sonatype.org/content/repositories/releases/com/vilt-group/minium/minium-app/0.9.3/minium-app-0.9.3-bin.zip)
-  * [Compressed tarball archive](https://oss.sonatype.org/content/repositories/releases/com/vilt-group/minium/minium-app/0.9.3/minium-app-0.9.3-bin.tar.gz)
+  * [Zip archive](https://oss.sonatype.org/content/repositories/releases/com/vilt-group/minium/minium-app/0.9.4/minium-app-0.9.4-bin.zip)
+  * [Compressed tarball archive](https://oss.sonatype.org/content/repositories/releases/com/vilt-group/minium/minium-app/0.9.4/minium-app-0.9.4-bin.tar.gz)
 * Uncompress it in some folder (e.g. `c:\Tools\minium-app`)
 * By default, Selenium (and therefore Minium) can run Firefox out of the box. For other browsers, you will need specific drivers. Just download the ones you want to use (see links below) and place the corresponding executable files in `drivers` folder:
   * [Chrome Driver](http://chromedriver.storage.googleapis.com/index.html)
@@ -81,7 +87,8 @@ To install and run Minium App, just follow these instructions:
 
 If Minium doesn't open a chrome app when you execute any of those scripts, probably you'll need to indicate where your chrome binary is in `minium-prefs.json` (edit specify the full Chrome binary path in the `chromeBin` property).
 
-## Give it a try
+Give it a try
+-------------
 
 You're now able to create a web driver. Just go to `Web Drivers`, pick your prefered browser and name it `wd`. Then, just type the following code and run it by selecting it and pressing `Ctrl+ENTER`:
 
@@ -126,7 +133,8 @@ for (var time = 0; time < 4 * numFrames; time++) {
 
 ```
 
-# Build Minium
+Build Minium
+============
 
 Building Minium is not complicated. Ensure that the following software is installed:
 
@@ -146,7 +154,8 @@ mvn install -DskipTests=true
 
 You can then use the built Minium App found at `minium-app/target/minium-app`.
 
-# Documentation
+Documentation
+=============
 
 A quick guide on how to use Minium in a Java project or using its Interactive console can be found here:
 
@@ -158,20 +167,23 @@ If you feel that's too simple, check this one:
 
 You can also check the [Minium API documentation](http://viltgroup.github.io/minium/apidocs/). For a complete list of allowed methods, check the links below.
 
-## Available element selection methods
+Available element selection methods
+-----------------------------------
 
 * [JQueryWebElements](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/JQueryWebElements.html)
-* [FiltersWebElements](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/FiltersWebElements.html)
+* [JQueryExtWebElements](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/JQueryExtWebElements.html)
 * [PositionWebElements](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/PositionWebElements.html)
 * [TargetLocatorWebElements](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/TargetLocatorWebElements.html)
 
-## Available interactions
+Available interactions
+----------------------
 
 * [Interactions](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/actions/Interactions.html)
 * [DebugInteractions](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/actions/DebugInteractions.html)
 * [TipInteractions](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/actions/TipInteractions.html)
 * [TouchInteractions](http://viltgroup.github.io/minium/apidocs/com/vilt/minium/actions/touch/TouchInteractions.html)
 
-# License
+License
+-------
 
 Minium is licensed under [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
