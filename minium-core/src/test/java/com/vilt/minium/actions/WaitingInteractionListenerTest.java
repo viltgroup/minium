@@ -18,7 +18,7 @@ package com.vilt.minium.actions;
 import static com.vilt.minium.Minium.$;
 import static com.vilt.minium.actions.Interactions.checkEmpty;
 import static com.vilt.minium.actions.Interactions.checkNotEmpty;
-import static com.vilt.minium.actions.Interactions.retryAfterWaitingWhileEmpty;
+import static com.vilt.minium.actions.Interactions.retryOnTimeout;
 import static com.vilt.minium.actions.Interactions.waitWhileEmpty;
 import static com.vilt.minium.actions.Interactions.withWaitingPreset;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -99,7 +99,7 @@ public class WaitingInteractionListenerTest extends MiniumBaseTest {
     public void testCheckNotEmptyWithRetry() {
         DefaultWebElements base = $(wd, "#no-element");
 
-        wd.configure().interactionListeners().add(retryAfterWaitingWhileEmpty(base, "slow"));
+        wd.configure().interactionListeners().add(retryOnTimeout().withWaitingPreset("slow").whenEmpty(base));
 
         long start = System.currentTimeMillis();
 

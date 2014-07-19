@@ -16,13 +16,9 @@
 package com.vilt.minium.impl.actions;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-
-import java.util.concurrent.TimeUnit;
-
-import org.openqa.selenium.support.ui.Sleeper;
+import static com.vilt.minium.impl.Waits.waitTime;
 
 import com.vilt.minium.Duration;
-import com.vilt.minium.WebElementsException;
 
 /**
  * The Class WaitTimeInteraction.
@@ -48,15 +44,7 @@ public class WaitTimeInteraction extends WaitInteraction {
      */
     @Override
     protected void doPerform() {
-        long time = waitTime.getTime();
-        TimeUnit unit = waitTime.getUnit();
-
-        org.openqa.selenium.support.ui.Duration duration = new org.openqa.selenium.support.ui.Duration(time, unit);
-        try {
-            Sleeper.SYSTEM_SLEEPER.sleep(duration);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            throw new WebElementsException(e);
-        }
+        waitTime(waitTime);
     }
+
 }

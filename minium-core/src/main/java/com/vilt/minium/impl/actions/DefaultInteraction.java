@@ -262,7 +262,7 @@ public abstract class DefaultInteraction implements Interaction {
             return new AfterSuccessInteractionEvent(source, this);
         }
 
-        // shouldn't occurr
+        // shouldn't occur
         throw new IllegalArgumentException("Type must be not null and valid");
     }
 

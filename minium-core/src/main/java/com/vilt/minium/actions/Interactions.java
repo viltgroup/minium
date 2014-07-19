@@ -29,7 +29,7 @@ import com.vilt.minium.Offsets.Offset;
 import com.vilt.minium.TimeoutException;
 import com.vilt.minium.WebElementsDriver;
 import com.vilt.minium.impl.AcceptAlertExceptionHandler;
-import com.vilt.minium.impl.actions.RetryAfterWaitingWhileEmptyInteractionListener;
+import com.vilt.minium.impl.actions.DefaultRetryOnTimeoutInteractionListener;
 import com.vilt.minium.impl.actions.RetryOnExceptionInteractionListener;
 import com.vilt.minium.impl.actions.SlowMotionInteractionListener;
 import com.vilt.minium.impl.actions.TimeoutInteractionListener;
@@ -74,8 +74,13 @@ public class Interactions {
         return new RetryOnExceptionInteractionListener();
     }
 
+    @Deprecated
     public static InteractionListener retryAfterWaitingWhileEmpty(CoreWebElements<?> elems, String preset) {
-        return new RetryAfterWaitingWhileEmptyInteractionListener(elems, preset);
+        return new DefaultRetryOnTimeoutInteractionListener().withWaitingPreset(preset).whenEmpty(elems);
+    }
+
+    public static RetryOnTimeoutInteractionListener retryOnTimeout() {
+        return new DefaultRetryOnTimeoutInteractionListener();
     }
 
     public static ExceptionHandler alwaysAcceptUnhandledAlerts() {
