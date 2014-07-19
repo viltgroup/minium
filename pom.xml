@@ -10,7 +10,7 @@
 
     <groupId>com.vilt-group.minium</groupId>
     <artifactId>minium</artifactId>
-    <version>0.9.4</version>
+    <version>0.9.5-SNAPSHOT</version>
 
     <name>Minium - Parent</name>
     <packaging>pom</packaging>
