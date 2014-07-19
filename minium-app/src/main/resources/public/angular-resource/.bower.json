@@ -1,18 +1,18 @@
 {
   "name": "angular-resource",
-  "version": "1.3.0-build.2860+sha.85f8b65",
+  "version": "1.2.21-build.327+sha.a17d42d",
   "main": "./angular-resource.js",
   "dependencies": {
-    "angular": "1.3.0-build.2860+sha.85f8b65"
+    "angular": "1.2.21-build.327+sha.a17d42d"
   },
   "homepage": "https://github.com/angular/bower-angular-resource",
-  "_release": "1.3.0-build.2860+sha.85f8b65",
+  "_release": "1.2.21-build.327+sha.a17d42d",
   "_resolution": {
     "type": "version",
-    "tag": "v1.3.0-build.2860+sha.85f8b65",
-    "commit": "677dbb7321274b9633ede78d58f1cf9896c62852"
+    "tag": "v1.2.21-build.327+sha.a17d42d",
+    "commit": "3ec85b4dabc17728ed8fb8445a5a2a6025fba7f2"
   },
   "_source": "git://github.com/angular/bower-angular-resource.git",
-  "_target": "1.x",
+  "_target": "1.2.x",
   "_originalSource": "angular-resource"
 }
