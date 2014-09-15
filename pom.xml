@@ -66,7 +66,7 @@
         <guava.version>17.0</guava.version>
         <phantomjsdriver.version>1.2.0</phantomjsdriver.version>
         <spring.version>4.0.6.RELEASE</spring.version>
-        <spring.boot.version>1.1.4.RELEASE</spring.boot.version>
+        <spring.boot.version>1.1.5.RELEASE</spring.boot.version>
         <tomcat.version>7.0.54</tomcat.version>
         <jackson2.version>2.4.1</jackson2.version>
         <rhino.version>1.7R4</rhino.version>

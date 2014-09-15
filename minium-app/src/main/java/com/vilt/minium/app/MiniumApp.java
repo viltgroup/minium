@@ -15,17 +15,10 @@
  */
 package com.vilt.minium.app;
 
-import static java.lang.String.format;
-import static org.apache.commons.io.IOUtils.copy;
-import static org.apache.commons.lang3.StringUtils.center;
-
 import java.io.File;
 import java.io.IOException;
-import java.io.StringWriter;
 
 import org.apache.commons.lang3.SystemUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -43,8 +36,6 @@ public class MiniumApp {
         File logFile = new File(baseDir, "minium-app.log");
         System.setProperty("LOG_FILE", logFile.getAbsolutePath());
     }
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(MiniumApp.class);
 
     public static void main(String[] args) throws Exception {
         run(args);
@@ -69,11 +60,9 @@ public class MiniumApp {
     }
 
     public static ConfigurableApplicationContext launchService(String... args) throws IOException {
-        printBanner();
-
         final ConfigurableApplicationContext context = new SpringApplicationBuilder(MiniumAppWebConfig.class)
             .headless(false)
-            .showBanner(false)
+            .showBanner(true)
             .run(args);
 
         final AppPreferences appPreferences = context.getBean(AppPreferences.class);
@@ -81,18 +70,5 @@ public class MiniumApp {
 
         webConsolePreferences.validate();
         return context;
-    }
-
-    protected static void printBanner() throws IOException {
-        StringWriter out = new StringWriter();
-        out.write('\n');
-        copy(MiniumApp.class.getResourceAsStream("minium-asciiart.txt"), out);
-        out.write('\n');
-        String version = MiniumApp.class.getPackage().getImplementationVersion();
-        if (version != null) {
-            out.write(center(format("(v%s)", version), 40));
-            out.write('\n');
-        }
-        LOGGER.info(out.toString());
     }
 }
