@@ -15,6 +15,7 @@
  */
 package com.vilt.minium.app.webdrivers;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 public class Point {
@@ -55,7 +56,7 @@ public class Point {
 
     @Override
     public String toString() {
-      return Objects.toStringHelper(Point.class)
+      return MoreObjects.toStringHelper(Point.class)
               .addValue(x)
               .addValue(y)
               .toString();

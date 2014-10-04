@@ -15,6 +15,7 @@
  */
 package com.vilt.minium;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 public class Point {
@@ -60,7 +61,7 @@ public class Point {
 
     @Override
     public String toString() {
-      return Objects.toStringHelper(Point.class.getSimpleName())
+      return MoreObjects.toStringHelper(Point.class.getSimpleName())
               .addValue(x)
               .addValue(y)
               .toString();

@@ -15,7 +15,7 @@
  */
 package com.vilt.minium;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 
 public class Rectangle {
 
@@ -65,7 +65,7 @@ public class Rectangle {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(Rectangle.class)
+        return MoreObjects.toStringHelper(Rectangle.class)
                 .add("top", top())
                 .add("bottom", bottom())
                 .add("left", left())

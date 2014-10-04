@@ -15,6 +15,7 @@
  */
 package com.vilt.minium.app.webdrivers;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 public class Dimension {
@@ -54,7 +55,7 @@ public class Dimension {
 
     @Override
     public String toString() {
-      return Objects.toStringHelper(Dimension.class)
+      return MoreObjects.toStringHelper(Dimension.class)
               .addValue(width)
               .addValue(height)
               .toString();

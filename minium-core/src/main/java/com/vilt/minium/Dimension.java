@@ -15,6 +15,7 @@
  */
 package com.vilt.minium;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 public class Dimension {
@@ -51,7 +52,7 @@ public class Dimension {
 
     @Override
     public String toString() {
-      return Objects.toStringHelper(Dimension.class.getSimpleName())
+      return MoreObjects.toStringHelper(Dimension.class.getSimpleName())
               .addValue(width)
               .addValue(height)
               .toString();
