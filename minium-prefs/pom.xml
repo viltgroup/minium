@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.vilt-group.minium</groupId>
 		<artifactId>minium</artifactId>
-		<version>0.9.5-SNAPSHOT</version>
+		<version>0.9.5</version>
 	</parent>
 
 	<artifactId>minium-prefs</artifactId>
