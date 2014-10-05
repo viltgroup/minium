@@ -73,8 +73,8 @@ Run Minium App
 To install and run Minium App, just follow these instructions:
 
 * Download one of the following compressed files:
-  * [Zip archive](https://oss.sonatype.org/content/repositories/releases/com/vilt-group/minium/minium-app/0.9.4/minium-app-0.9.4-bin.zip)
-  * [Compressed tarball archive](https://oss.sonatype.org/content/repositories/releases/com/vilt-group/minium/minium-app/0.9.4/minium-app-0.9.4-bin.tar.gz)
+  * [Zip archive](https://oss.sonatype.org/content/repositories/releases/com/vilt-group/minium/minium-app/0.9.5/minium-app-0.9.5-bin.zip)
+  * [Compressed tarball archive](https://oss.sonatype.org/content/repositories/releases/com/vilt-group/minium/minium-app/0.9.5/minium-app-0.9.5-bin.tar.gz)
 * Uncompress it in some folder (e.g. `c:\Tools\minium-app`)
 * By default, Selenium (and therefore Minium) can run Firefox out of the box. For other browsers, you will need specific drivers. Just download the ones you want to use (see links below) and place the corresponding executable files in `drivers` folder:
   * [Chrome Driver](http://chromedriver.storage.googleapis.com/index.html)
