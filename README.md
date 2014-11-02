@@ -1,5 +1,6 @@
 Minium [![Build Status](https://travis-ci.org/viltgroup/minium.png)](https://travis-ci.org/viltgroup/minium)
 ======
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/viltgroup/minium?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ![Minium banner](http://viltgroup.github.io/minium/images/banner_minium.png)
 
