@@ -37,7 +37,6 @@ import com.vilt.minium.prefs.AppPreferences;
 
 public class MiniumScriptEngine {
 
-
     interface ContextCallable<V, X extends Exception> {
         public V call(Context cx) throws X;
     }
