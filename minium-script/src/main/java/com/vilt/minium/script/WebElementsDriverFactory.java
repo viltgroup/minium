@@ -91,7 +91,7 @@ public class WebElementsDriverFactory {
     public DefaultWebElementsDriver remoteDriver(String url, Capabilities capabilities) {
         try {
             WebDriver wrappedDriver = new RemoteWebDriver(new URL(url), capabilities);
-            return new DefaultWebElementsDriver(wrappedDriver);
+            return new DefaultWebElementsDriver(wrappedDriver, additionalInterfaces);
         } catch (MalformedURLException e) {
             throw Throwables.propagate(e);
         }

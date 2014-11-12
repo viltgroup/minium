@@ -47,7 +47,8 @@ public class ButtonReleaseInteraction extends MouseInteraction {
         if (offsetPoint == null) {
             getActions().release(source).perform();
         } else {
-            getActions().moveToElement(source, offsetPoint.x(), offsetPoint.y()).release(source).perform();
+
+            getActions().moveToElement(source, offsetPoint.x(), offsetPoint.y()).release().perform();
         }
     }
 
