@@ -24,6 +24,7 @@ import com.vilt.minium.app.webelements.SelectorGadgetWebElements;
 import com.vilt.minium.debug.DebugWebElements;
 import com.vilt.minium.prefs.AppPreferences;
 import com.vilt.minium.script.MiniumScriptEngine;
+import com.vilt.minium.script.RhinoPreferences;
 import com.vilt.minium.script.WebElementsDriverFactory;
 import com.vilt.minium.tips.TipWebElements;
 
@@ -49,7 +50,7 @@ public class MiniumConfig {
 
     @Bean
     public MiniumScriptEngine scriptEngine() throws IOException {
-        MiniumScriptEngine scriptEngine = new MiniumScriptEngine(webElementsDriverFactory(), appPreferences());
+        MiniumScriptEngine scriptEngine = new MiniumScriptEngine(RhinoPreferences.from(appPreferences()));
         return scriptEngine;
     }
 

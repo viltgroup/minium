@@ -32,12 +32,6 @@ function createMethodsFn(obj) {
 function importStatic(obj) {
 	createMethodsFn(obj);
 }
-
-if (typeof webElementsDriverFactory !== "undefined") {
-    // all methods from webElementsDriverFactory
-    createMethodsFn(webElementsDriverFactory);
-    delete webElementsDriverFactory;
-}
 	
 // all static methods from Minium, Interactions and TouchInteractions
 importStatic(com.vilt.minium.Minium);

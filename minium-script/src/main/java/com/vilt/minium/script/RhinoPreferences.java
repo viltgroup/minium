@@ -16,6 +16,7 @@
 package com.vilt.minium.script;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -40,5 +41,9 @@ public class RhinoPreferences extends BasePreferences {
 
     public void setModulePath(List<String> modulePath) {
         this.modulePath = modulePath;
+    }
+
+    public void setModulePath(String ... modulePath) {
+        setModulePath(Arrays.asList(modulePath));
     }
 }

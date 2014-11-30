@@ -21,31 +21,19 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 
 import java.io.File;
+import java.io.Reader;
 import java.net.URL;
 import java.util.List;
 
-import org.mozilla.javascript.FunctionObject;
-import org.mozilla.javascript.NativeFunction;
+import org.junit.Test;
+import org.mozilla.javascript.Function;
 import org.openqa.selenium.Platform;
-import org.testng.annotations.Test;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 import com.vilt.minium.prefs.AppPreferences;
 
 public class MiniumScriptEngineTest {
-
-   @Test
-   public void testEngineWebElementDrivers() throws Exception {
-      // given
-      MiniumScriptEngine engine = new MiniumScriptEngine(WebElementsDriverFactory.instance());
-
-      // when
-      Object firefoxDriver = engine.eval("firefoxDriver");
-      Object load = engine.eval("load");
-
-      // then
-      assertThat(firefoxDriver, instanceOf(NativeFunction.class));
-      assertThat(load, instanceOf(FunctionObject.class));
-   }
 
    @Test
    public void testEngineDefaultConst() throws Exception {
@@ -53,10 +41,12 @@ public class MiniumScriptEngineTest {
        MiniumScriptEngine engine = new MiniumScriptEngine();
 
        // when
-       Object firefoxDriver = engine.eval("firefoxDriver");
+       Object load = engine.eval("load");
+       Object require = engine.eval("require");
 
        // then
-       assertThat(firefoxDriver, instanceOf(NativeFunction.class));
+       assertThat(load, instanceOf(Function.class));
+       assertThat(require, instanceOf(Function.class));
    }
 
    @Test
@@ -102,7 +92,9 @@ public class MiniumScriptEngineTest {
    public void testModulePathURIs() throws Exception {
        // given
        System.setProperty("basedir", Platform.getCurrent().is(Platform.WINDOWS) ? "c:\\minium-app" : "/opt/minium-app");
-       MiniumScriptEngine engine = new MiniumScriptEngine(WebElementsDriverFactory.instance(), new AppPreferences());
+       Reader reader = Resources.asCharSource(Resources.getResource("minium-prefs.json"), Charsets.UTF_8).openStream();
+       AppPreferences preferences = new AppPreferences(reader);
+       MiniumScriptEngine engine = new MiniumScriptEngine(RhinoPreferences.from(preferences));
 
        // when
        List<String> modulePathURIs = engine.getModulePathURIs();

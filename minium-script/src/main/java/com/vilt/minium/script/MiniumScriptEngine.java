@@ -17,7 +17,6 @@ package com.vilt.minium.script;
 
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.io.Reader;
 import java.net.URI;
 import java.util.List;
@@ -33,7 +32,6 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
-import com.vilt.minium.prefs.AppPreferences;
 
 public class MiniumScriptEngine {
 
@@ -57,32 +55,20 @@ public class MiniumScriptEngine {
 
     private Global scope;
     private MiniumContextLoader contextLoader;
-    private AppPreferences preferences;
+    private RhinoPreferences preferences;
 
-    public MiniumScriptEngine() throws IOException {
-        this(WebElementsDriverFactory.instance());
+    public MiniumScriptEngine() {
+        this(new RhinoPreferences());
     }
 
-    public MiniumScriptEngine(WebElementsDriverFactory webElementsDriverFactory) throws IOException {
-        this(webElementsDriverFactory, new AppPreferences());
+    public MiniumScriptEngine(RhinoPreferences preferences) {
+        this(new MiniumContextLoader(), preferences);
     }
 
-    public MiniumScriptEngine(WebElementsDriverFactory webElementsDriverFactory, AppPreferences preferences) {
-        this(webElementsDriverFactory, preferences, MiniumScriptEngine.class.getClassLoader());
-    }
-
-    public MiniumScriptEngine(WebElementsDriverFactory webElementsDriverFactory, AppPreferences preferences, ClassLoader classLoader) {
-        this(new MiniumContextLoader(classLoader, webElementsDriverFactory), preferences);
-    }
-
-    public MiniumScriptEngine(MiniumContextLoader contextLoader, AppPreferences preferences) {
+    public MiniumScriptEngine(MiniumContextLoader contextLoader, RhinoPreferences preferences) {
         this.contextLoader = contextLoader;
         this.preferences = preferences;
         initScope();
-    }
-
-    public void setPreferences(AppPreferences preferences) {
-        this.preferences = preferences;
     }
 
     public boolean contains(final String varName) {
@@ -217,7 +203,7 @@ public class MiniumScriptEngine {
     }
 
     protected List<String> getModulePathURIs() {
-       return Lists.transform(RhinoPreferences.from(preferences).getModulePath(), TO_URI_FN);
+       return Lists.transform(preferences.getModulePath(), TO_URI_FN);
     }
 
     private Object getUnwrappedResult(Object result) {

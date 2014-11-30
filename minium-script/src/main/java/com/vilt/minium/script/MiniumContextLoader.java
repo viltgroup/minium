@@ -36,22 +36,16 @@ public class MiniumContextLoader {
     private static final Logger logger = LoggerFactory.getLogger(MiniumContextLoader.class);
 
     private ClassLoader classLoader;
-    private WebElementsDriverFactory webElementsDriverFactory;
 
-    public MiniumContextLoader(ClassLoader classLoader) {
-        this(classLoader, null);
+    public MiniumContextLoader() {
+        this(Thread.currentThread().getContextClassLoader());
     }
 
-    public MiniumContextLoader(ClassLoader classLoader, WebElementsDriverFactory webElementsDriverFactory) {
-        this.webElementsDriverFactory = webElementsDriverFactory;
+    public MiniumContextLoader(ClassLoader classLoader) {
         this.classLoader = classLoader;
     }
 
     public void load(Context cx, Scriptable scriptable) throws IOException {
-        if (webElementsDriverFactory != null) {
-            scriptable.put("webElementsDriverFactory", scriptable, Context.toObject(webElementsDriverFactory, scriptable));
-        }
-
         logger.debug("Loading minium bootstrap file");
         URL resourceUrl = classLoader.getResource(RHINO_BOOTSTRAP_JS);
         Preconditions.checkNotNull(resourceUrl);
@@ -73,3 +67,4 @@ public class MiniumContextLoader {
         return cx.evaluateString(scope, js, "script", 1, null);
     }
 }
+

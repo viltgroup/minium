@@ -20,8 +20,6 @@ import static com.google.common.base.Throwables.propagate;
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -36,15 +34,13 @@ import com.google.common.collect.Lists;
 
 public class AppPreferences implements Preferences {
 
-    private static final String MINIUM_HOME_KEY = "minium.home";
-
     private ObjectMapper mapper;
     private JsonNode rootNode;
 
     private File baseDir;
 
     public AppPreferences() throws IOException {
-        this(getDefaultPrefsFile());
+        this(BasePreferences.getDefaultPrefsFile());
     }
 
     public AppPreferences(File file) throws IOException {
@@ -126,19 +122,6 @@ public class AppPreferences implements Preferences {
 
     public JsonNode asJson() {
         return rootNode;
-    }
-
-    private static File getDefaultPrefsFile() {
-        try {
-            if (System.getProperty(MINIUM_HOME_KEY) == null) {
-                URL resource = AppPreferences.class.getClassLoader().getResource("minium-prefs.json");
-                return new File(resource.toURI());
-            } else {
-                return new File(System.getProperty(MINIUM_HOME_KEY), "minium-prefs.json");
-            }
-        } catch (URISyntaxException e) {
-            throw propagate(e);
-        }
     }
 
     @Override

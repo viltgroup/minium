@@ -90,6 +90,12 @@
 		<dependency>
 			<groupId>com.vilt-group.minium</groupId>
 			<artifactId>minium-core</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>closure-compiler</artifactId>
+					<groupId>com.google.javascript</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.vilt-group.minium</groupId>

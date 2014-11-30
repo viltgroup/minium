@@ -15,9 +15,15 @@
  */
 package com.vilt.minium.prefs;
 
+import static com.google.common.base.Throwables.propagate;
+
 import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 public abstract class BasePreferences implements Preferences {
+
+    private static final String MINIUM_HOME_KEY = "minium.home";
 
     private AppPreferences appPreferences;
 
@@ -27,14 +33,12 @@ public abstract class BasePreferences implements Preferences {
 
     @Override
     public File getBaseDir() {
-        return appPreferences == null ? new File(System.getProperty("user.dir")) : appPreferences.getBaseDir();
+        return appPreferences == null ? getDefaultPrefsFile().getParentFile() : appPreferences.getBaseDir();
     }
 
     @Override
     public void validate() {
-        // TODO Auto-generated method stub
     }
-
 
     protected File oneOf(File... files) {
         for (File file : files) {
@@ -43,5 +47,18 @@ public abstract class BasePreferences implements Preferences {
         }
 
         return null;
+    }
+
+    protected static File getDefaultPrefsFile() {
+        try {
+            if (System.getProperty(MINIUM_HOME_KEY) == null) {
+                URL resource = AppPreferences.class.getClassLoader().getResource("minium-prefs.json");
+                return new File(resource.toURI());
+            } else {
+                return new File(System.getProperty(MINIUM_HOME_KEY), "minium-prefs.json");
+            }
+        } catch (URISyntaxException e) {
+            throw propagate(e);
+        }
     }
 }
