@@ -71,10 +71,15 @@ public class JQueryInvoker {
     static {
         try {
             Class.forName("com.google.javascript.jscomp.Compiler", false, JQueryInvoker.class.getClassLoader());
-            compressor = (Compressor) Class.forName("com.vilt.minium.impl.ClosureCompressor").newInstance();
         } catch (Exception e) {
             LOGGER.info("Google Closure Compiler not found in classpath, javascript will not be compressed");
             compressor = new NullCompressor();
+        } catch (UnsupportedClassVersionError e) {
+            LOGGER.info("Google Closure Compiler found in classpath but not supported by his JVM. Please consider using a more recent JVM or another Google Closure Compiler version");
+            compressor = new NullCompressor();
+        }
+        if (compressor == null) {
+            compressor = new ClosureCompressor();
         }
     }
 
