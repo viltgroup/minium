@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 
+import com.google.common.base.Charsets;
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Collections2;
@@ -36,7 +37,7 @@ public class ClosureCompressor implements Compressor {
         @Override
         public SourceFile apply(String input) {
             try {
-                return SourceFile.fromInputStream(input, getClasspathFileInputStream(input));
+                return SourceFile.fromInputStream(input, getClasspathFileInputStream(input), Charsets.UTF_8);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
