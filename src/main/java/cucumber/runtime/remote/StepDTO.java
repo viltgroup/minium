@@ -11,14 +11,14 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
-import cucumber.runtime.remote.DataTableProxy.DataTableRowProxy;
+import cucumber.runtime.remote.DataTableDTO.DataTableRowProxy;
 
 @JsonAutoDetect(
         getterVisibility = JsonAutoDetect.Visibility.NONE,
         setterVisibility = JsonAutoDetect.Visibility.NONE,
         fieldVisibility = JsonAutoDetect.Visibility.ANY
 )
-public class StepProxy implements Serializable {
+public class StepDTO implements Serializable {
 
     private static final long serialVersionUID = 578395699182857236L;
 
@@ -29,10 +29,10 @@ public class StepProxy implements Serializable {
     private List<DataTableRowProxy> rows;
     private DocString docString;
 
-    public StepProxy() {
+    public StepDTO() {
     }
 
-    public StepProxy(Step step) {
+    public StepDTO(Step step) {
         this.comments = step.getComments();
         this.keyword = step.getKeyword();
         this.name = step.getName();

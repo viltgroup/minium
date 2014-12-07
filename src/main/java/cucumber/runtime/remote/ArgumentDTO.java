@@ -9,15 +9,15 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
         setterVisibility = JsonAutoDetect.Visibility.NONE,
         fieldVisibility = JsonAutoDetect.Visibility.ANY
 )
-public class ArgumentProxy {
+public class ArgumentDTO {
 
     private Integer offset;
     private String val;
 
-    public ArgumentProxy() {
+    public ArgumentDTO() {
     }
 
-    public ArgumentProxy(Argument argument) {
+    public ArgumentDTO(Argument argument) {
         this.offset = argument.getOffset();
         this.val = argument.getVal();
     }

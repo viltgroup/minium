@@ -2,16 +2,16 @@ package cucumber.runtime.remote;
 
 public class StepExecutionResult {
 
-    private ExceptionProxy exception;
+    private ExceptionDTO exception;
 
     public StepExecutionResult() {
     }
 
-    public ExceptionProxy getException() {
+    public ExceptionDTO getException() {
         return exception;
     }
 
-    public void setException(ExceptionProxy exception) {
+    public void setException(ExceptionDTO exception) {
         this.exception = exception;
     }
 }

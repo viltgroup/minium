@@ -27,7 +27,7 @@ public class GlueProxy implements Glue, Serializable {
     private static final long serialVersionUID = -1207719130996258182L;
 
     private UUID uuid;
-    private List<StepDefinitionProxy> stepDefinitions = new ArrayList<StepDefinitionProxy>();
+    private List<StepDefinitionDTO> stepDefinitions = new ArrayList<StepDefinitionDTO>();
     private List<HookDefinitionProxy> beforeHookDefinitions = new ArrayList<HookDefinitionProxy>();
     private List<HookDefinitionProxy> afterHookDefinitions = new ArrayList<HookDefinitionProxy>();
 
@@ -52,7 +52,7 @@ public class GlueProxy implements Glue, Serializable {
     @Override
     public void addStepDefinition(StepDefinition stepDefinition) throws DuplicateStepDefinitionException {
         Preconditions.checkNotNull(backendService);
-        StepDefinitionProxy remoteStepDefinition = backendService.addStepDefinition(uuid, stepDefinition);
+        StepDefinitionDTO remoteStepDefinition = backendService.addStepDefinition(uuid, stepDefinition);
         stepDefinitions.add(remoteStepDefinition);
     }
 
@@ -84,7 +84,7 @@ public class GlueProxy implements Glue, Serializable {
         return hookDefinitions;
     }
 
-    public List<StepDefinitionProxy> getStepDefinitions() {
+    public List<StepDefinitionDTO> getStepDefinitions() {
         return stepDefinitions;
     }
 
@@ -108,7 +108,7 @@ public class GlueProxy implements Glue, Serializable {
 
     @Override
     public void reportStepDefinitions(StepDefinitionReporter stepDefinitionReporter) {
-        for (StepDefinitionProxy stepDefinition : stepDefinitions) {
+        for (StepDefinitionDTO stepDefinition : stepDefinitions) {
             stepDefinitionReporter.stepDefinition(stepDefinition);
         }
     }

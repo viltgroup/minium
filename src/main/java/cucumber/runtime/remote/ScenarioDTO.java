@@ -13,7 +13,7 @@ import cucumber.api.Scenario;
         setterVisibility = JsonAutoDetect.Visibility.NONE,
         fieldVisibility = JsonAutoDetect.Visibility.ANY
 )
-public class ScenarioProxy implements Scenario {
+public class ScenarioDTO implements Scenario {
 
     public static class Data {
 
@@ -47,13 +47,13 @@ public class ScenarioProxy implements Scenario {
     private List<String> sourceTagNames;
     private String status;
     private boolean failed;
-    private List<Data> embedded = new ArrayList<ScenarioProxy.Data>();
+    private List<Data> embedded = new ArrayList<Data>();
     private List<String> texts = new ArrayList<String>();
 
-    public ScenarioProxy() {
+    public ScenarioDTO() {
     }
 
-    public ScenarioProxy(Scenario scenario) {
+    public ScenarioDTO(Scenario scenario) {
         status = scenario.getStatus();
         sourceTagNames = new ArrayList<String>(scenario.getSourceTagNames());
         failed = scenario.isFailed();

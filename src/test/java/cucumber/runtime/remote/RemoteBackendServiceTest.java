@@ -77,7 +77,7 @@ public class RemoteBackendServiceTest {
     @Test
     public void testDeleteWorld() throws Exception {
         // given
-        WorldProxy world = backendService.createWorld();
+        WorldDTO world = backendService.createWorld();
 
         // when
         this.mockMvc

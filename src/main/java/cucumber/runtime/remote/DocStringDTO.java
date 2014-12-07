@@ -9,13 +9,13 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
         setterVisibility = JsonAutoDetect.Visibility.NONE,
         fieldVisibility = JsonAutoDetect.Visibility.ANY
 )
-public class DocStringProxy {
+public class DocStringDTO {
 
     private String contentType;
     private String value;
     private int line;
 
-    public DocStringProxy(DocString doc) {
+    public DocStringDTO(DocString doc) {
         contentType = doc.getContentType();
         line = doc.getLine();
         value = doc.getValue();

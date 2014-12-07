@@ -17,7 +17,7 @@ import cucumber.runtime.table.TableConverter;
         setterVisibility = JsonAutoDetect.Visibility.NONE,
         fieldVisibility = JsonAutoDetect.Visibility.ANY
 )
-public class DataTableProxy {
+public class DataTableDTO {
 
     @JsonAutoDetect(
             getterVisibility = JsonAutoDetect.Visibility.NONE,
@@ -48,10 +48,10 @@ public class DataTableProxy {
 
     private List<DataTableRowProxy> rows = new ArrayList<DataTableRowProxy>();
 
-    public DataTableProxy() {
+    public DataTableDTO() {
     }
 
-    public DataTableProxy(DataTable dataTable) {
+    public DataTableDTO(DataTable dataTable) {
         List<DataTableRow> gherkinRows = dataTable.getGherkinRows();
         for (DataTableRow gherkinRow : gherkinRows) {
             rows.add(new DataTableRowProxy(gherkinRow));

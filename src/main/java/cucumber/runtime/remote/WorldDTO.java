@@ -3,16 +3,16 @@ package cucumber.runtime.remote;
 import java.io.Serializable;
 import java.util.UUID;
 
-public class WorldProxy implements Serializable {
+public class WorldDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private UUID uuid;
 
-    public WorldProxy() {
+    public WorldDTO() {
     }
 
-    public WorldProxy(UUID uuid) {
+    public WorldDTO(UUID uuid) {
         this.uuid = uuid;
     }
 

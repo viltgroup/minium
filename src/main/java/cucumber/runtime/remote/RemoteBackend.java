@@ -36,7 +36,7 @@ public class RemoteBackend implements Backend {
 
     private final String baseUrl;
     private final RestTemplate template;
-    private WorldProxy world;
+    private WorldDTO world;
 
     private UriComponentsBuilder gluesUriBuilder;
     private UriComponentsBuilder worldsUriBuilder;
@@ -79,7 +79,7 @@ public class RemoteBackend implements Backend {
             glue.addAfterHook(hookDefinition);
         }
         for (StepDefinition stepDefinition : remoteGlue.getStepDefinitions()) {
-            ((StepDefinitionProxy) stepDefinition).setRemoteBackend(this);
+            ((StepDefinitionDTO) stepDefinition).setRemoteBackend(this);
             glue.addStepDefinition(stepDefinition);
         }
     }
@@ -92,7 +92,7 @@ public class RemoteBackend implements Backend {
     public void buildWorld() {
         Preconditions.checkState(world == null, "A world already exists");
         URI uri = worldsUriBuilder.build().toUri();
-        world = template.postForObject(uri, null, WorldProxy.class);
+        world = template.postForObject(uri, null, WorldDTO.class);
     }
 
     @Override
@@ -103,13 +103,13 @@ public class RemoteBackend implements Backend {
     }
 
     protected void execute(HookDefinitionProxy hookDefinition, Scenario scenario) {
-        ScenarioProxy remoteScenario = new ScenarioProxy(scenario);
+        ScenarioDTO remoteScenario = new ScenarioDTO(scenario);
         URI uri = hookExecUriBuilder.buildAndExpand(hookDefinition.getGlueId(), hookDefinition.getId()).toUri();
         HookExecutionResult execution = template.postForObject(uri, remoteScenario, HookExecutionResult.class);
         remoteScenario.populate(execution.getScenario());
     }
 
-    public void execute(StepDefinitionProxy stepDefinition, I18n i18n, Object[] args) {
+    public void execute(StepDefinitionDTO stepDefinition, I18n i18n, Object[] args) {
         StepDefinitionInvocation stepDefinitionInvocation = new StepDefinitionInvocation(i18n, args);
         URI uri = stepExecUriBuilder.buildAndExpand(stepDefinition.getGlueId(), stepDefinition.getId()).toUri();
         template.postForObject(uri, stepDefinitionInvocation, StepExecutionResult.class);
@@ -127,17 +127,17 @@ public class RemoteBackend implements Backend {
         return Preconditions.checkNotNull(snippetType, "FunctionNameGenerator is not camel case or underscore (it generated %s)", functionName);
     }
 
-    public List<Argument> matchedArguments(StepDefinitionProxy stepDefinition, Step step) {
-        StepProxy stepProxy = new StepProxy(step);
+    public List<Argument> matchedArguments(StepDefinitionDTO stepDefinition, Step step) {
+        StepDTO stepProxy = new StepDTO(step);
         URI uri = stepMatchedUriBuilder.buildAndExpand(stepDefinition.getGlueId(), stepDefinition.getId()).toUri();
-        ArgumentProxy[] matchedArguments = template.postForObject(uri, stepProxy, ArgumentProxy[].class);
+        ArgumentDTO[] matchedArguments = template.postForObject(uri, stepProxy, ArgumentDTO[].class);
         return toGerkinArguments(matchedArguments);
     }
 
-    private List<Argument> toGerkinArguments(ArgumentProxy[] matchedArguments) {
+    private List<Argument> toGerkinArguments(ArgumentDTO[] matchedArguments) {
         if (matchedArguments == null) return null;
         List<Argument> gherkinArgs = new ArrayList<Argument>();
-        for (ArgumentProxy arg : matchedArguments) {
+        for (ArgumentDTO arg : matchedArguments) {
             gherkinArgs.add(arg.toArgument());
         }
         return gherkinArgs;

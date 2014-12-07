@@ -26,8 +26,8 @@ public class StepDefinitionInvocation implements Serializable {
 
     private String isoCode;
     private Object[] args;
-    private DataTableProxy dataTable;
-    private DocStringProxy docString;
+    private DataTableDTO dataTable;
+    private DocStringDTO docString;
 
     public StepDefinitionInvocation() {
     }
@@ -72,10 +72,10 @@ public class StepDefinitionInvocation implements Serializable {
         int size = args.length;
         Object last = args[size - 1];
         if (last instanceof DataTable) {
-            dataTable = new DataTableProxy((DataTable) last);
+            dataTable = new DataTableDTO((DataTable) last);
             size = size - 1;
         } else if (last instanceof DocString) {
-            docString = new DocStringProxy((DocString) last);
+            docString = new DocStringDTO((DocString) last);
             size = size - 1;
         }
 

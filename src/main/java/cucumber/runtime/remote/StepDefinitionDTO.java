@@ -19,7 +19,7 @@ import cucumber.runtime.StepDefinition;
         setterVisibility = JsonAutoDetect.Visibility.NONE,
         fieldVisibility = JsonAutoDetect.Visibility.ANY
 )
-public class StepDefinitionProxy implements StepDefinition, Serializable {
+public class StepDefinitionDTO implements StepDefinition, Serializable {
 
     private static final long serialVersionUID = 1195844972068596887L;
 
@@ -33,10 +33,10 @@ public class StepDefinitionProxy implements StepDefinition, Serializable {
     private transient RemoteBackend remoteBackend;
 
 
-    public StepDefinitionProxy() {
+    public StepDefinitionDTO() {
     }
 
-    public StepDefinitionProxy(UUID glueId, long id, StepDefinition stepDefinition) {
+    public StepDefinitionDTO(UUID glueId, long id, StepDefinition stepDefinition) {
         this.glueId = glueId;
         this.id = id;
         this.pattern = stepDefinition.getPattern();
@@ -96,7 +96,7 @@ public class StepDefinitionProxy implements StepDefinition, Serializable {
     public boolean isDefinedAt(StackTraceElement stackTraceElement) {
 //        return remoteBackend.isDefinedAt(this, stackTraceElement);
 //        throw new UnsupportedOperationException("isDefinedAt unsupported");
-        return true;
+        return false;
     }
 
     @Override

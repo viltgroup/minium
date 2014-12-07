@@ -34,7 +34,7 @@ public class BackendRestController {
 
     private Backend backend;
     private Map<UUID, GlueProxy> glues = new HashMap<UUID, GlueProxy>();
-    WorldProxy world;
+    WorldDTO world;
     private Map<Long, StepDefinition> stepDefinitions = new HashMap<Long, StepDefinition>();
     private Map<Long, HookDefinition> hookDefinitions = new HashMap<Long, HookDefinition>();
 
@@ -65,9 +65,9 @@ public class BackendRestController {
 
     @RequestMapping(value = "/worlds", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public WorldProxy createWorld() {
+    public WorldDTO createWorld() {
         Preconditions.checkState(world == null, "A world already exists");
-        world = new WorldProxy(UUID.randomUUID());
+        world = new WorldDTO(UUID.randomUUID());
         backend.buildWorld();
         return world;
     }
@@ -82,7 +82,7 @@ public class BackendRestController {
     }
 
     @RequestMapping(value = "/glues/{uuid}/hookDefinitions/{id}/execution", method = RequestMethod.POST)
-    public HookExecutionResult execute(@PathVariable UUID uuid, @PathVariable long id, @RequestBody ScenarioProxy scenario) throws Throwable {
+    public HookExecutionResult execute(@PathVariable UUID uuid, @PathVariable long id, @RequestBody ScenarioDTO scenario) throws Throwable {
         HookDefinition hookDefinition = hookDefinitions.get(id);
         hookDefinition.execute(scenario);
         return new HookExecutionResult(scenario);
@@ -97,14 +97,14 @@ public class BackendRestController {
     }
 
     @RequestMapping(value = "/glues/{uuid}/stepDefinitions/{id}/matchedArguments", method = RequestMethod.POST)
-    public ArgumentProxy[] matchedArguments(@PathVariable UUID uuid, @PathVariable long id, @RequestBody StepProxy stepProxy) throws Throwable {
+    public ArgumentDTO[] matchedArguments(@PathVariable UUID uuid, @PathVariable long id, @RequestBody StepDTO stepProxy) throws Throwable {
         StepDefinition stepDefinition = stepDefinitions.get(id);
         List<Argument> matchedArguments = stepDefinition.matchedArguments(stepProxy.toStep());
         return convert(matchedArguments);
     }
 
     @RequestMapping(value = "/glues/{uuid}/snippet", params = "type", method = RequestMethod.GET)
-    public String getSnippet(@RequestBody StepProxy serializableStep, @RequestParam SnippetType type) {
+    public String getSnippet(@RequestBody StepDTO serializableStep, @RequestParam SnippetType type) {
         return backend.getSnippet(serializableStep.toStep(), type.getFunctionNameGenerator());
     }
 
@@ -115,19 +115,19 @@ public class BackendRestController {
         return remoteHookDefinition;
     }
 
-    protected StepDefinitionProxy addStepDefinition(UUID glueId, StepDefinition stepDefinition) {
+    protected StepDefinitionDTO addStepDefinition(UUID glueId, StepDefinition stepDefinition) {
         long id = LONG_GENERATOR.incrementAndGet();
-        StepDefinitionProxy remoteStepDefinition = new StepDefinitionProxy(glueId, id, stepDefinition);
+        StepDefinitionDTO remoteStepDefinition = new StepDefinitionDTO(glueId, id, stepDefinition);
         stepDefinitions.put(remoteStepDefinition.getId(), stepDefinition);
         return remoteStepDefinition;
     }
 
-    public ArgumentProxy[] convert(List<Argument> args) {
+    public ArgumentDTO[] convert(List<Argument> args) {
         if (args == null) return null;
-        ArgumentProxy[] proxies = new ArgumentProxy[args.size()];
+        ArgumentDTO[] proxies = new ArgumentDTO[args.size()];
         for (int i = 0; i < args.size(); i++) {
             Argument arg = args.get(i);
-            proxies[i] = new ArgumentProxy(arg);
+            proxies[i] = new ArgumentDTO(arg);
         }
         return proxies;
     }

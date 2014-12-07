@@ -1,13 +1,13 @@
 package cucumber.runtime.remote;
 
-public class ExceptionProxy {
+public class ExceptionDTO {
     private String message;
     private StackTraceElement[] stacktrace;
 
-    public ExceptionProxy() {
+    public ExceptionDTO() {
     }
 
-    public ExceptionProxy(Throwable e) {
+    public ExceptionDTO(Throwable e) {
         if (e == null) return;
         message = e.getMessage();
         stacktrace = e.getStackTrace();
