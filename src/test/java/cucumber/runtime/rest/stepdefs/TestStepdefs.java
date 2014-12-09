@@ -1,4 +1,4 @@
-package cucumber.runtime.remote.stepdefs;
+package cucumber.runtime.rest.stepdefs;
 
 import java.util.List;
 

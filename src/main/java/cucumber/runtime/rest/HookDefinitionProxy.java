@@ -1,4 +1,4 @@
-package cucumber.runtime.remote;
+package cucumber.runtime.rest;
 
 import gherkin.formatter.model.Tag;
 

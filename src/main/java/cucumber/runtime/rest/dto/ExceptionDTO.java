@@ -1,4 +1,4 @@
-package cucumber.runtime.remote;
+package cucumber.runtime.rest.dto;
 
 public class ExceptionDTO {
     private String message;

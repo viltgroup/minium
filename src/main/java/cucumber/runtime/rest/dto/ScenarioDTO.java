@@ -1,4 +1,4 @@
-package cucumber.runtime.remote;
+package cucumber.runtime.rest.dto;
 
 import java.util.ArrayList;
 import java.util.Collection;

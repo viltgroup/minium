@@ -12,7 +12,7 @@
  * the License.
  */
 
-package cucumber.runtime.remote;
+package cucumber.runtime.rest;
 
 
 /**

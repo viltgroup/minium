@@ -1,4 +1,4 @@
-package cucumber.runtime.remote;
+package cucumber.runtime.rest;
 
 import gherkin.I18n;
 import gherkin.formatter.model.DocString;
@@ -11,6 +11,8 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import cucumber.api.DataTable;
 import cucumber.runtime.ParameterInfo;
 import cucumber.runtime.StepDefinition;
+import cucumber.runtime.rest.dto.DataTableDTO;
+import cucumber.runtime.rest.dto.DocStringDTO;
 import cucumber.runtime.table.TableConverter;
 import cucumber.runtime.xstream.LocalizedXStreams;
 import cucumber.runtime.xstream.LocalizedXStreams.LocalizedXStream;

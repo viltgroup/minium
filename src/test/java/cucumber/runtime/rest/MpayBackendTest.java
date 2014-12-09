@@ -1,11 +1,10 @@
-package cucumber.runtime.remote;
+package cucumber.runtime.rest;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.Credentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
@@ -28,6 +27,7 @@ import cucumber.runtime.io.MultiLoader;
 import cucumber.runtime.io.ResourceLoader;
 import cucumber.runtime.io.ResourceLoaderClassFinder;
 import cucumber.runtime.model.CucumberFeature;
+import cucumber.runtime.rest.RemoteBackend;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = MpayBackendTest.TestConfig.class)
@@ -57,19 +57,15 @@ public class MpayBackendTest {
 
     @Test
     public void testLoadGlue() throws Throwable {
-         Credentials credentials = new UsernamePasswordCredentials("admin", "liberty09!");
-
         CredentialsProvider credsProvider = new BasicCredentialsProvider();
-        credsProvider.setCredentials( AuthScope.ANY, credentials);
-
+        credsProvider.setCredentials( AuthScope.ANY, new UsernamePasswordCredentials("admin", "liberty09!"));
         CloseableHttpClient httpClient = HttpClientBuilder.create().setDefaultCredentialsProvider(credsProvider).build();
-
         HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory(httpClient);
 
         //3. create restTemplate
         RestTemplate restTemplate = new RestTemplate(factory);
 
-        RemoteBackend remoteBackend = new RemoteBackend("http://localhost:8080/cucumber-backend", restTemplate );
+        RemoteBackend remoteBackend = new RemoteBackend("http://localhost:8080/cucumber", restTemplate);
 
         final CucumberFeature feature = TestHelper.feature("mpay.feature", join(
                 "Feature: Test given steps",

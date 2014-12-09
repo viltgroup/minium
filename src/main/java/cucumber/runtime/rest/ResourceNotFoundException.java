@@ -1,4 +1,4 @@
-package cucumber.runtime.remote;
+package cucumber.runtime.rest;
 
 public class ResourceNotFoundException extends RuntimeException {
 

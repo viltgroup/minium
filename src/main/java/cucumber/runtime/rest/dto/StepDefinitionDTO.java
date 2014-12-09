@@ -1,4 +1,4 @@
-package cucumber.runtime.remote;
+package cucumber.runtime.rest.dto;
 
 import gherkin.I18n;
 import gherkin.formatter.Argument;
@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 import cucumber.runtime.ParameterInfo;
 import cucumber.runtime.StepDefinition;
+import cucumber.runtime.rest.RemoteBackend;
 
 @JsonAutoDetect(
         getterVisibility = JsonAutoDetect.Visibility.NONE,
@@ -31,7 +32,6 @@ public class StepDefinitionDTO implements StepDefinition, Serializable {
     private String detailedLocation;
 
     private transient RemoteBackend remoteBackend;
-
 
     public StepDefinitionDTO() {
     }
@@ -94,8 +94,6 @@ public class StepDefinitionDTO implements StepDefinition, Serializable {
 
     @Override
     public boolean isDefinedAt(StackTraceElement stackTraceElement) {
-//        return remoteBackend.isDefinedAt(this, stackTraceElement);
-//        throw new UnsupportedOperationException("isDefinedAt unsupported");
         return false;
     }
 
@@ -107,6 +105,5 @@ public class StepDefinitionDTO implements StepDefinition, Serializable {
     public void setPattern(String pattern) {
         this.pattern = pattern;
     }
-
 }
 

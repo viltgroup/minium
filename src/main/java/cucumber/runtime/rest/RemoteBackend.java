@@ -1,6 +1,11 @@
-package cucumber.runtime.remote;
+package cucumber.runtime.rest;
 
-import static org.springframework.web.util.UriComponentsBuilder.fromHttpUrl;
+import static cucumber.runtime.rest.CucumberRestConstants.GLUES_URI;
+import static cucumber.runtime.rest.CucumberRestConstants.HOOK_EXEC_URI;
+import static cucumber.runtime.rest.CucumberRestConstants.STEP_EXEC_URI;
+import static cucumber.runtime.rest.CucumberRestConstants.STEP_MATCHED_URI;
+import static cucumber.runtime.rest.CucumberRestConstants.WORLDS_URI;
+import static cucumber.runtime.rest.CucumberRestConstants.WORLD_URI;
 import gherkin.I18n;
 import gherkin.formatter.Argument;
 import gherkin.formatter.model.Step;
@@ -22,6 +27,11 @@ import cucumber.runtime.Glue;
 import cucumber.runtime.HookDefinition;
 import cucumber.runtime.StepDefinition;
 import cucumber.runtime.UnreportedStepExecutor;
+import cucumber.runtime.rest.dto.ArgumentDTO;
+import cucumber.runtime.rest.dto.ScenarioDTO;
+import cucumber.runtime.rest.dto.StepDTO;
+import cucumber.runtime.rest.dto.StepDefinitionDTO;
+import cucumber.runtime.rest.dto.WorldDTO;
 import cucumber.runtime.snippets.FunctionNameGenerator;
 
 public class RemoteBackend implements Backend {
@@ -35,30 +45,26 @@ public class RemoteBackend implements Backend {
     }
 
     private final String baseUrl;
+    private final String backendId;
     private final RestTemplate template;
     private WorldDTO world;
-
-    private UriComponentsBuilder gluesUriBuilder;
-    private UriComponentsBuilder worldsUriBuilder;
-    private UriComponentsBuilder worldUriBuilder;
-    private UriComponentsBuilder hookExecUriBuilder;
-    private UriComponentsBuilder stepExecUriBuilder;
-    private UriComponentsBuilder stepMatchedUriBuilder;
 
     public RemoteBackend(String baseUrl) {
         this(baseUrl, new RestTemplate());
     }
 
-    public RemoteBackend(String baseUrl, RestTemplate template) {
-        this.baseUrl = baseUrl;
-        this.template = template;
+    public RemoteBackend(String baseUrl, String backendId) {
+        this(baseUrl, backendId, new RestTemplate());
+    }
 
-        gluesUriBuilder       = fromHttpUrl(baseUrl).pathSegment("glues");
-        worldsUriBuilder      = fromHttpUrl(baseUrl).pathSegment("worlds");
-        worldUriBuilder       = fromHttpUrl(baseUrl).pathSegment("worlds/{uuid}");
-        hookExecUriBuilder    = fromHttpUrl(baseUrl).pathSegment("glues/{uuid}/hookDefinitions/{id}/execution");
-        stepExecUriBuilder    = fromHttpUrl(baseUrl).pathSegment("glues/{uuid}/stepDefinitions/{id}/execution");
-        stepMatchedUriBuilder = fromHttpUrl(baseUrl).pathSegment("glues/{uuid}/stepDefinitions/{id}/matchedArguments");
+    public RemoteBackend(String baseUrl, RestTemplate template) {
+        this(baseUrl, CucumberRestController.DEFAULT_BACKEND, template);
+    }
+
+    public RemoteBackend(String baseUrl, String backendId, RestTemplate template) {
+        this.baseUrl = baseUrl;
+        this.backendId = backendId;
+        this.template = template;
     }
 
     public RestTemplate getTemplate() {
@@ -67,7 +73,7 @@ public class RemoteBackend implements Backend {
 
     @Override
     public void loadGlue(Glue glue, List<String> gluePaths) {
-        URI uri = gluesUriBuilder.queryParam("path", gluePaths.toArray()).build().toUri();
+        URI uri = uriBuilderFor(GLUES_URI).queryParam("path", gluePaths.toArray()).buildAndExpand(backendId).toUri();
         GlueProxy remoteGlue = template.postForObject(uri, null, GlueProxy.class);
 
         for (HookDefinition hookDefinition : remoteGlue.getBeforeHooks()) {
@@ -91,27 +97,27 @@ public class RemoteBackend implements Backend {
     @Override
     public void buildWorld() {
         Preconditions.checkState(world == null, "A world already exists");
-        URI uri = worldsUriBuilder.build().toUri();
+        URI uri = uriBuilderFor(WORLDS_URI).buildAndExpand(backendId).toUri();
         world = template.postForObject(uri, null, WorldDTO.class);
     }
 
     @Override
     public void disposeWorld() {
         Preconditions.checkState(world != null, "No world exists");
-        URI uri = worldUriBuilder.buildAndExpand(world.getUuid()).toUri();
+        URI uri = uriBuilderFor(WORLD_URI).buildAndExpand(backendId, world.getUuid()).toUri();
         template.delete(uri);
     }
 
     protected void execute(HookDefinitionProxy hookDefinition, Scenario scenario) {
         ScenarioDTO remoteScenario = new ScenarioDTO(scenario);
-        URI uri = hookExecUriBuilder.buildAndExpand(hookDefinition.getGlueId(), hookDefinition.getId()).toUri();
+        URI uri = uriBuilderFor(HOOK_EXEC_URI).buildAndExpand(backendId, hookDefinition.getGlueId(), hookDefinition.getId()).toUri();
         HookExecutionResult execution = template.postForObject(uri, remoteScenario, HookExecutionResult.class);
         remoteScenario.populate(execution.getScenario());
     }
 
     public void execute(StepDefinitionDTO stepDefinition, I18n i18n, Object[] args) {
         StepDefinitionInvocation stepDefinitionInvocation = new StepDefinitionInvocation(i18n, args);
-        URI uri = stepExecUriBuilder.buildAndExpand(stepDefinition.getGlueId(), stepDefinition.getId()).toUri();
+        URI uri = uriBuilderFor(STEP_EXEC_URI).buildAndExpand(backendId, stepDefinition.getGlueId(), stepDefinition.getId()).toUri();
         template.postForObject(uri, stepDefinitionInvocation, StepExecutionResult.class);
     }
 
@@ -129,9 +135,13 @@ public class RemoteBackend implements Backend {
 
     public List<Argument> matchedArguments(StepDefinitionDTO stepDefinition, Step step) {
         StepDTO stepProxy = new StepDTO(step);
-        URI uri = stepMatchedUriBuilder.buildAndExpand(stepDefinition.getGlueId(), stepDefinition.getId()).toUri();
+        URI uri = uriBuilderFor(STEP_MATCHED_URI).buildAndExpand(backendId, stepDefinition.getGlueId(), stepDefinition.getId()).toUri();
         ArgumentDTO[] matchedArguments = template.postForObject(uri, stepProxy, ArgumentDTO[].class);
         return toGerkinArguments(matchedArguments);
+    }
+
+    private UriComponentsBuilder uriBuilderFor(String path) {
+        return UriComponentsBuilder.fromHttpUrl(baseUrl + path);
     }
 
     private List<Argument> toGerkinArguments(ArgumentDTO[] matchedArguments) {

@@ -1,4 +1,4 @@
-package cucumber.runtime.remote;
+package cucumber.runtime.rest;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,7 +26,8 @@ import cucumber.runtime.io.ResourceLoaderClassFinder;
 import cucumber.runtime.java.JavaBackend;
 import cucumber.runtime.java.ObjectFactory;
 import cucumber.runtime.model.CucumberFeature;
-import cucumber.runtime.remote.RemoteBackendTest.App;
+import cucumber.runtime.rest.RemoteBackend;
+import cucumber.runtime.rest.RemoteBackendTest.App;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = App.class)
@@ -73,7 +74,7 @@ public class RemoteBackendTest {
 
     @Test
     public void testLoadGlue() throws Throwable {
-        RemoteBackend remoteBackend = new RemoteBackend("http://localhost:8080");
+        RemoteBackend remoteBackend = new RemoteBackend("http://localhost:8080/cucumber");
 
         final CucumberFeature feature = TestHelper.feature("nice.feature", join(
                 "Feature: Be nice",

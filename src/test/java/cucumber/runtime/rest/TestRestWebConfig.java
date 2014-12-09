@@ -1,4 +1,4 @@
-package cucumber.runtime.remote;
+package cucumber.runtime.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -9,6 +9,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import cucumber.runtime.Backend;
+import cucumber.runtime.rest.CucumberRestController;
 
 @Configuration
 @EnableWebMvc
@@ -16,8 +17,8 @@ public class TestRestWebConfig extends WebMvcConfigurerAdapter {
 
     @Autowired
     @Bean
-    public BackendRestController remoteBackendService(Backend backend) {
-        return new BackendRestController(backend);
+    public CucumberRestController remoteBackendService(Backend backend) {
+        return new CucumberRestController(backend);
     }
 
     @Override

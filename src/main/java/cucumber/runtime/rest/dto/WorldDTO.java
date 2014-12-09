@@ -1,7 +1,9 @@
-package cucumber.runtime.remote;
+package cucumber.runtime.rest.dto;
 
 import java.io.Serializable;
 import java.util.UUID;
+
+import cucumber.runtime.rest.GlueProxy;
 
 public class WorldDTO implements Serializable {
 

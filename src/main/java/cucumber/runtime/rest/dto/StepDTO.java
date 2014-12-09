@@ -1,4 +1,4 @@
-package cucumber.runtime.remote;
+package cucumber.runtime.rest.dto;
 
 import gherkin.formatter.model.Comment;
 import gherkin.formatter.model.DataTableRow;
@@ -11,7 +11,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
-import cucumber.runtime.remote.DataTableDTO.DataTableRowProxy;
+import cucumber.runtime.rest.dto.DataTableDTO.DataTableRowProxy;
 
 @JsonAutoDetect(
         getterVisibility = JsonAutoDetect.Visibility.NONE,

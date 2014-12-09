@@ -1,12 +1,15 @@
-package cucumber.runtime.remote;
+package cucumber.runtime.rest;
 
 import gherkin.I18n;
 import gherkin.formatter.model.Step;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicLong;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
@@ -16,6 +19,7 @@ import cucumber.runtime.Glue;
 import cucumber.runtime.HookDefinition;
 import cucumber.runtime.StepDefinition;
 import cucumber.runtime.StepDefinitionMatch;
+import cucumber.runtime.rest.dto.StepDefinitionDTO;
 
 @JsonAutoDetect(
         getterVisibility = JsonAutoDetect.Visibility.NONE,
@@ -24,6 +28,9 @@ import cucumber.runtime.StepDefinitionMatch;
 )
 public class GlueProxy implements Glue, Serializable {
 
+    static transient AtomicLong HOOK_DEF_ID_GENERATOR = new AtomicLong();
+    static transient AtomicLong STEP_DEF_ID_GENERATOR = new AtomicLong();
+
     private static final long serialVersionUID = -1207719130996258182L;
 
     private UUID uuid;
@@ -31,13 +38,13 @@ public class GlueProxy implements Glue, Serializable {
     private List<HookDefinitionProxy> beforeHookDefinitions = new ArrayList<HookDefinitionProxy>();
     private List<HookDefinitionProxy> afterHookDefinitions = new ArrayList<HookDefinitionProxy>();
 
-    private transient BackendRestController backendService;
+    private transient Map<Long, StepDefinition> cucumberStepDefinitions = new HashMap<Long, StepDefinition>();
+    private transient Map<Long, HookDefinition> cucumberHookDefinitions = new HashMap<Long, HookDefinition>();
 
     public GlueProxy() {
     }
 
-    public GlueProxy(BackendRestController backendService, UUID uuid) {
-        this.backendService = backendService;
+    public GlueProxy( UUID uuid) {
         this.uuid = uuid;
     }
 
@@ -51,23 +58,26 @@ public class GlueProxy implements Glue, Serializable {
 
     @Override
     public void addStepDefinition(StepDefinition stepDefinition) throws DuplicateStepDefinitionException {
-        Preconditions.checkNotNull(backendService);
-        StepDefinitionDTO remoteStepDefinition = backendService.addStepDefinition(uuid, stepDefinition);
+        long id = STEP_DEF_ID_GENERATOR.incrementAndGet();
+        StepDefinitionDTO remoteStepDefinition = new StepDefinitionDTO(uuid, id, stepDefinition);
         stepDefinitions.add(remoteStepDefinition);
+        cucumberStepDefinitions.put(remoteStepDefinition.getId(), stepDefinition);
     }
 
     @Override
     public void addBeforeHook(HookDefinition hookDefinition) {
-        Preconditions.checkNotNull(backendService);
-        HookDefinitionProxy remoteHookDefinition = backendService.addHookDefinition(uuid, hookDefinition);
+        long id = HOOK_DEF_ID_GENERATOR.incrementAndGet();
+        HookDefinitionProxy remoteHookDefinition = new HookDefinitionProxy(uuid, id);
         beforeHookDefinitions.add(remoteHookDefinition);
+        cucumberHookDefinitions.put(remoteHookDefinition.getId(), hookDefinition);
     }
 
     @Override
     public void addAfterHook(HookDefinition hookDefinition) {
-        Preconditions.checkNotNull(backendService);
-        HookDefinitionProxy remoteHookDefinition = backendService.addHookDefinition(uuid, hookDefinition);
+        long id = HOOK_DEF_ID_GENERATOR.incrementAndGet();
+        HookDefinitionProxy remoteHookDefinition = new HookDefinitionProxy(uuid, id);
         afterHookDefinitions.add(remoteHookDefinition);
+        cucumberHookDefinitions.put(remoteHookDefinition.getId(), hookDefinition);
     }
 
     @Override
@@ -111,5 +121,13 @@ public class GlueProxy implements Glue, Serializable {
         for (StepDefinitionDTO stepDefinition : stepDefinitions) {
             stepDefinitionReporter.stepDefinition(stepDefinition);
         }
+    }
+
+    public StepDefinition stepDefinition(Long id) {
+        return cucumberStepDefinitions.get(id);
+    }
+
+    public HookDefinition hookDefinition(Long id) {
+        return cucumberHookDefinitions.get(id);
     }
 }

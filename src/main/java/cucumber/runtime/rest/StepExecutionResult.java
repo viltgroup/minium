@@ -1,4 +1,6 @@
-package cucumber.runtime.remote;
+package cucumber.runtime.rest;
+
+import cucumber.runtime.rest.dto.ExceptionDTO;
 
 public class StepExecutionResult {
 
