@@ -10,7 +10,7 @@ import cucumber.runtime.Backend;
 @Configuration
 public class MockRestConfig {
 
-    @Bean
+    @Bean(name = "mockedBackend")
     public Backend backendMock() {
         return mock(Backend.class);
     }

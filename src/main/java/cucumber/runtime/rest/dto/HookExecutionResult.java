@@ -1,15 +1,20 @@
-package cucumber.runtime.rest;
+package cucumber.runtime.rest.dto;
 
-import cucumber.runtime.rest.dto.ScenarioDTO;
 
-public class HookExecutionResult {
+public class HookExecutionResult extends ExecutionResult {
+
     private ScenarioDTO scenario;
 
     public HookExecutionResult() {
+        super();
     }
 
     public HookExecutionResult(ScenarioDTO scenario) {
-        super();
+        this();
+    }
+
+    public HookExecutionResult(ScenarioDTO scenario, Throwable e) {
+        super(e);
         this.scenario = scenario;
     }
 

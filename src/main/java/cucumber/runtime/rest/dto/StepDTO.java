@@ -9,15 +9,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-
 import cucumber.runtime.rest.dto.DataTableDTO.DataTableRowProxy;
 
-@JsonAutoDetect(
-        getterVisibility = JsonAutoDetect.Visibility.NONE,
-        setterVisibility = JsonAutoDetect.Visibility.NONE,
-        fieldVisibility = JsonAutoDetect.Visibility.ANY
-)
 public class StepDTO implements Serializable {
 
     private static final long serialVersionUID = 578395699182857236L;
@@ -44,6 +37,54 @@ public class StepDTO implements Serializable {
             }
         }
         this.docString = step.getDocString();
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getLine() {
+        return line;
+    }
+
+    public void setLine(Integer line) {
+        this.line = line;
+    }
+
+    public List<DataTableRowProxy> getRows() {
+        return rows;
+    }
+
+    public void setRows(List<DataTableRowProxy> rows) {
+        this.rows = rows;
+    }
+
+    public DocString getDocString() {
+        return docString;
+    }
+
+    public void setDocString(DocString docString) {
+        this.docString = docString;
     }
 
     public Step toStep() {

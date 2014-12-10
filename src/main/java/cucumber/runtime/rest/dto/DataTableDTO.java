@@ -7,23 +7,11 @@ import gherkin.formatter.model.Row.DiffType;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-
 import cucumber.api.DataTable;
 import cucumber.runtime.table.TableConverter;
 
-@JsonAutoDetect(
-        getterVisibility = JsonAutoDetect.Visibility.NONE,
-        setterVisibility = JsonAutoDetect.Visibility.NONE,
-        fieldVisibility = JsonAutoDetect.Visibility.ANY
-)
 public class DataTableDTO {
 
-    @JsonAutoDetect(
-            getterVisibility = JsonAutoDetect.Visibility.NONE,
-            setterVisibility = JsonAutoDetect.Visibility.NONE,
-            fieldVisibility = JsonAutoDetect.Visibility.ANY
-    )
     public static class DataTableRowProxy {
 
         private List<String> cells;
@@ -41,6 +29,38 @@ public class DataTableDTO {
             diffType = row.getDiffType();
         }
 
+        public List<String> getCells() {
+            return cells;
+        }
+
+        public void setCells(List<String> cells) {
+            this.cells = cells;
+        }
+
+        public List<Comment> getComments() {
+            return comments;
+        }
+
+        public void setComments(List<Comment> comments) {
+            this.comments = comments;
+        }
+
+        public Integer getLine() {
+            return line;
+        }
+
+        public void setLine(Integer line) {
+            this.line = line;
+        }
+
+        public DiffType getDiffType() {
+            return diffType;
+        }
+
+        public void setDiffType(DiffType diffType) {
+            this.diffType = diffType;
+        }
+
         public DataTableRow toDataTableRow() {
             return new DataTableRow(comments, cells, line, diffType);
         }
@@ -56,6 +76,14 @@ public class DataTableDTO {
         for (DataTableRow gherkinRow : gherkinRows) {
             rows.add(new DataTableRowProxy(gherkinRow));
         }
+    }
+
+    public List<DataTableRowProxy> getRows() {
+        return rows;
+    }
+
+    public void setRows(List<DataTableRowProxy> rows) {
+        this.rows = rows;
     }
 
     public DataTable toDataTable(TableConverter tableConverter) {

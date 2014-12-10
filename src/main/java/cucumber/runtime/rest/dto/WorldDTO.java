@@ -3,19 +3,19 @@ package cucumber.runtime.rest.dto;
 import java.io.Serializable;
 import java.util.UUID;
 
-import cucumber.runtime.rest.GlueProxy;
-
 public class WorldDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private UUID uuid;
+    private String backendName;
 
     public WorldDTO() {
     }
 
-    public WorldDTO(UUID uuid) {
+    public WorldDTO(UUID uuid, String backendName) {
         this.uuid = uuid;
+        this.backendName = backendName;
     }
 
     public void setUuid(UUID uuid) {
@@ -26,6 +26,14 @@ public class WorldDTO implements Serializable {
         return uuid;
     }
 
+    public String getBackendName() {
+        return backendName;
+    }
+
+    public void setBackendName(String backendName) {
+        this.backendName = backendName;
+    }
+
     @Override
     public int hashCode() {
         return uuid == null ? System.identityHashCode(this) : uuid.hashCode();
@@ -33,8 +41,8 @@ public class WorldDTO implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof GlueProxy && uuid != null) {
-            return uuid.equals(((GlueProxy) obj).getUuid());
+        if (obj instanceof GlueDTO && uuid != null) {
+            return uuid.equals(((GlueDTO) obj).getUuid());
         }
         return false;
     }

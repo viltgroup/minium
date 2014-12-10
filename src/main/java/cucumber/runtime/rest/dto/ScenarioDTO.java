@@ -1,19 +1,11 @@
 package cucumber.runtime.rest.dto;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 import cucumber.api.Scenario;
 
-@JsonAutoDetect(
-        getterVisibility = JsonAutoDetect.Visibility.NONE,
-        setterVisibility = JsonAutoDetect.Visibility.NONE,
-        fieldVisibility = JsonAutoDetect.Visibility.ANY
-)
-public class ScenarioDTO implements Scenario {
+public class ScenarioDTO {
 
     public static class Data {
 
@@ -60,39 +52,60 @@ public class ScenarioDTO implements Scenario {
         name = scenario.getName();
     }
 
-    @Override
-    public Collection<String> getSourceTagNames() {
-        return sourceTagNames;
+    public String getId() {
+        return id;
     }
 
-    @Override
-    public String getStatus() {
-        return status;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    @Override
-    public boolean isFailed() {
-        return failed;
-    }
-
-    @Override
-    public void embed(byte[] data, String mimeType) {
-        embedded.add(new Data(data, mimeType));
-    }
-
-    @Override
-    public void write(String text) {
-        texts.add(text);
-    }
-
-    @Override
     public String getName() {
         return name;
     }
 
-    @Override
-    public String getId() {
-        return id;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<String> getSourceTagNames() {
+        return sourceTagNames;
+    }
+
+    public void setSourceTagNames(List<String> sourceTagNames) {
+        this.sourceTagNames = sourceTagNames;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public boolean isFailed() {
+        return failed;
+    }
+
+    public void setFailed(boolean failed) {
+        this.failed = failed;
+    }
+
+    public List<Data> getEmbedded() {
+        return embedded;
+    }
+
+    public void setEmbedded(List<Data> embedded) {
+        this.embedded = embedded;
+    }
+
+    public List<String> getTexts() {
+        return texts;
+    }
+
+    public void setTexts(List<String> texts) {
+        this.texts = texts;
     }
 
     public void populate(Scenario scenario) {

@@ -2,13 +2,6 @@ package cucumber.runtime.rest.dto;
 
 import gherkin.formatter.Argument;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-
-@JsonAutoDetect(
-        getterVisibility = JsonAutoDetect.Visibility.NONE,
-        setterVisibility = JsonAutoDetect.Visibility.NONE,
-        fieldVisibility = JsonAutoDetect.Visibility.ANY
-)
 public class ArgumentDTO {
 
     private Integer offset;

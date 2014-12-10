@@ -1,4 +1,4 @@
-package cucumber.runtime.rest;
+package cucumber.runtime.rest.dto;
 
 import gherkin.I18n;
 import gherkin.formatter.model.DocString;
@@ -6,22 +6,12 @@ import gherkin.formatter.model.DocString;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-
 import cucumber.api.DataTable;
 import cucumber.runtime.ParameterInfo;
 import cucumber.runtime.StepDefinition;
-import cucumber.runtime.rest.dto.DataTableDTO;
-import cucumber.runtime.rest.dto.DocStringDTO;
 import cucumber.runtime.table.TableConverter;
-import cucumber.runtime.xstream.LocalizedXStreams;
 import cucumber.runtime.xstream.LocalizedXStreams.LocalizedXStream;
 
-@JsonAutoDetect(
-        getterVisibility = JsonAutoDetect.Visibility.NONE,
-        setterVisibility = JsonAutoDetect.Visibility.NONE,
-        fieldVisibility = JsonAutoDetect.Visibility.ANY
-)
 public class StepDefinitionInvocation implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -39,8 +29,7 @@ public class StepDefinitionInvocation implements Serializable {
         initializeArgs(args);
     }
 
-    public Object[] getArgs(LocalizedXStreams xStreams, StepDefinition stepDefinition) {
-        LocalizedXStream xStream = xStreams.get(getI18n().getLocale());
+    public Object[] getArgs(LocalizedXStream xStream, StepDefinition stepDefinition) {
         Object[] transformedArgs = new Object[dataTable == null && docString == null ? args.length : args.length + 1];
         for (int i = 0; i < args.length; i++) {
             Object arg = args[i];
@@ -60,8 +49,36 @@ public class StepDefinitionInvocation implements Serializable {
         return transformedArgs;
     }
 
-    public I18n getI18n() {
-        return new I18n(isoCode);
+    public String getIsoCode() {
+        return isoCode;
+    }
+
+    public void setIsoCode(String isoCode) {
+        this.isoCode = isoCode;
+    }
+
+    public Object[] getArgs() {
+        return args;
+    }
+
+    public void setArgs(Object[] args) {
+        this.args = args;
+    }
+
+    public DataTableDTO getDataTable() {
+        return dataTable;
+    }
+
+    public void setDataTable(DataTableDTO dataTable) {
+        this.dataTable = dataTable;
+    }
+
+    public DocStringDTO getDocString() {
+        return docString;
+    }
+
+    public void setDocString(DocStringDTO docString) {
+        this.docString = docString;
     }
 
     protected void initializeArgs(Object[] args) {

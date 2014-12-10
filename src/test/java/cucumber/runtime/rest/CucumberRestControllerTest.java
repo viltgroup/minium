@@ -1,12 +1,20 @@
 package cucumber.runtime.rest;
 
+import static cucumber.runtime.rest.CucumberRestConstants.CONTROLLER_PREFIX;
+import static cucumber.runtime.rest.CucumberRestConstants.WORLDS_URI;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -15,22 +23,20 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import cucumber.runtime.Backend;
-import cucumber.runtime.rest.CucumberRestController;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = { MockRestConfig.class, TestRestWebConfig.class })
-public class RemoteBackendServiceTest {
+@ContextConfiguration(classes = { MockRestConfig.class, CucumberRestConfig.class })
+public class CucumberRestControllerTest {
 
     @Autowired
     private WebApplicationContext wac;
 
     @Autowired
-    @Qualifier("backendMock")
-    private Backend backend;
+    private Backend mockedBackend;
 
     @Autowired
-    private CucumberRestController backendService;
+    private CucumberRestController controller;
 
     private MockMvc mockMvc;
 
@@ -40,21 +46,22 @@ public class RemoteBackendServiceTest {
                 .webAppContextSetup(this.wac)
                 .alwaysDo(print())
                 .build();
-        reset(backend);
+        reset(mockedBackend);
     }
 
-//    @Test
-//    public void testCreateWorld() throws Exception {
-//        // when
-//        this.mockMvc
-//                .perform(post("/worlds").accept(MediaType.APPLICATION_JSON))
-//
-//        // then
-//                .andExpect(status().isCreated())
-//                .andExpect(jsonPath("$.uuid").exists());
-//        verify(backend).buildWorld();
-//        assertThat(backendService.world, notNullValue());
-//    }
+    @Test
+    public void testCreateWorld() throws Exception {
+        // when
+        this.mockMvc
+                .perform(post(CONTROLLER_PREFIX + WORLDS_URI, "mockedBackend"))
+
+        // then
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.uuid").exists())
+                .andExpect(jsonPath("$.backendName").value("mockedBackend"));
+        verify(mockedBackend).buildWorld();
+        assertThat(controller.backendContexts.get("mockedBackend").world, notNullValue());
+    }
 //
 //    @Test
 //    public void testDeleteWorld() throws Exception {
