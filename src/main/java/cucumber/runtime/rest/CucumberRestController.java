@@ -1,14 +1,14 @@
 package cucumber.runtime.rest;
 
-import static cucumber.runtime.rest.CucumberRestConstants.CONTROLLER_PREFIX;
+import static cucumber.runtime.rest.CucumberRestConstants.URL_PREFIX;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,7 +31,7 @@ import cucumber.runtime.rest.dto.TagDTO;
 import cucumber.runtime.rest.dto.WorldDTO;
 
 @RestController
-@RequestMapping(CONTROLLER_PREFIX)
+@RequestMapping(URL_PREFIX)
 public class CucumberRestController {
 
     public static final String DEFAULT_BACKEND = "default";
@@ -39,11 +39,12 @@ public class CucumberRestController {
     Map<String, BackendContext> backendContexts = new HashMap<String, BackendContext>();
 
     public CucumberRestController(Backend backend) {
-        this(Collections.singletonMap(DEFAULT_BACKEND, backend));
+        this(new BackendRegistry().register(DEFAULT_BACKEND, backend));
     }
 
-    public CucumberRestController(Map<String, Backend> backends) {
-        for (Entry<String, Backend> entry : backends.entrySet()) {
+    @Autowired
+    public CucumberRestController(BackendRegistry backends) {
+        for (Entry<String, Backend> entry : backends.getAll().entrySet()) {
             backendContexts.put(entry.getKey(), new BackendContext(entry.getKey(), entry.getValue()));
         }
     }

@@ -1,10 +1,12 @@
-package cucumber.runtime.rest;
+package cucumber.runtime.rest.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 import org.springframework.context.annotation.Import;
+
+import cucumber.runtime.rest.CucumberRestConfiguration;
 
 /**
  * Indicates that Cucumber REST support should be enabled.
@@ -16,6 +18,6 @@ import org.springframework.context.annotation.Import;
 @Retention(value = java.lang.annotation.RetentionPolicy.RUNTIME)
 @Target(value = {java.lang.annotation.ElementType.TYPE})
 @Documented
-@Import(CucumberRestConfig.class)
+@Import({ CucumberRestConfiguration.class })
 public @interface EnableCucumberRest {
 }

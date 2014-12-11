@@ -11,12 +11,12 @@ import cucumber.runtime.ParameterInfo;
 import cucumber.runtime.StepDefinition;
 import cucumber.runtime.rest.dto.StepDefinitionDTO;
 
-public class StepDefinitionProxy implements StepDefinition {
+public class RemoteStepDefinition implements StepDefinition {
 
     private transient RemoteBackend remoteBackend;
     private StepDefinitionDTO definitionDto;
 
-    public StepDefinitionProxy(RemoteBackend remoteBackend, StepDefinitionDTO definitionDto) {
+    public RemoteStepDefinition(RemoteBackend remoteBackend, StepDefinitionDTO definitionDto) {
         this.remoteBackend = remoteBackend;
         this.definitionDto = definitionDto;
     }

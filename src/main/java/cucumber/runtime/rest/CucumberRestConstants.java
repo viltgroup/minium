@@ -2,7 +2,7 @@ package cucumber.runtime.rest;
 
 public class CucumberRestConstants {
 
-    public static final String CONTROLLER_PREFIX  = "/cucumber";
+    public static final String URL_PREFIX        = "/cucumber";
 
     public static final String GLUES_URI          = "/backends/{backendId}/glues";
     public static final String GLUE_URI           = "/backends/{backendId}/glues/{uuid}";

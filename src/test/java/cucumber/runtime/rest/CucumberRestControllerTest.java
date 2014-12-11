@@ -1,6 +1,6 @@
 package cucumber.runtime.rest;
 
-import static cucumber.runtime.rest.CucumberRestConstants.CONTROLLER_PREFIX;
+import static cucumber.runtime.rest.CucumberRestConstants.URL_PREFIX;
 import static cucumber.runtime.rest.CucumberRestConstants.WORLDS_URI;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
@@ -26,7 +26,7 @@ import cucumber.runtime.Backend;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = { MockRestConfig.class, CucumberRestConfig.class })
+@ContextConfiguration(classes = { MockRestConfig.class, CucumberRestConfiguration.class })
 public class CucumberRestControllerTest {
 
     @Autowired
@@ -53,7 +53,7 @@ public class CucumberRestControllerTest {
     public void testCreateWorld() throws Exception {
         // when
         this.mockMvc
-                .perform(post(CONTROLLER_PREFIX + WORLDS_URI, "mockedBackend"))
+                .perform(post(URL_PREFIX + WORLDS_URI, "mockedBackend"))
 
         // then
                 .andExpect(status().isCreated())

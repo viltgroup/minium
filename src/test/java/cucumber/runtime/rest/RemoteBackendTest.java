@@ -32,7 +32,7 @@ public class RemoteBackendTest {
 
     private static ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
-    @Import({ CucumberRestConfig.class, TestConfig.class })
+    @Import({ CucumberRestConfiguration.class, TestConfig.class })
     public static class App {
     }
 

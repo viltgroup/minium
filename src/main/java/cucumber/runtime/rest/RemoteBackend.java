@@ -1,6 +1,5 @@
 package cucumber.runtime.rest;
 
-import static cucumber.runtime.rest.CucumberRestConstants.CONTROLLER_PREFIX;
 import static cucumber.runtime.rest.CucumberRestConstants.GLUES_URI;
 import static cucumber.runtime.rest.CucumberRestConstants.HOOK_EXEC_URI;
 import static cucumber.runtime.rest.CucumberRestConstants.HOOK_TAG_MATCH_URI;
@@ -86,13 +85,13 @@ public class RemoteBackend implements Backend {
         GlueDTO remoteGlue = template.postForObject(uri, null, GlueDTO.class);
 
         for (HookDefinitionDTO definitionDto : remoteGlue.getBeforeHooks()) {
-            glue.addBeforeHook(new HookDefinitionProxy(this, definitionDto));
+            glue.addBeforeHook(new RemoteHookDefinition(this, definitionDto));
         }
         for (HookDefinitionDTO definitionDto : remoteGlue.getAfterHooks()) {
-            glue.addAfterHook(new HookDefinitionProxy(this, definitionDto));
+            glue.addAfterHook(new RemoteHookDefinition(this, definitionDto));
         }
         for (StepDefinitionDTO definitionDto : remoteGlue.getStepDefinitions()) {
-            glue.addStepDefinition(new StepDefinitionProxy(this, definitionDto));
+            glue.addStepDefinition(new RemoteStepDefinition(this, definitionDto));
         }
     }
 
@@ -161,7 +160,7 @@ public class RemoteBackend implements Backend {
     }
 
     protected UriComponentsBuilder uriBuilderFor(String path) {
-        return UriComponentsBuilder.fromHttpUrl(baseUrl + CONTROLLER_PREFIX + path);
+        return UriComponentsBuilder.fromHttpUrl(baseUrl + path);
     }
 
     protected List<Argument> toGerkinArguments(ArgumentDTO[] matchedArguments) {

@@ -1,6 +1,6 @@
 package cucumber.runtime.rest;
 
-import java.util.Map;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,20 +10,26 @@ import org.springframework.web.servlet.config.annotation.ContentNegotiationConfi
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import cucumber.runtime.Backend;
-
 @Configuration
 @EnableWebMvc
-public class CucumberRestConfig extends WebMvcConfigurerAdapter {
+public class CucumberRestConfiguration extends WebMvcConfigurerAdapter {
+
+    @Autowired
+    private List<BackendConfigurer> backendConfigurers;
 
     @Autowired
     @Bean
-    public CucumberRestController cucumberRestController(Map<String, Backend> backends) {
-        return new CucumberRestController(backends);
+    public CucumberRestController cucumberRestController() {
+        BackendRegistry registry = new BackendRegistry();
+        for (BackendConfigurer backendConfigurer : backendConfigurers) {
+            backendConfigurer.addBackends(registry);
+        }
+        return new CucumberRestController(registry);
     }
 
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
         configurer.defaultContentType(MediaType.APPLICATION_JSON);
     }
+
 }

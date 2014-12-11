@@ -33,7 +33,7 @@ public class BackendContext {
 
     private final String backendName;
     private final Backend backend;
-    private final Map<UUID, GlueProxy> glues = new HashMap<UUID, GlueProxy>();
+    private final Map<UUID, SimpleGlue> glues = new HashMap<UUID, SimpleGlue>();
     WorldDTO world;
 
     public BackendContext(String backendName, Backend backend) {
@@ -43,21 +43,21 @@ public class BackendContext {
 
     public List<GlueDTO> getGlues() {
         List<GlueDTO> glueDtos = new ArrayList<GlueDTO>();
-        for (GlueProxy glueProxy : glues.values()) {
+        for (SimpleGlue glueProxy : glues.values()) {
             glueDtos.add(new GlueDTO(glueProxy));
         }
         return glueDtos;
     }
 
     public GlueDTO createGlue(String ... paths) {
-        GlueProxy glue = new GlueProxy();
+        SimpleGlue glue = new SimpleGlue();
         backend.loadGlue(glue, Arrays.asList(paths));
         glues.put(glue.getUuid(), glue);
         return new GlueDTO(glue);
     }
 
     public void deleteGlue(UUID uuid) {
-        GlueProxy remoteGlue = glues.remove(uuid);
+        SimpleGlue remoteGlue = glues.remove(uuid);
         if (remoteGlue == null) throw new ResourceNotFoundException(String.format("Glue %s not found", uuid));
     }
 
@@ -76,7 +76,7 @@ public class BackendContext {
     }
 
     public HookExecutionResult execute(UUID uuid, long id, ScenarioDTO scenarioDto) throws Throwable {
-        GlueProxy glue = glues.get(uuid);
+        SimpleGlue glue = glues.get(uuid);
         Scenario scenarioAdapter = new ScenarioAdapter(scenarioDto);
         HookDefinition hookDefinition = glue.hookDefinition(id);
         try {
@@ -88,13 +88,13 @@ public class BackendContext {
     }
 
     public boolean matches(UUID uuid, long id, Collection<TagDTO> tags) {
-        GlueProxy glue = glues.get(uuid);
+        SimpleGlue glue = glues.get(uuid);
         HookDefinition hookDefinition = glue.hookDefinition(id);
         return hookDefinition.matches(convertTags(tags));
     }
 
     public ExecutionResult execute(UUID uuid, long id, StepDefinitionInvocation stepDefinitionInvocation) throws Throwable {
-        GlueProxy glue = glues.get(uuid);
+        SimpleGlue glue = glues.get(uuid);
         StepDefinition stepDefinition = glue.stepDefinition(id);
         LocalizedXStreams xStreams = new LocalizedXStreams(Thread.currentThread().getContextClassLoader());
         try {
@@ -108,7 +108,7 @@ public class BackendContext {
     }
 
     public ArgumentDTO[] matchedArguments(UUID uuid, long id, StepDTO stepProxy) throws Throwable {
-        GlueProxy glue = glues.get(uuid);
+        SimpleGlue glue = glues.get(uuid);
         StepDefinition stepDefinition = glue.stepDefinition(id);
         List<Argument> matchedArguments = stepDefinition.matchedArguments(stepProxy.toStep());
         return convertArguments(matchedArguments);

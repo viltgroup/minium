@@ -8,7 +8,7 @@ import java.util.UUID;
 
 import cucumber.runtime.HookDefinition;
 import cucumber.runtime.StepDefinition;
-import cucumber.runtime.rest.GlueProxy;
+import cucumber.runtime.rest.SimpleGlue;
 
 public class GlueDTO implements Serializable {
 
@@ -22,7 +22,7 @@ public class GlueDTO implements Serializable {
     public GlueDTO() {
     }
 
-    public GlueDTO(GlueProxy glue) {
+    public GlueDTO(SimpleGlue glue) {
         this.uuid = glue.getUuid();
         for (Entry<Long, HookDefinition> entry : glue.getBeforeHookDefinitions().entrySet()) {
             beforeHooks.add(new HookDefinitionDTO(uuid, entry.getKey(), entry.getValue()));
