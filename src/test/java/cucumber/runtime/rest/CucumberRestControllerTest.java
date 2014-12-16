@@ -2,7 +2,7 @@ package cucumber.runtime.rest;
 
 import static cucumber.runtime.rest.CucumberRestConstants.URL_PREFIX;
 import static cucumber.runtime.rest.CucumberRestConstants.WORLDS_URI;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
@@ -58,9 +58,10 @@ public class CucumberRestControllerTest {
         // then
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.uuid").exists())
-                .andExpect(jsonPath("$.backendName").value("mockedBackend"));
+                .andExpect(jsonPath("$.backendName").value("mockedBackend"))
+                .andReturn();
         verify(mockedBackend).buildWorld();
-        assertThat(controller.backendContexts.get("mockedBackend").world, notNullValue());
+        assertThat(controller.backendContexts.get("mockedBackend").worlds.entrySet(), hasSize(1));
     }
 //
 //    @Test

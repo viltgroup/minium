@@ -34,7 +34,7 @@ public class BackendContext {
     private final String backendName;
     private final Backend backend;
     private final Map<UUID, SimpleGlue> glues = new HashMap<UUID, SimpleGlue>();
-    WorldDTO world;
+    final Map<UUID, WorldDTO> worlds = new HashMap<UUID, WorldDTO>();
 
     public BackendContext(String backendName, Backend backend) {
         this.backendName = backendName;
@@ -62,17 +62,16 @@ public class BackendContext {
     }
 
     public WorldDTO createWorld() {
-        Preconditions.checkState(world == null, "A world already exists");
-        world = new WorldDTO(UUID.randomUUID(), backendName);
+        WorldDTO world = new WorldDTO(UUID.randomUUID(), backendName);
         backend.buildWorld();
+        worlds.put(world.getUuid(), world);
         return world;
     }
 
     public void deleteWorld(UUID uuid) {
-        Preconditions.checkState(world != null, "No world exists");
-        Preconditions.checkState(world.getUuid().equals(uuid), "No world with UUID %s exists", uuid);
+        Preconditions.checkState(worlds.containsKey(uuid), "No world exists with UUID %s", uuid);
+        worlds.remove(uuid);
         backend.disposeWorld();
-        world = null;
     }
 
     public HookExecutionResult execute(UUID uuid, long id, ScenarioDTO scenarioDto) throws Throwable {
