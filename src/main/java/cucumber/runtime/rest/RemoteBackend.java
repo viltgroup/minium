@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -43,6 +45,8 @@ import cucumber.runtime.rest.dto.WorldDTO;
 import cucumber.runtime.snippets.FunctionNameGenerator;
 
 public class RemoteBackend implements Backend {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(RemoteBackend.class);
 
     private static final String FUNCTION_NAME = "function name";
     private static final Map<String, SnippetType> snippetTypes = new HashMap<String, SnippetType>();
@@ -101,17 +105,22 @@ public class RemoteBackend implements Backend {
 
     @Override
     public void buildWorld() {
-        Preconditions.checkState(world == null, "A world already exists");
+        if (world != null) {
+            LOGGER.warn("A world with UUID {} already exists", world.getUuid());
+        }
         URI uri = uriBuilderFor(WORLDS_URI).buildAndExpand(backendId).toUri();
         world = template.postForObject(uri, null, WorldDTO.class);
     }
 
     @Override
     public void disposeWorld() {
-        Preconditions.checkState(world != null, "No world exists");
-        URI uri = uriBuilderFor(WORLD_URI).buildAndExpand(backendId, world.getUuid()).toUri();
-        template.delete(uri);
-        world = null;
+        if (world == null) {
+            LOGGER.warn("No world exists");
+        } else {
+            URI uri = uriBuilderFor(WORLD_URI).buildAndExpand(backendId, world.getUuid()).toUri();
+            template.delete(uri);
+            world = null;
+        }
     }
 
     @Override
