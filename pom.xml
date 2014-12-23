@@ -65,12 +65,12 @@
         <selenium.version>2.44.0</selenium.version>
         <guava.version>18.0</guava.version>
         <phantomjsdriver.version>1.2.0</phantomjsdriver.version>
-        <spring.version>4.1.2.RELEASE</spring.version>
-        <spring.boot.version>1.1.9.RELEASE</spring.boot.version>
+        <spring.version>4.1.3.RELEASE</spring.version>
+        <spring.boot.version>1.2.0.RELEASE</spring.boot.version>
         <tomcat.version>7.0.57</tomcat.version>
         <jackson2.version>2.4.4</jackson2.version>
         <rhino.version>1.7R4</rhino.version>
-        <slf4j.version>1.7.7</slf4j.version>
+        <slf4j.version>1.7.9</slf4j.version>
         <log4j.version>1.2.17</log4j.version>
         <commons.io.version>2.4</commons.io.version>
         <commons.lang3.version>3.3.2</commons.lang3.version>
@@ -81,13 +81,13 @@
         <args4j.version>2.0.29</args4j.version>
         <jsr305.version>3.0.0</jsr305.version>
         <hamcrest.version>1.3</hamcrest.version>
-        <testng.version>6.8.8</testng.version>
+        <testng.version>6.8.13</testng.version>
         <junit.version>4.12</junit.version>
-        <mockito.version>1.10.8</mockito.version>
+        <mockito.version>1.10.17</mockito.version>
 
-        <!-- latest closure compiler versions are only JDK 1.7 compatible, so for JDK 1.76 we use the last compatible version -->        
+        <!-- latest closure compiler versions are only JDK 1.7 compatible, so for JDK 1.6 we use the last compatible version -->        
         <closure.version.jdk16>v20131014</closure.version.jdk16>
-        <closure.version.jdk17>v20141120</closure.version.jdk17>
+        <closure.version.jdk17>v20141215</closure.version.jdk17>
 
         <!-- License properties -->
         <license.name>apache_v2</license.name>
@@ -791,6 +791,29 @@
                                 </conflictingDependencies>
                                 <resources>
                                     <resource>META-INF/web-fragment.xml</resource>
+                                </resources>
+                            </exception>
+                            <exception>
+                                <conflictingDependencies>
+                                    <dependency>
+                                        <groupId>org.springframework.boot</groupId>
+                                        <artifactId>spring-boot</artifactId>
+                                        <version>${spring.boot.version}</version>
+                                    </dependency>
+                                    <dependency>
+                                        <groupId>org.springframework.boot</groupId>
+                                        <artifactId>spring-boot-actuator</artifactId>
+                                        <version>${spring.boot.version}</version>
+                                    </dependency>
+                                    <dependency>
+                                        <groupId>org.springframework.boot</groupId>
+                                        <artifactId>spring-boot-autoconfigure</artifactId>
+                                        <version>${spring.boot.version}</version>
+                                    </dependency>
+                                </conflictingDependencies>
+                                <resources>
+                                    <resource>META-INF/additional-spring-configuration-metadata.json</resource>
+                                    <resource>META-INF/spring-configuration-metadata.json</resource>
                                 </resources>
                             </exception>
                             <!-- for closure compatible with JDK 1.7 -->

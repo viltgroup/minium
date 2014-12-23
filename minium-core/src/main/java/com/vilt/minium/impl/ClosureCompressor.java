@@ -17,6 +17,8 @@ package com.vilt.minium.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Collection;
 
 import com.google.common.base.Charsets;
@@ -37,7 +39,7 @@ public class ClosureCompressor implements Compressor {
         @Override
         public SourceFile apply(String input) {
             try {
-                return SourceFile.fromInputStream(input, getClasspathFileInputStream(input), Charsets.UTF_8);
+                return SourceFile.fromReader(input, getClasspathFileReader(input));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -61,8 +63,9 @@ public class ClosureCompressor implements Compressor {
         }
     }
 
-    public InputStream getClasspathFileInputStream(String filename) {
+    public Reader getClasspathFileReader(String filename) {
         InputStream is = JQueryInvoker.class.getClassLoader().getResourceAsStream(filename);
-        return Preconditions.checkNotNull(is, "File %s not found in classpath", filename);
+        Preconditions.checkNotNull(is, "File %s not found in classpath", filename);
+        return new InputStreamReader(is, Charsets.UTF_8);
     }
 }
