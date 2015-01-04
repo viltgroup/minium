@@ -8,6 +8,9 @@ public class DocStringDTO {
     private String value;
     private int line;
 
+    public DocStringDTO() {
+    }
+
     public DocStringDTO(DocString doc) {
         contentType = doc.getContentType();
         line = doc.getLine();

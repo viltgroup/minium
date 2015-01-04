@@ -3,6 +3,7 @@ package cucumber.runtime.rest;
 import static cucumber.runtime.rest.CucumberRestConstants.GLUES_URI;
 import static cucumber.runtime.rest.CucumberRestConstants.HOOK_EXEC_URI;
 import static cucumber.runtime.rest.CucumberRestConstants.HOOK_TAG_MATCH_URI;
+import static cucumber.runtime.rest.CucumberRestConstants.SNIPPET_URI;
 import static cucumber.runtime.rest.CucumberRestConstants.STEP_EXEC_URI;
 import static cucumber.runtime.rest.CucumberRestConstants.STEP_MATCHED_URI;
 import static cucumber.runtime.rest.CucumberRestConstants.WORLDS_URI;
@@ -15,7 +16,6 @@ import gherkin.formatter.model.Tag;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -101,6 +101,7 @@ public class RemoteBackend implements Backend {
 
     @Override
     public void setUnreportedStepExecutor(UnreportedStepExecutor executor) {
+        // not used here
     }
 
     @Override
@@ -126,7 +127,9 @@ public class RemoteBackend implements Backend {
     @Override
     public String getSnippet(Step step, FunctionNameGenerator nameGenerator) {
         SnippetType snippetType = getSnippetType(nameGenerator);
-        return template.getForObject(baseUrl + "/snippet", String.class, Collections.singletonMap("type", snippetType.name()));
+        URI uri = uriBuilderFor(SNIPPET_URI).buildAndExpand(backendId).toUri();
+        SnippetRequestDTO snippetRequest = new SnippetRequestDTO(new StepDTO(step), snippetType);
+        return template.postForObject(uri, snippetRequest, String.class);
     }
 
     public void execute(HookDefinitionDTO hookDefinition, Scenario scenario) {

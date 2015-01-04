@@ -1,49 +1,49 @@
 package cucumber.runtime.rest.dto;
 
-import gherkin.formatter.model.Comment;
 import gherkin.formatter.model.DataTableRow;
-import gherkin.formatter.model.DocString;
 import gherkin.formatter.model.Step;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import cucumber.runtime.rest.dto.DataTableDTO.DataTableRowProxy;
+import cucumber.runtime.rest.dto.DataTableDTO.DataTableRowDTO;
 
 public class StepDTO implements Serializable {
 
     private static final long serialVersionUID = 578395699182857236L;
 
-    private List<Comment> comments;
+    private List<CommentDTO> comments;
     private String keyword;
     private String name;
     private Integer line;
-    private List<DataTableRowProxy> rows;
-    private DocString docString;
+    private List<DataTableRowDTO> rows;
+    private DocStringDTO docString;
 
     public StepDTO() {
     }
 
     public StepDTO(Step step) {
-        this.comments = step.getComments();
+        this.comments = CommentDTO.fromGherkinComments(step.getComments());
         this.keyword = step.getKeyword();
         this.name = step.getName();
         this.line = step.getLine();
         if (step.getRows() != null) {
-            this.rows = new ArrayList<DataTableRowProxy>();
+            this.rows = new ArrayList<DataTableRowDTO>();
             for (DataTableRow gherkinRow : step.getRows()) {
-                this.rows.add(new DataTableRowProxy(gherkinRow));
+                this.rows.add(new DataTableRowDTO(gherkinRow));
             }
         }
-        this.docString = step.getDocString();
+        if (step.getDocString() != null) {
+            this.docString = new DocStringDTO(step.getDocString());
+        }
     }
 
-    public List<Comment> getComments() {
+    public List<CommentDTO> getComments() {
         return comments;
     }
 
-    public void setComments(List<Comment> comments) {
+    public void setComments(List<CommentDTO> comments) {
         this.comments = comments;
     }
 
@@ -71,36 +71,36 @@ public class StepDTO implements Serializable {
         this.line = line;
     }
 
-    public List<DataTableRowProxy> getRows() {
+    public List<DataTableRowDTO> getRows() {
         return rows;
     }
 
-    public void setRows(List<DataTableRowProxy> rows) {
+    public void setRows(List<DataTableRowDTO> rows) {
         this.rows = rows;
     }
 
-    public DocString getDocString() {
+    public DocStringDTO getDocString() {
         return docString;
     }
 
-    public void setDocString(DocString docString) {
+    public void setDocString(DocStringDTO docString) {
         this.docString = docString;
     }
 
     public Step toStep() {
         return new Step(
-                comments,
+                CommentDTO.toGherkinComments(comments),
                 keyword,
                 name,
                 line,
                 toGherkingRows(),
-                docString);
+                docString == null ? null : docString.toDocString());
     }
 
     private List<DataTableRow> toGherkingRows() {
         if (rows == null) return null;
         List<DataTableRow> gherkinRows = new ArrayList<DataTableRow>();
-        for (DataTableRowProxy row : rows) {
+        for (DataTableRowDTO row : rows) {
             gherkinRows.add(row.toDataTableRow());
         }
         return gherkinRows;

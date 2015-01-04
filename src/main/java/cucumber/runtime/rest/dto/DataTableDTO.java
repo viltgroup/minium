@@ -1,6 +1,5 @@
 package cucumber.runtime.rest.dto;
 
-import gherkin.formatter.model.Comment;
 import gherkin.formatter.model.DataTableRow;
 import gherkin.formatter.model.Row.DiffType;
 
@@ -12,19 +11,19 @@ import cucumber.runtime.table.TableConverter;
 
 public class DataTableDTO {
 
-    public static class DataTableRowProxy {
+    public static class DataTableRowDTO {
 
         private List<String> cells;
-        private List<Comment> comments;
+        private List<CommentDTO> comments;
         private Integer line;
         private DiffType diffType;
 
-        public DataTableRowProxy() {
+        public DataTableRowDTO() {
         }
 
-        public DataTableRowProxy(DataTableRow row) {
+        public DataTableRowDTO(DataTableRow row) {
             cells = row.getCells();
-            comments = row.getComments();
+            comments = CommentDTO.fromGherkinComments(row.getComments());
             line = row.getLine();
             diffType = row.getDiffType();
         }
@@ -37,11 +36,11 @@ public class DataTableDTO {
             this.cells = cells;
         }
 
-        public List<Comment> getComments() {
+        public List<CommentDTO> getComments() {
             return comments;
         }
 
-        public void setComments(List<Comment> comments) {
+        public void setComments(List<CommentDTO> comments) {
             this.comments = comments;
         }
 
@@ -62,11 +61,11 @@ public class DataTableDTO {
         }
 
         public DataTableRow toDataTableRow() {
-            return new DataTableRow(comments, cells, line, diffType);
+            return new DataTableRow(CommentDTO.toGherkinComments(comments), cells, line, diffType);
         }
     }
 
-    private List<DataTableRowProxy> rows = new ArrayList<DataTableRowProxy>();
+    private List<DataTableRowDTO> rows = new ArrayList<DataTableRowDTO>();
 
     public DataTableDTO() {
     }
@@ -74,21 +73,21 @@ public class DataTableDTO {
     public DataTableDTO(DataTable dataTable) {
         List<DataTableRow> gherkinRows = dataTable.getGherkinRows();
         for (DataTableRow gherkinRow : gherkinRows) {
-            rows.add(new DataTableRowProxy(gherkinRow));
+            rows.add(new DataTableRowDTO(gherkinRow));
         }
     }
 
-    public List<DataTableRowProxy> getRows() {
+    public List<DataTableRowDTO> getRows() {
         return rows;
     }
 
-    public void setRows(List<DataTableRowProxy> rows) {
+    public void setRows(List<DataTableRowDTO> rows) {
         this.rows = rows;
     }
 
     public DataTable toDataTable(TableConverter tableConverter) {
         List<DataTableRow> gherkinRows = new ArrayList<DataTableRow>();
-        for (DataTableRowProxy row : rows) {
+        for (DataTableRowDTO row : rows) {
             gherkinRows.add(row.toDataTableRow());
         }
         return new DataTable(gherkinRows, tableConverter);

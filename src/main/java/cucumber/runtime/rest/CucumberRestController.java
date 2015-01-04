@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import cucumber.api.SnippetType;
 import cucumber.runtime.Backend;
 import cucumber.runtime.rest.dto.ArgumentDTO;
 import cucumber.runtime.rest.dto.ExecutionResult;
@@ -96,9 +95,9 @@ public class CucumberRestController {
         return backendContext(backendId).matchedArguments(uuid, id, step);
     }
 
-    @RequestMapping(value = CucumberRestConstants.SNIPPET_URI, params = "type", method = RequestMethod.GET)
-    public String getSnippet(@PathVariable String backendId, @RequestBody StepDTO serializableStep, @RequestParam SnippetType type) {
-        return backendContext(backendId).getSnippet(serializableStep, type);
+    @RequestMapping(value = CucumberRestConstants.SNIPPET_URI, method = RequestMethod.POST)
+    public String getSnippet(@PathVariable String backendId, @RequestBody SnippetRequestDTO snippetRequest) {
+        return backendContext(backendId).getSnippet(snippetRequest.getStep(), snippetRequest.getType());
     }
 
     private BackendContext backendContext(String backendId) {

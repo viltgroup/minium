@@ -12,5 +12,5 @@ public class CucumberRestConstants {
     public static final String HOOK_TAG_MATCH_URI = "/backends/{backendId}/glues/{uuid}/hookDefinitions/{id}/matches";
     public static final String STEP_EXEC_URI      = "/backends/{backendId}/glues/{uuid}/stepDefinitions/{id}/execution";
     public static final String STEP_MATCHED_URI   = "/backends/{backendId}/glues/{uuid}/stepDefinitions/{id}/matchedArguments";
-    public static final String SNIPPET_URI        = "/backends/{backendId}/glues/{uuid}/snippet";
+    public static final String SNIPPET_URI        = "/backends/{backendId}/snippet";
 }
