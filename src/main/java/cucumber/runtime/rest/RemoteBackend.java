@@ -56,8 +56,7 @@ public class RemoteBackend implements Backend {
         snippetTypes.put(SnippetType.UNDERSCORE.getFunctionNameGenerator().generateFunctionName(FUNCTION_NAME), SnippetType.UNDERSCORE);
     }
 
-    private final String baseUrl;
-    private final String backendId;
+    private final String backendUrl;
     private final RestTemplate template;
     private WorldDTO world;
 
@@ -65,17 +64,8 @@ public class RemoteBackend implements Backend {
         this(baseUrl, new RestTemplate());
     }
 
-    public RemoteBackend(String baseUrl, String backendId) {
-        this(baseUrl, backendId, new RestTemplate());
-    }
-
     public RemoteBackend(String baseUrl, RestTemplate template) {
-        this(baseUrl, CucumberRestController.DEFAULT_BACKEND, template);
-    }
-
-    public RemoteBackend(String baseUrl, String backendId, RestTemplate template) {
-        this.baseUrl = baseUrl;
-        this.backendId = backendId;
+        this.backendUrl = baseUrl;
         this.template = template;
     }
 
@@ -85,7 +75,7 @@ public class RemoteBackend implements Backend {
 
     @Override
     public void loadGlue(Glue glue, List<String> gluePaths) {
-        URI uri = uriBuilderFor(GLUES_URI).queryParam("path", gluePaths.toArray()).buildAndExpand(backendId).toUri();
+        URI uri = uriBuilderFor(GLUES_URI).queryParam("path", gluePaths.toArray()).buildAndExpand().toUri();
         GlueDTO remoteGlue = template.postForObject(uri, null, GlueDTO.class);
 
         for (HookDefinitionDTO definitionDto : remoteGlue.getBeforeHooks()) {
@@ -109,7 +99,7 @@ public class RemoteBackend implements Backend {
         if (world != null) {
             LOGGER.warn("A world with UUID {} already exists", world.getUuid());
         }
-        URI uri = uriBuilderFor(WORLDS_URI).buildAndExpand(backendId).toUri();
+        URI uri = uriBuilderFor(WORLDS_URI).buildAndExpand().toUri();
         world = template.postForObject(uri, null, WorldDTO.class);
     }
 
@@ -118,7 +108,7 @@ public class RemoteBackend implements Backend {
         if (world == null) {
             LOGGER.warn("No world exists");
         } else {
-            URI uri = uriBuilderFor(WORLD_URI).buildAndExpand(backendId, world.getUuid()).toUri();
+            URI uri = uriBuilderFor(WORLD_URI).buildAndExpand(world.getUuid()).toUri();
             template.delete(uri);
             world = null;
         }
@@ -127,14 +117,14 @@ public class RemoteBackend implements Backend {
     @Override
     public String getSnippet(Step step, FunctionNameGenerator nameGenerator) {
         SnippetType snippetType = getSnippetType(nameGenerator);
-        URI uri = uriBuilderFor(SNIPPET_URI).buildAndExpand(backendId).toUri();
+        URI uri = uriBuilderFor(SNIPPET_URI).buildAndExpand().toUri();
         SnippetRequestDTO snippetRequest = new SnippetRequestDTO(new StepDTO(step), snippetType);
         return template.postForObject(uri, snippetRequest, String.class);
     }
 
     public void execute(HookDefinitionDTO hookDefinition, Scenario scenario) {
         ScenarioDTO remoteScenario = new ScenarioDTO(scenario);
-        URI uri = uriBuilderFor(HOOK_EXEC_URI).buildAndExpand(backendId, hookDefinition.getGlueId(), hookDefinition.getId()).toUri();
+        URI uri = uriBuilderFor(HOOK_EXEC_URI).buildAndExpand(hookDefinition.getGlueId(), hookDefinition.getId()).toUri();
         HookExecutionResult execution = template.postForObject(uri, remoteScenario, HookExecutionResult.class);
         remoteScenario.populate(scenario);
 
@@ -144,13 +134,13 @@ public class RemoteBackend implements Backend {
     }
 
     public boolean matches(HookDefinitionDTO hookDefinition, Collection<Tag> tags) {
-        URI uri = uriBuilderFor(HOOK_TAG_MATCH_URI).buildAndExpand(backendId, hookDefinition.getGlueId(), hookDefinition.getId()).toUri();
+        URI uri = uriBuilderFor(HOOK_TAG_MATCH_URI).buildAndExpand(hookDefinition.getGlueId(), hookDefinition.getId()).toUri();
         return template.postForObject(uri, toTagDTOs(tags), Boolean.class);
     }
 
     public void execute(StepDefinitionDTO stepDefinition, I18n i18n, Object[] args) {
         StepDefinitionInvocation stepDefinitionInvocation = new StepDefinitionInvocation(i18n, args);
-        URI uri = uriBuilderFor(STEP_EXEC_URI).buildAndExpand(backendId, stepDefinition.getGlueId(), stepDefinition.getId()).toUri();
+        URI uri = uriBuilderFor(STEP_EXEC_URI).buildAndExpand(stepDefinition.getGlueId(), stepDefinition.getId()).toUri();
         StepExecutionResult execution = template.postForObject(uri, stepDefinitionInvocation, StepExecutionResult.class);
 
         if (execution.getStatus() == Status.FAILED) {
@@ -166,13 +156,13 @@ public class RemoteBackend implements Backend {
 
     public List<Argument> matchedArguments(StepDefinitionDTO stepDefinition, Step step) {
         StepDTO stepProxy = new StepDTO(step);
-        URI uri = uriBuilderFor(STEP_MATCHED_URI).buildAndExpand(backendId, stepDefinition.getGlueId(), stepDefinition.getId()).toUri();
+        URI uri = uriBuilderFor(STEP_MATCHED_URI).buildAndExpand(stepDefinition.getGlueId(), stepDefinition.getId()).toUri();
         ArgumentDTO[] matchedArguments = template.postForObject(uri, stepProxy, ArgumentDTO[].class);
         return toGerkinArguments(matchedArguments);
     }
 
     protected UriComponentsBuilder uriBuilderFor(String path) {
-        return UriComponentsBuilder.fromHttpUrl(baseUrl + path);
+        return UriComponentsBuilder.fromHttpUrl(backendUrl + path);
     }
 
     protected List<Argument> toGerkinArguments(ArgumentDTO[] matchedArguments) {

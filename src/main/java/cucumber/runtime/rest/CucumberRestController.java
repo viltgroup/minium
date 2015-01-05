@@ -1,6 +1,16 @@
 package cucumber.runtime.rest;
 
+import static cucumber.runtime.rest.CucumberRestConstants.BACKEND_PREFIX;
+import static cucumber.runtime.rest.CucumberRestConstants.GLUES_URI;
+import static cucumber.runtime.rest.CucumberRestConstants.GLUE_URI;
+import static cucumber.runtime.rest.CucumberRestConstants.HOOK_EXEC_URI;
+import static cucumber.runtime.rest.CucumberRestConstants.HOOK_TAG_MATCH_URI;
+import static cucumber.runtime.rest.CucumberRestConstants.SNIPPET_URI;
+import static cucumber.runtime.rest.CucumberRestConstants.STEP_EXEC_URI;
+import static cucumber.runtime.rest.CucumberRestConstants.STEP_MATCHED_URI;
 import static cucumber.runtime.rest.CucumberRestConstants.URL_PREFIX;
+import static cucumber.runtime.rest.CucumberRestConstants.WORLDS_URI;
+import static cucumber.runtime.rest.CucumberRestConstants.WORLD_URI;
 
 import java.util.HashMap;
 import java.util.List;
@@ -48,54 +58,54 @@ public class CucumberRestController {
         }
     }
 
-    @RequestMapping(value = CucumberRestConstants.GLUES_URI, method = RequestMethod.GET)
+    @RequestMapping(value = BACKEND_PREFIX + GLUES_URI, method = RequestMethod.GET)
     public List<GlueDTO> getGlues(@PathVariable String backendId) {
         return backendContext(backendId).getGlues();
     }
 
-    @RequestMapping(value = CucumberRestConstants.GLUES_URI, method = RequestMethod.POST)
+    @RequestMapping(value = BACKEND_PREFIX + GLUES_URI, method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public GlueDTO createGlue(@PathVariable String backendId, @RequestParam("path") String ... paths) {
         return backendContext(backendId).createGlue(paths);
     }
 
-    @RequestMapping(value = CucumberRestConstants.GLUE_URI, method = RequestMethod.DELETE)
+    @RequestMapping(value = BACKEND_PREFIX + GLUE_URI, method = RequestMethod.DELETE)
     public void deleteGlue(@PathVariable String backendId, UUID uuid) {
         backendContext(backendId).deleteGlue(uuid);
     }
 
-    @RequestMapping(value = CucumberRestConstants.WORLDS_URI, method = RequestMethod.POST)
+    @RequestMapping(value = BACKEND_PREFIX + WORLDS_URI, method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public WorldDTO createWorld(@PathVariable String backendId) {
         return backendContext(backendId).createWorld();
     }
 
-    @RequestMapping(value = CucumberRestConstants.WORLD_URI, method = RequestMethod.DELETE)
+    @RequestMapping(value = BACKEND_PREFIX + WORLD_URI, method = RequestMethod.DELETE)
     public void deleteWorld(@PathVariable String backendId, @PathVariable UUID uuid) {
         backendContext(backendId).deleteWorld(uuid);
     }
 
-    @RequestMapping(value = CucumberRestConstants.HOOK_EXEC_URI, method = RequestMethod.POST)
+    @RequestMapping(value = BACKEND_PREFIX + HOOK_EXEC_URI, method = RequestMethod.POST)
     public HookExecutionResult execute(@PathVariable String backendId, @PathVariable UUID uuid, @PathVariable long id, @RequestBody ScenarioDTO scenario) throws Throwable {
         return backendContext(backendId).execute(uuid, id, scenario);
     }
 
-    @RequestMapping(value = CucumberRestConstants.HOOK_TAG_MATCH_URI, method = RequestMethod.POST)
+    @RequestMapping(value = BACKEND_PREFIX + HOOK_TAG_MATCH_URI, method = RequestMethod.POST)
     public boolean matches(@PathVariable String backendId, @PathVariable UUID uuid, @PathVariable long id, @RequestBody List<TagDTO> tags) {
         return backendContext(backendId).matches(uuid, id, tags);
     }
 
-    @RequestMapping(value = CucumberRestConstants.STEP_EXEC_URI, method = RequestMethod.POST)
+    @RequestMapping(value = BACKEND_PREFIX + STEP_EXEC_URI, method = RequestMethod.POST)
     public ExecutionResult execute(@PathVariable String backendId, @PathVariable UUID uuid, @PathVariable long id, @RequestBody StepDefinitionInvocation stepDefinitionInvocation) throws Throwable {
         return backendContext(backendId).execute(uuid, id, stepDefinitionInvocation);
     }
 
-    @RequestMapping(value = CucumberRestConstants.STEP_MATCHED_URI, method = RequestMethod.POST)
+    @RequestMapping(value = BACKEND_PREFIX + STEP_MATCHED_URI, method = RequestMethod.POST)
     public ArgumentDTO[] matchedArguments(@PathVariable String backendId, @PathVariable UUID uuid, @PathVariable long id, @RequestBody StepDTO step) throws Throwable {
         return backendContext(backendId).matchedArguments(uuid, id, step);
     }
 
-    @RequestMapping(value = CucumberRestConstants.SNIPPET_URI, method = RequestMethod.POST)
+    @RequestMapping(value = BACKEND_PREFIX + SNIPPET_URI, method = RequestMethod.POST)
     public String getSnippet(@PathVariable String backendId, @RequestBody SnippetRequestDTO snippetRequest) {
         return backendContext(backendId).getSnippet(snippetRequest.getStep(), snippetRequest.getType());
     }
