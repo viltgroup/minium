@@ -4,13 +4,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.runner.RunWith;
+import org.junit.Before;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 
 import cucumber.runtime.Backend;
@@ -24,20 +23,18 @@ import cucumber.runtime.java.JavaBackend;
 import cucumber.runtime.java.ObjectFactory;
 import cucumber.runtime.model.CucumberFeature;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@WebAppConfiguration
+//@SpringApplicationConfiguration(classes = { CucumberRestConfiguration.class, TestConfig.class })
+//@IntegrationTest
 public class RemoteBackendTest {
 
-    private static final String REST_BASE_URL = "http://localhost:8080/cucumber";
+    private static final String REST_BASE_URL = "http://localhost:8080/cucumber/backends/b1";
 
     private static ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
-    @Import({ CucumberRestConfiguration.class, TestConfig.class })
-    public static class App {
-    }
-
     @Configuration
-    public static class TestConfig {
+    public static class TestConfig implements BackendConfigurer {
 
         @Bean
         public RestTemplate restTemplate() {
@@ -63,6 +60,11 @@ public class RemoteBackendTest {
         public Backend backend() {
             return new JavaBackend(objectFactory());
         }
+
+        @Override
+        public void addBackends(BackendRegistry registry) {
+            registry.register("b1", new JavaBackend(objectFactory()));
+        }
     }
 
     @Autowired
@@ -74,19 +76,16 @@ public class RemoteBackendTest {
     @Autowired
     private ClassFinder classFinder;
 
-//    private MockRestServiceServer mockServer;
-//
-//    @Before
-//    public void setup() {
-//        mockServer = MockRestServiceServer.createServer(restTemplate);
-//    }
-//
-//    @Test
+    private MockRestServiceServer mockServer;
+
+    @Before
+    public void setup() {
+        mockServer = MockRestServiceServer.createServer(restTemplate);
+    }
+
+    @Test
     public void testLoadGlue() throws Throwable {
-
-
         RemoteBackend remoteBackend = new RemoteBackend(REST_BASE_URL, restTemplate);
-
         final CucumberFeature feature = TestHelper.feature("nice.feature", join(
                 "Feature: Be nice",
                 "",
