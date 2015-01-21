@@ -1,0 +1,73 @@
+var pagejQuery;
+if (typeof jQuery !== "undefined") {
+    // store page jquery in temporary variable
+    pagejQuery = jQuery;
+    delete jQuery;
+}
+
+// load jQuery and all minium extensions
+{{jsScript}}
+
+minium = {
+	jQuery : jQuery.noConflict(),
+	evalExpression : function($, fn) {	
+		var result = fn();
+		var type = 'null';
+		
+		if (result) {
+            if (result instanceof $) {
+    			// if it is a jQuery object, convert it to a normal array
+    			result = $.makeArray(result);
+    			type = 'array';
+    		} else if (!$.isArray(result) && [ 'number', 'boolean', 'string' ].indexOf(typeof result) < 0) {
+                // if it is not an array, a number, a boolean or a string, convert it to json
+                result = JSON.stringify(result);
+                type = 'json';
+    		} else if ($.isArray(result)) {
+    		  type = 'array';
+    		} else {
+    		  type = typeof result;
+    		}
+		}
+		
+		return type === 'array' ? $.merge([ type ], result) : [ type, result ];
+	}
+};
+if (pagejQuery) {
+    // restore page jQuery
+    jQuery = pagejQuery;
+}
+else {
+    // jQuery must not exist
+    delete jQuery;
+}
+delete pagejQuery;
+
+// arguments[0] -> async
+// arguments[1] -> styles
+// arguments[2 ...] -> expression arguments
+return (function($, async, styles, args) {
+
+	// appends css styles to head
+	$("<style type='text/css'>\n" + styles + "</style>").appendTo($("head"));
+
+	var callback;
+	if (async) {
+		var selCallback = args.pop();
+		callback = function(val) {
+			selCallback([ val ]);
+		};
+	}
+	
+	var fn = function() {
+		{{expression}}
+	};
+	
+	if (async) {
+		minium.evalExpression($, fn);
+	}
+	else {
+		return minium.evalExpression($, fn);
+	}
+	
+})(minium.jQuery, arguments[0], arguments[1], Array.prototype.slice.call(arguments, 2));
