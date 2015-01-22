@@ -62,7 +62,7 @@ public class WebElementsFactoryHelper {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends CoreWebElements<T>> T createRootWebElements(WebElementsFactory factory, WebElementsDriver<?> driver) {
+    public static <T extends CoreWebElements<?>> T createRootWebElements(WebElementsFactory factory, WebElementsDriver<?> driver) {
         RootWebElementsImpl<?> webElements = factory.create(RootWebElementsImpl.class);
         webElements.init(factory, driver);
         return (T) webElements;
