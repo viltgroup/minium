@@ -9,6 +9,7 @@ import minium.internal.LocatableElements;
 import minium.internal.actions.DefaultConfiguration;
 import minium.internal.actions.DefaultInteractable;
 import minium.web.WebElementsFactory.Builder;
+import minium.web.internal.actions.WebInteractionPerformer;
 
 import org.openqa.selenium.WebDriver;
 
@@ -64,15 +65,13 @@ public class WebModules {
                         "minium/web/internal/lib/jquery.visibleText.js"
                 )
                 .implementingInterfaces(
-                        BasicWebElements.class,
-                        JQueryExtWebElements.class,
-                        EvalWebElements.class,
-                        TargetLocatorWebElements.class,
+                        DefaultWebElements.class,
                         LocatableElements.class
                 );
             }
         };
-        return combine(baseModule, positionModule(), conditionalModule());
+        InteractionPerformer performer = new WebInteractionPerformer();
+        return combine(baseModule, positionModule(), conditionalModule(), interactableModule(performer));
     };
 
     public static WebModule javascriptDelegatingInterfaceModule(final Class<?> intf) {

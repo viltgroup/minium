@@ -21,6 +21,8 @@
 		<selenium.version>2.44.0</selenium.version>
 		<closure-compiler.version>v20141215</closure-compiler.version>
 		<rhino.version>1.7R4</rhino.version>
+		<!-- we need at least this version because of https://github.com/mockito/mockito/issues/128 -->
+		<mockito.version>2.0.3-beta</mockito.version>
 	</properties>
 
 	<dependencyManagement>

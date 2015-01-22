@@ -1,7 +1,8 @@
 package minium.web;
 
-public interface BasicWebElements<T extends WebElements> extends WebElements {
-    public T find(String selector);
+import minium.FindElements;
+
+public interface BasicWebElements<T extends WebElements> extends WebElements, FindElements<T> {
     public T find(WebElements elems);
     public T add(String selector);
     public T add(WebElements elems);

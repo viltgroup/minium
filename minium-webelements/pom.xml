@@ -37,9 +37,9 @@
 	        <artifactId>selenium-support</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.neo4j</groupId>
-			<artifactId>neo4j-cypher-compiler-2.1</artifactId>
-			<version>2.1.2</version>
+			<groupId>org.seleniumhq.selenium</groupId>
+        	<artifactId>selenium-java</artifactId>
+        	<scope>test</scope>
 		</dependency>
 	</dependencies>
 	
