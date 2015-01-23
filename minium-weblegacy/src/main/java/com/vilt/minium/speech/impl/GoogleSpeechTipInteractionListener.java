@@ -19,9 +19,9 @@ import static com.vilt.minium.actions.Interactions.perform;
 
 import java.util.Locale;
 
-import minium.web.internal.actions.AfterInteractionEvent;
-import minium.web.internal.actions.BeforeInteractionEvent;
-import minium.web.internal.actions.DefaultInteractionListener;
+import minium.actions.internal.AfterInteractionEvent;
+import minium.actions.internal.BeforeInteractionEvent;
+import minium.actions.internal.DefaultInteractionListener;
 
 import com.vilt.minium.impl.tips.TipInteraction;
 

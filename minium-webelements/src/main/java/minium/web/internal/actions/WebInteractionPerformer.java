@@ -15,29 +15,21 @@
  */
 package minium.web.internal.actions;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import minium.Elements;
 import minium.Offsets.Offset;
-import minium.actions.AsyncInteraction;
 import minium.actions.Duration;
-import minium.actions.Interaction;
 import minium.actions.InteractionListener;
 import minium.actions.InteractionPerformer;
 import minium.actions.Keys;
-import minium.actions.MouseInteractionPerformer;
 import minium.actions.TimeoutException;
-
-import com.google.common.collect.Lists;
+import minium.actions.internal.AbstractInteractionPerformer;
 
 /**
  * The Class InteractionPerformer.
  */
-public class WebInteractionPerformer implements InteractionPerformer {
-
-    private List<InteractionListener> listeners = Lists.newArrayList();
+public class WebInteractionPerformer extends AbstractInteractionPerformer implements InteractionPerformer {
 
     /**
      * Instantiates a new interaction performer.
@@ -46,37 +38,6 @@ public class WebInteractionPerformer implements InteractionPerformer {
      */
     public WebInteractionPerformer(InteractionListener... listeners) {
         with(listeners);
-    }
-
-    /* (non-Javadoc)
-     * @see minium.actions.InteractionPerformer#with(minium.actions.InteractionListener)
-     */
-    @Override
-    public MouseInteractionPerformer with(InteractionListener... listeners) {
-        if (listeners != null) {
-            this.listeners.addAll(Arrays.asList(listeners));
-        }
-        return this;
-    }
-
-    /* (non-Javadoc)
-     * @see minium.actions.InteractionPerformer#perform(minium.actions.Interaction)
-     */
-    @Override
-    public void perform(Interaction interaction) {
-        for (InteractionListener listener : listeners) {
-            interaction.registerListener(listener);
-        }
-        interaction.perform();
-    }
-
-    /* (non-Javadoc)
-     * @see minium.actions.InteractionPerformer#performAndWait(minium.actions.AsyncInteraction)
-     */
-    @Override
-    public void performAndWait(AsyncInteraction interaction) {
-        perform(interaction);
-        interaction.waitUntilCompleted();
     }
 
     /* (non-Javadoc)

@@ -16,6 +16,8 @@
 package minium.web.internal.actions;
 
 import minium.actions.Interaction;
+import minium.actions.internal.BeforeWaitInteractionEvent;
+import minium.actions.internal.DefaultInteractionListener;
 
 public class WaitingPresetInteractionListener  extends DefaultInteractionListener {
 

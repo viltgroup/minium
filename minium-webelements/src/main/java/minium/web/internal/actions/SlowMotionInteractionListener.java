@@ -17,6 +17,8 @@ package minium.web.internal.actions;
 
 import minium.actions.Duration;
 import minium.actions.Interaction;
+import minium.actions.internal.BeforeInteractionEvent;
+import minium.actions.internal.DefaultInteractionListener;
 
 public class SlowMotionInteractionListener extends DefaultInteractionListener {
 

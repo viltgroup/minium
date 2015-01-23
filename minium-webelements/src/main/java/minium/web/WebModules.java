@@ -5,9 +5,9 @@ import minium.actions.Configuration;
 import minium.actions.HasConfiguration;
 import minium.actions.Interactable;
 import minium.actions.InteractionPerformer;
+import minium.actions.internal.DefaultConfiguration;
+import minium.actions.internal.DefaultInteractable;
 import minium.internal.LocatableElements;
-import minium.internal.actions.DefaultConfiguration;
-import minium.internal.actions.DefaultInteractable;
 import minium.web.WebElementsFactory.Builder;
 import minium.web.internal.actions.WebInteractionPerformer;
 

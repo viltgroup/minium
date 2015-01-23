@@ -13,6 +13,8 @@ import java.util.Collection;
 
 import minium.Elements;
 import minium.FreezableElements;
+import minium.IterableElements;
+import minium.internal.DefaultIterableElements;
 import minium.internal.HasElementsFactory;
 import minium.internal.HasParent;
 import minium.internal.InternalElementsFactory;
@@ -51,7 +53,8 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
         HasCoercer.class,
         ExpressionWebElements.class,
         TargetLocatorWebElements.class,
-        FreezableElements.class
+        FreezableElements.class,
+        IterableElements.class
     };
 
     @SuppressWarnings("serial")
@@ -97,6 +100,7 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
                 implement(HasExpressionizer.class).with(new HasExpressionizer.Impl(expressionizer));
                 implement(HasCoercer.class).with(new HasCoercer.Impl(coercer));
                 implement(TargetLocatorWebElements.class).with(new DefaultTargetLocatorWebElements());
+                implement(IterableElements.class).with(new DefaultIterableElements());
                 if (javascriptInvoker != null) implement(HasJavascriptInvoker.class).with(new HasJavascriptInvoker.Impl(javascriptInvoker));
 
                 // dynamic invocation handlers

@@ -10,4 +10,6 @@ public interface DefaultWebElements extends
         PositionWebElements<DefaultWebElements>,
         Interactable {
 
+    public static final WebFinder<DefaultWebElements> by = new WebFinder<>(DefaultWebElements.class);
+
 }

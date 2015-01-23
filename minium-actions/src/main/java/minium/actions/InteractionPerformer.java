@@ -12,7 +12,7 @@ public interface InteractionPerformer extends MouseInteractionPerformer, Keyboar
      * @param listeners the listeners
      * @return the interaction performer
      */
-    public abstract MouseInteractionPerformer with(InteractionListener... listeners);
+    public abstract InteractionPerformer with(InteractionListener... listeners);
 
     /**
      * Perform.

@@ -15,9 +15,9 @@
  */
 package com.vilt.minium.impl.debug;
 
-import minium.web.internal.actions.AfterFailInteractionEvent;
-import minium.web.internal.actions.AfterSuccessInteractionEvent;
-import minium.web.internal.actions.DefaultInteractionListener;
+import minium.actions.internal.AfterFailInteractionEvent;
+import minium.actions.internal.AfterSuccessInteractionEvent;
+import minium.actions.internal.DefaultInteractionListener;
 
 /**
  * The listener interface for receiving logInteraction events.

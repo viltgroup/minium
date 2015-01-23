@@ -17,6 +17,8 @@ package minium.web.internal.actions;
 
 import minium.Elements;
 import minium.actions.TimeoutException;
+import minium.actions.internal.AfterFailInteractionEvent;
+import minium.actions.internal.DefaultInteractionListener;
 import minium.web.internal.InternalWebElements;
 
 import com.google.common.collect.Iterables;

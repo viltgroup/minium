@@ -15,8 +15,8 @@
  */
 package com.vilt.minium.impl.debug;
 
-import minium.web.internal.actions.BeforeInteractionEvent;
-import minium.web.internal.actions.DefaultInteractionListener;
+import minium.actions.internal.BeforeInteractionEvent;
+import minium.actions.internal.DefaultInteractionListener;
 
 import com.vilt.minium.debug.DebugWebElements;
 

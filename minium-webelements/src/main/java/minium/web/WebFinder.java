@@ -5,12 +5,7 @@ import minium.web.internal.CssSelectors;
 
 public class WebFinder<T extends WebElements> extends Finder<T> {
 
-
-//    public static <E extends WebElements> WebFinder<E> by(Class<E> clazz) {
-//        return new WebFinder<E>(clazz);
-//    }
-
-    WebFinder(Class<T> intf) {
+    public WebFinder(Class<T> intf) {
         super(intf);
     }
 

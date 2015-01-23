@@ -15,6 +15,9 @@
  */
 package minium.web.internal.actions;
 
+import minium.actions.internal.AfterFailInteractionEvent;
+import minium.actions.internal.DefaultInteractionListener;
+
 public class RetryOnExceptionInteractionListener extends DefaultInteractionListener {
 
     @Override

@@ -23,6 +23,10 @@ public class Finder<T extends Elements> {
     }
 
     public T selector(String selector) {
-        return InternalFinder.Impl.createInternalFinder(intf, null, FIND_METHOD, selector);
+        return createFinder(FIND_METHOD, selector);
+    }
+
+    protected T createFinder(Method method, Object ... args) {
+        return InternalFinder.Impl.createInternalFinder(intf, null, method, args);
     }
 }

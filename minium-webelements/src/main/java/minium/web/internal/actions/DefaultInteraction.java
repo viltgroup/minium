@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static minium.web.internal.actions.WaitPredicates.whileEmpty;
 
 import java.util.List;
+import java.util.Set;
 
 import minium.Elements;
 import minium.FreezableElements;
@@ -31,6 +32,10 @@ import minium.actions.InteractionEvent;
 import minium.actions.InteractionEvent.Type;
 import minium.actions.InteractionListener;
 import minium.actions.TimeoutException;
+import minium.actions.internal.AfterFailInteractionEvent;
+import minium.actions.internal.AfterSuccessInteractionEvent;
+import minium.actions.internal.BeforeInteractionEvent;
+import minium.actions.internal.BeforeWaitInteractionEvent;
 import minium.web.BasicWebElements;
 import minium.web.DocumentRoots;
 import minium.web.internal.InternalWebElements;
@@ -46,6 +51,7 @@ import com.google.common.base.Functions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 /**
  * The Class DefaultInteraction.
@@ -54,7 +60,7 @@ public abstract class DefaultInteraction implements Interaction {
 
     private static final Logger logger = LoggerFactory.getLogger(DefaultInteraction.class);
 
-    private List<InteractionListener> listeners = Lists.newArrayList();
+    private Set<InteractionListener> listeners = Sets.newLinkedHashSet();
     private Elements source;
     private Duration timeout;
     private Duration interval;
