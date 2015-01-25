@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Function;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Iterables;
@@ -50,6 +51,12 @@ public class DefaultCornersVisualElements<T extends VisualElements> extends Base
             Set<Elements> toprightElems    = asSingletonElems(context.evaluate(topright));
             Set<Elements> bottomrightElems = asSingletonElems(context.evaluate(bottomright));
             Set<Elements> bottomleftElems  = asSingletonElems(context.evaluate(bottomleft));
+
+            LOGGER.debug("corner matches: [{}, {}, {}, {}]",
+                    topleftElems.size(),
+                    toprightElems.size(),
+                    bottomrightElems.size(),
+                    bottomleftElems.size());
 
             @SuppressWarnings("unchecked")
             Set<List<Elements>> combinations = Sets.cartesianProduct(topleftElems, toprightElems, bottomrightElems, bottomleftElems);
@@ -146,6 +153,11 @@ public class DefaultCornersVisualElements<T extends VisualElements> extends Base
             NinePatch ninePatch = NinePatch.load(imageUrl, false);
             NinePatchChunk chunk = ninePatch.getChunk();
             int[] p = chunk.getPadding();
+
+            for (int i : p) {
+                Preconditions.checkArgument(i != 0, "image %s doesn't seem to be nine-patch", imageUrl);
+            }
+
             BufferedImage image = ninePatch.getImage();
             BufferedImage topLeft = image.getSubimage(0, 0, p[0], p[1]);
             BufferedImage topRight = image.getSubimage(image.getWidth() - p[2], 0, p[2], p[1]);

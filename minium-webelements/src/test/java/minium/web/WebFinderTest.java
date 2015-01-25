@@ -1,8 +1,7 @@
 package minium.web;
 
 import static minium.web.DefaultWebElements.by;
-import minium.actions.Interactable;
-import minium.internal.InternalFinder;
+import minium.Minium;
 import minium.web.WebElementsFactory.Builder;
 
 import org.junit.AfterClass;
@@ -14,18 +13,19 @@ import org.openqa.selenium.chrome.ChromeDriver;
 public class WebFinderTest {
 
     private static WebDriver wd;
-    private static DefaultWebElements root;
 
     @BeforeClass
     public static void setup() {
         wd = new ChromeDriver();
         Builder<DefaultWebElements> builder = new WebElementsFactory.Builder<>();
         WebModules.defaultModule(wd).configure(builder);
-        root = builder.build().createRoot();
+        DefaultWebElements root = builder.build().createRoot();
+        Minium.set(root);
     }
 
     @AfterClass
     public static void tearDown() {
+        Minium.release();
         wd.quit();
     }
 
@@ -35,9 +35,7 @@ public class WebFinderTest {
 
         DefaultWebElements searchFld = by.name("q");
 
-        Interactable fld = eval(root, searchFld);
-
-        fld.fill("Minium Can!");
+        searchFld.fill("Minium Can!");
     }
 
     @Test
@@ -46,17 +44,12 @@ public class WebFinderTest {
 
         DefaultWebElements colC   = by.cssSelector("#0-grid-table-quadrantcolumn-head-section th").withText("C");
         DefaultWebElements row5   = by.cssSelector(".row-header-wrapper").withText("5");
-        DefaultWebElements cellC5 = eval(root, by.cssSelector("#0-grid-table-quadrantscrollable td").below(colC).rightOf(row5));
+        DefaultWebElements cellC5 = by.cssSelector("#0-grid-table-quadrantscrollable td").below(colC).rightOf(row5);
 
         cellC5.doubleClick();
 
-        DefaultWebElements cellInput = eval(root, by.cssSelector(".cell-input").overlaps(cellC5));
+        DefaultWebElements cellInput = by.cssSelector(".cell-input").overlaps(cellC5);
 
         cellInput.fill("Minium can!");
     }
-
-    private DefaultWebElements eval(DefaultWebElements root, DefaultWebElements finder) {
-        return finder.as(InternalFinder.class).eval(root).as(DefaultWebElements.class);
-    }
-
 }

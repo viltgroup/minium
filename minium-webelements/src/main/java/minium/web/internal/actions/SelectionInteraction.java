@@ -22,7 +22,7 @@ import org.openqa.selenium.support.ui.Select;
 /**
  * The Class SelectionInteraction.
  */
-public abstract class SelectionInteraction extends DefaultInteraction {
+public abstract class SelectionInteraction extends AbstractWebInteraction {
 
     /**
      * Instantiates a new selection interaction.

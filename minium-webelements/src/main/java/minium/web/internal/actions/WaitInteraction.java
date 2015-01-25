@@ -20,7 +20,7 @@ import minium.Elements;
 /**
  * The Class WaitInteraction.
  */
-public abstract class WaitInteraction extends DefaultInteraction {
+public abstract class WaitInteraction extends AbstractWebInteraction {
 
     /**
      * Instantiates a new wait interaction.

@@ -16,8 +16,8 @@
 package minium.web.internal.actions;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import minium.ElementsException;
 import minium.actions.Duration;
-import minium.web.WebElementsException;
 
 import java.util.concurrent.TimeUnit;
 
@@ -55,7 +55,7 @@ public class WaitTimeInteraction extends WaitInteraction {
             Sleeper.SYSTEM_SLEEPER.sleep(duration);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            throw new WebElementsException(e);
+            throw new ElementsException(e);
         }
     }
 }

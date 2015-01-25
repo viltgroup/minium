@@ -1,5 +1,7 @@
 package minium.visual;
 
+import static minium.visual.DefaultVisualElements.by;
+
 import java.net.URL;
 
 import minium.Elements;
@@ -24,18 +26,28 @@ public class VisualFinderTest {
 
     @Test
     public void simple_click() {
-        URL windowImg = VisualFinderTest.class.getClassLoader().getResource("window.9.png");
+        URL windowImg = VisualFinderTest.class.getClassLoader().getResource("nine-patch/window.9.png");
 
-        DefaultVisualElements editElems = DefaultVisualElements.by.text("Tools");
-        DefaultVisualElements genPassElems = DefaultVisualElements.by.text("Generate Password");
+        DefaultVisualElements genPassIconElems = by.image("classpath:passgen.png");
+        DefaultVisualElements editElems = by.text("Tools");
+        DefaultVisualElements genPassElems = by.text("Generate Password").rightOf(genPassIconElems);
 
         elements(editElems).click();
         elements(genPassElems).click();
 
-        DefaultVisualElements windowElems = DefaultVisualElements.by.ninePatch(windowImg);
+        DefaultVisualElements windowElems = by.ninePatch(windowImg);
         DefaultVisualElements profileDropdown = windowElems.findText("Custom");
 
         elements(profileDropdown).click();
+    }
+
+    @Test
+    public void click_cancel() {
+        URL btnImg = VisualFinderTest.class.getClassLoader().getResource("nine-patch/button.9.png");
+
+        DefaultVisualElements cancelBtn = by.ninePatch(btnImg).findText("Cancel");
+
+        elements(cancelBtn).click();
     }
 
     @SuppressWarnings("unchecked")

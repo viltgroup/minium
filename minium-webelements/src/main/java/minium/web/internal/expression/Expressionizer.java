@@ -1,5 +1,6 @@
 package minium.web.internal.expression;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.google.common.base.Function;
@@ -18,6 +19,11 @@ public interface Expressionizer extends Function<Object, Expression> {
 
         public Composite add(Expressionizer processor) {
             expressionizers.add(processor);
+            return this;
+        }
+
+        public Composite addAll(Collection<? extends Expressionizer> processors) {
+            expressionizers.addAll(processors);
             return this;
         }
 

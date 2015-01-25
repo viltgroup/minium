@@ -22,7 +22,7 @@
 		</dependency>
 		<dependency>
 			<groupId>minium</groupId>
-			<artifactId>minium-script-rhino</artifactId>
+			<artifactId>minium-script-rhinojs</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>

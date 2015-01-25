@@ -18,12 +18,12 @@ package minium.web.internal.actions;
 import java.util.concurrent.TimeUnit;
 
 import minium.Elements;
+import minium.ElementsException;
 import minium.Offsets.Offset;
 import minium.actions.Duration;
 import minium.actions.InteractionListener;
 import minium.actions.InteractionPerformer;
 import minium.actions.Keys;
-import minium.actions.TimeoutException;
 import minium.actions.internal.AbstractInteractionPerformer;
 
 /**
@@ -272,12 +272,12 @@ public class WebInteractionPerformer extends AbstractInteractionPerformer implem
     }
 
     @Override
-    public void waitWhileEmpty(Elements elems) throws TimeoutException {
+    public void waitWhileEmpty(Elements elems) throws ElementsException {
         perform(new WaitWhileEmptyInteraction(elems));
     }
 
     @Override
-    public void waitWhileNotEmpty(Elements elems) throws TimeoutException {
+    public void waitWhileNotEmpty(Elements elems) throws ElementsException {
         perform(new WaitWhileNotEmptyInteraction(elems));
     }
 
@@ -307,7 +307,7 @@ public class WebInteractionPerformer extends AbstractInteractionPerformer implem
      * @param elems the elems
      */
     @Override
-    public void waitUntilClosed(Elements elems) throws TimeoutException {
+    public void waitUntilClosed(Elements elems) throws ElementsException {
         perform(new WaitWindowClosedElementsInteraction(elems));
     }
 

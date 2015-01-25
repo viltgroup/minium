@@ -1,6 +1,8 @@
 package minium.web;
 
-public class CannotFreezeException extends WebElementsException {
+import minium.ElementsException;
+
+public class CannotFreezeException extends ElementsException {
 
     private static final long serialVersionUID = 6388359025347218415L;
 

@@ -17,6 +17,8 @@ package minium.actions;
 
 import java.util.concurrent.TimeUnit;
 
+import minium.AsIs;
+
 
 /**
  * Fluent API for Minium configuration. For instance, you can write code like this:
@@ -41,7 +43,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author rui.figueira
  */
-public interface Configuration {
+public interface Configuration extends AsIs {
 
     public interface WaitingPreset {
         WaitingPreset timeout(Duration timeout);

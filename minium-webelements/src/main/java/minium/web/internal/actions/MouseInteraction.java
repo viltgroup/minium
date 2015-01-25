@@ -23,7 +23,7 @@ import minium.Offsets.Offset;
 /**
  * The Class MouseInteraction.
  */
-public abstract class MouseInteraction extends DefaultInteraction {
+public abstract class MouseInteraction extends AbstractWebInteraction {
 
     protected Offset offset;
 

@@ -5,6 +5,7 @@ import java.net.URL;
 
 import minium.Finder;
 import minium.internal.Reflections;
+import minium.visual.internal.Paths;
 
 public class VisualFinder<E extends VisualElements> extends Finder<E> {
 
@@ -20,6 +21,10 @@ public class VisualFinder<E extends VisualElements> extends Finder<E> {
 
     public E text(String text) {
         return createFinder(FIND_TEXT_METHOD, text);
+    }
+
+    public E ninePatch(String imgPath) {
+        return ninePatch(Paths.toURL(imgPath));
     }
 
     public E ninePatch(URL imgUrl) {

@@ -1,8 +1,8 @@
 package minium.web.internal;
 
-import minium.web.WebElementsException;
+import minium.ElementsException;
 
-public class ResourceException extends WebElementsException {
+public class ResourceException extends ElementsException {
 
     private static final long serialVersionUID = 6388359025347218415L;
 

@@ -19,7 +19,7 @@ import minium.Elements;
 import minium.web.ScrollWebElements;
 
 
-public class ScrollIntoViewInteraction extends DefaultInteraction {
+public class ScrollIntoViewInteraction extends AbstractWebInteraction {
 
     public ScrollIntoViewInteraction(Elements elems) {
         super(elems);

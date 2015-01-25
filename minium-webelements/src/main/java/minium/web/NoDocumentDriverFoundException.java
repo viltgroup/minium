@@ -1,6 +1,8 @@
 package minium.web;
 
-public class NoDocumentDriverFoundException extends WebElementsException {
+import minium.ElementsException;
+
+public class NoDocumentDriverFoundException extends ElementsException {
 
     private static final long serialVersionUID = 7011052529976809314L;
 

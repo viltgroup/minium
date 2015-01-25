@@ -16,14 +16,16 @@
 package minium.actions.internal;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import minium.actions.Configuration;
-import minium.actions.Duration;
-import minium.actions.InteractionListener;
+import io.platypus.Mixin;
 
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
+import minium.actions.Configuration;
+import minium.actions.Duration;
+import minium.actions.InteractionListener;
 
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
@@ -32,7 +34,7 @@ import com.google.common.collect.Sets;
 /**
  * The Class Configuration.
  */
-public class DefaultConfiguration implements Configuration {
+public class DefaultConfiguration extends Mixin.Impl implements Configuration {
 
     private class WaitingPresetImpl implements WaitingPreset {
 

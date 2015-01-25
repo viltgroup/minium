@@ -28,9 +28,9 @@ public abstract class BaseInternalVisualElements<T extends VisualElements> exten
         Logger logger = LoggerFactory.getLogger(this.getClass());
         if (logger.isDebugEnabled()) {
             if (Iterables.isEmpty(results)) {
-                logger.debug("No match found for {}", this);
+                logger.trace("No match found for {}", this);
             } else {
-                logger.debug("Found {} matches for {}:\n{}", Iterables.size(results), this, results);
+                logger.trace("Found {} matches for {}", Iterables.size(results), this);
             }
         }
         return results;

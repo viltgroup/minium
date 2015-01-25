@@ -22,11 +22,15 @@ public class Finder<T extends Elements> {
         this.intf = intf;
     }
 
+    public T root() {
+        return InternalFinder.MethodInvocationImpl.createInternalFinder(intf, null);
+    }
+
     public T selector(String selector) {
         return createFinder(FIND_METHOD, selector);
     }
 
     protected T createFinder(Method method, Object ... args) {
-        return InternalFinder.Impl.createInternalFinder(intf, null, method, args);
+        return InternalFinder.MethodInvocationImpl.createInternalFinder(intf, null, method, args);
     }
 }

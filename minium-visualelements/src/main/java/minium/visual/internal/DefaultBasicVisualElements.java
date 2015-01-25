@@ -35,8 +35,6 @@ public class DefaultBasicVisualElements<T extends VisualElements> extends BaseVi
 
     static class ImageMatchVisualElements<T extends VisualElements> extends BaseInternalVisualElements<T> {
 
-//        private static final Logger LOGGER = LoggerFactory.getLogger(ImageMatchVisualElements.class);
-
         private final Pattern pattern;
 
         public ImageMatchVisualElements(Pattern pattern) {

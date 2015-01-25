@@ -20,6 +20,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import java.util.concurrent.TimeUnit;
 
 import minium.Elements;
+import minium.ElementsException;
 import minium.Offsets.Offset;
 import minium.actions.AsyncInteraction;
 import minium.actions.Duration;
@@ -28,7 +29,6 @@ import minium.actions.InteractionListener;
 import minium.actions.InteractionPerformer;
 import minium.actions.Keys;
 import minium.actions.MouseInteractionPerformer;
-import minium.actions.TimeoutException;
 import minium.web.internal.actions.RetryAfterWaitingWhileEmptyInteractionListener;
 import minium.web.internal.actions.RetryOnExceptionInteractionListener;
 import minium.web.internal.actions.SlowMotionInteractionListener;
@@ -324,11 +324,11 @@ public class Interactions {
         defaultPerformer().deselectAll(elems);
     }
 
-    public static void waitWhileEmpty(Elements elems) throws TimeoutException {
+    public static void waitWhileEmpty(Elements elems) throws ElementsException {
         defaultPerformer().waitWhileEmpty(elems);
     }
 
-    public static void waitWhileNotEmpty(Elements elems) throws TimeoutException {
+    public static void waitWhileNotEmpty(Elements elems) throws ElementsException {
         defaultPerformer().waitWhileNotEmpty(elems);
     }
 
@@ -357,7 +357,7 @@ public class Interactions {
      *
      * @param elems the elems
      */
-    public static void waitUntilClosed(Elements elems) throws TimeoutException {
+    public static void waitUntilClosed(Elements elems) throws ElementsException {
         defaultPerformer().waitUntilClosed(elems);
     }
 

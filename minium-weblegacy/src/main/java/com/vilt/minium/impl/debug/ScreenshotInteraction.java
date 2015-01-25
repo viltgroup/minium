@@ -17,14 +17,14 @@ package com.vilt.minium.impl.debug;
 
 import java.io.OutputStream;
 
-import minium.web.internal.actions.DefaultInteraction;
+import minium.web.internal.actions.AbstractWebInteraction;
 
 import com.vilt.minium.DefaultWebElements;
 
 /**
  * The Class ScreenshotInteraction.
  */
-public abstract class ScreenshotInteraction extends DefaultInteraction {
+public abstract class ScreenshotInteraction extends AbstractWebInteraction {
 
     /**
      * The stream.

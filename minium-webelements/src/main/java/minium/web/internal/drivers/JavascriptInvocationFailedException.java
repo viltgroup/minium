@@ -1,8 +1,8 @@
 package minium.web.internal.drivers;
 
-import minium.web.WebElementsException;
+import minium.ElementsException;
 
-public class JavascriptInvocationFailedException extends WebElementsException {
+public class JavascriptInvocationFailedException extends ElementsException {
 
     private static final long serialVersionUID = 1L;
 

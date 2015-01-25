@@ -1,6 +1,8 @@
 package minium.web.internal.expression;
 
 import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import com.google.common.base.Preconditions;
@@ -20,6 +22,15 @@ public interface Coercer {
         public Composite add(Coercer processor) {
             coercers.add(processor);
             return this;
+        }
+
+        public Composite addAll(Collection<? extends Coercer> processor) {
+            coercers.addAll(processor);
+            return this;
+        }
+
+        public Composite addAll(Coercer ... processor) {
+            return addAll(Arrays.asList(processor));
         }
 
         @Override

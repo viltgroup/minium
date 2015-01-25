@@ -23,7 +23,7 @@ import org.openqa.selenium.interactions.Keyboard;
 /**
  * The Class KeyboardInteraction.
  */
-public abstract class KeyboardInteraction extends DefaultInteraction {
+public abstract class KeyboardInteraction extends AbstractWebInteraction {
 
     /**
      * Instantiates a new keyboard interaction.

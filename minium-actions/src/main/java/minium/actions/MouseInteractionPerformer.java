@@ -14,9 +14,9 @@ public interface MouseInteractionPerformer {
 
     public abstract void clickAndHold(Elements elements, Offset offset);
 
-    public abstract void release(Elements element);
+    public abstract void release(Elements elements);
 
-    public abstract void release(Elements element, Offset offset);
+    public abstract void release(Elements elements, Offset offset);
 
     /**
      * Click.

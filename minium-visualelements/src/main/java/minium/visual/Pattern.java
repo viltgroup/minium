@@ -7,24 +7,20 @@
 package minium.visual;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
 
 import minium.Point;
+import minium.visual.internal.Paths;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
-import com.google.common.io.Resources;
 
 public class Pattern {
-
-    private static final String CLASSPATH_PROTOCOL = "classpath:";
 
     private BufferedImage image = null;
     private float similarity = 0.8f;
@@ -45,7 +41,7 @@ public class Pattern {
      * @param imgpath
      */
     public Pattern(String imageUrl) {
-        this(toURL(imageUrl));
+        this(Paths.toURL(imageUrl));
     }
 
     public Pattern(URL imageUrl) {
@@ -149,27 +145,6 @@ public class Pattern {
                 .toString();
     }
 
-    protected static URL toURL(String urlPath) {
-        Preconditions.checkNotNull(urlPath);
-        if (urlPath.startsWith(CLASSPATH_PROTOCOL)) {
-            String path = urlPath.substring(CLASSPATH_PROTOCOL.length());
-            return Resources.getResource(path);
-        } else {
-            try {
-                return new URL(urlPath);
-            } catch (MalformedURLException e) {
-                // let's assume it's a local file
-                File file = new File(urlPath);
-                Preconditions.checkArgument(file.exists(), "File %s does not exist", file);
-                Preconditions.checkArgument(file.isFile(), "%s is not a file", file);
 
-                try {
-                    return file.toURI().toURL();
-                } catch (MalformedURLException e1) {
-                    throw Throwables.propagate(e1);
-                }
-            }
-        }
-    }
 
 }

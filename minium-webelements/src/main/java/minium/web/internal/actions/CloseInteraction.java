@@ -19,7 +19,7 @@ import minium.Elements;
 import minium.web.DocumentWebDriver;
 import minium.web.internal.InternalWebElements;
 
-public class CloseInteraction extends DefaultInteraction {
+public class CloseInteraction extends AbstractWebInteraction {
 
     public CloseInteraction(Elements elems) {
         super(elems);

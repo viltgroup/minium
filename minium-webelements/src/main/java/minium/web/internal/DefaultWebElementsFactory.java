@@ -71,12 +71,13 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
         final JavascriptInvoker javascriptInvoker = new DefaultJavascriptInvoker(builder.getClassLoader(), builder.getJsResources(), builder.getCssResources());
         final Expressionizer expressionizer = new Expressionizer.Composite()
             .add(new JsonExpressionizer(builder.getMapper()))
-            .add(new ExpressionWebElementExpressionizer());
+            .add(new ExpressionWebElementExpressionizer())
+            .addAll(builder.getAditionalExpressionizers());
         final Coercer coercer = new Coercer.Composite()
             .add(new JsonCoercer(builder.getMapper()))
             .add(new PrimitiveTypeCoercer())
-            .add(new IdentityCoercer());
-
+            .add(new IdentityCoercer())
+            .addAll(builder.getAditionalCoercers());
 
         this.rootDocumentDriver = wd instanceof InternalDocumentWebDriver ? ((InternalDocumentWebDriver) wd) : new WindowWebDriver(wd);
 

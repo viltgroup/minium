@@ -47,8 +47,8 @@ public class TimeoutInteractionListener extends DefaultInteractionListener {
     @Override
     protected void onBeforeWaitEvent(BeforeWaitInteractionEvent event) {
         Interaction interaction = event.getInteraction();
-        if (interaction instanceof DefaultInteraction) {
-            DefaultInteraction defInteraction = (DefaultInteraction) interaction;
+        if (interaction instanceof AbstractWebInteraction) {
+            AbstractWebInteraction defInteraction = (AbstractWebInteraction) interaction;
             if (defInteraction.getTimeout() == null) {
                 defInteraction.setTimeout(timeout);
             }

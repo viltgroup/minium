@@ -17,7 +17,7 @@ package minium.web.internal.actions;
 
 import static minium.web.internal.actions.WaitPredicates.whileNotEmpty;
 import minium.Elements;
-import minium.actions.TimeoutException;
+import minium.ElementsException;
 
 /**
  * The Class WaitWhileElementsInteraction.
@@ -39,7 +39,7 @@ public class WaitWhileNotEmptyInteraction extends WaitInteraction {
      * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
      */
     @Override
-    protected void doPerform() throws TimeoutException {
+    protected void doPerform() throws ElementsException {
         if (getWaitingPreset() != null) {
             wait(getSource(), getWaitingPreset(), whileNotEmpty());
         } else {

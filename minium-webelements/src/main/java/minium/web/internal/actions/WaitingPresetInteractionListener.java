@@ -35,8 +35,8 @@ public class WaitingPresetInteractionListener  extends DefaultInteractionListene
     @Override
     protected void onBeforeWaitEvent(BeforeWaitInteractionEvent event) {
         Interaction interaction = event.getInteraction();
-        if (interaction instanceof DefaultInteraction) {
-            DefaultInteraction defInteraction = (DefaultInteraction) interaction;
+        if (interaction instanceof AbstractWebInteraction) {
+            AbstractWebInteraction defInteraction = (AbstractWebInteraction) interaction;
             defInteraction.setWaitingPreset(preset);
         }
     }

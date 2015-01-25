@@ -16,7 +16,7 @@
 package minium.web.internal.actions.touch;
 
 import minium.Elements;
-import minium.web.internal.actions.DefaultInteraction;
+import minium.web.internal.actions.AbstractWebInteraction;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.touch.TouchActions;
@@ -25,7 +25,7 @@ import org.openqa.selenium.internal.WrapsDriver;
 /**
  * The Class TouchInteraction.
  */
-public abstract class TouchInteraction extends DefaultInteraction {
+public abstract class TouchInteraction extends AbstractWebInteraction {
 
     /**
      * Instantiates a new touch interaction.

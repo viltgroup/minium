@@ -23,6 +23,8 @@ public class SikuliInitializer {
         Settings.OcrDataPath = tessdataPath;
         Settings.OcrTextRead = true;
         Settings.OcrTextSearch = true;
+        Settings.ActionLogs = false;
+        Settings.ClickDelay = 0;
         Settings.MoveMouseDelay = 0;
         initOcr(tessdataPath);
     }

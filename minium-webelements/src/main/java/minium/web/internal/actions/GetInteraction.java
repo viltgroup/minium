@@ -19,7 +19,7 @@ import minium.Elements;
 import minium.web.DocumentWebDriver;
 import minium.web.internal.InternalWebElements;
 
-public class GetInteraction extends DefaultInteraction {
+public class GetInteraction extends AbstractWebInteraction {
 
     private String url;
 

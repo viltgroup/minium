@@ -3,6 +3,7 @@ package minium.actions;
 import java.util.concurrent.TimeUnit;
 
 import minium.Elements;
+import minium.ElementsException;
 
 public interface InteractionPerformer extends MouseInteractionPerformer, KeyboardInteractionPerformer {
 
@@ -61,9 +62,9 @@ public interface InteractionPerformer extends MouseInteractionPerformer, Keyboar
      */
     public abstract void selectAll(Elements elems);
 
-    public abstract void waitWhileEmpty(Elements elems) throws TimeoutException;
+    public abstract void waitWhileEmpty(Elements elems) throws ElementsException;
 
-    public abstract void waitWhileNotEmpty(Elements elems) throws TimeoutException;
+    public abstract void waitWhileNotEmpty(Elements elems) throws ElementsException;
 
     /**
      * Check not empty.
@@ -86,7 +87,7 @@ public interface InteractionPerformer extends MouseInteractionPerformer, Keyboar
      *
      * @param elems the elems
      */
-    public abstract void waitUntilClosed(Elements elems) throws TimeoutException;
+    public abstract void waitUntilClosed(Elements elems) throws ElementsException;
 
     /**
      * Wait time.

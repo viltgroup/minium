@@ -22,7 +22,7 @@ import minium.actions.Duration;
 
 import org.openqa.selenium.support.ui.Sleeper;
 
-public abstract class AsyncTimeElapsedInteraction extends DefaultInteraction implements AsyncInteraction {
+public abstract class AsyncTimeElapsedInteraction extends AbstractWebInteraction implements AsyncInteraction {
 
     protected Duration duration;
     private long start = -1;

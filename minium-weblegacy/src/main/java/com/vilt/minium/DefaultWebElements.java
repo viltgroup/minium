@@ -20,7 +20,7 @@ import minium.actions.Interactable;
 import minium.internal.LocatableElements;
 import minium.web.BasicWebElements;
 import minium.web.EvalWebElements;
-import minium.web.JQueryExtWebElements;
+import minium.web.ExtensionsWebElements;
 import minium.web.PositionWebElements;
 import minium.web.ScrollWebElements;
 import minium.web.TargetLocatorWebElements;
@@ -35,7 +35,7 @@ import com.vilt.minium.tips.TipWebElements;
  */
 public interface DefaultWebElements extends
     BasicWebElements<DefaultWebElements>,
-    JQueryExtWebElements<DefaultWebElements>,
+    ExtensionsWebElements<DefaultWebElements>,
     PositionWebElements<DefaultWebElements>,
     ConditionalElements<DefaultWebElements>,
     EvalWebElements<DefaultWebElements>,

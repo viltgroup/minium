@@ -1,6 +1,8 @@
 package minium.web;
 
-public class MultipleDocumentDriversFoundException extends WebElementsException {
+import minium.ElementsException;
+
+public class MultipleDocumentDriversFoundException extends ElementsException {
 
     private static final long serialVersionUID = -4500350278311385767L;
 

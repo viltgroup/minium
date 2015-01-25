@@ -24,7 +24,7 @@ public interface VisualElementsFactory<T extends VisualElements> extends Element
 
     public T createAdapter(Elements parent);
 
-    public static class Builder<T extends VisualElements> extends ElementsFactory.Builder<VisualElementsFactory<T>> {
+    public static class Builder<T extends VisualElements> implements ElementsFactory.Builder<VisualElementsFactory<T>> {
 
         private Set<Class<?>> intfs = Sets.newLinkedHashSet();
         private Screen screen;

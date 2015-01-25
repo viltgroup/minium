@@ -3,9 +3,9 @@ package minium.visual.internal.actions;
 import java.util.concurrent.TimeUnit;
 
 import minium.Elements;
+import minium.ElementsException;
 import minium.Offsets.Offset;
 import minium.actions.Keys;
-import minium.actions.TimeoutException;
 import minium.actions.internal.AbstractInteractionPerformer;
 
 public class VisualInteractionPerformer extends AbstractInteractionPerformer {
@@ -40,13 +40,13 @@ public class VisualInteractionPerformer extends AbstractInteractionPerformer {
     }
 
     @Override
-    public void waitWhileEmpty(Elements elems) throws TimeoutException {
+    public void waitWhileEmpty(Elements elems) throws ElementsException {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void waitWhileNotEmpty(Elements elems) throws TimeoutException {
+    public void waitWhileNotEmpty(Elements elems) throws ElementsException {
         // TODO Auto-generated method stub
 
     }
@@ -64,7 +64,7 @@ public class VisualInteractionPerformer extends AbstractInteractionPerformer {
     }
 
     @Override
-    public void waitUntilClosed(Elements elems) throws TimeoutException {
+    public void waitUntilClosed(Elements elems) throws ElementsException {
         // TODO Auto-generated method stub
 
     }
@@ -89,8 +89,7 @@ public class VisualInteractionPerformer extends AbstractInteractionPerformer {
 
     @Override
     public void clickAndHold(Elements elements) {
-        // TODO Auto-generated method stub
-
+        perform(new ClickAndHoldInteraction(elements));
     }
 
     @Override
@@ -100,13 +99,12 @@ public class VisualInteractionPerformer extends AbstractInteractionPerformer {
     }
 
     @Override
-    public void release(Elements element) {
-        // TODO Auto-generated method stub
-
+    public void release(Elements elements) {
+        perform(new ReleaseInteraction(elements));
     }
 
     @Override
-    public void release(Elements element, Offset offset) {
+    public void release(Elements elements, Offset offset) {
         // TODO Auto-generated method stub
 
     }
@@ -136,8 +134,7 @@ public class VisualInteractionPerformer extends AbstractInteractionPerformer {
 
     @Override
     public void moveTo(Elements elements) {
-        // TODO Auto-generated method stub
-
+       perform(new MoveToInteraction(elements));
     }
 
     @Override
@@ -232,8 +229,7 @@ public class VisualInteractionPerformer extends AbstractInteractionPerformer {
 
     @Override
     public void type(Elements elements, CharSequence text) {
-        // TODO Auto-generated method stub
-
+        perform(new TypeInteraction(elements, text));
     }
 
     @Override

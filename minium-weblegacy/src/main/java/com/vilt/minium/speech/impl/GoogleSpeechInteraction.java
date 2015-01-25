@@ -18,9 +18,9 @@ package com.vilt.minium.speech.impl;
 import java.util.Locale;
 
 import minium.actions.AsyncInteraction;
-import minium.web.internal.actions.DefaultInteraction;
+import minium.web.internal.actions.AbstractWebInteraction;
 
-public abstract class GoogleSpeechInteraction extends DefaultInteraction implements AsyncInteraction {
+public abstract class GoogleSpeechInteraction extends AbstractWebInteraction implements AsyncInteraction {
     Locale locale;
     String text;
 

@@ -17,7 +17,7 @@ package minium.web.internal.actions;
 
 import minium.Elements;
 
-public class SubmitInteraction extends DefaultInteraction {
+public class SubmitInteraction extends AbstractWebInteraction {
     /**
      * Instantiates a new clear interaction.
      *

@@ -10,6 +10,8 @@ import java.util.Set;
 import minium.ElementsFactory;
 import minium.web.internal.DefaultWebElementsFactory;
 import minium.web.internal.drivers.DocumentWebElement;
+import minium.web.internal.expression.Coercer;
+import minium.web.internal.expression.Expressionizer;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -30,13 +32,15 @@ public interface WebElementsFactory<T extends WebElements> extends ElementsFacto
 
     public abstract T createRoot();
 
-    public static class Builder<T extends WebElements> extends ElementsFactory.Builder<WebElementsFactory<T>> {
+    public static class Builder<T extends WebElements> implements ElementsFactory.Builder<WebElementsFactory<T>> {
 
         private WebDriver webDriver;
         private ObjectMapper mapper = new ObjectMapper();
         private ClassLoader classLoader = Builder.class.getClassLoader();
         private Set<String> jsResources = Sets.newLinkedHashSet();
         private Set<String> cssResources = Sets.newLinkedHashSet();
+        private Set<Expressionizer> expressionizers = Sets.newLinkedHashSet();
+        private Set<Coercer> coercers = Sets.newLinkedHashSet();
         private Set<Class<?>> intfs = Sets.newLinkedHashSet();
         private Set<MixinInitializer> mixinInitializers = Sets.newLinkedHashSet();
         private boolean jsSupport = true;
@@ -79,6 +83,24 @@ public interface WebElementsFactory<T extends WebElements> extends ElementsFacto
             return this;
         }
 
+        public Builder<T> withExpressionizers(Expressionizer ... expressionizers) {
+            return withExpressionizers(Arrays.asList(expressionizers));
+        }
+
+        public Builder<T> withExpressionizers(Collection<Expressionizer> expressionizers) {
+            this.expressionizers.addAll(expressionizers);
+            return this;
+        }
+
+        public Builder<T> withCoercers(Coercer ... coercers) {
+            return withCoercers(Arrays.asList(coercers));
+        }
+
+        public Builder<T> withCoercers(Collection<Coercer> coercers) {
+            this.coercers.addAll(coercers);
+            return this;
+        }
+
         public Builder<T> implementingInterfaces(Class<?> ... intfs) {
             return this.implementingInterfaces(Arrays.asList(intfs));
         }
@@ -92,7 +114,6 @@ public interface WebElementsFactory<T extends WebElements> extends ElementsFacto
             this.mixinInitializers.add(configurer);
             return this;
         }
-
 
         public WebDriver getWebDriver() {
             return webDriver;
@@ -116,6 +137,15 @@ public interface WebElementsFactory<T extends WebElements> extends ElementsFacto
 
         public Set<Class<?>> getIntfs() {
             return ImmutableSet.copyOf(intfs);
+        }
+
+
+        public Collection<Expressionizer> getAditionalExpressionizers() {
+            return ImmutableSet.copyOf(expressionizers);
+        }
+
+        public Collection<Coercer> getAditionalCoercers() {
+            return ImmutableSet.copyOf(coercers);
         }
 
         public MixinInitializer getMixinInitializer() {
