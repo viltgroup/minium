@@ -14,6 +14,9 @@ import java.util.WeakHashMap;
 import minium.Elements;
 import minium.Minium;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
 import com.google.common.reflect.TypeToken;
@@ -58,6 +61,8 @@ public interface InternalFinder {
 
         @Override
         public <T> T as(Class<T> clazz) {
+            if (super.is(clazz)) return super.as(clazz);
+            Preconditions.checkArgument(Elements.class.isAssignableFrom(clazz), "%s is not a Elements", clazz);
             return createElementsProxy(clazz);
         }
 
@@ -130,6 +135,8 @@ public interface InternalFinder {
 
     static class MethodInvocationImpl extends Impl implements InternalFinder {
 
+        private static final Logger LOGGER = LoggerFactory.getLogger(MethodInvocationImpl.class);
+
         private final WeakHashMap<Elements, Elements> evalResults = new WeakHashMap<Elements, Elements>();
 
         private final Method method;
@@ -151,6 +158,7 @@ public interface InternalFinder {
                 elems = parent.eval(root);
             }
             try {
+                LOGGER.debug("evaluating {}", method);
                 Elements result = (Elements) method.invoke(elems, evalArgs(root, args));
                 evalResults.put(root, result);
                 return result;

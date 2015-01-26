@@ -3,6 +3,9 @@ package minium.visual.internal.actions;
 import java.awt.Robot;
 
 import minium.Elements;
+import minium.Offsets.Offset;
+import minium.Point;
+import minium.Rectangle;
 import minium.actions.internal.AbstractInteraction;
 import minium.visual.internal.HasScreen;
 import minium.visual.internal.InternalVisualElements;
@@ -35,4 +38,14 @@ public abstract class AbstractVisualInteraction extends AbstractInteraction {
         return keyboard;
     }
 
+    protected Rectangle rectangleFor(Region region) {
+        return new Rectangle(region.x, region.y, region.w, region.h);
+    }
+
+    protected Location getOffsetLocation(Region region, Offset offset) {
+        Rectangle rectangle = rectangleFor(region);
+        Point center = offset.apply(rectangle);
+        Location location = new Location(center.x(), center.y());
+        return location;
+    }
 }

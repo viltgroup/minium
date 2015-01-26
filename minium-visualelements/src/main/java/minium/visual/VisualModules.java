@@ -7,7 +7,10 @@ import minium.actions.Configuration;
 import minium.actions.HasConfiguration;
 import minium.actions.Interactable;
 import minium.actions.InteractionPerformer;
+import minium.actions.debug.DebugInteractable;
+import minium.actions.debug.DebugInteractionPerformer;
 import minium.actions.internal.DefaultConfiguration;
+import minium.actions.internal.DefaultDebugInteractable;
 import minium.actions.internal.DefaultInteractable;
 import minium.visual.internal.DefaultBasicVisualElements;
 import minium.visual.internal.DefaultCornersVisualElements;
@@ -41,7 +44,12 @@ public class VisualModules {
 
     public static VisualModule defaultModule(final Screen screen, final Class<?> intf) {
         Preconditions.checkArgument(intf == null || intf.isInterface());
-        VisualModule baseModule = new VisualModule() {
+        InteractionPerformer performer = new VisualInteractionPerformer();
+        return combine(baseModule(screen, intf), positionModule(), interactableModule(performer));
+    }
+
+    public static VisualModule baseModule(final Screen screen, final Class<?> intf) {
+        return new VisualModule() {
             @Override
             public void configure(VisualElementsFactory.Builder<?> builder) {
                 if (intf != null) builder.implementingInterfaces(intf);
@@ -57,8 +65,6 @@ public class VisualModules {
                     });
             }
         };
-        InteractionPerformer performer = new VisualInteractionPerformer();
-        return combine(baseModule, positionModule(), interactableModule(performer));
     };
 
     public static VisualModule interactableModule(final InteractionPerformer performer) {
@@ -76,6 +82,25 @@ public class VisualModules {
                         Interactable interactable = new DefaultInteractable(performer);
                         implement(HasConfiguration.class).with(new HasConfiguration.Impl(configuration));
                         implement(Interactable.class).with(interactable);
+                    }
+                });
+            }
+        };
+    };
+
+    public static VisualModule debugModule(final DebugInteractionPerformer performer) {
+        Preconditions.checkNotNull(performer);
+        return new VisualModule() {
+            @Override
+            public void configure(VisualElementsFactory.Builder<?> builder) {
+                builder
+                .implementingInterfaces(DebugInteractable.class)
+                .usingMixinConfigurer(new AbstractMixinInitializer() {
+
+                    @Override
+                    protected void initialize() {
+                        DebugInteractable interactable = new DefaultDebugInteractable(performer);
+                        implement(DebugInteractable.class).with(interactable);
                     }
                 });
             }

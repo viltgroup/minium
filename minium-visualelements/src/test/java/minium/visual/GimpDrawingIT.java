@@ -3,6 +3,10 @@ package minium.visual;
 import static minium.Offsets.HorizontalReference.LEFT;
 import static minium.Offsets.VerticalReference.TOP;
 import static minium.visual.DefaultVisualElements.by;
+import static minium.visual.VisualModules.baseModule;
+import static minium.visual.VisualModules.debugModule;
+import static minium.visual.VisualModules.interactableModule;
+import static minium.visual.VisualModules.positionModule;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,8 +15,11 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import minium.Minium;
+import minium.Offsets;
+import minium.Offsets.Offset;
 import minium.actions.HasConfiguration;
 import minium.visual.VisualElementsFactory.Builder;
+import minium.visual.internal.actions.VisualDebugInteractionPerformer;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +35,7 @@ import com.google.common.collect.Lists;
 public class GimpDrawingIT {
 
     private static final String SVG_FILE = "drawing.json";
-    private static final int MIN_DISTANCE = 4;
+    private static final int MIN_DISTANCE = 40;
 
     public static class DoublePoint {
         private double x;
@@ -114,14 +121,21 @@ public class GimpDrawingIT {
     @Before
     public void setup() {
         screen = new Screen();
-        VisualModule visualModule = VisualModules.defaultModule(screen, DefaultVisualElements.class);
+        VisualDebugInteractionPerformer performer = new VisualDebugInteractionPerformer();
+        VisualModule visualModule = VisualModules.combine(
+                baseModule(screen, DefaultVisualElements.class),
+                positionModule(),
+                interactableModule(performer),
+                debugModule(performer));
         Builder<DefaultVisualElements> builder = new VisualElementsFactory.Builder<DefaultVisualElements>();
         visualModule.configure(builder);
         VisualElementsFactory<DefaultVisualElements> visualFactory = builder.build();
         DefaultVisualElements root = visualFactory.createRoot(screen);
         root.as(HasConfiguration.class).configure()
             .defaultInterval(1, TimeUnit.SECONDS)
-            .defaultInterval(20, TimeUnit.SECONDS);
+            .defaultInterval(20, TimeUnit.SECONDS)
+//            .interactionListeners().add(new DebugInteractionListener(performer))
+            ;
         Minium.set(root);
     }
 
@@ -141,11 +155,11 @@ public class GimpDrawingIT {
         DefaultVisualElements fileNewMenuitem = by.text("New").below(fileMenuitem.relative("left top", "right+100% bottom"));
 
         DefaultVisualElements pencilTool = by.image("classpath:images/gimp_penciltool.png");
-        DefaultVisualElements brushsizeFld = by.image("classpath:images/gimp_brushsize.png").target("left+20% bottom-10%");
+        DefaultVisualElements brushsizeFld = by.image("classpath:images/gimp_brushsize.png").relative("left+20% top", "left+40% bottom");
 
         // new window
-        DefaultVisualElements newWidth = by.text("Width").target("right+64px center");
-        DefaultVisualElements newHeight = by.text("Height").target("right+64px center");
+        DefaultVisualElements newWidth = by.text("Width").relative("right+64px top", "right+128px bottom");
+        DefaultVisualElements newHeight = by.text("Height").relative("right+64px top", "right+128px bottom");
         DefaultVisualElements okBtn = by.image("classpath:images/gimp_ok.png");
 
         // drawing
@@ -154,38 +168,41 @@ public class GimpDrawingIT {
         // action!
 
         // open gimp
-        winstart.click();
-        gimp.click();
-
-        // pick pencil tool and set brush size to 1
-        pencilTool.click();
-        brushsizeFld.type("1");
-
-        // create new file
+//        winstart.click();
+//        gimp.click();
+//
+//        // pick pencil tool and set brush size to 1
+//        pencilTool.click();
+//        brushsizeFld.highlight();
+//        brushsizeFld.fill("1");
+//
+//        // create new file
         fileMenuitem.click();
         fileNewMenuitem.click();
         newWidth.fill("900");
         newHeight.fill("900");
         okBtn.click();
 
+        drawingArea.highlight();
+
         // now draw!
-        double scaleX = 100.0 / drawing.width();
-        double scaleY = 100.0 / drawing.height();
+        double scaleX = 100d / 900d;
+        double scaleY = 100d / 900d;
 
         for (Polygon polygon : drawing.polygons()) {
             DoublePoint prevPoint = null;
             for (DoublePoint point : polygon.points()) {
-                DefaultVisualElements target = drawingArea.target(LEFT.plus(point.x() * scaleX).percent(), TOP.plus(point.y() * scaleY).percent());
+                Offset target = Offsets.at(LEFT.plus(point.x() * scaleX).percent(), TOP.plus(point.y() * scaleY).percent());
                 if (prevPoint == null) {
-                    target.clickAndHold();
+                    drawingArea.clickAndHold(target);
                     prevPoint = point;
                 } else {
                     if (prevPoint.distance(point) < MIN_DISTANCE) continue;
-                    target.moveTo();
+                    drawingArea.moveTo(target);
                     prevPoint = point;
                 }
             }
-            root.release();
+            drawingArea.release();
         }
     }
 

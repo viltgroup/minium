@@ -94,8 +94,7 @@ public class VisualInteractionPerformer extends AbstractInteractionPerformer {
 
     @Override
     public void clickAndHold(Elements elements, Offset offset) {
-        // TODO Auto-generated method stub
-
+        perform(new ClickAndHoldInteraction(elements, offset));
     }
 
     @Override
@@ -139,8 +138,7 @@ public class VisualInteractionPerformer extends AbstractInteractionPerformer {
 
     @Override
     public void moveTo(Elements elements, Offset offset) {
-        // TODO Auto-generated method stub
-
+        perform(new MoveToInteraction(elements, offset));
     }
 
     @Override

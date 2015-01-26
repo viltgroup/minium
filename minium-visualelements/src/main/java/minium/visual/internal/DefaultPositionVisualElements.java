@@ -8,17 +8,12 @@ import java.util.Map;
 import java.util.SortedSet;
 
 import minium.Elements;
-import minium.Offsets;
-import minium.Offsets.HorizontalOffset;
 import minium.Offsets.Offset;
-import minium.Offsets.VerticalOffset;
 import minium.Point;
 import minium.PositionElements;
 import minium.Rectangle;
 import minium.visual.VisualElements;
 
-import org.sikuli.script.Location;
-import org.sikuli.script.Match;
 import org.sikuli.script.Region;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -202,37 +197,6 @@ public class DefaultPositionVisualElements<T extends VisualElements> extends Bas
         }
     }
 
-    static class TargetVisualElements<T extends VisualElements> extends BaseInternalVisualElements<T> {
-
-        private final Offset centerOffset;
-
-        public TargetVisualElements(Offset centerOffset) {
-            this.centerOffset = centerOffset;
-        }
-
-        @Override
-        public Iterable<Region> matches(VisualContext context) {
-            Iterable<Region> parentMatches = context.evaluate(parent());
-            return from(parentMatches).transform(new Function<Region, Region>() {
-                @Override
-                public Region apply(Region region) {
-                    Rectangle rectangle = rectangleFor(region);
-
-                    Point center = centerOffset.apply(rectangle);
-                    Location regionLocation = region.getCenter();
-                    Location offset = new Location(center.x() - regionLocation.x, center.y() - regionLocation.y);
-                    Match match = new Match(region, 1);
-                    match.setTargetOffset(offset);
-                    return match;
-                }
-            }).toSet();
-        }
-
-        protected Rectangle rectangleFor(Region region) {
-            return new Rectangle(region.x, region.y, region.w, region.h);
-        }
-    }
-
     @Override
     public T above(Elements fromElems) {
         return internalFactory().createMixin(myself(), new AboveVisualElements<T>(fromElems));
@@ -261,21 +225,6 @@ public class DefaultPositionVisualElements<T extends VisualElements> extends Bas
     @Override
     public T relative(Offset topLeftOffset, Offset bottomRightOffset) {
         return internalFactory().createMixin(myself(), new RelativeRegionVisualElements<T>(topLeftOffset, bottomRightOffset));
-    }
-
-    @Override
-    public T target(String center) {
-        return target(Offsets.at(center));
-    }
-
-    @Override
-    public T target(HorizontalOffset horizontal, VerticalOffset vertical) {
-        return target(at(horizontal, vertical));
-    }
-
-    @Override
-    public T target(Offset center) {
-        return internalFactory().createMixin(myself(), new TargetVisualElements<T>(center));
     }
 
     @Override

@@ -15,9 +15,7 @@
  */
 package minium;
 
-import minium.Offsets.HorizontalOffset;
 import minium.Offsets.Offset;
-import minium.Offsets.VerticalOffset;
 
 
 /**
@@ -71,11 +69,5 @@ public interface PositionElements<T extends Elements> extends Elements {
     public T relative(String topleft, String bottomright);
 
     public T relative(Offset topLeftOffset, Offset bottomRightOffset);
-
-    public T target(String center);
-
-    public T target(Offset center);
-
-    public T target(HorizontalOffset horizontal, VerticalOffset vertical);
 
 }

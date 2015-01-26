@@ -12,7 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.sikuli.script.Screen;
 
-public class VisualFinderTest {
+public class VisualFinderIT {
 
     private static DefaultVisualElements root;
 
@@ -26,7 +26,7 @@ public class VisualFinderTest {
 
     @Test
     public void simple_click() {
-        URL windowImg = VisualFinderTest.class.getClassLoader().getResource("nine-patch/window.9.png");
+        URL windowImg = VisualFinderIT.class.getClassLoader().getResource("nine-patch/window.9.png");
 
         DefaultVisualElements genPassIconElems = by.image("classpath:passgen.png");
         DefaultVisualElements editElems = by.text("Tools");
@@ -43,7 +43,7 @@ public class VisualFinderTest {
 
     @Test
     public void click_cancel() {
-        URL btnImg = VisualFinderTest.class.getClassLoader().getResource("nine-patch/button.9.png");
+        URL btnImg = VisualFinderIT.class.getClassLoader().getResource("nine-patch/button.9.png");
 
         DefaultVisualElements cancelBtn = by.ninePatch(btnImg).findText("Cancel");
 
