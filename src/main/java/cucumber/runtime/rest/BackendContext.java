@@ -17,7 +17,6 @@ import cucumber.api.SnippetType;
 import cucumber.runtime.Backend;
 import cucumber.runtime.HookDefinition;
 import cucumber.runtime.StepDefinition;
-import cucumber.runtime.rest.dto.ArgumentDTO;
 import cucumber.runtime.rest.dto.ExecutionResult;
 import cucumber.runtime.rest.dto.GlueDTO;
 import cucumber.runtime.rest.dto.HookExecutionResult;
@@ -25,6 +24,7 @@ import cucumber.runtime.rest.dto.ScenarioDTO;
 import cucumber.runtime.rest.dto.StepDTO;
 import cucumber.runtime.rest.dto.StepDefinitionInvocation;
 import cucumber.runtime.rest.dto.StepExecutionResult;
+import cucumber.runtime.rest.dto.StepMatchDTO;
 import cucumber.runtime.rest.dto.TagDTO;
 import cucumber.runtime.rest.dto.WorldDTO;
 import cucumber.runtime.xstream.LocalizedXStreams;
@@ -106,25 +106,15 @@ public class BackendContext {
         return new StepExecutionResult();
     }
 
-    public ArgumentDTO[] matchedArguments(UUID uuid, long id, StepDTO stepProxy) throws Throwable {
+    public StepMatchDTO matchedArguments(UUID uuid, long id, StepDTO stepProxy) throws Throwable {
         SimpleGlue glue = glues.get(uuid);
         StepDefinition stepDefinition = glue.stepDefinition(id);
         List<Argument> matchedArguments = stepDefinition.matchedArguments(stepProxy.toStep());
-        return convertArguments(matchedArguments);
+        return new StepMatchDTO(matchedArguments);
     }
 
     public String getSnippet(StepDTO serializableStep, SnippetType type) {
         return backend.getSnippet(serializableStep.toStep(), type.getFunctionNameGenerator());
-    }
-
-    public ArgumentDTO[] convertArguments(List<Argument> args) {
-        if (args == null) return null;
-        ArgumentDTO[] dtos = new ArgumentDTO[args.size()];
-        for (int i = 0; i < args.size(); i++) {
-            Argument arg = args.get(i);
-            dtos[i] = new ArgumentDTO(arg);
-        }
-        return dtos;
     }
 
     public Collection<Tag> convertTags(Collection<TagDTO> tags) {

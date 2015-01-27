@@ -40,6 +40,7 @@ import cucumber.runtime.rest.dto.StepDTO;
 import cucumber.runtime.rest.dto.StepDefinitionDTO;
 import cucumber.runtime.rest.dto.StepDefinitionInvocation;
 import cucumber.runtime.rest.dto.StepExecutionResult;
+import cucumber.runtime.rest.dto.StepMatchDTO;
 import cucumber.runtime.rest.dto.TagDTO;
 import cucumber.runtime.rest.dto.WorldDTO;
 import cucumber.runtime.snippets.FunctionNameGenerator;
@@ -157,8 +158,8 @@ public class RemoteBackend implements Backend {
     public List<Argument> matchedArguments(StepDefinitionDTO stepDefinition, Step step) {
         StepDTO stepProxy = new StepDTO(step);
         URI uri = uriBuilderFor(STEP_MATCHED_URI).buildAndExpand(stepDefinition.getGlueId(), stepDefinition.getId()).toUri();
-        ArgumentDTO[] matchedArguments = template.postForObject(uri, stepProxy, ArgumentDTO[].class);
-        return toGerkinArguments(matchedArguments);
+        StepMatchDTO match = template.postForObject(uri, stepProxy, StepMatchDTO.class);
+        return toGerkinArguments(match.getArguments());
     }
 
     protected UriComponentsBuilder uriBuilderFor(String path) {

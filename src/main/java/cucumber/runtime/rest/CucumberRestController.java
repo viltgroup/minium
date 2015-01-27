@@ -29,13 +29,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import cucumber.runtime.Backend;
-import cucumber.runtime.rest.dto.ArgumentDTO;
 import cucumber.runtime.rest.dto.ExecutionResult;
 import cucumber.runtime.rest.dto.GlueDTO;
 import cucumber.runtime.rest.dto.HookExecutionResult;
 import cucumber.runtime.rest.dto.ScenarioDTO;
 import cucumber.runtime.rest.dto.StepDTO;
 import cucumber.runtime.rest.dto.StepDefinitionInvocation;
+import cucumber.runtime.rest.dto.StepMatchDTO;
 import cucumber.runtime.rest.dto.TagDTO;
 import cucumber.runtime.rest.dto.WorldDTO;
 
@@ -101,7 +101,7 @@ public class CucumberRestController {
     }
 
     @RequestMapping(value = BACKEND_PREFIX + STEP_MATCHED_URI, method = RequestMethod.POST)
-    public ArgumentDTO[] matchedArguments(@PathVariable String backendId, @PathVariable UUID uuid, @PathVariable long id, @RequestBody StepDTO step) throws Throwable {
+    public StepMatchDTO matchedArguments(@PathVariable String backendId, @PathVariable UUID uuid, @PathVariable long id, @RequestBody StepDTO step) throws Throwable {
         return backendContext(backendId).matchedArguments(uuid, id, step);
     }
 
