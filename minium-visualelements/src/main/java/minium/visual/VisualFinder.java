@@ -11,9 +11,7 @@ public class VisualFinder<E extends VisualElements> extends Finder<E> {
 
     private static final Method FIND_TEXT_METHOD = Reflections.getDeclaredMethod(BasicVisualElements.class, "findText", String.class);
 
-    private static final Method FIND_IMAGE_METHOD = Reflections.getDeclaredMethod(BasicVisualElements.class, "findImage", Pattern.class);
-
-    private static final Method FIND_NINE_PATCH_METHOD = Reflections.getDeclaredMethod(CornersVisualElements.class, "findByNinePatch", URL.class);
+    private static final Method FIND_PATTERN_METHOD = Reflections.getDeclaredMethod(BasicVisualElements.class, "find", Pattern.class);
 
     protected VisualFinder(Class<E> intf) {
         super(intf);
@@ -28,7 +26,11 @@ public class VisualFinder<E extends VisualElements> extends Finder<E> {
     }
 
     public E ninePatch(URL imgUrl) {
-        return createFinder(FIND_NINE_PATCH_METHOD, imgUrl);
+        return ninePatch(new NinePatchPattern(imgUrl));
+    }
+
+    public E ninePatch(NinePatchPattern pattern) {
+        return pattern(pattern);
     }
 
     public E image(String imgPath) {
@@ -40,6 +42,6 @@ public class VisualFinder<E extends VisualElements> extends Finder<E> {
     }
 
     public E pattern(Pattern pattern) {
-        return createFinder(FIND_IMAGE_METHOD, pattern);
+        return createFinder(FIND_PATTERN_METHOD, pattern);
     }
 }

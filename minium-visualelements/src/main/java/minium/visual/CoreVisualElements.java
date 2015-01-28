@@ -6,7 +6,6 @@ import minium.actions.Interactable;
 
 public interface CoreVisualElements<T extends VisualElements> extends
         BasicVisualElements<T>,
-        CornersVisualElements<T>,
         PositionElements<T>,
         FreezableElements<T>,
         Interactable {

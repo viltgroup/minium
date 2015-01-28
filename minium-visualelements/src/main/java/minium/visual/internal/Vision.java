@@ -26,7 +26,7 @@ public class Vision {
     private static final Logger LOGGER = LoggerFactory.getLogger(Vision.class);
 
     public static List<Match> findPattern(VisualContext context, Region region, Pattern pattern) {
-        org.sikuli.script.Pattern sikuliPattern = new org.sikuli.script.Pattern(pattern.getImage());
+        org.sikuli.script.Pattern sikuliPattern = new org.sikuli.script.Pattern(pattern.image());
         if (pattern.getSimilar() != 0f) sikuliPattern.similar(pattern.getSimilar());
         if (!pattern.getTargetOffset().isNull()) {
             Point targetOffset = pattern.getTargetOffset();

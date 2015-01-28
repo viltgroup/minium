@@ -2,6 +2,7 @@ package minium.visual.internal;
 
 import static com.google.common.collect.FluentIterable.from;
 
+import java.awt.image.BufferedImage;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -9,36 +10,45 @@ import java.util.Set;
 
 import minium.Elements;
 import minium.FreezableElements;
+import minium.PositionElements;
 import minium.visual.BasicVisualElements;
+import minium.visual.NinePatchPattern;
 import minium.visual.Pattern;
 import minium.visual.VisualElements;
+import minium.visual.internal.ninepatch.NinePatch;
+import minium.visual.internal.ninepatch.NinePatchChunk;
 
 import org.sikuli.script.Match;
 import org.sikuli.script.Region;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
+import com.google.common.base.Throwables;
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
 import com.google.common.reflect.TypeToken;
 
 public class DefaultBasicVisualElements<T extends VisualElements> extends BaseVisualElements<T> implements BasicVisualElements<T> {
 
-    static class ImageMatchVisualElements<T extends VisualElements> extends BaseInternalVisualElements<T> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultBasicVisualElements.class);
+
+    static class PatternMatchVisualElements<T extends VisualElements> extends BaseInternalVisualElements<T> {
 
         private final Pattern pattern;
 
-        public ImageMatchVisualElements(Pattern pattern) {
+        public PatternMatchVisualElements(Pattern pattern) {
             this.pattern = Preconditions.checkNotNull(pattern);
         }
 
         @Override
         public Iterable<Region> matches(final VisualContext context) {
             Iterable<Region> parentMatches = context.evaluate(parent());
-
 
             Set<Region> results = from(parentMatches).transformAndConcat(new Function<Region, Iterable<Region>>() {
                 @Override
@@ -53,7 +63,7 @@ public class DefaultBasicVisualElements<T extends VisualElements> extends BaseVi
 
         @Override
         public String toString() {
-            return MoreObjects.toStringHelper(ImageMatchVisualElements.class.getSimpleName())
+            return MoreObjects.toStringHelper(PatternMatchVisualElements.class.getSimpleName())
                     .add("parent", parent())
                     .add("pattern", pattern)
                     .toString();
@@ -176,14 +186,101 @@ public class DefaultBasicVisualElements<T extends VisualElements> extends BaseVi
 
     }
 
-    @Override
-    public T findImage(String imagePath) {
-        return findImage(new Pattern(imagePath));
+    static class NinePatchVisualElements<T extends VisualElements> extends BaseInternalVisualElements<T> {
+
+        private final Pattern topleft;
+        private final Pattern topright;
+        private final Pattern bottomright;
+        private final Pattern bottomleft;
+
+        public NinePatchVisualElements(NinePatchPattern pattern) {
+            NinePatch ninePatch = createNinePatch(pattern);
+            NinePatchChunk chunk = ninePatch.getChunk();
+            int[] p = chunk.getPadding();
+            for (int i : p) {
+                Preconditions.checkArgument(i != 0, "image %s doesn't seem to be nine-patch", pattern.imageUrl());
+            }
+
+            BufferedImage image = ninePatch.getImage();
+            topleft = new Pattern(image.getSubimage(0, 0, p[0], p[1])).similar(pattern.getSimilar());
+            topright = new Pattern(image.getSubimage(image.getWidth() - p[2], 0, p[2], p[1])).similar(pattern.getSimilar());
+            bottomright = new Pattern(image.getSubimage(image.getWidth() - p[2], image.getHeight() - p[3], p[2], p[3])).similar(pattern.getSimilar());
+            bottomleft = new Pattern(image.getSubimage(0, image.getHeight() - p[3], p[0], p[3])).similar(pattern.getSimilar());
+        }
+
+        @Override
+        public Iterable<Region> matches(final VisualContext context) {
+            Set<Elements> topleftElems     = asSingletonElems(context.evaluate(root().as(BasicVisualElements.class).find(topleft)));
+            Set<Elements> toprightElems    = asSingletonElems(context.evaluate(root().as(BasicVisualElements.class).find(topright)));
+            Set<Elements> bottomrightElems = asSingletonElems(context.evaluate(root().as(BasicVisualElements.class).find(bottomright)));
+            Set<Elements> bottomleftElems  = asSingletonElems(context.evaluate(root().as(BasicVisualElements.class).find(bottomleft)));
+
+            LOGGER.debug("corner matches: [{}, {}, {}, {}]",
+                    topleftElems.size(),
+                    toprightElems.size(),
+                    bottomrightElems.size(),
+                    bottomleftElems.size());
+
+            @SuppressWarnings("unchecked")
+            Set<List<Elements>> combinations = Sets.cartesianProduct(topleftElems, toprightElems, bottomrightElems, bottomleftElems);
+
+            Set<Region> results = from(combinations).filter(new Predicate<List<Elements>>() {
+                @Override
+                public boolean apply(List<Elements> corners) {
+                    PositionElements<?> topleftElem     = corners.get(0).as(PositionElements.class);
+                    PositionElements<?> toprightElem    = corners.get(1).as(PositionElements.class);
+                    PositionElements<?> bottomrightElem = corners.get(2).as(PositionElements.class);
+                    PositionElements<?> bottomleftElem  = corners.get(3).as(PositionElements.class);
+
+                    Elements candidate = topleftElem.leftOf(toprightElem.above(bottomrightElem.rightOf(bottomleftElem.below(topleftElem))));
+
+                    return !Iterables.isEmpty(context.evaluate(candidate));
+                }
+            }).transform(new Function<List<Elements>, Region>() {
+                @Override
+                public Region apply(List<Elements> corners) {
+                    Region topleftRegion     = Iterables.get(context.evaluate(corners.get(0)), 0);
+                    Region toprightRegion    = Iterables.get(context.evaluate(corners.get(1)), 0);
+                    Region bottomrightRegion = Iterables.get(context.evaluate(corners.get(2)), 0);
+                    Region bottomleftRegion  = Iterables.get(context.evaluate(corners.get(3)), 0);
+                    return Regions.union(topleftRegion, toprightRegion, bottomrightRegion, bottomleftRegion);
+                }
+            }).toSet();
+
+            return debugResults(results);
+        }
+
+        protected Set<Elements> asSingletonElems(Iterable<Region> regions) {
+            return from(regions).transform(new Function<Region, Elements>() {
+                @Override
+                public Elements apply(Region region) {
+                    return factory().createRoot(region);
+                }
+            }).toSet();
+        }
+
+        protected NinePatch createNinePatch(NinePatchPattern pattern) {
+            NinePatch ninePatch = null;
+                try {
+                    ninePatch = NinePatch.load(pattern.image(), true, false);
+                } catch (Exception e) {
+                    throw Throwables.propagate(e);
+                }
+            return ninePatch;
+        }
     }
 
     @Override
-    public T findImage(Pattern pattern) {
-        return internalFactory().createMixin(myself(), new ImageMatchVisualElements<T>(pattern));
+    public T find(String imagePath) {
+        return find(new Pattern(imagePath));
+    }
+
+    @Override
+    public T find(Pattern pattern) {
+        if (pattern instanceof NinePatchPattern) {
+            return internalFactory().createMixin(myself(), new NinePatchVisualElements<T>((NinePatchPattern) pattern));
+        }
+        return internalFactory().createMixin(myself(), new PatternMatchVisualElements<T>(pattern));
     }
 
     @Override

@@ -32,4 +32,12 @@ public abstract class BaseElements<T extends Elements> extends Mixin.Impl implem
     protected Elements parent() {
         return this.is(HasParent.class) ? this.as(HasParent.class).parent() : null;
     }
+
+    protected Elements root() {
+        Elements curr = myself();
+        while (curr.is(HasParent.class)) {
+            curr = curr.as(HasParent.class).parent();
+        }
+        return curr;
+    }
 }

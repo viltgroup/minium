@@ -58,7 +58,11 @@ public class Pattern {
         this.image = image;
     }
 
-    public BufferedImage getImage() {
+    public URL imageUrl() {
+        return imageUrl;
+    }
+
+    public BufferedImage image() {
         return image;
     }
 

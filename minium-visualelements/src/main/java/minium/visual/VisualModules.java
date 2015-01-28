@@ -13,7 +13,6 @@ import minium.actions.internal.DefaultConfiguration;
 import minium.actions.internal.DefaultDebugInteractable;
 import minium.actions.internal.DefaultInteractable;
 import minium.visual.internal.DefaultBasicVisualElements;
-import minium.visual.internal.DefaultCornersVisualElements;
 import minium.visual.internal.DefaultPositionVisualElements;
 import minium.visual.internal.FreezableVisualElements;
 import minium.visual.internal.actions.VisualInteractionPerformer;
@@ -60,7 +59,6 @@ public class VisualModules {
                         protected void initialize() {
                             implement(BasicVisualElements.class).with(new DefaultBasicVisualElements<VisualElements>());
                             implement(FreezableElements.class).with(new FreezableVisualElements<VisualElements>());
-                            implement(CornersVisualElements.class).with(new DefaultCornersVisualElements<VisualElements>());
                         }
                     });
             }

@@ -8,27 +8,42 @@ import static minium.visual.VisualModules.debugModule;
 import static minium.visual.VisualModules.interactableModule;
 import static minium.visual.VisualModules.positionModule;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import minium.Minium;
 import minium.Offsets;
 import minium.Offsets.Offset;
 import minium.actions.HasConfiguration;
-import minium.actions.debug.DebugInteractable;
 import minium.visual.CoreVisualElements.DefaultVisualElements;
 import minium.visual.Drawing.DoublePoint;
 import minium.visual.Drawing.Polygon;
 import minium.visual.VisualElementsFactory.Builder;
 import minium.visual.internal.actions.VisualDebugInteractionPerformer;
 
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.sikuli.script.Screen;
 
-public class GimpDrawingIT {
+public class MsPaintIT {
 
     private static final String SVG_FILE = "drawing.json";
     private static final int MIN_DISTANCE = 4;
+    private static final double SCALE_FACTOR = 0.3d;
+
+    @BeforeClass
+    public static void globalSetup() throws IOException {
+        // quick way to launch mspaint maximized
+        Runtime.getRuntime().exec("cmd /c start \"\" /max /b mspaint.exe");
+    }
+
+    @AfterClass
+    public static void globalTearDown() throws IOException {
+        // quick way to ensure we kill mspaint at the end
+        Runtime.getRuntime().exec("cmd /c taskkill /IM mspaint.exe");
+    }
 
     private Screen screen;
 
@@ -52,57 +67,39 @@ public class GimpDrawingIT {
     }
 
     @Test
-    public void testDrawTiger() {
+    public void drawMiniumLogo() {
         // get drawing
         Drawing drawing = Drawing.read(SVG_FILE);
 
-        // gimp elements
-        DefaultVisualElements winstart = by.image("classpath:images/win7start.png");
-        DefaultVisualElements gimp = by.text("GIMP 2");
+        DefaultVisualElements menuBtn            = by.image("classpath:mspaint/menuBtn.png");
+        DefaultVisualElements clickableMenuBtn   = by.image("classpath:mspaint/menuBtn.clickable.png");
 
-        // window corners
-        DefaultVisualElements fileMenuitem = by.text("File").leftOf(by.text("Edit"));
-        DefaultVisualElements fileNewMenuitem = by.text("New").below(fileMenuitem.relative("left top", "right+100% bottom"));
+        DefaultVisualElements propertiesMenuItem = by.text("Properties");
+        DefaultVisualElements widthFld           = by.text("Width").relative("right+16px top", "right+90px bottom");
+        DefaultVisualElements heightFld          = by.text("Height").relative("right+16px top", "right+90px bottom");
 
-        DefaultVisualElements pencilTool = by.image("classpath:images/gimp_penciltool.png");
-        DefaultVisualElements brushsizeFld = by.image("classpath:images/gimp_brushsize.png").relative("left+20% top", "left+40% bottom");
+        DefaultVisualElements okBtn              = by.image("classpath:mspaint/okBtn.png");
 
-        // new window
-        DefaultVisualElements newWidth = by.text("Width").relative("right+16px top", "right+64px bottom");
-        DefaultVisualElements newHeight = by.text("Height").relative("right+16px top", "right+64px bottom");
-        DefaultVisualElements okBtn = by.image("classpath:images/gimp_ok.png");
+        DefaultVisualElements drawingArea        = by.ninePatch(new NinePatchPattern("classpath:mspaint/drawingArea.9.png").exact()).freeze();
 
-        // drawing
-        DefaultVisualElements drawingArea = by.ninePatch("classpath:nine-patch/canvasarea.9.png").freeze();
+        // actions
+        menuBtn.moveTo();
+        clickableMenuBtn.click();
+        propertiesMenuItem.click();
 
-        // action!
+        int w = (int) (drawing.width() * SCALE_FACTOR);
+        int h = (int) (drawing.height() * SCALE_FACTOR);
 
-        // open gimp
-//        winstart.click();
-//        gimp.click();
-
-        // pick pencil tool and set brush size to 1
-//        pencilTool.click();
-//        brushsizeFld.fill("5");
-
-        // create new file
-//        fileMenuitem.click();
-//        fileNewMenuitem.click();
-        newWidth.fill("900");
-        newHeight.fill("900");
+        widthFld.fill(Integer.toString(w));
+        heightFld.fill(Integer.toString(h));
         okBtn.click();
 
-        drawingArea.as(DebugInteractable.class).highlight();
-
         // now draw!
-        double scaleX = 100d / drawing.width();
-        double scaleY = 100d / drawing.height();
-
         for (Polygon polygon : drawing.polygons()) {
             DoublePoint prevPoint = null;
             Offset target = null;
             for (DoublePoint point : polygon.points()) {
-                target = Offsets.at(LEFT.plus(point.x() * scaleX).percent(), TOP.plus(point.y() * scaleY).percent());
+                target = Offsets.at(LEFT.plus(point.x() * SCALE_FACTOR).pixels(), TOP.plus(point.y() * SCALE_FACTOR).pixels());
                 if (prevPoint == null) {
                     drawingArea.clickAndHold(target);
                     prevPoint = point;
@@ -114,14 +111,6 @@ public class GimpDrawingIT {
             }
             drawingArea.release(target);
         }
-    }
 
-    protected DefaultVisualElements windowWithTitle(DefaultVisualElements windows, String title) {
-        DefaultVisualElements titlebar = windows.relative("left top", "right top+30px");
-        DefaultVisualElements titlebarTitle = titlebar.relative("left+32px top", "right-160px bottom").contains(windows.findText(title));
-        DefaultVisualElements titlebarWithTitle = titlebar.contains(titlebarTitle);
-        DefaultVisualElements window = windows.contains(titlebarWithTitle);
-
-        return window;
     }
 }
