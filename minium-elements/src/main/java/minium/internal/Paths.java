@@ -1,4 +1,4 @@
-package minium.visual.internal;
+package minium.internal;
 
 import java.io.File;
 import java.net.MalformedURLException;

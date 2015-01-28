@@ -104,8 +104,7 @@ public class VisualInteractionPerformer extends AbstractInteractionPerformer {
 
     @Override
     public void release(Elements elements, Offset offset) {
-        // TODO Auto-generated method stub
-
+        perform(new ReleaseInteraction(elements, offset));
     }
 
     @Override

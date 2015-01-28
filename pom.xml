@@ -23,6 +23,8 @@
 		<selenium.version>2.44.0</selenium.version>
 		<closure-compiler.version>v20141215</closure-compiler.version>
 		<rhino.version>1.7R4</rhino.version>
+		<dynjs.version>0.3.1</dynjs.version>
+		
 		<!-- we need at least this version because of https://github.com/mockito/mockito/issues/128 -->
 		<mockito.version>2.0.3-beta</mockito.version>
 		<sikulix.version>1.1.0-SNAPSHOT</sikulix.version>
@@ -79,11 +81,6 @@
 		        <version>${selenium.version}</version>
 			</dependency>
 			<dependency>
-			    <groupId>org.seleniumhq.selenium</groupId>
-		        <artifactId>selenium-support</artifactId>
-		        <version>${selenium.version}</version>
-			</dependency>
-			<dependency>
 				<groupId>com.google.javascript</groupId>
 				<artifactId>closure-compiler</artifactId>
 				<version>${closure-compiler.version}</version>
@@ -92,6 +89,11 @@
 				<groupId>org.mozilla</groupId>
 				<artifactId>rhino</artifactId>
 				<version>${rhino.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.dynjs</groupId>
+				<artifactId>dynjs</artifactId>
+				<version>${dynjs.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.sikulix</groupId>
@@ -176,6 +178,8 @@
 		<module>minium-actions</module>
 		<module>minium-script-rhinojs</module>
 		<module>minium-weblegacy</module>
+		<module>minium-mobileelements</module>
+		<module>minium-script-dynjs</module>
 	</modules>
 	
 	<repositories>

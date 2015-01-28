@@ -1,7 +1,8 @@
 package minium.web;
 
-import static minium.web.DefaultWebElements.by;
+import static minium.web.CoreWebElements.DefaultWebElements.by;
 import minium.Minium;
+import minium.web.CoreWebElements.DefaultWebElements;
 import minium.web.WebElementsFactory.Builder;
 
 import org.junit.AfterClass;

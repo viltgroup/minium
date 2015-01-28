@@ -4,8 +4,8 @@ import java.lang.reflect.Method;
 import java.net.URL;
 
 import minium.Finder;
+import minium.internal.Paths;
 import minium.internal.Reflections;
-import minium.visual.internal.Paths;
 
 public class VisualFinder<E extends VisualElements> extends Finder<E> {
 

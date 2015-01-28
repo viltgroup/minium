@@ -8,6 +8,7 @@ import minium.actions.InteractionPerformer;
 import minium.actions.internal.DefaultConfiguration;
 import minium.actions.internal.DefaultInteractable;
 import minium.internal.LocatableElements;
+import minium.web.CoreWebElements.DefaultWebElements;
 import minium.web.WebElementsFactory.Builder;
 import minium.web.internal.actions.WebInteractionPerformer;
 
@@ -53,6 +54,11 @@ public class WebModules {
     }
 
     public static WebModule defaultModule(final WebDriver wd) {
+        InteractionPerformer performer = new WebInteractionPerformer();
+        return combine(baseModule(wd), positionModule(), conditionalModule(), interactableModule(performer));
+    }
+
+    public static WebModule baseModule(final WebDriver wd) {
         WebModule baseModule = new WebModule() {
             @Override
             public void configure(Builder<?> builder) {
@@ -70,8 +76,7 @@ public class WebModules {
                 );
             }
         };
-        InteractionPerformer performer = new WebInteractionPerformer();
-        return combine(baseModule, positionModule(), conditionalModule(), interactableModule(performer));
+        return baseModule;
     };
 
     public static WebModule javascriptDelegatingInterfaceModule(final Class<?> intf) {

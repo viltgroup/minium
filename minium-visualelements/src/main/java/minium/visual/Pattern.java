@@ -13,7 +13,7 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 
 import minium.Point;
-import minium.visual.internal.Paths;
+import minium.internal.Paths;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
@@ -25,6 +25,7 @@ public class Pattern {
     private BufferedImage image = null;
     private float similarity = 0.8f;
     private Point offset = new Point(0, 0);
+    private URL imageUrl;
 
     public Pattern() {
     }
@@ -45,6 +46,7 @@ public class Pattern {
     }
 
     public Pattern(URL imageUrl) {
+        this.imageUrl = imageUrl;
         try {
             this.image = ImageIO.read(imageUrl);
         } catch (IOException e) {
@@ -139,12 +141,9 @@ public class Pattern {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(Pattern.class.getSimpleName())
-                .addValue(image)
+                .addValue(imageUrl)
                 .add("offset", offset)
                 .add("similarity", similarity)
                 .toString();
     }
-
-
-
 }

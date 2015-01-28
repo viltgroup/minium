@@ -73,7 +73,7 @@ public interface InternalFinder {
 
         protected <T> T createElementsProxy(final Class<T> intf) {
             InternalFinder thisFinder = super.as(InternalFinder.class);
-            return InternalFinder.MethodInvocationImpl.createInternalFinder(intf, thisFinder);
+            return InternalFinder.Impl.createInternalFinder(intf, thisFinder);
         }
     }
 
@@ -89,7 +89,7 @@ public interface InternalFinder {
 
         @Override
         public Elements eval(Elements elems) {
-            return elems;
+            return parent == null ? elems : parent.eval(elems);
         }
 
         @Override
@@ -158,7 +158,6 @@ public interface InternalFinder {
                 elems = parent.eval(root);
             }
             try {
-                LOGGER.debug("evaluating {}", method);
                 Elements result = (Elements) method.invoke(elems, evalArgs(root, args));
                 evalResults.put(root, result);
                 return result;

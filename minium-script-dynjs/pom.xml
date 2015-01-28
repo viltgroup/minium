@@ -1,15 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
+	
 	<parent>
 		<groupId>minium</groupId>
 		<artifactId>minium-magic</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-
-	<artifactId>minium-script-rhinojs</artifactId>
-	<name>Minium Script - Rhino Javascript</name>
+	
+	<artifactId>minium-script-dynjs</artifactId>
+	<name>Minium DynJS</name>
 
 	<dependencies>
 		<dependency>
@@ -21,8 +21,8 @@
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.mozilla</groupId>
-			<artifactId>rhino</artifactId>
+			<groupId>org.dynjs</groupId>
+			<artifactId>dynjs</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>

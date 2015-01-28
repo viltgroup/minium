@@ -1,7 +1,5 @@
 package minium.visual.internal.actions;
 
-import java.util.concurrent.TimeUnit;
-
 import minium.Elements;
 import minium.internal.HasParent;
 
@@ -18,7 +16,7 @@ public class HighlightInteraction extends AbstractVisualInteraction {
         Region region = getFirstRegion(getSource().as(HasParent.class).parent());
         region.highlight(1);
         try {
-            Thread.sleep(TimeUnit.SECONDS.toMillis(1));
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }

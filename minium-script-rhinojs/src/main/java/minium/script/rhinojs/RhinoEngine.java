@@ -1,13 +1,18 @@
 package minium.script.rhinojs;
 
+import static minium.internal.Paths.toURL;
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
-import java.net.URI;
+import java.net.URL;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import minium.internal.Paths;
 import minium.script.rhinojs.RhinoProperties.RequireProperties;
 
 import org.mozilla.javascript.Context;
@@ -22,7 +27,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 
-public class RhinoEngine {
+public class RhinoEngine implements JsEngine {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RhinoEngine.class);
 
@@ -31,8 +36,7 @@ public class RhinoEngine {
         @Override
         public String apply(String input) {
             try {
-                URI uri = new URI(input);
-                return uri.toURL().toString();
+                return toURL(input).toString();
             } catch (Exception e) {
                 return new File(input).toURI().toString();
             }
@@ -53,11 +57,11 @@ public class RhinoEngine {
         protected abstract T doCall(Context cx) throws X;
     }
 
-    private Scriptable scope;
+    private final Scriptable scope;
 
     public <T> RhinoEngine(final RhinoProperties properties) {
         // this ensures a single thread for this engine
-        runWithContext(new RhinoCallable<Scriptable, RuntimeException>() {
+        scope = runWithContext(new RhinoCallable<Scriptable, RuntimeException>() {
             @Override
             protected Scriptable doCall(Context cx) {
                 Global global = new Global(cx);
@@ -73,6 +77,10 @@ public class RhinoEngine {
 
     }
 
+    /* (non-Javadoc)
+     * @see minium.script.rhinojs.JsEngine#runScript(java.io.File)
+     */
+    @Override
     public <T> T runScript(File sourceFile) throws IOException {
         FileReader reader = new FileReader(sourceFile);
         try {
@@ -81,6 +89,26 @@ public class RhinoEngine {
             IOUtils.closeQuietly(reader);
         }
     }
+
+    /* (non-Javadoc)
+     * @see minium.script.rhinojs.JsEngine#runScript(java.lang.String)
+     */
+    @Override
+    public <T> T runScript(String path) throws IOException {
+        Reader reader = null;
+        try {
+            URL url = Paths.toURL(path);
+            reader = new BufferedReader(new InputStreamReader(url.openStream()));
+            return runScript(reader, url.getPath());
+        } finally {
+            IOUtils.closeQuietly(reader);
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see minium.script.rhinojs.JsEngine#runScript(java.io.Reader, java.lang.String)
+     */
+    @Override
     public <T> T runScript(final Reader reader, final String sourceName) throws IOException {
         return runWithContext(new RhinoCallable<T, IOException>() {
             @SuppressWarnings("unchecked")
@@ -93,6 +121,10 @@ public class RhinoEngine {
         });
     }
 
+    /* (non-Javadoc)
+     * @see minium.script.rhinojs.JsEngine#eval(java.lang.String)
+     */
+    @Override
     public <T> T eval(final String expression) {
         return runWithContext(new RhinoCallable<T, RuntimeException>() {
             @SuppressWarnings("unchecked")
@@ -105,6 +137,10 @@ public class RhinoEngine {
         });
     }
 
+    /* (non-Javadoc)
+     * @see minium.script.rhinojs.JsEngine#contains(java.lang.String)
+     */
+    @Override
     public boolean contains(final String varName) {
         return runWithContext(new RhinoCallable<Boolean, RuntimeException>() {
             @Override
@@ -114,6 +150,10 @@ public class RhinoEngine {
         });
     }
 
+    /* (non-Javadoc)
+     * @see minium.script.rhinojs.JsEngine#get(java.lang.String)
+     */
+    @Override
     public Object get(final String varName) {
         return runWithContext(new RhinoCallable<Object, RuntimeException>() {
             @Override
@@ -123,11 +163,19 @@ public class RhinoEngine {
         });
     }
 
+    /* (non-Javadoc)
+     * @see minium.script.rhinojs.JsEngine#get(java.lang.String, java.lang.Class)
+     */
+    @Override
     @SuppressWarnings("unchecked")
     public <T> T get(final String varName, Class<T> clazz) {
         return (T) get(varName);
     }
 
+    /* (non-Javadoc)
+     * @see minium.script.rhinojs.JsEngine#put(java.lang.String, java.lang.Object)
+     */
+    @Override
     public void put(final String varName, final Object object) {
         runWithContext(new RhinoCallable<Void, RuntimeException>() {
             @Override
@@ -138,6 +186,10 @@ public class RhinoEngine {
         });
     }
 
+    /* (non-Javadoc)
+     * @see minium.script.rhinojs.JsEngine#delete(java.lang.String)
+     */
+    @Override
     public void delete(final String varName) {
         runWithContext(new RhinoCallable<Void, RuntimeException>() {
             @Override

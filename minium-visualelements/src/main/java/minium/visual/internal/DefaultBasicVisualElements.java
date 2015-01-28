@@ -9,14 +9,10 @@ import java.util.Set;
 
 import minium.Elements;
 import minium.FreezableElements;
-import minium.Point;
 import minium.visual.BasicVisualElements;
 import minium.visual.Pattern;
 import minium.visual.VisualElements;
 
-import org.sikuli.script.FindFailed;
-import org.sikuli.script.Finder;
-import org.sikuli.script.Location;
 import org.sikuli.script.Match;
 import org.sikuli.script.Region;
 
@@ -26,9 +22,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.AbstractIterator;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.reflect.TypeToken;
 
 public class DefaultBasicVisualElements<T extends VisualElements> extends BaseVisualElements<T> implements BasicVisualElements<T> {
@@ -49,17 +43,7 @@ public class DefaultBasicVisualElements<T extends VisualElements> extends BaseVi
             Set<Region> results = from(parentMatches).transformAndConcat(new Function<Region, Iterable<Region>>() {
                 @Override
                 public Iterable<Region> apply(Region region) {
-                    org.sikuli.script.Pattern sikuliPattern = new org.sikuli.script.Pattern(pattern.getImage());
-                    if (pattern.getSimilar() != 0f) sikuliPattern.similar(pattern.getSimilar());
-                    if (!pattern.getTargetOffset().isNull()) {
-                        Point targetOffset = pattern.getTargetOffset();
-                        sikuliPattern.targetOffset(new Location(targetOffset.x(), targetOffset.y()));
-                    }
-
-                    Finder finder = context.createFinder(region);
-                    finder.findAll(sikuliPattern);
-                    List<Match> matches = Lists.newArrayList(finder);
-
+                    List<Match> matches = Vision.findPattern(context, region, pattern);
                     return from(matches).filter(Region.class);
                 }
             }).toSet();
@@ -85,17 +69,13 @@ public class DefaultBasicVisualElements<T extends VisualElements> extends BaseVi
         }
 
         @Override
-        public Iterable<Region> matches(VisualContext context) {
+        public Iterable<Region> matches(final VisualContext context) {
             Iterable<Region> parentMatches = context.evaluate(parent());
 
             return from(parentMatches).transformAndConcat(new Function<Region, Iterable<Region>>() {
                 @Override
                 public Iterable<Region> apply(Region region) {
-                    try {
-                        return Iterables.filter(ImmutableList.copyOf(region.findAllText(text)), Region.class);
-                    } catch (FindFailed e) {
-                        return Collections.emptyList();
-                    }
+                    return Iterables.filter(Vision.findText(context, region, text), Region.class);
                 }
             });
         }

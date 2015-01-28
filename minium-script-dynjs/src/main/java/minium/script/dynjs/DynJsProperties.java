@@ -1,0 +1,64 @@
+/*
+ * Copyright (C) 2013 The Minium Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package minium.script.dynjs;
+
+import java.io.File;
+import java.util.Collections;
+import java.util.List;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+@ConfigurationProperties(prefix = "minium.script.rhino")
+public class DynJsProperties {
+
+    public static class RequireProperties {
+
+        private List<String> modulePaths;
+        private boolean sandboxed;
+
+        public List<String> getModulePaths() {
+            return modulePaths;
+        }
+
+        public void setModulePaths(List<String> modulePaths) {
+            this.modulePaths = modulePaths;
+        }
+
+        public boolean isSandboxed() {
+            return sandboxed;
+        }
+
+        public void setSandboxed(boolean sandboxed) {
+            this.sandboxed = sandboxed;
+        }
+
+        protected List<String> getDefaultModulePaths() {
+            File modulesDir = new File("modules");
+            return Collections.singletonList(modulesDir.getAbsolutePath());
+        }
+    }
+
+    private RequireProperties require;
+
+    public RequireProperties getRequire() {
+        return require;
+    }
+
+    public void setRequire(RequireProperties require) {
+        this.require = require;
+    }
+
+}

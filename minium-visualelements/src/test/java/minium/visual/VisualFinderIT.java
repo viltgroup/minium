@@ -1,11 +1,12 @@
 package minium.visual;
 
-import static minium.visual.DefaultVisualElements.by;
+import static minium.visual.CoreVisualElements.DefaultVisualElements.by;
 
 import java.net.URL;
 
 import minium.Elements;
 import minium.internal.InternalFinder;
+import minium.visual.CoreVisualElements.DefaultVisualElements;
 import minium.visual.VisualElementsFactory.Builder;
 
 import org.junit.BeforeClass;
