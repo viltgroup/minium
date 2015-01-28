@@ -13,7 +13,6 @@ import java.util.List;
 import minium.internal.Paths;
 import minium.script.dynjs.DynJsProperties.RequireProperties;
 
-import org.apache.commons.io.input.ReaderInputStream;
 import org.dynjs.Config;
 import org.dynjs.runtime.DynJS;
 import org.dynjs.runtime.ExecutionContext;
@@ -97,10 +96,10 @@ public class DynJsEngine implements JsEngine {
     /* (non-Javadoc)
      * @see minium.script.rhinojs.JsEngine#runScript(java.io.Reader, java.lang.String)
      */
-    @SuppressWarnings("unchecked")
     @Override
+    @SuppressWarnings("unchecked")
     public <T> T runScript(final Reader reader, final String sourceName) throws IOException {
-        return (T) dynjs.evaluate(new ReaderInputStream(reader));
+        return (T) dynjs.newRunner().withContext(dynjs.getDefaultExecutionContext()).withSource(reader).evaluate();
     }
 
     /* (non-Javadoc)

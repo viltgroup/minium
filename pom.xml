@@ -81,6 +81,11 @@
 		        <version>${selenium.version}</version>
 			</dependency>
 			<dependency>
+			    <groupId>org.seleniumhq.selenium</groupId>
+		        <artifactId>selenium-support</artifactId>
+		        <version>${selenium.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>com.google.javascript</groupId>
 				<artifactId>closure-compiler</artifactId>
 				<version>${closure-compiler.version}</version>

@@ -159,8 +159,8 @@ public abstract class AbstractInteraction implements Interaction {
      */
     protected Elements getFirst(Elements elems) {
         @SuppressWarnings("unchecked")
-        Elements first = Iterables.getFirst(elems.as(IterableElements.class), null);
-        return first;
+        IterableElements<Elements> iterableElems = elems.as(IterableElements.class);
+        return Iterables.getFirst(iterableElems, null);
     }
 
     /**
