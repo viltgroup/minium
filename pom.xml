@@ -262,7 +262,22 @@
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
             <dependency>
@@ -404,8 +419,8 @@
                 <artifactId>animal-sniffer-maven-plugin</artifactId>
             </plugin>
             <plugin>
-                <groupId>com.ning.maven.plugins</groupId>
-                <artifactId>maven-duplicate-finder-plugin</artifactId>
+				<groupId>org.basepom.maven</groupId>
+	            <artifactId>duplicate-finder-maven-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -526,7 +541,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-checkstyle-plugin</artifactId>
-                    <version>2.11</version>
+                    <version>2.13</version>
                     <configuration>
                         <configLocation>${checkstyle.config.dir}/checkstyle.xml</configLocation>
                         <headerLocation>${checkstyle.config.dir}/LICENSE.txt</headerLocation>
@@ -668,9 +683,9 @@
                     </dependencies>
                 </plugin>
                 <plugin>
-                    <groupId>com.ning.maven.plugins</groupId>
-                    <artifactId>maven-duplicate-finder-plugin</artifactId>
-                    <version>1.0.7</version>
+		            <groupId>org.basepom.maven</groupId>
+		            <artifactId>duplicate-finder-maven-plugin</artifactId>
+		            <version>1.1.0</version>
                     <configuration>
                         <failBuildInCaseOfConflict>true</failBuildInCaseOfConflict>
                         <exceptions>
@@ -766,6 +781,11 @@
                                     <dependency>
                                         <groupId>org.springframework.boot</groupId>
                                         <artifactId>spring-boot-starter-web</artifactId>
+                                        <version>${spring.boot.version}</version>
+                                    </dependency>
+                                    <dependency>
+                                        <groupId>org.springframework.boot</groupId>
+                                        <artifactId>spring-boot-starter-test</artifactId>
                                         <version>${spring.boot.version}</version>
                                     </dependency>
                                 </conflictingDependencies>
@@ -868,12 +888,14 @@
                         </exceptions>
                         <ignoredResources>
                             <ignoredResource>about\.html</ignoredResource>
+                            <ignoredResource>META-INF/README.txt</ignoredResource>
+                            <ignoredResource>META-INF/CHANGES.txt</ignoredResource>
                         </ignoredResources>
                     </configuration>
                     <executions>
                         <execution>
                             <id>check-duplicates</id>
-                            <phase>test</phase>
+                            <phase>verify</phase>
                             <goals>
                                 <goal>check</goal>
                             </goals>
