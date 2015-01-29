@@ -1,6 +1,7 @@
 package minium.visual.internal;
 
 import static com.google.common.collect.FluentIterable.from;
+import static java.lang.String.format;
 
 import java.awt.image.BufferedImage;
 import java.util.Collections;
@@ -12,8 +13,10 @@ import minium.Elements;
 import minium.FreezableElements;
 import minium.PositionElements;
 import minium.visual.BasicVisualElements;
+import minium.visual.ImagePattern;
 import minium.visual.NinePatchPattern;
 import minium.visual.Pattern;
+import minium.visual.TextPattern;
 import minium.visual.VisualElements;
 import minium.visual.internal.ninepatch.NinePatch;
 import minium.visual.internal.ninepatch.NinePatchChunk;
@@ -40,9 +43,9 @@ public class DefaultBasicVisualElements<T extends VisualElements> extends BaseVi
 
     static class PatternMatchVisualElements<T extends VisualElements> extends BaseInternalVisualElements<T> {
 
-        private final Pattern pattern;
+        private final ImagePattern pattern;
 
-        public PatternMatchVisualElements(Pattern pattern) {
+        public PatternMatchVisualElements(ImagePattern pattern) {
             this.pattern = Preconditions.checkNotNull(pattern);
         }
 
@@ -72,10 +75,10 @@ public class DefaultBasicVisualElements<T extends VisualElements> extends BaseVi
 
     static class TextMatchVisualElements<T extends VisualElements> extends BaseInternalVisualElements<T> {
 
-        private final String text;
+        private final TextPattern textPattern;
 
-        public TextMatchVisualElements(String text) {
-            this.text = text;
+        public TextMatchVisualElements(TextPattern textPattern) {
+            this.textPattern = textPattern;
         }
 
         @Override
@@ -85,7 +88,7 @@ public class DefaultBasicVisualElements<T extends VisualElements> extends BaseVi
             return from(parentMatches).transformAndConcat(new Function<Region, Iterable<Region>>() {
                 @Override
                 public Iterable<Region> apply(Region region) {
-                    return Iterables.filter(Vision.findText(context, region, text), Region.class);
+                    return Iterables.filter(Vision.findText(context, region, textPattern.getText()), Region.class);
                 }
             });
         }
@@ -94,7 +97,7 @@ public class DefaultBasicVisualElements<T extends VisualElements> extends BaseVi
         public String toString() {
             return MoreObjects.toStringHelper(TextMatchVisualElements.class.getSimpleName())
                     .add("parent", parent())
-                    .add("text", text)
+                    .add("text", textPattern.getText())
                     .toString();
         }
     }
@@ -202,10 +205,10 @@ public class DefaultBasicVisualElements<T extends VisualElements> extends BaseVi
             }
 
             BufferedImage image = ninePatch.getImage();
-            topleft = new Pattern(image.getSubimage(0, 0, p[0], p[1])).similar(pattern.getSimilar());
-            topright = new Pattern(image.getSubimage(image.getWidth() - p[2], 0, p[2], p[1])).similar(pattern.getSimilar());
-            bottomright = new Pattern(image.getSubimage(image.getWidth() - p[2], image.getHeight() - p[3], p[2], p[3])).similar(pattern.getSimilar());
-            bottomleft = new Pattern(image.getSubimage(0, image.getHeight() - p[3], p[0], p[3])).similar(pattern.getSimilar());
+            topleft = new ImagePattern(image.getSubimage(0, 0, p[0], p[1])).similar(pattern.getSimilar());
+            topright = new ImagePattern(image.getSubimage(image.getWidth() - p[2], 0, p[2], p[1])).similar(pattern.getSimilar());
+            bottomright = new ImagePattern(image.getSubimage(image.getWidth() - p[2], image.getHeight() - p[3], p[2], p[3])).similar(pattern.getSimilar());
+            bottomleft = new ImagePattern(image.getSubimage(0, image.getHeight() - p[3], p[0], p[3])).similar(pattern.getSimilar());
         }
 
         @Override
@@ -272,20 +275,24 @@ public class DefaultBasicVisualElements<T extends VisualElements> extends BaseVi
 
     @Override
     public T find(String imagePath) {
-        return find(new Pattern(imagePath));
+        return find(new ImagePattern(imagePath));
     }
 
     @Override
     public T find(Pattern pattern) {
         if (pattern instanceof NinePatchPattern) {
             return internalFactory().createMixin(myself(), new NinePatchVisualElements<T>((NinePatchPattern) pattern));
+        } else if (pattern instanceof ImagePattern) {
+            return internalFactory().createMixin(myself(), new PatternMatchVisualElements<T>((ImagePattern) pattern));
+        } else if (pattern instanceof TextPattern) {
+            return internalFactory().createMixin(myself(), new TextMatchVisualElements<T>((TextPattern) pattern));
         }
-        return internalFactory().createMixin(myself(), new PatternMatchVisualElements<T>(pattern));
+        throw new IllegalArgumentException(format("Pattern %s is not recognized", pattern));
     }
 
     @Override
     public T findText(String text) {
-        return internalFactory().createMixin(myself(), new TextMatchVisualElements<T>(text));
+        return find(new TextPattern(text));
     }
 
     @Override

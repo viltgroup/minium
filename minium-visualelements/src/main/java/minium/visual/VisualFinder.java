@@ -26,19 +26,15 @@ public class VisualFinder<E extends VisualElements> extends Finder<E> {
     }
 
     public E ninePatch(URL imgUrl) {
-        return ninePatch(new NinePatchPattern(imgUrl));
-    }
-
-    public E ninePatch(NinePatchPattern pattern) {
-        return pattern(pattern);
+        return pattern(new NinePatchPattern(imgUrl));
     }
 
     public E image(String imgPath) {
-        return pattern(new Pattern(imgPath));
+        return pattern(new ImagePattern(imgPath));
     }
 
     public E image(URL imgUrl) {
-        return pattern(new Pattern(imgUrl));
+        return pattern(new ImagePattern(imgUrl));
     }
 
     public E pattern(Pattern pattern) {

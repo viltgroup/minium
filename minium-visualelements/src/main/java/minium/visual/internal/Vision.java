@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import minium.Point;
-import minium.visual.Pattern;
+import minium.visual.ImagePattern;
 
 import org.sikuli.script.Finder;
 import org.sikuli.script.Location;
@@ -25,7 +25,7 @@ public class Vision {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Vision.class);
 
-    public static List<Match> findPattern(VisualContext context, Region region, Pattern pattern) {
+    public static List<Match> findPattern(VisualContext context, Region region, ImagePattern pattern) {
         org.sikuli.script.Pattern sikuliPattern = new org.sikuli.script.Pattern(pattern.image());
         if (pattern.getSimilar() != 0f) sikuliPattern.similar(pattern.getSimilar());
         if (!pattern.getTargetOffset().isNull()) {

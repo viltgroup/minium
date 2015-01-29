@@ -9,6 +9,7 @@ import static minium.visual.VisualModules.interactableModule;
 import static minium.visual.VisualModules.positionModule;
 
 import java.io.IOException;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import minium.Minium;
@@ -31,7 +32,9 @@ public class MsPaintIT {
 
     private static final String SVG_FILE = "drawing.json";
     private static final int MIN_DISTANCE = 4;
-    private static final double SCALE_FACTOR = 0.3d;
+    private static final double SCALE_FACTOR_MIN = .6d;
+    private static final double SCALE_FACTOR_MAX = .9d;
+    private static final double SCALE_FACTOR = SCALE_FACTOR_MIN + (new Random().nextDouble() * (SCALE_FACTOR_MAX - SCALE_FACTOR_MIN));
 
     @BeforeClass
     public static void globalSetup() throws IOException {
@@ -71,27 +74,25 @@ public class MsPaintIT {
         // get drawing
         Drawing drawing = Drawing.read(SVG_FILE);
 
+        // elements
         DefaultVisualElements menuBtn            = by.image("classpath:mspaint/menuBtn.png");
         DefaultVisualElements clickableMenuBtn   = by.image("classpath:mspaint/menuBtn.clickable.png");
-
         DefaultVisualElements propertiesMenuItem = by.text("Properties");
         DefaultVisualElements widthFld           = by.text("Width").relative("right+16px top", "right+90px bottom");
         DefaultVisualElements heightFld          = by.text("Height").relative("right+16px top", "right+90px bottom");
-
         DefaultVisualElements okBtn              = by.image("classpath:mspaint/okBtn.png");
-
-        DefaultVisualElements drawingArea        = by.ninePatch(new NinePatchPattern("classpath:mspaint/drawingArea.9.png").exact()).freeze();
+        DefaultVisualElements drawingArea        = by.pattern(new NinePatchPattern("classpath:mspaint/drawingArea.9.png").exact()).freeze();
 
         // actions
         menuBtn.moveTo();
         clickableMenuBtn.click();
         propertiesMenuItem.click();
 
-        int w = (int) (drawing.width() * SCALE_FACTOR);
-        int h = (int) (drawing.height() * SCALE_FACTOR);
+        int width = (int) (drawing.width() * SCALE_FACTOR);
+        int height = (int) (drawing.height() * SCALE_FACTOR);
 
-        widthFld.fill(Integer.toString(w));
-        heightFld.fill(Integer.toString(h));
+        widthFld.fill(Integer.toString(width));
+        heightFld.fill(Integer.toString(height));
         okBtn.click();
 
         // now draw!
