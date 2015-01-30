@@ -5,7 +5,10 @@ import minium.actions.Configuration;
 import minium.actions.HasConfiguration;
 import minium.actions.Interactable;
 import minium.actions.InteractionPerformer;
+import minium.actions.debug.DebugInteractable;
+import minium.actions.debug.DebugInteractionPerformer;
 import minium.actions.internal.DefaultConfiguration;
+import minium.actions.internal.DefaultDebugInteractable;
 import minium.actions.internal.DefaultInteractable;
 import minium.internal.LocatableElements;
 import minium.web.CoreWebElements.DefaultWebElements;
@@ -109,6 +112,24 @@ public class WebModules {
             }
         };
     };
+
+    public static WebModule debugModule(final DebugInteractionPerformer performer) {
+        Preconditions.checkNotNull(performer);
+        return new WebModule() {
+            @Override
+            public void configure(Builder<?> builder) {
+                builder
+                .implementingInterfaces(DebugInteractable.class)
+                .usingMixinConfigurer(new AbstractMixinInitializer() {
+                    @Override
+                    protected void initialize() {
+                        DebugInteractable interactable = new DefaultDebugInteractable(performer);
+                        implement(DebugInteractable.class).with(interactable);
+                    }
+                });
+            }
+        };
+    }
 
     public static WebModule combine(final Iterable<? extends WebModule> modules) {
         return new WebModule() {

@@ -3,7 +3,7 @@ package minium.visual;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 
-public class NinePatchPattern extends ImagePattern {
+public class NinePatchPattern extends AbstractImagePattern<NinePatchPattern> {
 
     public NinePatchPattern() {
         super();

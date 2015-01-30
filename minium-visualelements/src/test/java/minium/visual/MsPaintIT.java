@@ -32,8 +32,8 @@ public class MsPaintIT {
 
     private static final String SVG_FILE = "drawing.json";
     private static final int MIN_DISTANCE = 4;
-    private static final double SCALE_FACTOR_MIN = .6d;
-    private static final double SCALE_FACTOR_MAX = .9d;
+    private static final double SCALE_FACTOR_MIN = .4d;
+    private static final double SCALE_FACTOR_MAX = .6d;
     private static final double SCALE_FACTOR = SCALE_FACTOR_MIN + (new Random().nextDouble() * (SCALE_FACTOR_MAX - SCALE_FACTOR_MIN));
 
     @BeforeClass

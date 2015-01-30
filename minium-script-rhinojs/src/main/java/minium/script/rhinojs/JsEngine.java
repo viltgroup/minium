@@ -12,7 +12,7 @@ public interface JsEngine {
 
     public abstract <T> T runScript(Reader reader, String sourceName) throws IOException;
 
-    public abstract <T> T eval(String expression);
+    public abstract <T> T eval(String expression, int line);
 
     public abstract boolean contains(String varName);
 

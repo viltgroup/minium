@@ -125,12 +125,12 @@ public class RhinoEngine implements JsEngine {
      * @see minium.script.rhinojs.JsEngine#eval(java.lang.String)
      */
     @Override
-    public <T> T eval(final String expression) {
+    public <T> T eval(final String expression, final int line) {
         return runWithContext(new RhinoCallable<T, RuntimeException>() {
             @SuppressWarnings("unchecked")
             @Override
             protected T doCall(Context cx) {
-                Object val = cx.evaluateString(scope, expression, "<expression>", 1, null);
+                Object val = cx.evaluateString(scope, expression, "<expression>", line, null);
                 val = unwrappedValue(val);
                 return (T) val;
             }

@@ -1,6 +1,12 @@
 (function () {
-  var DefaultWebElements = Packages.minium.web.DefaultWebElements;
+  var DefaultWebElements = Packages.minium.web.CoreWebElements.DefaultWebElements;
   
-  exports.$ = DefaultWebElements.by.cssSelector;
-  exports.by = DefaultWebElements.by;
+  var minium = function () {
+    return DefaultWebElements.by.cssSelector.apply(DefaultWebElements.by, arguments);
+  };
+  minium.by = DefaultWebElements.by;
+  
+  // export minium
+  module.exports = minium;
+  
 })();

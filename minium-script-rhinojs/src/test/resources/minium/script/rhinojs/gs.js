@@ -1,6 +1,5 @@
-var minium = require('minium');
-var $  = minium.$,
-    by = minium.by;
+var $  = require('minium'),
+    by = require('minium').by;
 
 wd.get('https://docs.google.com/spreadsheet/ccc?key=0Al0ulrJIDCUVdHJjWnJsbG5hY3hBWFp0Vy1OQV9qQUE#gid=0');
 
