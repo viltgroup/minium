@@ -1,3 +1,8 @@
+# blacklist
+branches:
+  except:
+    - minium-2
+
 language: java
 jdk:
   - openjdk6
