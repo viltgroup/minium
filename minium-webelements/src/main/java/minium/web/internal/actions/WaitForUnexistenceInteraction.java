@@ -15,22 +15,22 @@
  */
 package minium.web.internal.actions;
 
-import static minium.web.internal.actions.WaitPredicates.whileEmpty;
+import static minium.web.internal.actions.WaitPredicates.whileNotEmpty;
 import minium.Elements;
 import minium.ElementsException;
 
 /**
- * The Class WaitForElementsInteraction.
+ * The Class WaitWhileElementsInteraction.
  */
-public class WaitWhileEmptyInteraction extends WaitInteraction {
+public class WaitForUnexistenceInteraction extends WaitInteraction {
 
     /**
-     * Instantiates a new wait for elements interaction.
+     * Instantiates a new wait while elements interaction.
      *
      * @param elems the elems
      */
-    public WaitWhileEmptyInteraction(Elements elems) {
-        super(elems);
+    public WaitForUnexistenceInteraction(Elements elems, String preset) {
+        super(elems, preset);
     }
 
     /*
@@ -41,9 +41,9 @@ public class WaitWhileEmptyInteraction extends WaitInteraction {
     @Override
     protected void doPerform() throws ElementsException {
         if (getWaitingPreset() != null) {
-            wait(getSource(), getWaitingPreset(), whileEmpty());
+            wait(getSource(), getWaitingPreset(), whileNotEmpty());
         } else {
-            wait(getSource(), getTimeout(), getInterval(), whileEmpty());
+            wait(getSource(), getTimeout(), getInterval(), whileNotEmpty());
         }
     }
 }

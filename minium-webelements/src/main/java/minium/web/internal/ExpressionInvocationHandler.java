@@ -1,7 +1,7 @@
 package minium.web.internal;
 
 import java.lang.reflect.Method;
-import java.util.List;
+import java.util.Set;
 
 import minium.BasicElements;
 import minium.Elements;
@@ -21,7 +21,8 @@ import minium.web.internal.expression.VariableGenerator;
 import com.google.common.base.Defaults;
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
 import com.google.common.reflect.AbstractInvocationHandler;
 import com.google.common.reflect.TypeToken;
 
@@ -90,7 +91,7 @@ public class ExpressionInvocationHandler<T extends WebElements> extends Abstract
             result = null;
         } else {
             // materialize document drivers
-            List<DocumentWebDriver> documentDrivers = Lists.newArrayList(parent.as(InternalWebElements.class).documentDrivers());
+            Set<DocumentWebDriver> documentDrivers = Sets.newLinkedHashSet(parent.as(InternalWebElements.class).documentDrivers());
 
             switch (documentDrivers.size()) {
             case 0:
@@ -100,7 +101,7 @@ public class ExpressionInvocationHandler<T extends WebElements> extends Abstract
                 }
                 throw new NoDocumentDriverFoundException("The expression has no frame or window to be evaluated to");
             case 1:
-                result = getSingleDocumentDriverResult(documentDrivers.get(0), javascriptInvoker, webElements);
+                result = getSingleDocumentDriverResult(Iterables.get(documentDrivers, 0), javascriptInvoker, webElements);
                 break;
             default:
                 Expression parentExpression = parent.as(ExpressionWebElements.class).getExpression();

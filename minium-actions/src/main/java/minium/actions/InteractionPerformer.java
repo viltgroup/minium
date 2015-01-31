@@ -62,9 +62,13 @@ public interface InteractionPerformer extends MouseInteractionPerformer, Keyboar
      */
     public abstract void selectAll(Elements elems);
 
-    public abstract void waitWhileEmpty(Elements elems) throws ElementsException;
+    public abstract void waitForExistence(Elements elems);
 
-    public abstract void waitWhileNotEmpty(Elements elems) throws ElementsException;
+    public abstract void waitForExistence(Elements elems, String waitingPreset);
+
+    public abstract void waitForUnexistence(Elements elems) throws ElementsException;
+
+    public abstract void waitForUnexistence(Elements elems, String waitingPreset);
 
     /**
      * Check not empty.
@@ -72,7 +76,9 @@ public interface InteractionPerformer extends MouseInteractionPerformer, Keyboar
      * @param elems the elems
      * @return true, if successful
      */
-    public abstract boolean checkNotEmpty(Elements elems);
+    public abstract boolean checkForExistence(Elements elems);
+
+    public abstract boolean checkForExistence(Elements elems, String waitingPreset);
 
     /**
      * Check empty.
@@ -80,7 +86,9 @@ public interface InteractionPerformer extends MouseInteractionPerformer, Keyboar
      * @param elems the elems
      * @return true, if successful
      */
-    public abstract boolean checkEmpty(Elements elems);
+    public abstract boolean checkForUnexistence(Elements elems);
+
+    public abstract boolean checkForUnexistence(Elements elems, String waitingPreset);
 
     /**
      * Wait until closed.

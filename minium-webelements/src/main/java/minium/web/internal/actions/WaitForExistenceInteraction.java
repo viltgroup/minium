@@ -17,30 +17,33 @@ package minium.web.internal.actions;
 
 import static minium.web.internal.actions.WaitPredicates.whileEmpty;
 import minium.Elements;
+import minium.ElementsException;
 
 /**
- * The Class WaitOrTimeoutForElementsInteraction.
+ * The Class WaitForElementsInteraction.
  */
-public class WaitOrTimeoutForElementsInteraction extends WaitInteraction {
+public class WaitForExistenceInteraction extends WaitInteraction {
 
     /**
-     * Instantiates a new wait or timeout for elements interaction.
+     * Instantiates a new wait for elements interaction.
      *
      * @param elems the elems
      */
-    public WaitOrTimeoutForElementsInteraction(Elements elems) {
-        super(elems);
+    public WaitForExistenceInteraction(Elements elems, String preset) {
+        super(elems, preset);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
      */
     @Override
-    protected void doPerform() {
+    protected void doPerform() throws ElementsException {
         if (getWaitingPreset() != null) {
-            waitOrTimeout(getSource(), getWaitingPreset(), whileEmpty());
+            wait(getSource(), getWaitingPreset(), whileEmpty());
         } else {
-            waitOrTimeout(getSource(), getTimeout(), getInterval(), whileEmpty());
+            wait(getSource(), getTimeout(), getInterval(), whileEmpty());
         }
     }
 }

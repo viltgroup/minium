@@ -40,27 +40,51 @@ public class VisualInteractionPerformer extends AbstractInteractionPerformer {
     }
 
     @Override
-    public void waitWhileEmpty(Elements elems) throws ElementsException {
+    public void waitForExistence(Elements elems) throws ElementsException {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void waitWhileNotEmpty(Elements elems) throws ElementsException {
+    public void waitForExistence(Elements elems, String waitingPreset) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public boolean checkNotEmpty(Elements elems) {
+    public void waitForUnexistence(Elements elems) throws ElementsException {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public boolean checkForUnexistence(Elements elems, String waitingPreset) {
         // TODO Auto-generated method stub
         return false;
     }
 
     @Override
-    public boolean checkEmpty(Elements elems) {
+    public boolean checkForExistence(Elements elems) {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public boolean checkForExistence(Elements elems, String waitingPreset) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean checkForUnexistence(Elements elems) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public void waitForUnexistence(Elements elems, String waitingPreset) {
+        // TODO Auto-generated method stub
+
     }
 
     @Override

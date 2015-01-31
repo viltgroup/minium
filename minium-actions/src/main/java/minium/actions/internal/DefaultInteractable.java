@@ -156,23 +156,23 @@ public class DefaultInteractable extends Mixin.Impl implements Interactable {
     }
 
     @Override
-    public void waitWhileEmpty() {
-        performer.waitWhileEmpty(asElements());
+    public void waitForExistence() {
+        performer.waitForExistence(asElements());
     }
 
     @Override
-    public void waitWhileNotEmpty() {
-        performer.waitWhileNotEmpty(asElements());
+    public void waitForUnexistence() {
+        performer.waitForUnexistence(asElements());
     }
 
     @Override
-    public void checkNotEmpty() {
-        performer.checkNotEmpty(asElements());
+    public boolean checkForExistence() {
+        return performer.checkForExistence(asElements());
     }
 
     @Override
-    public void checkEmpty() {
-        performer.checkEmpty(asElements());
+    public boolean checkForUnexistence() {
+        return performer.checkForUnexistence(asElements());
     }
 
     @Override

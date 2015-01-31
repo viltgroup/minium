@@ -8,8 +8,12 @@ public interface JsFunctionWebElements<T extends WebElements> extends WebElement
 
     public T filter(Function fn);
 
-    public T callWebElements(Function fn);
+    public T applyWebElements(Function fn);
 
-    public Object call(Function fn);
+    public T applyWebElements(Function fn, Object[] args);
+
+    public Object apply(Function fn);
+
+    public Object apply(Function fn, Object[] args);
 
 }

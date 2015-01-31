@@ -32,9 +32,9 @@ public interface Interactable {
     public void deselectVal(String text);
     public void selectAll();
     public void deselectAll();
-    public void waitWhileEmpty();
-    public void waitWhileNotEmpty();
-    public void checkNotEmpty();
-    public void checkEmpty();
+    public void waitForExistence();
+    public void waitForUnexistence();
+    public boolean checkForExistence();
+    public boolean checkForUnexistence();
     public void waitUntilClosed();
 }

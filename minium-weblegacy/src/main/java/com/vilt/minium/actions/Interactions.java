@@ -325,11 +325,11 @@ public class Interactions {
     }
 
     public static void waitWhileEmpty(Elements elems) throws ElementsException {
-        defaultPerformer().waitWhileEmpty(elems);
+        defaultPerformer().waitForExistence(elems);
     }
 
     public static void waitWhileNotEmpty(Elements elems) throws ElementsException {
-        defaultPerformer().waitWhileNotEmpty(elems);
+        defaultPerformer().waitForUnexistence(elems);
     }
 
     /**
@@ -339,7 +339,7 @@ public class Interactions {
      * @return true, if successful
      */
     public static boolean checkNotEmpty(Elements elems) {
-        return defaultPerformer().checkNotEmpty(elems);
+        return defaultPerformer().checkForExistence(elems);
     }
 
     /**
@@ -349,7 +349,7 @@ public class Interactions {
      * @return true, if successful
      */
     public static boolean checkEmpty(Elements elems) {
-        return defaultPerformer().checkEmpty(elems);
+        return defaultPerformer().checkForUnexistence(elems);
     }
 
     /**

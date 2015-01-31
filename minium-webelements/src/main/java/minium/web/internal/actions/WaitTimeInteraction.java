@@ -16,10 +16,11 @@
 package minium.web.internal.actions;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import minium.ElementsException;
-import minium.actions.Duration;
 
 import java.util.concurrent.TimeUnit;
+
+import minium.ElementsException;
+import minium.actions.Duration;
 
 import org.openqa.selenium.support.ui.Sleeper;
 
@@ -36,7 +37,7 @@ public class WaitTimeInteraction extends WaitInteraction {
      * @param waitTime the wait time
      */
     public WaitTimeInteraction(Duration waitTime) {
-        super(null);
+        super(null, null);
 
         checkNotNull(waitTime);
         this.waitTime = waitTime;

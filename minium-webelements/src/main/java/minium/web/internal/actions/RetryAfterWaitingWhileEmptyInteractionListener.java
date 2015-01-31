@@ -39,7 +39,7 @@ public class RetryAfterWaitingWhileEmptyInteractionListener extends DefaultInter
 
         if (Iterables.isEmpty(waitElements.as(InternalWebElements.class).wrappedNativeElements())) {
             try {
-                WaitWhileEmptyInteraction interaction = new WaitWhileEmptyInteraction(waitElements);
+                WaitForExistenceInteraction interaction = new WaitForExistenceInteraction(waitElements, null);
                 interaction.registerListener(new WaitingPresetInteractionListener(waitingPreset));
                 interaction.perform();
                 event.setRetry(true);

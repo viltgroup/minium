@@ -272,31 +272,45 @@ public class WebInteractionPerformer extends AbstractInteractionPerformer implem
     }
 
     @Override
-    public void waitWhileEmpty(Elements elems) throws ElementsException {
-        perform(new WaitWhileEmptyInteraction(elems));
+    public void waitForExistence(Elements elems) throws ElementsException {
+        waitForExistence(elems, null);
     }
 
     @Override
-    public void waitWhileNotEmpty(Elements elems) throws ElementsException {
-        perform(new WaitWhileNotEmptyInteraction(elems));
+    public void waitForExistence(Elements elems, String waitingPreset) {
+        perform(new WaitForExistenceInteraction(elems, waitingPreset));
     }
 
-    /* (non-Javadoc)
-     * @see minium.actions.InteractionPerformer#checkNotEmpty(minium.Elements)
-     */
     @Override
-    public boolean checkNotEmpty(Elements elems) {
-        WaitOrTimeoutForElementsInteraction interaction = new WaitOrTimeoutForElementsInteraction(elems);
+    public void waitForUnexistence(Elements elems) throws ElementsException {
+        waitForUnexistence(elems, null);
+    }
+
+    @Override
+    public void waitForUnexistence(Elements elems, String waitingPreset) throws ElementsException {
+        perform(new WaitForUnexistenceInteraction(elems, waitingPreset));
+    }
+
+    @Override
+    public boolean checkForExistence(Elements elems) {
+        return checkForExistence(elems, null);
+    }
+
+    @Override
+    public boolean checkForExistence(Elements elems, String waitingPreset) {
+        CheckForExistenceInteraction interaction = new CheckForExistenceInteraction(elems, waitingPreset);
         perform(interaction);
         return !interaction.isEmpty();
     }
 
-    /* (non-Javadoc)
-     * @see minium.actions.InteractionPerformer#checkEmpty(minium.Elements)
-     */
     @Override
-    public boolean checkEmpty(Elements elems) {
-        WaitOrTimeoutWhileElementsInteraction interaction = new WaitOrTimeoutWhileElementsInteraction(elems);
+    public boolean checkForUnexistence(Elements elems) {
+        return checkForUnexistence(elems, null);
+    }
+
+    @Override
+    public boolean checkForUnexistence(Elements elems, String waitingPreset) {
+        CheckForUnexistenceInteraction interaction = new CheckForUnexistenceInteraction(elems, waitingPreset);
         perform(interaction);
         return interaction.isEmpty();
     }
@@ -308,7 +322,7 @@ public class WebInteractionPerformer extends AbstractInteractionPerformer implem
      */
     @Override
     public void waitUntilClosed(Elements elems) throws ElementsException {
-        perform(new WaitWindowClosedElementsInteraction(elems));
+        perform(new WaitWindowClosedElementsInteraction(elems, null));
     }
 
     /* (non-Javadoc)

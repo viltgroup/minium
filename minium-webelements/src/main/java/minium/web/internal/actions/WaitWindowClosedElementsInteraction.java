@@ -29,8 +29,8 @@ public class WaitWindowClosedElementsInteraction extends WaitInteraction {
      *
      * @param elems the elems
      */
-    public WaitWindowClosedElementsInteraction(Elements elems) {
-        super(elems);
+    public WaitWindowClosedElementsInteraction(Elements elems, String preset) {
+        super(elems, preset);
     }
 
     /* (non-Javadoc)

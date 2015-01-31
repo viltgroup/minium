@@ -22,13 +22,15 @@ import minium.Elements;
  */
 public abstract class WaitInteraction extends AbstractWebInteraction {
 
+
     /**
      * Instantiates a new wait interaction.
      *
      * @param elems the elems
      */
-    public WaitInteraction(Elements elems) {
+    public WaitInteraction(Elements elems, String preset) {
         super(elems);
+        setWaitingPreset(preset);
     }
 
     @Override

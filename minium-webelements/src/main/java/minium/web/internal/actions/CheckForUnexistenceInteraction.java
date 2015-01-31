@@ -22,15 +22,15 @@ import minium.Elements;
 /**
  * The Class WaitOrTimeoutWhileElementsInteraction.
  */
-public class WaitOrTimeoutWhileElementsInteraction extends WaitInteraction {
+public class CheckForUnexistenceInteraction extends WaitInteraction {
 
     /**
      * Instantiates a new wait or timeout while elements interaction.
      *
      * @param elems the elems
      */
-    public WaitOrTimeoutWhileElementsInteraction(Elements elems) {
-        super(elems);
+    public CheckForUnexistenceInteraction(Elements elems, String waitingPreset) {
+        super(elems, waitingPreset);
     }
 
     /* (non-Javadoc)

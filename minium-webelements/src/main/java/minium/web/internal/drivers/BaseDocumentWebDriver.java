@@ -1,9 +1,9 @@
 package minium.web.internal.drivers;
 
-import minium.web.DocumentWebDriver;
-
 import java.util.List;
 import java.util.Set;
+
+import minium.web.DocumentWebDriver;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
