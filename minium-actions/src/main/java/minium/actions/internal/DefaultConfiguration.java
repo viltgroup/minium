@@ -126,6 +126,7 @@ public class DefaultConfiguration extends Mixin.Impl implements Configuration {
     private InteractionListeners interactionListeners = new InteractionListenersImpl();
 
     public DefaultConfiguration() {
+        waitingPreset("immediate").timeout(0, TimeUnit.SECONDS);
     }
 
     /* (non-Javadoc)

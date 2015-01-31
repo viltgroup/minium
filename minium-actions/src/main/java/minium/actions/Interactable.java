@@ -33,8 +33,12 @@ public interface Interactable {
     public void selectAll();
     public void deselectAll();
     public void waitForExistence();
+    public void waitForExistence(String waitingPreset);
     public void waitForUnexistence();
+    public void waitForUnexistence(String waitingPreset);
     public boolean checkForExistence();
+    public boolean checkForExistence(String waitingPreset);
     public boolean checkForUnexistence();
+    public boolean checkForUnexistence(String waitingPreset);
     public void waitUntilClosed();
 }

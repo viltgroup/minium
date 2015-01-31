@@ -120,6 +120,7 @@ public class WebModules {
             public void configure(Builder<?> builder) {
                 builder
                 .implementingInterfaces(DebugInteractable.class)
+                .withJsResources("minium/web/internal/lib/effect.min.js", "minium/web/internal/lib/effect-highlight.min.js")
                 .usingMixinConfigurer(new AbstractMixinInitializer() {
                     @Override
                     protected void initialize() {

@@ -15,11 +15,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.HasInputDevices;
 import org.openqa.selenium.interactions.Keyboard;
 import org.openqa.selenium.interactions.Mouse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
 public abstract class BaseDocumentWebDriver implements InternalDocumentWebDriver {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(BaseDocumentWebDriver.class);
 
     protected final WebDriver webDriver;
 

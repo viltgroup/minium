@@ -14,7 +14,7 @@ minium = {
 		var result = fn();
 		var type = 'null';
 		
-		if (result) {
+		if (result !== null && result !== undefined) {
             if (result instanceof $) {
     			// if it is a jQuery object, convert it to a normal array
     			result = $.makeArray(result);

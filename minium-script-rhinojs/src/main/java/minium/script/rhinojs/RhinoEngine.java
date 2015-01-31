@@ -16,6 +16,7 @@ import minium.internal.Paths;
 import minium.script.rhinojs.RhinoProperties.RequireProperties;
 
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.Wrapper;
 import org.mozilla.javascript.tools.shell.Global;
@@ -29,6 +30,10 @@ import com.google.common.collect.Lists;
 public class RhinoEngine implements JsEngine {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RhinoEngine.class);
+
+    static {
+        RhinoException.useMozillaStackStyle(true);
+    }
 
     abstract class RhinoCallable<T, X extends Exception> implements Callable<T> {
         @Override

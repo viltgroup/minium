@@ -185,7 +185,7 @@ public class DefaultJavascriptInvoker implements JavascriptInvoker {
             return (T) extractValue(type, response);
 
         } catch (WebDriverException e) {
-            throw new JavascriptInvocationFailedException(e);
+            throw new JavascriptInvocationFailedException(format("Failed invoking expression:\n", expression), e);
         }
     }
 
