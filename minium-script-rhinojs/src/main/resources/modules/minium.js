@@ -1,12 +1,12 @@
 (function () {
-  var DefaultWebElements = Packages.minium.web.CoreWebElements.DefaultWebElements;
+  var by = Packages.minium.script.rhinojs.CoreRhinoJsWebElements.DefaultRhinoJsWebElements.by;
   
-  var minium = function () {
-    return DefaultWebElements.by.cssSelector.apply(DefaultWebElements.by, arguments);
+  var minium = function (selector) {
+    return by.cssSelector(selector);
   };
-  minium.by = DefaultWebElements.by;
+  minium.by = by;
+  minium.browser = wd;
   
   // export minium
   module.exports = minium;
-  
 })();

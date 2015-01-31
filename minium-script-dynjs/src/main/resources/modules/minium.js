@@ -1,6 +1,12 @@
 (function () {
-  var DefaultDynJsWebElements = Packages.minium.script.dynjs.CoreDynJsWebElements.DefaultDynJsWebElements;
+  var by = Packages.minium.script.dynjs.CoreDynJsWebElements.DefaultDynJsWebElements.by;
   
-  exports.$ = DefaultDynJsWebElements.by.cssSelector;
-  exports.by = DefaultDynJsWebElements.by;
+  var minium = function (selector) {
+    return by.cssSelector(selector);
+  };
+  minium.by      = by;
+  minium.browser = wd;
+  
+  // export minium
+  module.exports = minium;
 })();

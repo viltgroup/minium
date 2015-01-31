@@ -29,9 +29,16 @@ import com.google.common.collect.ImmutableList;
 public class DynJsEngineTest {
 
     private static WebDriver wd;
+    private static DynJsEngine engine;
 
     @BeforeClass
     public static void setup() {
+        DynJsProperties properties = new DynJsProperties();
+        RequireProperties requireProperties = new RequireProperties();
+        properties.setRequire(requireProperties);
+        requireProperties.setModulePaths(ImmutableList.of("classpath:modules"));
+        engine = new DynJsEngine(properties);
+
         wd = new ChromeDriver();
         Builder<DefaultDynJsWebElements> builder = new WebElementsFactory.Builder<DefaultDynJsWebElements>()
                 .implementingInterfaces(DefaultDynJsWebElements.class);
@@ -40,11 +47,12 @@ public class DynJsEngineTest {
                 baseModule(wd),
                 positionModule(),
                 conditionalModule(),
-                dynJsModule(),
+                dynJsModule(engine.getExecutionContext()),
                 interactableModule(performer));
         module.configure(builder);
         DefaultDynJsWebElements root = builder.build().createRoot();
         Minium.set(root);
+        engine.put("wd", wd);
     }
 
     @AfterClass
@@ -55,15 +63,7 @@ public class DynJsEngineTest {
 
     @Test
     public void test_dynjs_eval() throws IOException, InterruptedException {
-        DynJsProperties properties = new DynJsProperties();
-        RequireProperties requireProperties = new RequireProperties();
-        properties.setRequire(requireProperties);
-        requireProperties.setModulePaths(ImmutableList.of("classpath:modules"));
-
-        JsEngine engine = new DynJsEngine(properties);
-        engine.put("wd", wd);
         engine.runScript("classpath:minium/script/dynjs/gs.js");
-
         Thread.sleep(1000);
     }
 }

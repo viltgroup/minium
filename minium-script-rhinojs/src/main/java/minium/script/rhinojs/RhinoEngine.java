@@ -1,6 +1,6 @@
 package minium.script.rhinojs;
 
-import static minium.internal.Paths.toURL;
+import static minium.internal.Paths.toURLs;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -23,25 +23,12 @@ import org.openqa.selenium.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Function;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 
 public class RhinoEngine implements JsEngine {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RhinoEngine.class);
-
-    private static final Function<String, String> TO_URI_FN = new Function<String, String>() {
-
-        @Override
-        public String apply(String input) {
-            try {
-                return toURL(input).toString();
-            } catch (Exception e) {
-                return new File(input).toURI().toString();
-            }
-        }
-    };
 
     abstract class RhinoCallable<T, X extends Exception> implements Callable<T> {
         @Override
@@ -93,13 +80,18 @@ public class RhinoEngine implements JsEngine {
     /* (non-Javadoc)
      * @see minium.script.rhinojs.JsEngine#runScript(java.lang.String)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public <T> T runScript(String path) throws IOException {
         Reader reader = null;
         try {
-            URL url = Paths.toURL(path);
-            reader = new BufferedReader(new InputStreamReader(url.openStream()));
-            return runScript(reader, url.getPath());
+            List<URL> urls = Paths.toURLs(path);
+            Object result = null;
+            for (URL url : urls) {
+                reader = new BufferedReader(new InputStreamReader(url.openStream()));
+                result = runScript(reader, url.getPath());
+            }
+            return (T) result;
         } finally {
             IOUtils.closeQuietly(reader);
         }
@@ -200,6 +192,14 @@ public class RhinoEngine implements JsEngine {
         });
     }
 
+    public Context getContext() {
+        return Context.enter();
+    }
+
+    public Scriptable getScope() {
+        return scope;
+    }
+
     protected Object unwrappedValue(Object val) {
         if (val != null && val instanceof Wrapper) {
             val = ((Wrapper) val).unwrap();
@@ -220,6 +220,17 @@ public class RhinoEngine implements JsEngine {
     }
 
     protected List<String> getModulePathURIs(RequireProperties properties) {
-       return Lists.transform(properties.getModulePaths(), TO_URI_FN);
+        List<String> uris = Lists.newArrayList();
+        for (String modulePath : properties.getModulePaths()) {
+            try {
+                List<URL> urls = toURLs(modulePath);
+                for (URL url : urls) {
+                    uris.add(url.toString());
+                }
+            } catch (Exception e) {
+                uris.add(new File(modulePath).toURI().toString());
+            }
+        }
+        return uris;
     }
 }

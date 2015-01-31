@@ -6,11 +6,18 @@ import minium.web.internal.expression.BasicExpression;
 import minium.web.internal.expression.Expression;
 import minium.web.internal.expression.Expressionizer;
 
+import org.dynjs.runtime.ExecutionContext;
 import org.dynjs.runtime.JSFunction;
 
 public class DynJsWebModules {
 
     public static class FunctionExpressionizer implements Expressionizer {
+
+        private ExecutionContext executionContext;
+
+        public FunctionExpressionizer(ExecutionContext executionContext) {
+            this.executionContext = executionContext;
+        }
 
         @Override
         public boolean handles(Object obj) {
@@ -19,11 +26,13 @@ public class DynJsWebModules {
 
         @Override
         public Expression apply(Object obj) {
-            return new BasicExpression(((JSFunction) obj).toString());
+            JSFunction fn = (JSFunction) obj;
+            JSFunction toString = (JSFunction) fn.getPrototype().get(executionContext, "toString");
+            return new BasicExpression((String) toString.call(executionContext));
         }
     }
 
-    public static WebModule dynJsModule() {
+    public static WebModule dynJsModule(final ExecutionContext executionContext) {
         return new WebModule() {
             @Override
             public void configure(Builder<?> builder) {
@@ -32,8 +41,8 @@ public class DynJsWebModules {
                         "minium/web/internal/lib/jquery.min.js",
                         "minium/script/dynjs/internal/lib/jquery.functionCall.js"
                 )
-                .implementingInterfaces(FunctionCallWebElements.class)
-                .withExpressionizers(new FunctionExpressionizer());
+                .implementingInterfaces(JsFunctionWebElements.class)
+                .withExpressionizers(new FunctionExpressionizer(executionContext));
             }
         };
     }

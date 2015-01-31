@@ -4,7 +4,6 @@ import io.platypus.AbstractMixinInitializer;
 import io.platypus.InstanceProviders;
 import io.platypus.Mixin;
 import io.platypus.MixinClass;
-import io.platypus.MixinClasses;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
@@ -14,12 +13,8 @@ import java.util.WeakHashMap;
 import minium.Elements;
 import minium.Minium;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
-import com.google.common.reflect.TypeToken;
 
 /**
  * Elements classes used in finder chain calls MUST NOT use reified generics. The only exception is
@@ -47,43 +42,13 @@ public interface InternalFinder {
 
     public abstract Object invoke(Object proxy, Method method, Object[] args) throws Throwable;
 
-    static class ElementsProxy extends Mixin.Impl implements Elements {
+    static class Impl extends Mixin.Impl implements InternalFinder, InvocationHandler {
 
-        @Override
-        public boolean is(Class<?> clazz) {
-            return Elements.class.isAssignableFrom(clazz);
-        }
-
-        @Override
-        public boolean is(TypeToken<?> type) {
-            throw new UnsupportedOperationException("Finders don't support type tokens, please use Elements#is(Class<?>) instead");
-        }
-
-        @Override
-        public <T> T as(Class<T> clazz) {
-            if (super.is(clazz)) return super.as(clazz);
-            Preconditions.checkArgument(Elements.class.isAssignableFrom(clazz), "%s is not a Elements", clazz);
-            return createElementsProxy(clazz);
-        }
-
-        @Override
-        public <T> T as(TypeToken<T> type) {
-            throw new UnsupportedOperationException("Finders don't support type tokens, please use Elements#as(Class<?>) instead");
-        }
-
-        protected <T> T createElementsProxy(final Class<T> intf) {
-            InternalFinder thisFinder = super.as(InternalFinder.class);
-            return InternalFinder.Impl.createInternalFinder(intf, thisFinder);
-        }
-    }
-
-    static class Impl extends ElementsProxy implements InternalFinder, InvocationHandler {
-
-        protected final TypeToken<?> typeToken;
+        protected final MixinClass<?> mixinClass;
         protected final InternalFinder parent;
 
-        public Impl(Class<?> intf, InternalFinder parent) {
-            this.typeToken = TypeToken.of(intf);
+        public Impl(io.platypus.MixinClass<?> mixinClass, InternalFinder parent) {
+            this.mixinClass = mixinClass;
             this.parent = parent;
         }
 
@@ -94,7 +59,7 @@ public interface InternalFinder {
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            final Class<?> returnIntf = typeToken.resolveType(method.getGenericReturnType()).getRawType();
+            Class<?> returnIntf = method.getReturnType();
             if (!Elements.class.isAssignableFrom(returnIntf)) {
                 // let's check if Minium has some root set
                 Elements root = Minium.get();
@@ -103,31 +68,25 @@ public interface InternalFinder {
                 Elements elements = eval(root);
                 return method.invoke(elements, args);
             }
-            return createInternalFinder(returnIntf, this, method, args);
+            return createInternalFinder(mixinClass, this, method, args);
         }
 
-        public static <T> T createInternalFinder(final Class<T> intf, InternalFinder parent) {
-            MixinClass<T> returnMixinClass = MixinClasses.create(intf, InternalFinder.class);
-            final InternalFinder.Impl internalFinder = new InternalFinder.Impl(intf, parent);
-            return returnMixinClass.newInstance(new AbstractMixinInitializer() {
-                @Override
-                protected void initialize() {
-                    implement(Elements.class).with(new ElementsProxy());
-                    implement(InternalFinder.class).with(InstanceProviders.ofInstance(internalFinder));
-                    implement(intf).with(InstanceProviders.adapt(internalFinder, intf));
-                }
-            });
+        public static <T> T createInternalFinder(final MixinClass<T> mixinClass, InternalFinder parent) {
+            final InternalFinder.Impl internalFinder = new InternalFinder.Impl(mixinClass, parent);
+            return doCreateInternalFinder(mixinClass, internalFinder);
         }
 
-        public static <T> T createInternalFinder(final Class<T> intf, InternalFinder parent, Method method, Object ... args) {
-            MixinClass<T> returnMixinClass = MixinClasses.create(intf, InternalFinder.class);
-            final InternalFinder.MethodInvocationImpl internalFinder = new InternalFinder.MethodInvocationImpl(intf, parent, method, args);
-            return returnMixinClass.newInstance(new AbstractMixinInitializer() {
+        public static <T> T createInternalFinder(final MixinClass<T> mixinClass, InternalFinder parent, Method method, Object ... args) {
+            final InternalFinder.MethodInvocationImpl internalFinder = new InternalFinder.MethodInvocationImpl(mixinClass, parent, method, args);
+            return doCreateInternalFinder(mixinClass, internalFinder);
+        }
+
+        private static <T> T doCreateInternalFinder(final MixinClass<T> mixinClass, final InternalFinder.Impl internalFinder) {
+            return mixinClass.newInstance(new AbstractMixinInitializer() {
                 @Override
                 protected void initialize() {
-                    implement(Elements.class).with(new ElementsProxy());
-                    implement(InternalFinder.class).with(InstanceProviders.ofInstance(internalFinder));
-                    implement(intf).with(InstanceProviders.adapt(internalFinder, intf));
+                    implement(Object.class, InternalFinder.class).with(InstanceProviders.ofInstance(internalFinder));
+                    implementRemainers().with(InstanceProviders.adapt(internalFinder, mixinClass.getDeclaredInterfaces()));
                 }
             });
         }
@@ -135,15 +94,13 @@ public interface InternalFinder {
 
     static class MethodInvocationImpl extends Impl implements InternalFinder {
 
-        private static final Logger LOGGER = LoggerFactory.getLogger(MethodInvocationImpl.class);
-
         private final WeakHashMap<Elements, Elements> evalResults = new WeakHashMap<Elements, Elements>();
 
         private final Method method;
         private final Object[] args;
 
-        public MethodInvocationImpl(Class<?> intf, InternalFinder parent, Method method, Object[] args) {
-            super(intf, parent);
+        public MethodInvocationImpl(MixinClass<?> mixinClass, InternalFinder parent, Method method, Object[] args) {
+            super(mixinClass, parent);
             this.method = method;
             this.args = args;
         }

@@ -11,6 +11,7 @@ import io.platypus.internal.Casts;
 import java.util.Arrays;
 import java.util.Collection;
 
+import minium.BasicElements;
 import minium.Elements;
 import minium.FreezableElements;
 import minium.IterableElements;
@@ -85,9 +86,7 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
 
         MixinClasses.Builder<T> mixinBuilder = MixinClasses.builder(intf).addInterfaces(CORE_INTFS).addInterfaces(builder.getIntfs());
 
-        if (javascriptInvoker != null) {
-            mixinBuilder.addInterfaces(HasJavascriptInvoker.class);
-        }
+        mixinBuilder.addInterfaces(HasJavascriptInvoker.class);
 
         rootClass = mixinBuilder.build();
         hasParentClass = mixinBuilder.addInterfaces(HasParent.class).build();
@@ -102,7 +101,7 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
                 implement(HasCoercer.class).with(new HasCoercer.Impl(coercer));
                 implement(TargetLocatorWebElements.class).with(new DefaultTargetLocatorWebElements());
                 implement(IterableElements.class).with(new DefaultIterableElements());
-                if (javascriptInvoker != null) implement(HasJavascriptInvoker.class).with(new HasJavascriptInvoker.Impl(javascriptInvoker));
+                implement(HasJavascriptInvoker.class).with(new HasJavascriptInvoker.Impl(javascriptInvoker));
 
                 // dynamic invocation handlers
                 ExpressionInvocationHandler<T> expressionInvocationHandler = new ExpressionInvocationHandler<T>(DefaultWebElementsFactory.this, coercer);
@@ -151,6 +150,10 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
                 implement(InternalWebElements.class).with(elems);
                 implement(FreezableElements.class).with(elems);
                 implement(ExpressionWebElements.class).with(elems);
+                // this way, we can use an optimized implementation for frozen and native WebElements
+                if (elems instanceof BasicElements) {
+                    implement(BasicElements.class).with(elems);
+                }
             }
         };
         return rootClass.newInstance(MixinInitializers.combine(initializer, baseInitializer));
@@ -169,6 +172,10 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
                 implement(InternalWebElements.class).with(elems);
                 implement(FreezableElements.class).with(elems);
                 implement(ExpressionWebElements.class).with(elems);
+                // this way, we can use an optimized implementation for frozen and native WebElements
+                if (elems instanceof BasicElements) {
+                    implement(BasicElements.class).with(elems);
+                }
             }
         };
         return hasParentClass.newInstance(MixinInitializers.combine(initializer, baseInitializer));

@@ -1,5 +1,8 @@
 package minium;
 
+import io.platypus.MixinClass;
+import io.platypus.MixinClasses;
+
 import java.lang.reflect.Method;
 
 import minium.internal.InternalFinder;
@@ -11,19 +14,19 @@ public class Finder<T extends Elements> {
 
     private static final Method FIND_METHOD = Reflections.getDeclaredMethod(FindElements.class, "find", String.class);
 
-    public static <E extends Elements> Finder<E> by(Class<E> clazz) {
-        return new Finder<E>(clazz);
+    public static <E extends Elements> Finder<E> by(Class<E> clazz, Class<?> ... others) {
+        return new Finder<E>(clazz, others);
     }
 
-    private Class<T> intf;
+    private MixinClass<T> mixinClass;
 
-    protected Finder(Class<T> intf) {
+    protected Finder(Class<T> intf, Class<?> ... others) {
         Preconditions.checkArgument(intf.isInterface(), "class %s is not an interface", intf);
-        this.intf = intf;
+        mixinClass = MixinClasses.builder(intf).addInterfaces(others).addInterfaces(InternalFinder.class).build();
     }
 
     public T root() {
-        return InternalFinder.MethodInvocationImpl.createInternalFinder(intf, null);
+        return InternalFinder.MethodInvocationImpl.createInternalFinder(mixinClass, null);
     }
 
     public T selector(String selector) {
@@ -31,6 +34,6 @@ public class Finder<T extends Elements> {
     }
 
     protected T createFinder(Method method, Object ... args) {
-        return InternalFinder.MethodInvocationImpl.createInternalFinder(intf, null, method, args);
+        return InternalFinder.MethodInvocationImpl.createInternalFinder(mixinClass, null, method, args);
     }
 }

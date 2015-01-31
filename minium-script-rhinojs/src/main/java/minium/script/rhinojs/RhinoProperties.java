@@ -15,26 +15,22 @@
  */
 package minium.script.rhinojs;
 
-import java.io.File;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import com.google.common.collect.Lists;
 
 @ConfigurationProperties(prefix = "minium.script.rhino")
 public class RhinoProperties {
 
     public static class RequireProperties {
 
-        private List<String> modulePaths;
+        private List<String> modulePaths = Lists.newArrayList("classpath*:modules");
         private boolean sandboxed;
 
         public List<String> getModulePaths() {
             return modulePaths;
-        }
-
-        public void setModulePaths(List<String> modulePaths) {
-            this.modulePaths = modulePaths;
         }
 
         public boolean isSandboxed() {
@@ -43,11 +39,6 @@ public class RhinoProperties {
 
         public void setSandboxed(boolean sandboxed) {
             this.sandboxed = sandboxed;
-        }
-
-        protected List<String> getDefaultModulePaths() {
-            File modulesDir = new File("modules");
-            return Collections.singletonList(modulesDir.getAbsolutePath());
         }
     }
 

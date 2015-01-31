@@ -3,9 +3,11 @@ package minium.web.internal;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import minium.BasicElements;
 import minium.Elements;
 import minium.ElementsFactory;
 import minium.internal.InternalElementsFactory;
+import minium.internal.Reflections;
 import minium.web.DocumentWebDriver;
 import minium.web.MultipleDocumentDriversFoundException;
 import minium.web.NoDocumentDriverFoundException;
@@ -24,6 +26,8 @@ import com.google.common.reflect.AbstractInvocationHandler;
 import com.google.common.reflect.TypeToken;
 
 public class ExpressionInvocationHandler<T extends WebElements> extends AbstractInvocationHandler {
+
+    private static final Method SIZE_METHOD = Reflections.getDeclaredMethod(BasicElements.class, "size");
 
     private static class DocumentDriverInvoker implements Function<DocumentWebDriver, Object> {
 
@@ -90,6 +94,10 @@ public class ExpressionInvocationHandler<T extends WebElements> extends Abstract
 
             switch (documentDrivers.size()) {
             case 0:
+                // special case for size, if no document was found then size is 0 for sure
+                if (method.equals(SIZE_METHOD)) {
+                    return 0;
+                }
                 throw new NoDocumentDriverFoundException("The expression has no frame or window to be evaluated to");
             case 1:
                 result = getSingleDocumentDriverResult(documentDrivers.get(0), javascriptInvoker, webElements);

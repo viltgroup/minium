@@ -1,26 +1,29 @@
 package minium.web.internal;
 
 import static com.google.common.collect.FluentIterable.from;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import minium.BasicElements;
+import minium.web.DocumentRoots;
+import minium.web.DocumentWebDriver;
+import minium.web.WebElements;
 import minium.web.internal.drivers.DocumentWebElement;
 import minium.web.internal.expression.Expression;
 import minium.web.internal.expression.Expressionizer;
 import minium.web.internal.expression.FunctionInvocationExpression;
 import minium.web.internal.expression.NativeWebElementsExpression;
 import minium.web.internal.expression.VariableGenerator;
-import minium.web.DocumentRoots;
-import minium.web.DocumentWebDriver;
-import minium.web.WebElements;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 
 public class DefaultExpressionWebElements<T extends WebElements> extends InternalWebElements.Impl<T> implements ExpressionWebElements {
 
-    static class ExpressionFrozenWebElements<T extends WebElements> extends InternalWebElements.Impl<T> implements ExpressionWebElements {
+    static class ExpressionFrozenWebElements<T extends WebElements> extends InternalWebElements.Impl<T> implements ExpressionWebElements, BasicElements<T> {
 
         private List<DocumentWebElement> nativeWebElements;
 
@@ -71,6 +74,30 @@ public class DefaultExpressionWebElements<T extends WebElements> extends Interna
         @Override
         public String toString() {
             return parent().toString() + ".freeze()";
+        }
+
+        @Override
+        public T eq(int index) {
+            return toWebElements(Iterables.get(wrappedNativeElements(), index, null));
+        }
+
+        @Override
+        public T first() {
+            return toWebElements(Iterables.getFirst(wrappedNativeElements(), null));
+        }
+
+        @Override
+        public T last() {
+            return toWebElements(Iterables.getLast(wrappedNativeElements(), null));
+        }
+
+        @Override
+        public int size() {
+            return Iterables.size(wrappedNativeElements());
+        }
+
+        private T toWebElements(DocumentWebElement documentWebElement) {
+            return documentWebElement == null ? factory().createNativeWebElements() : factory().createNativeWebElements(documentWebElement);
         }
     }
 

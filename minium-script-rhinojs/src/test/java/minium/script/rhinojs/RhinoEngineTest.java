@@ -24,8 +24,6 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import com.google.common.collect.ImmutableList;
-
 public class RhinoEngineTest {
 
     private static WebDriver wd;
@@ -57,8 +55,6 @@ public class RhinoEngineTest {
         RhinoProperties properties = new RhinoProperties();
         RequireProperties requireProperties = new RequireProperties();
         properties.setRequire(requireProperties);
-        requireProperties.setModulePaths(ImmutableList.of("classpath:modules"));
-
         RhinoEngine engine = new RhinoEngine(properties);
         engine.put("wd", wd);
         engine.runScript("classpath:minium/script/rhinojs/gs.js");

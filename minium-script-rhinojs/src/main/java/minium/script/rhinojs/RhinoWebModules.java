@@ -6,11 +6,12 @@ import minium.web.internal.expression.BasicExpression;
 import minium.web.internal.expression.Expression;
 import minium.web.internal.expression.Expressionizer;
 
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 
 public class RhinoWebModules {
 
-    public class FunctionExpressionizer implements Expressionizer {
+    public static class FunctionExpressionizer implements Expressionizer {
 
         @Override
         public boolean handles(Object obj) {
@@ -19,7 +20,10 @@ public class RhinoWebModules {
 
         @Override
         public Expression apply(Object obj) {
-            return new BasicExpression(((Function) obj).toString());
+            Function fn = (Function) obj;
+            Function toString = (Function) fn.getPrototype().get("toString", fn);
+            Context cx = Context.getCurrentContext();
+            return new BasicExpression((String) toString.call(cx, fn, fn, new Object[0]));
         }
     }
 
@@ -32,7 +36,8 @@ public class RhinoWebModules {
                         "minium/web/internal/lib/jquery.min.js",
                         "minium/script/rhinojs/internal/lib/jquery.functionCall.js"
                 )
-                .implementingInterfaces(FunctionCallWebElements.class);
+                .implementingInterfaces(JsFunctionWebElements.class)
+                .withExpressionizers(new FunctionExpressionizer());
             }
         };
     }

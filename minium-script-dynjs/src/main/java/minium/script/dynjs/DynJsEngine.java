@@ -1,6 +1,6 @@
 package minium.script.dynjs;
 
-import static minium.internal.Paths.toURL;
+import static minium.internal.Paths.toURLs;
 
 import java.io.File;
 import java.io.FileReader;
@@ -22,29 +22,12 @@ import org.openqa.selenium.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
 public class DynJsEngine implements JsEngine {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DynJsEngine.class);
 
-    private static final Function<String, String> TO_URI_FN = new Function<String, String>() {
-
-        @Override
-        public String apply(String input) {
-            try {
-                URL url = toURL(input);
-                if ("file".equals(url.getProtocol())) {
-                    return url.getFile();
-                } else {
-                    return url.toString();
-                }
-            } catch (Exception e) {
-                return new File(input).getAbsolutePath();
-            }
-        }
-    };
     private final DynJS dynjs;
     private final Config config;
     private ExecutionContext executionContext;
@@ -85,9 +68,13 @@ public class DynJsEngine implements JsEngine {
     public <T> T runScript(String path) throws IOException {
         InputStream is = null;
         try {
-            URL url = Paths.toURL(path);
-            is = url.openStream();
-            return (T) dynjs.evaluate(is);
+            List<URL> urls = Paths.toURLs(path);
+            Object result = null;
+            for (URL url : urls) {
+                is = url.openStream();
+                result = dynjs.evaluate(is);
+            }
+            return (T) result;
         } finally {
             IOUtils.closeQuietly(is);
         }
@@ -157,7 +144,27 @@ public class DynJsEngine implements JsEngine {
         jsObject.delete(executionContext, varName, true);
     }
 
+    public ExecutionContext getExecutionContext() {
+        return executionContext;
+    }
+
     protected List<String> getModulePathURIs(RequireProperties properties) {
-       return Lists.transform(properties.getModulePaths(), TO_URI_FN);
+        List<String> uris = Lists.newArrayList();
+        for (String modulePath : properties.getModulePaths()) {
+            try {
+                List<URL> urls = toURLs(modulePath);
+                for (URL url : urls) {
+                    if ("file".equals(url.getProtocol())) {
+                        uris.add(url.getFile());
+                    } else {
+                        uris.add(url.toString());
+                    }
+
+                }
+            } catch (Exception e) {
+                uris.add(new File(modulePath).getAbsolutePath());
+            }
+        }
+        return uris;
     }
 }
