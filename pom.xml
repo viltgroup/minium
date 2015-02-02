@@ -109,6 +109,12 @@
 				<groupId>com.sikulix</groupId>
 				<artifactId>sikulixapi</artifactId>
 				<version>${sikulix.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>jxgrabkey</groupId>
+						<artifactId>jxgrabkey</artifactId>
+			        </exclusion>
+				</exclusions>
 			</dependency>
 		    <dependency>
 				<groupId>com.github.rholder</groupId>

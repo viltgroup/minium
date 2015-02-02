@@ -205,13 +205,6 @@ public class RhinoEngine implements JsEngine {
         return scope;
     }
 
-    protected Object unwrappedValue(Object val) {
-        if (val != null && val instanceof Wrapper) {
-            val = ((Wrapper) val).unwrap();
-        }
-        return val;
-    }
-
     @SuppressWarnings("unchecked")
     public <T, X extends Exception> T runWithContext(RhinoCallable<? extends T, X> fn) throws X {
         try {
@@ -222,6 +215,13 @@ public class RhinoEngine implements JsEngine {
         } catch (Exception e) {
             throw (X) e;
         }
+    }
+
+    protected Object unwrappedValue(Object val) {
+        if (val != null && val instanceof Wrapper) {
+            val = ((Wrapper) val).unwrap();
+        }
+        return val;
     }
 
     protected List<String> getModulePathURIs(RequireProperties properties) {
