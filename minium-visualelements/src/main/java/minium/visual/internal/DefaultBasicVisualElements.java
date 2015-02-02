@@ -257,7 +257,7 @@ public class DefaultBasicVisualElements<T extends VisualElements> extends BaseVi
             return from(regions).transform(new Function<Region, Elements>() {
                 @Override
                 public Elements apply(Region region) {
-                    return factory().createRoot(region);
+                    return factory().createNative(region);
                 }
             }).toSet();
         }

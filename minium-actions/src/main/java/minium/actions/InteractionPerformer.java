@@ -1,11 +1,9 @@
 package minium.actions;
 
-import java.util.concurrent.TimeUnit;
-
 import minium.Elements;
 import minium.ElementsException;
 
-public interface InteractionPerformer extends MouseInteractionPerformer, KeyboardInteractionPerformer {
+public interface InteractionPerformer extends MouseInteractionPerformer, KeyboardInteractionPerformer, WaitInterationPerformer {
 
     /**
      * With.
@@ -62,48 +60,12 @@ public interface InteractionPerformer extends MouseInteractionPerformer, Keyboar
      */
     public abstract void selectAll(Elements elems);
 
-    public abstract void waitForExistence(Elements elems);
-
-    public abstract void waitForExistence(Elements elems, String waitingPreset);
-
-    public abstract void waitForUnexistence(Elements elems) throws ElementsException;
-
-    public abstract void waitForUnexistence(Elements elems, String waitingPreset);
-
-    /**
-     * Check not empty.
-     *
-     * @param elems the elems
-     * @return true, if successful
-     */
-    public abstract boolean checkForExistence(Elements elems);
-
-    public abstract boolean checkForExistence(Elements elems, String waitingPreset);
-
-    /**
-     * Check empty.
-     *
-     * @param elems the elems
-     * @return true, if successful
-     */
-    public abstract boolean checkForUnexistence(Elements elems);
-
-    public abstract boolean checkForUnexistence(Elements elems, String waitingPreset);
-
     /**
      * Wait until closed.
      *
      * @param elems the elems
      */
     public abstract void waitUntilClosed(Elements elems) throws ElementsException;
-
-    /**
-     * Wait time.
-     *
-     * @param time the time
-     * @param unit the unit
-     */
-    public abstract void waitTime(long time, TimeUnit unit);
 
     public abstract void close(Elements elements);
 

@@ -5,11 +5,13 @@ import minium.actions.Configuration;
 import minium.actions.HasConfiguration;
 import minium.actions.Interactable;
 import minium.actions.InteractionPerformer;
+import minium.actions.WaitInteractable;
 import minium.actions.debug.DebugInteractable;
 import minium.actions.debug.DebugInteractionPerformer;
 import minium.actions.internal.DefaultConfiguration;
 import minium.actions.internal.DefaultDebugInteractable;
 import minium.actions.internal.DefaultInteractable;
+import minium.actions.internal.DefaultWaitInteractable;
 import minium.internal.LocatableElements;
 import minium.web.CoreWebElements.DefaultWebElements;
 import minium.web.WebElementsFactory.Builder;
@@ -104,9 +106,9 @@ public class WebModules {
 
                     @Override
                     protected void initialize() {
-                        Interactable interactable = new DefaultInteractable(performer);
                         implement(HasConfiguration.class).with(new HasConfiguration.Impl(configuration));
-                        implement(Interactable.class).with(interactable);
+                        implement(Interactable.class).with(new DefaultInteractable(performer));
+                        implement(WaitInteractable.class).with(new DefaultWaitInteractable(performer));
                     }
                 });
             }

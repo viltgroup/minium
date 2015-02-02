@@ -13,23 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package minium.web.internal.actions;
+package minium.actions.internal;
 
-import static minium.web.internal.actions.WaitPredicates.whileNotEmpty;
+import static minium.actions.internal.WaitPredicates.forExistence;
 import minium.Elements;
 import minium.ElementsException;
 
 /**
- * The Class WaitWhileElementsInteraction.
+ * The Class WaitForElementsInteraction.
  */
-public class WaitForUnexistenceInteraction extends WaitInteraction {
+public class WaitForExistenceInteraction extends WaitInteraction {
 
     /**
-     * Instantiates a new wait while elements interaction.
+     * Instantiates a new wait for elements interaction.
      *
      * @param elems the elems
      */
-    public WaitForUnexistenceInteraction(Elements elems, String preset) {
+    public WaitForExistenceInteraction(Elements elems, String preset) {
         super(elems, preset);
     }
 
@@ -41,9 +41,9 @@ public class WaitForUnexistenceInteraction extends WaitInteraction {
     @Override
     protected void doPerform() throws ElementsException {
         if (getWaitingPreset() != null) {
-            wait(getSource(), getWaitingPreset(), whileNotEmpty());
+            wait(getSource(), getWaitingPreset(), forExistence());
         } else {
-            wait(getSource(), getTimeout(), getInterval(), whileNotEmpty());
+            wait(getSource(), getTimeout(), getInterval(), forExistence());
         }
     }
 }

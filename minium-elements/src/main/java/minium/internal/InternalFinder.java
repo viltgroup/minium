@@ -16,27 +16,7 @@ import minium.Minium;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
 
-/**
- * Elements classes used in finder chain calls MUST NOT use reified generics. The only exception is
- * {@link Elements#as(Class)}.
- *
- * For instance, the following code is not supported:
- *
- * <pre><code>
- * public interface TestElements implements Elements {
- *   <T extends Elements> T test();
- * }
- *
- * // this will throw an Exception
- * TestElements testElems = Finder.by(TestElements.class).selector(":text").test();
- * </code></pre>
- *
- * Basically, those restriction is due to type erasure, and Mockito suffers from the same problem
- * (http://stackoverflow.com/questions/15906220/classcastexception-with-generics-and-mockito).
- *
- * @author rui.figueira
- */
-public interface InternalFinder {
+public interface InternalFinder extends Elements {
 
     public Elements eval(Elements elems);
 

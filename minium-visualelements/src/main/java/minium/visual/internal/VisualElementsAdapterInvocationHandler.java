@@ -15,7 +15,7 @@ public class VisualElementsAdapterInvocationHandler extends AbstractInvocationHa
     protected Object handleInvocation(Object proxy, Method method, Object[] args) throws Throwable {
         Elements elems = (Elements) proxy;
         VisualElementsFactory<?> factory = elems.as(HasElementsFactory.class).factory().as(VisualElementsFactory.class);
-        VisualElements adapter = factory.createAdapter(elems);
+        VisualElements adapter = factory.createNative(elems);
         return method.invoke(adapter, args);
     }
 

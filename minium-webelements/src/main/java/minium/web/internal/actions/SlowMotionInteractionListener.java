@@ -19,6 +19,8 @@ import minium.actions.Duration;
 import minium.actions.Interaction;
 import minium.actions.internal.BeforeInteractionEvent;
 import minium.actions.internal.DefaultInteractionListener;
+import minium.actions.internal.WaitInteraction;
+import minium.actions.internal.WaitTimeInteraction;
 
 public class SlowMotionInteractionListener extends DefaultInteractionListener {
 

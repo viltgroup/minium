@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package minium.web.internal.actions;
+package minium.actions.internal;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -21,8 +21,6 @@ import java.util.concurrent.TimeUnit;
 
 import minium.ElementsException;
 import minium.actions.Duration;
-
-import org.openqa.selenium.support.ui.Sleeper;
 
 /**
  * The Class WaitTimeInteraction.
@@ -51,9 +49,8 @@ public class WaitTimeInteraction extends WaitInteraction {
         long time = waitTime.getTime();
         TimeUnit unit = waitTime.getUnit();
 
-        org.openqa.selenium.support.ui.Duration duration = new org.openqa.selenium.support.ui.Duration(time, unit);
         try {
-            Sleeper.SYSTEM_SLEEPER.sleep(duration);
+            Thread.sleep(unit.toMillis(time));
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new ElementsException(e);

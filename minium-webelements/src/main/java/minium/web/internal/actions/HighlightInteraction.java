@@ -1,6 +1,7 @@
 package minium.web.internal.actions;
 
 import minium.Elements;
+import minium.web.EvalWebElements;
 
 public class HighlightInteraction extends AbstractWebInteraction {
 
@@ -10,6 +11,6 @@ public class HighlightInteraction extends AbstractWebInteraction {
 
     @Override
     protected void doPerform() {
+        getSource().as(EvalWebElements.class).eval("$(this).effect('highlight', { color : 'red' }, 5000);");
     }
-
 }

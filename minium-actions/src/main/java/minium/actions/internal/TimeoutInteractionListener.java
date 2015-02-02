@@ -13,12 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package minium.web.internal.actions;
+package minium.actions.internal;
 
 import minium.actions.Duration;
 import minium.actions.Interaction;
-import minium.actions.internal.BeforeWaitInteractionEvent;
-import minium.actions.internal.DefaultInteractionListener;
 
 /**
  * The listener interface for receiving timeoutInteraction events.
@@ -47,8 +45,8 @@ public class TimeoutInteractionListener extends DefaultInteractionListener {
     @Override
     protected void onBeforeWaitEvent(BeforeWaitInteractionEvent event) {
         Interaction interaction = event.getInteraction();
-        if (interaction instanceof AbstractWebInteraction) {
-            AbstractWebInteraction defInteraction = (AbstractWebInteraction) interaction;
+        if (interaction instanceof AbstractInteraction) {
+            AbstractInteraction defInteraction = (AbstractInteraction) interaction;
             if (defInteraction.getTimeout() == null) {
                 defInteraction.setTimeout(timeout);
             }

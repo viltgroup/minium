@@ -1,8 +1,10 @@
 package minium;
 
-public interface ElementsFactory extends AsIs {
+public interface ElementsFactory<T extends Elements> extends AsIs {
 
-    public interface Builder<T extends ElementsFactory> {
-        public abstract T build();
+    public abstract T createRoot();
+
+    public interface Builder<EF extends ElementsFactory<?>> {
+        public abstract EF build();
     }
 }

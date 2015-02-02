@@ -15,9 +15,10 @@
  */
 package minium.web.internal.actions;
 
-import static minium.web.internal.actions.WaitPredicates.untilWindowClosed;
+import static minium.web.internal.actions.WebWaitPredicates.forClosedWindow;
 import minium.Elements;
 import minium.ElementsException;
+import minium.actions.internal.WaitInteraction;
 
 /**
  * The Class WaitWindowClosedElementsInteraction.
@@ -39,9 +40,9 @@ public class WaitWindowClosedElementsInteraction extends WaitInteraction {
     @Override
     protected void doPerform() throws ElementsException {
         if (getWaitingPreset() != null) {
-            wait(getSource(), getWaitingPreset(), untilWindowClosed());
+            wait(getSource(), getWaitingPreset(), forClosedWindow());
         } else {
-            wait(getSource(), getTimeout(), getInterval(), untilWindowClosed());
+            wait(getSource(), getTimeout(), getInterval(), forClosedWindow());
         }
     }
 }

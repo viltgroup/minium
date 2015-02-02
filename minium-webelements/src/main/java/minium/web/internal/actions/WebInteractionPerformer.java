@@ -25,6 +25,11 @@ import minium.actions.InteractionListener;
 import minium.actions.InteractionPerformer;
 import minium.actions.Keys;
 import minium.actions.internal.AbstractInteractionPerformer;
+import minium.actions.internal.CheckForExistenceInteraction;
+import minium.actions.internal.CheckForUnexistenceInteraction;
+import minium.actions.internal.WaitForExistenceInteraction;
+import minium.actions.internal.WaitForUnexistenceInteraction;
+import minium.actions.internal.WaitTimeInteraction;
 
 /**
  * The Class InteractionPerformer.
@@ -315,6 +320,14 @@ public class WebInteractionPerformer extends AbstractInteractionPerformer implem
         return interaction.isEmpty();
     }
 
+    /* (non-Javadoc)
+     * @see minium.actions.InteractionPerformer#waitTime(long, java.util.concurrent.TimeUnit)
+     */
+    @Override
+    public void waitTime(long time, TimeUnit unit) {
+        perform(new WaitTimeInteraction(new Duration(time, unit)));
+    }
+
     /**
      * Wait until closed.
      *
@@ -323,14 +336,6 @@ public class WebInteractionPerformer extends AbstractInteractionPerformer implem
     @Override
     public void waitUntilClosed(Elements elems) throws ElementsException {
         perform(new WaitWindowClosedElementsInteraction(elems, null));
-    }
-
-    /* (non-Javadoc)
-     * @see minium.actions.InteractionPerformer#waitTime(long, java.util.concurrent.TimeUnit)
-     */
-    @Override
-    public void waitTime(long time, TimeUnit unit) {
-        perform(new WaitTimeInteraction(new Duration(time, unit)));
     }
 
     /* (non-Javadoc)

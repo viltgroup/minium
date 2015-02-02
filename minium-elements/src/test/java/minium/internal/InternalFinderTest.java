@@ -13,12 +13,9 @@ import io.platypus.MixinClasses;
 import minium.Elements;
 import minium.FindElements;
 import minium.Finder;
-import minium.internal.InternalFinder;
 
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import com.google.common.reflect.TypeToken;
 
 public class InternalFinderTest {
 
@@ -39,8 +36,8 @@ public class InternalFinderTest {
     public interface CombinedTestElements extends TestElements, OtherTestElements { }
 
     @Test
-    public void finder_chain() {
-        Finder<TestElements> by = Finder.by(TestElements.class);
+    public void testFinderChain() {
+        Finder<TestElements> by = Finder.by(TestElements.class, OtherElements.class);
         TestElements fooBar = by.selector(":text").foo().bar();
         assertThat(fooBar, instanceOf(InternalFinder.class));
 
@@ -52,8 +49,8 @@ public class InternalFinderTest {
     }
 
     @Test
-    public void finder_eval() {
-        Finder<TestElements> by = Finder.by(TestElements.class);
+    public void testFinderEval() {
+        Finder<TestElements> by = Finder.by(TestElements.class, CombinedTestElements.class);
         Elements longFinder = by.selector(":text").foo().bar().as(OtherTestElements.class).other();
 
         final TestElements elems = mock(TestElements.class, RETURNS_DEEP_STUBS);
@@ -77,16 +74,6 @@ public class InternalFinderTest {
         assertThat((CombinedTestElements) evalElems, sameInstance(result));
         verify(elems).find(":text");
         verify(otherElems).other();
-    }
-
-    @Test(expected = UnsupportedOperationException.class)
-    public void finder_type_token_unsupported() {
-        @SuppressWarnings("serial")
-        TypeToken<OtherElements<TestElements>> otherElementsToken = new TypeToken<OtherElements<TestElements>>() { };
-
-        Finder<TestElements> by = Finder.by(TestElements.class);
-
-        by.selector(":text").as(otherElementsToken).other();
     }
 }
 ;

@@ -93,17 +93,22 @@ public class DefaultVisualElementsFactory<T extends VisualElements> extends Mixi
     }
 
     @Override
-    public T createRoot(final Region... regions) {
-        return createRoot(Arrays.asList(regions));
+    public T createRoot() {
+        return createNative(screen);
     }
 
     @Override
-    public T createRoot(final Collection<Region> regions) {
+    public T createNative(final Region... regions) {
+        return createNative(Arrays.asList(regions));
+    }
+
+    @Override
+    public T createNative(final Collection<Region> regions) {
         return createMixin(new Root<T>(regions));
     }
 
     @Override
-    public T createAdapter(final Elements parent) {
+    public T createNative(final Elements parent) {
         return createMixin(parent, new AdapterImpl<T>());
     }
 

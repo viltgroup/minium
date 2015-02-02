@@ -35,7 +35,7 @@ public class RhinoEngine implements JsEngine {
         RhinoException.useMozillaStackStyle(true);
     }
 
-    abstract class RhinoCallable<T, X extends Exception> implements Callable<T> {
+    public static abstract class RhinoCallable<T, X extends Exception> implements Callable<T> {
         @Override
         public T call() throws Exception {
             Context cx = Context.enter();
@@ -213,7 +213,7 @@ public class RhinoEngine implements JsEngine {
     }
 
     @SuppressWarnings("unchecked")
-    protected <T, X extends Exception> T runWithContext(RhinoCallable<? extends T, X> fn) throws X {
+    public <T, X extends Exception> T runWithContext(RhinoCallable<? extends T, X> fn) throws X {
         try {
             return fn.call();
         } catch (InterruptedException e) {

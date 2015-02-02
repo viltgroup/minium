@@ -44,7 +44,7 @@ public class GimpDrawingIT {
         Builder<DefaultVisualElements> builder = new VisualElementsFactory.Builder<DefaultVisualElements>();
         visualModule.configure(builder);
         VisualElementsFactory<DefaultVisualElements> visualFactory = builder.build();
-        DefaultVisualElements root = visualFactory.createRoot(screen);
+        DefaultVisualElements root = visualFactory.createRoot();
         root.as(HasConfiguration.class).configure()
             .defaultInterval(1, TimeUnit.SECONDS)
             .defaultTimeout(20, TimeUnit.SECONDS);

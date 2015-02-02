@@ -29,11 +29,11 @@ import minium.actions.InteractionListener;
 import minium.actions.InteractionPerformer;
 import minium.actions.Keys;
 import minium.actions.MouseInteractionPerformer;
+import minium.actions.internal.TimeoutInteractionListener;
+import minium.actions.internal.WaitingPresetInteractionListener;
 import minium.web.internal.actions.RetryAfterWaitingWhileEmptyInteractionListener;
 import minium.web.internal.actions.RetryOnExceptionInteractionListener;
 import minium.web.internal.actions.SlowMotionInteractionListener;
-import minium.web.internal.actions.TimeoutInteractionListener;
-import minium.web.internal.actions.WaitingPresetInteractionListener;
 import minium.web.internal.actions.WebInteractionPerformer;
 
 import com.vilt.minium.DefaultWebElementsDriver;

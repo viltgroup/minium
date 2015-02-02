@@ -2,6 +2,7 @@ package minium.web;
 
 import minium.actions.HasConfiguration;
 import minium.actions.Interactable;
+import minium.actions.WaitInteractable;
 
 public interface CoreWebElements<T extends WebElements> extends
         BasicWebElements<T>,
@@ -11,6 +12,7 @@ public interface CoreWebElements<T extends WebElements> extends
         TargetLocatorWebElements<T>,
         PositionWebElements<T>,
         HasConfiguration,
+        WaitInteractable,
         Interactable {
 
     public interface DefaultWebElements extends CoreWebElements<DefaultWebElements> {

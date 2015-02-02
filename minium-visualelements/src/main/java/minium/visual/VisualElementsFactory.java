@@ -16,13 +16,13 @@ import org.sikuli.script.Screen;
 
 import com.google.common.collect.Sets;
 
-public interface VisualElementsFactory<T extends VisualElements> extends ElementsFactory {
+public interface VisualElementsFactory<T extends VisualElements> extends ElementsFactory<T> {
 
-    public T createRoot(Region ... regions);
+    public T createNative(Region ... regions);
 
-    public T createRoot(Collection<Region> regions);
+    public T createNative(Collection<Region> regions);
 
-    public T createAdapter(Elements parent);
+    public T createNative(Elements parent);
 
     public static class Builder<T extends VisualElements> implements ElementsFactory.Builder<VisualElementsFactory<T>> {
 

@@ -114,22 +114,22 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
     }
 
     @Override
-    public T createNativeWebElements(DocumentWebDriver webDriver, WebElement ... nativeWebElements) {
-        return createNativeWebElements(webDriver, Arrays.asList(nativeWebElements));
+    public T createNative(DocumentWebDriver webDriver, WebElement ... nativeWebElements) {
+        return createNative(webDriver, Arrays.asList(nativeWebElements));
     }
 
     @Override
-    public T createNativeWebElements(DocumentWebDriver webDriver, Collection<WebElement> nativeWebElements) {
-        return createNativeWebElements(FluentIterable.from(nativeWebElements).transform(WebElementFunctions.wrap(webDriver)).toList());
+    public T createNative(DocumentWebDriver webDriver, Collection<WebElement> nativeWebElements) {
+        return createNative(FluentIterable.from(nativeWebElements).transform(WebElementFunctions.wrap(webDriver)).toList());
     }
 
     @Override
-    public T createNativeWebElements(DocumentWebElement ... nativeWebElements) {
-        return createNativeWebElements(Arrays.asList(nativeWebElements));
+    public T createNative(DocumentWebElement ... nativeWebElements) {
+        return createNative(Arrays.asList(nativeWebElements));
     }
 
     @Override
-    public T createNativeWebElements(final Collection<DocumentWebElement> nativeWebElements) {
+    public T createNative(final Collection<DocumentWebElement> nativeWebElements) {
         return createMixin(new NativeWebElements<T>(nativeWebElements));
     }
 

@@ -22,7 +22,7 @@ public class VisualFinderIT {
         Screen screen = new Screen();
         Builder<DefaultVisualElements> builder = new VisualElementsFactory.Builder<>();
         VisualModules.defaultModule(screen, DefaultVisualElements.class).configure(builder);
-        root = builder.build().createRoot(screen);
+        root = builder.build().createRoot();
     }
 
     @Test

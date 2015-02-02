@@ -97,7 +97,7 @@ public class DefaultExpressionWebElements<T extends WebElements> extends Interna
         }
 
         private T toWebElements(DocumentWebElement documentWebElement) {
-            return documentWebElement == null ? factory().createNativeWebElements() : factory().createNativeWebElements(documentWebElement);
+            return documentWebElement == null ? factory().createNative() : factory().createNative(documentWebElement);
         }
     }
 

@@ -20,17 +20,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
-public interface WebElementsFactory<T extends WebElements> extends ElementsFactory {
+public interface WebElementsFactory<T extends WebElements> extends ElementsFactory<T> {
 
-    public abstract T createNativeWebElements(DocumentWebDriver webDriver, WebElement ... nativeWebElements);
+    public abstract T createNative(DocumentWebDriver webDriver, WebElement ... nativeWebElements);
 
-    public abstract T createNativeWebElements(DocumentWebDriver webDriver, Collection<WebElement> nativeWebElements);
+    public abstract T createNative(DocumentWebDriver webDriver, Collection<WebElement> nativeWebElements);
 
-    public abstract T createNativeWebElements(DocumentWebElement ... nativeWebElements);
+    public abstract T createNative(DocumentWebElement ... nativeWebElements);
 
-    public abstract T createNativeWebElements(Collection<DocumentWebElement> nativeWebElements);
-
-    public abstract T createRoot();
+    public abstract T createNative(Collection<DocumentWebElement> nativeWebElements);
 
     public static class Builder<T extends WebElements> implements ElementsFactory.Builder<WebElementsFactory<T>> {
 

@@ -13,37 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package minium.web.internal.actions;
+package minium.actions.internal;
 
-import static minium.web.internal.actions.WaitPredicates.whileEmpty;
+import static minium.actions.internal.WaitPredicates.forUnexistence;
 import minium.Elements;
-import minium.ElementsException;
+
 
 /**
- * The Class WaitForElementsInteraction.
+ * The Class WaitOrTimeoutWhileElementsInteraction.
  */
-public class WaitForExistenceInteraction extends WaitInteraction {
+public class CheckForUnexistenceInteraction extends WaitInteraction {
 
     /**
-     * Instantiates a new wait for elements interaction.
+     * Instantiates a new wait or timeout while elements interaction.
      *
      * @param elems the elems
      */
-    public WaitForExistenceInteraction(Elements elems, String preset) {
-        super(elems, preset);
+    public CheckForUnexistenceInteraction(Elements elems, String waitingPreset) {
+        super(elems, waitingPreset);
     }
 
-    /*
-     * (non-Javadoc)
-     *
+    /* (non-Javadoc)
      * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
      */
     @Override
-    protected void doPerform() throws ElementsException {
+    protected void doPerform() {
         if (getWaitingPreset() != null) {
-            wait(getSource(), getWaitingPreset(), whileEmpty());
+            waitOrTimeout(getSource(), getWaitingPreset(), forUnexistence());
         } else {
-            wait(getSource(), getTimeout(), getInterval(), whileEmpty());
+            waitOrTimeout(getSource(), getTimeout(), getInterval(), forUnexistence());
         }
     }
 }

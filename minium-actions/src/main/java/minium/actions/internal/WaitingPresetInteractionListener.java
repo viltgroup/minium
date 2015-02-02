@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package minium.web.internal.actions;
+package minium.actions.internal;
 
 import minium.actions.Interaction;
-import minium.actions.internal.BeforeWaitInteractionEvent;
-import minium.actions.internal.DefaultInteractionListener;
 
 public class WaitingPresetInteractionListener  extends DefaultInteractionListener {
 
@@ -35,8 +33,8 @@ public class WaitingPresetInteractionListener  extends DefaultInteractionListene
     @Override
     protected void onBeforeWaitEvent(BeforeWaitInteractionEvent event) {
         Interaction interaction = event.getInteraction();
-        if (interaction instanceof AbstractWebInteraction) {
-            AbstractWebInteraction defInteraction = (AbstractWebInteraction) interaction;
+        if (interaction instanceof AbstractInteraction) {
+            AbstractInteraction defInteraction = (AbstractInteraction) interaction;
             defInteraction.setWaitingPreset(preset);
         }
     }

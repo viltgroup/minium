@@ -16,29 +16,26 @@
 package minium.web.internal.actions;
 
 import minium.Elements;
+import minium.web.DocumentWebDriver;
+import minium.web.internal.InternalWebElements;
 
-/**
- * The Class WaitInteraction.
- */
-public abstract class WaitInteraction extends AbstractWebInteraction {
+import com.google.common.base.Predicate;
 
+public class WebWaitPredicates {
 
     /**
-     * Instantiates a new wait interaction.
+     * Until window closed.
      *
-     * @param elems the elems
+     * @param <T> the generic type
+     * @return the predicate
      */
-    public WaitInteraction(Elements elems, String preset) {
-        super(elems);
-        setWaitingPreset(preset);
-    }
-
-    @Override
-    public void waitToPerform() {
-        // do nothing
-    }
-
-    public boolean isEmpty() {
-        return getFirstElement() == null;
+    public static <T extends Elements> Predicate<T> forClosedWindow() {
+        return new Predicate<T>() {
+            @Override
+            public boolean apply(T elems) {
+                DocumentWebDriver webDriver = elems.as(InternalWebElements.class).documentDriver();
+                return webDriver.isClosed();
+            }
+        };
     }
 }

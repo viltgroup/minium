@@ -18,9 +18,7 @@ package minium.actions.internal;
 import static com.github.rholder.retry.StopStrategies.stopAfterDelay;
 import static com.github.rholder.retry.WaitStrategies.fixedWait;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static minium.internal.WaitPredicates.whileEmpty;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -99,9 +97,9 @@ public abstract class AbstractInteraction implements Interaction {
     public void waitToPerform() {
         if (source != null) {
             if (preset != null) {
-                wait(source, preset, whileEmpty(source));
+                wait(source, preset, WaitPredicates.forExistence());
             } else {
-                wait(source, timeout, interval, whileEmpty(source));
+                wait(source, timeout, interval, WaitPredicates.forExistence());
             }
         }
     }
@@ -211,7 +209,16 @@ public abstract class AbstractInteraction implements Interaction {
             doPerform();
             triggerReverse(Type.AFTER_SUCCESS, null);
         } catch (RuntimeException e) {
+            // always call after fail
             boolean retry = triggerReverse(Type.AFTER_FAIL, e);
+
+            // we first need to check if thread has been interrupted
+            if (Thread.interrupted()) {
+                Thread.currentThread().interrupt();
+                throw e;
+            }
+
+            // otherwise, retry if the case
             if (retry && canRetry) {
                 logger.debug("Interaction was marked as retriable, let's retry it");
                 perform(false);
@@ -240,7 +247,7 @@ public abstract class AbstractInteraction implements Interaction {
 
     private List<InteractionListener> getAllListeners() {
         List<InteractionListener> allListeners = Lists.newArrayList();
-        if (source != null) {
+        if (source != null && source.is(HasConfiguration.class)) {
             Iterable<InteractionListener> globalListeners = source.as(HasConfiguration.class).configure().interactionListeners();
             allListeners.addAll(Lists.newArrayList(globalListeners));
         }
@@ -267,6 +274,11 @@ public abstract class AbstractInteraction implements Interaction {
         try {
             retrier.call(Callables.returning(elems));
         } catch (RetryException e) {
+            // if interrupted, we need to propagate it with the thread marked as interrupted
+            if (Thread.interrupted()) {
+                Thread.currentThread().interrupt();
+                throw Throwables.propagate(e);
+            }
             throw new TimeoutException(predicate, elems, e);
         } catch (ExecutionException e) {
             throw Throwables.propagate(e.getCause());
@@ -291,6 +303,11 @@ public abstract class AbstractInteraction implements Interaction {
         try {
             retrier.call(Callables.returning(elems));
         } catch (RetryException e) {
+            // if interrupted, we need to propagate it with the thread marked as interrupted
+            if (Thread.interrupted()) {
+                Thread.currentThread().interrupt();
+                throw Throwables.propagate(e);
+            }
             // timeout, nothing to do here...
         } catch (ExecutionException e) {
             throw Throwables.propagate(e.getCause());
@@ -301,7 +318,6 @@ public abstract class AbstractInteraction implements Interaction {
     protected <T> Retryer<T> getRetryer(Predicate<? super T> predicate, Duration timeout, Duration interval) {
         return RetryerBuilder.<T> newBuilder()
                 .retryIfResult(Predicates.not((Predicate<T>) predicate))
-                .retryIfExceptionOfType(IOException.class)
                 .retryIfRuntimeException()
                 .withWaitStrategy(fixedWait(interval.getTime(), interval.getUnit()))
                 .withStopStrategy(stopAfterDelay(timeout.getUnit().toMillis(timeout.getTime())))

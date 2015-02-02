@@ -22,7 +22,7 @@ public class RhinoWebModules {
         public Expression apply(Object obj) {
             Function fn = (Function) obj;
             Function toString = (Function) fn.getPrototype().get("toString", fn);
-            Context cx = Context.getCurrentContext();
+            Context cx = Context.enter();
             return new BasicExpression((String) toString.call(cx, fn, fn, new Object[0]));
         }
     }

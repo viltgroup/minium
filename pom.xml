@@ -25,12 +25,12 @@
 		<rhino.version>1.7R4</rhino.version>
 		<dynjs.version>0.3.1</dynjs.version>
 		
-		<!-- we need at least this version because of https://github.com/mockito/mockito/issues/128 -->
-		<mockito.version>2.0.3-beta</mockito.version>
 		<sikulix.version>1.1.0-SNAPSHOT</sikulix.version>
 		<guava.version>18.0</guava.version>
 		<guava-retrying.version>1.0.7</guava-retrying.version>
 		<commons-compress.version>1.9</commons-compress.version>
+		
+		<powermock.version>1.6.1</powermock.version>
 	</properties>
 
 	<dependencyManagement>
@@ -48,6 +48,11 @@
 			<dependency>
 				<groupId>minium</groupId>
 				<artifactId>minium-webelements</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>minium</groupId>
+				<artifactId>minium-visualelements</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -109,11 +114,27 @@
 				<groupId>com.github.rholder</groupId>
 				<artifactId>guava-retrying</artifactId>
 				<version>${guava-retrying.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>com.google.guava</groupId>
+						<artifactId>guava</artifactId>
+			        </exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-compress</artifactId>
 				<version>${commons-compress.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.powermock</groupId>
+				<artifactId>powermock-api-mockito</artifactId>
+				<version>${powermock.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.powermock</groupId>
+				<artifactId>powermock-module-junit4</artifactId>
+				<version>${powermock.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
