@@ -22,7 +22,7 @@
 		<platypus.version>0.1.0-SNAPSHOT</platypus.version>
 		<selenium.version>2.44.0</selenium.version>
 		<closure-compiler.version>v20141215</closure-compiler.version>
-		<rhino.version>1.7R4</rhino.version>
+		<rhino.version>1.7R5</rhino.version>
 		<dynjs.version>0.3.1</dynjs.version>
 		<cucumber.version>1.2.2</cucumber.version>
 		<json.version>20141113</json.version>
@@ -30,6 +30,8 @@
 		<guava.version>18.0</guava.version>
 		<guava-retrying.version>1.0.7</guava-retrying.version>
 		<commons-compress.version>1.9</commons-compress.version>
+		<jackson.version>2.5.0</jackson.version>
+		<slf4j.version>1.7.10</slf4j.version>
 		
 		<powermock.version>1.6.1</powermock.version>
 	</properties>
@@ -239,6 +241,14 @@
                         </execution>
                     </executions>
                 </plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>versions-maven-plugin</artifactId>
+					<version>2.1</version>
+					<configuration>
+						<processDependencyManagement>false</processDependencyManagement>
+					</configuration>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
