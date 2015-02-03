@@ -1,6 +1,6 @@
 package minium.actions.internal;
 
-import io.platypus.Mixin;
+import platypus.Mixin;
 import minium.Elements;
 import minium.Offsets.Offset;
 import minium.actions.Interactable;

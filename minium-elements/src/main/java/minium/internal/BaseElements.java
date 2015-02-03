@@ -1,6 +1,6 @@
 package minium.internal;
 
-import io.platypus.Mixin;
+import platypus.Mixin;
 import minium.Elements;
 
 import com.google.common.reflect.TypeParameter;

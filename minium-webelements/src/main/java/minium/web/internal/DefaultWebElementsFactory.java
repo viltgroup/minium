@@ -1,13 +1,5 @@
 package minium.web.internal;
 
-import io.platypus.AbstractMixinInitializer;
-import io.platypus.Mixin;
-import io.platypus.MixinClass;
-import io.platypus.MixinClasses;
-import io.platypus.MixinInitializer;
-import io.platypus.MixinInitializers;
-import io.platypus.internal.Casts;
-
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -38,6 +30,14 @@ import minium.web.internal.expression.PrimitiveTypeCoercer;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import platypus.AbstractMixinInitializer;
+import platypus.Mixin;
+import platypus.MixinClass;
+import platypus.MixinClasses;
+import platypus.MixinInitializer;
+import platypus.MixinInitializers;
+import platypus.internal.Casts;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.FluentIterable;

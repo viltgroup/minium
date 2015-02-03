@@ -1,7 +1,7 @@
-var $ = require('minium'),
-    by = $.by;
+var $       = require('minium'),
+    browser = $.browser;
 
-wd.get('https://docs.google.com/spreadsheet/ccc?key=0Al0ulrJIDCUVdHJjWnJsbG5hY3hBWFp0Vy1OQV9qQUE#gid=0');
+browser.get('https://docs.google.com/spreadsheet/ccc?key=0Al0ulrJIDCUVdHJjWnJsbG5hY3hBWFp0Vy1OQV9qQUE#gid=0');
 
 var colC   = $('#0-grid-table-quadrantcolumn-head-section th').withText('C');
 var row5   = $('.row-header-wrapper').withText('5');

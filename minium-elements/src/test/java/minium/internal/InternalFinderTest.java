@@ -7,15 +7,16 @@ import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import io.platypus.AbstractMixinInitializer;
-import io.platypus.MixinClass;
-import io.platypus.MixinClasses;
 import minium.Elements;
 import minium.FindElements;
 import minium.Finder;
 
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import platypus.AbstractMixinInitializer;
+import platypus.MixinClass;
+import platypus.MixinClasses;
 
 public class InternalFinderTest {
 

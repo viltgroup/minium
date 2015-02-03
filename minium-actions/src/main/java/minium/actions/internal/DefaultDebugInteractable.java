@@ -1,6 +1,6 @@
 package minium.actions.internal;
 
-import io.platypus.Mixin;
+import platypus.Mixin;
 import minium.Elements;
 import minium.actions.debug.DebugInteractable;
 import minium.actions.debug.DebugInteractionPerformer;

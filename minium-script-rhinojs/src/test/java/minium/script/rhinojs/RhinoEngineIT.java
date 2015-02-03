@@ -24,7 +24,7 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class RhinoEngineTest {
+public class RhinoEngineIT {
 
     private static WebDriver wd;
 

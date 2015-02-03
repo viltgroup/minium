@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class WebFinderTest {
+public class WebFinderIT {
 
     private static WebDriver wd;
 

@@ -16,13 +16,13 @@
 package minium.actions.internal;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import io.platypus.Mixin;
 
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import platypus.Mixin;
 import minium.actions.Configuration;
 import minium.actions.Duration;
 import minium.actions.InteractionListener;

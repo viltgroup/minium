@@ -1,10 +1,9 @@
 package minium;
 
-import io.platypus.MixinClass;
-import io.platypus.MixinClasses;
-
 import java.lang.reflect.Method;
 
+import platypus.MixinClass;
+import platypus.MixinClasses;
 import minium.internal.InternalFinder;
 import minium.internal.Reflections;
 

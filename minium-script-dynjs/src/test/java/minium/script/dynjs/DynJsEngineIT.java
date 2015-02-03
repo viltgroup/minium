@@ -26,7 +26,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import com.google.common.collect.ImmutableList;
 
-public class DynJsEngineTest {
+public class DynJsEngineIT {
 
     private static WebDriver wd;
     private static DynJsEngine engine;

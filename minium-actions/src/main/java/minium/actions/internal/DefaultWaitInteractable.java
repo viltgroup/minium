@@ -1,9 +1,8 @@
 package minium.actions.internal;
 
-import io.platypus.Mixin;
-
 import java.util.concurrent.TimeUnit;
 
+import platypus.Mixin;
 import minium.Elements;
 import minium.actions.WaitInteractable;
 import minium.actions.WaitInterationPerformer;

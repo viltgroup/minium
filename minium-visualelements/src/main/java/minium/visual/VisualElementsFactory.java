@@ -1,8 +1,5 @@
 package minium.visual;
 
-import io.platypus.MixinInitializer;
-import io.platypus.MixinInitializers;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
@@ -13,6 +10,9 @@ import minium.visual.internal.DefaultVisualElementsFactory;
 
 import org.sikuli.script.Region;
 import org.sikuli.script.Screen;
+
+import platypus.MixinInitializer;
+import platypus.MixinInitializers;
 
 import com.google.common.collect.Sets;
 

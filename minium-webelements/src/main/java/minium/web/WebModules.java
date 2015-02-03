@@ -1,6 +1,5 @@
 package minium.web;
 
-import io.platypus.AbstractMixinInitializer;
 import minium.actions.Configuration;
 import minium.actions.HasConfiguration;
 import minium.actions.Interactable;
@@ -18,6 +17,8 @@ import minium.web.WebElementsFactory.Builder;
 import minium.web.internal.actions.WebInteractionPerformer;
 
 import org.openqa.selenium.WebDriver;
+
+import platypus.AbstractMixinInitializer;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;

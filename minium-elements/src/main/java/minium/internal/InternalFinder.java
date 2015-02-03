@@ -1,15 +1,14 @@
 package minium.internal;
 
-import io.platypus.AbstractMixinInitializer;
-import io.platypus.InstanceProviders;
-import io.platypus.Mixin;
-import io.platypus.MixinClass;
-
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.WeakHashMap;
 
+import platypus.AbstractMixinInitializer;
+import platypus.InstanceProviders;
+import platypus.Mixin;
+import platypus.MixinClass;
 import minium.Elements;
 import minium.Minium;
 
@@ -27,7 +26,7 @@ public interface InternalFinder extends Elements {
         protected final MixinClass<?> mixinClass;
         protected final InternalFinder parent;
 
-        public Impl(io.platypus.MixinClass<?> mixinClass, InternalFinder parent) {
+        public Impl(platypus.MixinClass<?> mixinClass, InternalFinder parent) {
             this.mixinClass = mixinClass;
             this.parent = parent;
         }

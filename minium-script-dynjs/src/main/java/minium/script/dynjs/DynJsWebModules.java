@@ -27,8 +27,8 @@ public class DynJsWebModules {
         @Override
         public Expression apply(Object obj) {
             JSFunction fn = (JSFunction) obj;
-            JSFunction toString = (JSFunction) fn.getPrototype().get(executionContext, "toString");
-            return new BasicExpression((String) toString.call(executionContext));
+            JSFunction toString = (JSFunction) fn.get(executionContext, "toString");
+            return new BasicExpression((String) executionContext.call(toString, fn));
         }
     }
 

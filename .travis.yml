@@ -1,0 +1,6 @@
+language: java
+jdk:
+  - oraclejdk7
+
+install: mvn install -q -B
+script: mvn verify

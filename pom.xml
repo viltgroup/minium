@@ -19,7 +19,7 @@
 
         <checkstyle.config.dir>${basedir}/../src/main/checkstyle</checkstyle.config.dir>
 	
-		<platypus.version>0.0.1-SNAPSHOT</platypus.version>
+		<platypus.version>0.1.0-SNAPSHOT</platypus.version>
 		<selenium.version>2.44.0</selenium.version>
 		<closure-compiler.version>v20141215</closure-compiler.version>
 		<rhino.version>1.7R4</rhino.version>
@@ -71,7 +71,7 @@
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-			    <groupId>io.platypus</groupId>
+			    <groupId>com.github.ruifigueira</groupId>
 			    <artifactId>platypus</artifactId>
 			    <version>${platypus.version}</version>
 			</dependency>
@@ -207,10 +207,9 @@
 		<module>minium-elements</module>
 		<module>minium-boxelements</module>
 		<module>minium-visualelements</module>
+		<module>minium-mobileelements</module>
 		<module>minium-actions</module>
 		<module>minium-script-rhinojs</module>
-		<module>minium-weblegacy</module>
-		<module>minium-mobileelements</module>
 		<module>minium-script-dynjs</module>
 	</modules>
 	

@@ -1,6 +1,5 @@
 package minium.visual;
 
-import io.platypus.AbstractMixinInitializer;
 import minium.FreezableElements;
 import minium.PositionElements;
 import minium.actions.Configuration;
@@ -20,6 +19,8 @@ import minium.visual.internal.FreezableVisualElements;
 import minium.visual.internal.actions.VisualInteractionPerformer;
 
 import org.sikuli.script.Screen;
+
+import platypus.AbstractMixinInitializer;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;

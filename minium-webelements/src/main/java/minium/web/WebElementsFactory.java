@@ -1,8 +1,5 @@
 package minium.web;
 
-import io.platypus.MixinInitializer;
-import io.platypus.MixinInitializers;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
@@ -15,6 +12,9 @@ import minium.web.internal.expression.Expressionizer;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import platypus.MixinInitializer;
+import platypus.MixinInitializers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableSet;

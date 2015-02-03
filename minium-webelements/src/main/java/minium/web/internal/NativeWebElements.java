@@ -3,7 +3,6 @@ package minium.web.internal;
 import static com.google.common.base.Predicates.instanceOf;
 import static com.google.common.collect.FluentIterable.from;
 import static java.lang.String.format;
-import io.platypus.internal.Casts;
 
 import java.util.Collection;
 import java.util.List;
@@ -17,6 +16,8 @@ import minium.web.internal.expression.Expression;
 import minium.web.internal.expression.NativeWebElementsExpression;
 
 import org.openqa.selenium.WebElement;
+
+import platypus.internal.Casts;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
