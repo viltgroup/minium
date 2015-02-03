@@ -24,7 +24,8 @@
 		<closure-compiler.version>v20141215</closure-compiler.version>
 		<rhino.version>1.7R4</rhino.version>
 		<dynjs.version>0.3.1</dynjs.version>
-		
+		<cucumber.version>1.2.2</cucumber.version>
+		<json.version>20141113</json.version>
 		<sikulix.version>1.1.0-SNAPSHOT</sikulix.version>
 		<guava.version>18.0</guava.version>
 		<guava-retrying.version>1.0.7</guava-retrying.version>
@@ -71,6 +72,16 @@
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>minium</groupId>
+				<artifactId>minium-cucumber</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>minium</groupId>
+				<artifactId>minium-cucumber-rest</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
 			    <groupId>com.github.ruifigueira</groupId>
 			    <artifactId>platypus</artifactId>
 			    <version>${platypus.version}</version>
@@ -89,6 +100,36 @@
 			    <groupId>org.seleniumhq.selenium</groupId>
 		        <artifactId>selenium-support</artifactId>
 		        <version>${selenium.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>info.cukes</groupId>
+				<artifactId>cucumber-java</artifactId>
+				<version>${cucumber.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>info.cukes</groupId>
+				<artifactId>cucumber-rhino</artifactId>
+				<version>${cucumber.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>info.cukes</groupId>
+				<artifactId>cucumber-junit</artifactId>
+				<version>${cucumber.version}</version>
+			</dependency>
+		    <dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpcore</artifactId>
+				<version>4.4</version>
+		    </dependency>
+		    <dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>4.4</version>
+		    </dependency>
+		    <dependency>
+				<groupId>org.json</groupId>
+				<artifactId>json</artifactId>
+				<version>${json.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.google.javascript</groupId>
@@ -211,6 +252,8 @@
 		<module>minium-actions</module>
 		<module>minium-script-rhinojs</module>
 		<module>minium-script-dynjs</module>
+    <module>minium-cucumber</module>
+    <module>minium-cucumber-rest</module>
 	</modules>
 	
 	<repositories>
