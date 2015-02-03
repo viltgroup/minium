@@ -59,10 +59,10 @@ public class ExpressionInvocationHandler<T extends WebElements> extends Abstract
     @SuppressWarnings("serial")
     private final TypeToken<T> typeVariableToken = new TypeToken<T>(getClass()) {};
 
-    private final ElementsFactory factory;
+    private final ElementsFactory<?> factory;
     private final Coercer coercer;
 
-    public ExpressionInvocationHandler(ElementsFactory factory, Coercer coercer) {
+    public ExpressionInvocationHandler(ElementsFactory<?> factory, Coercer coercer) {
         this.factory = factory;
         this.coercer = coercer;
     }
