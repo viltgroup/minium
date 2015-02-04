@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package minium.cucumber;
+package minium.cucumber.internal;
 
 import java.util.Arrays;
 import java.util.Collection;

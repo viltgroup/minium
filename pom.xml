@@ -21,6 +21,7 @@
 	
 		<platypus.version>0.1.0-SNAPSHOT</platypus.version>
 		<selenium.version>2.44.0</selenium.version>
+		<phantomjsdriver.version>1.2.0</phantomjsdriver.version>
 		<closure-compiler.version>v20141215</closure-compiler.version>
 		<rhino.version>1.7R5</rhino.version>
 		<dynjs.version>0.3.1</dynjs.version>
@@ -55,12 +56,22 @@
 			</dependency>
 			<dependency>
 				<groupId>minium</groupId>
+				<artifactId>minium-webelements-config</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>minium</groupId>
 				<artifactId>minium-visualelements</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>minium</groupId>
 				<artifactId>minium-boxelements</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>minium</groupId>
+				<artifactId>minium-script-js</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -102,6 +113,11 @@
 			    <groupId>org.seleniumhq.selenium</groupId>
 		        <artifactId>selenium-support</artifactId>
 		        <version>${selenium.version}</version>
+			</dependency>
+			<dependency>
+			    <groupId>com.github.detro</groupId>
+			    <artifactId>phantomjsdriver</artifactId>
+			    <version>${phantomjsdriver.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>info.cukes</groupId>
@@ -254,16 +270,19 @@
 	</build>
 
 	<modules>
-		<module>minium-webelements</module>
 		<module>minium-elements</module>
+		<module>minium-webelements</module>
+	    <module>minium-webelements-config</module>
 		<module>minium-boxelements</module>
 		<module>minium-visualelements</module>
 		<module>minium-mobileelements</module>
 		<module>minium-actions</module>
+	    <module>minium-script-js</module>
 		<module>minium-script-rhinojs</module>
 		<module>minium-script-dynjs</module>
-    <module>minium-cucumber</module>
-    <module>minium-cucumber-rest</module>
+	    <module>minium-cucumber</module>
+	    <module>minium-cucumber-rest</module>
+	    <module>minium-cucumber-archetype</module>
 	</modules>
 	
 	<repositories>

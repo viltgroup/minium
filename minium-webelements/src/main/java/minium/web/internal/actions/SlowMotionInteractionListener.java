@@ -36,6 +36,6 @@ public class SlowMotionInteractionListener extends DefaultInteractionListener {
         // we skip WaitInteractions
         if (interaction instanceof WaitInteraction) return;
 
-        new WaitTimeInteraction(null).perform();
+        new WaitTimeInteraction(duration).perform();
     }
 }

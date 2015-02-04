@@ -1,4 +1,4 @@
-package minium.script.rhinojs;
+package minium.script.js;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,5 +23,7 @@ public interface JsEngine {
     public abstract void put(String varName, Object object);
 
     public abstract void delete(String varName);
+
+    public abstract void putJson(String varName, String json);
 
 }

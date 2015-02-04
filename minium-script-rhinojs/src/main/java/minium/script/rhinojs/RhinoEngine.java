@@ -13,12 +13,15 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 import minium.internal.Paths;
+import minium.script.js.JsEngine;
 import minium.script.rhinojs.RhinoProperties.RequireProperties;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.Wrapper;
+import org.mozilla.javascript.json.JsonParser;
+import org.mozilla.javascript.json.JsonParser.ParseException;
 import org.mozilla.javascript.tools.shell.Global;
 import org.openqa.selenium.io.IOUtils;
 import org.slf4j.Logger;
@@ -193,6 +196,22 @@ public class RhinoEngine implements JsEngine {
             protected Void doCall(Context cx) {
                 scope.delete(varName);
                 return null;
+            }
+        });
+    }
+
+    @Override
+    public void putJson(final String varName, final String json) {
+        runWithContext(new RhinoCallable<Object, RuntimeException>() {
+            @Override
+            protected Object doCall(Context cx) throws RuntimeException {
+                try {
+                    Object obj = new JsonParser(cx, scope).parseValue(json);
+                    scope.put(varName, scope, obj);
+                    return null;
+                } catch (ParseException e) {
+                    throw Throwables.propagate(e);
+                }
             }
         });
     }

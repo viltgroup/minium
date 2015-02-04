@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package minium.cucumber;
+package minium.script.js;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

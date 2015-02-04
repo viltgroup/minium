@@ -1,6 +1,6 @@
 package minium.cucumber.config;
 
-import minium.cucumber.JsVariable;
+import minium.script.js.JsVariable;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;

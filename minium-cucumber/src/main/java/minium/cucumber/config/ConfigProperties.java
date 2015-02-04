@@ -3,13 +3,15 @@ package minium.cucumber.config;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import minium.script.js.Jsonable;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.common.base.Throwables;
 
-public class ConfigProperties extends LinkedHashMap<String, Object> {
+public class ConfigProperties extends LinkedHashMap<String, Object> implements Jsonable {
 
     private static final long serialVersionUID = -1491942616465352922L;
 
@@ -20,7 +22,7 @@ public class ConfigProperties extends LinkedHashMap<String, Object> {
         super(props);
     }
 
-
+    @Override
     public String toJson() {
         try {
             return toJsonObject().toString();
