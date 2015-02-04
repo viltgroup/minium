@@ -34,7 +34,7 @@ public class RhinoWebModules {
                 builder
                 .withJsResources(
                         "minium/web/internal/lib/jquery.min.js",
-                        "minium/script/rhinojs/internal/lib/jquery.functionCall.js"
+                        "minium/script/js/internal/lib/jquery.functionCall.js"
                 )
                 .implementingInterfaces(JsFunctionWebElements.class)
                 .withExpressionizers(new FunctionExpressionizer());

@@ -113,6 +113,12 @@
 			    <groupId>org.seleniumhq.selenium</groupId>
 		        <artifactId>selenium-support</artifactId>
 		        <version>${selenium.version}</version>
+		        <exclusions>
+		        <exclusion>
+					<groupId>org.seleniumhq.selenium</groupId>
+					<artifactId>selenium-remote-driver</artifactId>
+		        </exclusion>
+		        </exclusions>
 			</dependency>
 			<dependency>
 			    <groupId>com.github.detro</groupId>
@@ -283,6 +289,7 @@
 	    <module>minium-cucumber</module>
 	    <module>minium-cucumber-rest</module>
 	    <module>minium-cucumber-archetype</module>
+	    <module>minium-visualelements-config</module>
 	</modules>
 	
 	<repositories>

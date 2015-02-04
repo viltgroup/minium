@@ -12,7 +12,6 @@ import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
@@ -24,7 +23,6 @@ import com.google.common.collect.Lists;
 
 import cucumber.api.SnippetType;
 
-@ConfigurationProperties(prefix = "minium.cucumber", ignoreUnknownFields = false)
 public class CucumberProperties {
 
     public static class OptionsProperties {

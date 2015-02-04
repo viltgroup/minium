@@ -23,7 +23,6 @@ import org.mozilla.javascript.Wrapper;
 import org.mozilla.javascript.json.JsonParser;
 import org.mozilla.javascript.json.JsonParser.ParseException;
 import org.mozilla.javascript.tools.shell.Global;
-import org.openqa.selenium.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,11 +76,8 @@ public class RhinoEngine implements JsEngine {
      */
     @Override
     public <T> T runScript(File sourceFile) throws IOException {
-        FileReader reader = new FileReader(sourceFile);
-        try {
+        try (FileReader reader = new FileReader(sourceFile)) {
             return runScript(reader, sourceFile.getPath());
-        } finally {
-            IOUtils.closeQuietly(reader);
         }
     }
 
@@ -91,18 +87,14 @@ public class RhinoEngine implements JsEngine {
     @SuppressWarnings("unchecked")
     @Override
     public <T> T runScript(String path) throws IOException {
-        Reader reader = null;
-        try {
-            List<URL> urls = Paths.toURLs(path);
-            Object result = null;
-            for (URL url : urls) {
-                reader = new BufferedReader(new InputStreamReader(url.openStream()));
+        List<URL> urls = Paths.toURLs(path);
+        Object result = null;
+        for (URL url : urls) {
+            try (Reader reader = new BufferedReader(new InputStreamReader(url.openStream()))) {
                 result = runScript(reader, url.getPath());
             }
-            return (T) result;
-        } finally {
-            IOUtils.closeQuietly(reader);
         }
+        return (T) result;
     }
 
     /* (non-Javadoc)

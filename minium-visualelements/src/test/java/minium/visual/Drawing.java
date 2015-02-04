@@ -59,7 +59,7 @@ public class Drawing {
 
     public static Drawing read(String path) {
         try {
-            InputStream in = GimpDrawingIT.class.getClassLoader().getResourceAsStream(path);
+            InputStream in = Drawing.class.getClassLoader().getResourceAsStream(path);
             ObjectMapper mapper = new ObjectMapper();
             mapper.setVisibilityChecker(mapper.getSerializationConfig().getDefaultVisibilityChecker()
                             .withFieldVisibility(JsonAutoDetect.Visibility.ANY)

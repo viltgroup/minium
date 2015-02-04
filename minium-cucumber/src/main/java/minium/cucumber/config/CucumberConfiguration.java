@@ -22,6 +22,7 @@ import minium.cucumber.config.CucumberProperties.RemoteBackendProperties;
 import minium.cucumber.rest.RemoteBackend;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,8 +30,14 @@ import org.springframework.context.annotation.Configuration;
 import com.google.common.collect.Lists;
 
 @Configuration
-@EnableConfigurationProperties(CucumberProperties.class)
+@EnableConfigurationProperties
 public class CucumberConfiguration {
+
+    @Bean
+    @ConfigurationProperties(prefix = "minium.cucumber", ignoreUnknownFields = false)
+    public CucumberProperties cucumberProperties() {
+        return new CucumberProperties();
+    }
 
     @Bean
     @Autowired

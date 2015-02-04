@@ -12,13 +12,13 @@ import java.util.List;
 
 import minium.internal.Paths;
 import minium.script.dynjs.DynJsProperties.RequireProperties;
+import minium.script.js.JsEngine;
 
 import org.dynjs.Config;
 import org.dynjs.runtime.DynJS;
 import org.dynjs.runtime.ExecutionContext;
 import org.dynjs.runtime.JSObject;
 import org.dynjs.runtime.builtins.Require;
-import org.openqa.selenium.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,11 +52,8 @@ public class DynJsEngine implements JsEngine {
      */
     @Override
     public <T> T runScript(File sourceFile) throws IOException {
-        FileReader reader = new FileReader(sourceFile);
-        try {
+        try (FileReader reader = new FileReader(sourceFile)) {
             return runScript(reader, sourceFile.getPath());
-        } finally {
-            IOUtils.closeQuietly(reader);
         }
     }
 
@@ -66,18 +63,14 @@ public class DynJsEngine implements JsEngine {
     @Override
     @SuppressWarnings("unchecked")
     public <T> T runScript(String path) throws IOException {
-        InputStream is = null;
-        try {
-            List<URL> urls = Paths.toURLs(path);
-            Object result = null;
-            for (URL url : urls) {
-                is = url.openStream();
+        List<URL> urls = Paths.toURLs(path);
+        Object result = null;
+        for (URL url : urls) {
+            try (InputStream is = url.openStream()) {
                 result = dynjs.evaluate(is);
             }
-            return (T) result;
-        } finally {
-            IOUtils.closeQuietly(is);
         }
+        return (T) result;
     }
 
     /* (non-Javadoc)
@@ -94,7 +87,7 @@ public class DynJsEngine implements JsEngine {
      */
     @Override
     @SuppressWarnings("unchecked")
-    public <T> T eval(final String expression) {
+    public <T> T eval(final String expression, int line) {
         return (T) dynjs.evaluate(expression);
     }
 
@@ -166,5 +159,10 @@ public class DynJsEngine implements JsEngine {
             }
         }
         return uris;
+    }
+
+    @Override
+    public void putJson(String varName, String json) {
+        throw new UnsupportedOperationException("not implemented yet");
     }
 }

@@ -39,7 +39,7 @@ public class DynJsWebModules {
                 builder
                 .withJsResources(
                         "minium/web/internal/lib/jquery.min.js",
-                        "minium/script/dynjs/internal/lib/jquery.functionCall.js"
+                        "minium/script/js/internal/lib/jquery.functionCall.js"
                 )
                 .implementingInterfaces(JsFunctionWebElements.class)
                 .withExpressionizers(new FunctionExpressionizer(executionContext));
