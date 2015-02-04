@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<groupId>org.springframework.boot</groupId>
+		<version>1.2.0.RELEASE</version>
+		<relativePath />
+	</parent>
+
+	<groupId>${groupId}</groupId>
+	<artifactId>${artifactId}</artifactId>
+	<version>${version}</version>
+
+	<properties>
+		<java.version>1.7</java.version>
+
+		<minium.version>2.0.0-SNAPSHOT</minium.version>
+		<selenium.version>2.44.0</selenium.version>
+		<spring.version>4.1.3.RELEASE</spring.version>
+		<!-- cucumber 1.20 doesn't seem to support 4.12 yet -->
+		<junit.version>4.11</junit.version>
+		
+		<minium.pupino.heap>512m</minium.pupino.heap>
+		<minium.pupino.permgen>128m</minium.pupino.permgen>
+		<failsafe.skip.tests>false</failsafe.skip.tests>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>${selenium.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>selenium-htmlunit-driver</artifactId>
+					<groupId>org.seleniumhq.selenium</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>minium.tools</groupId>
+			<artifactId>minium-tools-common</artifactId>
+			<version>${minium.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.javascript</groupId>
+					<artifactId>closure-compiler</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<configuration>
+					<skipTests>${failsafe.skip.tests}</skipTests>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>pupino</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<failsafe.skip.tests>true</failsafe.skip.tests>
+				<spring.boot.jvm.arguments></spring.boot.jvm.arguments>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>minium.tools</groupId>
+					<artifactId>minium-tools-webapp</artifactId>
+					<version>${minium.version}</version>
+				</dependency>
+			</dependencies>
+			<build>
+				<!-- 
+				We need to include test resources to classpath, because spring boot plugin doesn't load
+				them by default
+				-->
+				<resources>
+			        <resource>
+			            <directory>src/test/resources</directory>
+			            <includes>
+			            	<include>**/*</include>
+			            </includes>
+			        </resource>
+			    </resources>
+				<plugins>
+					<plugin>
+		                <groupId>org.springframework.boot</groupId>
+                		<artifactId>spring-boot-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>integration-test</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<addResources>false</addResources>
+							<jvmArguments>${spring.boot.jvm.arguments}</jvmArguments>
+							<arguments>
+								<argument>--spring.profiles.active=dev,local</argument>
+							</arguments>
+		                    <mainClass>minium.pupino.Application</mainClass>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>pupino-debug</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+				<property>
+					<name>debug</name>
+				</property>
+			</activation>
+			<properties>
+				<failsafe.skip.tests>true</failsafe.skip.tests>
+				<spring.boot.jvm.arguments>-Xmx${minium.pupino.heap} -XX:MaxPermSize=${minium.pupino.permgen} -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005</spring.boot.jvm.arguments>
+			</properties>
+		</profile>
+	</profiles>
+
+	<repositories>
+		<repository>
+			<id>engineering-snapshots</id>
+			<name>VILT Engineering Snapshots Repository</name>
+			<url>https://maven.vilt-group.com/content/repositories/engineering-snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>engineering-releases</id>
+			<name>VILT Engineering Releases Repository</name>
+			<url>https://maven.vilt-group.com/content/repositories/engineering-releases/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>engineering-thirdparty</id>
+			<name>VILT Engineering Thirdparty Repository</name>
+			<url>https://maven.vilt-group.com/content/repositories/engineering-thirdparty/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+</project>

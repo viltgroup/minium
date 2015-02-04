@@ -7,10 +7,11 @@ import minium.actions.AsyncInteraction;
 import minium.actions.Interaction;
 import minium.actions.InteractionListener;
 import minium.actions.InteractionPerformer;
+import platypus.Mixin;
 
 import com.google.common.collect.Lists;
 
-public abstract class AbstractInteractionPerformer implements InteractionPerformer {
+public abstract class AbstractInteractionPerformer extends Mixin.Impl implements InteractionPerformer {
 
     private List<InteractionListener> listeners = Lists.newArrayList();
 

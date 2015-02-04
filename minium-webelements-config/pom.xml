@@ -1,48 +1,46 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
+	
 	<parent>
 		<groupId>minium</groupId>
 		<artifactId>minium-magic</artifactId>
 		<version>2.0.0-SNAPSHOT</version>
 	</parent>
-
-	<artifactId>minium-cucumber</artifactId>
-	<name>Minium Cucumber</name>
+	
+	<artifactId>minium-webelements-config</artifactId>
+	<name>Minium Web Elements Configuration</name>
 
 	<dependencies>
 		<dependency>
 			<groupId>minium</groupId>
-			<artifactId>minium-webelements-config</artifactId>
+			<artifactId>minium-webelements</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>minium</groupId>
-			<artifactId>minium-script-rhinojs</artifactId>
+			<artifactId>minium-script-js</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>minium</groupId>
-			<artifactId>minium-cucumber-rest</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>info.cukes</groupId>
-			<artifactId>cucumber-rhino</artifactId>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>info.cukes</groupId>
-			<artifactId>cucumber-junit</artifactId>
+			<groupId>com.github.detro</groupId>
+			<artifactId>phantomjsdriver</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-logging</artifactId>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-		</dependency>
-	    <dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

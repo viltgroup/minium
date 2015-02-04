@@ -1,9 +1,10 @@
 package minium.actions;
 
+import minium.AsIs;
 import minium.Elements;
 import minium.ElementsException;
 
-public interface InteractionPerformer extends MouseInteractionPerformer, KeyboardInteractionPerformer, WaitInterationPerformer {
+public interface InteractionPerformer extends AsIs, MouseInteractionPerformer, KeyboardInteractionPerformer, WaitInterationPerformer {
 
     /**
      * With.

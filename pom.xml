@@ -108,16 +108,22 @@
 			    <groupId>org.seleniumhq.selenium</groupId>
 		        <artifactId>selenium-java</artifactId>
 		        <version>${selenium.version}</version>
+		        <exclusions>
+			        <exclusion>
+						<groupId>org.seleniumhq.selenium</groupId>
+						<artifactId>selenium-htmlunit-driver</artifactId>
+			        </exclusion>
+		        </exclusions>
 			</dependency>
 			<dependency>
 			    <groupId>org.seleniumhq.selenium</groupId>
 		        <artifactId>selenium-support</artifactId>
 		        <version>${selenium.version}</version>
 		        <exclusions>
-		        <exclusion>
-					<groupId>org.seleniumhq.selenium</groupId>
-					<artifactId>selenium-remote-driver</artifactId>
-		        </exclusion>
+			        <exclusion>
+						<groupId>org.seleniumhq.selenium</groupId>
+						<artifactId>selenium-remote-driver</artifactId>
+			        </exclusion>
 		        </exclusions>
 			</dependency>
 			<dependency>
@@ -149,6 +155,12 @@
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpclient</artifactId>
 				<version>4.4</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>commons-logging</artifactId>
+						<groupId>commons-logging</groupId>
+					</exclusion>
+				</exclusions>
 		    </dependency>
 		    <dependency>
 				<groupId>org.json</groupId>
@@ -304,5 +316,4 @@
 			</snapshots>
 		</repository>
 	</repositories>
-	
 </project>
