@@ -26,7 +26,7 @@
 		<rhino.version>1.7R5</rhino.version>
 		<dynjs.version>0.3.1</dynjs.version>
 		<cucumber.version>1.2.2</cucumber.version>
-		<json.version>20141113</json.version>
+		<json.version>20140107</json.version>
 		<sikulix.version>1.1.0-SNAPSHOT</sikulix.version>
 		<guava.version>18.0</guava.version>
 		<guava-retrying.version>1.0.7</guava-retrying.version>
@@ -130,6 +130,12 @@
 			    <groupId>com.github.detro</groupId>
 			    <artifactId>phantomjsdriver</artifactId>
 			    <version>${phantomjsdriver.version}</version>
+			    <exclusions>
+			    	<exclusion>
+          				<groupId>org.seleniumhq.selenium</groupId>
+						<artifactId>selenium-remote-driver</artifactId>
+        			</exclusion>
+			    </exclusions>
 			</dependency>
 			<dependency>
 				<groupId>info.cukes</groupId>
