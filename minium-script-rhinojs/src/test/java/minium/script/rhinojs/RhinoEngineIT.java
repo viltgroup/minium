@@ -9,44 +9,44 @@ import static minium.web.WebModules.positionModule;
 
 import java.io.IOException;
 
-import minium.Minium;
 import minium.actions.InteractionPerformer;
+import minium.script.rhinojs.CoreRhinoJsWebElements.DefaultRhinoJsWebElements;
 import minium.script.rhinojs.RhinoProperties.RequireProperties;
-import minium.web.CoreWebElements.DefaultWebElements;
 import minium.web.WebElementsFactory;
 import minium.web.WebElementsFactory.Builder;
+import minium.web.WebFinder;
 import minium.web.WebModule;
 import minium.web.internal.actions.WebInteractionPerformer;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class RhinoEngineIT {
 
-    private static WebDriver wd;
+    private static ChromeDriver wd;
+    private static WebFinder<DefaultRhinoJsWebElements> by;
 
     @BeforeClass
     public static void setup() {
         wd = new ChromeDriver();
-        Builder<DefaultWebElements> builder = new WebElementsFactory.Builder<>();
+        Builder<DefaultRhinoJsWebElements> builder = new WebElementsFactory.Builder<>();
         InteractionPerformer performer = new WebInteractionPerformer();
         WebModule module = combine(
-                baseModule(wd),
+                baseModule(wd, DefaultRhinoJsWebElements.class),
                 positionModule(),
                 conditionalModule(),
                 rhinoModule(),
                 interactableModule(performer));
         module.configure(builder);
-        DefaultWebElements root = builder.build().createRoot();
-        Minium.set(root);
+        DefaultRhinoJsWebElements root = builder.build().createRoot();
+        by = new WebFinder<>(root, DefaultRhinoJsWebElements.class);
     }
 
     @AfterClass
     public static void tearDown() {
-        Minium.release();
+        by.release();
         wd.quit();
     }
 
@@ -55,10 +55,8 @@ public class RhinoEngineIT {
         RhinoProperties properties = new RhinoProperties();
         RequireProperties requireProperties = new RequireProperties();
         properties.setRequire(requireProperties);
-        RhinoEngine engine = new RhinoEngine(properties);
-        engine.put("wd", wd);
+        final RhinoEngine engine = new RhinoEngine(properties);
+        engine.put("by", by);
         engine.runScript("classpath:minium/script/rhinojs/gs.js");
-
-        Thread.sleep(1000);
     }
 }

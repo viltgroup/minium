@@ -87,7 +87,7 @@ public class MiniumBackend implements Backend {
             } catch (EcmaError e) {
                 throw e;
             } catch (Exception e) {
-                LOGGER.warn("Could not load glue {}", gluePath);
+                LOGGER.warn("Could not load glue {}", gluePath, e);
             }
         }
     }

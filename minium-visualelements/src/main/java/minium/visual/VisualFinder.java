@@ -17,6 +17,10 @@ public class VisualFinder<E extends VisualElements> extends Finder<E> {
         super(intf);
     }
 
+    public VisualFinder(E root) {
+        super(root);
+    }
+
     public E text(String text) {
         return createFinder(FIND_TEXT_METHOD, text);
     }

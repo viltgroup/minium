@@ -2,27 +2,21 @@
 (function () {
   var minium;
   
-  if (typeof wd !== 'undefined') {
-    var by = Packages.minium.script.rhinojs.CoreRhinoJsWebElements.DefaultRhinoJsWebElements.by;
-    
+  if (typeof by !== 'undefined') {
     var minium = function (selector) {
-      return by.cssSelector(selector);
+      return by.selector(selector);
     };
+    
+    var HasBrowser = Packages.minium.web.actions.HasBrowser; 
+    
     minium.by = by;
-    minium.browser = wd;
-  }
 
-  if (typeof screen !== 'undefined') {
-    var by = Packages.minium.visual.CoreVisualElements.DefaultVisualElements.by;
-    
-    var minium = function (selector) {
-      return by.image(selector);
-    };
-    minium.by = by;
-    minium.screen = screen;
+    if (by.root().is(HasBrowser)) {
+      minium.browser = by.root().browser();
+    }
   }
   
-  // common stuff
+  // offsets
   var HorizontalReference = Packages.minium.Offsets.HorizontalReference;
   var VerticalReference   = Packages.minium.Offsets.VerticalReference;
   
@@ -43,6 +37,19 @@
       minusInf  : VerticalReference.MINUS_INF,
       plusInf   : VerticalReference.PLUS_INF,
     }
+  };
+  
+  // time units
+  var TimeUnit = Packages.java.util.concurrent.TimeUnit;
+  
+  minium.timeUnits = {
+      nanoseconds  : TimeUnit.NANOSECONDS,
+      microseconds : TimeUnit.MICROSECONDS,
+      milliseconds : TimeUnit.MILLISECONDS,
+      seconds      : TimeUnit.SECONDS,
+      minutes      : TimeUnit.MINUTES,
+      hours        : TimeUnit.HOURS,
+      days         : TimeUnit.DAYS
   };
   
   // export minium

@@ -38,7 +38,7 @@ public class InternalFinderTest {
 
     @Test
     public void testFinderChain() {
-        Finder<TestElements> by = Finder.by(TestElements.class, OtherElements.class);
+        Finder<TestElements> by = new Finder<>(TestElements.class, OtherElements.class);
         TestElements fooBar = by.selector(":text").foo().bar();
         assertThat(fooBar, instanceOf(InternalFinder.class));
 
@@ -51,7 +51,7 @@ public class InternalFinderTest {
 
     @Test
     public void testFinderEval() {
-        Finder<TestElements> by = Finder.by(TestElements.class, CombinedTestElements.class);
+        Finder<TestElements> by = new Finder<>(TestElements.class, CombinedTestElements.class);
         Elements longFinder = by.selector(":text").foo().bar().as(OtherTestElements.class).other();
 
         final TestElements elems = mock(TestElements.class, RETURNS_DEEP_STUBS);

@@ -56,7 +56,10 @@
 
     if (!id) return $();
 
-    return $(this).filter("#" + escapeSelector(id));
+    return $(this).filter(function () {
+      var id = $(this).attr("id");
+      return id && $("label[for]").withText(text).withAttr("for", id).length > 0;
+    });
   };
 
   $.fn.withValue = function(value) {

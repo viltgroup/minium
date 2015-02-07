@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-import minium.Minium;
 import minium.Offsets;
 import minium.Offsets.Offset;
 import minium.actions.HasConfiguration;
@@ -66,7 +65,7 @@ public class MsPaintIT {
         root.as(HasConfiguration.class).configure()
             .defaultInterval(1, TimeUnit.SECONDS)
             .defaultTimeout(20, TimeUnit.SECONDS);
-        Minium.set(root);
+        by.setRoot(root);
     }
 
     @Test
