@@ -58,17 +58,17 @@ public interface Configuration extends AsIs {
         Configuration done();
     }
 
-    public interface InteractionListeners extends Iterable<InteractionListener> {
-        InteractionListeners add(InteractionListener interactionListener);
-        InteractionListeners remove(InteractionListener interactionListener);
-        InteractionListeners clear();
+    public interface InteractionListenerCollection extends Iterable<InteractionListener> {
+        InteractionListenerCollection add(InteractionListener interactionListener);
+        InteractionListenerCollection remove(InteractionListener interactionListener);
+        InteractionListenerCollection clear();
         Configuration done();
     }
 
-    public interface ExceptionHandlers extends Iterable<ExceptionHandler> {
-        ExceptionHandlers add(ExceptionHandler exceptionHandler);
-        ExceptionHandlers remove(ExceptionHandler exceptionHandler);
-        ExceptionHandlers clear();
+    public interface ExceptionHandlerCollection extends Iterable<ExceptionHandler> {
+        ExceptionHandlerCollection add(ExceptionHandler exceptionHandler);
+        ExceptionHandlerCollection remove(ExceptionHandler exceptionHandler);
+        ExceptionHandlerCollection clear();
         Configuration done();
     }
 
@@ -122,7 +122,7 @@ public interface Configuration extends AsIs {
 
     WaitingPreset waitingPreset(String preset);
 
-    InteractionListeners interactionListeners();
+    InteractionListenerCollection interactionListeners();
 
-    ExceptionHandlers exceptionHandlers();
+    ExceptionHandlerCollection exceptionHandlers();
 }

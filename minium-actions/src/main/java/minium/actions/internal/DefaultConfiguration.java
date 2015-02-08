@@ -37,11 +37,11 @@ import com.google.common.collect.Sets;
  */
 public class DefaultConfiguration extends Mixin.Impl implements Configuration {
 
-    private class WaitingPresetImpl implements WaitingPreset {
+    private class DefaultWaitingPreset implements WaitingPreset {
 
         private final String preset;
 
-        public WaitingPresetImpl(String preset) {
+        public DefaultWaitingPreset(String preset) {
             this.preset = preset;
         }
 
@@ -92,7 +92,7 @@ public class DefaultConfiguration extends Mixin.Impl implements Configuration {
         }
     }
 
-    private class InteractionListenersImpl implements InteractionListeners {
+    private class DefaultInteractionListenerCollection implements InteractionListenerCollection {
 
         private Set<InteractionListener> interactionListeners = Sets.newLinkedHashSet();
 
@@ -102,19 +102,19 @@ public class DefaultConfiguration extends Mixin.Impl implements Configuration {
         }
 
         @Override
-        public InteractionListeners add(InteractionListener interactionListener) {
+        public InteractionListenerCollection add(InteractionListener interactionListener) {
             interactionListeners.add(interactionListener);
             return this;
         }
 
         @Override
-        public InteractionListeners remove(InteractionListener interactionListener) {
+        public InteractionListenerCollection remove(InteractionListener interactionListener) {
             interactionListeners.remove(interactionListener);
             return this;
         }
 
         @Override
-        public InteractionListeners clear() {
+        public InteractionListenerCollection clear() {
             interactionListeners.clear();
             return this;
         }
@@ -126,7 +126,7 @@ public class DefaultConfiguration extends Mixin.Impl implements Configuration {
     }
 
 
-    private class ExceptionHandlersImpl implements ExceptionHandlers {
+    private class DefaultExceptionHandlerCollection implements ExceptionHandlerCollection {
 
         private Set<ExceptionHandler> exceptionHandlers = Sets.newLinkedHashSet();
 
@@ -136,19 +136,19 @@ public class DefaultConfiguration extends Mixin.Impl implements Configuration {
         }
 
         @Override
-        public ExceptionHandlers add(ExceptionHandler exceptionHandler) {
+        public ExceptionHandlerCollection add(ExceptionHandler exceptionHandler) {
             exceptionHandlers.add(exceptionHandler);
             return this;
         }
 
         @Override
-        public ExceptionHandlers remove(ExceptionHandler exceptionHandler) {
+        public ExceptionHandlerCollection remove(ExceptionHandler exceptionHandler) {
             exceptionHandlers.remove(exceptionHandler);
             return this;
         }
 
         @Override
-        public ExceptionHandlers clear() {
+        public ExceptionHandlerCollection clear() {
             exceptionHandlers.clear();
             return this;
         }
@@ -164,8 +164,8 @@ public class DefaultConfiguration extends Mixin.Impl implements Configuration {
 
     private final Map<String, Duration> timeoutPresets = Maps.newHashMap();
     private final Map<String, Duration> intervalPresets = Maps.newHashMap();
-    private final InteractionListeners interactionListeners = new InteractionListenersImpl();
-    private final ExceptionHandlers exceptionHandlers = new ExceptionHandlersImpl();
+    private final InteractionListenerCollection interactionListeners = new DefaultInteractionListenerCollection();
+    private final ExceptionHandlerCollection exceptionHandlers = new DefaultExceptionHandlerCollection();
 
     public DefaultConfiguration() {
         waitingPreset("immediate").timeout(0, TimeUnit.SECONDS);
@@ -225,16 +225,16 @@ public class DefaultConfiguration extends Mixin.Impl implements Configuration {
 
     @Override
     public WaitingPreset waitingPreset(String preset) {
-        return new WaitingPresetImpl(preset);
+        return new DefaultWaitingPreset(preset);
     }
 
     @Override
-    public InteractionListeners interactionListeners() {
+    public InteractionListenerCollection interactionListeners() {
         return interactionListeners;
     }
 
     @Override
-    public ExceptionHandlers exceptionHandlers() {
+    public ExceptionHandlerCollection exceptionHandlers() {
         return exceptionHandlers;
     }
 }

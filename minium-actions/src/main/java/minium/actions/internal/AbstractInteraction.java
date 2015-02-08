@@ -267,7 +267,6 @@ public abstract class AbstractInteraction implements Interaction {
 
     protected void wait(Elements elems, Duration timeout, Duration interval, Predicate<? super Elements> predicate) {
         Waits.waitForPredicate(elems, timeout, interval, predicate);
-
     }
 
     protected void waitOrTimeout(Elements webElements, String preset, Predicate<? super Elements> predicate) {
