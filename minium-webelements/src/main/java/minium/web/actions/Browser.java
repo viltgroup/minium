@@ -1,5 +1,7 @@
 package minium.web.actions;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.Set;
@@ -8,18 +10,6 @@ import minium.Dimension;
 import minium.Point;
 
 public interface Browser {
-
-    void get(String url);
-
-    String getCurrentUrl();
-
-    String getTitle();
-
-    void close();
-
-    Navigation navigate();
-
-    Options manage();
 
     interface Options {
 
@@ -80,4 +70,27 @@ public interface Browser {
 
         Date getExpiry();
     }
+
+    interface Screenshot {
+
+        byte[] asBytes();
+
+        File asFile();
+
+        void saveTo(File file) throws IOException;
+    }
+
+    void get(String url);
+
+    String getCurrentUrl();
+
+    String getTitle();
+
+    void close();
+
+    Navigation navigate();
+
+    Options manage();
+
+    Screenshot screenshot();
 }

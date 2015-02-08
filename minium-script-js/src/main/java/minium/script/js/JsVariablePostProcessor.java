@@ -14,11 +14,12 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProce
 import org.springframework.core.type.MethodMetadata;
 import org.springframework.util.MultiValueMap;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 
 public class JsVariablePostProcessor implements BeanDefinitionRegistryPostProcessor, BeanFactoryAware {
 
-    private Map<String, String> variableNames = Maps.newHashMap();
+    private Map<String, MultiValueMap<String, Object>> variables = Maps.newHashMap();
     private BeanFactory beanFactory;
 
     @Override
@@ -36,8 +37,7 @@ public class JsVariablePostProcessor implements BeanDefinitionRegistryPostProces
                 if (metadata == null) continue;
                 MultiValueMap<String, Object> attrs = metadata.getAllAnnotationAttributes(JsVariable.class.getName());
                 if (attrs == null) continue;
-                String varName = (String) attrs.getFirst("value");
-                variableNames.put(beanDefinitionName, varName == null ? beanDefinitionName : varName);
+                variables.put(beanDefinitionName, attrs);
             }
         }
     }
@@ -48,15 +48,30 @@ public class JsVariablePostProcessor implements BeanDefinitionRegistryPostProces
     }
 
     public void populateEngine(JsEngine engine) {
-        for (Entry<String, String> entry : variableNames.entrySet()) {
-            Object bean = beanFactory.getBean(entry.getKey());
-            if (bean == null) continue;
+        for (Entry<String, MultiValueMap<String, Object>> entry : variables.entrySet()) {
+            String beanDefinitionName = entry.getKey();
+            MultiValueMap<String, Object> variable = entry.getValue();
 
-            String jsVar = entry.getValue();
+            Object bean = beanFactory.getBean(beanDefinitionName);
+            String jsVar = (String) variable.getFirst("value");
+            String expression = (String) variable.getFirst("expression");
+            Boolean deleteAfterExpression = (Boolean) variable.getFirst("deleteAfterExpression");
+
+            if (jsVar == null) jsVar = beanDefinitionName;
             if (bean instanceof Jsonable) {
                 engine.putJson(jsVar, ((Jsonable) bean).toJson());
             } else {
                 engine.put(jsVar, bean);
+            }
+
+            try {
+                if (!Strings.isNullOrEmpty(expression)) {
+                    engine.eval(expression, 1);
+                }
+            } finally {
+                if (deleteAfterExpression != null && deleteAfterExpression.booleanValue()) {
+                    engine.delete(jsVar);
+                }
             }
         }
     }

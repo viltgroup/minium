@@ -269,12 +269,12 @@ public class RhinoEngine implements JsEngine, DisposableBean {
         List<StackTraceElement> processed = Lists.newArrayList();
         for (StackTraceElement element : stackTrace) {
             if (element.getClassName().startsWith("org.mozilla.javascript.gen") && element.getLineNumber() != -1) {
-                String fileName;
-                try {
-                    fileName = new File(element.getFileName()).getAbsolutePath();
-                } catch (Exception e) {
-                    fileName = element.getFileName();
+                String fileName = null;
+                File file = new File(element.getFileName());
+                if (file.exists() && file.isFile()) {
+                    fileName = file.getAbsolutePath();
                 }
+                if (fileName == null) fileName = element.getFileName();
                 processed.add(new StackTraceElement(element.getClassName(), element.getMethodName(), fileName, element.getLineNumber()));
             }
         }

@@ -95,13 +95,7 @@ public abstract class AbstractInteraction implements Interaction {
 
     @Override
     public void waitToPerform() {
-        if (source != null) {
-            if (preset != null) {
-                wait(source, preset, WaitPredicates.forExistence());
-            } else {
-                wait(source, timeout, interval, WaitPredicates.forExistence());
-            }
-        }
+        waitFor(WaitPredicates.forExistence());
     }
 
     /*
@@ -132,6 +126,16 @@ public abstract class AbstractInteraction implements Interaction {
     @Override
     public void unregisterListener(InteractionListener listener) {
         listeners.remove(listener);
+    }
+
+    protected void waitFor(Predicate<? super Elements> predicate) {
+        if (source != null) {
+            if (preset != null) {
+                wait(source, preset, predicate);
+            } else {
+                wait(source, timeout, interval, predicate);
+            }
+        }
     }
 
     /**

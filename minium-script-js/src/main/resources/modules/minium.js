@@ -2,7 +2,9 @@
 (function () {
   var minium;
   
-  if (typeof by !== 'undefined') {
+  if (typeof __by !== 'undefined') {
+    var by = __by;
+    
     var minium = function (selector) {
       return by.selector(selector);
     };

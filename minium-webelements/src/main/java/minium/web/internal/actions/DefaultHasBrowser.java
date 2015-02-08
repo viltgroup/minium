@@ -1,5 +1,7 @@
 package minium.web.internal.actions;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Set;
 
@@ -13,7 +15,12 @@ import minium.web.actions.Browser.Cookie;
 import minium.web.actions.Browser.Window;
 import minium.web.actions.HasBrowser;
 import minium.web.internal.InternalWebElements;
+
+import org.openqa.selenium.OutputType;
+
 import platypus.Mixin;
+
+import com.google.common.io.Files;
 
 public class DefaultHasBrowser extends Mixin.Impl implements HasBrowser {
 
@@ -158,6 +165,25 @@ public class DefaultHasBrowser extends Mixin.Impl implements HasBrowser {
 
     }
 
+    class DefaultScreenshot implements Browser.Screenshot {
+
+        @Override
+        public byte[] asBytes() {
+            return documentDriver().getScreenshotAs(OutputType.BYTES);
+        }
+
+        @Override
+        public File asFile() {
+            return documentDriver().getScreenshotAs(OutputType.FILE);
+        }
+
+        @Override
+        public void saveTo(File file) throws IOException {
+            Files.asByteSource(file).copyTo(Files.asByteSink(file));
+        }
+
+    }
+
     class DefaultBrowser implements Browser {
 
         @Override
@@ -198,6 +224,12 @@ public class DefaultHasBrowser extends Mixin.Impl implements HasBrowser {
         @Override
         public Options manage() {
             return new DefaultOptions();
+        }
+
+        @Override
+        public Screenshot screenshot() {
+            // TODO Auto-generated method stub
+            return null;
         }
 
     }

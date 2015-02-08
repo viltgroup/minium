@@ -10,6 +10,7 @@ import static minium.web.WebModules.positionModule;
 import java.io.IOException;
 
 import minium.actions.InteractionPerformer;
+import minium.script.js.MiniumJsEngineAdapter;
 import minium.script.rhinojs.CoreRhinoJsWebElements.DefaultRhinoJsWebElements;
 import minium.script.rhinojs.RhinoProperties.RequireProperties;
 import minium.web.WebElementsFactory;
@@ -56,7 +57,7 @@ public class RhinoEngineIT {
         RequireProperties requireProperties = new RequireProperties();
         properties.setRequire(requireProperties);
         final RhinoEngine engine = new RhinoEngine(properties);
-        engine.put("by", by);
+        new MiniumJsEngineAdapter(by).adapt(engine);
         engine.runScript("classpath:minium/script/rhinojs/gs.js");
     }
 }

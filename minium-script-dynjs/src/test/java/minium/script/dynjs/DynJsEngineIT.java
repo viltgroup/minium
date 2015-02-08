@@ -12,6 +12,7 @@ import java.io.IOException;
 import minium.actions.InteractionPerformer;
 import minium.script.dynjs.CoreDynJsWebElements.DefaultDynJsWebElements;
 import minium.script.dynjs.DynJsProperties.RequireProperties;
+import minium.script.js.MiniumJsEngineAdapter;
 import minium.web.WebElementsFactory;
 import minium.web.WebElementsFactory.Builder;
 import minium.web.WebFinder;
@@ -53,7 +54,8 @@ public class DynJsEngineIT {
         module.configure(builder);
         DefaultDynJsWebElements root = builder.build().createRoot();
         by = new WebFinder<>(root, DefaultDynJsWebElements.class);
-        engine.put("by", by);
+
+        new MiniumJsEngineAdapter(by).adapt(engine);
     }
 
     @AfterClass

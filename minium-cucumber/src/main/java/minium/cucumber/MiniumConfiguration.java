@@ -20,7 +20,10 @@ public class MiniumConfiguration {
 
     @Autowired
     @Bean
-    @JsVariable("by")
+    @JsVariable(
+            value = "__by",
+            expression = "$ = require('minium'); if (typeof $.browser !== 'undefined') browser = $.browser;",
+            deleteAfterExpression = true)
     public WebFinder<DefaultWebElements> by(DefaultWebElements root) {
         return new WebFinder<DefaultWebElements>(root, DefaultWebElements.class, JsFunctionWebElements.class);
     }
