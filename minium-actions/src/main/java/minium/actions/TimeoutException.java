@@ -1,5 +1,6 @@
 package minium.actions;
 
+import static java.lang.String.format;
 import minium.Elements;
 import minium.ElementsException;
 
@@ -28,7 +29,7 @@ public class TimeoutException extends ElementsException {
     }
 
     public TimeoutException(Predicate<?> predicate, Elements elems, Throwable e) {
-        super(elems, e);
+        super(elems, format("Timeout on %s for predicate %s", elems, predicate), e);
         this.predicate = predicate;
     }
 

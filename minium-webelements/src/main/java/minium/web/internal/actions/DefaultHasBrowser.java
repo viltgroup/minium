@@ -228,8 +228,7 @@ public class DefaultHasBrowser extends Mixin.Impl implements HasBrowser {
 
         @Override
         public Screenshot screenshot() {
-            // TODO Auto-generated method stub
-            return null;
+            return new DefaultScreenshot();
         }
 
     }

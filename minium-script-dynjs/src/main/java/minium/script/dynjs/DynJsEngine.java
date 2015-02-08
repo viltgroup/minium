@@ -182,6 +182,11 @@ public class DynJsEngine implements JsEngine {
     }
 
     @Override
+    public String toString(Object obj) {
+        return obj == null ? "null" : obj.toString();
+    }
+
+    @Override
     public void destroy() throws Exception {
         throw new UnsupportedOperationException("not implemented yet");
     }

@@ -34,4 +34,6 @@ public interface JsEngine extends DisposableBean {
 
     public abstract boolean isRunning();
 
+    public abstract String toString(Object obj);
+
 }

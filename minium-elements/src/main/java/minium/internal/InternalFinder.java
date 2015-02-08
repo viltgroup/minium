@@ -1,11 +1,14 @@
 package minium.internal;
 
+import static java.lang.String.format;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.WeakHashMap;
 
 import minium.Elements;
+import minium.FindElements;
 import minium.Finder;
 import platypus.AbstractMixinInitializer;
 import platypus.InstanceProviders;
@@ -17,7 +20,10 @@ import com.google.common.base.Throwables;
 
 public interface InternalFinder extends Elements {
 
+    public static final Method FIND_METHOD = Reflections.getDeclaredMethod(FindElements.class, "find", String.class);
+
     public Elements eval(Elements elems);
+    public boolean isRoot();
 
     public abstract Object invoke(Object proxy, Method method, Object[] args) throws Throwable;
 
@@ -37,6 +43,11 @@ public interface InternalFinder extends Elements {
         }
 
         @Override
+        public boolean isRoot() {
+            return parent == null;
+        }
+
+        @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
             Class<?> returnIntf = method.getReturnType();
             if (!Elements.class.isAssignableFrom(returnIntf)) {
@@ -48,6 +59,11 @@ public interface InternalFinder extends Elements {
                 return method.invoke(elements, args);
             }
             return createInternalFinder(finder, this, method, args);
+        }
+
+        @Override
+        public String toString() {
+            return format("%s.root()", finder);
         }
 
         public static <T> T createInternalFinder(final Finder<?> finder, InternalFinder parent) {
@@ -104,6 +120,14 @@ public interface InternalFinder extends Elements {
             } catch (IllegalAccessException | IllegalArgumentException e) {
                 throw Throwables.propagate(e);
             }
+        }
+
+        @Override
+        public String toString() {
+            Elements root = finder.getRoot();
+            if (root == null) return super.toString();
+            Elements elements = eval(root);
+            return elements.toString();
         }
 
         private Object[] evalArgs(Elements root, Object[] args) {

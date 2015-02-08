@@ -22,10 +22,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import platypus.Mixin;
 import minium.actions.Configuration;
 import minium.actions.Duration;
+import minium.actions.ExceptionHandler;
 import minium.actions.InteractionListener;
+import platypus.Mixin;
 
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
@@ -113,6 +114,46 @@ public class DefaultConfiguration extends Mixin.Impl implements Configuration {
         }
 
         @Override
+        public InteractionListeners clear() {
+            interactionListeners.clear();
+            return this;
+        }
+
+        @Override
+        public Configuration done() {
+            return DefaultConfiguration.this;
+        }
+    }
+
+
+    private class ExceptionHandlersImpl implements ExceptionHandlers {
+
+        private Set<ExceptionHandler> exceptionHandlers = Sets.newLinkedHashSet();
+
+        @Override
+        public Iterator<ExceptionHandler> iterator() {
+            return Iterators.unmodifiableIterator(exceptionHandlers.iterator());
+        }
+
+        @Override
+        public ExceptionHandlers add(ExceptionHandler exceptionHandler) {
+            exceptionHandlers.add(exceptionHandler);
+            return this;
+        }
+
+        @Override
+        public ExceptionHandlers remove(ExceptionHandler exceptionHandler) {
+            exceptionHandlers.remove(exceptionHandler);
+            return this;
+        }
+
+        @Override
+        public ExceptionHandlers clear() {
+            exceptionHandlers.clear();
+            return this;
+        }
+
+        @Override
         public Configuration done() {
             return DefaultConfiguration.this;
         }
@@ -121,9 +162,10 @@ public class DefaultConfiguration extends Mixin.Impl implements Configuration {
     private Duration defaultTimeout = new Duration(5, TimeUnit.SECONDS);
     private Duration defaultInterval  = new Duration(1, TimeUnit.SECONDS);
 
-    private Map<String, Duration> timeoutPresets = Maps.newHashMap();
-    private Map<String, Duration> intervalPresets = Maps.newHashMap();
-    private InteractionListeners interactionListeners = new InteractionListenersImpl();
+    private final Map<String, Duration> timeoutPresets = Maps.newHashMap();
+    private final Map<String, Duration> intervalPresets = Maps.newHashMap();
+    private final InteractionListeners interactionListeners = new InteractionListenersImpl();
+    private final ExceptionHandlers exceptionHandlers = new ExceptionHandlersImpl();
 
     public DefaultConfiguration() {
         waitingPreset("immediate").timeout(0, TimeUnit.SECONDS);
@@ -191,4 +233,8 @@ public class DefaultConfiguration extends Mixin.Impl implements Configuration {
         return interactionListeners;
     }
 
+    @Override
+    public ExceptionHandlers exceptionHandlers() {
+        return exceptionHandlers;
+    }
 }

@@ -23,6 +23,7 @@ import minium.script.rhinojs.RhinoProperties.RequireProperties;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.Undefined;
 import org.mozilla.javascript.Wrapper;
 import org.mozilla.javascript.json.JsonParser;
 import org.mozilla.javascript.json.JsonParser.ParseException;
@@ -243,6 +244,36 @@ public class RhinoEngine implements JsEngine, DisposableBean {
         } else {
             return new StackTraceElement[0];
         }
+    }
+
+    @Override
+    public String toString(final Object obj) {
+
+        return runWithContext(new RhinoCallable<String, RuntimeException>() {
+            @Override
+            protected String doCall(Context cx, Scriptable scope) throws RuntimeException {
+                if (obj == null) {
+                    return "null";
+                } else if (obj instanceof Wrapper) {
+                    Object unwrapped = ((Wrapper) obj).unwrap();
+                    return unwrapped.toString();
+                } else if (obj instanceof Scriptable) {
+                    return (String) cx.evaluateString((Scriptable) obj,
+                            "(function(obj) { " +
+                            "  try { " +
+                            "    var str = JSON.stringify(obj); " +
+                            "    if (typeof str === 'string') return str; " +
+                            "  } catch (e) { } " +
+                            "  return obj.toString(); " +
+                            "})(this)",
+                            "<toString>", 1, null);
+
+                } else if (obj instanceof Undefined) {
+                    return "undefined";
+                }
+                return obj.toString();
+            }
+        });
     }
 
     @Override

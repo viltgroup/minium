@@ -15,33 +15,13 @@
  */
 package minium.actions.internal;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import minium.actions.Duration;
+import minium.actions.internal.AfterFailInteractionEvent;
+import minium.actions.internal.DefaultInteractionListener;
 
-/**
- * The Class WaitTimeInteraction.
- */
-public class WaitTimeInteraction extends WaitInteraction {
+public class RetryOnExceptionInteractionListener extends DefaultInteractionListener {
 
-    private Duration waitTime;
-
-    /**
-     * Instantiates a new wait time interaction.
-     *
-     * @param waitTime the wait time
-     */
-    public WaitTimeInteraction(Duration waitTime) {
-        super(null, null);
-
-        checkNotNull(waitTime);
-        this.waitTime = waitTime;
-    }
-
-    /* (non-Javadoc)
-     * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
-     */
     @Override
-    protected void doPerform() {
-        Waits.waitTime(waitTime);
+    protected void onAfterFailEvent(AfterFailInteractionEvent event) {
+        event.setRetry(true);
     }
 }

@@ -18,6 +18,16 @@
     }
   }
   
+  var InteractionListeners    = Packages.minium.actions.InteractionListeners;
+  var WebInteractionListeners = Packages.minium.web.actions.WebInteractionListeners;
+  
+  minium.interactionListeners = {
+    waitOnTimeout  : InteractionListeners.waitOnTimeout,
+    slowMotion     : InteractionListeners.slowMotion,
+    retry          : InteractionListeners.retry,
+    unhandledAlert : WebInteractionListeners.unhandledAlert
+  };
+  
   // offsets
   var HorizontalReference = Packages.minium.Offsets.HorizontalReference;
   var VerticalReference   = Packages.minium.Offsets.VerticalReference;

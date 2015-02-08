@@ -15,13 +15,10 @@
  */
 package minium.actions.internal;
 
-import static com.github.rholder.retry.StopStrategies.stopAfterDelay;
-import static com.github.rholder.retry.WaitStrategies.fixedWait;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
 
 import minium.Elements;
 import minium.FreezableElements;
@@ -34,21 +31,14 @@ import minium.actions.Interaction;
 import minium.actions.InteractionEvent;
 import minium.actions.InteractionEvent.Type;
 import minium.actions.InteractionListener;
-import minium.actions.TimeoutException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.rholder.retry.RetryException;
-import com.github.rholder.retry.Retryer;
-import com.github.rholder.retry.RetryerBuilder;
 import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-import com.google.common.base.Throwables;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.google.common.util.concurrent.Callables;
 
 /**
  * The Class DefaultInteraction.
@@ -134,6 +124,16 @@ public abstract class AbstractInteraction implements Interaction {
                 wait(source, preset, predicate);
             } else {
                 wait(source, timeout, interval, predicate);
+            }
+        }
+    }
+
+    protected void waitOrTimeoutFor(Predicate<? super Elements> predicate) {
+        if (source != null) {
+            if (preset != null) {
+                waitOrTimeout(source, preset, predicate);
+            } else {
+                waitOrTimeout(source, timeout, interval, predicate);
             }
         }
     }
@@ -266,27 +266,8 @@ public abstract class AbstractInteraction implements Interaction {
     }
 
     protected void wait(Elements elems, Duration timeout, Duration interval, Predicate<? super Elements> predicate) {
-        if (timeout == null) {
-            timeout = configure().defaultTimeout();
-        }
-        if (interval == null) {
-            interval = configure().defaultInterval();
-        }
+        Waits.waitForPredicate(elems, timeout, interval, predicate);
 
-        Retryer<Elements> retrier = getRetryer(predicate, timeout, interval);
-
-        try {
-            retrier.call(Callables.returning(elems));
-        } catch (RetryException e) {
-            // if interrupted, we need to propagate it with the thread marked as interrupted
-            if (Thread.interrupted()) {
-                Thread.currentThread().interrupt();
-                throw Throwables.propagate(e);
-            }
-            throw new TimeoutException(predicate, elems, e);
-        } catch (ExecutionException e) {
-            throw Throwables.propagate(e.getCause());
-        }
     }
 
     protected void waitOrTimeout(Elements webElements, String preset, Predicate<? super Elements> predicate) {
@@ -295,37 +276,7 @@ public abstract class AbstractInteraction implements Interaction {
     }
 
     protected void waitOrTimeout(Elements elems, Duration timeout, Duration interval, Predicate<? super Elements> predicate) {
-        if (timeout == null) {
-            timeout = configure().defaultTimeout();
-        }
-        if (interval == null) {
-            interval = configure().defaultInterval();
-        }
-
-        Retryer<Elements> retrier = getRetryer(predicate, timeout, interval);
-
-        try {
-            retrier.call(Callables.returning(elems));
-        } catch (RetryException e) {
-            // if interrupted, we need to propagate it with the thread marked as interrupted
-            if (Thread.interrupted()) {
-                Thread.currentThread().interrupt();
-                throw Throwables.propagate(e);
-            }
-            // timeout, nothing to do here...
-        } catch (ExecutionException e) {
-            throw Throwables.propagate(e.getCause());
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    protected <T> Retryer<T> getRetryer(Predicate<? super T> predicate, Duration timeout, Duration interval) {
-        return RetryerBuilder.<T> newBuilder()
-                .retryIfResult(Predicates.not((Predicate<T>) predicate))
-                .retryIfRuntimeException()
-                .withWaitStrategy(fixedWait(interval.getTime(), interval.getUnit()))
-                .withStopStrategy(stopAfterDelay(timeout.getUnit().toMillis(timeout.getTime())))
-                .build();
+        Waits.waitForPredicateOrTimeout(elems, timeout, interval, predicate);
     }
 
     private Configuration configure() {

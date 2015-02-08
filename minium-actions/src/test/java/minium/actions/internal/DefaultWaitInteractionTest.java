@@ -14,9 +14,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.github.rholder.retry.Retryer;
 import com.github.rholder.retry.RetryerBuilder;
@@ -25,7 +28,8 @@ import com.github.rholder.retry.WaitStrategies;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(Waits.class)
 public class DefaultWaitInteractionTest {
 
     @Mock
@@ -52,28 +56,28 @@ public class DefaultWaitInteractionTest {
         verify(elems, times(1)).size();
     }
 
+    @SuppressWarnings("unchecked")
     @Test(expected = TimeoutException.class)
     public void testWaitForExistenceTimeout() {
+        PowerMockito.mockStatic(Waits.class);
         // when
-        WaitForExistenceInteraction interaction = new WaitForExistenceInteraction(elems , null) {
-            @Override
-            protected <T> Retryer<T> getRetryer(Predicate<? super T> predicate, Duration timeout, Duration interval) {
-                return createMockedRetrier(predicate);
-            }
-        };
+        when(Waits.getRetryer(Mockito.any(Predicate.class),  Mockito.any(Duration.class), Mockito.any(Duration.class)))
+            .thenReturn(createMockedRetrier(WaitPredicates.forExistence()));
         when(elems.size()).thenReturn(0);
+
+        // then
+        WaitForExistenceInteraction interaction = new WaitForExistenceInteraction(elems , null);
         interaction.perform();
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testWaitForExistenceFailThenSuccess() {
-        // given
-        WaitForExistenceInteraction interaction = new WaitForExistenceInteraction(elems , null) {
-            @Override
-            protected <T> Retryer<T> getRetryer(Predicate<? super T> predicate, Duration timeout, Duration interval) {
-                return createMockedRetrier(predicate);
-            }
-        };
+        PowerMockito.mockStatic(Waits.class);
+
+        // when
+        when(Waits.getRetryer(WaitPredicates.forExistence()),  Mockito.any(Duration.class), Mockito.any(Duration.class)))
+            .andReturn(createMockedRetrier(WaitPredicates.forExistence()));
         when(elems.size()).thenAnswer(new Answer<Integer>() {
             int count = 0;
             @Override
@@ -83,6 +87,7 @@ public class DefaultWaitInteractionTest {
         });
 
         // when
+        WaitForExistenceInteraction interaction = new WaitForExistenceInteraction(elems, null);
         interaction.perform();
 
         // then

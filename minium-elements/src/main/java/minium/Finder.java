@@ -3,7 +3,6 @@ package minium;
 import java.lang.reflect.Method;
 
 import minium.internal.InternalFinder;
-import minium.internal.Reflections;
 import platypus.MixinClass;
 import platypus.MixinClasses;
 
@@ -12,8 +11,6 @@ import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 
 public class Finder<T extends Elements> {
-
-    private static final Method FIND_METHOD = Reflections.getDeclaredMethod(FindElements.class, "find", String.class);
 
     private MixinClass<T> mixinClass;
     private transient Supplier<? extends T> rootSupplier;
@@ -59,10 +56,15 @@ public class Finder<T extends Elements> {
     }
 
     public T selector(String selector) {
-        return createFinder(FIND_METHOD, selector);
+        return createFinder(InternalFinder.FIND_METHOD, selector);
     }
 
     protected T createFinder(Method method, Object ... args) {
         return InternalFinder.MethodInvocationImpl.createInternalFinder(this, null, method, args);
+    }
+
+    @Override
+    public String toString() {
+        return "by";
     }
 }

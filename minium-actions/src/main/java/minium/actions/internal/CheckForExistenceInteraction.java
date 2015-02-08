@@ -37,6 +37,6 @@ public class CheckForExistenceInteraction extends WaitInteraction {
      */
     @Override
     protected void doPerform() {
-        waitFor(WaitPredicates.forExistence());
+        waitOrTimeoutFor(WaitPredicates.forExistence());
     }
 }
