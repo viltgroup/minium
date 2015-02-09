@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<fileset-config file-format-version="1.2.0" simple-config="false" sync-formatter="true">
-  <local-check-config name="maven-checkstyle-plugin validate" location="file:/D:/Dev/workspace-sts/minium-magic/minium-elements/../src/main/checkstyle/checkstyle.xml" type="remote" description="maven-checkstyle-plugin configuration validate">
+<fileset-config file-format-version="1.2.0" simple-config="false" sync-formatter="false">
+  <local-check-config name="maven-checkstyle-plugin validate" location="file:/home/mario/basement/work/workspace/softwareFactory/minium-github/minium/minium-elements/../src/main/checkstyle/checkstyle.xml" type="remote" description="maven-checkstyle-plugin configuration validate">
     <property name="checkstyle.cache.file" value="${project_loc}/target/checkstyle-cachefile"/>
-    <property name="checkstyle.suppressions.file" value="D:\Dev\workspace-sts\minium-magic\minium-elements\target\checkstyle-suppressions-validate.xml"/>
-    <property name="checkstyle.config.dir" value="D:\Dev\workspace-sts\minium-magic\minium-elements/../src/main/checkstyle"/>
-    <property name="checkstyle.header.file" value="D:\Dev\workspace-sts\minium-magic\minium-elements\target\checkstyle-header-validate.txt"/>
+    <property name="checkstyle.suppressions.file" value="/home/mario/basement/work/workspace/softwareFactory/minium-github/minium/minium-elements/target/checkstyle-suppressions-validate.xml"/>
+    <property name="checkstyle.config.dir" value="/home/mario/basement/work/workspace/softwareFactory/minium-github/minium/minium-elements/../src/main/checkstyle"/>
+    <property name="checkstyle.header.file" value="/home/mario/basement/work/workspace/softwareFactory/minium-github/minium/minium-elements/target/checkstyle-header-validate.txt"/>
   </local-check-config>
   <fileset name="java-sources-validate" enabled="true" check-config-name="maven-checkstyle-plugin validate" local="true">
-    <file-match-pattern match-pattern="src/main/java/minium\.*\.java" include-pattern="true"/>
-    <file-match-pattern match-pattern="src/test/java/minium\.*\.java" include-pattern="true"/>
+    <file-match-pattern match-pattern="src/test/java/minium/.*\.java" include-pattern="true"/>
+    <file-match-pattern match-pattern="src/main/java/minium/.*\.java" include-pattern="true"/>
     <file-match-pattern match-pattern="src/main/resources.*\.properties" include-pattern="true"/>
     <file-match-pattern match-pattern="src/main/resources.*\.properties" include-pattern="true"/>
     <file-match-pattern match-pattern="src/test/resources.*\.properties" include-pattern="true"/>
