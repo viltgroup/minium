@@ -2,6 +2,7 @@ package minium.script.rhinojs;
 
 import java.io.IOException;
 
+import minium.script.js.JsVariablePostProcessor;
 import minium.script.rhinojs.RhinoProperties.RequireProperties;
 import minium.web.WebModule;
 
@@ -14,6 +15,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableConfigurationProperties(RhinoProperties.class)
 public class RhinoConfiguration {
+
+    @Bean
+    public JsVariablePostProcessor jsVariablePostProcessor() {
+        return new JsVariablePostProcessor();
+    }
 
     @Bean
     public WebModule rhinoWebModule() {
@@ -29,9 +35,11 @@ public class RhinoConfiguration {
         return rhinoProperties;
     }
 
-    @Autowired
+    @Autowired(required = false)
     @Bean
-    public RhinoEngine rhinoEngine(RhinoProperties rhinoProperties) throws IOException {
-        return new RhinoEngine(rhinoProperties);
+    public RhinoEngine rhinoEngine(RhinoProperties rhinoProperties, JsVariablePostProcessor jsVariablePostProcessor) throws IOException {
+        RhinoEngine engine = new RhinoEngine(rhinoProperties);
+        jsVariablePostProcessor.populateEngine(engine);
+        return engine;
     }
 }

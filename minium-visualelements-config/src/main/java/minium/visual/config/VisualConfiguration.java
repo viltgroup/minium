@@ -5,11 +5,10 @@ import static minium.visual.VisualModules.combine;
 import static minium.visual.VisualModules.debugModule;
 import static minium.visual.VisualModules.interactableModule;
 import static minium.visual.VisualModules.positionModule;
-import minium.Elements;
-import minium.Minium;
 import minium.script.js.JsVariable;
 import minium.visual.CoreVisualElements.DefaultVisualElements;
 import minium.visual.VisualElementsFactory;
+import minium.visual.VisualFinder;
 import minium.visual.VisualModule;
 import minium.visual.internal.actions.VisualDebugInteractionPerformer;
 
@@ -41,7 +40,7 @@ public class VisualConfiguration {
 
     @Autowired
     @Bean
-    public Elements root(Screen screen) {
+    public VisualFinder<DefaultVisualElements> root(Screen screen) {
         VisualDebugInteractionPerformer performer = new VisualDebugInteractionPerformer();
         VisualModule visualModule = combine(
                 baseModule(screen, DefaultVisualElements.class),
@@ -51,7 +50,6 @@ public class VisualConfiguration {
         VisualElementsFactory.Builder<DefaultVisualElements> builder = new VisualElementsFactory.Builder<>();
         visualModule.configure(builder);
         DefaultVisualElements root = builder.build().createRoot();
-        Minium.set(root);
-        return root;
+        return new VisualFinder<DefaultVisualElements>(root);
     }
 }

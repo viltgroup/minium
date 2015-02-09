@@ -165,4 +165,29 @@ public class DynJsEngine implements JsEngine {
     public void putJson(String varName, String json) {
         throw new UnsupportedOperationException("not implemented yet");
     }
+
+    @Override
+    public StackTraceElement[] getExecutionStackTrace() {
+        throw new UnsupportedOperationException("not implemented yet");
+    }
+
+    @Override
+    public void cancel() {
+        throw new UnsupportedOperationException("not implemented yet");
+    }
+
+    @Override
+    public boolean isRunning() {
+        throw new UnsupportedOperationException("not implemented yet");
+    }
+
+    @Override
+    public String toString(Object obj) {
+        return obj == null ? "null" : obj.toString();
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        throw new UnsupportedOperationException("not implemented yet");
+    }
 }

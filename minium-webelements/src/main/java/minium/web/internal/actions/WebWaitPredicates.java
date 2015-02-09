@@ -17,11 +17,35 @@ package minium.web.internal.actions;
 
 import minium.Elements;
 import minium.web.DocumentWebDriver;
+import minium.web.internal.HasNativeWebDriver;
 import minium.web.internal.InternalWebElements;
+
+import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.WebDriver;
 
 import com.google.common.base.Predicate;
 
 public class WebWaitPredicates {
+
+    /**
+     * Until window closed.
+     *
+     * @param <T> the generic type
+     * @return the predicate
+     */
+    public static <T extends Elements> Predicate<T> forAlert() {
+        return new Predicate<T>() {
+            @Override
+            public boolean apply(T elems) {
+                WebDriver nativeWebDriver = elems.as(HasNativeWebDriver.class).nativeWebDriver();
+                try {
+                    return nativeWebDriver.switchTo().alert() != null;
+                } catch (NoAlertPresentException e) {
+                    return false;
+                }
+            }
+        };
+    }
 
     /**
      * Until window closed.

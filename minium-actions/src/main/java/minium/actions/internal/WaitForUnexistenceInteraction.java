@@ -15,7 +15,6 @@
  */
 package minium.actions.internal;
 
-import static minium.actions.internal.WaitPredicates.forUnexistence;
 import minium.Elements;
 import minium.ElementsException;
 
@@ -40,10 +39,6 @@ public class WaitForUnexistenceInteraction extends WaitInteraction {
      */
     @Override
     protected void doPerform() throws ElementsException {
-        if (getWaitingPreset() != null) {
-            wait(getSource(), getWaitingPreset(), forUnexistence());
-        } else {
-            wait(getSource(), getTimeout(), getInterval(), forUnexistence());
-        }
+        waitFor(WaitPredicates.forUnexistence());
     }
 }

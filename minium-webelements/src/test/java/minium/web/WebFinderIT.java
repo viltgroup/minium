@@ -1,7 +1,6 @@
 package minium.web;
 
 import static minium.web.CoreWebElements.DefaultWebElements.by;
-import minium.Minium;
 import minium.web.CoreWebElements.DefaultWebElements;
 import minium.web.WebElementsFactory.Builder;
 
@@ -21,12 +20,12 @@ public class WebFinderIT {
         Builder<DefaultWebElements> builder = new WebElementsFactory.Builder<>();
         WebModules.defaultModule(wd).configure(builder);
         DefaultWebElements root = builder.build().createRoot();
-        Minium.set(root);
+        by.setRoot(root);
     }
 
     @AfterClass
     public static void tearDown() {
-        Minium.release();
+        by.release();
         wd.quit();
     }
 

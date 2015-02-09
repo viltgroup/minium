@@ -27,6 +27,11 @@ public class ElementsException extends RuntimeException {
         this.elems = elems;
     }
 
+    public ElementsException(Elements elems, String msg, Throwable e) {
+        super(msg, e);
+        this.elems = elems;
+    }
+
     public Elements getElements() {
         return elems;
     }

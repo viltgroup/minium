@@ -4,6 +4,8 @@ import minium.FreezableElements;
 import minium.actions.HasConfiguration;
 import minium.actions.Interactable;
 import minium.actions.WaitInteractable;
+import minium.web.actions.HasAlert;
+import minium.web.actions.HasBrowser;
 
 public interface CoreWebElements<T extends WebElements> extends
         BasicWebElements<T>,
@@ -13,7 +15,9 @@ public interface CoreWebElements<T extends WebElements> extends
         EvalWebElements<T>,
         TargetLocatorWebElements<T>,
         PositionWebElements<T>,
+        HasAlert,
         HasConfiguration,
+        HasBrowser,
         WaitInteractable,
         Interactable {
 

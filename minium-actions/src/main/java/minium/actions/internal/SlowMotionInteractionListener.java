@@ -13,14 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package minium.web.internal.actions;
+package minium.actions.internal;
 
 import minium.actions.Duration;
 import minium.actions.Interaction;
-import minium.actions.internal.BeforeInteractionEvent;
-import minium.actions.internal.DefaultInteractionListener;
-import minium.actions.internal.WaitInteraction;
-import minium.actions.internal.WaitTimeInteraction;
 
 public class SlowMotionInteractionListener extends DefaultInteractionListener {
 
@@ -36,6 +32,6 @@ public class SlowMotionInteractionListener extends DefaultInteractionListener {
         // we skip WaitInteractions
         if (interaction instanceof WaitInteraction) return;
 
-        new WaitTimeInteraction(duration).perform();
+        Waits.waitTime(duration);
     }
 }

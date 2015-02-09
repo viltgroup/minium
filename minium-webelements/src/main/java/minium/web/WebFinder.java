@@ -9,6 +9,10 @@ public class WebFinder<T extends WebElements> extends Finder<T> {
         super(intf);
     }
 
+    public WebFinder(T root, Class<T> intf, Class<?> ... others) {
+        super(root, intf, others);
+    }
+
     public T cssSelector(String selector) {
         return selector(selector);
     }

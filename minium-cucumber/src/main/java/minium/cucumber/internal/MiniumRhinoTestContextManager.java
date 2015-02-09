@@ -20,8 +20,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.context.TestContextManager;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
-import com.google.common.base.Throwables;
-
 public class MiniumRhinoTestContextManager extends TestContextManager {
 
     public MiniumRhinoTestContextManager(Class<?> testClass) {
@@ -39,15 +37,5 @@ public class MiniumRhinoTestContextManager extends TestContextManager {
 
     public ConfigurableApplicationContext getContext() {
         return (ConfigurableApplicationContext) getTestContext().getApplicationContext();
-    }
-
-    public Object newInstance() {
-        try {
-            Object instance = this.getTestClass().newInstance();
-            this.prepareTestInstance(instance);
-            return instance;
-        } catch (Exception e) {
-            throw Throwables.propagate(e);
-        }
     }
 }

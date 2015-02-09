@@ -1,33 +1,39 @@
 package minium.internal;
 
+import static java.lang.String.format;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.WeakHashMap;
 
+import minium.Elements;
+import minium.FindElements;
+import minium.Finder;
 import platypus.AbstractMixinInitializer;
 import platypus.InstanceProviders;
 import platypus.Mixin;
 import platypus.MixinClass;
-import minium.Elements;
-import minium.Minium;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
 
 public interface InternalFinder extends Elements {
 
+    public static final Method FIND_METHOD = Reflections.getDeclaredMethod(FindElements.class, "find", String.class);
+
     public Elements eval(Elements elems);
+    public boolean isRoot();
 
     public abstract Object invoke(Object proxy, Method method, Object[] args) throws Throwable;
 
-    static class Impl extends Mixin.Impl implements InternalFinder, InvocationHandler {
+    class Impl extends Mixin.Impl implements InternalFinder, InvocationHandler {
 
-        protected final MixinClass<?> mixinClass;
+        protected final Finder<?> finder;
         protected final InternalFinder parent;
 
-        public Impl(platypus.MixinClass<?> mixinClass, InternalFinder parent) {
-            this.mixinClass = mixinClass;
+        public Impl(Finder<?> finder, InternalFinder parent) {
+            this.finder = finder;
             this.parent = parent;
         }
 
@@ -37,30 +43,42 @@ public interface InternalFinder extends Elements {
         }
 
         @Override
+        public boolean isRoot() {
+            return parent == null;
+        }
+
+        @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
             Class<?> returnIntf = method.getReturnType();
             if (!Elements.class.isAssignableFrom(returnIntf)) {
                 // let's check if Minium has some root set
-                Elements root = Minium.get();
+                Elements root = finder.getRoot();
                 Preconditions.checkState(root != null, "Method %s does not return an Elements class and Minium.get() does not return any root Elements", method);
 
                 Elements elements = eval(root);
                 return method.invoke(elements, args);
             }
-            return createInternalFinder(mixinClass, this, method, args);
+            return createInternalFinder(finder, this, method, args);
         }
 
-        public static <T> T createInternalFinder(final MixinClass<T> mixinClass, InternalFinder parent) {
-            final InternalFinder.Impl internalFinder = new InternalFinder.Impl(mixinClass, parent);
-            return doCreateInternalFinder(mixinClass, internalFinder);
+        @Override
+        public String toString() {
+            return format("%s.root()", finder);
         }
 
-        public static <T> T createInternalFinder(final MixinClass<T> mixinClass, InternalFinder parent, Method method, Object ... args) {
-            final InternalFinder.MethodInvocationImpl internalFinder = new InternalFinder.MethodInvocationImpl(mixinClass, parent, method, args);
-            return doCreateInternalFinder(mixinClass, internalFinder);
+        public static <T> T createInternalFinder(final Finder<?> finder, InternalFinder parent) {
+            final InternalFinder.Impl internalFinder = new InternalFinder.Impl(finder, parent);
+            return doCreateInternalFinder(finder, internalFinder);
         }
 
-        private static <T> T doCreateInternalFinder(final MixinClass<T> mixinClass, final InternalFinder.Impl internalFinder) {
+        public static <T> T createInternalFinder(final Finder<?> finder, InternalFinder parent, Method method, Object ... args) {
+            final InternalFinder.MethodInvocationImpl internalFinder = new InternalFinder.MethodInvocationImpl(finder, parent, method, args);
+            return doCreateInternalFinder(finder, internalFinder);
+        }
+
+        private static <T> T doCreateInternalFinder(final Finder<?> finder, final InternalFinder.Impl internalFinder) {
+            @SuppressWarnings("unchecked")
+            final MixinClass<T> mixinClass = (MixinClass<T>) finder.getMixinClass();
             return mixinClass.newInstance(new AbstractMixinInitializer() {
                 @Override
                 protected void initialize() {
@@ -78,8 +96,8 @@ public interface InternalFinder extends Elements {
         private final Method method;
         private final Object[] args;
 
-        public MethodInvocationImpl(MixinClass<?> mixinClass, InternalFinder parent, Method method, Object[] args) {
-            super(mixinClass, parent);
+        public MethodInvocationImpl(Finder<?> finder, InternalFinder parent, Method method, Object[] args) {
+            super(finder, parent);
             this.method = method;
             this.args = args;
         }
@@ -102,6 +120,14 @@ public interface InternalFinder extends Elements {
             } catch (IllegalAccessException | IllegalArgumentException e) {
                 throw Throwables.propagate(e);
             }
+        }
+
+        @Override
+        public String toString() {
+            Elements root = finder.getRoot();
+            if (root == null) return super.toString();
+            Elements elements = eval(root);
+            return elements.toString();
         }
 
         private Object[] evalArgs(Elements root, Object[] args) {

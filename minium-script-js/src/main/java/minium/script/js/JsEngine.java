@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 
-public interface JsEngine {
+import org.springframework.beans.factory.DisposableBean;
+
+public interface JsEngine extends DisposableBean {
 
     public abstract <T> T runScript(File sourceFile) throws IOException;
 
@@ -25,5 +27,13 @@ public interface JsEngine {
     public abstract void delete(String varName);
 
     public abstract void putJson(String varName, String json);
+
+    public abstract StackTraceElement[] getExecutionStackTrace();
+
+    public abstract void cancel();
+
+    public abstract boolean isRunning();
+
+    public abstract String toString(Object obj);
 
 }

@@ -1,6 +1,3 @@
-var $       = require('minium'),
-    browser = $.browser;
-
 browser.get('https://docs.google.com/spreadsheet/ccc?key=0Al0ulrJIDCUVdHJjWnJsbG5hY3hBWFp0Vy1OQV9qQUE#gid=0');
 
 var colC   = $('#0-grid-table-quadrantcolumn-head-section th').withText('C');

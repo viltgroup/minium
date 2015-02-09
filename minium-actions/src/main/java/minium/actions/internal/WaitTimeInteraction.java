@@ -16,10 +16,6 @@
 package minium.actions.internal;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-
-import java.util.concurrent.TimeUnit;
-
-import minium.ElementsException;
 import minium.actions.Duration;
 
 /**
@@ -46,14 +42,6 @@ public class WaitTimeInteraction extends WaitInteraction {
      */
     @Override
     protected void doPerform() {
-        long time = waitTime.getTime();
-        TimeUnit unit = waitTime.getUnit();
-
-        try {
-            Thread.sleep(unit.toMillis(time));
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            throw new ElementsException(e);
-        }
+        Waits.waitTime(waitTime);
     }
 }

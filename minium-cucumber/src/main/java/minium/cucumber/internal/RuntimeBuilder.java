@@ -35,10 +35,13 @@ public class RuntimeBuilder {
     private Class<?> testClass;
     private ClassLoader classLoader;
     private ResourceLoader resourceLoader;
+    private final List<String> featurePaths = Lists.newArrayList();
     private final List<Backend> backends = Lists.newArrayList();
+    private final List<Object> plugins = Lists.newArrayList();
     private PluginFactory pluginFactory;
     private RuntimeOptions runtimeOptions;
     private final List<String> args = Lists.newArrayList();
+    private Runtime runtime;
 
     public RuntimeBuilder() {
     }
@@ -86,6 +89,24 @@ public class RuntimeBuilder {
         return this;
     }
 
+    public RuntimeBuilder withFeaturePaths(String ... args) {
+        return withFeaturePaths(Arrays.asList(args));
+    }
+
+    public RuntimeBuilder withFeaturePaths(Collection<String> featurePaths) {
+        this.featurePaths.addAll(featurePaths);
+        return this;
+    }
+
+    public RuntimeBuilder withPlugins(Object ... plugins) {
+        return withPlugins(Arrays.asList(plugins));
+    }
+
+    public RuntimeBuilder withPlugins(Collection<?> plugins) {
+        this.plugins.addAll(plugins);
+        return this;
+    }
+
     public Runtime build() {
         if (classLoader == null) classLoader = testClass == null ? Thread.currentThread().getContextClassLoader() : testClass.getClassLoader();
         if (resourceLoader == null) resourceLoader = new MultiLoader(classLoader);
@@ -94,7 +115,16 @@ public class RuntimeBuilder {
             Preconditions.checkArgument(!args.isEmpty() || testClass != null, "RuntimeOptions not provided, need args or testClass");
             runtimeOptions = args.isEmpty() ? new RuntimeOptionsFactory(testClass).create() : new RuntimeOptions(pluginFactory, args);
         }
-        return new Runtime(resourceLoader, classLoader, backends, runtimeOptions);
+        runtimeOptions.getFeaturePaths().addAll(featurePaths);
+        for (Object plugin : plugins) {
+            runtimeOptions.addPlugin(plugin);
+        }
+        runtime = new Runtime(resourceLoader, classLoader, backends, runtimeOptions);
+        return runtime;
+    }
+
+    public ClassLoader getClassLoader() {
+        return classLoader;
     }
 
     public ResourceLoader getResourceLoader() {
@@ -105,4 +135,7 @@ public class RuntimeBuilder {
         return runtimeOptions;
     }
 
+    public Runtime getRuntime() {
+        return runtime;
+    }
 }

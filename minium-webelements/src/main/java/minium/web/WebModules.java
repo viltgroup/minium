@@ -14,6 +14,10 @@ import minium.actions.internal.DefaultWaitInteractable;
 import minium.internal.LocatableElements;
 import minium.web.CoreWebElements.DefaultWebElements;
 import minium.web.WebElementsFactory.Builder;
+import minium.web.actions.HasAlert;
+import minium.web.actions.HasBrowser;
+import minium.web.internal.actions.DefaultHasAlert;
+import minium.web.internal.actions.DefaultHasBrowser;
 import minium.web.internal.actions.WebInteractionPerformer;
 
 import org.openqa.selenium.WebDriver;
@@ -64,7 +68,11 @@ public class WebModules {
         return combine(baseModule(wd), positionModule(), conditionalModule(), interactableModule(performer));
     }
 
-    public static WebModule baseModule(final WebDriver wd) {
+    public static WebModule baseModule(WebDriver wd) {
+        return baseModule(wd, DefaultWebElements.class);
+    }
+
+    public static WebModule baseModule(final WebDriver wd, final Class<? extends WebElements> intf) {
         WebModule baseModule = new WebModule() {
             @Override
             public void configure(Builder<?> builder) {
@@ -77,9 +85,18 @@ public class WebModules {
                         "minium/web/internal/lib/jquery.visibleText.js"
                 )
                 .implementingInterfaces(
-                        DefaultWebElements.class,
-                        LocatableElements.class
-                );
+                        intf,
+                        LocatableElements.class,
+                        HasBrowser.class,
+                        HasAlert.class
+                )
+                .usingMixinConfigurer(new AbstractMixinInitializer() {
+                    @Override
+                    protected void initialize() {
+                        implement(HasBrowser.class).with(new DefaultHasBrowser());
+                        implement(HasAlert.class).with(new DefaultHasAlert());
+                    }
+                });
             }
         };
         return baseModule;

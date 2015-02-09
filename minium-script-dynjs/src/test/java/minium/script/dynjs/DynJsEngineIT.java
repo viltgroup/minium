@@ -9,12 +9,13 @@ import static minium.web.WebModules.positionModule;
 
 import java.io.IOException;
 
-import minium.Minium;
 import minium.actions.InteractionPerformer;
 import minium.script.dynjs.CoreDynJsWebElements.DefaultDynJsWebElements;
 import minium.script.dynjs.DynJsProperties.RequireProperties;
+import minium.script.js.MiniumJsEngineAdapter;
 import minium.web.WebElementsFactory;
 import minium.web.WebElementsFactory.Builder;
+import minium.web.WebFinder;
 import minium.web.WebModule;
 import minium.web.internal.actions.WebInteractionPerformer;
 
@@ -30,6 +31,7 @@ public class DynJsEngineIT {
 
     private static WebDriver wd;
     private static DynJsEngine engine;
+    private static WebFinder<DefaultDynJsWebElements> by;
 
     @BeforeClass
     public static void setup() {
@@ -51,13 +53,14 @@ public class DynJsEngineIT {
                 interactableModule(performer));
         module.configure(builder);
         DefaultDynJsWebElements root = builder.build().createRoot();
-        Minium.set(root);
-        engine.put("wd", wd);
+        by = new WebFinder<>(root, DefaultDynJsWebElements.class);
+
+        new MiniumJsEngineAdapter(by).adapt(engine);
     }
 
     @AfterClass
     public static void tearDown() {
-        Minium.release();
+        by.release();
         wd.quit();
     }
 

@@ -33,6 +33,10 @@ public class RhinoProperties {
             return modulePaths;
         }
 
+        public void setModulePaths(List<String> modulePaths) {
+            this.modulePaths = modulePaths;
+        }
+
         public boolean isSandboxed() {
             return sandboxed;
         }

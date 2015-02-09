@@ -21,4 +21,6 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface JsVariable {
     public String value();
+    public String expression() default "";
+    public boolean deleteAfterExpression() default false;
 }
