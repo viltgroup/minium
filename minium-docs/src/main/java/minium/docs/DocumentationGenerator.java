@@ -74,7 +74,7 @@ public class DocumentationGenerator {
 
         Multimap<String, Method> methods = Multimaps.index(
                 FluentIterable
-                    .from(ImmutableList.copyOf(clazz.getMethods()))
+                    .from(ImmutableList.copyOf(clazz.getDeclaredMethods()))
                     .filter(new Predicate<Method>() {
                         @Override
                         public boolean apply(Method method) {
