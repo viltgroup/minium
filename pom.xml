@@ -259,7 +259,7 @@
                     <configuration>
                         <excludePackageNames>*.internal.*</excludePackageNames>
                         <quiet>true</quiet>
-                        <failOnError>true</failOnError>
+                        <failOnError>false</failOnError>
                         <links>
                             <value>http://docs.oracle.com/javase/${java.version}/docs/api/</value>
                             <link>http://selenium.googlecode.com/git/docs/api/java/</link>
