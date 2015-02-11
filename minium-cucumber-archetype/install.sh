@@ -8,9 +8,9 @@ ARTIFACT=${1:-"my-archetype-test"}
 
 
 mvn archetype:generate \
-  -DarchetypeGroupId=com.vilt-group.minium \
-  -DarchetypeArtifactId=minium-pupino-cucumber-archetype \
-  -DarchetypeVersion=0.9.6-SNAPSHOT \
+  -DarchetypeGroupId=minium \
+  -DarchetypeArtifactId=minium-cucumber-archetype \
+  -DarchetypeVersion=2.0.0-SNAPSHOT \
   -DarchetypeRepository=https://maven.vilt-group.com/content/repositories/engineering-snapshots/ \
   -DgroupId=my.archetype \
   -DartifactId=$ARTIFACT \

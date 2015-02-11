@@ -29,7 +29,6 @@
         <fileSet filtered="false" encoding="UTF-8">
             <directory>src/test/resources</directory>
             <includes>
-                <include>application.yml</include>
                 <include>config/**/*</include>
                 <include>modules/**/*</include>
                 <include>steps/__feature___stepdefs.js</include>
