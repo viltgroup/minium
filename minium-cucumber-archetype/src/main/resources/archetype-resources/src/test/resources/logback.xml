@@ -9,9 +9,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.vilt.minium.script.Console" level="DEBUG" />
-    <logger name="com.vilt.minium" level="INFO" />
-    <logger name="minium.pupino" level="INFO" />
+    <logger name="minium.developer" level="INFO" />
 
     <root level="ERROR">
         <appender-ref ref="STDOUT" />

@@ -1,6 +1,4 @@
-var $       = require("minium"),
-    browser = $.browser,
-    expect  = require("expect-webelements"),
+var expect  = require("expect-webelements"),
     _       = require("lodash");
 
 Given(/^I'm at (.*)$/, function (url) {

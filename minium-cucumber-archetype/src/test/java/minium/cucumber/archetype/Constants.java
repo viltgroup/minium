@@ -20,8 +20,8 @@ import java.util.Properties;
 public class Constants {
 
     // GAV for the archetype
-    public static final String ARCHETYPE_GROUP_ID = "com.vilt-group.minium";
-    public static final String ARCHETYPE_ARTEFACT_ID = "minium-pupino-cucumber-archetype";
+    public static final String ARCHETYPE_GROUP_ID = "minium";
+    public static final String ARCHETYPE_ARTEFACT_ID = "minium-cucumber-archetype";
     public static final String ARCHETYPE_VERSION = System.getProperty("project.version");
 
     // GAV for the created artefact from the archetype which we want to test
