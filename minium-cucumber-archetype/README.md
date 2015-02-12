@@ -1,4 +1,4 @@
-Minium Pupino - Cucumber Archetype
+Minium - Cucumber Archetype
 ==================================
 
 Preconditions
@@ -16,13 +16,13 @@ Instructions
 
 Minium cucumber backend is very similar to [Cucumber Rhino](https://github.com/cucumber/cucumber-jvm/tree/master/rhino). Actually, it was adapted from there and even uses the same Javascript API.
 
-You can create a Minium Cucumber test project with the `minium-pupino-cucumber-archetype`. For that, ensure you're in VILT network and then execute the following command in your workspace folder:
+You can create a Minium Cucumber test project with the `minium-cucumber-archetype`. For that, ensure you're in VILT network and then execute the following command in your workspace folder:
 
 ```sh
 mvn archetype:generate \
-  -DarchetypeGroupId=com.vilt-group.minium \
-  -DarchetypeArtifactId=minium-pupino-cucumber-archetype \
-  -DarchetypeVersion=0.9.7-SNAPSHOT \
+  -DarchetypeGroupId=minium \
+  -DarchetypeArtifactId=minium-cucumber-archetype \
+  -DarchetypeVersion=2.0.0-SNAPSHOT \
   -DarchetypeRepository=https://maven.vilt-group.com/content/repositories/engineering-snapshots/ \
   -DgroupId=my.archetype \
   -DartifactId=my-archetype-test \
@@ -32,7 +32,7 @@ mvn archetype:generate \
   -DinteractiveMode=false
 ```
 
-That will create a project `my-archetype-test` with a JUnit structure ready to run, and with Pupino bits for editing. To launch Pupino:
+That will create a project `my-archetype-test` with a JUnit structure ready to run. To launch Pupino:
 
 ```sh
 cd my-archetype-test
