@@ -12,4 +12,8 @@ public interface StepListener {
     public void ignoredStep(Step step);
 
     public void failedStep(Step step, Throwable error);
+    
+    public void exampleStep(int line);
+
+	public void failedExampleStep(int line);
 }
