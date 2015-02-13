@@ -1,0 +1,6 @@
+#AsyncInteraction
+## .isComplete()
+
+
+## .waitUntilCompleted()
+
