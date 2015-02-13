@@ -42,7 +42,7 @@
 			<artifactId>logback-classic</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>minium</groupId>
+			<groupId>io.vilt.minium</groupId>
 			<artifactId>minium-cucumber</artifactId>
 			<version>${minium.version}</version>
 		</dependency>
