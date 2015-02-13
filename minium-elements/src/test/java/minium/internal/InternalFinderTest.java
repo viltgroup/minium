@@ -9,7 +9,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import minium.Elements;
 import minium.FindElements;
-import minium.Finder;
+import minium.Locator;
 
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -38,20 +38,20 @@ public class InternalFinderTest {
 
     @Test
     public void testFinderChain() {
-        Finder<TestElements> by = new Finder<>(TestElements.class, OtherElements.class);
+        Locator<TestElements> by = new Locator<>(TestElements.class, OtherElements.class);
         TestElements fooBar = by.selector(":text").foo().bar();
-        assertThat(fooBar, instanceOf(InternalFinder.class));
+        assertThat(fooBar, instanceOf(InternalLocator.class));
 
         OtherElements<?> other = fooBar.as(OtherElements.class);
-        assertThat(other, instanceOf(InternalFinder.class));
+        assertThat(other, instanceOf(InternalLocator.class));
 
         TestElements bar = other.as(TestElements.class).bar();
-        assertThat(bar, instanceOf(InternalFinder.class));
+        assertThat(bar, instanceOf(InternalLocator.class));
     }
 
     @Test
     public void testFinderEval() {
-        Finder<TestElements> by = new Finder<>(TestElements.class, CombinedTestElements.class);
+        Locator<TestElements> by = new Locator<>(TestElements.class, CombinedTestElements.class);
         Elements longFinder = by.selector(":text").foo().bar().as(OtherTestElements.class).other();
 
         final TestElements elems = mock(TestElements.class, RETURNS_DEEP_STUBS);
@@ -70,7 +70,7 @@ public class InternalFinderTest {
         when(elems.find(Mockito.same(":text")).foo().bar()).thenReturn(mixin);
         when(otherElems.other()).thenReturn(result);
 
-        Elements evalElems = longFinder.as(InternalFinder.class).eval(elems);
+        Elements evalElems = longFinder.as(InternalLocator.class).eval(elems);
         assertThat(evalElems, instanceOf(CombinedTestElements.class));
         assertThat((CombinedTestElements) evalElems, sameInstance(result));
         verify(elems).find(":text");

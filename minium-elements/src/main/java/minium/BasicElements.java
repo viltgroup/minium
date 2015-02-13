@@ -10,3 +10,4 @@ public interface BasicElements<T extends Elements> extends Elements {
 
     public int size();
 }
+

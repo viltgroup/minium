@@ -1,7 +1,7 @@
 package minium.script.rhinojs;
 
-import minium.web.WebElementsFactory.Builder;
-import minium.web.WebModule;
+import minium.web.internal.WebModule;
+import minium.web.internal.WebElementsFactory.Builder;
 import minium.web.internal.expression.BasicExpression;
 import minium.web.internal.expression.Expression;
 import minium.web.internal.expression.Expressionizer;

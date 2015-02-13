@@ -1,4 +1,4 @@
-package minium.web;
+package minium.web.internal;
 
 import minium.actions.Configuration;
 import minium.actions.HasConfiguration;
@@ -12,10 +12,14 @@ import minium.actions.internal.DefaultDebugInteractable;
 import minium.actions.internal.DefaultInteractable;
 import minium.actions.internal.DefaultWaitInteractable;
 import minium.internal.LocatableElements;
+import minium.web.ConditionalWebElements;
+import minium.web.CoreWebElements;
+import minium.web.PositionWebElements;
+import minium.web.WebElements;
 import minium.web.CoreWebElements.DefaultWebElements;
-import minium.web.WebElementsFactory.Builder;
 import minium.web.actions.HasAlert;
 import minium.web.actions.HasBrowser;
+import minium.web.internal.WebElementsFactory.Builder;
 import minium.web.internal.actions.DefaultHasAlert;
 import minium.web.internal.actions.DefaultHasBrowser;
 import minium.web.internal.actions.WebInteractionPerformer;

@@ -1,4 +1,4 @@
-package minium.visual;
+package minium.visual.internal;
 
 import minium.FreezableElements;
 import minium.PositionElements;
@@ -13,9 +13,8 @@ import minium.actions.internal.DefaultConfiguration;
 import minium.actions.internal.DefaultDebugInteractable;
 import minium.actions.internal.DefaultInteractable;
 import minium.actions.internal.DefaultWaitInteractable;
-import minium.visual.internal.DefaultBasicVisualElements;
-import minium.visual.internal.DefaultPositionVisualElements;
-import minium.visual.internal.FreezableVisualElements;
+import minium.visual.BasicVisualElements;
+import minium.visual.VisualElements;
 import minium.visual.internal.actions.VisualInteractionPerformer;
 
 import org.sikuli.script.Screen;

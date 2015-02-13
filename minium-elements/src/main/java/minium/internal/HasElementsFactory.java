@@ -1,6 +1,6 @@
 package minium.internal;
 
-import minium.ElementsFactory;
+
 
 
 public interface HasElementsFactory {

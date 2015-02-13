@@ -1,12 +1,12 @@
-package minium.visual;
+package minium.visual.internal;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
 
 import minium.Elements;
-import minium.ElementsFactory;
-import minium.visual.internal.DefaultVisualElementsFactory;
+import minium.internal.ElementsFactory;
+import minium.visual.VisualElements;
 
 import org.sikuli.script.Region;
 import org.sikuli.script.Screen;

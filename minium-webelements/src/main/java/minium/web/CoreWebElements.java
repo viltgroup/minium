@@ -22,7 +22,7 @@ public interface CoreWebElements<T extends WebElements> extends
         Interactable {
 
     public interface DefaultWebElements extends CoreWebElements<DefaultWebElements> {
-        public static final WebFinder<DefaultWebElements> by = new WebFinder<>(DefaultWebElements.class);
+        public static final WebLocator<DefaultWebElements> by = new WebLocator<>(DefaultWebElements.class);
     }
 
 }

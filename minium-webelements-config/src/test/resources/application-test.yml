@@ -1,7 +1,5 @@
 minium.webdriver:
   url: http://localhost:4444/wd/hub
-  elementInterfaces:
-    - minium.pupino.webdriver.SelectorGadgetWebElements
   desiredCapabilities:
     browserName: chrome
     version:     39.0

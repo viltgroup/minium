@@ -1,15 +1,15 @@
 package minium.web;
 
-import minium.Finder;
+import minium.Locator;
 import minium.web.internal.CssSelectors;
 
-public class WebFinder<T extends WebElements> extends Finder<T> {
+public class WebLocator<T extends WebElements> extends Locator<T> {
 
-    public WebFinder(Class<T> intf) {
+    public WebLocator(Class<T> intf) {
         super(intf);
     }
 
-    public WebFinder(T root, Class<T> intf, Class<?> ... others) {
+    public WebLocator(T root, Class<T> intf, Class<?> ... others) {
         super(root, intf, others);
     }
 

@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 import minium.Elements;
 import minium.internal.HasElementsFactory;
 import minium.visual.VisualElements;
-import minium.visual.VisualElementsFactory;
 
 import com.google.common.reflect.AbstractInvocationHandler;
 

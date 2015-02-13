@@ -1,22 +1,22 @@
 package minium.script.rhinojs;
 
 import static minium.script.rhinojs.RhinoWebModules.rhinoModule;
-import static minium.web.WebModules.baseModule;
-import static minium.web.WebModules.combine;
-import static minium.web.WebModules.conditionalModule;
-import static minium.web.WebModules.interactableModule;
-import static minium.web.WebModules.positionModule;
+import static minium.web.internal.WebModules.baseModule;
+import static minium.web.internal.WebModules.combine;
+import static minium.web.internal.WebModules.conditionalModule;
+import static minium.web.internal.WebModules.interactableModule;
+import static minium.web.internal.WebModules.positionModule;
 
 import java.io.IOException;
 
 import minium.actions.InteractionPerformer;
 import minium.script.js.MiniumJsEngineAdapter;
-import minium.script.rhinojs.CoreRhinoJsWebElements.DefaultRhinoJsWebElements;
 import minium.script.rhinojs.RhinoProperties.RequireProperties;
-import minium.web.WebElementsFactory;
-import minium.web.WebElementsFactory.Builder;
-import minium.web.WebFinder;
-import minium.web.WebModule;
+import minium.web.CoreWebElements.DefaultWebElements;
+import minium.web.WebLocator;
+import minium.web.internal.WebElementsFactory;
+import minium.web.internal.WebModule;
+import minium.web.internal.WebElementsFactory.Builder;
 import minium.web.internal.actions.WebInteractionPerformer;
 
 import org.junit.AfterClass;
@@ -27,22 +27,22 @@ import org.openqa.selenium.chrome.ChromeDriver;
 public class RhinoEngineIT {
 
     private static ChromeDriver wd;
-    private static WebFinder<DefaultRhinoJsWebElements> by;
+    private static WebLocator<DefaultWebElements> by;
 
     @BeforeClass
     public static void setup() {
         wd = new ChromeDriver();
-        Builder<DefaultRhinoJsWebElements> builder = new WebElementsFactory.Builder<>();
+        Builder<DefaultWebElements> builder = new WebElementsFactory.Builder<>();
         InteractionPerformer performer = new WebInteractionPerformer();
         WebModule module = combine(
-                baseModule(wd, DefaultRhinoJsWebElements.class),
+                baseModule(wd),
                 positionModule(),
                 conditionalModule(),
                 rhinoModule(),
                 interactableModule(performer));
         module.configure(builder);
-        DefaultRhinoJsWebElements root = builder.build().createRoot();
-        by = new WebFinder<>(root, DefaultRhinoJsWebElements.class);
+        DefaultWebElements root = builder.build().createRoot();
+        by = new WebLocator<>(root, DefaultWebElements.class, JsFunctionWebElements.class);
     }
 
     @AfterClass
@@ -57,7 +57,7 @@ public class RhinoEngineIT {
         RequireProperties requireProperties = new RequireProperties();
         properties.setRequire(requireProperties);
         final RhinoEngine engine = new RhinoEngine(properties);
-        new MiniumJsEngineAdapter(by).adapt(engine);
+        new MiniumJsEngineAdapter(by, null).adapt(engine);
         engine.runScript("classpath:minium/script/rhinojs/gs.js");
     }
 }

@@ -2,6 +2,7 @@ package minium.web.internal;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Set;
 
 import minium.BasicElements;
 import minium.Elements;
@@ -14,7 +15,6 @@ import minium.internal.InternalElementsFactory;
 import minium.web.DocumentWebDriver;
 import minium.web.TargetLocatorWebElements;
 import minium.web.WebElements;
-import minium.web.WebElementsFactory;
 import minium.web.internal.drivers.DefaultJavascriptInvoker;
 import minium.web.internal.drivers.DocumentWebElement;
 import minium.web.internal.drivers.InternalDocumentWebDriver;
@@ -41,6 +41,7 @@ import platypus.internal.Casts;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.TypeToken;
 
 public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl implements WebElementsFactory<T>, InternalElementsFactory<T> {
@@ -58,12 +59,14 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
         IterableElements.class
     };
 
+    private Set<Class<?>> builerProvidedInterfaces;
     @SuppressWarnings("serial")
     private final TypeToken<T> typeVariableToken = new TypeToken<T>(getClass()) {};
     private final InternalDocumentWebDriver rootDocumentDriver;
     private final MixinClass<T> rootClass;
     private final MixinClass<T> hasParentClass;
     private final MixinInitializer baseInitializer;
+
 
     public DefaultWebElementsFactory(final Builder<T> builder) {
 
@@ -84,7 +87,8 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
 
         Class<T> intf = Casts.unsafeCast(typeVariableToken.getRawType());
 
-        MixinClasses.Builder<T> mixinBuilder = MixinClasses.builder(intf).addInterfaces(CORE_INTFS).addInterfaces(builder.getIntfs());
+        builerProvidedInterfaces = builder.getIntfs();
+        MixinClasses.Builder<T> mixinBuilder = MixinClasses.builder(intf).addInterfaces(CORE_INTFS).addInterfaces(builerProvidedInterfaces);
 
         mixinBuilder.addInterfaces(HasJavascriptInvoker.class);
 
@@ -105,12 +109,17 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
 
                 // dynamic invocation handlers
                 ExpressionInvocationHandler<T> expressionInvocationHandler = new ExpressionInvocationHandler<T>(DefaultWebElementsFactory.this, coercer);
-                for (Class<?> intf : builder.getIntfs()) {
+                for (Class<?> intf : builerProvidedInterfaces) {
                     implement(intf).with(expressionInvocationHandler);
                 }
             }
         });
 
+    }
+
+    @Override
+    public Set<Class<?>> getProvidedInterfaces() {
+        return ImmutableSet.copyOf(builerProvidedInterfaces);
     }
 
     @Override

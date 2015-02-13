@@ -5,7 +5,7 @@ import java.util.Set;
 
 import minium.BasicElements;
 import minium.Elements;
-import minium.ElementsFactory;
+import minium.internal.ElementsFactory;
 import minium.internal.InternalElementsFactory;
 import minium.internal.Reflections;
 import minium.web.DocumentWebDriver;

@@ -1,11 +1,11 @@
 package minium.script.dynjs;
 
 import static minium.script.dynjs.DynJsWebModules.dynJsModule;
-import static minium.web.WebModules.baseModule;
-import static minium.web.WebModules.combine;
-import static minium.web.WebModules.conditionalModule;
-import static minium.web.WebModules.interactableModule;
-import static minium.web.WebModules.positionModule;
+import static minium.web.internal.WebModules.baseModule;
+import static minium.web.internal.WebModules.combine;
+import static minium.web.internal.WebModules.conditionalModule;
+import static minium.web.internal.WebModules.interactableModule;
+import static minium.web.internal.WebModules.positionModule;
 
 import java.io.IOException;
 
@@ -13,10 +13,10 @@ import minium.actions.InteractionPerformer;
 import minium.script.dynjs.CoreDynJsWebElements.DefaultDynJsWebElements;
 import minium.script.dynjs.DynJsProperties.RequireProperties;
 import minium.script.js.MiniumJsEngineAdapter;
-import minium.web.WebElementsFactory;
-import minium.web.WebElementsFactory.Builder;
-import minium.web.WebFinder;
-import minium.web.WebModule;
+import minium.web.WebLocator;
+import minium.web.internal.WebElementsFactory;
+import minium.web.internal.WebModule;
+import minium.web.internal.WebElementsFactory.Builder;
 import minium.web.internal.actions.WebInteractionPerformer;
 
 import org.junit.AfterClass;
@@ -31,7 +31,7 @@ public class DynJsEngineIT {
 
     private static WebDriver wd;
     private static DynJsEngine engine;
-    private static WebFinder<DefaultDynJsWebElements> by;
+    private static WebLocator<DefaultDynJsWebElements> by;
 
     @BeforeClass
     public static void setup() {
@@ -53,9 +53,9 @@ public class DynJsEngineIT {
                 interactableModule(performer));
         module.configure(builder);
         DefaultDynJsWebElements root = builder.build().createRoot();
-        by = new WebFinder<>(root, DefaultDynJsWebElements.class);
+        by = new WebLocator<>(root, DefaultDynJsWebElements.class);
 
-        new MiniumJsEngineAdapter(by).adapt(engine);
+        new MiniumJsEngineAdapter(by, null).adapt(engine);
     }
 
     @AfterClass

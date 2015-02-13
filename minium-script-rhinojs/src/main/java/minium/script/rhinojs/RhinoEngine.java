@@ -46,7 +46,7 @@ public class RhinoEngine implements JsEngine, DisposableBean {
     public abstract class RhinoCallable<T, X extends Exception> implements Callable<T> {
 
         @Override
-        public T call() throws Exception {
+        public T call() throws X {
             Context cx = Context.enter();
             try {
                 return doCall(cx, scope);
@@ -283,6 +283,12 @@ public class RhinoEngine implements JsEngine, DisposableBean {
 
     @SuppressWarnings("unchecked")
     public <T, X extends Exception> T runWithContext(RhinoCallable<? extends T, X> fn) throws X {
+        if (Thread.currentThread() == executionThread) {
+            Context currentContext = Context.getCurrentContext();
+            Preconditions.checkState(currentContext != null, "A rhino context was expected at this thread");
+            return fn.doCall(currentContext, scope);
+        }
+
         Preconditions.checkState(lastTask == null || lastTask.isDone());
         try {
             this.lastTask = executorService.submit(fn);

@@ -2,7 +2,7 @@ package minium;
 
 import java.lang.reflect.Method;
 
-import minium.internal.InternalFinder;
+import minium.internal.InternalLocator;
 import platypus.MixinClass;
 import platypus.MixinClasses;
 
@@ -10,23 +10,23 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 
-public class Finder<T extends Elements> {
+public class Locator<T extends Elements> {
 
     private MixinClass<T> mixinClass;
     private transient Supplier<? extends T> rootSupplier;
 
-    public Finder(T root, Class<T> intf, Class<?> ... others) {
+    public Locator(T root, Class<T> intf, Class<?> ... others) {
         this(intf, others);
         setRoot(root);
     }
 
-    public Finder(Class<T> intf, Class<?> ... others) {
+    public Locator(Class<T> intf, Class<?> ... others) {
         Preconditions.checkArgument(intf.isInterface(), "class %s is not an interface", intf);
-        mixinClass = MixinClasses.builder(intf).addInterfaces(others).addInterfaces(InternalFinder.class).build();
+        mixinClass = MixinClasses.builder(intf).addInterfaces(others).addInterfaces(InternalLocator.class).build();
     }
 
     @SuppressWarnings("unchecked")
-    public Finder(T root) {
+    public Locator(T root) {
         this((Class<T>) root.getClass());
         setRoot(root);
     }
@@ -52,15 +52,15 @@ public class Finder<T extends Elements> {
     }
 
     public T root() {
-        return InternalFinder.MethodInvocationImpl.createInternalFinder(this, null);
+        return InternalLocator.MethodInvocationImpl.createInternalLocator(this, null);
     }
 
     public T selector(String selector) {
-        return createFinder(InternalFinder.FIND_METHOD, selector);
+        return createFinder(InternalLocator.FIND_METHOD, selector);
     }
 
     protected T createFinder(Method method, Object ... args) {
-        return InternalFinder.MethodInvocationImpl.createInternalFinder(this, null, method, args);
+        return InternalLocator.MethodInvocationImpl.createInternalLocator(this, null, method, args);
     }
 
     @Override

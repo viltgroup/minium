@@ -1,16 +1,19 @@
 package minium.script.js;
 
-import minium.Finder;
+import minium.Locator;
 
 public class MiniumJsEngineAdapter {
 
-    private Finder<?> by;
+    private Locator<?> by;
+    private JsWebDriverFactory browsers;
 
-    public MiniumJsEngineAdapter(Finder<?> by) {
+    public MiniumJsEngineAdapter(Locator<?> by, JsWebDriverFactory factory) {
         this.by = by;
+        browsers = factory;
     }
 
     public void adapt(JsEngine engine) {
+        engine.put("browsers", browsers);
         engine.put("__by", by);
         try {
             engine.eval("$ = require('minium'); if (typeof $.browser !== 'undefined') browser = $.browser;", 1);

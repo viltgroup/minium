@@ -33,6 +33,7 @@
 		<commons-compress.version>1.9</commons-compress.version>
 		<jackson.version>2.5.0</jackson.version>
 		<slf4j.version>1.7.10</slf4j.version>
+		<args4j.version>2.0.29</args4j.version>
 		
 		<powermock.version>1.6.1</powermock.version>
 	</properties>
@@ -216,6 +217,11 @@
 				<version>${commons-compress.version}</version>
 			</dependency>
 			<dependency>
+			    <groupId>args4j</groupId>
+			    <artifactId>args4j</artifactId>
+			    <version>${args4j.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>org.powermock</groupId>
 				<artifactId>powermock-api-mockito</artifactId>
 				<version>${powermock.version}</version>
@@ -267,7 +273,7 @@
                         <quiet>true</quiet>
                         <failOnError>true</failOnError>
                         <links>
-                            <value>http://docs.oracle.com/javase/${java.version}/docs/api/</value>
+                            <link>http://docs.oracle.com/javase/${java.version}/docs/api/</link>
                             <link>http://selenium.googlecode.com/git/docs/api/java/</link>
                             <link>http://docs.guava-libraries.googlecode.com/git-history/v${guava.version}/javadoc/</link>
                         </links>
@@ -309,6 +315,7 @@
 	    <module>minium-cucumber-archetype</module>
 	    <module>minium-visualelements-config</module>
 	    <module>minium-docs</module>
+	    <module>minium-automaton</module>
 	</modules>
 	
 	<repositories>

@@ -3,21 +3,21 @@ package minium.visual;
 import java.lang.reflect.Method;
 import java.net.URL;
 
-import minium.Finder;
+import minium.Locator;
 import minium.internal.Paths;
 import minium.internal.Reflections;
 
-public class VisualFinder<E extends VisualElements> extends Finder<E> {
+public class VisualLocator<E extends VisualElements> extends Locator<E> {
 
     private static final Method FIND_TEXT_METHOD = Reflections.getDeclaredMethod(BasicVisualElements.class, "findText", String.class);
 
     private static final Method FIND_PATTERN_METHOD = Reflections.getDeclaredMethod(BasicVisualElements.class, "find", Pattern.class);
 
-    protected VisualFinder(Class<E> intf) {
+    protected VisualLocator(Class<E> intf) {
         super(intf);
     }
 
-    public VisualFinder(E root) {
+    public VisualLocator(E root) {
         super(root);
     }
 

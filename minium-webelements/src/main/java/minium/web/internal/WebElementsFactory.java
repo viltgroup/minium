@@ -1,11 +1,12 @@
-package minium.web;
+package minium.web.internal;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
 
-import minium.ElementsFactory;
-import minium.web.internal.DefaultWebElementsFactory;
+import minium.internal.ElementsFactory;
+import minium.web.DocumentWebDriver;
+import minium.web.WebElements;
 import minium.web.internal.drivers.DocumentWebElement;
 import minium.web.internal.expression.Coercer;
 import minium.web.internal.expression.Expressionizer;

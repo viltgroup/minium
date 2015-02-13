@@ -1,6 +1,6 @@
-package minium;
+package minium.internal;
 
-import minium.ElementsFactory.Builder;
+import minium.internal.ElementsFactory.Builder;
 
 import com.google.common.collect.ImmutableList;
 

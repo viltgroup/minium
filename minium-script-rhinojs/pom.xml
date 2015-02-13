@@ -18,6 +18,10 @@
 		</dependency>
 		<dependency>
 			<groupId>minium</groupId>
+			<artifactId>minium-webelements-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>minium</groupId>
 			<artifactId>minium-script-js</artifactId>
 		</dependency>
 		<dependency>
