@@ -50,7 +50,7 @@
 
 		<checkstyle.config.dir>${basedir}/../src/main/checkstyle</checkstyle.config.dir>
 	
-		<platypus.version>0.1.0-SNAPSHOT</platypus.version>
+		<platypus.version>0.1.0</platypus.version>
 		<selenium.version>2.44.0</selenium.version>
 		<phantomjsdriver.version>1.2.0</phantomjsdriver.version>
 		<closure-compiler.version>v20141215</closure-compiler.version>
