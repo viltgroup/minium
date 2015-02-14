@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import minium.cucumber.internal.MiniumRhinoTestContextManager;
+import minium.script.js.JsVariablePostProcessor;
 import minium.script.rhinojs.RhinoEngine;
 
 import org.junit.runner.Description;
@@ -65,6 +66,9 @@ public class MiniumCucumber extends ParentRunner<FeatureRunner> {
     @Autowired
     private RhinoEngine rhinoEngine;
 
+    @Autowired
+    private JsVariablePostProcessor jsVariablePostProcessor;
+
     public MiniumCucumber(Class<?> clazz) throws InitializationError, IOException {
         super(clazz);
         ClassLoader classLoader = clazz.getClassLoader();
@@ -104,6 +108,7 @@ public class MiniumCucumber extends ParentRunner<FeatureRunner> {
 
     @Override
     public void run(final RunNotifier notifier) {
+        jsVariablePostProcessor.populateEngine(rhinoEngine);
         rhinoEngine.runWithContext(rhinoEngine.new RhinoCallable<Void, RuntimeException>() {
             @Override
             protected Void doCall(Context cx, Scriptable scope) {

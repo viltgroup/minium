@@ -349,7 +349,7 @@
 		<module>minium-cucumber-archetype</module>
 		<module>minium-visualelements-config</module>
 		<module>minium-docs</module>
-		<module>minium-automaton</module>
+		<module>minium-automator</module>
 	</modules>
 	
 	<repositories>

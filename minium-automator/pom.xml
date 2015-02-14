@@ -1,0 +1,71 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>io.vilt.minium</groupId>
+		<artifactId>minium-parent</artifactId>
+		<version>2.0.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>minium-automator</artifactId>
+	<name>Minium Automator</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>io.vilt.minium</groupId>
+			<artifactId>minium-script-rhinojs</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.vilt.minium</groupId>
+			<artifactId>minium-webelements-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>args4j</groupId>
+			<artifactId>args4j</artifactId>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<plugins>
+			<plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>appassembler-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-scripts</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>assemble</goal>
+                        </goals>
+                        <configuration>
+                            <includeConfigurationDirectoryInClasspath>false</includeConfigurationDirectoryInClasspath>
+                            <assembleDirectory>${project.build.directory}/${project.build.finalName}</assembleDirectory>
+                            <extraJvmArguments>-Xms128m -Xmx256m -Dminium.home=@BASEDIR@</extraJvmArguments>
+                            <repositoryLayout>flat</repositoryLayout>
+                            <repositoryName>lib</repositoryName>
+                            <useWildcardClassPath>true</useWildcardClassPath>
+                            <!-- Generate bin scripts for windows and unix by default -->
+                            <platforms>
+                                <platform>windows</platform>
+                                <platform>unix</platform>
+                            </platforms>
+                            <programs>
+                                <program>
+                                    <mainClass>minium.automator.Application</mainClass>
+                                    <name>minium-automator</name>
+                                </program>
+                            </programs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+		</plugins>
+	</build>
+
+</project>

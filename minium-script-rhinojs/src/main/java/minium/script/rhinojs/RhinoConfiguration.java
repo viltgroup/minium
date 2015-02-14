@@ -45,10 +45,8 @@ public class RhinoConfiguration {
 
     @Autowired(required = false)
     @Bean
-    public RhinoEngine rhinoEngine(RhinoProperties rhinoProperties, JsVariablePostProcessor jsVariablePostProcessor) throws IOException {
-        RhinoEngine engine = new RhinoEngine(rhinoProperties);
-        jsVariablePostProcessor.populateEngine(engine);
-        return engine;
+    public RhinoEngine rhinoEngine(RhinoProperties rhinoProperties) throws IOException {
+        return new RhinoEngine(rhinoProperties);
     }
 
     @Autowired
