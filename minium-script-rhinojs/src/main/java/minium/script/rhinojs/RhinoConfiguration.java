@@ -51,16 +51,19 @@ public class RhinoConfiguration {
 
     @Autowired
     @Bean
-    @JsVariable(value = "browsers")
-    public RhinoWebDriverFactory rhinoWebDriverFactory(ObjectMapper mapper, RhinoEngine engine, WebDriverFactory webDriverFactory) {
-        return new RhinoWebDriverFactory(mapper, engine, webDriverFactory);
+    @JsVariable(
+            value = "__browserFactory",
+            expression = "require('minium').__browserFactory = __browserFactory;",
+            deleteAfterExpression = true)
+    public RhinoBrowserFactory rhinoBrowserFactory(ObjectMapper mapper, RhinoEngine engine, WebDriverFactory webDriverFactory) {
+        return new RhinoBrowserFactory(mapper, engine, webDriverFactory);
     }
 
     @Autowired
     @Bean
     @JsVariable(
             value = "__by",
-            expression = "$ = require('minium'); if (typeof $.browser !== 'undefined') browser = $.browser;",
+            expression = "minium = require('minium'); $ = minium.$; if (typeof minium.browser !== 'undefined') browser = minium.browser;",
             deleteAfterExpression = true)
     public WebLocator<DefaultWebElements> by(WebElementsFactory<DefaultWebElements> elementsFactory) {
         Set<Class<?>> providedInterfaces = elementsFactory.getProvidedInterfaces();

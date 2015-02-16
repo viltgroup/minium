@@ -8,8 +8,10 @@ import java.util.Set;
 
 import minium.Dimension;
 import minium.Point;
+import minium.web.WebElements;
+import minium.web.WebLocator;
 
-public interface Browser {
+public interface Browser<T extends WebElements> {
 
     interface Options {
 
@@ -80,6 +82,8 @@ public interface Browser {
         void saveTo(File file) throws IOException;
     }
 
+    WebLocator<T> locator();
+
     void get(String url);
 
     String getCurrentUrl();
@@ -87,6 +91,8 @@ public interface Browser {
     String getTitle();
 
     void close();
+
+    void quit();
 
     Navigation navigate();
 

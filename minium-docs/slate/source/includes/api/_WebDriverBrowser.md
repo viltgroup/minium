@@ -1,4 +1,4 @@
-#Browser
+#WebDriverBrowser
 ## .locator()
 
 
@@ -24,4 +24,7 @@
 
 
 ## .screenshot()
+
+
+## .toString()
 

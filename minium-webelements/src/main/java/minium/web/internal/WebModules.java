@@ -13,15 +13,12 @@ import minium.actions.internal.DefaultInteractable;
 import minium.actions.internal.DefaultWaitInteractable;
 import minium.internal.LocatableElements;
 import minium.web.ConditionalWebElements;
-import minium.web.CoreWebElements;
+import minium.web.CoreWebElements.DefaultWebElements;
 import minium.web.PositionWebElements;
 import minium.web.WebElements;
-import minium.web.CoreWebElements.DefaultWebElements;
 import minium.web.actions.HasAlert;
-import minium.web.actions.HasBrowser;
 import minium.web.internal.WebElementsFactory.Builder;
 import minium.web.internal.actions.DefaultHasAlert;
-import minium.web.internal.actions.DefaultHasBrowser;
 import minium.web.internal.actions.WebInteractionPerformer;
 
 import org.openqa.selenium.WebDriver;
@@ -91,13 +88,11 @@ public class WebModules {
                 .implementingInterfaces(
                         intf,
                         LocatableElements.class,
-                        HasBrowser.class,
                         HasAlert.class
                 )
                 .usingMixinConfigurer(new AbstractMixinInitializer() {
                     @Override
                     protected void initialize() {
-                        implement(HasBrowser.class).with(new DefaultHasBrowser());
                         implement(HasAlert.class).with(new DefaultHasAlert());
                     }
                 });

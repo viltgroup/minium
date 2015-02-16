@@ -29,7 +29,8 @@ public class RhinoScriptCommandLineRunner implements CommandLineRunner {
             jsVariablePostProcessor.populateEngine(rhinoEngine);
             if (properties.getScript() != null) {
                 rhinoEngine.eval(properties.getScript(), 1);
-            } else if (properties.getFile() != null) {
+            }
+            if (properties.getFile() != null) {
                 rhinoEngine.runScript(properties.getFile());
             }
             exitCode = 0;

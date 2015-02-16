@@ -1,21 +1,28 @@
 (function () {
-  var minium;
+  var minium = {};
+  var dollarFn = function (locator) {
+    return function (selector) {
+      return locator.selector(selector);
+    };
+  };
   
   if (typeof __by !== 'undefined') {
     var by = __by;
     
-    var minium = function (selector) {
-      return by.selector(selector);
-    };
-    
     var HasBrowser = Packages.minium.web.actions.HasBrowser; 
     
     minium.by = by;
+    minium.$  = dollarFn(by);
 
     if (by.root().is(HasBrowser)) {
-      minium.browser = by.root().browser();
+      minium.browser   = by.root().browser();
+      minium.browser.$ = minium.$;
     }
   }
+
+  var Keys = Packages.minium.actions.Keys;
+  
+  minium.keys = Keys;
   
   var InteractionListeners    = Packages.minium.actions.InteractionListeners;
   var WebInteractionListeners = Packages.minium.web.actions.WebInteractionListeners;
@@ -62,6 +69,13 @@
       hours        : TimeUnit.HOURS,
       days         : TimeUnit.DAYS
   };
+  
+  // new browsers
+  minium.newBrowser = function(config) {
+    var browser = minium.__browserFactory.create(config || {});
+    browser.$ = dollarFn(browser.locator());
+    return browser;
+  }
   
   // export minium
   module.exports = minium;

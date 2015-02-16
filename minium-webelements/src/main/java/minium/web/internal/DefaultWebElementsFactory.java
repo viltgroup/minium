@@ -15,6 +15,9 @@ import minium.internal.InternalElementsFactory;
 import minium.web.DocumentWebDriver;
 import minium.web.TargetLocatorWebElements;
 import minium.web.WebElements;
+import minium.web.actions.HasBrowser;
+import minium.web.internal.actions.DefaultHasBrowser;
+import minium.web.internal.actions.HasWebLocator;
 import minium.web.internal.drivers.DefaultJavascriptInvoker;
 import minium.web.internal.drivers.DocumentWebElement;
 import minium.web.internal.drivers.InternalDocumentWebDriver;
@@ -52,6 +55,8 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
         HasElementsFactory.class,
         HasNativeWebDriver.class,
         HasExpressionizer.class,
+        HasWebLocator.class,
+        HasBrowser.class,
         HasCoercer.class,
         ExpressionWebElements.class,
         TargetLocatorWebElements.class,
@@ -66,7 +71,6 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
     private final MixinClass<T> rootClass;
     private final MixinClass<T> hasParentClass;
     private final MixinInitializer baseInitializer;
-
 
     public DefaultWebElementsFactory(final Builder<T> builder) {
 
@@ -85,7 +89,7 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
 
         this.rootDocumentDriver = wd instanceof InternalDocumentWebDriver ? ((InternalDocumentWebDriver) wd) : new WindowWebDriver(wd);
 
-        Class<T> intf = Casts.unsafeCast(typeVariableToken.getRawType());
+        final Class<T> intf = Casts.unsafeCast(typeVariableToken.getRawType());
 
         builerProvidedInterfaces = builder.getIntfs();
         MixinClasses.Builder<T> mixinBuilder = MixinClasses.builder(intf).addInterfaces(CORE_INTFS).addInterfaces(builerProvidedInterfaces);
@@ -106,6 +110,8 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
                 implement(TargetLocatorWebElements.class).with(new DefaultTargetLocatorWebElements());
                 implement(IterableElements.class).with(new DefaultIterableElements());
                 implement(HasJavascriptInvoker.class).with(new HasJavascriptInvoker.Impl(javascriptInvoker));
+                implement(HasBrowser.class).with(new DefaultHasBrowser<T>());
+                implement(HasWebLocator.class).with(new HasWebLocator.Impl<T>(intf, builerProvidedInterfaces));
 
                 // dynamic invocation handlers
                 ExpressionInvocationHandler<T> expressionInvocationHandler = new ExpressionInvocationHandler<T>(DefaultWebElementsFactory.this, coercer);

@@ -1,10 +1,18 @@
 package minium.script.rhinojs;
 
+import static minium.web.internal.WebModules.combine;
+import static minium.web.internal.WebModules.defaultModule;
+
 import java.io.IOException;
 
-import minium.script.js.JsWebDriverFactory;
+import minium.script.js.JsBrowserFactory;
+import minium.web.CoreWebElements.DefaultWebElements;
+import minium.web.actions.WebDriverBrowser;
 import minium.web.config.WebDriverFactory;
 import minium.web.config.WebDriverProperties;
+import minium.web.internal.WebModule;
+import minium.web.internal.WebModules;
+import minium.web.internal.actions.WebDebugInteractionPerformer;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -14,17 +22,17 @@ import org.openqa.selenium.remote.CapabilityType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Throwables;
 
-public class RhinoWebDriverFactory implements JsWebDriverFactory {
+public class RhinoBrowserFactory implements JsBrowserFactory {
 
     private final ObjectMapper mapper;
     private final RhinoEngine engine;
     private final WebDriverFactory webDriverFactory;
 
-    public RhinoWebDriverFactory(RhinoEngine engine) {
+    public RhinoBrowserFactory(RhinoEngine engine) {
         this(new ObjectMapper(), engine, new WebDriverFactory(null));
     }
 
-    public RhinoWebDriverFactory(ObjectMapper mapper, RhinoEngine engine, WebDriverFactory webDriverFactory) {
+    public RhinoBrowserFactory(ObjectMapper mapper, RhinoEngine engine, WebDriverFactory webDriverFactory) {
         this.mapper = mapper;
         this.engine = engine;
         this.webDriverFactory = webDriverFactory;
@@ -34,7 +42,7 @@ public class RhinoWebDriverFactory implements JsWebDriverFactory {
      * @see minium.script.rhinojs.JsWebDriverFactory#create(java.lang.Object)
      */
     @Override
-    public WebDriver create(Object obj) {
+    public WebDriverBrowser<?> create(Object obj) {
         try {
             WebDriverProperties webDriverProperties;
             if (obj instanceof Scriptable && "String".equals(((Scriptable) obj).getClassName())) {
@@ -56,7 +64,9 @@ public class RhinoWebDriverFactory implements JsWebDriverFactory {
             } else {
                 throw new IllegalArgumentException("Only strings or maps are accepted");
             }
-            return webDriverFactory.create(webDriverProperties);
+            WebDriver wd = webDriverFactory.create(webDriverProperties);
+            WebModule webModule = combine(defaultModule(wd), WebModules.debugModule(new WebDebugInteractionPerformer()), RhinoWebModules.rhinoModule());
+            return new WebDriverBrowser<DefaultWebElements>(wd, DefaultWebElements.class, webModule);
         } catch (IOException e) {
             throw Throwables.propagate(e);
         }

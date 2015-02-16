@@ -13,7 +13,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>io.vilt.minium</groupId>
-			<artifactId>minium-elements</artifactId>
+			<artifactId>minium-webelements</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

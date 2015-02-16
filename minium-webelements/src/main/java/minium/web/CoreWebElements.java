@@ -15,9 +15,9 @@ public interface CoreWebElements<T extends WebElements> extends
         EvalWebElements<T>,
         TargetLocatorWebElements<T>,
         PositionWebElements<T>,
+        HasBrowser<T>,
         HasAlert,
         HasConfiguration,
-        HasBrowser,
         WaitInteractable,
         Interactable {
 
