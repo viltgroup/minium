@@ -9,7 +9,7 @@ import static minium.web.internal.WebModules.positionModule;
 
 import java.io.IOException;
 
-import minium.actions.InteractionPerformer;
+import minium.actions.internal.InteractionPerformer;
 import minium.script.dynjs.CoreDynJsWebElements.DefaultDynJsWebElements;
 import minium.script.dynjs.DynJsProperties.RequireProperties;
 import minium.script.js.MiniumJsEngineAdapter;

@@ -1,6 +1,7 @@
-package minium.actions;
+package minium.actions.internal;
 
 import minium.Elements;
+import minium.actions.Keys;
 
 public interface KeyboardInteractionPerformer {
 

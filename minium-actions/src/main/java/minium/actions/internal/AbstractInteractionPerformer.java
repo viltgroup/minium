@@ -6,7 +6,6 @@ import java.util.List;
 import minium.actions.AsyncInteraction;
 import minium.actions.Interaction;
 import minium.actions.InteractionListener;
-import minium.actions.InteractionPerformer;
 import platypus.Mixin;
 
 import com.google.common.collect.Lists;

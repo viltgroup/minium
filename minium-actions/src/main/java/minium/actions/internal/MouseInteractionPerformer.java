@@ -1,4 +1,4 @@
-package minium.actions;
+package minium.actions.internal;
 
 import minium.Elements;
 import minium.Offsets.Offset;

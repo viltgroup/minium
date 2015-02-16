@@ -1,8 +1,11 @@
-package minium.actions;
+package minium.actions.internal;
 
 import minium.AsIs;
 import minium.Elements;
 import minium.ElementsException;
+import minium.actions.AsyncInteraction;
+import minium.actions.Interaction;
+import minium.actions.InteractionListener;
 
 public interface InteractionPerformer extends AsIs, MouseInteractionPerformer, KeyboardInteractionPerformer, WaitInterationPerformer {
 

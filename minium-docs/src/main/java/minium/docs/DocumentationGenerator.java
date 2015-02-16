@@ -57,8 +57,14 @@ public class DocumentationGenerator {
 	 *      .prevUntil() method</a> <!-- end-minium-doc -->
 	 */
 	public void generateAllDocs() throws IOException {
-		generateDocs("api/_elements.md", "Elements", BasicWebElements.class, FreezableElements.class, ConditionalWebElements.class, ExtensionsWebElements.class, EvalWebElements.class,
-				TargetLocatorWebElements.class, PositionWebElements.class);
+		generateDocs("api/_elements.md", "Elements",
+		        BasicWebElements.class,
+		        FreezableElements.class,
+		        ConditionalWebElements.class,
+		        ExtensionsWebElements.class,
+		        EvalWebElements.class,
+				TargetLocatorWebElements.class,
+				PositionWebElements.class);
 		generateDocs("api/_interactions.md", "Interactions", Interactable.class);
 		generateDocs("api/_waitInteractions.md", "Wait Interactions", WaitInteractable.class);
 		generateDocs("api/_debugInteractions.md", "Debug Interactions", DebugInteractable.class);
