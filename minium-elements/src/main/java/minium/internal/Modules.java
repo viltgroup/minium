@@ -1,8 +1,10 @@
 package minium.internal;
 
+import static java.lang.String.format;
 import minium.internal.ElementsFactory.Builder;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 
 public class Modules {
 
@@ -14,6 +16,11 @@ public class Modules {
                 for (Module module : modules) {
                     module.configure(builder);
                 }
+            }
+
+            @Override
+            public String toString() {
+                return format("Module%s", Iterables.toString(modules));
             }
         };
     }

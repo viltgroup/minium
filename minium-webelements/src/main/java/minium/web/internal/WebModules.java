@@ -1,5 +1,6 @@
 package minium.web.internal;
 
+import static java.lang.String.format;
 import minium.actions.Configuration;
 import minium.actions.HasConfiguration;
 import minium.actions.Interactable;
@@ -27,6 +28,7 @@ import platypus.AbstractMixinInitializer;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 
 public class WebModules {
 
@@ -44,6 +46,11 @@ public class WebModules {
                             PositionWebElements.class
                     );
             }
+
+            @Override
+            public String toString() {
+                return "WebModule[position]";
+            }
         };
     }
 
@@ -60,6 +67,11 @@ public class WebModules {
                         .implementingInterfaces(
                                 ConditionalWebElements.class
                         );
+            }
+
+            @Override
+            public String toString() {
+                return "WebModule[conditional]";
             }
         };
     }
@@ -97,6 +109,11 @@ public class WebModules {
                     }
                 });
             }
+
+            @Override
+            public String toString() {
+                return "WebModule[base]";
+            }
         };
         return baseModule;
     };
@@ -108,8 +125,13 @@ public class WebModules {
             public void configure(Builder<?> builder) {
                 builder.implementingInterfaces(intf);
             }
+
+            @Override
+            public String toString() {
+                return "WebModule[javascript delegating]";
+            }
         };
-    };
+    }
 
     public static WebModule interactableModule(final InteractionPerformer performer) {
         Preconditions.checkNotNull(performer);
@@ -128,6 +150,11 @@ public class WebModules {
                         implement(WaitInteractable.class).with(new DefaultWaitInteractable(performer));
                     }
                 });
+            }
+
+            @Override
+            public String toString() {
+                return "WebModule[interactable]";
             }
         };
     };
@@ -148,6 +175,11 @@ public class WebModules {
                     }
                 });
             }
+
+            @Override
+            public String toString() {
+                return "WebModule[debug]";
+            }
         };
     }
 
@@ -158,6 +190,11 @@ public class WebModules {
                 for (WebModule module : modules) {
                     module.configure(builder);
                 }
+            }
+
+            @Override
+            public String toString() {
+                return format("WebModule%s", Iterables.toString(modules));
             }
         };
     }

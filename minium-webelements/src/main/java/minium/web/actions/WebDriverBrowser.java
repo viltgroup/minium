@@ -1,5 +1,7 @@
 package minium.web.actions;
 
+import java.util.Set;
+
 import minium.internal.Module;
 import minium.internal.Modules;
 import minium.web.WebElements;
@@ -10,8 +12,12 @@ import minium.web.internal.WebModules;
 import minium.web.internal.actions.InternalBrowser;
 
 import org.openqa.selenium.WebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WebDriverBrowser<T extends WebElements> implements Browser<T> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(WebDriverBrowser.class);
 
     private final InternalBrowser<T> browser;
     private final WebLocator<T> locator;
@@ -25,11 +31,18 @@ public class WebDriverBrowser<T extends WebElements> implements Browser<T> {
         Module combinedModules = module == null ?
                 WebModules.defaultModule(webDriver) :
                 Modules.combine(WebModules.baseModule(webDriver), module);
+        LOGGER.debug("Creating a WebDriverBrowser for modules: {}", combinedModules);
+
         Builder<T> builder = new WebElementsFactory.Builder<>();
         combinedModules.configure(builder);
         WebElementsFactory<T> factory = builder.build();
+        Set<Class<?>> providedInterfaces = factory.getProvidedInterfaces();
         T root = factory.createRoot();
-        Class<?>[] intfs = factory.getProvidedInterfaces().toArray(new Class<?>[factory.getProvidedInterfaces().size()]);
+
+        LOGGER.trace("Provided interfaces: {}", providedInterfaces);
+
+        Class<?>[] intfs = providedInterfaces.toArray(new Class<?>[providedInterfaces.size()]);
+
         this.locator = new WebLocator<T>(root, intf, intfs);
         this.browser = new InternalBrowser(root, locator);
     }
