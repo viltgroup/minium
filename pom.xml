@@ -12,7 +12,7 @@
 	<artifactId>minium-parent</artifactId>
 	<version>2.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>Minium - Parent POM</name>
+	<name>Minium Parent POM</name>
 
 	<developers>
 		<developer>
@@ -62,7 +62,7 @@
 		<guava.version>18.0</guava.version>
 		<guava-retrying.version>1.0.7</guava-retrying.version>
 		<commons-compress.version>1.9</commons-compress.version>
-		<jackson.version>2.5.0</jackson.version>
+		<jackson.version>2.5.1</jackson.version>
 		<slf4j.version>1.7.10</slf4j.version>
 		<args4j.version>2.0.29</args4j.version>
 		
@@ -269,6 +269,19 @@
 	</dependencyManagement>
 	
 	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -329,6 +342,16 @@
 						<processDependencyManagement>false</processDependencyManagement>
 					</configuration>
 				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>2.5</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>appassembler-maven-plugin</artifactId>
+					<version>1.9</version>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
@@ -349,7 +372,6 @@
 		<module>minium-cucumber-archetype</module>
 		<module>minium-visualelements-config</module>
 		<module>minium-docs</module>
-		<module>minium-automator</module>
 	</modules>
 	
 	<repositories>
