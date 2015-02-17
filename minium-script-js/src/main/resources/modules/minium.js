@@ -6,18 +6,14 @@
     };
   };
   
-  if (typeof __by !== 'undefined') {
-    var by = __by;
+  if (typeof __browser !== 'undefined') {
+    var by = __browser.locator();
+    var $  = dollarFn(by);
     
-    var HasBrowser = Packages.minium.web.actions.HasBrowser; 
-    
-    minium.by = by;
-    minium.$  = dollarFn(by);
-
-    if (by.root().is(HasBrowser)) {
-      minium.browser   = by.root().browser();
-      minium.browser.$ = minium.$;
-    }
+    minium.browser   = __browser;
+    minium.by        = by;
+    minium.$         = $;
+    minium.browser.$ = $;
   }
 
   var Keys = Packages.minium.actions.Keys;

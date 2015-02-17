@@ -27,8 +27,9 @@ public class WebDriverBrowser<T extends WebElements> implements Browser<T> {
                 Modules.combine(WebModules.baseModule(webDriver), module);
         Builder<T> builder = new WebElementsFactory.Builder<>();
         combinedModules.configure(builder);
-        T root = builder.build().createRoot();
-        Class<?>[] intfs = builder.getIntfs().toArray(new Class<?>[builder.getIntfs().size()]);
+        WebElementsFactory<T> factory = builder.build();
+        T root = factory.createRoot();
+        Class<?>[] intfs = factory.getProvidedInterfaces().toArray(new Class<?>[factory.getProvidedInterfaces().size()]);
         this.locator = new WebLocator<T>(root, intf, intfs);
         this.browser = new InternalBrowser(root, locator);
     }

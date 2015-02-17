@@ -10,28 +10,25 @@ import static minium.web.internal.WebModules.positionModule;
 import java.io.IOException;
 
 import minium.actions.internal.InteractionPerformer;
-import minium.script.dynjs.CoreDynJsWebElements.DefaultDynJsWebElements;
 import minium.script.dynjs.DynJsProperties.RequireProperties;
 import minium.script.js.MiniumJsEngineAdapter;
-import minium.web.WebLocator;
-import minium.web.internal.WebElementsFactory;
+import minium.web.CoreWebElements.DefaultWebElements;
+import minium.web.actions.Browser;
+import minium.web.actions.WebDriverBrowser;
 import minium.web.internal.WebModule;
-import minium.web.internal.WebElementsFactory.Builder;
 import minium.web.internal.actions.WebInteractionPerformer;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import com.google.common.collect.ImmutableList;
 
 public class DynJsEngineIT {
 
-    private static WebDriver wd;
+    private static Browser<?> browser;
     private static DynJsEngine engine;
-    private static WebLocator<DefaultDynJsWebElements> by;
 
     @BeforeClass
     public static void setup() {
@@ -41,9 +38,7 @@ public class DynJsEngineIT {
         requireProperties.setModulePaths(ImmutableList.of("classpath:modules"));
         engine = new DynJsEngine(properties);
 
-        wd = new ChromeDriver();
-        Builder<DefaultDynJsWebElements> builder = new WebElementsFactory.Builder<DefaultDynJsWebElements>()
-                .implementingInterfaces(DefaultDynJsWebElements.class);
+        ChromeDriver wd = new ChromeDriver();
         InteractionPerformer performer = new WebInteractionPerformer();
         WebModule module = combine(
                 baseModule(wd),
@@ -51,17 +46,14 @@ public class DynJsEngineIT {
                 conditionalModule(),
                 dynJsModule(engine.getExecutionContext()),
                 interactableModule(performer));
-        module.configure(builder);
-        DefaultDynJsWebElements root = builder.build().createRoot();
-        by = new WebLocator<>(root, DefaultDynJsWebElements.class);
+        browser = new WebDriverBrowser<>(wd, DefaultWebElements.class, module);
 
-        new MiniumJsEngineAdapter(by, null).adapt(engine);
+        new MiniumJsEngineAdapter(browser, null).adapt(engine);
     }
 
     @AfterClass
     public static void tearDown() {
-        by.release();
-        wd.quit();
+        browser.quit();
     }
 
     @Test

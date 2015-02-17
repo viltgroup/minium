@@ -138,7 +138,6 @@ public interface WebElementsFactory<T extends WebElements> extends ElementsFacto
             return ImmutableSet.copyOf(intfs);
         }
 
-
         public Collection<Expressionizer> getAditionalExpressionizers() {
             return ImmutableSet.copyOf(expressionizers);
         }

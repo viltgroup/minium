@@ -1,3 +1,9 @@
+# Spring application
+spring :
+  main :
+    webEnvironment : false
+    showBanner     : false
+
 # Web Drivers   
 minium.webdriver:
   desiredCapabilities:

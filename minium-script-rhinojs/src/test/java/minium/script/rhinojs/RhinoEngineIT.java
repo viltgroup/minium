@@ -13,10 +13,8 @@ import minium.actions.internal.InteractionPerformer;
 import minium.script.js.MiniumJsEngineAdapter;
 import minium.script.rhinojs.RhinoProperties.RequireProperties;
 import minium.web.CoreWebElements.DefaultWebElements;
-import minium.web.WebLocator;
-import minium.web.internal.WebElementsFactory;
+import minium.web.actions.WebDriverBrowser;
 import minium.web.internal.WebModule;
-import minium.web.internal.WebElementsFactory.Builder;
 import minium.web.internal.actions.WebInteractionPerformer;
 
 import org.junit.AfterClass;
@@ -26,13 +24,11 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 public class RhinoEngineIT {
 
-    private static ChromeDriver wd;
-    private static WebLocator<DefaultWebElements> by;
+    private static WebDriverBrowser<DefaultWebElements> browser;
 
     @BeforeClass
     public static void setup() {
-        wd = new ChromeDriver();
-        Builder<DefaultWebElements> builder = new WebElementsFactory.Builder<>();
+        ChromeDriver wd = new ChromeDriver();
         InteractionPerformer performer = new WebInteractionPerformer();
         WebModule module = combine(
                 baseModule(wd),
@@ -40,15 +36,12 @@ public class RhinoEngineIT {
                 conditionalModule(),
                 rhinoModule(),
                 interactableModule(performer));
-        module.configure(builder);
-        DefaultWebElements root = builder.build().createRoot();
-        by = new WebLocator<>(root, DefaultWebElements.class, JsFunctionWebElements.class);
+        browser = new WebDriverBrowser<>(wd, DefaultWebElements.class, module);
     }
 
     @AfterClass
     public static void tearDown() {
-        by.release();
-        wd.quit();
+        browser.quit();
     }
 
     @Test
@@ -57,7 +50,7 @@ public class RhinoEngineIT {
         RequireProperties requireProperties = new RequireProperties();
         properties.setRequire(requireProperties);
         final RhinoEngine engine = new RhinoEngine(properties);
-        new MiniumJsEngineAdapter(by, null).adapt(engine);
+        new MiniumJsEngineAdapter(browser, null).adapt(engine);
         engine.runScript("classpath:minium/script/rhinojs/gs.js");
     }
 }

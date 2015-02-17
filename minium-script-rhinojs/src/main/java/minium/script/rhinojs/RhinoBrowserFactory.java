@@ -24,16 +24,15 @@ import com.google.common.base.Throwables;
 
 public class RhinoBrowserFactory implements JsBrowserFactory {
 
-    private final ObjectMapper mapper;
+    private final ObjectMapper mapper = new ObjectMapper();
     private final RhinoEngine engine;
     private final WebDriverFactory webDriverFactory;
 
     public RhinoBrowserFactory(RhinoEngine engine) {
-        this(new ObjectMapper(), engine, new WebDriverFactory(null));
+        this(engine, new WebDriverFactory(null));
     }
 
-    public RhinoBrowserFactory(ObjectMapper mapper, RhinoEngine engine, WebDriverFactory webDriverFactory) {
-        this.mapper = mapper;
+    public RhinoBrowserFactory(RhinoEngine engine, WebDriverFactory webDriverFactory) {
         this.engine = engine;
         this.webDriverFactory = webDriverFactory;
     }
