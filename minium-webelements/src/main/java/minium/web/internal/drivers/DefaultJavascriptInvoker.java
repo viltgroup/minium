@@ -86,6 +86,11 @@ public class DefaultJavascriptInvoker implements JavascriptInvoker {
             }
             throw new IllegalArgumentException(String.format("Type %s is not valid", typeStr));
         }
+
+        @Override
+        public String toString() {
+            return typeStr;
+        }
     }
 
     // resource paths

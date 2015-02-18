@@ -3,11 +3,15 @@ package minium.web.config.services;
 import java.io.File;
 
 import org.openqa.selenium.Platform;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Value;
 
 
 public class DriverServicesProperties implements DisposableBean {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DriverServicesProperties.class);
 
     @Value("${app.home:.}")
     private File homedir;
@@ -19,6 +23,7 @@ public class DriverServicesProperties implements DisposableBean {
         if (chrome == null) {
             File chromedriverExe = findExecutable("chromedriver");
             if (chromedriverExe != null) {
+                LOGGER.debug("Chrome driver found at {}", chromedriverExe.getAbsolutePath());
                 chrome = new ChromeDriverServiceProperties();
                 chrome.setDriverExecutable(chromedriverExe);
                 chrome.setSilent(true);
@@ -35,6 +40,7 @@ public class DriverServicesProperties implements DisposableBean {
         if (internetExplorer == null) {
             File ieDriverExe = findExecutable("IEDriverServer");
             if (ieDriverExe != null) {
+                LOGGER.debug("IE driver server found at {}", ieDriverExe.getAbsolutePath());
                 internetExplorer = new InternetExplorerDriverServiceProperties();
                 internetExplorer.setDriverExecutable(ieDriverExe);
             }
@@ -50,6 +56,7 @@ public class DriverServicesProperties implements DisposableBean {
         if (phantomJs == null) {
             File phantomjsExe = findExecutable("phantomjs");
             if (phantomjsExe != null) {
+                LOGGER.debug("PhantomJS found at {}", phantomjsExe.getAbsolutePath());
                 phantomJs = new PhantomJsDriverServiceProperties();
                 phantomJs.setDriverExecutable(phantomjsExe);
             }
@@ -62,16 +69,16 @@ public class DriverServicesProperties implements DisposableBean {
     }
 
     protected File findExecutable(String exeName) {
-        File driverDir = getDriverDir();
-        if (driverDir == null) return null;
+        File driversDir = getDriversDir();
+        if (driversDir == null) return null;
 
         String osSpecificExeName = Platform.getCurrent().is(Platform.WINDOWS) ? exeName + ".exe" : exeName;
-        File exeFile = new File(driverDir, osSpecificExeName);
+        File exeFile = new File(driversDir, osSpecificExeName);
 
         return exeFile.exists() && exeFile.isFile() && exeFile.canExecute() ? exeFile : null;
     }
 
-    protected File getDriverDir() {
+    protected File getDriversDir() {
         File driverDir = homedir == null ? null : new File(homedir, "drivers");
         return driverDir != null && driverDir.exists() && driverDir.isDirectory() ? driverDir : null;
     }
