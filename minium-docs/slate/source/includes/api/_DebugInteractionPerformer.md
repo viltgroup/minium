@@ -1,3 +1,0 @@
-#DebugInteractionPerformer
-## .highlight(elements)
-

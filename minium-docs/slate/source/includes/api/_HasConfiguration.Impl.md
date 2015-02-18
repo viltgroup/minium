@@ -1,3 +1,0 @@
-#HasConfiguration.Impl
-## .configure()
-
