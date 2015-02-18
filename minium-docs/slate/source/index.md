@@ -2,10 +2,10 @@
 title: API Reference
 
 language_tabs:
-  - minium
+  - javascript
 
 toc_footers:
-  - <a href='http://minium.io'>minium.io</a>
+  - <a href='http://minium.io'>minium.vilt.io</a>
   - <a href='https://github.com/viltgroup/minium'>Github</a>
   - <a href='http://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
@@ -68,6 +68,8 @@ mvn install -DskipTests
 ## Example
 
 ```javascript
+var keys = require('minium/keys');
+
 browser.get("http://www.google.com/ncr");
 
 searchbox = $(":text").withName("q");
@@ -75,7 +77,7 @@ searchbox.highlight();
 
 searchbox.fill("minion");
 
-searchbox.sendKeys([ Keys.ENTER ]);
+searchbox.sendKeys( keys.ENTER );
 
 wikipediaResult = $("h3 a").withText("Minion - Wikipedia, the free encyclopedia");
 wikipediaResult.click();
@@ -157,3 +159,7 @@ Then(/^links corresponding to (.*) are displayed$/, function (query) {
 You can visually select the elements you want minium to interact with.
 
 ## Evaluate expressions
+
+## Multiple Browsers
+
+You can open multiple browsers where you can run your code.
