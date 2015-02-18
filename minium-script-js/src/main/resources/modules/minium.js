@@ -1,17 +1,16 @@
 (function () {
   var minium = {};
-  var dollarFn = function (locator) {
+  var dollarFn = function (browser) {
     return function (selector) {
-      return locator.selector(selector);
+      return browser.locator().selector(selector);
     };
   };
   
   if (typeof __browser !== 'undefined') {
-    var by = __browser.locator();
-    var $  = dollarFn(by);
+    var browser = __browser;
+    var $       = dollarFn(browser);
     
     minium.browser   = __browser;
-    minium.by        = by;
     minium.$         = $;
     minium.browser.$ = $;
   }
@@ -29,7 +28,7 @@
   // new browsers
   minium.newBrowser = function(config) {
     var browser = minium.__browserFactory.create(config || {});
-    browser.$ = dollarFn(browser.locator());
+    browser.$ = dollarFn(browser);
     return browser;
   }
   

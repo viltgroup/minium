@@ -12,6 +12,7 @@ import minium.internal.DefaultIterableElements;
 import minium.internal.HasElementsFactory;
 import minium.internal.HasParent;
 import minium.internal.InternalElementsFactory;
+import minium.web.DelegatorWebDriver;
 import minium.web.DocumentWebDriver;
 import minium.web.TargetLocatorWebElements;
 import minium.web.WebElements;
@@ -22,6 +23,7 @@ import minium.web.internal.drivers.DefaultJavascriptInvoker;
 import minium.web.internal.drivers.DocumentWebElement;
 import minium.web.internal.drivers.InternalDocumentWebDriver;
 import minium.web.internal.drivers.JavascriptInvoker;
+import minium.web.internal.drivers.WindowDelegatorWebDriver;
 import minium.web.internal.drivers.WindowWebDriver;
 import minium.web.internal.expression.Coercer;
 import minium.web.internal.expression.ExpressionWebElementExpressionizer;
@@ -64,17 +66,23 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
         IterableElements.class
     };
 
+    private final InternalDocumentWebDriver rootDocumentDriver;
     private Set<Class<?>> builerProvidedInterfaces;
     @SuppressWarnings("serial")
     private final TypeToken<T> typeVariableToken = new TypeToken<T>(getClass()) {};
-    private final InternalDocumentWebDriver rootDocumentDriver;
     private final MixinClass<T> rootClass;
     private final MixinClass<T> hasParentClass;
     private final MixinInitializer baseInitializer;
 
     public DefaultWebElementsFactory(final Builder<T> builder) {
-
-        WebDriver wd = Preconditions.checkNotNull(builder.getWebDriver());
+        final WebDriver webdriver = Preconditions.checkNotNull(builder.getWebDriver());
+        if (webdriver instanceof InternalDocumentWebDriver) {
+            rootDocumentDriver = (InternalDocumentWebDriver) webdriver;
+        } else if (webdriver instanceof DelegatorWebDriver) {
+            rootDocumentDriver = new WindowDelegatorWebDriver((DelegatorWebDriver) webdriver);
+        } else {
+            rootDocumentDriver = new WindowWebDriver(webdriver);
+        }
 
         final JavascriptInvoker javascriptInvoker = new DefaultJavascriptInvoker(builder.getClassLoader(), builder.getJsResources(), builder.getCssResources());
         final Expressionizer expressionizer = new Expressionizer.Composite()
@@ -86,8 +94,6 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
             .add(new PrimitiveTypeCoercer())
             .add(new IdentityCoercer())
             .addAll(builder.getAditionalCoercers());
-
-        this.rootDocumentDriver = wd instanceof InternalDocumentWebDriver ? ((InternalDocumentWebDriver) wd) : new WindowWebDriver(wd);
 
         final Class<T> intf = Casts.unsafeCast(typeVariableToken.getRawType());
 
@@ -104,7 +110,7 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
             @Override
             protected void initialize() {
                 implement(HasElementsFactory.class).with(new HasElementsFactory.Impl(DefaultWebElementsFactory.this));
-                implement(HasNativeWebDriver.class).with(new HasNativeWebDriver.Impl(rootDocumentDriver.nativeWebDriver()));
+                implement(HasNativeWebDriver.class).with(new HasNativeWebDriver.Impl(webdriver));
                 implement(HasExpressionizer.class).with(new HasExpressionizer.Impl(expressionizer));
                 implement(HasCoercer.class).with(new HasCoercer.Impl(coercer));
                 implement(TargetLocatorWebElements.class).with(new DefaultTargetLocatorWebElements());
@@ -120,7 +126,6 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
                 }
             }
         });
-
     }
 
     @Override
@@ -150,6 +155,7 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
 
     @Override
     public T createRoot() {
+
         return createMixin(new DefaultRoot<T>(rootDocumentDriver));
     }
 
