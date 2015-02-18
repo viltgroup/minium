@@ -24,19 +24,48 @@ search: true
 
 ### Before you start
 
-* Java JDK 1.7+ (required)
+Ensure that the following software is installed:
 
-* Google Chrome (required)
+* [Java JDK 1.7+](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (**required**)
+  * Don't forget to set `JAVA_HOME` environment variable 
+* [Google Chrome](https://www.google.com/intl/en/chrome/browser/) (**required**)
 
-To install and run Minium, just follow these instructions:
-  
-```shell
+
+### To install and run Minium App, just follow these instructions:
+
+* Download one of the following compressed files:
+  * [Zip archive](https://oss.sonatype.org/content/repositories/releases/com/vilt-group/minium/minium-app/0.9.6/minium-app-0.9.6-bin.zip)
+  * [Compressed tarball archive](https://oss.sonatype.org/content/repositories/releases/com/vilt-group/minium/minium-app/0.9.6/minium-app-0.9.6-bin.tar.gz)
+* Uncompress it in some folder (e.g. `c:\Tools\minium-app`)
+* By default, Selenium (and therefore Minium) can run Firefox out of the box. For other browsers, you will need specific drivers. Just download the ones you want to use (see links below) and place the corresponding executable files in `drivers` folder:
+  * [Chrome Driver]()
+  * [IE Driver Server](https://code.google.com/p/selenium/downloads/list)
+  * [PhantomJS](http://phantomjs.org/download.html)
+* To launch Minium, just run one of the following executables:
+  * `minium-app.exe` (in windows)
+  * `bin\minium-app.bat` (also in windows, but this way you can see the stdout)
+  * `bin\minium-app` (linux or mac)
+
+
+## Build Minium
+
+Building Minium is not complicated. Ensure that the following software is installed:
+
+* [Java JDK 1.6+](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (required)
+  * Don't forget to set `JAVA_HOME` environment variable 
+* [Maven 3](http://maven.apache.org/download.cgi)
+
+Then, just clone Minium git repository and use Maven to build it:
+
+```bash
 git clone git://github.com/viltgroup/minium.git
 cd minium
-mvn install -DskipTests=true
+mvn install -DskipTests
 ```
 
-## Give it a try
+**Note:** if you really want to run the tests, then make sure you have [PhantomJS](http://phantomjs.org/download.html) installed and available in the `PATH` environment variable. Then just replace `mvn install -DskipTests` by `mvn install`.
+
+## Example
 
 ```javascript
 browser.get("http://www.google.com/ncr");
@@ -57,6 +86,7 @@ firstParagraph.highlight();
 
 ## Minium + Cucumber
 
+Minium can be integrated with Cucumber (Behaviour Driven Development). You can write your tests using cucumber.
 
 ### Step 1 - writings scenarios
 
@@ -82,6 +112,8 @@ Feature: Search results in Google
 ```
 
 ### Step 2 - writing steps
+
+The code to run the scenarios above.
 
 ```javascript
 var $       = require("minium"),
