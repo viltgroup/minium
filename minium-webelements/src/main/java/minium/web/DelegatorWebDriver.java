@@ -14,6 +14,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -418,6 +419,18 @@ public class DelegatorWebDriver extends Observable implements WebDriver, Javascr
 
     public WebDriver getDelegate() {
         return delegate;
+    }
+
+    public boolean isValid() {
+        if (delegate == null) return false;
+        try {
+            return delegate.getWindowHandles().contains(delegate.getWindowHandle());
+        } catch (WebDriverException e) {
+            if (e instanceof UnhandledAlertException) {
+                return true;
+            }
+            return false;
+        }
     }
 
     @Override
