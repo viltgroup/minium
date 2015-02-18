@@ -1,4 +1,4 @@
-#Interactable
+#Interactions
 ## .close()
 
 

@@ -11,14 +11,8 @@ toc_footers:
 
 # API
 includes:
-  - /api/BasicWebElements
-  - /api/ConditionalWebElements
-  - /api/ExtensionsWebElements
-  - /api/EvalWebElements
-  - /api/TargetLocatorWebElements
-  - /api/PositionWebElements
-  - /api/InteractionPerformer
-  - /api/MouseInteractionPerformer
+  - /api/Elements
+  - /api/Interactions
 
 
 search: true

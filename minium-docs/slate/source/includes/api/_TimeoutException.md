@@ -1,3 +1,0 @@
-#TimeoutException
-## .getPredicate()
-
