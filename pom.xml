@@ -381,7 +381,6 @@
 			</snapshots>
 		</repository>
 	</repositories>
-</project>
 	
 	<distributionManagement>
 		<snapshotRepository>
