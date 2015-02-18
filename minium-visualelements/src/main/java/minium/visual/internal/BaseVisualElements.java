@@ -4,7 +4,6 @@ import minium.internal.BaseElements;
 import minium.internal.HasElementsFactory;
 import minium.internal.InternalElementsFactory;
 import minium.visual.VisualElements;
-import minium.visual.VisualElementsFactory;
 
 import org.sikuli.script.Screen;
 

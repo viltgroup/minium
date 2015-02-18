@@ -5,7 +5,6 @@ import java.util.concurrent.TimeUnit;
 import platypus.Mixin;
 import minium.Elements;
 import minium.actions.WaitInteractable;
-import minium.actions.WaitInterationPerformer;
 
 public class DefaultWaitInteractable extends Mixin.Impl implements WaitInteractable {
 

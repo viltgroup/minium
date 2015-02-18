@@ -1,19 +1,20 @@
 package minium.web.config;
 
-import static minium.web.WebModules.baseModule;
-import static minium.web.WebModules.combine;
-import static minium.web.WebModules.conditionalModule;
-import static minium.web.WebModules.interactableModule;
-import static minium.web.WebModules.positionModule;
+import static minium.web.internal.WebModules.baseModule;
+import static minium.web.internal.WebModules.combine;
+import static minium.web.internal.WebModules.conditionalModule;
+import static minium.web.internal.WebModules.interactableModule;
+import static minium.web.internal.WebModules.positionModule;
 
 import java.util.List;
 
 import minium.actions.debug.DebugInteractionPerformer;
 import minium.web.CoreWebElements.DefaultWebElements;
-import minium.web.WebElementsFactory;
-import minium.web.WebElementsFactory.Builder;
-import minium.web.WebModule;
-import minium.web.WebModules;
+import minium.web.config.services.DriverServicesProperties;
+import minium.web.internal.WebElementsFactory;
+import minium.web.internal.WebElementsFactory.Builder;
+import minium.web.internal.WebModule;
+import minium.web.internal.WebModules;
 import minium.web.internal.actions.WebDebugInteractionPerformer;
 import minium.web.internal.actions.WebInteractionPerformer;
 
@@ -38,10 +39,22 @@ public class WebElementsConfiguration {
         return new WebDriverProperties();
     }
 
+    @Bean
+    @ConfigurationProperties(prefix = "minium.driverservices")
+    public DriverServicesProperties driverServicesProperties() {
+        return new DriverServicesProperties();
+    }
+
+    @Autowired
+    @Bean
+    public WebDriverFactory webDriverFactory(DriverServicesProperties driverServicesProperties) {
+        return new WebDriverFactory(driverServicesProperties);
+    }
+
     @Autowired
     @Bean(destroyMethod = "quit")
-    public WebDriver wd(WebDriverProperties webDriverProperties) {
-        return new WebDriverFactory().create(webDriverProperties);
+    public WebDriver wd(WebDriverFactory webDriverFactory, WebDriverProperties webDriverProperties) {
+        return webDriverFactory.create(webDriverProperties);
     }
 
     @Bean
@@ -68,11 +81,4 @@ public class WebElementsConfiguration {
         combinedWebModule.configure(builder);
         return builder.build();
     }
-
-    @Autowired
-    @Bean
-    public DefaultWebElements root(WebElementsFactory<DefaultWebElements> elementsFactory) {
-        return elementsFactory.createRoot();
-    }
-
 }

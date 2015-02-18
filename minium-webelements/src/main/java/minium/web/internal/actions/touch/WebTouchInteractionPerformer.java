@@ -16,7 +16,7 @@
 package minium.web.internal.actions.touch;
 
 import minium.Elements;
-import minium.actions.TouchInteractionPerformer;
+import minium.actions.internal.TouchInteractionPerformer;
 import minium.web.internal.actions.WebInteractionPerformer;
 
 /**

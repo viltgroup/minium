@@ -5,9 +5,11 @@ import static minium.visual.CoreVisualElements.DefaultVisualElements.by;
 import java.net.URL;
 
 import minium.Elements;
-import minium.internal.InternalFinder;
+import minium.internal.InternalLocator;
 import minium.visual.CoreVisualElements.DefaultVisualElements;
-import minium.visual.VisualElementsFactory.Builder;
+import minium.visual.internal.VisualElementsFactory;
+import minium.visual.internal.VisualModules;
+import minium.visual.internal.VisualElementsFactory.Builder;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -53,6 +55,6 @@ public class VisualFinderIT {
 
     @SuppressWarnings("unchecked")
     protected <T extends Elements> T elements(T elems) {
-        return (T) elems.as(InternalFinder.class).eval(root);
+        return (T) elems.as(InternalLocator.class).eval(root);
     }
 }

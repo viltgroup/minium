@@ -1,15 +1,15 @@
 package minium.visual.config;
 
-import static minium.visual.VisualModules.baseModule;
-import static minium.visual.VisualModules.combine;
-import static minium.visual.VisualModules.debugModule;
-import static minium.visual.VisualModules.interactableModule;
-import static minium.visual.VisualModules.positionModule;
+import static minium.visual.internal.VisualModules.baseModule;
+import static minium.visual.internal.VisualModules.combine;
+import static minium.visual.internal.VisualModules.debugModule;
+import static minium.visual.internal.VisualModules.interactableModule;
+import static minium.visual.internal.VisualModules.positionModule;
 import minium.script.js.JsVariable;
 import minium.visual.CoreVisualElements.DefaultVisualElements;
-import minium.visual.VisualElementsFactory;
-import minium.visual.VisualFinder;
-import minium.visual.VisualModule;
+import minium.visual.VisualLocator;
+import minium.visual.internal.VisualElementsFactory;
+import minium.visual.internal.VisualModule;
 import minium.visual.internal.actions.VisualDebugInteractionPerformer;
 
 import org.sikuli.script.Screen;
@@ -40,7 +40,7 @@ public class VisualConfiguration {
 
     @Autowired
     @Bean
-    public VisualFinder<DefaultVisualElements> root(Screen screen) {
+    public VisualLocator<DefaultVisualElements> root(Screen screen) {
         VisualDebugInteractionPerformer performer = new VisualDebugInteractionPerformer();
         VisualModule visualModule = combine(
                 baseModule(screen, DefaultVisualElements.class),
@@ -50,6 +50,6 @@ public class VisualConfiguration {
         VisualElementsFactory.Builder<DefaultVisualElements> builder = new VisualElementsFactory.Builder<>();
         visualModule.configure(builder);
         DefaultVisualElements root = builder.build().createRoot();
-        return new VisualFinder<DefaultVisualElements>(root);
+        return new VisualLocator<DefaultVisualElements>(root);
     }
 }

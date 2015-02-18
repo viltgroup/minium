@@ -3,6 +3,7 @@ package minium.cucumber;
 import gherkin.formatter.model.Result;
 import gherkin.formatter.model.Step;
 
+
 public interface StepListener {
 
     public void beforeStep(Step step);
@@ -16,4 +17,5 @@ public interface StepListener {
     public void exampleStep(int line);
 
 	public void failedExampleStep(int line);
+
 }

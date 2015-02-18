@@ -4,7 +4,6 @@ import platypus.Mixin;
 import minium.Elements;
 import minium.Offsets.Offset;
 import minium.actions.Interactable;
-import minium.actions.InteractionPerformer;
 import minium.actions.Keys;
 
 public class DefaultInteractable extends Mixin.Impl implements Interactable {

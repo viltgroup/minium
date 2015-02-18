@@ -2,7 +2,9 @@ package minium.web;
 
 import static minium.web.CoreWebElements.DefaultWebElements.by;
 import minium.web.CoreWebElements.DefaultWebElements;
-import minium.web.WebElementsFactory.Builder;
+import minium.web.internal.WebElementsFactory;
+import minium.web.internal.WebModules;
+import minium.web.internal.WebElementsFactory.Builder;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;

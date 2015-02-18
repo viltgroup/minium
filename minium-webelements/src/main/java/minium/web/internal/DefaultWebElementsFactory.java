@@ -2,6 +2,7 @@ package minium.web.internal;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Set;
 
 import minium.BasicElements;
 import minium.Elements;
@@ -11,14 +12,18 @@ import minium.internal.DefaultIterableElements;
 import minium.internal.HasElementsFactory;
 import minium.internal.HasParent;
 import minium.internal.InternalElementsFactory;
+import minium.web.DelegatorWebDriver;
 import minium.web.DocumentWebDriver;
 import minium.web.TargetLocatorWebElements;
 import minium.web.WebElements;
-import minium.web.WebElementsFactory;
+import minium.web.actions.HasBrowser;
+import minium.web.internal.actions.DefaultHasBrowser;
+import minium.web.internal.actions.HasWebLocator;
 import minium.web.internal.drivers.DefaultJavascriptInvoker;
 import minium.web.internal.drivers.DocumentWebElement;
 import minium.web.internal.drivers.InternalDocumentWebDriver;
 import minium.web.internal.drivers.JavascriptInvoker;
+import minium.web.internal.drivers.WindowDelegatorWebDriver;
 import minium.web.internal.drivers.WindowWebDriver;
 import minium.web.internal.expression.Coercer;
 import minium.web.internal.expression.ExpressionWebElementExpressionizer;
@@ -41,6 +46,7 @@ import platypus.internal.Casts;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.TypeToken;
 
 public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl implements WebElementsFactory<T>, InternalElementsFactory<T> {
@@ -51,6 +57,8 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
         HasElementsFactory.class,
         HasNativeWebDriver.class,
         HasExpressionizer.class,
+        HasWebLocator.class,
+        HasBrowser.class,
         HasCoercer.class,
         ExpressionWebElements.class,
         TargetLocatorWebElements.class,
@@ -58,16 +66,23 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
         IterableElements.class
     };
 
+    private final InternalDocumentWebDriver rootDocumentDriver;
+    private Set<Class<?>> builerProvidedInterfaces;
     @SuppressWarnings("serial")
     private final TypeToken<T> typeVariableToken = new TypeToken<T>(getClass()) {};
-    private final InternalDocumentWebDriver rootDocumentDriver;
     private final MixinClass<T> rootClass;
     private final MixinClass<T> hasParentClass;
     private final MixinInitializer baseInitializer;
 
     public DefaultWebElementsFactory(final Builder<T> builder) {
-
-        WebDriver wd = Preconditions.checkNotNull(builder.getWebDriver());
+        final WebDriver webdriver = Preconditions.checkNotNull(builder.getWebDriver());
+        if (webdriver instanceof InternalDocumentWebDriver) {
+            rootDocumentDriver = (InternalDocumentWebDriver) webdriver;
+        } else if (webdriver instanceof DelegatorWebDriver) {
+            rootDocumentDriver = new WindowDelegatorWebDriver((DelegatorWebDriver) webdriver);
+        } else {
+            rootDocumentDriver = new WindowWebDriver(webdriver);
+        }
 
         final JavascriptInvoker javascriptInvoker = new DefaultJavascriptInvoker(builder.getClassLoader(), builder.getJsResources(), builder.getCssResources());
         final Expressionizer expressionizer = new Expressionizer.Composite()
@@ -80,11 +95,10 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
             .add(new IdentityCoercer())
             .addAll(builder.getAditionalCoercers());
 
-        this.rootDocumentDriver = wd instanceof InternalDocumentWebDriver ? ((InternalDocumentWebDriver) wd) : new WindowWebDriver(wd);
+        final Class<T> intf = Casts.unsafeCast(typeVariableToken.getRawType());
 
-        Class<T> intf = Casts.unsafeCast(typeVariableToken.getRawType());
-
-        MixinClasses.Builder<T> mixinBuilder = MixinClasses.builder(intf).addInterfaces(CORE_INTFS).addInterfaces(builder.getIntfs());
+        builerProvidedInterfaces = builder.getIntfs();
+        MixinClasses.Builder<T> mixinBuilder = MixinClasses.builder(intf).addInterfaces(CORE_INTFS).addInterfaces(builerProvidedInterfaces);
 
         mixinBuilder.addInterfaces(HasJavascriptInvoker.class);
 
@@ -96,21 +110,27 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
             @Override
             protected void initialize() {
                 implement(HasElementsFactory.class).with(new HasElementsFactory.Impl(DefaultWebElementsFactory.this));
-                implement(HasNativeWebDriver.class).with(new HasNativeWebDriver.Impl(rootDocumentDriver.nativeWebDriver()));
+                implement(HasNativeWebDriver.class).with(new HasNativeWebDriver.Impl(webdriver));
                 implement(HasExpressionizer.class).with(new HasExpressionizer.Impl(expressionizer));
                 implement(HasCoercer.class).with(new HasCoercer.Impl(coercer));
                 implement(TargetLocatorWebElements.class).with(new DefaultTargetLocatorWebElements());
                 implement(IterableElements.class).with(new DefaultIterableElements());
                 implement(HasJavascriptInvoker.class).with(new HasJavascriptInvoker.Impl(javascriptInvoker));
+                implement(HasBrowser.class).with(new DefaultHasBrowser<T>());
+                implement(HasWebLocator.class).with(new HasWebLocator.Impl<T>(intf, builerProvidedInterfaces));
 
                 // dynamic invocation handlers
                 ExpressionInvocationHandler<T> expressionInvocationHandler = new ExpressionInvocationHandler<T>(DefaultWebElementsFactory.this, coercer);
-                for (Class<?> intf : builder.getIntfs()) {
+                for (Class<?> intf : builerProvidedInterfaces) {
                     implement(intf).with(expressionInvocationHandler);
                 }
             }
         });
+    }
 
+    @Override
+    public Set<Class<?>> getProvidedInterfaces() {
+        return ImmutableSet.copyOf(builerProvidedInterfaces);
     }
 
     @Override
@@ -135,6 +155,7 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
 
     @Override
     public T createRoot() {
+
         return createMixin(new DefaultRoot<T>(rootDocumentDriver));
     }
 

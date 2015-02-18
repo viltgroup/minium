@@ -3,6 +3,7 @@ package minium.visual.internal;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
 
 import minium.Elements;
 import minium.FreezableElements;
@@ -12,7 +13,6 @@ import minium.internal.HasElementsFactory;
 import minium.internal.HasParent;
 import minium.internal.InternalElementsFactory;
 import minium.visual.VisualElements;
-import minium.visual.VisualElementsFactory;
 
 import org.sikuli.script.Region;
 import org.sikuli.script.Screen;
@@ -59,23 +59,21 @@ public class DefaultVisualElementsFactory<T extends VisualElements> extends Mixi
         IterableElements.class
     };
 
+    private Set<Class<?>> builderProvidedInterfaces;
     @SuppressWarnings("serial")
     private final TypeToken<T> typeVariableToken = new TypeToken<T>(getClass()) {};
-
     private final Screen screen;
-
     private final MixinClass<T> rootClass;
     private final MixinClass<T> hasParentClass;
-
     private final MixinInitializer baseInitializer;
-
 
     public DefaultVisualElementsFactory(Builder<T> builder) {
         Class<T> intf = Casts.unsafeCast(typeVariableToken.getRawType());
 
         this.screen = builder.getScreen() == null ? new Screen() : builder.getScreen();
 
-        MixinClasses.Builder<T> mixinBuilder = MixinClasses.builder(intf).addInterfaces(CORE_INTFS).addInterfaces(builder.getIntfs());
+        builderProvidedInterfaces = builder.getIntfs();
+        MixinClasses.Builder<T> mixinBuilder = MixinClasses.builder(intf).addInterfaces(CORE_INTFS).addInterfaces(builderProvidedInterfaces);
 
         rootClass = mixinBuilder.build();
         hasParentClass = mixinBuilder.addInterfaces(HasParent.class).build();
@@ -90,6 +88,11 @@ public class DefaultVisualElementsFactory<T extends VisualElements> extends Mixi
                 implement(FreezableElements.class).with(new FreezableVisualElements());
             }
         });
+    }
+
+    @Override
+    public Set<Class<?>> getProvidedInterfaces() {
+        return ImmutableSet.copyOf(builderProvidedInterfaces);
     }
 
     @Override

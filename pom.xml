@@ -8,18 +8,49 @@
 		<version>1.2.1.RELEASE</version>
 	</parent>
 
-	<groupId>minium</groupId>
+	<groupId>io.vilt.minium</groupId>
 	<artifactId>minium-parent</artifactId>
 	<version>2.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>Minium - Parent POM</name>
+	<name>Minium Parent POM</name>
+
+	<developers>
+		<developer>
+			<id>rui.figueira</id>
+			<name>Rui Figueira</name>
+			<email>rui.figueira@vilt-group.com</email>
+			<organization>VILT Group</organization>
+			<organizationUrl>http://www.vilt-group.com</organizationUrl>
+			<timezone>Europe/Lisbon</timezone>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git://github.com/viltgroup/minium.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/viltgroup/minium.git</developerConnection>
+		<url>https://github.com/viltgroup/minium</url>
+	</scm>
+
+	<organization>
+		<name>VILT Group</name>
+		<url>http://www.vilt-group.com</url>
+	</organization>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+			<comments>A business-friendly OSS license</comments>
+		</license>
+	</licenses>
 	
 	<properties>
 		<java.version>1.7</java.version>
 
-        <checkstyle.config.dir>${basedir}/../src/main/checkstyle</checkstyle.config.dir>
+		<checkstyle.config.dir>${basedir}/../src/main/checkstyle</checkstyle.config.dir>
 	
-		<platypus.version>0.1.0-SNAPSHOT</platypus.version>
+		<platypus.version>0.1.0</platypus.version>
 		<selenium.version>2.44.0</selenium.version>
 		<phantomjsdriver.version>1.2.0</phantomjsdriver.version>
 		<closure-compiler.version>v20141215</closure-compiler.version>
@@ -31,10 +62,14 @@
 		<guava.version>18.0</guava.version>
 		<guava-retrying.version>1.0.7</guava-retrying.version>
 		<commons-compress.version>1.9</commons-compress.version>
-		<jackson.version>2.5.0</jackson.version>
+		<jackson.version>2.5.1</jackson.version>
 		<slf4j.version>1.7.10</slf4j.version>
+		<args4j.version>2.0.29</args4j.version>
 		
 		<powermock.version>1.6.1</powermock.version>
+
+		<!-- Required by Sonatype -->
+		<sonatypeOssDistMgmtSnapshotsUrl>https://oss.sonatype.org/content/repositories/snapshots/</sonatypeOssDistMgmtSnapshotsUrl>
 	</properties>
 
 	<dependencyManagement>
@@ -45,97 +80,97 @@
 				<version>${guava.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>minium</groupId>
+				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-elements</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>minium</groupId>
+				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-webelements</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>minium</groupId>
+				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-webelements-config</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>minium</groupId>
+				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-visualelements</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>minium</groupId>
+				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-boxelements</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>minium</groupId>
+				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-script-js</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>minium</groupId>
+				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-script-rhinojs</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>minium</groupId>
+				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-actions</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>minium</groupId>
+				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-cucumber</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>minium</groupId>
+				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-cucumber-rest</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-			    <groupId>com.github.ruifigueira</groupId>
-			    <artifactId>platypus</artifactId>
-			    <version>${platypus.version}</version>
+				<groupId>com.github.ruifigueira</groupId>
+				<artifactId>platypus</artifactId>
+				<version>${platypus.version}</version>
 			</dependency>
 			<dependency>
-			    <groupId>org.seleniumhq.selenium</groupId>
-		        <artifactId>selenium-api</artifactId>
-		        <version>${selenium.version}</version>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-api</artifactId>
+				<version>${selenium.version}</version>
 			</dependency>
 			<dependency>
-			    <groupId>org.seleniumhq.selenium</groupId>
-		        <artifactId>selenium-java</artifactId>
-		        <version>${selenium.version}</version>
-		        <exclusions>
-			        <exclusion>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-java</artifactId>
+				<version>${selenium.version}</version>
+				<exclusions>
+					<exclusion>
 						<groupId>org.seleniumhq.selenium</groupId>
 						<artifactId>selenium-htmlunit-driver</artifactId>
-			        </exclusion>
-		        </exclusions>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
-			    <groupId>org.seleniumhq.selenium</groupId>
-		        <artifactId>selenium-support</artifactId>
-		        <version>${selenium.version}</version>
-		        <exclusions>
-			        <exclusion>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-support</artifactId>
+				<version>${selenium.version}</version>
+				<exclusions>
+					<exclusion>
 						<groupId>org.seleniumhq.selenium</groupId>
 						<artifactId>selenium-remote-driver</artifactId>
-			        </exclusion>
-		        </exclusions>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
-			    <groupId>com.github.detro</groupId>
-			    <artifactId>phantomjsdriver</artifactId>
-			    <version>${phantomjsdriver.version}</version>
-			    <exclusions>
-			    	<exclusion>
-          				<groupId>org.seleniumhq.selenium</groupId>
+				<groupId>com.github.detro</groupId>
+				<artifactId>phantomjsdriver</artifactId>
+				<version>${phantomjsdriver.version}</version>
+				<exclusions>
+					<exclusion>
+		  				<groupId>org.seleniumhq.selenium</groupId>
 						<artifactId>selenium-remote-driver</artifactId>
-        			</exclusion>
-			    </exclusions>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>info.cukes</groupId>
@@ -152,12 +187,12 @@
 				<artifactId>cucumber-junit</artifactId>
 				<version>${cucumber.version}</version>
 			</dependency>
-		    <dependency>
+			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpcore</artifactId>
 				<version>4.4</version>
-		    </dependency>
-		    <dependency>
+			</dependency>
+			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpclient</artifactId>
 				<version>4.4</version>
@@ -167,8 +202,8 @@
 						<groupId>commons-logging</groupId>
 					</exclusion>
 				</exclusions>
-		    </dependency>
-		    <dependency>
+			</dependency>
+			<dependency>
 				<groupId>org.json</groupId>
 				<artifactId>json</artifactId>
 				<version>${json.version}</version>
@@ -196,10 +231,10 @@
 					<exclusion>
 						<groupId>jxgrabkey</groupId>
 						<artifactId>jxgrabkey</artifactId>
-			        </exclusion>
+					</exclusion>
 				</exclusions>
 			</dependency>
-		    <dependency>
+			<dependency>
 				<groupId>com.github.rholder</groupId>
 				<artifactId>guava-retrying</artifactId>
 				<version>${guava-retrying.version}</version>
@@ -207,13 +242,18 @@
 					<exclusion>
 						<groupId>com.google.guava</groupId>
 						<artifactId>guava</artifactId>
-			        </exclusion>
+					</exclusion>
 				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-compress</artifactId>
 				<version>${commons-compress.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>args4j</groupId>
+				<artifactId>args4j</artifactId>
+				<version>${args4j.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.powermock</groupId>
@@ -229,6 +269,19 @@
 	</dependencyManagement>
 	
 	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -259,28 +312,28 @@
 					</executions>
 				</plugin>
 				<plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>2.10.1</version>
-                    <configuration>
-                        <excludePackageNames>*.internal.*</excludePackageNames>
-                        <quiet>true</quiet>
-                        <failOnError>false</failOnError>
-                        <links>
-                            <value>http://docs.oracle.com/javase/${java.version}/docs/api/</value>
-                            <link>http://selenium.googlecode.com/git/docs/api/java/</link>
-                            <link>http://docs.guava-libraries.googlecode.com/git-history/v${guava.version}/javadoc/</link>
-                        </links>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>attach-javadocs</id>
-                            <goals>
-                                <goal>jar</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>2.10.1</version>
+					<configuration>
+						<excludePackageNames>*.internal.*</excludePackageNames>
+						<quiet>true</quiet>
+						<failOnError>true</failOnError>
+						<links>
+							<link>http://docs.oracle.com/javase/${java.version}/docs/api/</link>
+							<link>http://selenium.googlecode.com/git/docs/api/java/</link>
+							<link>http://docs.guava-libraries.googlecode.com/git-history/v${guava.version}/javadoc/</link>
+						</links>
+					</configuration>
+					<executions>
+						<execution>
+							<id>attach-javadocs</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>versions-maven-plugin</artifactId>
@@ -289,6 +342,16 @@
 						<processDependencyManagement>false</processDependencyManagement>
 					</configuration>
 				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>2.5</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>appassembler-maven-plugin</artifactId>
+					<version>1.9</version>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
@@ -296,19 +359,19 @@
 	<modules>
 		<module>minium-elements</module>
 		<module>minium-webelements</module>
-	    <module>minium-webelements-config</module>
+		<module>minium-webelements-config</module>
 		<module>minium-boxelements</module>
 		<module>minium-visualelements</module>
 		<module>minium-mobileelements</module>
 		<module>minium-actions</module>
-	    <module>minium-script-js</module>
+		<module>minium-script-js</module>
 		<module>minium-script-rhinojs</module>
 		<module>minium-script-dynjs</module>
-	    <module>minium-cucumber</module>
-	    <module>minium-cucumber-rest</module>
-	    <module>minium-cucumber-archetype</module>
-	    <module>minium-visualelements-config</module>
-	    <module>minium-docs</module>
+		<module>minium-cucumber</module>
+		<module>minium-cucumber-rest</module>
+		<module>minium-cucumber-archetype</module>
+		<module>minium-visualelements-config</module>
+		<module>minium-docs</module>
 	</modules>
 	
 	<repositories>
@@ -325,3 +388,17 @@
 	</repositories>
 </project>
 	
+	<distributionManagement>
+		<snapshotRepository>
+			<id>sonatype-nexus-snapshots</id>
+			<name>Sonatype Nexus Snapshots</name>
+			<url>${sonatypeOssDistMgmtSnapshotsUrl}</url>
+		</snapshotRepository>
+		<repository>
+			<id>sonatype-nexus-staging</id>
+			<name>Nexus Release Repository</name>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+	
+</project>

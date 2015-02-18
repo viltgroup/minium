@@ -22,8 +22,10 @@ import minium.script.js.JsEngine;
 import minium.script.rhinojs.RhinoProperties.RequireProperties;
 
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.Undefined;
+import org.mozilla.javascript.WrapFactory;
 import org.mozilla.javascript.Wrapper;
 import org.mozilla.javascript.json.JsonParser;
 import org.mozilla.javascript.json.JsonParser.ParseException;
@@ -41,13 +43,14 @@ public class RhinoEngine implements JsEngine, DisposableBean {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RhinoEngine.class);
 
-    private static final ThreadFactory FACTORY = new ThreadFactoryBuilder().setNameFormat("jsengine-thread-%d").build();
+    private static final ThreadFactory FACTORY = new ThreadFactoryBuilder().setNameFormat("jsengine-thread-%d").setDaemon(true).build();
 
     public abstract class RhinoCallable<T, X extends Exception> implements Callable<T> {
 
         @Override
-        public T call() throws Exception {
+        public T call() throws X {
             Context cx = Context.enter();
+            cx.setWrapFactory(wrapFactory);
             try {
                 return doCall(cx, scope);
             } finally {
@@ -58,6 +61,19 @@ public class RhinoEngine implements JsEngine, DisposableBean {
         protected abstract T doCall(Context cx, Scriptable scope) throws X;
     }
 
+    private WrapFactory wrapFactory = new WrapFactory() {
+        @Override
+        public Object wrap(Context cx, Scriptable scope, Object obj, Class<?> staticType) {
+            final Object ret = super.wrap(cx, scope, obj, staticType);
+            if (ret instanceof Scriptable) {
+                final Scriptable sret = (Scriptable) ret;
+                if (sret.getPrototype() == null) {
+                    sret.setPrototype(new NativeObject());
+                }
+            }
+            return ret;
+        }
+    };
     private Thread executionThread;
     private ExecutorService executorService;
     private Future<?> lastTask;
@@ -72,6 +88,7 @@ public class RhinoEngine implements JsEngine, DisposableBean {
                 return executionThread;
             }
         });
+
         // this ensures a single thread for this engine
         scope = runWithContext(new RhinoCallable<Scriptable, RuntimeException>() {
             @Override
@@ -283,6 +300,12 @@ public class RhinoEngine implements JsEngine, DisposableBean {
 
     @SuppressWarnings("unchecked")
     public <T, X extends Exception> T runWithContext(RhinoCallable<? extends T, X> fn) throws X {
+        if (Thread.currentThread() == executionThread) {
+            Context currentContext = Context.getCurrentContext();
+            Preconditions.checkState(currentContext != null, "A rhino context was expected at this thread");
+            return fn.doCall(currentContext, scope);
+        }
+
         Preconditions.checkState(lastTask == null || lastTask.isDone());
         try {
             this.lastTask = executorService.submit(fn);

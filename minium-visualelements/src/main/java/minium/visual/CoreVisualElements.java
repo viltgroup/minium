@@ -15,7 +15,7 @@ public interface CoreVisualElements<T extends VisualElements> extends
         Interactable {
 
     public interface DefaultVisualElements extends CoreVisualElements<DefaultVisualElements> {
-        public static final VisualFinder<DefaultVisualElements> by = new VisualFinder<DefaultVisualElements>(DefaultVisualElements.class);
+        public static final VisualLocator<DefaultVisualElements> by = new VisualLocator<DefaultVisualElements>(DefaultVisualElements.class);
     }
 
 }

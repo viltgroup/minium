@@ -1,14 +1,12 @@
 package minium.web.config;
 
 import java.net.URL;
-import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.CapabilityType;
 
 import com.google.common.base.Objects;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 public class WebDriverProperties {
@@ -123,7 +121,6 @@ public class WebDriverProperties {
         }
     }
 
-    private List<Class<?>> elementInterfaces = Lists.newArrayList();
     private Map<String, Object> desiredCapabilities = Maps.newHashMap();
     private Map<String, Object> requiredCapabilities = Maps.newHashMap();
     private URL url;
@@ -131,14 +128,6 @@ public class WebDriverProperties {
 
     public WebDriverProperties() {
         desiredCapabilities.put(CapabilityType.BROWSER_NAME, BrowserType.CHROME);
-    }
-
-    public List<Class<?>> getElementInterfaces() {
-        return elementInterfaces;
-    }
-
-    public void setElementInterfaces(List<Class<?>> elementInterfaces) {
-        this.elementInterfaces = elementInterfaces;
     }
 
     public Map<String, Object> getDesiredCapabilities() {

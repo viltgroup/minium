@@ -10,7 +10,6 @@ import minium.internal.HasElementsFactory;
 import minium.web.DocumentRoots;
 import minium.web.DocumentWebDriver;
 import minium.web.WebElements;
-import minium.web.WebElementsFactory;
 import minium.web.internal.drivers.DocumentWebElement;
 import minium.web.internal.drivers.JavascriptInvoker;
 import minium.web.internal.expression.Expression;

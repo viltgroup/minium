@@ -7,6 +7,10 @@ import java.util.Set;
 import minium.web.config.WebDriverProperties.DimensionProperties;
 import minium.web.config.WebDriverProperties.PointProperties;
 import minium.web.config.WebDriverProperties.WindowProperties;
+import minium.web.config.services.ChromeDriverServiceProperties;
+import minium.web.config.services.DriverServicesProperties;
+import minium.web.config.services.InternetExplorerDriverServiceProperties;
+import minium.web.config.services.PhantomJsDriverServiceProperties;
 
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
@@ -21,6 +25,7 @@ import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.service.DriverService;
 import org.openqa.selenium.safari.SafariDriver;
 
 import com.google.common.base.Strings;
@@ -28,35 +33,43 @@ import com.google.common.collect.Sets;
 
 public class WebDriverFactory {
 
+    private final DriverServicesProperties driverServices;
+
     enum WebDriverType {
         CHROME(BrowserType.CHROME, BrowserType.GOOGLECHROME) {
             @Override
-            public WebDriver create(DesiredCapabilities desiredCapabilities, DesiredCapabilities requiredCapabilities) {
-                return new ChromeDriver(desiredCapabilities);
+            public WebDriver create(WebDriverFactory webDriverFactory, DesiredCapabilities desiredCapabilities, DesiredCapabilities requiredCapabilities) {
+                ChromeDriverServiceProperties serviceProperties = webDriverFactory.driverServices == null ? null : webDriverFactory.driverServices.getChrome();
+                DriverService driverService = serviceProperties == null ? null : serviceProperties.getDriverService();
+                return driverService == null ? new ChromeDriver(desiredCapabilities) : new RemoteWebDriver(driverService.getUrl(), desiredCapabilities, requiredCapabilities);
             }
         },
         FIREFOX(BrowserType.FIREFOX) {
             @Override
-            public WebDriver create(DesiredCapabilities desiredCapabilities, DesiredCapabilities requiredCapabilities) {
+            public WebDriver create(WebDriverFactory webDriverFactory, DesiredCapabilities desiredCapabilities, DesiredCapabilities requiredCapabilities) {
                 return new FirefoxDriver(desiredCapabilities);
             }
         },
         IE(BrowserType.IE, BrowserType.IEXPLORE) {
             @Override
-            public WebDriver create(DesiredCapabilities desiredCapabilities, DesiredCapabilities requiredCapabilities) {
-                return new InternetExplorerDriver(desiredCapabilities);
+            public WebDriver create(WebDriverFactory webDriverFactory, DesiredCapabilities desiredCapabilities, DesiredCapabilities requiredCapabilities) {
+                InternetExplorerDriverServiceProperties serviceProperties = webDriverFactory.driverServices == null ? null : webDriverFactory.driverServices.getInternetExplorer();
+                DriverService driverService = serviceProperties == null ? null : serviceProperties.getDriverService();
+                return driverService == null ? new InternetExplorerDriver(desiredCapabilities) : new RemoteWebDriver(driverService.getUrl(), desiredCapabilities, requiredCapabilities);
             }
         },
         SAFARI(BrowserType.SAFARI) {
             @Override
-            public WebDriver create(DesiredCapabilities desiredCapabilities, DesiredCapabilities requiredCapabilities) {
+            public WebDriver create(WebDriverFactory webDriverFactory, DesiredCapabilities desiredCapabilities, DesiredCapabilities requiredCapabilities) {
                 return new SafariDriver(desiredCapabilities);
             }
         },
         PHANTOMJS(BrowserType.PHANTOMJS) {
             @Override
-            public WebDriver create(DesiredCapabilities desiredCapabilities, DesiredCapabilities requiredCapabilities) {
-                return new PhantomJSDriver(desiredCapabilities);
+            public WebDriver create(WebDriverFactory webDriverFactory, DesiredCapabilities desiredCapabilities, DesiredCapabilities requiredCapabilities) {
+                PhantomJsDriverServiceProperties serviceProperties = webDriverFactory.driverServices == null ? null : webDriverFactory.driverServices.getPhantomJs();
+                DriverService driverService = serviceProperties == null ? null : serviceProperties.getDriverService();
+                return driverService == null ? new PhantomJSDriver(desiredCapabilities) : new RemoteWebDriver(driverService.getUrl(), desiredCapabilities, requiredCapabilities);
             }
         };
 
@@ -69,7 +82,7 @@ public class WebDriverFactory {
             }
         }
 
-        public abstract WebDriver create(DesiredCapabilities desiredCapabilities, DesiredCapabilities requiredCapabilities);
+        public abstract WebDriver create(WebDriverFactory webDriverFactory, DesiredCapabilities desiredCapabilities, DesiredCapabilities requiredCapabilities);
 
         public static WebDriverType typeFor(String value) {
             value = value.toLowerCase();
@@ -78,6 +91,10 @@ public class WebDriverFactory {
             }
             throw new IllegalArgumentException(format("Type %s is not valid", value));
         }
+    }
+
+    public WebDriverFactory(DriverServicesProperties driverServices) {
+        this.driverServices = driverServices;
     }
 
     public WebDriver create(WebDriverProperties webDriverProperties) {
@@ -91,7 +108,7 @@ public class WebDriverFactory {
         } else {
             String browserName = desiredCapabilities == null ? null : desiredCapabilities.getBrowserName();
             if (Strings.isNullOrEmpty(browserName)) browserName = BrowserType.CHROME;
-            webDriver = WebDriverType.typeFor(browserName).create(desiredCapabilities, requiredCapabilities);
+            webDriver = WebDriverType.typeFor(browserName).create(this, desiredCapabilities, requiredCapabilities);
         }
         WindowProperties window = webDriverProperties.getWindow();
         if (window != null) {

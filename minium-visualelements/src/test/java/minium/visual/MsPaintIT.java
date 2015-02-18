@@ -3,10 +3,10 @@ package minium.visual;
 import static minium.Offsets.HorizontalReference.LEFT;
 import static minium.Offsets.VerticalReference.TOP;
 import static minium.visual.CoreVisualElements.DefaultVisualElements.by;
-import static minium.visual.VisualModules.baseModule;
-import static minium.visual.VisualModules.debugModule;
-import static minium.visual.VisualModules.interactableModule;
-import static minium.visual.VisualModules.positionModule;
+import static minium.visual.internal.VisualModules.baseModule;
+import static minium.visual.internal.VisualModules.debugModule;
+import static minium.visual.internal.VisualModules.interactableModule;
+import static minium.visual.internal.VisualModules.positionModule;
 
 import java.io.IOException;
 import java.util.Random;
@@ -18,7 +18,10 @@ import minium.actions.HasConfiguration;
 import minium.visual.CoreVisualElements.DefaultVisualElements;
 import minium.visual.Drawing.DoublePoint;
 import minium.visual.Drawing.Polygon;
-import minium.visual.VisualElementsFactory.Builder;
+import minium.visual.internal.VisualElementsFactory;
+import minium.visual.internal.VisualModule;
+import minium.visual.internal.VisualModules;
+import minium.visual.internal.VisualElementsFactory.Builder;
 import minium.visual.internal.actions.VisualDebugInteractionPerformer;
 
 import org.junit.AfterClass;

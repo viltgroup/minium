@@ -1,18 +1,4 @@
-#set( $symbol_pound = '#' )
-#set( $symbol_dollar = '$' )
-#set( $symbol_escape = '\' )
+<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-        </encoder>
-    </appender>
-
-    <logger name="minium.developer" level="INFO" />
-
-    <root level="ERROR">
-        <appender-ref ref="STDOUT" />
-    </root>
-
+	<include resource="org/springframework/boot/logging/logback/base.xml"/>
 </configuration>
