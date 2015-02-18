@@ -18,7 +18,7 @@
 	<properties>
 		<java.version>1.7</java.version>
 
-		<minium.version>2.0.0-SNAPSHOT</minium.version>
+		<minium.version>1.0.0-SNAPSHOT</minium.version>
 		<selenium.version>2.44.0</selenium.version>
 		<spring.version>4.1.4.RELEASE</spring.version>
 		<!-- cucumber 1.20 doesn't seem to support 4.12 yet -->
@@ -77,38 +77,15 @@
 
 	<repositories>
 		<repository>
-			<id>engineering-snapshots</id>
-			<name>VILT Engineering Snapshots Repository</name>
-			<url>https://maven.vilt-group.com/content/repositories/engineering-snapshots/</url>
+			<id>sonatype-snapshot</id>
+			<url>http://oss.sonatype.org/content/repositories/snapshots</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
 			<snapshots>
 				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>engineering-releases</id>
-			<name>VILT Engineering Releases Repository</name>
-			<url>https://maven.vilt-group.com/content/repositories/engineering-releases/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>engineering-thirdparty</id>
-			<name>VILT Engineering Thirdparty Repository</name>
-			<url>https://maven.vilt-group.com/content/repositories/engineering-thirdparty/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
 			</snapshots>
 		</repository>
 	</repositories>
-
+	
 </project>
