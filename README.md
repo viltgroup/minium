@@ -7,7 +7,7 @@ Minium [![Build Status](https://travis-ci.org/viltgroup/minium.png)](https://tra
 What is Minium 
 --------------
 
-Minium is a framework developed at [VILT](http://vilt-group.com) that helps you test your web application the same way a human would.
+[Minium](http://minium.vilt.io/) is a framework developed at [VILT](http://vilt-group.com) that helps you test your web application the same way a human would.
 
 Minium has spawned from the work of Rui Figueira @VILT and that initial code base is now known as Minium Core. It combines jQuery and Selenium for browser testing and tasks automation.
 

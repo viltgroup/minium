@@ -1,10 +1,10 @@
 package minium.actions.internal;
 
-import platypus.Mixin;
 import minium.Elements;
 import minium.Offsets.Offset;
 import minium.actions.Interactable;
 import minium.actions.Keys;
+import platypus.Mixin;
 
 public class DefaultInteractable extends Mixin.Impl implements Interactable {
 
@@ -47,6 +47,11 @@ public class DefaultInteractable extends Mixin.Impl implements Interactable {
     @Override
     public void sendKeys(CharSequence... keys) {
         performer.sendKeys(asElements(), keys);
+    }
+    
+    @Override
+    public void sendKeys(CharSequence keys) {
+    	performer.sendKeys(asElements(), keys);
     }
 
     @Override

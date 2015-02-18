@@ -11,6 +11,7 @@ public interface Interactable {
     public void keyDown(Keys keys);
     public void keyUp(Keys keys);
     public void sendKeys(CharSequence ... keys);
+    public void sendKeys(CharSequence keys);
     public void clickAndHold();
     public void clickAndHold(Offset offset);
     public void release();
