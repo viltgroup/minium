@@ -360,17 +360,12 @@
 		<module>minium-elements</module>
 		<module>minium-webelements</module>
 		<module>minium-webelements-config</module>
-		<module>minium-boxelements</module>
-		<module>minium-visualelements</module>
-		<module>minium-mobileelements</module>
 		<module>minium-actions</module>
 		<module>minium-script-js</module>
 		<module>minium-script-rhinojs</module>
-		<module>minium-script-dynjs</module>
 		<module>minium-cucumber</module>
 		<module>minium-cucumber-rest</module>
 		<module>minium-cucumber-archetype</module>
-		<module>minium-visualelements-config</module>
 		<module>minium-docs</module>
 	</modules>
 	
