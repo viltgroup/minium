@@ -5,13 +5,16 @@ import gherkin.formatter.Formatter;
 import gherkin.formatter.Reporter;
 import gherkin.formatter.model.Background;
 import gherkin.formatter.model.Examples;
+import gherkin.formatter.model.ExamplesTableRow;
 import gherkin.formatter.model.Match;
 import gherkin.formatter.model.Result;
 import gherkin.formatter.model.Scenario;
 import gherkin.formatter.model.ScenarioOutline;
 import gherkin.formatter.model.Step;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import org.junit.runner.notification.RunNotifier;
 
@@ -32,7 +35,11 @@ public class ListenerReporter implements Reporter, Formatter {
     private Step matchedStep;
     private boolean ignoredStep;
     private boolean inScenarioLifeCycle;
-
+    private boolean inScenarioOutilne;
+    private Queue<Object> exampleOfScenarioOutline;
+    private int lastExampleLine;
+    private boolean lastExample;
+    
     public ListenerReporter() {
         this(true);
     }
@@ -48,6 +55,7 @@ public class ListenerReporter implements Reporter, Formatter {
 
     public void startExecutionUnit(ExecutionUnitRunner executionUnitRunner, RunNotifier runNotifier) {
         this.ignoredStep = false;
+        this.inScenarioOutilne = false;
     }
 
     public void finishExecutionUnit() {
@@ -96,6 +104,15 @@ public class ListenerReporter implements Reporter, Formatter {
             // instead (via executionUnitNotifier).
             matchedStep = null;
         }
+        
+        //when the last example step got the result
+        //the flag inScenarioOutilne is already false
+        //so we need create this other flag
+        if( (inScenarioOutilne || lastExample) && error != null){
+        	int line = lastExampleLine;
+        	fireTestFailedExample(line);
+        }
+        
     }
 
     private boolean isPendingOrUndefined(Result result) {
@@ -148,10 +165,18 @@ public class ListenerReporter implements Reporter, Formatter {
 
     @Override
     public void scenarioOutline(ScenarioOutline scenarioOutline) {
+    	inScenarioOutilne = true;
+    	lastExample = false;
     }
 
     @Override
     public void examples(Examples examples) {
+    	exampleOfScenarioOutline = new LinkedList<Object>();
+    	for(ExamplesTableRow example: examples.getRows()){
+    		exampleOfScenarioOutline.add(example.getLine());
+    	}
+    	//remove the first because its the header
+    	exampleOfScenarioOutline.remove();
     }
 
     @Override
@@ -181,6 +206,16 @@ public class ListenerReporter implements Reporter, Formatter {
     public void startOfScenarioLifeCycle(Scenario scenario) {
         System.out.println(">> [ Scenario Started ] " + scenario.getName());
         inScenarioLifeCycle = true;
+        if(inScenarioOutilne){
+        	int line = (int) exampleOfScenarioOutline.element();
+        	fireTestStartedExample(line);
+        	lastExampleLine = line;
+    		exampleOfScenarioOutline.remove();
+    		if(exampleOfScenarioOutline.isEmpty()){
+    			inScenarioOutilne = false;
+    			lastExample = true;
+    		}
+    	}
     }
 
     @Override
@@ -222,6 +257,18 @@ public class ListenerReporter implements Reporter, Formatter {
         Preconditions.checkNotNull(matchedStep);
         for (StepListener stepListener : stepListeners) {
             stepListener.ignoredStep(matchedStep);
+        }
+    }
+    
+    protected void fireTestStartedExample(int line) {
+        for (StepListener stepListener : stepListeners) {
+            stepListener.exampleStep(line);
+        }
+    }
+    
+    protected void fireTestFailedExample(int line) {
+        for (StepListener stepListener : stepListeners) {
+            stepListener.failedExampleStep(line);
         }
     }
 }
