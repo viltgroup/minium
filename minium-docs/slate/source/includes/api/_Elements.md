@@ -759,6 +759,15 @@ Parameter | Description
 ## .unless(filter)
 
 
+<<<<<<< HEAD
+=======
+## .eval(script)
+
+
+## .evalWebElements(script)
+
+
+>>>>>>> 8298147f8f850eff46692a5aae067f7fb38fd0cd
 ## .withLabel(label)
 `<p>Filters elements that have a label with the given text. That means that
  returned elements have the same <code>id</code> than the <code>for</code>
@@ -1101,4 +1110,63 @@ Parameter | Description
 	--------- | -----------
 |attributeName|The name of the attribute to get.
 * **returns:** an array with the attribute value from each matched element, in the same order.
+
+
+## .above(expr)
+`Returns elements above this element that match the expression.`
+
+
+Parameter | Description
+	--------- | -----------
+|expr|the expression to use for matching elements.
+* **returns:** elements
+
+
+## .leftOf(expr)
+`Returns elements at the left this element that match the expression.`
+
+
+Parameter | Description
+	--------- | -----------
+|expr|the expression to use for matching elements.
+* **returns:** elements
+
+
+## .below(expr)
+`Returns elements below this element that match the expression.`
+
+
+Parameter | Description
+	--------- | -----------
+|expr|the expression to use for matching elements.
+* **returns:** elements
+
+
+## .rightOf(expr)
+`Returns elements at the right of this element that match the expression.`
+
+
+Parameter | Description
+	--------- | -----------
+|expr|the expression to use for matching elements.
+* **returns:** elements
+
+
+## .overlaps(expr)
+`Overlaps.`
+
+
+Parameter | Description
+	--------- | -----------
+|expr|the expr
+* **returns:** the t
+
+
+## .frames()
+
+
+## .windows()
+
+
+## .root()
 

@@ -19,39 +19,27 @@ public class DocumentationDoclet {
 	private final static String DOCFILE_ELEMENTS = "Elements";
 	private final static String DOCFILE_INTERACTIONS = "Interactions";
 
-	private static HashSet<String> elements_file;
-	private static HashSet<String> interactions_file;
-
-	/*
-	 * 
-	 * generateDocs("api/_elements.md", "Elements", BasicWebElements.class,
-	 * FreezableElements.class, ConditionalWebElements.class,
-	 * ExtensionsWebElements.class, EvalWebElements.class,
-	 * TargetLocatorWebElements.class, PositionWebElements.class);
-	 * generateDocs("api/_interactions.md", "Interactions", Interactable.class);
-	 * generateDocs("api/_waitInteractions.md", "Wait Interactions",
-	 * WaitInteractable.class); generateDocs("api/_debugInteractions.md",
-	 * "Debug Interactions", DebugInteractable.class);
-	 * generateDocs("api/_interactionListeners.md", "Interaction Listeners",
-	 * InteractionListeners.class);
-	 */
+	private static HashSet<String> elementsFile;
+	private static HashSet<String> interactionsFile;
 
 	private static void init() throws IOException {
 
 		// Elements
-		elements_file = new HashSet();
-		elements_file.add("BasicWebElements");
-		elements_file.add("ConditionalWebElements");
-		elements_file.add("ExtensionsWebElements");
-		elements_file.add("EvalWebElements");
-		elements_file.add("TargetLocatorWebElements");
-		elements_file.add("PositionWebElements");
+		elementsFile = new HashSet();
+		elementsFile.add("BasicWebElements");
+		elementsFile.add("ConditionalWebElements");
+		elementsFile.add("ExtensionsWebElements");
+		elementsFile.add("EvalWebElements");
+		elementsFile.add("TargetLocatorWebElements");
+		elementsFile.add("PositionWebElements");
 		initFiles(DOCFILE_ELEMENTS, "#" + DOCFILE_ELEMENTS);
 
 		// Interactions
 
-		interactions_file = new HashSet();
-		interactions_file.add("Interactable");
+		interactionsFile = new HashSet();
+		interactionsFile.add("Interactable");
+		interactionsFile.add("WaitInteractable");
+
 		initFiles(DOCFILE_INTERACTIONS, "#" + DOCFILE_INTERACTIONS);
 	}
 
@@ -72,9 +60,9 @@ public class DocumentationDoclet {
 		// Iterate classes
 		for (ClassDoc clazz : root.classes()) {
 
-			if (elements_file.contains(clazz.name())) {
+			if (elementsFile.contains(clazz.name())) {
 				fileName = DOCFILE_ELEMENTS;
-			} else if (interactions_file.contains(clazz.name())) {
+			} else if (interactionsFile.contains(clazz.name())) {
 				fileName = DOCFILE_INTERACTIONS;
 			}
 

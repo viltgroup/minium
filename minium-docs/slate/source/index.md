@@ -5,7 +5,7 @@ language_tabs:
   - javascript
 
 toc_footers:
-  - <a href='http://minium.io'>minium.vilt.io</a>
+  - <a href='http://minium.vilt.io'>minium.io</a>
   - <a href='https://github.com/viltgroup/minium'>Github</a>
   - <a href='http://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
@@ -15,6 +15,7 @@ includes:
   - /api/Interactions
 
 search: true
+
 ---
 
 # Introduction
