@@ -1,0 +1,8 @@
+minium.cucumber.remoteBackends:
+
+  - url: http://minium/b1
+
+  - url: http://minium/b2
+    credentials:
+      username: admin
+      password: secret
