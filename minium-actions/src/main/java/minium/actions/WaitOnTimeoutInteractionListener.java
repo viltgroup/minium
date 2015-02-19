@@ -33,7 +33,7 @@ import minium.Elements;
  * var loading = $("#loading");
  * $(":root").configure()
  *   .interactionListeners()
- *     .add($.interactionListeners
+ *     .add(minium.interactionListeners
  *       .waitOnTimeout()                // wait on timeout
  *       .when(loading)                  // when loading exists
  *       .forUnexistence(loading)        // until loading doesn't exist
