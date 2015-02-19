@@ -1,0 +1,12 @@
+{
+	"webconsole" : {
+		"chromeBin" : "${minium.home}/chrome.exe",
+		"host" : "testhost",
+		"port" : 12345,
+		"shutdownPort" : 54321,
+		"enableFileMenu" : false
+	},
+	"webDrivers" : [
+	
+	]
+}

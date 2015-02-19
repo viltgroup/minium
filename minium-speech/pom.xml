@@ -1,0 +1,24 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<parent>
+		<groupId>com.vilt-group.minium</groupId>
+		<artifactId>minium</artifactId>
+		<version>0.9.7-SNAPSHOT</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>minium-speech</artifactId>
+	<name>Minium - Speech (powered by Google Translate)</name>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.vilt-group.minium</groupId>
+			<artifactId>minium-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javazoom</groupId>
+			<artifactId>jlayer</artifactId>
+		</dependency>
+	</dependencies>
+	
+</project>

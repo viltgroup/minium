@@ -1,0 +1,28 @@
+{
+  "name": "Boxer",
+  "description": "jQuery doTimeout: Like setTimeout, but better!",
+  "main": [
+    "jquery.ba-dotimeout.min.js"
+  ],
+  "ignore": [
+    "*.json",
+    "docs",
+    "examples",
+    "shared",
+    "unit"
+  ],
+  "dependencies": {
+    "jquery": ">= 1.7.0"
+  },
+  "devDependencies": {},
+  "homepage": "https://github.com/benplum/jquery-dotimeout",
+  "_release": "d93daee090",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "d93daee09093f01951ab68c53d8e57a7c0f1eb89"
+  },
+  "_source": "git://github.com/benplum/jquery-dotimeout.git",
+  "_target": "*",
+  "_originalSource": "ba-dotimeout"
+}

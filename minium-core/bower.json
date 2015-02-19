@@ -1,0 +1,10 @@
+{
+  "name": "minium-core",
+  "version": "0.0.0",
+  "dependencies": {
+    "jquery"       : "1.x",
+    "jquery-ui"    : "1.x",
+    "ba-dotimeout" : "*",
+    "qtip2"        : "2.x"
+  }
+}

@@ -1,0 +1,52 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.vilt-group.minium</groupId>
+		<artifactId>minium</artifactId>
+		<version>0.9.7-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>minium-script</artifactId>
+	<name>Minium - Rhino Integration</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.vilt-group.minium</groupId>
+			<artifactId>minium-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.vilt-group.minium</groupId>
+			<artifactId>minium-prefs</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mozilla</groupId>
+			<artifactId>rhino</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.detro</groupId>
+			<artifactId>phantomjsdriver</artifactId>
+		</dependency>
+		
+		<!-- Tests -->
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-library</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+</project>
