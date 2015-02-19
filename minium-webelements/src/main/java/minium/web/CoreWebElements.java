@@ -1,6 +1,7 @@
 package minium.web;
 
 import minium.FreezableElements;
+import minium.IterableElements;
 import minium.actions.HasConfiguration;
 import minium.actions.Interactable;
 import minium.actions.WaitInteractable;
@@ -10,6 +11,7 @@ import minium.web.actions.HasBrowser;
 public interface CoreWebElements<T extends WebElements> extends
         BasicWebElements<T>,
         FreezableElements<T>,
+        IterableElements<T>,
         ConditionalWebElements<T>,
         ExtensionsWebElements<T>,
         EvalWebElements<T>,
