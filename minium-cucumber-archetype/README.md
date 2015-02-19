@@ -20,23 +20,23 @@ You can create a Minium Cucumber test project with the `minium-cucumber-archetyp
 
 ```sh
 mvn archetype:generate \
-  -DarchetypeGroupId=minium \
+  -DarchetypeGroupId=io.vilt.minium \
   -DarchetypeArtifactId=minium-cucumber-archetype \
-  -DarchetypeVersion=2.0.0-SNAPSHOT \
-  -DarchetypeRepository=https://maven.vilt-group.com/content/repositories/engineering-snapshots/ \
+  -DarchetypeVersion=1.0.0-SNAPSHOT \
+  -DarchetypeRepository=https://oss.sonatype.org/content/repositories/snapshots/ \
   -DgroupId=my.archetype \
-  -DartifactId=my-archetype-test \
+  -DartifactId=sample-search-test \
   -Dversion=1.0-SNAPSHOT \
-  -Dfeature=test_my_archetype \
-  -DtestClassname=MyArchetypeIT \
+  -Dfeature=search \
+  -DtestClassname=SampleSearchIT \
   -DinteractiveMode=false
 ```
 
-That will create a project `my-archetype-test` with a JUnit structure ready to run. To launch Pupino:
+That will create a project `sample-search-test` with a JUnit structure ready to run. To launch it:
 
 ```sh
 cd my-archetype-test
-mvn verify -P pupino
+mvn verify
 ```
 
 That will take a while, and will open a new browser window (that is controlled with Selenium, don't use it directly), and when it is done, it will open http://localhost:8080/#/editor/ in your browser.

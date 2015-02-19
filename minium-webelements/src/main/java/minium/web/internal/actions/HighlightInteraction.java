@@ -11,6 +11,6 @@ public class HighlightInteraction extends AbstractWebInteraction {
 
     @Override
     protected void doPerform() {
-        getSource().as(EvalWebElements.class).eval("$(this).effect('highlight', { color : 'red' }, 5000);");
+        getSource().as(EvalWebElements.class).eval("$(this).highlight();");
     }
 }

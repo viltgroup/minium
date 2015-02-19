@@ -110,6 +110,10 @@ public class DefaultJavascriptInvoker implements JavascriptInvoker {
         this.cssResources = cssResources;
 
         try {
+            LOGGER.debug("DefaultJavascriptInvoker initialized with:");
+            LOGGER.debug("  jsResources  : {}", jsResources);
+            LOGGER.debug("  cssResources : {}", cssResources);
+
             String jsScripts = compressor.compress(DefaultJavascriptInvoker.class.getClassLoader(), jsResources);
 
             styles = cssResources != null ? combineResources(cssResources) : null;
