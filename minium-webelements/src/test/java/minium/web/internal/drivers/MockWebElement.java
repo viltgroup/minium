@@ -10,34 +10,49 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.internal.Coordinates;
 import org.openqa.selenium.internal.Locatable;
 
+import com.google.common.base.Objects;
+
 public class MockWebElement implements WebElement, Locatable {
 
+    class MockCoordinates implements Coordinates {
+        @Override
+        public Point onScreen() {
+            return point;
+        }
+
+        @Override
+        public Point onPage() {
+            return point;
+        }
+
+        @Override
+        public Point inViewPort() {
+            return point;
+        }
+
+        @Override
+        public Object getAuxiliary() {
+            return MockWebElement.this;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof Coordinates) {
+                Coordinates other = (Coordinates) obj;
+                return Objects.equal(onScreen(), other.onScreen()) &&
+                        Objects.equal(onPage(), other.onPage()) &&
+                        Objects.equal(inViewPort(), other.inViewPort());
+            }
+            return false;
+        }
+    }
+
     private Point point = new Point(64, 96);
+    MockCoordinates mockCoordinates = new MockCoordinates();
 
     @Override
     public Coordinates getCoordinates() {
-        return new Coordinates() {
-
-            @Override
-            public Point onScreen() {
-                return point;
-            }
-
-            @Override
-            public Point onPage() {
-                return point;
-            }
-
-            @Override
-            public Point inViewPort() {
-                return point;
-            }
-
-            @Override
-            public Object getAuxiliary() {
-                return MockWebElement.this;
-            }
-        };
+        return mockCoordinates;
     }
 
     @Override

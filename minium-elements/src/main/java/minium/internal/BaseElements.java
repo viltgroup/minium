@@ -1,28 +1,10 @@
 package minium.internal;
 
-import platypus.Mixin;
 import minium.Elements;
 
-import com.google.common.reflect.TypeParameter;
 import com.google.common.reflect.TypeToken;
 
-public abstract class BaseElements<T extends Elements> extends Mixin.Impl implements Elements {
-
-    @SuppressWarnings("serial")
-    private final TypeToken<T> typeVariableToken = new TypeToken<T>(getClass()) {};
-
-    protected T myself() {
-        return this.as(typeVariableToken);
-    }
-
-    protected TypeToken<T> typeVariableToken() {
-        return typeVariableToken;
-    }
-
-    @SuppressWarnings("unchecked")
-    protected <C> TypeToken<C> typeTokenFor(Class<?> clazz) {
-        return (TypeToken<C>) TypeToken.of(clazz).where(new TypeParameter<T>() {}, typeVariableToken);
-    }
+public abstract class BaseElements<T extends Elements> extends Chainable<T> implements Elements {
 
     protected InternalElementsFactory<T> internalFactory() {
         TypeToken<InternalElementsFactory<T>> factoryTypeToken = typeTokenFor(InternalElementsFactory.class);

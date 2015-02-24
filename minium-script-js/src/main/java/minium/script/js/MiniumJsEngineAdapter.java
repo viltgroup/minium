@@ -16,9 +16,10 @@ public class MiniumJsEngineAdapter {
         engine.put("__browser", browser);
         engine.put("__browserFactory", browserFactory);
         try {
-            engine.eval("var console = require('console')", 1);
+            engine.eval("console = require('minium/console')", 1);
             engine.eval("minium = require('minium'); $ = minium.$; if (typeof minium.browser !== 'undefined') browser = minium.browser;", 1);
-            engine.eval("require('minium').__browserFactory = __browserFactory;", 1);
+            engine.eval("expect = require('minium/expect-webelements.js')", 1);
+            engine.eval("minium.__browserFactory = __browserFactory;", 1);
         } finally {
             engine.delete("__browserFactory");
             engine.delete("__browser");

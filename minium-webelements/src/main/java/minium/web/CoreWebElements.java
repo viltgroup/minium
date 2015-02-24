@@ -4,11 +4,14 @@ import minium.FreezableElements;
 import minium.IterableElements;
 import minium.actions.HasConfiguration;
 import minium.actions.Interactable;
+import minium.actions.KeyboardInteractable;
+import minium.actions.MouseInteractable;
 import minium.actions.WaitInteractable;
 import minium.web.actions.HasAlert;
 import minium.web.actions.HasBrowser;
+import minium.web.actions.WebInteractable;
 
-public interface CoreWebElements<T extends WebElements> extends
+public interface CoreWebElements<T extends WebElements & Interactable<T>> extends
         BasicWebElements<T>,
         FreezableElements<T>,
         IterableElements<T>,
@@ -20,8 +23,10 @@ public interface CoreWebElements<T extends WebElements> extends
         HasBrowser<T>,
         HasAlert,
         HasConfiguration,
-        WaitInteractable,
-        Interactable {
+        WaitInteractable<T>,
+        MouseInteractable<T>,
+        KeyboardInteractable<T>,
+        WebInteractable<T> {
 
     public interface DefaultWebElements extends CoreWebElements<DefaultWebElements> {
         public static final WebLocator<DefaultWebElements> by = new WebLocator<>(DefaultWebElements.class);

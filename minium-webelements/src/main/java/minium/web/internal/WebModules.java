@@ -3,24 +3,28 @@ package minium.web.internal;
 import static java.lang.String.format;
 import minium.actions.Configuration;
 import minium.actions.HasConfiguration;
+import minium.actions.HasInteractionListeners;
 import minium.actions.Interactable;
+import minium.actions.KeyboardInteractable;
+import minium.actions.MouseInteractable;
 import minium.actions.WaitInteractable;
 import minium.actions.debug.DebugInteractable;
-import minium.actions.debug.DebugInteractionPerformer;
 import minium.actions.internal.DefaultConfiguration;
-import minium.actions.internal.DefaultDebugInteractable;
-import minium.actions.internal.DefaultInteractable;
+import minium.actions.internal.DefaultHasInteractionListeners;
 import minium.actions.internal.DefaultWaitInteractable;
-import minium.actions.internal.InteractionPerformer;
 import minium.internal.LocatableElements;
 import minium.web.ConditionalWebElements;
 import minium.web.CoreWebElements.DefaultWebElements;
 import minium.web.PositionWebElements;
 import minium.web.WebElements;
 import minium.web.actions.HasAlert;
+import minium.web.actions.WebInteractable;
 import minium.web.internal.WebElementsFactory.Builder;
+import minium.web.internal.actions.DefaultDebugInteractable;
 import minium.web.internal.actions.DefaultHasAlert;
-import minium.web.internal.actions.WebInteractionPerformer;
+import minium.web.internal.actions.DefaultKeyboardInteractable;
+import minium.web.internal.actions.DefaultMouseInteractable;
+import minium.web.internal.actions.DefaultWebInteractable;
 
 import org.openqa.selenium.WebDriver;
 
@@ -77,8 +81,7 @@ public class WebModules {
     }
 
     public static WebModule defaultModule(final WebDriver wd) {
-        InteractionPerformer performer = new WebInteractionPerformer();
-        return combine(baseModule(wd), positionModule(), conditionalModule(), interactableModule(performer));
+        return combine(baseModule(wd), positionModule(), conditionalModule(), interactableModule());
     }
 
     public static WebModule baseModule(WebDriver wd) {
@@ -133,21 +136,24 @@ public class WebModules {
         };
     }
 
-    public static WebModule interactableModule(final InteractionPerformer performer) {
-        Preconditions.checkNotNull(performer);
+    public static WebModule interactableModule() {
         final Configuration configuration = new DefaultConfiguration();
+
         return new WebModule() {
             @Override
             public void configure(Builder<?> builder) {
                 builder
-                .implementingInterfaces(Interactable.class, HasConfiguration.class)
+                .implementingInterfaces(HasInteractionListeners.class, HasConfiguration.class, WaitInteractable.class, MouseInteractable.class, KeyboardInteractable.class, WebInteractable.class)
                 .usingMixinConfigurer(new AbstractMixinInitializer() {
 
                     @Override
                     protected void initialize() {
+                        implement(HasInteractionListeners.class).with(new DefaultHasInteractionListeners<Interactable<Interactable<?>>>());
                         implement(HasConfiguration.class).with(new HasConfiguration.Impl(configuration));
-                        implement(Interactable.class).with(new DefaultInteractable(performer));
-                        implement(WaitInteractable.class).with(new DefaultWaitInteractable(performer));
+                        implement(WaitInteractable.class).with(new DefaultWaitInteractable<Interactable<?>>());
+                        implement(MouseInteractable.class).with(new DefaultMouseInteractable<Interactable<?>>());
+                        implement(KeyboardInteractable.class).with(new DefaultKeyboardInteractable<Interactable<?>>());
+                        implement(WebInteractable.class).with(new DefaultWebInteractable<Interactable<?>>());
                     }
                 });
             }
@@ -159,8 +165,7 @@ public class WebModules {
         };
     };
 
-    public static WebModule debugModule(final DebugInteractionPerformer performer) {
-        Preconditions.checkNotNull(performer);
+    public static WebModule debugModule() {
         return new WebModule() {
             @Override
             public void configure(Builder<?> builder) {
@@ -172,8 +177,7 @@ public class WebModules {
                 .usingMixinConfigurer(new AbstractMixinInitializer() {
                     @Override
                     protected void initialize() {
-                        DebugInteractable interactable = new DefaultDebugInteractable(performer);
-                        implement(DebugInteractable.class).with(interactable);
+                        implement(DebugInteractable.class).with(new DefaultDebugInteractable<Interactable<?>>());
                     }
                 });
             }

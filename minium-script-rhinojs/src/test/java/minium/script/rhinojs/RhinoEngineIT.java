@@ -9,13 +9,11 @@ import static minium.web.internal.WebModules.positionModule;
 
 import java.io.IOException;
 
-import minium.actions.internal.InteractionPerformer;
 import minium.script.js.MiniumJsEngineAdapter;
 import minium.script.rhinojs.RhinoProperties.RequireProperties;
 import minium.web.CoreWebElements.DefaultWebElements;
 import minium.web.actions.WebDriverBrowser;
 import minium.web.internal.WebModule;
-import minium.web.internal.actions.WebInteractionPerformer;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -29,13 +27,12 @@ public class RhinoEngineIT {
     @BeforeClass
     public static void setup() {
         ChromeDriver wd = new ChromeDriver();
-        InteractionPerformer performer = new WebInteractionPerformer();
         WebModule module = combine(
                 baseModule(wd),
                 positionModule(),
                 conditionalModule(),
                 rhinoModule(),
-                interactableModule(performer));
+                interactableModule());
         browser = new WebDriverBrowser<>(wd, DefaultWebElements.class, module);
     }
 

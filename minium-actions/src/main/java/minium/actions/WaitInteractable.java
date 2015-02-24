@@ -2,24 +2,24 @@ package minium.actions;
 
 import java.util.concurrent.TimeUnit;
 
-public interface WaitInteractable {
+public interface WaitInteractable<T extends Interactable<?>> extends Interactable<T> {
 
-    public abstract void waitForExistence();
+    public T waitForExistence();
 
-    public abstract void waitForExistence(String waitingPreset);
+    public T waitForExistence(String waitingPreset);
 
-    public abstract void waitForUnexistence();
+    public T waitForUnexistence();
 
-    public abstract void waitForUnexistence(String waitingPreset);
+    public T waitForUnexistence(String waitingPreset);
 
-    public abstract boolean checkForExistence();
+    public boolean checkForExistence();
 
-    public abstract boolean checkForExistence(String waitingPreset);
+    public boolean checkForExistence(String waitingPreset);
 
-    public abstract boolean checkForUnexistence();
+    public boolean checkForUnexistence();
 
-    public abstract boolean checkForUnexistence(String waitingPreset);
+    public boolean checkForUnexistence(String waitingPreset);
 
-    public void waitTime(long time, TimeUnit timeUnit);
+    public T waitTime(long time, TimeUnit timeUnit);
 
 }

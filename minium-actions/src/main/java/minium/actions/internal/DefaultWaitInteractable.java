@@ -2,36 +2,34 @@ package minium.actions.internal;
 
 import java.util.concurrent.TimeUnit;
 
-import platypus.Mixin;
-import minium.Elements;
+import minium.ElementsException;
+import minium.actions.Duration;
+import minium.actions.Interactable;
 import minium.actions.WaitInteractable;
 
-public class DefaultWaitInteractable extends Mixin.Impl implements WaitInteractable {
+public class DefaultWaitInteractable<T extends Interactable<?>> extends AbstractInteractable<T> implements WaitInteractable<T> {
 
-    private final WaitInterationPerformer performer;
-
-    public DefaultWaitInteractable(WaitInterationPerformer performer) {
-        this.performer = performer;
+    public DefaultWaitInteractable() {
     }
 
     @Override
-    public void waitForExistence() {
-        waitForExistence(null);
+    public T waitForExistence() throws ElementsException {
+        return waitForExistence(null);
     }
 
     @Override
-    public void waitForExistence(String waitingPreset) {
-        performer.waitForExistence(asElements(), waitingPreset);
+    public T waitForExistence(String waitingPreset) {
+        return perform(new WaitForExistenceInteraction(getSource(), waitingPreset));
     }
 
     @Override
-    public void waitForUnexistence() {
-        waitForUnexistence(null);
+    public T waitForUnexistence() throws ElementsException {
+        return waitForUnexistence(null);
     }
 
     @Override
-    public void waitForUnexistence(String waitingPreset) {
-        performer.waitForUnexistence(asElements(), waitingPreset);
+    public T waitForUnexistence(String waitingPreset) throws ElementsException {
+        return perform(new WaitForUnexistenceInteraction(getSource(), waitingPreset));
     }
 
     @Override
@@ -41,7 +39,9 @@ public class DefaultWaitInteractable extends Mixin.Impl implements WaitInteracta
 
     @Override
     public boolean checkForExistence(String waitingPreset) {
-        return performer.checkForExistence(asElements(), waitingPreset);
+        CheckForExistenceInteraction interaction = new CheckForExistenceInteraction(getSource(), waitingPreset);
+        perform(interaction);
+        return !interaction.isEmpty();
     }
 
     @Override
@@ -51,15 +51,16 @@ public class DefaultWaitInteractable extends Mixin.Impl implements WaitInteracta
 
     @Override
     public boolean checkForUnexistence(String waitingPreset) {
-        return performer.checkForUnexistence(asElements(), waitingPreset);
+        CheckForUnexistenceInteraction interaction = new CheckForUnexistenceInteraction(getSource(), waitingPreset);
+        perform(interaction);
+        return interaction.isEmpty();
     }
 
-    private Elements asElements() {
-        return this.as(Elements.class);
-    }
-
+    /* (non-Javadoc)
+     * @see minium.actions.InteractionPerformer#waitTime(long, java.util.concurrent.TimeUnit)
+     */
     @Override
-    public void waitTime(long time, TimeUnit timeUnit) {
-        performer.waitTime(time, timeUnit);
+    public T waitTime(long time, TimeUnit unit) {
+        return perform(new WaitTimeInteraction(new Duration(time, unit)));
     }
 }

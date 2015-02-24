@@ -25,7 +25,7 @@ public class DocumentationDoclet {
 	private static void init() throws IOException {
 
 		// Elements
-		elementsFile = new HashSet();
+		elementsFile = new HashSet<>();
 		elementsFile.add("BasicWebElements");
 		elementsFile.add("ConditionalWebElements");
 		elementsFile.add("ExtensionsWebElements");
@@ -36,8 +36,10 @@ public class DocumentationDoclet {
 
 		// Interactions
 
-		interactionsFile = new HashSet();
+		interactionsFile = new HashSet<>();
 		interactionsFile.add("Interactable");
+		interactionsFile.add("MouseInteractable");
+		interactionsFile.add("KeyboardInteractable");
 		interactionsFile.add("WaitInteractable");
 
 		initFiles(DOCFILE_INTERACTIONS, "#" + DOCFILE_INTERACTIONS);
@@ -70,7 +72,7 @@ public class DocumentationDoclet {
 
 				// Iterate methods
 				for (MethodDoc method : clazz.methods(false)) {
-					ArrayList<ParamTag> parameters = new ArrayList();
+					ArrayList<ParamTag> parameters = new ArrayList<>();
 					String returnText = "";
 					String link = "";
 

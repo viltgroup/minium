@@ -1,8 +1,8 @@
 package minium.actions.debug;
 
-import minium.Elements;
+import minium.actions.Interactable;
 
-public interface DebugInteractable extends Elements {
+public interface DebugInteractable<T extends Interactable<?>> extends Interactable<T> {
 
     public void highlight();
 

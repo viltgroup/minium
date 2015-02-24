@@ -12,7 +12,6 @@ import minium.web.config.WebDriverFactory;
 import minium.web.config.WebDriverProperties;
 import minium.web.internal.WebModule;
 import minium.web.internal.WebModules;
-import minium.web.internal.actions.WebDebugInteractionPerformer;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -64,7 +63,7 @@ public class RhinoBrowserFactory implements JsBrowserFactory {
                 throw new IllegalArgumentException("Only strings or maps are accepted");
             }
             WebDriver wd = webDriverFactory.create(webDriverProperties);
-            WebModule webModule = combine(defaultModule(wd), WebModules.debugModule(new WebDebugInteractionPerformer()), RhinoWebModules.rhinoModule());
+            WebModule webModule = combine(defaultModule(wd), WebModules.debugModule(), RhinoWebModules.rhinoModule());
             return new WebDriverBrowser<DefaultWebElements>(wd, DefaultWebElements.class, webModule);
         } catch (IOException e) {
             throw Throwables.propagate(e);

@@ -1,14 +1,23 @@
 #Interactions
-## .close()
+## .perform(interaction)
+`Perform.`
 
 
-## .scrollIntoView()
+Parameter | Description
+	--------- | -----------
+|interaction|the interaction
+
+
+## .performAndWait(interaction)
+`Perform.`
+
+
+Parameter | Description
+	--------- | -----------
+|interaction|the interaction
 
 
 ## .clear()
-
-
-## .submit()
 
 
 ## .keyDown(keys)
@@ -21,6 +30,12 @@
 
 
 ## .sendKeys(keys)
+
+
+## .type(text)
+
+
+## .fill(text)
 
 
 ## .clickAndHold()
@@ -38,7 +53,13 @@
 ## .click()
 
 
+## .click(offset)
+
+
 ## .doubleClick()
+
+
+## .doubleClick(offset)
 
 
 ## .moveTo()
@@ -50,43 +71,16 @@
 ## .contextClick()
 
 
+## .contextClick(offset)
+
+
 ## .dragAndDrop(target)
 
 
 ## .clickAll()
 
 
-## .type(text)
-
-
-## .fill(text)
-
-
-## .check()
-
-
-## .uncheck()
-
-
-## .select(text)
-
-
-## .deselect(text)
-
-
-## .selectVal(text)
-
-
-## .deselectVal(text)
-
-
-## .selectAll()
-
-
-## .deselectAll()
-
-
-## .waitUntilClosed()
+## .clickAll(offset)
 
 
 ## .waitForExistence()

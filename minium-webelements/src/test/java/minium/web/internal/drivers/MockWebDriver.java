@@ -1,5 +1,7 @@
 package minium.web.internal.drivers;
 
+import static org.mockito.Mockito.spy;
+
 import java.net.URL;
 import java.util.Collections;
 import java.util.List;
@@ -141,6 +143,8 @@ public class MockWebDriver implements WebDriver, HasInputDevices, JavascriptExec
     }
 
     class MockOptions implements Options {
+
+
         @Override
         public void addCookie(Cookie cookie) {
         }
@@ -179,7 +183,7 @@ public class MockWebDriver implements WebDriver, HasInputDevices, JavascriptExec
 
         @Override
         public Window window() {
-            return new MockedWindow();
+            return mockedWindow;
         }
 
         @Override
@@ -220,15 +224,21 @@ public class MockWebDriver implements WebDriver, HasInputDevices, JavascriptExec
     }
 
     private String url;
+    private MockKeyboard mockKeyboard = spy(new MockKeyboard());
+    private MockMouse mockMouse = spy(new MockMouse());
+    private MockTargetLocator mockTargetLocator = spy(new MockTargetLocator());
+    private MockNavigation mockNavigation = spy(new MockNavigation());
+    private MockOptions mockOptions = spy(new MockOptions());
+    private MockedWindow mockedWindow = spy(new MockedWindow());
 
     @Override
     public Keyboard getKeyboard() {
-        return new MockKeyboard();
+        return mockKeyboard;
     }
 
     @Override
     public Mouse getMouse() {
-        return new MockMouse();
+        return mockMouse;
     }
 
     @Override
@@ -282,17 +292,17 @@ public class MockWebDriver implements WebDriver, HasInputDevices, JavascriptExec
 
     @Override
     public TargetLocator switchTo() {
-        return  new MockTargetLocator();
+        return  mockTargetLocator;
     }
 
     @Override
     public Navigation navigate() {
-        return new MockNavigation();
+        return mockNavigation;
     }
 
     @Override
     public Options manage() {
-        return new MockOptions();
+        return mockOptions;
     }
 
     @Override
@@ -313,7 +323,6 @@ public class MockWebDriver implements WebDriver, HasInputDevices, JavascriptExec
         }
         throw new IllegalStateException();
     }
-
 
     private List<Object> getResults(ResponseType type, Object ... vals) {
         List<Object> results = Lists.newArrayList();
