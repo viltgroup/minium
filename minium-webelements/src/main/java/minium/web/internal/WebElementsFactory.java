@@ -42,7 +42,6 @@ public interface WebElementsFactory<T extends WebElements> extends ElementsFacto
         private Set<Coercer> coercers = Sets.newLinkedHashSet();
         private Set<Class<?>> intfs = Sets.newLinkedHashSet();
         private Set<MixinInitializer> mixinInitializers = Sets.newLinkedHashSet();
-        private boolean jsSupport = true;
 
         public Builder<T> withWebDriver(WebDriver webDriver) {
             this.webDriver = webDriver;
@@ -56,11 +55,6 @@ public interface WebElementsFactory<T extends WebElements> extends ElementsFacto
 
         public Builder<T> withClassLoader(ClassLoader classLoader) {
             this.classLoader = classLoader;
-            return this;
-        }
-
-        public Builder<T> withJsSupport(boolean jsSupport) {
-            this.jsSupport = jsSupport;
             return this;
         }
 
@@ -148,10 +142,6 @@ public interface WebElementsFactory<T extends WebElements> extends ElementsFacto
 
         public MixinInitializer getMixinInitializer() {
             return MixinInitializers.combine(mixinInitializers);
-        }
-
-        public boolean isJsSupport() {
-            return jsSupport;
         }
 
         @Override

@@ -15,6 +15,7 @@
  */
 package minium.web.internal.actions.touch;
 
+import minium.Offsets.Offset;
 import minium.actions.Interactable;
 import minium.actions.TouchInteractable;
 import minium.actions.internal.AbstractInteractable;
@@ -31,20 +32,20 @@ public class DefaultTouchInteractable<T extends Interactable<?>> extends Abstrac
     }
 
     @Override
-    public T down(int x, int y) {
-        perform(new TouchDownInteraction(getSource(), x, y));
+    public T down(Offset offset) {
+        perform(new TouchDownInteraction(getSource(), offset));
         return myself();
     }
 
     @Override
-    public T up(int x, int y) {
-        perform(new TouchUpInteraction(getSource(), x, y));
+    public T up(Offset offset) {
+        perform(new TouchUpInteraction(getSource(), offset));
         return myself();
     }
 
     @Override
-    public T move(int x, int y) {
-        perform(new TouchMoveInteraction(getSource(), x, y));
+    public T move(Offset offset) {
+        perform(new TouchMoveInteraction(getSource(), offset));
         return myself();
     }
 

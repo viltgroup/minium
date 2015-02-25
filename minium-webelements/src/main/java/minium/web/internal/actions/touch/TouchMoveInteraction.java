@@ -16,31 +16,24 @@
 package minium.web.internal.actions.touch;
 
 import minium.Elements;
+import minium.Offsets.Offset;
+import minium.Point;
 
 /**
  * The Class TouchMoveInteraction.
  */
 public class TouchMoveInteraction extends TouchInteraction {
 
-    private int x;
-    private int y;
+    private final Offset offset;
 
-    /**
-     * Instantiates a new touch move interaction.
-     *
-     * @param elems the elems
-     * @param x the x
-     * @param y the y
-     */
-    public TouchMoveInteraction(Elements elems, int x, int y) {
+    public TouchMoveInteraction(Elements elems, Offset offset) {
         super(elems);
-        this.x = x;
-        this.y = y;
+        this.offset = offset;
     }
 
     @Override
     protected void doPerform() {
-        getActions().move(x, y);
+        Point touchPoint = getTouchPoint(offset);
+        newActions(getFirstElement()).move(touchPoint.x(), touchPoint.y());
     }
-
 }
