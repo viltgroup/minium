@@ -1,13 +1,20 @@
 package minium.web.internal.drivers;
 
+import static java.lang.String.format;
 import static org.mockito.Mockito.spy;
 
 import java.net.URL;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
+import minium.web.WebElements;
 import minium.web.internal.drivers.DefaultJavascriptInvoker.ResponseType;
+import minium.web.internal.expression.ExpressionWebElementExpressionizer;
+import minium.web.internal.expression.Expressionizer;
+import minium.web.internal.expression.VariableGenerator;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -26,8 +33,22 @@ import org.openqa.selenium.logging.Logs;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 public class MockWebDriver implements WebDriver, HasInputDevices, JavascriptExecutor {
+
+    public class MockWhen {
+
+        private final String expression;
+
+        public MockWhen(String expression) {
+            this.expression = expression;
+        }
+
+        public void thenReturn(WebElement ... nativeElems) {
+            expressionToWebElements.put(expression, ImmutableList.copyOf(nativeElems));
+        }
+    }
 
     class MockKeyboard implements Keyboard {
         @Override
@@ -230,6 +251,8 @@ public class MockWebDriver implements WebDriver, HasInputDevices, JavascriptExec
     private MockNavigation mockNavigation = spy(new MockNavigation());
     private MockOptions mockOptions = spy(new MockOptions());
     private MockedWindow mockedWindow = spy(new MockedWindow());
+    private Expressionizer expressionizer = new Expressionizer.Composite().add(new ExpressionWebElementExpressionizer());
+    private Map<String, List<WebElement>> expressionToWebElements = Maps.newHashMap();
 
     @Override
     public Keyboard getKeyboard() {
@@ -337,6 +360,27 @@ public class MockWebDriver implements WebDriver, HasInputDevices, JavascriptExec
     }
 
     protected Object doExecuteScript(String script, Object ... args) {
+        for (Entry<String, List<WebElement>> entry : expressionToWebElements.entrySet()) {
+            String expr = entry.getKey();
+            // first check if trying to get size
+            if (script.contains(format("return %s.size();", expr))) {
+                return entry.getValue().size();
+            } else if (script.contains(format("return %s;", expr))) {
+                return entry.getValue();
+            }
+        }
         return null;
+    }
+
+    public MockWhen when(WebElements elems) {
+        return when(expressionizer.apply(elems).getJavascript(new VariableGenerator.Impl()));
+    }
+
+    public MockWhen when(String expr) {
+        return new MockWhen(expr);
+    }
+
+    public void reset() {
+        expressionToWebElements.clear();
     }
 }

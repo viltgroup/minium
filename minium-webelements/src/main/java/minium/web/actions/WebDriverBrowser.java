@@ -5,7 +5,6 @@ import java.util.Set;
 import minium.internal.Module;
 import minium.internal.Modules;
 import minium.web.WebElements;
-import minium.web.WebLocator;
 import minium.web.internal.WebElementsFactory;
 import minium.web.internal.WebElementsFactory.Builder;
 import minium.web.internal.WebModules;
@@ -20,7 +19,6 @@ public class WebDriverBrowser<T extends WebElements> implements Browser<T> {
     private static final Logger LOGGER = LoggerFactory.getLogger(WebDriverBrowser.class);
 
     private final InternalBrowser<T> browser;
-    private final WebLocator<T> locator;
 
     public WebDriverBrowser(WebDriver webDriver, Class<T> intf) {
         this(webDriver, intf, null);
@@ -37,19 +35,20 @@ public class WebDriverBrowser<T extends WebElements> implements Browser<T> {
         combinedModules.configure(builder);
         WebElementsFactory<T> factory = builder.build();
         Set<Class<?>> providedInterfaces = factory.getProvidedInterfaces();
-        T root = factory.createRoot();
 
         LOGGER.trace("Provided interfaces: {}", providedInterfaces);
 
-        Class<?>[] intfs = providedInterfaces.toArray(new Class<?>[providedInterfaces.size()]);
-
-        this.locator = new WebLocator<T>(root, intf, intfs);
-        this.browser = new InternalBrowser(root, locator);
+        this.browser = new InternalBrowser(factory);
     }
 
     @Override
-    public WebLocator<T> locator() {
-        return locator;
+    public T root() {
+        return browser.root();
+    }
+
+    @Override
+    public T of(WebElements... elems) {
+        return browser.of(elems);
     }
 
     @Override

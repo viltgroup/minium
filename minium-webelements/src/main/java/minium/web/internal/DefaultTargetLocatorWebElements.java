@@ -3,7 +3,6 @@ package minium.web.internal;
 import static com.google.common.collect.FluentIterable.from;
 import static java.lang.String.format;
 import minium.internal.BaseElements;
-import minium.internal.HasParent;
 import minium.web.BasicWebElements;
 import minium.web.DocumentWebDriver;
 import minium.web.TargetLocatorWebElements;
@@ -94,7 +93,7 @@ public class DefaultTargetLocatorWebElements<T extends BasicWebElements<T>> exte
     }
 
     @Override
-    public T root() {
-        return this.as(HasParent.class).parent().as(TargetLocatorWebElements.class).root().as(typeVariableToken());
+    public T documentRoots() {
+        return this.as(InternalWebElements.class).documentRoots().as(typeVariableToken());
     }
 }

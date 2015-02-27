@@ -8,7 +8,6 @@ import java.lang.reflect.Method;
 import java.util.WeakHashMap;
 
 import minium.Elements;
-import minium.FindElements;
 import minium.Locator;
 import platypus.AbstractMixinInitializer;
 import platypus.InstanceProviders;
@@ -19,8 +18,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
 
 public interface InternalLocator extends Elements {
-
-    public static final Method FIND_METHOD = Reflections.getDeclaredMethod(FindElements.class, "find", String.class);
 
     public Elements eval(Elements elems);
 

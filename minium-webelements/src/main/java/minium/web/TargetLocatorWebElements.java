@@ -7,6 +7,6 @@ public interface TargetLocatorWebElements<T extends WebElements> extends WebElem
 
     public T windows();
 
-    public T root();
+    public T documentRoots();
 
 }

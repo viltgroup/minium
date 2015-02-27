@@ -3,6 +3,7 @@ package minium;
 import java.lang.reflect.Method;
 
 import minium.internal.InternalLocator;
+import minium.internal.InternalLocator.MethodInvocationImpl;
 import platypus.MixinClass;
 import platypus.MixinClasses;
 
@@ -55,8 +56,9 @@ public class Locator<T extends Elements> {
         return InternalLocator.MethodInvocationImpl.createInternalLocator(this, null);
     }
 
+    @SuppressWarnings("unchecked")
     public T selector(String selector) {
-        return createFinder(InternalLocator.FIND_METHOD, selector);
+        return (T) root().as(FindElements.class).find(selector);
     }
 
     protected T createFinder(Method method, Object ... args) {

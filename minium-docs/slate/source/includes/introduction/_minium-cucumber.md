@@ -27,10 +27,7 @@ Feature: Search results in Google
 ### Step 2 - writing steps
 
 ```javascript
-var $       = require("minium"),
-browser = $.browser,
-expect  = require("expect-webelements"),
-_       = require("lodash");
+var _ = require("lodash");
 
 Given(/^I'm at (.*)$/, function (url) {
   browser.get(url);

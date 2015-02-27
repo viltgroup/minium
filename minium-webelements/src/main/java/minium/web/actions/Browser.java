@@ -4,28 +4,16 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
-import java.util.Set;
 
 import minium.Dimension;
 import minium.Point;
 import minium.web.WebElements;
-import minium.web.WebLocator;
 
 public interface Browser<T extends WebElements> {
 
     interface Options {
 
-        void addCookie(Cookie cookie);
-
-        void deleteCookieNamed(String name);
-
-        void deleteCookie(Cookie cookie);
-
-        void deleteAllCookies();
-
-        Set<Cookie> getCookies();
-
-        Cookie getCookieNamed(String name);
+        CookieCollection cookies();
 
         Window window();
     }
@@ -56,6 +44,20 @@ public interface Browser<T extends WebElements> {
         void maximize();
     }
 
+    interface CookieCollection extends Iterable<Cookie> {
+        CookieCollection add(Cookie cookie);
+
+        CookieCollection remove(String name);
+
+        CookieCollection remove(Cookie cookie);
+
+        CookieCollection clear();
+
+        Cookie get(String name);
+
+        public Options done();
+    }
+
     interface Cookie {
 
         String getName();
@@ -82,7 +84,9 @@ public interface Browser<T extends WebElements> {
         void saveTo(File file) throws IOException;
     }
 
-    WebLocator<T> locator();
+    T root();
+
+    T of(WebElements ... elems);
 
     void get(String url);
 

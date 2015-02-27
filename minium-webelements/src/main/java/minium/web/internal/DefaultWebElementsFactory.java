@@ -155,7 +155,6 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
 
     @Override
     public T createRoot() {
-
         return createMixin(new DefaultRoot<T>(rootDocumentDriver));
     }
 
@@ -195,7 +194,7 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
                 implement(ExpressionWebElements.class).with(elems);
                 // this way, we can use an optimized implementation for frozen and native WebElements
                 if (elems instanceof BasicElements) {
-                    implement(BasicElements.class).with(elems);
+                    override(BasicElements.class).with(elems);
                 }
             }
         };

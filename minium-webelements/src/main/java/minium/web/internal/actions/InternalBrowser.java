@@ -3,23 +3,32 @@ package minium.web.internal.actions;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Set;
+import java.util.Date;
+import java.util.Iterator;
 
 import minium.Dimension;
-import minium.Elements;
 import minium.Point;
 import minium.actions.internal.AbstractInteraction;
+import minium.internal.HasElementsFactory;
+import minium.web.BasicWebElements;
 import minium.web.DocumentWebDriver;
+import minium.web.TargetLocatorWebElements;
 import minium.web.WebElements;
-import minium.web.WebLocator;
 import minium.web.actions.Browser;
 import minium.web.internal.InternalWebElements;
+import minium.web.internal.WebElementsFactory;
 
 import org.openqa.selenium.OutputType;
 
+import com.google.common.base.Function;
+import com.google.common.collect.FluentIterable;
 import com.google.common.io.Files;
+import com.google.common.reflect.TypeToken;
 
 public class InternalBrowser<T extends WebElements> implements Browser<T> {
+
+    @SuppressWarnings("serial")
+    private final TypeToken<T> typeVariableToken = new TypeToken<T>(getClass()) {};
 
     class InternalNavigation implements Browser.Navigation {
 
@@ -126,38 +135,105 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
     class InternalOptions implements Browser.Options {
 
         @Override
-        public void addCookie(Cookie cookie) {
-            throw new UnsupportedOperationException("not implemented yet");
-        }
-
-        @Override
-        public void deleteCookieNamed(String name) {
-            throw new UnsupportedOperationException("not implemented yet");
-        }
-
-        @Override
-        public void deleteCookie(Cookie cookie) {
-            throw new UnsupportedOperationException("not implemented yet");
-        }
-
-        @Override
-        public void deleteAllCookies() {
-            throw new UnsupportedOperationException("not implemented yet");
-        }
-
-        @Override
-        public Set<Cookie> getCookies() {
-            throw new UnsupportedOperationException("not implemented yet");
-        }
-
-        @Override
-        public Cookie getCookieNamed(String name) {
-            throw new UnsupportedOperationException("not implemented yet");
+        public CookieCollection cookies() {
+            return new InternalCookieCollection();
         }
 
         @Override
         public Window window() {
             return new InternalWindow();
+        }
+    }
+
+    class InternalCookieCollection implements CookieCollection {
+
+        @Override
+        public Iterator<Cookie> iterator() {
+            return FluentIterable.from(documentDriver().manage().getCookies())
+                    .transform(new Function<org.openqa.selenium.Cookie, Cookie>() {
+
+                        @Override
+                        public Cookie apply(org.openqa.selenium.Cookie nativeCookie) {
+                            return new InternalCookie(nativeCookie);
+                        }
+                    }).iterator();
+        }
+
+        @Override
+        public CookieCollection add(Cookie cookie) {
+            return this;
+        }
+
+        @Override
+        public CookieCollection remove(String name) {
+            documentDriver().manage().deleteCookieNamed(name);
+            return this;
+        }
+
+        @Override
+        public CookieCollection remove(Cookie cookie) {
+            return remove(cookie.getName());
+        }
+
+        @Override
+        public CookieCollection clear() {
+            documentDriver().manage().deleteAllCookies();
+            return this;
+        }
+
+        @Override
+        public Cookie get(String name) {
+            org.openqa.selenium.Cookie nativeCookie = documentDriver().manage().getCookieNamed(name);
+            return new InternalCookie(nativeCookie);
+        }
+
+        @Override
+        public Options done() {
+            return manage();
+        }
+    }
+
+    class InternalCookie implements Cookie {
+
+        private org.openqa.selenium.Cookie nativeCookie;
+
+        public InternalCookie(org.openqa.selenium.Cookie nativeCookie) {
+            this.nativeCookie = nativeCookie;
+        }
+
+        @Override
+        public String getName() {
+            return nativeCookie.getName();
+        }
+
+        @Override
+        public String getValue() {
+            return nativeCookie.getValue();
+        }
+
+        @Override
+        public String getDomain() {
+            return nativeCookie.getDomain();
+        }
+
+        @Override
+        public String getPath() {
+            return nativeCookie.getPath();
+        }
+
+        @Override
+        public boolean isSecure() {
+            return nativeCookie.isSecure();
+        }
+
+        @Override
+        public boolean isHttpOnly() {
+            return nativeCookie.isHttpOnly();
+        }
+
+        @Override
+        public Date getExpiry() {
+            return nativeCookie.getExpiry();
         }
 
     }
@@ -181,20 +257,44 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
 
     }
 
-    private final Elements elems;
-    private final WebLocator<T> locator;
+    private final WebElementsFactory<T> factory;
+    private final T elems;
 
     /**
      * @param defaultHasBrowser
      */
-    public InternalBrowser(Elements elems, WebLocator<T> locator) {
-        this.elems = elems;
-        this.locator = locator;
+    public InternalBrowser(WebElementsFactory<T> factory) {
+        this.factory = factory;
+        this.elems = factory.createRoot();
+    }
+
+    /**
+     * @param defaultHasBrowser
+     */
+    @SuppressWarnings("unchecked")
+    public InternalBrowser(T elems) {
+        this.factory = (WebElementsFactory<T>) elems.as(HasElementsFactory.class).factory();
+        this.elems = elems;;
     }
 
     @Override
-    public WebLocator<T> locator() {
-        return locator;
+    public T root() {
+        return elems.as(TargetLocatorWebElements.class).documentRoots().as(typeVariableToken);
+    }
+
+    @Override
+    public T of(WebElements... elems) {
+        if (elems.length == 0) return factory.createNative();
+
+        T result = null;
+        for (WebElements webElements : elems) {
+            if (result == null) {
+                result = webElements.as(typeVariableToken);
+            } else {
+                result = result.as(BasicWebElements.class).add(webElements).as(typeVariableToken);
+            }
+        }
+        return result;
     }
 
     @Override
@@ -255,4 +355,5 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
     protected DocumentWebDriver documentDriver() {
         return elems.as(InternalWebElements.class).documentDriver();
     }
+
 }

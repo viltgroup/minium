@@ -1,8 +1,12 @@
 (function () {
   var minium = {};
   var dollarFn = function (browser) {
-    return function (selector) {
-      return browser.locator().selector(selector);
+    return function () {
+      if (arguments.length === 1 && (typeof arguments[0] === 'string' || arguments[0] instanceof Packages.java.lang.String)) {
+        return browser.root().find(arguments[0]);
+      } else {
+        return browser.of(Array.prototype.slice.call(arguments));
+      }
     };
   };
   

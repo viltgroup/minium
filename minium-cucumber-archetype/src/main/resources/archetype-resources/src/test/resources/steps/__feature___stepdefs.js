@@ -1,5 +1,4 @@
-var expect  = require("expect-webelements"),
-    _       = require("lodash");
+var _ = require("lodash");
 
 Given(/^I'm at (.*)$/, function (url) {
   browser.get(url);
