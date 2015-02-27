@@ -16,8 +16,7 @@
 package minium.web.internal.actions;
 
 import minium.Elements;
-import minium.web.ScrollWebElements;
-
+import minium.web.EvalWebElements;
 
 public class ScrollIntoViewInteraction extends AbstractWebInteraction {
 
@@ -27,6 +26,6 @@ public class ScrollIntoViewInteraction extends AbstractWebInteraction {
 
     @Override
     protected void doPerform() {
-        getSource().as(ScrollWebElements.class).scrollIntoView();
+        getSource().as(EvalWebElements.class).eval("$(this).each(function () { this.scrollIntoView() })");
     }
 }
