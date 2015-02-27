@@ -16,27 +16,25 @@
 package minium.web.internal.actions.touch;
 
 import minium.Elements;
+import minium.Offsets.Offset;
+import minium.Point;
 
 /**
  * The Class TouchUpInteraction.
  */
 public class TouchUpInteraction extends TouchInteraction {
 
-    /**
-     * Instantiates a new touch up interaction.
-     *
-     * @param elems the elems
-     * @param x the x
-     * @param y the y
-     */
-    public TouchUpInteraction(Elements elems, int x, int y) {
+    private final Offset offset;
+
+    public TouchUpInteraction(Elements elems, Offset offset) {
         super(elems);
+        this.offset = offset;
     }
 
     @Override
     protected void doPerform() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Not implemented yet");
+        Point touchPoint = getTouchPoint(offset);
+        newActions(getFirstElement()).down(touchPoint.x(), touchPoint.y());
     }
 
 }

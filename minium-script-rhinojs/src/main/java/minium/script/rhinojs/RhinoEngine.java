@@ -93,14 +93,21 @@ public class RhinoEngine implements JsEngine, DisposableBean {
         scope = runWithContext(new RhinoCallable<Scriptable, RuntimeException>() {
             @Override
             protected Scriptable doCall(Context cx, Scriptable scope) {
-                Global global = new Global(cx);
-                RequireProperties require = properties.getRequire();
-                if (require != null) {
-                    List<String> modulePathURIs = getModulePathURIs(require);
-                    LOGGER.debug("Module paths: {}", modulePathURIs);
-                    global.installRequire(cx, modulePathURIs, require.isSandboxed());
+                try {
+                    Global global = new Global(cx);
+                    RequireProperties require = properties.getRequire();
+                    if (require != null) {
+                        List<String> modulePathURIs = getModulePathURIs(require);
+                        LOGGER.debug("Module paths: {}", modulePathURIs);
+                        global.installRequire(cx, modulePathURIs, require.isSandboxed());
+                    }
+                    ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+                    // we need to load compat/timeout.js because rhino does not have setTimeout, setInterval, etc.
+                    cx.evaluateReader(global, new InputStreamReader(classloader.getResourceAsStream("compat/timeout.js")), "compat/timeout.js", 1, null);
+                    return global;
+                } catch (IOException e) {
+                    throw Throwables.propagate(e);
                 }
-                return global;
             }
         });
     }

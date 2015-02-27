@@ -15,11 +15,15 @@
  */
 package minium.web.internal.actions.touch;
 
+import minium.Dimension;
 import minium.Elements;
+import minium.Offsets.Offset;
+import minium.Point;
 import minium.web.internal.actions.AbstractWebInteraction;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.touch.TouchActions;
+import org.openqa.selenium.internal.Locatable;
 import org.openqa.selenium.internal.WrapsDriver;
 
 /**
@@ -56,5 +60,18 @@ public abstract class TouchInteraction extends AbstractWebInteraction {
     @Override
     protected TouchActions newActions(WebElement elem) {
         return new TouchActions(((WrapsDriver) elem).getWrappedDriver());
+    }
+
+    protected Dimension getSize() {
+        org.openqa.selenium.Dimension size = getFirstElement().getSize();
+        return new Dimension(size.width, size.height);
+    }
+
+    protected Point getTouchPoint(Offset offset) {
+        org.openqa.selenium.Point inViewPort = ((Locatable) getFirstElement()).getCoordinates().inViewPort();
+        Point viewPort = new Point(inViewPort.x, inViewPort.y);
+        Point offsetPoint = offset.offset(getSize());
+        Point touchPoint = viewPort.moveBy(offsetPoint.x(), offsetPoint.y());
+        return touchPoint;
     }
 }
