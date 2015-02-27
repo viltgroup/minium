@@ -19,13 +19,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import minium.cucumber.config.ConfigProperties;
 import minium.cucumber.config.CucumberProperties;
 import minium.cucumber.config.CucumberProperties.RemoteBackendProperties;
 import minium.cucumber.internal.MiniumRhinoTestContextManager;
 import minium.cucumber.internal.RuntimeBuilder;
 import minium.cucumber.rest.RemoteBackend;
-import minium.script.js.JsVariablePostProcessor;
+import minium.script.js.JsBrowserFactory;
+import minium.script.js.MiniumJsEngineAdapter;
 import minium.script.rhinojs.RhinoEngine;
+import minium.web.CoreWebElements.DefaultWebElements;
+import minium.web.actions.Browser;
 
 import org.junit.runner.Description;
 import org.junit.runner.notification.RunNotifier;
@@ -70,8 +74,14 @@ public class MiniumCucumber extends ParentRunner<FeatureRunner> {
     private RhinoEngine rhinoEngine;
 
     @Autowired
-    private JsVariablePostProcessor jsVariablePostProcessor;
-
+    private Browser<DefaultWebElements> browser;
+	
+    @Autowired
+    private JsBrowserFactory factory;
+    
+    @Autowired
+    private ConfigProperties configProperties;
+    
     public MiniumCucumber(Class<?> clazz) throws InitializationError, IOException {
         super(clazz);
         ClassLoader classLoader = clazz.getClassLoader();
@@ -84,7 +94,10 @@ public class MiniumCucumber extends ParentRunner<FeatureRunner> {
         initializeInstance(MiniumCucumber.class, beanFactory, this);
 
         // now we populate RhinoEngine with minium modules, etc.
-        jsVariablePostProcessor.populateEngine(rhinoEngine);
+        new MiniumJsEngineAdapter(browser, factory ).adapt(rhinoEngine);
+        
+        // and set configuration
+        rhinoEngine.putJson("config", configProperties.toJson());
 
         // we now build cucumber runtime and load glues
         RuntimeBuilder runtimeBuilder = rhinoEngine.runWithContext(rhinoEngine.new RhinoCallable<RuntimeBuilder, IOException>() {
