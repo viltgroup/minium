@@ -1,9 +1,9 @@
-package minium;
+package minium.internal;
 
 import java.lang.reflect.Method;
 
-import minium.internal.InternalLocator;
-import minium.internal.InternalLocator.MethodInvocationImpl;
+import minium.Elements;
+import minium.FindElements;
 import platypus.MixinClass;
 import platypus.MixinClasses;
 

@@ -8,7 +8,6 @@ import java.lang.reflect.Method;
 import java.util.WeakHashMap;
 
 import minium.Elements;
-import minium.Locator;
 import platypus.AbstractMixinInitializer;
 import platypus.InstanceProviders;
 import platypus.Mixin;

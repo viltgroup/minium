@@ -9,7 +9,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import minium.Elements;
 import minium.FindElements;
-import minium.Locator;
 
 import org.junit.Test;
 import org.mockito.Mockito;

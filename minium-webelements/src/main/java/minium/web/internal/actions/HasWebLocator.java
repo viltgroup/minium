@@ -4,7 +4,7 @@ import java.util.Set;
 
 import minium.internal.HasElementsFactory;
 import minium.web.WebElements;
-import minium.web.WebLocator;
+import minium.web.internal.WebLocator;
 import platypus.Mixin;
 
 import com.google.common.collect.ImmutableSet;

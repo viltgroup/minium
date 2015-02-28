@@ -1,7 +1,7 @@
-package minium.web;
+package minium.web.internal;
 
-import minium.Locator;
-import minium.web.internal.CssSelectors;
+import minium.internal.Locator;
+import minium.web.WebElements;
 
 public class WebLocator<T extends WebElements> extends Locator<T> {
 

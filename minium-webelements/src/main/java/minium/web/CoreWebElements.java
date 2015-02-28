@@ -28,8 +28,6 @@ public interface CoreWebElements<T extends WebElements & Interactable<T>> extend
         KeyboardInteractable<T>,
         WebInteractable<T> {
 
-    public interface DefaultWebElements extends CoreWebElements<DefaultWebElements> {
-        public static final WebLocator<DefaultWebElements> by = new WebLocator<>(DefaultWebElements.class);
-    }
+    public interface DefaultWebElements extends CoreWebElements<DefaultWebElements> { }
 
 }
