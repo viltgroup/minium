@@ -1100,5 +1100,5 @@ Parameter | Description
 ## .windows()
 
 
-## .root()
+## .documentRoots()
 

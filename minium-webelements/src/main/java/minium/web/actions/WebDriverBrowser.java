@@ -82,8 +82,8 @@ public class WebDriverBrowser<T extends WebElements> implements Browser<T> {
     }
 
     @Override
-    public Options manage() {
-        return browser.manage();
+    public WebConfiguration configure() {
+        return browser.configure();
     }
 
     @Override

@@ -5,9 +5,15 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.concurrent.TimeUnit;
 
 import minium.Dimension;
 import minium.Point;
+import minium.actions.Configuration;
+import minium.actions.Duration;
+import minium.actions.ExceptionHandler;
+import minium.actions.HasConfiguration;
+import minium.actions.InteractionListener;
 import minium.actions.internal.AbstractInteraction;
 import minium.internal.HasElementsFactory;
 import minium.web.BasicWebElements;
@@ -19,6 +25,8 @@ import minium.web.internal.InternalWebElements;
 import minium.web.internal.WebElementsFactory;
 
 import org.openqa.selenium.OutputType;
+
+import platypus.Mixin;
 
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
@@ -132,7 +140,7 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
 
     }
 
-    class InternalOptions implements Browser.Options {
+    class InternalWebConfiguration extends Mixin.Impl implements Browser.WebConfiguration, Configuration {
 
         @Override
         public CookieCollection cookies() {
@@ -142,6 +150,168 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
         @Override
         public Window window() {
             return new InternalWindow();
+        }
+
+        @Override
+        public Duration defaultTimeout() {
+            return getConfiguration().defaultTimeout();
+        }
+
+        @Override
+        public Configuration defaultTimeout(Duration defaultTimeout) {
+            getConfiguration().defaultTimeout(defaultTimeout);
+            return this;
+        }
+
+        @Override
+        public Configuration defaultTimeout(long time, TimeUnit unit) {
+            getConfiguration().defaultTimeout(time, unit);
+            return this;
+        }
+
+        @Override
+        public Duration defaultInterval() {
+            return getConfiguration().defaultInterval();
+
+        }
+
+        @Override
+        public Configuration defaultInterval(Duration defaultInterval) {
+            getConfiguration().defaultInterval(defaultInterval);
+            return this;
+        }
+
+        @Override
+        public Configuration defaultInterval(long time, TimeUnit unit) {
+            getConfiguration().defaultInterval(time, unit);
+            return this;
+        }
+
+        @Override
+        public WaitingPreset waitingPreset(final String preset) {
+            final WaitingPreset waitingPreset = getConfiguration().waitingPreset(preset);
+            return new WaitingPreset() {
+
+                @Override
+                public Duration timeout() {
+                    return waitingPreset.timeout();
+                }
+
+                @Override
+                public WaitingPreset timeout(long time, TimeUnit unit) {
+                    waitingPreset.timeout(time, unit);
+                    return this;
+                }
+
+                @Override
+                public WaitingPreset timeout(Duration timeout) {
+                    waitingPreset.timeout(timeout);
+                    return this;
+                }
+
+                @Override
+                public WaitingPreset reset() {
+                    waitingPreset.reset();
+                    return this;
+                }
+
+                @Override
+                public Duration interval() {
+                    return waitingPreset.interval();
+                }
+
+                @Override
+                public WaitingPreset interval(long time, TimeUnit unit) {
+                    waitingPreset.interval(time, unit);
+                    return this;
+                }
+
+                @Override
+                public WaitingPreset interval(Duration interval) {
+                    waitingPreset.interval(interval);
+                    return this;
+                }
+
+                @Override
+                public Configuration done() {
+                    return InternalWebConfiguration.this;
+                }
+            };
+        }
+
+        @Override
+        public InteractionListenerCollection interactionListeners() {
+            final InteractionListenerCollection interactionListeners = getConfiguration().interactionListeners();
+            return new InteractionListenerCollection() {
+
+                @Override
+                public Iterator<InteractionListener> iterator() {
+                    return interactionListeners.iterator();
+                }
+
+                @Override
+                public InteractionListenerCollection remove(InteractionListener interactionListener) {
+                    interactionListeners.remove(interactionListener);
+                    return this;
+                }
+
+                @Override
+                public Configuration done() {
+                    return InternalWebConfiguration.this;
+                }
+
+                @Override
+                public InteractionListenerCollection clear() {
+                    interactionListeners.clear();
+                    return this;
+                }
+
+                @Override
+                public InteractionListenerCollection add(InteractionListener interactionListener) {
+                    interactionListeners.add(interactionListener);
+                    return this;
+                }
+            };
+        }
+
+        @Override
+        public ExceptionHandlerCollection exceptionHandlers() {
+            final ExceptionHandlerCollection exceptionHandlers = getConfiguration().exceptionHandlers();
+            return new ExceptionHandlerCollection() {
+
+                @Override
+                public Iterator<ExceptionHandler> iterator() {
+                    return exceptionHandlers.iterator();
+                }
+
+                @Override
+                public ExceptionHandlerCollection add(ExceptionHandler exceptionHandler) {
+                    exceptionHandlers.add(exceptionHandler);
+                    return this;
+                }
+
+                @Override
+                public ExceptionHandlerCollection remove(ExceptionHandler exceptionHandler) {
+                    exceptionHandlers.remove(exceptionHandler);
+                    return this;
+                }
+
+                @Override
+                public ExceptionHandlerCollection clear() {
+                    exceptionHandlers.clear();
+                    return this;
+                }
+
+                @Override
+                public Configuration done() {
+                    return InternalWebConfiguration.this;
+                }
+
+            };
+        }
+
+        private Configuration getConfiguration() {
+            return elems.as(HasConfiguration.class).configure();
         }
     }
 
@@ -188,8 +358,8 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
         }
 
         @Override
-        public Options done() {
-            return manage();
+        public WebConfiguration done() {
+            return configure();
         }
     }
 
@@ -343,8 +513,8 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
     }
 
     @Override
-    public Options manage() {
-        return new InternalOptions();
+    public WebConfiguration configure() {
+        return new InternalWebConfiguration();
     }
 
     @Override

@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package minium.actions;
+package minium.web.actions;
 
 import minium.Elements;
+import minium.actions.TimeoutException;
 
 /**
  * Let's say we're trying to click a botton, ensuring that no loading is in progress:
@@ -29,30 +30,30 @@ import minium.Elements;
  * occurs and {@code $("#loading")} exists, we'll wait until {@code $("#loading")} doesn't exist
  * anymore and only then retry the interaction.
  *
- * <pre><code class="javascript">
+ * <pre><code class="js">
  * var loading = $("#loading");
- * $(":root").configure()
+ * browser.configure()
  *   .interactionListeners()
  *     .add(minium.interactionListeners
- *       .waitOnTimeout()                // wait on timeout
+ *       .onTimeout()                    // on timeout
  *       .when(loading)                  // when loading exists
- *       .forUnexistence(loading)        // until loading doesn't exist
+ *       .waitForUnexistence(loading)    // wait until loading doesn't exist anymore
  *       .withWaitingPreset("very-slow") // with a very slow waiting preset
+ *       .thenRetry()                    // then retry
  *     )
  *   .done();
  * </code></pre>
  *
- * If you omit {@code forExistence} / {@code forUnexistence} elements, it will use the {@code unless} / {@code when} elements
+ * If you omit {@code waitForExistence} / {@code waitForUnexistence} elements, it will use the {@code unless} / {@code when} elements
  * for the wait condition.
  *
  * @author rui.figueira
  *
  */
-public interface WaitOnTimeoutInteractionListener extends InteractionListener {
-    WaitOnTimeoutInteractionListener withWaitingPreset(String preset);
-    WaitOnTimeoutInteractionListener when(Elements elems);
-    WaitOnTimeoutInteractionListener unless(Elements elems);
-    WaitOnTimeoutInteractionListener forExistence(Elements elems);
-    WaitOnTimeoutInteractionListener forUnexistence(Elements elems);
-
+public interface OnTimeoutInteractionListener extends OnExceptionInteractionListener {
+    OnTimeoutInteractionListener when(Elements elems);
+    OnTimeoutInteractionListener unless(Elements elems);
+    OnTimeoutInteractionListener waitForExistence(Elements elems);
+    OnTimeoutInteractionListener waitForUnexistence(Elements elems);
+    OnTimeoutInteractionListener withWaitingPreset(String preset);
 }

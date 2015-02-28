@@ -12,21 +12,21 @@
   
   if (typeof __browser !== 'undefined') {
     var browser = __browser;
-    var $       = dollarFn(browser);
+    var $ = dollarFn(browser);
     
-    minium.browser   = __browser;
-    minium.$         = $;
+    minium.browser = __browser;
+    minium.$ = $;
     minium.browser.$ = $;
   }
 
-  var InteractionListeners    = Packages.minium.actions.InteractionListeners;
+  var InteractionListeners = Packages.minium.actions.InteractionListeners;
   var WebInteractionListeners = Packages.minium.web.actions.WebInteractionListeners;
   
   minium.interactionListeners = {
-    waitOnTimeout  : InteractionListeners.waitOnTimeout,
-    slowMotion     : InteractionListeners.slowMotion,
-    retry          : InteractionListeners.retry,
-    unhandledAlert : WebInteractionListeners.unhandledAlert
+    slowMotion : InteractionListeners.slowMotion,
+    onTimeout : WebInteractionListeners.onTimeout,
+    onUnhandledAlert : WebInteractionListeners.onUnhandledAlert,
+    onStaleElementReference : WebInteractionListeners.onStaleElementReference
   };
 
   // new browsers

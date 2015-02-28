@@ -18,6 +18,11 @@ public class DefaultHasInteractionListeners<T extends Interactable<?>> extends C
     private Set<InteractionListener> listeners = Sets.newLinkedHashSet();
 
     @Override
+    public T with(InteractionListener listener) {
+        return with(new InteractionListener[] { listener });
+    }
+
+    @Override
     public T with(InteractionListener... listeners) {
         this.listeners.addAll(Arrays.asList(listeners));
         return myself();

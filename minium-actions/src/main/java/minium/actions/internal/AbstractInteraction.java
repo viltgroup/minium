@@ -48,14 +48,20 @@ public abstract class AbstractInteraction implements Interaction {
     private static final Logger logger = LoggerFactory.getLogger(AbstractInteraction.class);
 
     private Set<InteractionListener> listeners = Sets.newLinkedHashSet();
+    private Elements originalSource;
     private Elements source;
     private Duration timeout;
     private Duration interval;
     private String preset;
 
     public AbstractInteraction(Elements elems) {
-        if (elems != null) {
-            this.source = elems.is(FreezableElements.class) ? elems.as(FreezableElements.class).freeze() : elems;
+        originalSource = elems;
+        refreeze();
+    }
+
+    public void refreeze() {
+        if (originalSource != null) {
+            this.source = originalSource.is(FreezableElements.class) ? originalSource.as(FreezableElements.class).freeze() : originalSource;
         }
     }
 

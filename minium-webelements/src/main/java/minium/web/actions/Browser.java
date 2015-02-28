@@ -7,15 +7,17 @@ import java.util.Date;
 
 import minium.Dimension;
 import minium.Point;
+import minium.actions.Configuration;
 import minium.web.WebElements;
 
 public interface Browser<T extends WebElements> {
 
-    interface Options {
+    interface WebConfiguration extends Configuration {
 
         CookieCollection cookies();
 
         Window window();
+
     }
 
     interface Navigation {
@@ -55,7 +57,7 @@ public interface Browser<T extends WebElements> {
 
         Cookie get(String name);
 
-        public Options done();
+        public WebConfiguration done();
     }
 
     interface Cookie {
@@ -100,7 +102,7 @@ public interface Browser<T extends WebElements> {
 
     Navigation navigate();
 
-    Options manage();
+    WebConfiguration configure();
 
     Screenshot screenshot();
 }

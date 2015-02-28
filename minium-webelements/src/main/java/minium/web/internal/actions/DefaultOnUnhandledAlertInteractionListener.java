@@ -15,15 +15,10 @@
  */
 package minium.web.internal.actions;
 
-import static com.google.common.base.Predicates.instanceOf;
-import static com.google.common.base.Throwables.getCausalChain;
-import static com.google.common.collect.FluentIterable.from;
 import minium.Elements;
 import minium.actions.ExceptionHandler;
-import minium.actions.InteractionListener;
 import minium.actions.internal.AfterFailInteractionEvent;
-import minium.actions.internal.DefaultInteractionListener;
-import minium.web.actions.UnhandledAlertInteractionListener;
+import minium.web.actions.OnUnhandledAlertInteractionListener;
 import minium.web.internal.HasNativeWebDriver;
 
 import org.openqa.selenium.Alert;
@@ -31,24 +26,24 @@ import org.openqa.selenium.UnhandledAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DefaultUnhandledAlertInteractionListener extends DefaultInteractionListener implements UnhandledAlertInteractionListener, ExceptionHandler {
+public class DefaultOnUnhandledAlertInteractionListener extends AbstractOnExceptionInteractionListener implements OnUnhandledAlertInteractionListener, ExceptionHandler {
 
-    private static final Logger LOGGEER = LoggerFactory.getLogger(DefaultUnhandledAlertInteractionListener.class);
+    private static final Logger LOGGEER = LoggerFactory.getLogger(DefaultOnUnhandledAlertInteractionListener.class);
+
+    @SuppressWarnings("unchecked")
+    public DefaultOnUnhandledAlertInteractionListener() {
+        super(UnhandledAlertException.class);
+    }
 
     @Override
-    protected void onAfterFailEvent(AfterFailInteractionEvent event) {
-        if (handle(event.getSource(), event.getException())) {
-            event.setRetry(true);
-        }
+    protected boolean handle(AfterFailInteractionEvent event) {
+        return handle(event.getSource(), event.getException());
     }
 
     @Override
     public boolean handle(Elements elems, Throwable e) {
-        if (from(getCausalChain(e)).anyMatch(instanceOf(UnhandledAlertException.class))) {
-            handleAlert(elems.as(HasNativeWebDriver.class).nativeWebDriver().switchTo().alert());
-            return true;
-        }
-        return false;
+        handleAlert(elems.as(HasNativeWebDriver.class).nativeWebDriver().switchTo().alert());
+        return true;
     }
 
     // by default, we accept the alert
@@ -60,13 +55,13 @@ public class DefaultUnhandledAlertInteractionListener extends DefaultInteraction
     }
 
     @Override
-    public InteractionListener accept() {
+    public OnUnhandledAlertInteractionListener accept() {
         return this;
     }
 
     @Override
-    public UnhandledAlertInteractionListener dismiss() {
-        return new DefaultUnhandledAlertInteractionListener() {
+    public OnUnhandledAlertInteractionListener dismiss() {
+        return new DefaultOnUnhandledAlertInteractionListener() {
             @Override
             protected void handleAlert(Alert alert) {
                 if (LOGGEER.isDebugEnabled()) {
@@ -76,5 +71,4 @@ public class DefaultUnhandledAlertInteractionListener extends DefaultInteraction
             }
         };
     }
-
 }

@@ -4,8 +4,6 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import java.util.concurrent.TimeUnit;
 
-import minium.actions.internal.DefaultWaitOnTimeoutInteractionListener;
-import minium.actions.internal.RetryOnExceptionInteractionListener;
 import minium.actions.internal.SlowMotionInteractionListener;
 import minium.actions.internal.TimeoutInteractionListener;
 import minium.actions.internal.WaitingPresetInteractionListener;
@@ -40,14 +38,6 @@ public class InteractionListeners {
     */
    public static InteractionListener instantTimeout() {
        return timeout(0, SECONDS);
-   }
-
-   public static InteractionListener retry() {
-       return new RetryOnExceptionInteractionListener();
-   }
-
-   public static WaitOnTimeoutInteractionListener waitOnTimeout() {
-       return new DefaultWaitOnTimeoutInteractionListener();
    }
 
    public static InteractionListener slowMotion(long time, TimeUnit units) {

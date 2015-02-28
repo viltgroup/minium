@@ -19,7 +19,6 @@ import java.util.concurrent.TimeUnit;
 
 import minium.AsIs;
 
-
 /**
  * Fluent API for Minium configuration. For instance, you can write code like this:
  *
