@@ -41,8 +41,6 @@ public class WaitWindowClosedElementsInteraction extends WaitInteraction {
     protected void doPerform() throws ElementsException {
         if (getWaitingPreset() != null) {
             wait(getSource(), getWaitingPreset(), forClosedWindow());
-        } else {
-            wait(getSource(), getTimeout(), getInterval(), forClosedWindow());
         }
     }
 }

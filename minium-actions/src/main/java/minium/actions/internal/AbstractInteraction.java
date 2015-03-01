@@ -50,8 +50,6 @@ public abstract class AbstractInteraction implements Interaction {
     private Set<InteractionListener> listeners = Sets.newLinkedHashSet();
     private Elements originalSource;
     private Elements source;
-    private Duration timeout;
-    private Duration interval;
     private String preset;
 
     public AbstractInteraction(Elements elems) {
@@ -63,22 +61,6 @@ public abstract class AbstractInteraction implements Interaction {
         if (originalSource != null) {
             this.source = originalSource.is(FreezableElements.class) ? originalSource.as(FreezableElements.class).freeze() : originalSource;
         }
-    }
-
-    public void setTimeout(Duration timeout) {
-        this.timeout = timeout;
-    }
-
-    public Duration getTimeout() {
-        return timeout;
-    }
-
-    public Duration getInterval() {
-        return interval;
-    }
-
-    public void setInterval(Duration interval) {
-        this.interval = interval;
     }
 
     public void setWaitingPreset(String preset) {
@@ -126,21 +108,13 @@ public abstract class AbstractInteraction implements Interaction {
 
     protected void waitFor(Predicate<? super Elements> predicate) {
         if (source != null) {
-            if (preset != null) {
-                wait(source, preset, predicate);
-            } else {
-                wait(source, timeout, interval, predicate);
-            }
+            wait(source, preset, predicate);
         }
     }
 
     protected void waitOrTimeoutFor(Predicate<? super Elements> predicate) {
         if (source != null) {
-            if (preset != null) {
-                waitOrTimeout(source, preset, predicate);
-            } else {
-                waitOrTimeout(source, timeout, interval, predicate);
-            }
+            waitOrTimeout(source, preset, predicate);
         }
     }
 

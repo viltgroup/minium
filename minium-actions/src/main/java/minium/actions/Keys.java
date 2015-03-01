@@ -20,8 +20,10 @@ package minium.actions;
 import java.util.Arrays;
 
 /**
- * Representations of pressable keys that aren't text. These are stored in the Unicode PUA (Private Use Area) code
- * points, 0xE000-0xF8FF.
+ * <p>Borrowed from {@link org.openqa.selenium.Keys}.</p>
+ *
+ * <p>Representations of pressable keys that aren't text. These are stored in the Unicode PUA (Private Use Area) code
+ * points, 0xE000-0xF8FF.</p>
  *
  * @see <a
  *      href="http://www.google.com.au/search?&q=unicode+pua&btnG=Search">http://www.google.com.au/search?&q=unicode+pua&btnG=Search</a>
