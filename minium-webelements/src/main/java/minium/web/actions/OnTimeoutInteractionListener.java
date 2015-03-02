@@ -27,11 +27,11 @@ import minium.actions.TimeoutException;
  *
  * Problem is that if loading is slow, it will probably end up with a {@link TimeoutException}.
  * To prevent it, without any extra code there, we can declare that when {@link TimeoutException}
- * occurs and {@code $("#loading")} exists, we'll wait until {@code $("#loading")} doesn't exist
+ * occurs and {@code $(".loading")} exists, we'll wait until {@code $(".loading")} doesn't exist
  * anymore and only then retry the interaction.
  *
  * <pre><code class="js">
- * var loading = $("#loading");
+ * var loading = $(".loading");
  * browser.configure()
  *   .interactionListeners()
  *     .add(minium.interactionListeners

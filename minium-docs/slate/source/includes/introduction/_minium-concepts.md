@@ -10,9 +10,9 @@ First, a little bit of history.
 Minium was created in 2011 by Rui Figueira as a Java library on top of selenium WebDriver with
 two purposes:
 
-* Mimic [jQuery](http://jquery.com/) API using [Selenium WebDriver API](http://docs.seleniumhq.org/projects/webdriver/)
-* Allow method chaining when filtering / transversing the page DOM 
-* Avoid tipical errors that occur with Selenium (like `StaleElementReferenceException`)
+* Mimic [jQuery](http://jquery.com/) API using [Selenium WebDriver API](http://docs.seleniumhq.org/projects/webdriver/, 
+  allowing method chaining when filtering / transversing the page DOM 
+* Avoid tipical exceptions that occur with Selenium, like `StaleElementReferenceException`
 
 Back in those days, WebDriver support for CSS selector was very poor under most browsers, and XPath was not an
 option whatsoever (c'mon, XPath on the Web, really?!), and after trying to replicate jQuery API using WebDriver 
@@ -82,12 +82,20 @@ searchbox.text()
       for, first of all, initialize `minium` object in the page scope (with a custom jQuery version in `minium.jQuery`), and
       then it evaluates the same expression as `1.`. That means that an additional communication with the browser is made.
 
-## Interactions
+## Interactions / Interactables
 
 Interactions are another key concept in Minium. They represent user interactions with the browser, like
-cllicking, filling input fields, or even waiting that some element exists.
+clicking, filling input fields, or even waiting that some element exists. Objects that can perform interactions
+are known as `Interactable`. Typically, all `Elements` / `WebElements` are interactable. `Interactable` interface
+also *hides* interactions behind methods like `.click()` or `.fill()`.
 
-Also, interactions have a very important behaviour: **they try the best they can to fulfill their task**.
+The most important `Interactable` interfaces are:
+
+* `MouseInteractable`: allows mouse operations with elements, like clicking, moving mouse around, etc.
+* `KeyboardInteractable`: allows keyboard operations with elements, like pressing a key, typing text, etc.
+* `WaitInteractable`: wait conditions on elements 
+
+Interactions have a very important behaviour: **they try the best they can to fulfill their task**.
 For instance, let's say we have the following expression:
 
 ```javascrippt
@@ -121,7 +129,7 @@ change state in the browser. Besides, normally a `Interaction` can only fulfill 
 evaluates at least one element, but there are two `WaitInteraction` (`.checkForUnexistence()` and `.waitForUnexistence()`)
 that are only able to fulfill their task when it evaluates to an empty set.
 
-The following `WaitInteraction`s exist:
+`WaitInteractable` provides the following `WaitInteraction`s:
 
 - `.waitforExistence( [waitingPreset] )`: waits until the expression evaluates to at least one element, and returns that expression
 - `.waitforUnexistence( [waitingPreset] )`: waits until the expression evaluates to no element at all, and returns that expression
@@ -140,6 +148,119 @@ in the first one, it will wait until `$("text")` evaluates to an empty set, and 
 `$("text")` to evaluate to a non-empty set. Don't forget that **an interaction always tries to fulfill its task**,
 and for `.checkForExistence()` / `.checkForUnexistence()` that means returning true!
 
-## One Elements, one Interaction
+## One `Elements` expression, one `Interaction`
 
-The reason for this behaviour is that we want Minium code to be as straighforward as possible.
+Minium code should be as straighforward as possible:
+
+* an expression should be chosen to evaluate into an element
+* an interaction should be applied to that expression
+* explicit waits sould be avoided if possible
+* getting values from elements like text, size, etc. should also be avoided
+
+### Avoid explicit waits
+
+Let's consider filling a field when some loading operation is running. If we want to ensure that
+we don't fill that field until the loading operation completes, one possible solution would be:
+
+```javascript
+// elements
+field = $("#somefield");
+loading = $(".loading");
+// interactions
+loading.waitForUnexistence();
+field.fill("Minium can do better than this");
+```
+
+However, we can simplify that code by just considering a different expression for `field`: if the expression
+only evaluates into `#somefield` element `when `.loading` element doesn't exist, we can avoid having an explicit
+wait:
+
+```javascript
+// elements
+field = $("#somefield").unless(".loading");
+// interactions
+field.fill("Minium can!");
+```
+### Avoid getting values from elements
+
+**TODO**
+
+In the case you really need to get some value, consider chaining the method call with a `.waitForExistence()`:
+
+```preview
+elemText = $("label").waitForExistence().text();
+// or getting a style value
+backgroundColor = $("label").waitForExistence().css("background-color");
+```
+
+### Avoid iterating using `.size()`
+
+**TODO**
+
+Let's say we want to remove all items from a shopping cart, and for that we need to iterate through all the 
+corresponding remove buttons and click on it. We could consider the following code for that:
+
+```javascript
+shoppingCart = $("#shopping-cart");
+removeBtns = shoppingCart.find(".items button").withValue("Remove");
+size = removeBtns.size();
+
+for (var i = 0; i < size; i++) {
+  // only clicks the first matching element
+  removeBtn.click();
+}
+```
+
+```javascript
+shoppingCart = $("#shopping-cart");
+removeBtns = shoppingCart.find(".items button").withValue("Remove");
+
+while (removeBtns.checkForExistence("immediate")) {
+  // only clicks the first matching element
+  removeBtns.click();
+}
+```
+
+## Interaction Listeners
+
+### onTimeout
+
+Let's say we're trying to click a botton, ensuring that no loading is in progress: 
+
+```javascript
+$("button").unless(".loading").click();
+```
+
+Problem is that if loading is slow, it will probably end up with a TimeoutException. To prevent it without any extra code there,
+we can declare that when `TimeoutException` occurs and `$(".loading")` exists, we'll wait until `$(".loading")` doesn't exist 
+anymore and only then retry the interaction. 
+
+```javascript
+var loading = $(".loading");
+browser.configure()
+  .interactionListeners()
+    .add(minium.interactionListeners
+      .onTimeout()                    // on timeout
+      .when(loading)                  // when loading exists
+      .waitForUnexistence(loading)    // wait until loading doesn't exist anymore
+      .withWaitingPreset("very-slow") // with a very slow waiting preset
+      .thenRetry()                    // then retry
+    )
+  .done();
+```
+If you omit waitForExistence / waitForUnexistence elements, it will use the unless / when elements for the wait condition.
+
+### onUnhandledAlert
+
+In case of an unhandled alert occurs, this listener will be able to either accept or dismiss the alert. 
+
+```javascript
+browser.configure()
+  .interactionListeners()
+    .add(minium.interactionListeners
+      .onUnhandledAlert() // on unhandled alert
+      .accept()           // accept (or dismiss())
+      .thenRetry()        // then retry
+    )
+  .done();
+```
