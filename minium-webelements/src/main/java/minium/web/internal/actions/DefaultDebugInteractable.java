@@ -7,7 +7,8 @@ import minium.actions.internal.AbstractInteractable;
 public class DefaultDebugInteractable<T extends Interactable<?>> extends AbstractInteractable<T> implements DebugInteractable<T> {
 
     @Override
-    public void highlight() {
+    public T highlight() {
         perform(new HighlightInteraction(getSource()));
+        return myself();
     }
 }
