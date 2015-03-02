@@ -17,7 +17,7 @@ two purposes:
 Back in those days, WebDriver support for CSS selector was very poor under most browsers, and XPath was not an
 option whatsoever (c'mon, XPath on the Web, really?!), and after trying to replicate jQuery API using WebDriver 
 API calls (which were very inefficient, because each method needed to communicate with the browser to get the 
-corresponding elements), we found out that we could use WebDriver `JavascriptExecutor` to send javascruipt 
+corresponding elements), we found out that we could use WebDriver `JavascriptExecutor` to send javascript 
 instructions to the browser and get both data and element references. That gave us an idea: why not sending 
 jQuery to the browser and then use it to access web elements instead?
 That was what we did, and that gave Minium a huge power:
@@ -39,9 +39,9 @@ even non-Web ones like mobile or visual pattern recognition ones like [Sikuli](h
 
 `Elements` are normally lazy (there are some exceptions), and they can be evaluated several times with different
 results, which means that the same `Minium expression` can be reused. Besides, its chainable method API always returns
-a new `Ninium expression`, so `Minium expressions` are by nature immutable.
+a new `Minium expression`, so `Minium expressions` are by nature immutable.
 
-Minium `WebElements` is a specialization of `Elements` for browser testing (it is intentionally the plural of Selemiun
+Minium `WebElements` is a specialization of `Elements` for browser testing (it is intentionally the plural of Selenium
 WebDriver `WebElement`). It uses Selenium WebDriver API under the hood.
 
 Consider the following Minium expression:
@@ -158,7 +158,7 @@ handling mainly, as we describe in the following sections.
 
 ### onTimeout
 
-Let's say we're trying to click a botton, ensuring that no loading is in progress: 
+Let's say we're trying to click a button, ensuring that no loading is in progress: 
 
 ```javascript
 $("button").unless(".loading").click();
