@@ -33,15 +33,15 @@ That was what we did, and that gave Minium a huge power:
 ## Elements / WebElements
 
 `Elements` is the most important concept in Minium. It represents an instruction (from now on, we'll call 
-them `Minium expressions`) that will eventually evaluate into elements that we want to interact with. Notice that
+them Minium expressions) that will eventually evaluate into elements that we want to interact with. Notice that
 we didn't say web elements, because currently Minium can be extended to other test platforms, 
 even non-Web ones like mobile or visual pattern recognition ones like [Sikuli](http://sikuli.org/)).
 
 `Elements` are normally lazy (there are some exceptions), and they can be evaluated several times with different
-results, which means that the same `Minium expression` can be reused. Besides, its chainable method API always returns
-a new `Ninium expression`, so `Minium expressions` are by nature immutable.
+results, which means that the same Minium expression can be reused. Besides, its chainable method API always returns
+a new Minium expression`, so Minium expressions are by nature immutable.
 
-Minium `WebElements` is a specialization of `Elements` for browser testing (it is intentionally the plural of Selemiun
+Minium `WebElements` is a specialization of `Elements` for browser testing (it is intentionally the plural of Seleniun
 WebDriver `WebElement`). It uses Selenium WebDriver API under the hood.
 
 Consider the following Minium expression:
@@ -147,6 +147,10 @@ preset that doesn't wait at all (for instance, `$(:text).checkForExistence("imme
 in the first one, it will wait until `$("text")` evaluates to an empty set, and in the second one it will wait for
 `$("text")` to evaluate to a non-empty set. Don't forget that **an interaction always tries to fulfill its task**,
 and for `.checkForExistence()` / `.checkForUnexistence()` that means returning true!
+
+## Browser
+
+
 
 ## Interaction Listeners
 

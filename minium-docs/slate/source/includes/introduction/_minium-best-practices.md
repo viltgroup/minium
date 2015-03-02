@@ -93,7 +93,7 @@ while (removeBtns.checkForExistence()) {
 Yet, that code is not perfect yet: when no more items exist in the shopping cart, Minium will wait until a timeout at
 `removeBtns.checkForExistence()` and only then it will return false, breaking the `while` loop.
 
-On the other end, if we try to check immediatelly for the existence of `removeBtns` (with `removeBtns.checkForExistence("immediate")`),
+On the other hand, if we try to check immediatelly for the existence of `removeBtns` (with `removeBtns.checkForExistence("immediate")`),
 that could cause some problems. Let's, for instance, make things even harder: consider that every time we remove an element of the shopping 
 cart, the shopping cart is refreshed dynamically (an element `.loading` will be displayed).
 
