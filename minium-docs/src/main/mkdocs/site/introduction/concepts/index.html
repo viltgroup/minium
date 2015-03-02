@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Introduction\concepts - Minium Core</title>
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/highlight.css">
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+  <script src="../../js/theme.js"></script>
+
+  <style>
+    body {font-size: 90%;}
+    pre, code {font-size: 100%;}
+    h3, h4, h5, h6 {color: #2980b9; font-weight: 300}
+  </style> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Minium Core</a>
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+      <ul class="current">
+    
+        
+            <li class="toctree-l1 ">
+                <a class="" href="../../api/_Elements">api\ Elements</a>
+            </li>
+        
+
+    
+        
+            <li class="toctree-l1 ">
+                <a class="" href="../../api/_Interactions">api\ Interactions</a>
+            </li>
+        
+
+    
+        
+            <li class="toctree-l1 ">
+                <a class="" href="../best-practices">Introduction\best practices</a>
+            </li>
+        
+
+    
+        
+            <li class="toctree-l1 current">
+                <a class="current" href=".">Introduction\concepts</a>
+            </li>
+        
+
+    
+        
+            <li class="toctree-l1 ">
+                <a class="" href="../cucumber">Introduction\cucumber</a>
+            </li>
+        
+
+    
+        
+            <li class="toctree-l1 ">
+                <a class="" href="../getting-started">Introduction\getting started</a>
+            </li>
+        
+
+    
+        
+            <li class="toctree-l1 ">
+                <a class="" href="../others">Introduction\others</a>
+            </li>
+        
+
+    
+</ul>
+
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
+        <a href="../.."></a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    <li>Introduction\concepts</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              <h1 id="general-concepts">General Concepts</h1>
+<p>In this chapter we will explain the general concepts behind Minium, and why yet another 
+selenium framework.</p>
+<h2 id="history">History</h2>
+<p>First, a little bit of history.</p>
+<p>Minium was created in 2011 by Rui Figueira as a Java library on top of selenium WebDriver with
+two purposes:</p>
+<ul>
+<li>Mimic <a href="http://jquery.com/">jQuery</a> API using <a href="http://docs.seleniumhq.org/projects/webdriver/">Selenium WebDriver API</a>, 
+  allowing method chaining when filtering / transversing the page DOM </li>
+<li>Avoid tipical exceptions that occur with Selenium, like <code>StaleElementReferenceException</code></li>
+</ul>
+<p>Back in those days, WebDriver support for CSS selector was very poor under most browsers, and XPath was not an
+option whatsoever (c'mon, XPath on the Web, really?!), and after trying to replicate jQuery API using WebDriver 
+API calls (which were very inefficient, because each method needed to communicate with the browser to get the 
+corresponding elements), we found out that we could use WebDriver <code>JavascriptExecutor</code> to send javascruipt 
+instructions to the browser and get both data and element references. That gave us an idea: why not sending 
+jQuery to the browser and then use it to access web elements instead?
+That was what we did, and that gave Minium a huge power:</p>
+<ul>
+<li>Almost all jQuery-supported CSS selectors and methods are now supported by Minium</li>
+<li>Allowing method chaining was as easy as make Minium API lazy, and every method would just concatenate
+  the equivalent jQuery instruction</li>
+<li>By only evaluating a Minium instruction when it was needed (when we needed to click something or get a value),
+  the probability of getting a <code>StaleElementReferenceException</code> was almost 0. Besides, Minium instructions are not 
+  binded to <code>WebElement</code> elements, so you can evaluate the same instruction two different times and get different
+  values if the page has changed</li>
+</ul>
+<h2 id="elements-webelements">Elements / WebElements</h2>
+<p><code>Elements</code> is the most important concept in Minium. It represents an instruction (from now on, we'll call 
+them Minium expressions) that will eventually evaluate into elements that we want to interact with. Notice that
+we didn't say web elements, because currently Minium can be extended to other test platforms, 
+even non-Web ones like mobile or visual pattern recognition ones like <a href="http://sikuli.org/">Sikuli</a>).</p>
+<p><code>Elements</code> are normally lazy (there are some exceptions), and they can be evaluated several times with different
+results, which means that the same Minium expression can be reused. Besides, its chainable method API always returns
+a new Minium expression`, so Minium expressions are by nature immutable.</p>
+<p>Minium <code>WebElements</code> is a specialization of <code>Elements</code> for browser testing (it is intentionally the plural of Seleniun
+WebDriver <code>WebElement</code>). It uses Selenium WebDriver API under the hood.</p>
+<p>Consider the following Minium expression:</p>
+<pre><code class="javascript">searchbox = $(&quot;#container&quot;).find(&quot;:text&quot;).filter(&quot;[name=searchbox]&quot;);
+</code></pre>
+
+<p>That expression itself does not communicate with the browser, because it was not evaluated yet. For an expression 
+to be evaluated, one of the following invocations need to occur:</p>
+<ul>
+<li>A method with a return value other than a subclass of <code>Elements</code> is invoked, like:</li>
+</ul>
+<pre><code class="javascript">searchbox.text();
+</code></pre>
+
+<ul>
+<li>An interaction method is called:</li>
+</ul>
+<pre><code class="javascript">searchbox.fill(&quot;Minium can!&quot;);
+</code></pre>
+
+<h3 id="under-the-hood">Under the hood</h3>
+<p>Let's see what happens under the hood when the following code is executed:</p>
+<pre><code class="javascript">searchbox = $(&quot;#container&quot;).find(&quot;:text&quot;).filter(&quot;[name=searchbox]&quot;);
+searchbox.text()
+</code></pre>
+
+<ul>
+<li>Minium expression <code>$("#container").find(":text").filter("[name=searchbox]")</code>, which chains methods
+  <code>.find(selector)</code> and <code>.filter(selector)</code> returns a <code>WebElements</code> object that only maintains that same expression
+ internally. At this point, no communication with the browser occured yet.</li>
+<li>When <code>.text()</code> method is called, which returns a <code>String</code>, then the expression needs to evaluated. At this time,
+  Minium generates javascript code for evaluating the corresponding jquery expression. This javascript code
+  is then sent to the browser and it will try to find the object <code>minium.jQuery</code> in the page scope:<ol>
+<li>in case it exists, <code>minium.jQuery</code> will be used to evaluate the expression and the corresponding value is returned</li>
+<li>in case it doesn't exist, Minium is notified and it then generates a different javascript code that
+  includes all jQuery code plus some extensions needed, as well as the same code as before. This script will be responsible
+  for, first of all, initialize <code>minium</code> object in the page scope (with a custom jQuery version in <code>minium.jQuery</code>), and
+  then it evaluates the same expression as <code>1.</code>. That means that an additional communication with the browser is made.</li>
+</ol>
+</li>
+</ul>
+<h2 id="interactions-interactables">Interactions / Interactables</h2>
+<p>Interactions are another key concept in Minium. They represent user interactions with the browser, like
+clicking, filling input fields, or even waiting that some element exists. Objects that can perform interactions
+are known as <code>Interactable</code>. Typically, all <code>Elements</code> / <code>WebElements</code> are interactable. <code>Interactable</code> interface
+also <em>hides</em> interactions behind methods like <code>.click()</code> or <code>.fill()</code>.</p>
+<p>The most important <code>Interactable</code> interfaces are:</p>
+<ul>
+<li><code>MouseInteractable</code>: allows mouse operations with elements, like clicking, moving mouse around, etc.</li>
+<li><code>KeyboardInteractable</code>: allows keyboard operations with elements, like pressing a key, typing text, etc.</li>
+<li><code>WaitInteractable</code>: wait conditions on elements </li>
+</ul>
+<p>Interactions have a very important behaviour: <strong>they try the best they can to fulfill their task</strong>.
+For instance, let's say we have the following expression:</p>
+<pre><code class="javascrippt">field = $(&quot;:text&quot;).unless(&quot;.loading&quot;);
+</code></pre>
+
+<p>This expression represents all text input elements in the page <strong>unless</strong> there is some element with
+<code>loading</code> CSS class (in that case, it will then evaluate to an empty set).</p>
+<p>Now let's try to interact with it:</p>
+<pre><code class="javascript">field.fill(&quot;Minium can!&quot;);
+</code></pre>
+
+<p>At this point, we have an interaction being called, and for that reason Minium will evaluate <code>field</code>.
+If there is some <code>.loading</code> element in the page (for instance, some AJAX is being performed and the page
+displays a loading element to let us know that), then <code>field</code> will evaluate to an empty set, and for that
+reason, it cannot be filled with text. At this point, Minium will wait a specified <code>interval</code> period and then 
+retry the evaluation. Two situations may occur:</p>
+<ul>
+<li>Eventually, the expression evaluates to a non-empty set. Minium will then grab the first element of that
+  evaluated set and will fill it with the specified text.</li>
+<li>the expression keeps evaluating to an empty set, and the total period surpasses a specified <code>timeout</code> period.
+  At this point, interaction is aborted and a <code>TimeoutException</code> is thrown.</li>
+</ul>
+<h3 id="wait-interactions">Wait Interactions</h3>
+<p><code>WaitInteraction</code>s are a slightly different kind of interactions, first of all because they don't actually 
+change state in the browser. Besides, normally a <code>Interaction</code> can only fulfill their task when the expression
+evaluates at least one element, but there are two <code>WaitInteraction</code> (<code>.checkForUnexistence()</code> and <code>.waitForUnexistence()</code>)
+that are only able to fulfill their task when it evaluates to an empty set.</p>
+<p><code>WaitInteractable</code> provides the following <code>WaitInteraction</code>s:</p>
+<ul>
+<li><code>.waitforExistence( [waitingPreset] )</code>: waits until the expression evaluates to at least one element, and returns that expression</li>
+<li><code>.waitforUnexistence( [waitingPreset] )</code>: waits until the expression evaluates to no element at all, and returns that expression</li>
+<li><code>.checkForExistence( [waitingPreset] )</code>: tries to wait until the expression evaluates to at least one element, returning true.
+  In case a timeout occurs, it will return false</li>
+<li><code>.checkForExistence( [waitingPreset] )</code>: tries to wait until the expression evaluates to no element at all, returning true.
+  In case a timeout occurs, it will return false</li>
+<li><code>.waitTime(time, units)</code>: waits a specified ammout of time, returning the expression after that time has passed</li>
+</ul>
+<p>Notice that an <code>waitingPreset</code> can be provided, which is a <code>String</code> that represents a pair of <code>interval</code> and <code>timeout</code> periods. 
+That can be configured globaly, as well as the default <code>interval</code> and <code>timeout</code> periods. By default, there is a <code>immediate</code> waiting
+preset that doesn't wait at all (for instance, <code>$(:text).checkForExistence("immediate")</code> will return true or false immediately).</p>
+<p><strong>Very Important:</strong> having <code>$(":text").checkForUnexistence()</code> is not the same as <code>!$(:text).checkForExistence()</code>, because
+in the first one, it will wait until <code>$("text")</code> evaluates to an empty set, and in the second one it will wait for
+<code>$("text")</code> to evaluate to a non-empty set. Don't forget that <strong>an interaction always tries to fulfill its task</strong>,
+and for <code>.checkForExistence()</code> / <code>.checkForUnexistence()</code> that means returning true!</p>
+<h2 id="browser">Browser</h2>
+<h2 id="interaction-listeners">Interaction Listeners</h2>
+<p>Interaction listeners intercept all interactions and provide an extensible mechanism to perform additional
+logic. For instance, it can be used to log all interactions being performed, handle exceptions, etc.</p>
+<p>Interaction listeners can notify the interaction to retry itself.  This is very useful for exception
+handling mainly, as we describe in the following sections.</p>
+<h3 id="ontimeout">onTimeout</h3>
+<p>Let's say we're trying to click a botton, ensuring that no loading is in progress: </p>
+<pre><code class="javascript">$(&quot;button&quot;).unless(&quot;.loading&quot;).click();
+</code></pre>
+
+<p>Problem is that if loading is slow, it will probably end up with a <code>TimeoutException</code>. To prevent it without any extra code there,
+we can declare that when <code>TimeoutException</code> occurs and <code>$(".loading")</code> exists, we'll wait until <code>$(".loading")</code> doesn't exist 
+anymore and only then retry the interaction. </p>
+<pre><code class="javascript">var loading = $(&quot;.loading&quot;);
+browser.configure()
+  .interactionListeners()
+    .add(minium.interactionListeners
+      .onTimeout()                    // on timeout
+      .when(loading)                  // when loading exists
+      .waitForUnexistence(loading)    // wait until loading doesn't exist anymore
+      .withWaitingPreset(&quot;very-slow&quot;) // with a very slow waiting preset
+      .thenRetry()                    // then retry
+    )
+  .done();
+</code></pre>
+
+<p>If you omit <code>waitForExistence</code> / <code>waitForUnexistence</code> elements, it will use the <code>unless</code> / <code>when</code> elements for the wait condition.</p>
+<h3 id="onunhandledalert">onUnhandledAlert</h3>
+<p>In case of an unhandled alert occurs, this listener will be able to either accept or dismiss the alert. </p>
+<pre><code class="javascript">browser.configure()
+  .interactionListeners()
+    .add(minium.interactionListeners
+      .onUnhandledAlert() // on unhandled alert
+      .accept()           // accept (or dismiss())
+      .thenRetry()        // then retry
+    )
+  .done();
+</code></pre>
+
+
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../cucumber" class="btn btn-neutral float-right" title="Introduction\cucumber"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../best-practices" class="btn btn-neutral" title="Introduction\best practices"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+    <!-- Copyright etc -->
+    </p>
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        
+      <span><a href="../best-practices" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      <span style="margin-left: 15px"><a href="../cucumber" style="color: #fcfcfc">Next &raquo;</a></span>
+    </span>
+</div>
+</body>
+</html>
