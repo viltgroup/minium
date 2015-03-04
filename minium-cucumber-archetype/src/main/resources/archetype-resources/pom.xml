@@ -7,7 +7,7 @@
 	<parent>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<groupId>org.springframework.boot</groupId>
-		<version>1.2.0.RELEASE</version>
+		<version>1.2.2.RELEASE</version>
 		<relativePath />
 	</parent>
 
@@ -19,8 +19,8 @@
 		<java.version>1.7</java.version>
 
 		<minium.version>1.0.0-SNAPSHOT</minium.version>
-		<selenium.version>2.44.0</selenium.version>
-		<spring.version>4.1.4.RELEASE</spring.version>
+		<selenium.version>2.45.0</selenium.version>
+		<spring.version>4.1.5.RELEASE</spring.version>
 		<!-- cucumber 1.20 doesn't seem to support 4.12 yet -->
 		<junit.version>4.11</junit.version>
 	</properties>
