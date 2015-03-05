@@ -299,7 +299,7 @@ public interface ExtensionsWebElements<T extends WebElements> extends WebElement
 
     /**
      * <p>Filters elements tht are visible. Visibility is computed using
-     * <code>:visible</code> CSS selector, as in {@code $(this).filter(":visible") }</p>
+     * <code>:visible</code> jQuery CSS selector, as in {@code $(this).filter(":visible") }</p>
      *
      * <p>Example:</p>
      *
@@ -324,17 +324,4 @@ public interface ExtensionsWebElements<T extends WebElements> extends WebElement
 
     public String visibleText();
 
-    /**
-     * Get the values from the set of matched elements.
-     *
-     * @return an array with the value of each matched element, in the same order.
-     */
-    public String[] vals();
-    /**
-     * Get the values of a specific attribute from the set of matched elements.
-     *
-     * @param attributeName The name of the attribute to get.
-     * @return an array with the attribute value from each matched element, in the same order.
-     */
-    public String[] attrs(String attributeName);
 }

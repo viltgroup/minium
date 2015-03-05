@@ -62,11 +62,13 @@
 		<guava.version>18.0</guava.version>
 		<guava-retrying.version>1.0.7</guava-retrying.version>
 		<commons-compress.version>1.9</commons-compress.version>
+		<commons-lang3.version>3.3.2</commons-lang3.version>
 		<jackson.version>2.5.1</jackson.version>
 		<slf4j.version>1.7.10</slf4j.version>
 		<args4j.version>2.0.29</args4j.version>
 
 		<powermock.version>1.6.1</powermock.version>
+		<jsoup.version>1.8.1</jsoup.version>
 		
 		<versions.rules.uri>http://lw255/minium-io/coding-standards/maven-version-rules.xml</versions.rules.uri>
 	</properties>
@@ -203,6 +205,11 @@
 				</exclusions>
 			</dependency>
 			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${commons-lang3.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>org.json</groupId>
 				<artifactId>json</artifactId>
 				<version>${json.version}</version>
@@ -263,6 +270,18 @@
 				<groupId>org.powermock</groupId>
 				<artifactId>powermock-module-junit4</artifactId>
 				<version>${powermock.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jsoup</groupId>
+				<artifactId>jsoup</artifactId>
+				<version>${jsoup.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.sun</groupId>
+				<artifactId>tools</artifactId>
+				<scope>system</scope>
+				<systemPath>${java.home}/../lib/tools.jar</systemPath>
+				<version>${java.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

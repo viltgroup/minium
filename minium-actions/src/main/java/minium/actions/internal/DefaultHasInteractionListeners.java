@@ -18,6 +18,16 @@ public class DefaultHasInteractionListeners<T extends Interactable<?>> extends C
     private Set<InteractionListener> listeners = Sets.newLinkedHashSet();
 
     @Override
+    public T immediately() {
+        return withWaitingPreset("immediate");
+    }
+
+    @Override
+    public T withWaitingPreset(String waitingPreset) {
+        return with(new WaitingPresetInteractionListener(waitingPreset));
+    }
+
+    @Override
     public T with(InteractionListener listener) {
         return with(new InteractionListener[] { listener });
     }

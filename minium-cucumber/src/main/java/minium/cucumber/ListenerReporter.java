@@ -26,6 +26,7 @@ import cucumber.api.PendingException;
 import cucumber.runtime.junit.ExecutionUnitRunner;
 
 public class ListenerReporter implements Reporter, Formatter {
+
     private final List<StepListener> stepListeners = Lists.newArrayList();
 
     private final List<Step> steps = Lists.newArrayList();
@@ -39,7 +40,7 @@ public class ListenerReporter implements Reporter, Formatter {
     private Queue<Object> exampleOfScenarioOutline;
     private int lastExampleLine;
     private boolean lastExample;
-    
+
     public ListenerReporter() {
         this(true);
     }
@@ -104,7 +105,7 @@ public class ListenerReporter implements Reporter, Formatter {
             // instead (via executionUnitNotifier).
             matchedStep = null;
         }
-        
+
         //when the last example step got the result
         //the flag inScenarioOutilne is already false
         //so we need create this other flag
@@ -112,7 +113,7 @@ public class ListenerReporter implements Reporter, Formatter {
         	int line = lastExampleLine;
         	fireTestFailedExample(line);
         }
-        
+
     }
 
     private boolean isPendingOrUndefined(Result result) {
@@ -204,7 +205,6 @@ public class ListenerReporter implements Reporter, Formatter {
 
     @Override
     public void startOfScenarioLifeCycle(Scenario scenario) {
-        System.out.println(">> [ Scenario Started ] " + scenario.getName());
         inScenarioLifeCycle = true;
         if(inScenarioOutilne){
         	int line = (int) exampleOfScenarioOutline.element();
@@ -220,10 +220,8 @@ public class ListenerReporter implements Reporter, Formatter {
 
     @Override
     public void endOfScenarioLifeCycle(Scenario scenario) {
-        System.out.println(">> [ Scenario Finished ] " + scenario.getName());
         inScenarioLifeCycle = false;
     }
-
 
     private void fireFailure(Result result) {
         Throwable error = result.getError();
@@ -259,13 +257,13 @@ public class ListenerReporter implements Reporter, Formatter {
             stepListener.ignoredStep(matchedStep);
         }
     }
-    
+
     protected void fireTestStartedExample(int line) {
         for (StepListener stepListener : stepListeners) {
             stepListener.exampleStep(line);
         }
     }
-    
+
     protected void fireTestFailedExample(int line) {
         for (StepListener stepListener : stepListeners) {
             stepListener.failedExampleStep(line);

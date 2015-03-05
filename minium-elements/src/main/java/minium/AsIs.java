@@ -1,7 +1,13 @@
 package minium;
 
+import platypus.Mixin;
+
 import com.google.common.reflect.TypeToken;
 
+/**
+ * @see Mixin
+ * @author rui.figueira
+ */
 public interface AsIs {
 
     public abstract boolean is(Class<?> clazz);

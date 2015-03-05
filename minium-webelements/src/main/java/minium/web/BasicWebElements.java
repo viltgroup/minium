@@ -5,6 +5,9 @@ import minium.FindElements;
 
 public interface BasicWebElements<T extends WebElements> extends WebElements, BasicElements<T>, FindElements<T> {
 
+    @Override
+    public T find(String selector);
+
     public T find(WebElements elems);
 
     /**

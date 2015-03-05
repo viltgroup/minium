@@ -25,15 +25,64 @@
 			<artifactId>minium-script-rhinojs</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.sun</groupId>
 			<artifactId>tools</artifactId>
 			<scope>system</scope>
-			<systemPath>${java.home}/../lib/tools.jar</systemPath>
-			<version>1.7</version>
 		</dependency>
 	</dependencies>
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>mkdocs.yml</include>
+				</includes>
+				<targetPath>${project.build.directory}/apidocs</targetPath>
+			</resource>
+			<resource>
+				<directory>src/main/documentation</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
+				<targetPath>${project.build.directory}/apidocs/docs</targetPath>
+			</resource>
+		</resources>
 		<plugins>
+			<!-- 
+			we need ant to define maven.classpath so that we can use it in javadocs plugin
+			(for some reason docletArtifacts doesn't seem to work
+			-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>define-classpath</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<exportAntProperties>true</exportAntProperties>
+							<target>
+								<property name="maven.classpath" refid="maven.runtime.classpath" />
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<extensions>true</extensions>
@@ -46,12 +95,17 @@
 					</execution>
 				</executions>
 				<configuration>
-					<sourcepath>../minium-webelements/;../minium-actions/</sourcepath>
-					<includeDependencySources>true</includeDependencySources>
+					<sourcepath>
+						../minium-elements/src/main/java;
+						../minium-webelements/src/main/java;
+						../minium-actions/src/main/java
+					</sourcepath>
 					<doclet>minium.docs.DocumentationDoclet</doclet>
 					<docletPath>${project.build.directory}/classes</docletPath>
-					<destDir>slate/source/includes/api</destDir>
 					<useStandardDocletOptions>false</useStandardDocletOptions>
+					<!-- docletArtifacts doesn't seem to work -->
+					<docletPath>${maven.classpath}</docletPath>
+					<excludePackageNames>*.internal.*</excludePackageNames>
 				</configuration>
 			</plugin>
 		</plugins>

@@ -15,10 +15,10 @@ Feature: Search results in Google
 
   Scenario Outline: Search something in google (results in a JSON file)
     Given I'm at http://www.google.com/ncr
-    When I search for 
+    When I search for
     Then links corresponding to  are displayed
 
-    Examples: 
+    Examples:
       | search_query  |
       | Minium Github |
       | Selenium      |
@@ -36,7 +36,7 @@ Given(/^I'm at (.*)$/, function (url) {
 When(/^I search for (.*)$/, function (query) {
   var searchbox = $(":input").withName("q");
   var button    = $("button").withAttr("aria-label", "Google Search");
-  
+
   searchbox.fill(query);
   button.click();
 });
@@ -52,12 +52,11 @@ Then(/^links corresponding to (.*) are displayed$/, function (query) {
   var linkUrls = config.searches[query];
 
   expect(linkUrls).not.to.be.empty();
-  
+
   _(linkUrls).forEach(function (linkUrl) {
     var link = links.withAttr("data-href", linkUrl).add(links.withAttr("href", linkUrl));
     expect(link).to.have.size(1);
   });
-  
+
 });
 ```
-

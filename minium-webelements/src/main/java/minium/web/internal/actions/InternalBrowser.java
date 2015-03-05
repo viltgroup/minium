@@ -21,6 +21,8 @@ import minium.web.DocumentWebDriver;
 import minium.web.TargetLocatorWebElements;
 import minium.web.WebElements;
 import minium.web.actions.Browser;
+import minium.web.actions.Cookie;
+import minium.web.actions.WebConfiguration;
 import minium.web.internal.InternalWebElements;
 import minium.web.internal.WebElementsFactory;
 
@@ -92,7 +94,7 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
 
     }
 
-    class InternalWindow implements Browser.Window {
+    class InternalWindow implements WebConfiguration.Window {
 
         @Override
         public void setSize(final Dimension targetSize) {
@@ -140,7 +142,7 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
 
     }
 
-    class InternalWebConfiguration extends Mixin.Impl implements Browser.WebConfiguration, Configuration {
+    class InternalWebConfiguration extends Mixin.Impl implements WebConfiguration, Configuration {
 
         @Override
         public CookieCollection cookies() {
@@ -315,7 +317,7 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
         }
     }
 
-    class InternalCookieCollection implements CookieCollection {
+    class InternalCookieCollection implements WebConfiguration.CookieCollection {
 
         @Override
         public Iterator<Cookie> iterator() {
@@ -330,23 +332,23 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
         }
 
         @Override
-        public CookieCollection add(Cookie cookie) {
+        public WebConfiguration.CookieCollection add(Cookie cookie) {
             return this;
         }
 
         @Override
-        public CookieCollection remove(String name) {
+        public WebConfiguration.CookieCollection remove(String name) {
             documentDriver().manage().deleteCookieNamed(name);
             return this;
         }
 
         @Override
-        public CookieCollection remove(Cookie cookie) {
+        public WebConfiguration.CookieCollection remove(Cookie cookie) {
             return remove(cookie.getName());
         }
 
         @Override
-        public CookieCollection clear() {
+        public WebConfiguration.CookieCollection clear() {
             documentDriver().manage().deleteAllCookies();
             return this;
         }
