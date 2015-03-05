@@ -176,7 +176,7 @@
 								<argument>--licensesFile</argument>
 								<argument>${project.build.directory}/THIRD-PARTY.txt</argument>
 								<argument>--templateFile</argument>
-								<argument>src/main/documentation/third-parties.md</argument>
+								<argument>${basedir}/src/main/documentation/third-parties.md</argument>
 								<argument>--outputFile</argument>
 								<argument>${project.build.directory}/mkdocs/docs/third-parties.md</argument>
 							</arguments>

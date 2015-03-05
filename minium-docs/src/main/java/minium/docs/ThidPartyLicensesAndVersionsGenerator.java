@@ -16,8 +16,10 @@ public class ThidPartyLicensesAndVersionsGenerator {
 
     @Option(name = "--templateFile")
     private File template;
+
     @Option(name = "--outputFile")
     private File outputFile;
+
     @Option(name = "--licensesFile")
     private File licensesFile;
 
