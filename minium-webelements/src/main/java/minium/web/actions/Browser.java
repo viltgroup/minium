@@ -65,7 +65,7 @@ public interface Browser<T extends WebElements> {
      * in memory. In both cases, they are stored in <code>png</code> format. It is a Minium adapter
      * for Selenium {@link TakesScreenshot}</p>
      *
-     * @see {@link TakesScreenshot}
+     * @see TakesScreenshot
      * @author rui.figueira
      */
     interface Screenshot {

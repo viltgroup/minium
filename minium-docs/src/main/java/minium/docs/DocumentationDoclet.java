@@ -60,16 +60,16 @@ public class DocumentationDoclet {
 	public static boolean start(RootDoc root) throws IOException {
 	    File outputDir = readOutputDir(root);
 	    outputDir.mkdirs();
-	    try (Writer writer = createFileWriter(outputDir, "docs/api/configuration.md")) {
+	    try (Writer writer = createFileWriter(outputDir, "api/configuration.md")) {
 	        new ApiGenerator(root, writer, CONFIGURATION).print();
 	    }
-	    try (Writer writer = createFileWriter(outputDir, "docs/api/browser.md")) {
+	    try (Writer writer = createFileWriter(outputDir, "api/browser.md")) {
 	        new ApiGenerator(root, writer, BROWSER).print();
 	    }
-		try (Writer writer = createFileWriter(outputDir, "docs/api/web-elements.md")) {
+		try (Writer writer = createFileWriter(outputDir, "api/web-elements.md")) {
 		    new ApiGenerator(root, writer, WEB_ELEMENTS).print();
 		}
-		try (Writer writer = createFileWriter(outputDir, "docs/api/interactable.md")) {
+		try (Writer writer = createFileWriter(outputDir, "api/interactable.md")) {
 		    new ApiGenerator(root, writer, INTERACTABLES).print();
 		}
 		return true;

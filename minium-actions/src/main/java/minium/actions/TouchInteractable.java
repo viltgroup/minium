@@ -2,7 +2,9 @@ package minium.actions;
 
 import minium.Offsets.Offset;
 
+import com.google.common.annotations.Beta;
 
+@Beta
 public interface TouchInteractable<T extends Interactable<?>> extends Interactable<T> {
 
     // from org.openqa.selenium.interactions.touch.TouchActions

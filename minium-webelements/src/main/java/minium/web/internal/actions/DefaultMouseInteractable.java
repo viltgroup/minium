@@ -79,17 +79,4 @@ public class DefaultMouseInteractable<T extends Interactable<?>> extends Abstrac
         perform(new DragAndDropInteraction(getSource(), null, target, null));
         return myself();
     }
-
-    @Override
-    public T clickAll() {
-        clickAll(null);
-        return myself();
-    }
-
-    @Override
-    public T clickAll(Offset offset) {
-        perform(new ClickAllInteraction(getSource(), offset));
-        return myself();
-    }
-
 }

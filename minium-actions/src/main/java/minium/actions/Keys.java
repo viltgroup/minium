@@ -170,8 +170,7 @@ public enum Keys implements CharSequence {
      * Get the special key representation, {@link Keys}, of the supplied character if there is one. If there is no
      * special key tied to this character, null will be returned.
      *
-     * @param key
-     *            unicode character code
+     * @param key sunicode character code
      * @return special key linked to the character code, or null if character is not a special key
      */
     public static Keys getKeyFromUnicode(char key) {

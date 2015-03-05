@@ -17,6 +17,4 @@ public interface MouseInteractable<T extends Interactable<?>> extends Interactab
     public T contextClick();
     public T contextClick(Offset offset);
     public T dragAndDrop(Elements target);
-    public T clickAll();
-    public T clickAll(Offset offset);
 }

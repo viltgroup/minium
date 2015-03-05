@@ -90,7 +90,9 @@ public class ApiGenerator {
                 methods.add(method);
             }
 
-            appendNewline("# `%s`", StringUtils.substringAfterLast("." + classDoc.name(), "."));
+            appendNewline("# %s", StringUtils.substringAfterLast("." + classDoc.name(), "."));
+            appendNewline();
+            appendNewline(asMarkdown(classDoc.commentText()));
             appendNewline();
 
             for (MethodDoc method : methods) {
