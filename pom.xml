@@ -35,6 +35,11 @@
 		<name>VILT Group</name>
 		<url>http://www.vilt-group.com</url>
 	</organization>
+	
+	<issueManagement>
+		<system>Redmine</system>
+		<url>https://athena.vilt-group.com</url>
+	</issueManagement>
 
 	<licenses>
 		<license>
@@ -66,7 +71,8 @@
 		<jackson.version>2.5.1</jackson.version>
 		<slf4j.version>1.7.10</slf4j.version>
 		<args4j.version>2.0.29</args4j.version>
-
+		<freemarker.version>2.3.22</freemarker.version>
+		
 		<powermock.version>1.6.1</powermock.version>
 		<jsoup.version>1.8.1</jsoup.version>
 		
@@ -128,6 +134,11 @@
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-cucumber-rest</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.vilt.minium</groupId>
+				<artifactId>minium-docs</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -262,6 +273,11 @@
 				<version>${args4j.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>org.freemarker</groupId>
+				<artifactId>freemarker</artifactId>
+				<version>${freemarker.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>org.powermock</groupId>
 				<artifactId>powermock-api-mockito</artifactId>
 				<version>${powermock.version}</version>
@@ -320,16 +336,6 @@
 		<pluginManagement>
 			<plugins>
 				<plugin>
-				    <groupId>de.taimos</groupId>
-				    <artifactId>redmine-maven-plugin</artifactId>
-				    <version>1.7.0</version>
-				</plugin>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>license-maven-plugin</artifactId>
-					<version>1.8</version>
-				</plugin>
-				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>buildnumber-maven-plugin</artifactId>
 					<version>1.3</version>
@@ -357,29 +363,6 @@
 							<phase>validate</phase>
 							<goals>
 								<goal>checkstyle</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>2.10.1</version>
-					<configuration>
-						<excludePackageNames>*.internal.*</excludePackageNames>
-						<quiet>true</quiet>
-						<failOnError>false</failOnError>
-						<links>
-							<link>http://docs.oracle.com/javase/${java.version}/docs/api/</link>
-							<link>http://selenium.googlecode.com/git/docs/api/java/</link>
-							<link>http://docs.guava-libraries.googlecode.com/git-history/v${guava.version}/javadoc/</link>
-						</links>
-					</configuration>
-					<executions>
-						<execution>
-							<id>attach-javadocs</id>
-							<goals>
-								<goal>jar</goal>
 							</goals>
 						</execution>
 					</executions>
@@ -469,6 +452,163 @@
 							<goals>
 								<goal>check</goal>
 							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<!-- ============================================== -->
+				<!-- These plugins are for documentation generation -->
+				<!-- ============================================== -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>define-javadoc-classpath</id>
+							<goals>
+								<goal>run</goal>
+							</goals>
+							<configuration>
+								<exportAntProperties>true</exportAntProperties>
+								<target>
+									<property name="maven.classpath" refid="maven.runtime.classpath" />
+								</target>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+				    <groupId>de.taimos</groupId>
+				    <artifactId>redmine-maven-plugin</artifactId>
+   				    <version>1.7.0</version>
+				    <executions>
+	   					<execution>
+							<id>generate-changelog</id>
+							<goals>
+								<goal>changelog</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<redmineKey>${athena.redmine.key}</redmineKey>
+				        <changelogFile>${project.build.directory}/changelog</changelogFile>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>license-maven-plugin</artifactId>
+					<version>1.8</version>
+					<executions>
+						<execution>
+							<id>generate-thirdparty-licenses</id>
+							<goals>
+								<goal>add-third-party</goal>
+							</goals>
+							<configuration>
+								<licenseMerges>
+									<licenseMerge>
+									The Apache Software License, Version 2.0|Apache License, Version 2.0|Apache Public License 2.0|
+									Apache License Version 2.0|Apache 2|Apache License 2.0|Apache Software Licenses|Apache License, version 2.0
+									</licenseMerge>
+									<licenseMerge>Eclipse Public License - v 1.0|Eclipse Public License 1.0</licenseMerge>
+									<licenseMerge>The MIT License|MIT License</licenseMerge>
+								</licenseMerges>
+								<sortArtifactByName>true</sortArtifactByName>
+								<outputDirectory>${project.build.directory}</outputDirectory>
+								<useMissingFile>true</useMissingFile>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>2.10.1</version>
+					<executions>
+						<execution>
+							<id>generate-api-markdown</id>
+							<goals>
+								<goal>javadoc</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<excludePackageNames>*.internal.*</excludePackageNames>
+						<links>
+							<link>http://docs.oracle.com/javase/${java.version}/docs/api/</link>
+							<link>http://selenium.googlecode.com/git/docs/api/java/</link>
+							<link>http://docs.guava-libraries.googlecode.com/git-history/v${guava.version}/javadoc/</link>
+						</links>
+						<quiet>true</quiet>
+						<failOnError>false</failOnError>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>exec-maven-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>generate-thirdparty-licenses-md</id>
+							<goals>
+								<goal>java</goal>
+							</goals>
+							<configuration>
+								<mainClass>minium.docs.ArtifactLicenseGenerator</mainClass>
+								<killAfter>-1</killAfter>
+								<systemProperties>
+									<systemProperty>
+										<key>org.freemarker.loggerLibrary</key>
+             							<value>none</value>
+           							</systemProperty>
+								</systemProperties>
+								<arguments>
+									<argument>--licensesFile</argument>
+									<argument>${project.build.directory}/THIRD-PARTY.txt</argument>
+									<argument>--templateFile</argument>
+									<argument>${basedir}/src/main/resources/templates/third-parties.md.ftl</argument>
+									<argument>--outputFile</argument>
+									<argument>${project.build.directory}/mkdocs/docs/third-parties.md</argument>
+								</arguments>
+							</configuration>
+						</execution>
+						<execution>
+							<id>generate-changelog-md</id>
+							<goals>
+								<goal>java</goal>
+							</goals>
+							<configuration>
+								<mainClass>minium.docs.ChangelogGenerator</mainClass>
+								<killAfter>-1</killAfter>
+								<systemProperties>
+									<systemProperty>
+										<key>org.freemarker.loggerLibrary</key>
+             							<value>none</value>
+           							</systemProperty>
+								</systemProperties>
+								<arguments>
+									<argument>--changelogFile</argument>
+									<argument>${project.build.directory}/changelog</argument>
+									<argument>--templateFile</argument>
+									<argument>${basedir}/src/main/resources/templates/changelog.md.ftl</argument>
+									<argument>--outputFile</argument>
+									<argument>${project.build.directory}/mkdocs/docs/changelog.md</argument>
+									<argument>--ticketUrlFormat</argument>
+									<argument>${project.issueManagement.url}/issues/:id</argument>
+								</arguments>
+							</configuration>
+						</execution>
+						<execution>
+							<id>generate-site</id>
+							<goals>
+								<goal>exec</goal>
+							</goals>
+							<configuration>
+								<executable>mkdocs</executable>
+								<workingDirectory>${project.build.directory}/mkdocs</workingDirectory>
+								<arguments>
+									<argument>build</argument>
+									<argument>--clean</argument>
+								</arguments>
+							</configuration>
 						</execution>
 					</executions>
 				</plugin>

@@ -1,4 +1,4 @@
-# Minium + Cucumber
+# Minium and Cucumber
 
 
 ### Step 1 - writings scenarios
