@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 The Minium Authors
+ * Copyright (C) 2015 The Minium Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,63 +19,31 @@ import minium.Elements;
 
 import java.util.EventObject;
 
-/**
- * The Class InteractionEvent.
- */
 public abstract class InteractionEvent extends EventObject {
 
     private static final long serialVersionUID = -1830111797395332704L;
 
-    /**
-     * The Enum Type.
-     */
     public static enum Type {
-        /** The before wait. */
         BEFORE_WAIT,
-        /** The before. */
         BEFORE,
-        /** The after. */
         AFTER_SUCCESS,
-        /** The after failing. */
         AFTER_FAIL
     }
 
     private final Interaction interaction;
 
-    /**
-     * Instantiates a new interaction event.
-     *
-     * @param source the source
-     * @param performer
-     * @param interaction the interaction
-     */
     public InteractionEvent(Elements source, Interaction interaction) {
         super(source);
         this.interaction = interaction;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.util.EventObject#getSource()
-     */
     @Override
     public Elements getSource() {
         return (Elements) super.getSource();
     }
 
-    /**
-     * Gets the type.
-     *
-     * @return the type
-     */
     public abstract Type getType();
 
-    /**
-     * Gets the interaction.
-     *
-     * @return the interaction
-     */
     public Interaction getInteraction() {
         return interaction;
     }

@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2015 The Minium Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package minium.web.actions;
 
 import java.io.File;
@@ -6,14 +21,17 @@ import java.net.URL;
 
 import minium.web.WebElements;
 
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-
+/**
+ * Browser can be seen as a {@link org.openqa.selenium.WebDriver} wrapper.
+ *
+ * @author rui.figueira
+ *
+ * @param <T> {@link WebElements} type for chaining calls
+ */
 public interface Browser<T extends WebElements> {
 
     /**
-     * <p>This is a Minium adapter for {@link WebDriver.Navigation}</p>
+     * <p>This is a Minium adapter for {@link org.openqa.selenium.WebDriver.Navigation}</p>
      *
      * @see org.openqa.selenium.WebDriver.Navigation
      * @author rui.figueira
@@ -23,14 +41,14 @@ public interface Browser<T extends WebElements> {
         /**
          * Move back a single "item" in the browser's history.
          *
-         * @see WebDriver.Navigation#back()
+         * @see org.openqa.selenium.WebDriver.Navigation#back()
          */
         void back();
 
         /**
          * Move a single "item" forward in the browser's history. Does nothing if we are on the latest page viewed.
          *
-         * @see WebDriver.Navigation#forward()
+         * @see org.openqa.selenium.WebDriver.Navigation#forward()
          */
         void forward();
 
@@ -43,7 +61,7 @@ public interface Browser<T extends WebElements> {
          *
          * @param url the URL to load. It is best to use a fully qualified URL
          *
-         * @see WebDriver.Navigation#to(String)
+         * @see org.openqa.selenium.WebDriver.Navigation#to(String)
          */
         void to(String url);
 
@@ -63,9 +81,9 @@ public interface Browser<T extends WebElements> {
     /**
      * <p>Allows screenshots to be taken from this browser. Images can be stored in a file or
      * in memory. In both cases, they are stored in <code>png</code> format. It is a Minium adapter
-     * for Selenium {@link TakesScreenshot}</p>
+     * for Selenium {@link org.openqa.selenium.TakesScreenshot}</p>
      *
-     * @see TakesScreenshot
+     * @see org.openqa.selenium.TakesScreenshot
      * @author rui.figueira
      */
     interface Screenshot {
@@ -78,9 +96,9 @@ public interface Browser<T extends WebElements> {
         byte[] asBytes();
 
         /**
-         * Gets screenshot as a file. Notice that, as described in {@link OutputType#FILE},
-         * file is deleted on exit, so ensure that you either read data to another structure
-         * or you just copy the file elsewhere.
+         * Gets screenshot as a file. Notice that, as described in
+         * {@link org.openqa.selenium.OutputType#FILE}, file is deleted on exit, so ensure that
+         * you either read data to another structure or you just copy the file elsewhere.
          *
          * @return file file with <code>png</code> format.
          */

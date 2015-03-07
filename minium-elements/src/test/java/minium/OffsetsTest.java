@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2015 The Minium Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package minium;
 
 import static minium.Offsets.at;
@@ -12,7 +27,7 @@ import org.junit.Test;
 
 public class OffsetsTest {
     @Test
-    public void parse_ok() {
+    public void testParseOk() {
         Offset rb1 = at("right bottom");
         Offset rb2 = at("right+20% bottom+25%");
         Offset rb3 = at("right-20% bottom-25%");
@@ -61,17 +76,17 @@ public class OffsetsTest {
     }
 
     @Test(expected = ParseException.class)
-    public void parse_vertical_first_fail() {
+    public void testParseVerticalFirstFail() {
         at("top right");
     }
 
     @Test(expected = ParseException.class)
-    public void parse_invalid_fail() {
+    public void testParseInvalidFail() {
         at("right20px top");
     }
 
     @Test
-    public void to_string() {
+    public void testToString() {
         assertThat(at(RIGHT.plus(20).percent(), BOTTOM.minus(25).pixels()).toString(), equalTo("right+20% bottom-25px"));
     }
 }

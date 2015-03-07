@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2015 The Minium Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package minium.cucumber.config;
 
 import java.util.Arrays;
@@ -284,26 +299,21 @@ public class CucumberProperties {
                 }
 
                 if (!tableColumns.isEmpty()) {
-
-                	for (String col : tableColumns) {
-                		buf.append("\n");
-                		buf.append("  | " + col + "  | " );
+                    for (String col : tableColumns) {
+                        buf.append("\n");
+                        buf.append("  | " + col + "  | ");
                         buf.append(" ${" + (curr++) + ":" + col + "} ");
                         buf.append("|");
                     }
-
                 }
 
-
                 if (!simpleTable.isEmpty()) {
-
-                	for (String col : simpleTable) {
-                		buf.append("\n");
-                		buf.append("|");
+                    for (String col : simpleTable) {
+                        buf.append("\n");
+                        buf.append("|");
                         buf.append(" ${" + (curr++) + ":" + col + "} ");
                         buf.append("|");
                     }
-
                 }
                 return buf.toString();
             }
@@ -334,21 +344,21 @@ public class CucumberProperties {
             this.table = table;
         }
 
-		public List<String> getTableColumns() {
-			return tableColumns;
-		}
+        public List<String> getTableColumns() {
+            return tableColumns;
+        }
 
-		public void setTableColumns(List<String> tableColumns) {
-			this.tableColumns = tableColumns;
-		}
+        public void setTableColumns(List<String> tableColumns) {
+            this.tableColumns = tableColumns;
+        }
 
-		public List<String> getSimpleTable() {
-			return simpleTable;
-		}
+        public List<String> getSimpleTable() {
+            return simpleTable;
+        }
 
-		public void setSimpleTable(List<String> simpleTable) {
-			this.simpleTable = simpleTable;
-		}
+        public void setSimpleTable(List<String> simpleTable) {
+            this.simpleTable = simpleTable;
+        }
     }
 
     private OptionsProperties options = new OptionsProperties();

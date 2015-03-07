@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2015 The Minium Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package minium.web.internal.actions;
 
 import java.io.File;
@@ -38,7 +53,7 @@ import com.google.common.reflect.TypeToken;
 public class InternalBrowser<T extends WebElements> implements Browser<T> {
 
     @SuppressWarnings("serial")
-    private final TypeToken<T> typeVariableToken = new TypeToken<T>(getClass()) {};
+    private final TypeToken<T> typeVariableToken = new TypeToken<T>(getClass()) { };
 
     class InternalNavigation implements Browser.Navigation {
 
@@ -91,7 +106,6 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
                 }
             }.perform();
         }
-
     }
 
     class InternalWindow implements WebConfiguration.Window {
@@ -139,7 +153,6 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
                 }
             }.perform();
         }
-
     }
 
     class InternalWebConfiguration extends Mixin.Impl implements WebConfiguration, Configuration {
@@ -174,7 +187,6 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
         @Override
         public Duration defaultInterval() {
             return getConfiguration().defaultInterval();
-
         }
 
         @Override
@@ -407,7 +419,6 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
         public Date getExpiry() {
             return nativeCookie.getExpiry();
         }
-
     }
 
     class InternalScreenshot implements Browser.Screenshot {
@@ -426,7 +437,6 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
         public void saveTo(File file) throws IOException {
             Files.asByteSource(file).copyTo(Files.asByteSink(file));
         }
-
     }
 
     private final WebElementsFactory<T> factory;
@@ -446,7 +456,7 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
     @SuppressWarnings("unchecked")
     public InternalBrowser(T elems) {
         this.factory = (WebElementsFactory<T>) elems.as(HasElementsFactory.class).factory();
-        this.elems = elems;;
+        this.elems = elems;
     }
 
     @Override
@@ -527,5 +537,4 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
     protected DocumentWebDriver documentDriver() {
         return elems.as(InternalWebElements.class).documentDriver();
     }
-
 }

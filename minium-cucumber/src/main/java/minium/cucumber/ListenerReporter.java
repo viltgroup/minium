@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2015 The Minium Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package minium.cucumber;
 
 import static cucumber.runtime.Runtime.isPending;
@@ -106,14 +121,13 @@ public class ListenerReporter implements Reporter, Formatter {
             matchedStep = null;
         }
 
-        //when the last example step got the result
-        //the flag inScenarioOutilne is already false
-        //so we need create this other flag
-        if( (inScenarioOutilne || lastExample) && error != null){
-        	int line = lastExampleLine;
-        	fireTestFailedExample(line);
+        // when the last example step got the result
+        // the flag inScenarioOutilne is already false
+        // so we need create this other flag
+        if ((inScenarioOutilne || lastExample) && error != null) {
+           int line = lastExampleLine;
+           fireTestFailedExample(line);
         }
-
     }
 
     private boolean isPendingOrUndefined(Result result) {
@@ -166,18 +180,18 @@ public class ListenerReporter implements Reporter, Formatter {
 
     @Override
     public void scenarioOutline(ScenarioOutline scenarioOutline) {
-    	inScenarioOutilne = true;
-    	lastExample = false;
+       inScenarioOutilne = true;
+       lastExample = false;
     }
 
     @Override
     public void examples(Examples examples) {
-    	exampleOfScenarioOutline = new LinkedList<Object>();
-    	for(ExamplesTableRow example: examples.getRows()){
-    		exampleOfScenarioOutline.add(example.getLine());
-    	}
-    	//remove the first because its the header
-    	exampleOfScenarioOutline.remove();
+       exampleOfScenarioOutline = new LinkedList<Object>();
+       for (ExamplesTableRow example: examples.getRows()) {
+          exampleOfScenarioOutline.add(example.getLine());
+       }
+       // remove the first because its the header
+       exampleOfScenarioOutline.remove();
     }
 
     @Override
@@ -206,16 +220,16 @@ public class ListenerReporter implements Reporter, Formatter {
     @Override
     public void startOfScenarioLifeCycle(Scenario scenario) {
         inScenarioLifeCycle = true;
-        if(inScenarioOutilne){
-        	int line = (int) exampleOfScenarioOutline.element();
-        	fireTestStartedExample(line);
-        	lastExampleLine = line;
-    		exampleOfScenarioOutline.remove();
-    		if(exampleOfScenarioOutline.isEmpty()){
-    			inScenarioOutilne = false;
-    			lastExample = true;
-    		}
-    	}
+        if (inScenarioOutilne) {
+           int line = (int) exampleOfScenarioOutline.element();
+           fireTestStartedExample(line);
+           lastExampleLine = line;
+          exampleOfScenarioOutline.remove();
+          if (exampleOfScenarioOutline.isEmpty()) {
+             inScenarioOutilne = false;
+             lastExample = true;
+          }
+       }
     }
 
     @Override

@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2015 The Minium Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package minium.cucumber.rest;
 
 import static minium.cucumber.rest.CucumberRestConstants.GLUES_URI;
@@ -21,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 import minium.cucumber.rest.dto.ArgumentDTO;
+import minium.cucumber.rest.dto.ExecutionResult.Status;
 import minium.cucumber.rest.dto.GlueDTO;
 import minium.cucumber.rest.dto.HookDefinitionDTO;
 import minium.cucumber.rest.dto.HookExecutionResult;
@@ -32,12 +48,13 @@ import minium.cucumber.rest.dto.StepExecutionResult;
 import minium.cucumber.rest.dto.StepMatchDTO;
 import minium.cucumber.rest.dto.TagDTO;
 import minium.cucumber.rest.dto.WorldDTO;
-import minium.cucumber.rest.dto.ExecutionResult.Status;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import com.google.common.base.Preconditions;
 
 import cucumber.api.Scenario;
 import cucumber.api.SnippetType;

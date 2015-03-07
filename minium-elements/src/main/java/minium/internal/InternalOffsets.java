@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2015 The Minium Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package minium.internal;
 
 import static java.lang.String.format;
@@ -74,7 +89,7 @@ public class InternalOffsets {
                 offset = val;
                 break;
             default:
-                offset = (width * val / 100.0);
+                offset = width * val / 100.0;
                 break;
             }
             return parentOffset + offset;
@@ -101,7 +116,6 @@ public class InternalOffsets {
         public HorizontalOffset pixels() {
             return new AbstractHorizontalOffset(parent, val, Unit.PIXEL);
         }
-
     }
 
     public static class AbstractVerticalOffset implements VerticalOffset {
@@ -147,7 +161,7 @@ public class InternalOffsets {
                 offset = val;
                 break;
             default:
-                offset = (height * val / 100.0);
+                offset = height * val / 100.0;
                 break;
             }
             return parentOffset + offset;
@@ -174,7 +188,6 @@ public class InternalOffsets {
         public VerticalOffset pixels() {
             return new AbstractVerticalOffset(parent, val, Unit.PIXEL);
         }
-
     }
 
     public static class OffsetImpl implements Offset {
@@ -220,7 +233,6 @@ public class InternalOffsets {
         public String toString() {
             return format("%s %s", horizontal, vertical);
         }
-
     }
 
     public static class Parser {
@@ -228,7 +240,7 @@ public class InternalOffsets {
 
         public Offset parse(String positionString) {
             Matcher matcher = POS_REGEX.matcher(positionString);
-            if(!matcher.matches()) {
+            if (!matcher.matches()) {
                 throw new ParseException(format("%s is not a valid offset", positionString));
             }
 

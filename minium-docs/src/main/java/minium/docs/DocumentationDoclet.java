@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2015 The Minium Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package minium.docs;
 
 import java.io.File;
@@ -40,7 +55,7 @@ public class DocumentationDoclet {
         Browser.Screenshot.class,
         Browser.class
     };
-	private static Class<?>[] WEB_ELEMENTS = {
+    private static Class<?>[] WEB_ELEMENTS = {
         BasicElements.class,
         BasicWebElements.class,
         FreezableElements.class,
@@ -49,31 +64,31 @@ public class DocumentationDoclet {
         EvalWebElements.class,
         TargetLocatorWebElements.class,
         PositionWebElements.class
-	};
-	private static Class<?>[] INTERACTABLES = {
+    };
+    private static Class<?>[] INTERACTABLES = {
         Interactable.class,
         MouseInteractable.class,
         KeyboardInteractable.class,
         WaitInteractable.class
-	};
+    };
 
-	public static boolean start(RootDoc root) throws IOException {
-	    File outputDir = readOutputDir(root);
-	    outputDir.mkdirs();
-	    try (Writer writer = createFileWriter(outputDir, "api/configuration.md")) {
-	        new ApiGenerator(root, writer, CONFIGURATION).print();
-	    }
-	    try (Writer writer = createFileWriter(outputDir, "api/browser.md")) {
-	        new ApiGenerator(root, writer, BROWSER).print();
-	    }
-		try (Writer writer = createFileWriter(outputDir, "api/web-elements.md")) {
-		    new ApiGenerator(root, writer, WEB_ELEMENTS).print();
-		}
-		try (Writer writer = createFileWriter(outputDir, "api/interactable.md")) {
-		    new ApiGenerator(root, writer, INTERACTABLES).print();
-		}
-		return true;
-	}
+    public static boolean start(RootDoc root) throws IOException {
+        File outputDir = readOutputDir(root);
+        outputDir.mkdirs();
+        try (Writer writer = createFileWriter(outputDir, "api/configuration.md")) {
+            new ApiGenerator(root, writer, CONFIGURATION).print();
+        }
+        try (Writer writer = createFileWriter(outputDir, "api/browser.md")) {
+            new ApiGenerator(root, writer, BROWSER).print();
+        }
+        try (Writer writer = createFileWriter(outputDir, "api/web-elements.md")) {
+            new ApiGenerator(root, writer, WEB_ELEMENTS).print();
+        }
+        try (Writer writer = createFileWriter(outputDir, "api/interactable.md")) {
+            new ApiGenerator(root, writer, INTERACTABLES).print();
+        }
+        return true;
+    }
 
     protected static FileWriter createFileWriter(File outputDir, String path) throws IOException {
         File file = new File(outputDir, path);
@@ -82,20 +97,20 @@ public class DocumentationDoclet {
     }
 
     public static int optionLength(String option) {
-        if(option.equals("-d")) {
+        if (option.equals("-d")) {
             return 2;
         }
         return 0;
     }
 
-	protected static File readOutputDir(RootDoc root) {
-	    for (int i = 0; i < root.options().length; i++) {
-	        String[] opt = root.options()[i];
-	        if (opt[0].equals("-d")) {
-	            return new File(opt[1]);
-	        }
-	    }
-	    return new File(".");
+    protected static File readOutputDir(RootDoc root) {
+        for (int i = 0; i < root.options().length; i++) {
+            String[] opt = root.options()[i];
+            if (opt[0].equals("-d")) {
+                return new File(opt[1]);
+            }
+        }
+        return new File(".");
     }
 
     public static void main(String[] args) {

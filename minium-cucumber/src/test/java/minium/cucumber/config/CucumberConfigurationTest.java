@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 The Minium Authors
+ * Copyright (C) 2015 The Minium Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,6 +35,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = { CucumberConfigurationTest.TestConfiguration.class })
 @ActiveProfiles("test")
+@IntegrationTest({ "spring.main.show_banner=false" })
 public class CucumberConfigurationTest {
 
     @Configuration

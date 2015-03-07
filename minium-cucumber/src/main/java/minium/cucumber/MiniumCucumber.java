@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 The Minium Authors
+ * Copyright (C) 2015 The Minium Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,13 +75,13 @@ public class MiniumCucumber extends ParentRunner<FeatureRunner> {
 
     @Autowired
     private Browser<DefaultWebElements> browser;
-	
+
     @Autowired
     private JsBrowserFactory factory;
-    
+
     @Autowired
     private ConfigProperties configProperties;
-    
+
     public MiniumCucumber(Class<?> clazz) throws InitializationError, IOException {
         super(clazz);
         ClassLoader classLoader = clazz.getClassLoader();
@@ -94,8 +94,8 @@ public class MiniumCucumber extends ParentRunner<FeatureRunner> {
         initializeInstance(MiniumCucumber.class, beanFactory, this);
 
         // now we populate RhinoEngine with minium modules, etc.
-        new MiniumJsEngineAdapter(browser, factory ).adapt(rhinoEngine);
-        
+        new MiniumJsEngineAdapter(browser, factory).adapt(rhinoEngine);
+
         // and set configuration
         rhinoEngine.putJson("config", configProperties.toJson());
 

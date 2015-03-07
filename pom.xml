@@ -76,7 +76,6 @@
 		<powermock.version>1.6.1</powermock.version>
 		<jsoup.version>1.8.1</jsoup.version>
 		
-		<versions.rules.uri>http://lw255/minium-io/coding-standards/maven-version-rules.xml</versions.rules.uri>
 	</properties>
 
 	<dependencyManagement>
@@ -352,10 +351,9 @@
 							checkstyle.config.dir=${checkstyle.config.dir}
 						</propertyExpansion>
 						<consoleOutput>true</consoleOutput>
-						<failsOnError>false</failsOnError>
+						<failsOnError>true</failsOnError>
 						<linkXRef>false</linkXRef>
 						<includeTestSourceDirectory>true</includeTestSourceDirectory>
-						<includes>minium/**/*.java</includes>
 					</configuration>
 					<executions>
 						<execution>
@@ -373,7 +371,6 @@
 					<version>2.1</version>
 					<configuration>
 						<processDependencyManagement>false</processDependencyManagement>
-						<rulesUri>${versions.rules.uri}</rulesUri>						
 					</configuration>
 				</plugin>
 				<plugin>

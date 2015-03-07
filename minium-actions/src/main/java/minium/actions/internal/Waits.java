@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 The Minium Authors
+ * Copyright (C) 2015 The Minium Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -78,14 +78,6 @@ public class Waits {
             return forPredicateOrTimeout(elements, waitingPreset.timeout(), waitingPreset.interval(), predicate);
         }
 
-        /**
-         *
-         * @param webElements WebElement to test
-         * @param timeout timeout duration
-         * @param interval interval duration
-         * @param predicate predicate to check
-         * @return true if wait for predicate was successful, false if timeout occured
-         */
         public boolean forPredicateOrTimeout(Elements elements, Duration timeout, Duration interval, Predicate<? super Elements> predicate) {
             Configuration configuration =  elements.as(HasConfiguration.class).configure();
             if (timeout == null) {

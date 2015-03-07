@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 The Minium Authors
+ * Copyright (C) 2015 The Minium Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ package minium.web.internal.actions;
 import minium.Dimension;
 import minium.Elements;
 import minium.Offsets.Offset;
-
 
 /**
  * The Class MouseInteraction.

@@ -9,7 +9,6 @@
         <module name="FileContentsHolder" />
         <module name="UnnecessaryParentheses" />
         <module name="ExplicitInitialization" />
-        <module name="JUnitTestCase" />
         <module name="StringLiteralEquality" />
         <module name="SimplifyBooleanReturn" />
         <module name="SimplifyBooleanExpression" />
@@ -89,7 +88,7 @@
             <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="check that a space is left after a colon with an assembled error message" />
         </module>
         <module name="Regexp">
-            <property name="severity" value="info" />
+            <property name="severity" value="error" />
             <property name="format" value="[\r]?[\n][ \t]*[\r]?[\n][ \t]*[\r]?[\n][ \t]*" />
             <property name="message" value="more than one blank line" />
             <property name="illegalPattern" value="true" />

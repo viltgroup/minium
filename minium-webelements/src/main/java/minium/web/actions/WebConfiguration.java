@@ -1,22 +1,34 @@
+/*
+ * Copyright (C) 2015 The Minium Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package minium.web.actions;
 
 import minium.Dimension;
 import minium.Point;
 import minium.actions.Configuration;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriver.Options;
-
 /**
  * Extends {@link Configuration} by allowing cookies and browser windows management.
  *
- * @see Options
+ * @see org.openqa.selenium.WebDriver.Options
  * @author rui.figueira
  */
 public interface WebConfiguration extends Configuration {
 
     /**
-     * This is a Minium adapter for {@link WebDriver.Window}.
+     * This is a Minium adapter for {@link org.openqa.selenium.WebDriver.Window}.
      *
      * @see org.openqa.selenium.WebDriver.Window
      * @author rui.figueira
@@ -61,10 +73,10 @@ public interface WebConfiguration extends Configuration {
 
     /**
      * <p>Maintains all cookies for this browser. It is possible to access cookies, as well as add and remove them.
-     * This is a Minium adapter for {@link WebDriver.Options}</p>
+     * This is a Minium adapter for {@link org.openqa.selenium.WebDriver.Options}</p>
      * <p>This is a chainable interface (to go back to the browser {@link WebConfiguration}, call {@code .done()}).</p>
      *
-     * @see WebDriver.Options
+     * @see org.openqa.selenium.WebDriver.Options
      * @author rui.figueira
      */
     interface CookieCollection extends Iterable<Cookie> {

@@ -41,12 +41,17 @@
 		</dependency>
 	</dependencies>
 
-	<repositories>
-		<repository>
-			<id>oss-jfrog-artifactory</id>
-			<name>oss-jfrog-artifactory-releases</name>
-			<url>http://oss.jfrog.org/artifactory/oss-release-local</url>
-		</repository>
-	</repositories>
-
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+	
 </project>

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 The Minium Authors
+ * Copyright (C) 2015 The Minium Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ import minium.Elements;
  * The Class WaitInteraction.
  */
 public abstract class WaitInteraction extends AbstractInteraction {
-
 
     /**
      * Instantiates a new wait interaction.

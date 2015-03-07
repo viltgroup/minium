@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 The Minium Authors
+ * Copyright (C) 2015 The Minium Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,14 +50,15 @@ public class MiniumBackend implements Backend {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MiniumBackend.class);
 
-	private static final String JS_DSL = "/cucumber/runtime/rhino/dsl.js";
-	private final SnippetGenerator snippetGenerator = new SnippetGenerator(new JavaScriptSnippet());
-	private final ResourceLoader resourceLoader;
-	private final Context cx;
-	private final Scriptable scope;
-	private Glue glue;
-	private Function buildWorldFn;
-	private Function disposeWorldFn;
+    private static final String JS_DSL = "/cucumber/runtime/rhino/dsl.js";
+
+    private final SnippetGenerator snippetGenerator = new SnippetGenerator(new JavaScriptSnippet());
+    private final ResourceLoader resourceLoader;
+    private final Context cx;
+    private final Scriptable scope;
+    private Glue glue;
+    private Function buildWorldFn;
+    private Function disposeWorldFn;
 
     public MiniumBackend(ResourceLoader resourceLoader, Context cx, Scriptable scope) throws IOException {
         try {
