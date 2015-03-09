@@ -21,7 +21,7 @@
 			<artifactId>selenium-java</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.github.detro</groupId>
+			<groupId>${phantomjsdriver.groupid}</groupId>
 			<artifactId>phantomjsdriver</artifactId>
 		</dependency>
 		<dependency>

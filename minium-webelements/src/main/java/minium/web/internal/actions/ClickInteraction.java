@@ -47,7 +47,7 @@ public class ClickInteraction extends MouseInteraction {
             Point offsetPoint = offset.offset(getSize());
             getActions().moveToElement(source, offsetPoint.x(), offsetPoint.y()).click().perform();
         } else {
-            getActions().click(source).perform();
+            getFirstElement().click();
         }
     }
 }

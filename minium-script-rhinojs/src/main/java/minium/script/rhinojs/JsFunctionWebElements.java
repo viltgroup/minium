@@ -21,8 +21,6 @@ import org.mozilla.javascript.Function;
 
 public interface JsFunctionWebElements<T extends WebElements> extends WebElements {
 
-    public T filter(Function fn);
-
     public T applyWebElements(Function fn);
 
     public T applyWebElements(Function fn, Object[] args);

@@ -623,6 +623,17 @@ public interface BasicWebElements<T extends WebElements> extends WebElements, Ba
     public T prevUntil(WebElements elems, String filter);
 
     /**
+     * <!-- begin-minium-doc http://api.jquery.com/attr/#prop-propertyName -->
+     * Get the value of a property for the first element in the set of matched elements.
+     *
+     * @param propertyName The name of the property to get.
+     * @return result of jQuery .prop() method
+     * @see <a href="http://api.jquery.com/attr/#prop-propertyName">jQuery .prop() method</a>
+     * <!-- end-minium-doc -->
+     */
+    public Object prop(String propertyName);
+
+    /**
      * <!-- begin-minium-doc http://api.jquery.com/siblings/ -->
      * Get the siblings of each element in the set of matched elements, optionally filtered by a selector.
      *

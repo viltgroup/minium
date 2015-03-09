@@ -72,6 +72,10 @@
     return $(this).filter(function() { return value ? $(this).attr(name) === value : $(this).attr(name); });
   };
   
+  $.fn.withProp = function(name, value) {
+    return $(this).filter(function() { return value ? $(this).prop(name) === value : $(this).prop(name); });
+  };
+  
   $.fn.withCss = function(name, value) {
     return $(this).filter(function() { return value ? $(this).css(name) === value : $(this).css(name); });
   };

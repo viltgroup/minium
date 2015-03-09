@@ -1,0 +1,19 @@
+# Web Drivers
+
+minium:
+  webdriver:
+    desiredCapabilities:
+      browserName: chrome
+    window:
+      maximized: true
+
+---
+spring:
+  profiles: hestia-ci
+minium:
+  webdriver:
+    url: http://styx:4444/wd/hub
+    desiredCapabilities:
+      browserName: chrome
+    window:
+      maximized: true

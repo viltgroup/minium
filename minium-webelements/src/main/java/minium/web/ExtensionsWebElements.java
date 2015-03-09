@@ -91,6 +91,49 @@ public interface ExtensionsWebElements<T extends WebElements> extends WebElement
     public T withAttr(final String name, final String value);
 
     /**
+     * <p>Filters elements that have a property.
+     *
+     * <p>Example:</p>
+     *
+     * <pre>wd.find("img").withProp("title")</pre>
+     *
+     * evaluates <code>#image2</code> in the following scenario:
+     *
+     * <pre>
+     * {@code
+     * <img id="image1" src="image1.gif" />
+     * <img id="image2" src="image2.gif" title="Image 2" />
+     * }
+     * </pre>
+     *
+     * @param name the property name
+     * @return filtered {@link WebElements}
+     */
+    public T withProp(final String name);
+
+    /**
+     * <p>Filters elements that have an property with a given value.
+     *
+     * <p>Example:</p>
+     *
+     * <pre>wd.find("img").withProp("title", "Image 1")</pre>
+     *
+     * evaluates <code>#image1</code> in the following scenario:
+     *
+     * <pre>
+     * {@code
+     * <img id="image1" src="image1.gif" title="Image 1" />
+     * <img id="image2" src="image2.gif" title="Image 2" />
+     * }
+     * </pre>
+     *
+     * @param name the property name
+     * @param value the property value
+     * @return filtered {@link WebElements}
+     */
+    public T withProp(final String name, final Object value);
+
+    /**
      * <p>Filters elements that have a style property.
      *
      * <p>Example:</p>
