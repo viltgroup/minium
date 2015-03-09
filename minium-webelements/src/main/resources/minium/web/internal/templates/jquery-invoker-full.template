@@ -2,7 +2,13 @@ var pagejQuery;
 if (typeof jQuery !== "undefined") {
     // store page jquery in temporary variable
     pagejQuery = jQuery;
-    delete jQuery;
+    
+    try { 
+    	delete jQuery;
+    } catch (e) {
+    	// IE doesn't seem to support deleting window properties
+    	jQuery = undefined;
+    }
 }
 
 // load jQuery and all minium extensions
@@ -39,9 +45,9 @@ if (pagejQuery) {
 }
 else {
     // jQuery must not exist
-    delete jQuery;
+    try { delete jQuery } catch (e) { jQuery = undefined }
 }
-delete pagejQuery;
+try { delete pagejQuery } catch (e) { pagejQuery = undefined }
 
 // arguments[0] -> async
 // arguments[1] -> styles
