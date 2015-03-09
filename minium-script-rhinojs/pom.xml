@@ -69,6 +69,12 @@
 				<configuration>
 					<parallel>classes</parallel>
 					<threadCount>4</threadCount>
+					<systemProperties>
+						<property>
+							<name>spring.profiles.active</name>
+							<value>${spring.profiles.active}</value>
+			            </property>
+					</systemProperties>
 				</configuration>
 			</plugin>
 		</plugins>
