@@ -64,7 +64,7 @@ public class MouseInteractableTest extends BaseInteractableTest {
     @Test
     public void testClick() {
         interactable.click();
-        verify(mouse).click(mockedWebElement.getCoordinates());
+        verify(mockedWebElement).click();
     }
 
     @Test
