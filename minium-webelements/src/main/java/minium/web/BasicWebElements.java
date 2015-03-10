@@ -58,6 +58,40 @@ public interface BasicWebElements<T extends WebElements> extends WebElements, Ba
     public String html();
 
     /**
+     * <!-- begin-minium-doc http://api.jquery.com/attr/#prop-propertyName -->
+     * Get the value of a property for the first element in the set of matched elements.
+     *
+     * @param propertyName The name of the property to get.
+     * @return result of jQuery .prop() method
+     * @see <a href="http://api.jquery.com/attr/#prop-propertyName">jQuery .prop() method</a>
+     * <!-- end-minium-doc -->
+     */
+    public Object prop(String propertyName);
+
+    /**
+     * <!-- begin-minium-doc http://api.jquery.com/data/#data-key -->
+     * Return the value at the named data store for the first element in the jQuery collection,
+     * as set by data(name, value) or by an HTML5 data-* attribute.
+     *
+     * @param key Name of the data stored.
+     * @return result of jQuery .data() method
+     * @see <a href="http://api.jquery.com/data/#data-key">jQuery .data() method</a>
+     * <!-- end-minium-doc -->
+     */
+    public Object data(String key);
+
+    /**
+     * <!-- begin-minium-doc http://api.jquery.com/data/#data-key -->
+     * Return the value at the named data store for the first element in the jQuery collection,
+     * as set by data(name, value) or by an HTML5 data-* attribute.
+     *
+     * @return result of jQuery .data() method
+     * @see <a href="http://api.jquery.com/data/#data">jQuery .data() method</a>
+     * <!-- end-minium-doc -->
+     */
+    public Object data();
+
+    /**
      * <!-- begin-minium-doc http://api.jquery.com/text/ -->
      * Get the combined text contents of each element in the set of matched elements, including their descendants.
      *
@@ -621,17 +655,6 @@ public interface BasicWebElements<T extends WebElements> extends WebElements, Ba
      * <!-- end-minium-doc -->
      */
     public T prevUntil(WebElements elems, String filter);
-
-    /**
-     * <!-- begin-minium-doc http://api.jquery.com/attr/#prop-propertyName -->
-     * Get the value of a property for the first element in the set of matched elements.
-     *
-     * @param propertyName The name of the property to get.
-     * @return result of jQuery .prop() method
-     * @see <a href="http://api.jquery.com/attr/#prop-propertyName">jQuery .prop() method</a>
-     * <!-- end-minium-doc -->
-     */
-    public Object prop(String propertyName);
 
     /**
      * <!-- begin-minium-doc http://api.jquery.com/siblings/ -->
