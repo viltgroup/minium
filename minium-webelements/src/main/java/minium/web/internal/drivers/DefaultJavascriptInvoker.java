@@ -212,11 +212,11 @@ public class DefaultJavascriptInvoker implements JavascriptInvoker {
     }
 
     protected List<?> getValidResponse(Object result) {
-        Preconditions.checkState(result instanceof List, "Expected a list as response");
+        Preconditions.checkState(result instanceof List, "Expected a list as response but got %s", result);
         List<?> response = (List<?>) result;
         Preconditions.checkState(!response.isEmpty(), "Expected response list not to be empty");
         Object type = response.get(0);
-        Preconditions.checkState(type instanceof String, "Expected a string value in the first position of the list");
+        Preconditions.checkState(type instanceof String, "Expected a string value in the first position of the list but got %s", result);
 
         return response;
     }
