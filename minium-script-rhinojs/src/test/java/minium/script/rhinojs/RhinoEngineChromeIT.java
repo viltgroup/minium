@@ -17,5 +17,5 @@ package minium.script.rhinojs;
 
 import org.springframework.boot.test.IntegrationTest;
 
-@IntegrationTest(value = "minium.webdriver.desiredCapabilities.browserName=chrome")
+@IntegrationTest({ "minium.webdriver.desiredCapabilities.browserName=chrome", "spring.main.show_banner=false" })
 public class RhinoEngineChromeIT extends RhinoEngineBase { }

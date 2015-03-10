@@ -17,5 +17,5 @@ package minium.script.rhinojs;
 
 import org.springframework.boot.test.IntegrationTest;
 
-@IntegrationTest(value = "minium.webdriver.desiredCapabilities.browserName=internet explorer")
+@IntegrationTest({ "minium.webdriver.desiredCapabilities.browserName=internet explorer", "spring.main.show_banner=false" })
 public class RhinoEngineInternetExplorerIT extends RhinoEngineBase { }
