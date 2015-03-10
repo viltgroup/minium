@@ -9,7 +9,7 @@
 	</parent>
 
 	<groupId>io.vilt.minium</groupId>
-	<artifactId>minium-parent</artifactId>
+	<artifactId>minium</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Minium Parent POM</name>
@@ -567,8 +567,10 @@
            							</systemProperty>
 								</systemProperties>
 								<arguments>
-									<argument>--licensesFile</argument>
+									<argument>--artifactLicensesFile</argument>
 									<argument>${project.build.directory}/THIRD-PARTY.txt</argument>
+									<argument>--bowerLicensesFile</argument>
+									<argument>../minium-developer/target/LICENSE</argument>
 									<argument>--templateFile</argument>
 									<argument>${basedir}/src/main/resources/templates/third-parties.md.ftl</argument>
 									<argument>--outputFile</argument>
@@ -633,6 +635,7 @@
 		<module>minium-cucumber-rest</module>
 		<module>minium-cucumber-archetype</module>
 		<module>minium-docs</module>
+		<module>minium-parent</module>
 	</modules>
 
 	<repositories>
