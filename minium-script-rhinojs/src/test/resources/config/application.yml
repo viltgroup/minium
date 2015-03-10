@@ -9,7 +9,7 @@ minium:
 
 ---
 spring:
-  profiles: hestia-ci
+  profiles: styx-ci
 minium:
   webdriver:
     url: http://styx:4444/wd/hub
