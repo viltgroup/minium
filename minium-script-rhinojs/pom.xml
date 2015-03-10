@@ -67,8 +67,10 @@
 					</execution>
 				</executions>
 				<configuration>
+					<!-- 
 					<parallel>classes</parallel>
 					<threadCount>4</threadCount>
+					-->
 					<systemProperties>
 						<property>
 							<name>spring.profiles.active</name>
