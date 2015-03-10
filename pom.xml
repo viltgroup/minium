@@ -663,9 +663,9 @@
 
 	<profiles>
 		<profile>
-			<id>hestia-ci</id>
+			<id>styx-ci</id>
 			<properties>
-				<spring.profiles.active>hestia-ci</spring.profiles.active>
+				<spring.profiles.active>styx-ci</spring.profiles.active>
 			</properties>
 		</profile>
 	</profiles>
