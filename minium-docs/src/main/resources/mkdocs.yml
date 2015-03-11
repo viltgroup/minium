@@ -10,5 +10,5 @@ pages:
   - ['api/interactable.md', 'API']
   - ['api/browser.md', 'API']
   - ['api/configuration.md', 'API']
-site_dir: ../site/apidocs
+site_dir: '${static.docs.dir}'
 theme: readthedocs

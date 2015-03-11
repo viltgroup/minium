@@ -17,12 +17,30 @@ package minium;
 
 public interface BasicElements<T extends Elements> extends Elements {
 
+    /**
+     * Reduce the set of matched elements to the one at the specified index.
+     * @param index An integer indicating the 0-based position of the element.
+     *        If negative, it will be counting backwards from the last element in the set.
+     * @return this {@link Elements}
+     */
     public T eq(int index);
 
+    /**
+     *
+     * @return this {@link Elements}
+     */
     public T first();
 
+    /**
+     *
+     * @return this {@link Elements}
+     */
     public T last();
 
+    /**
+     *
+     * @return size of the evaluated set
+     */
     public int size();
 }
 

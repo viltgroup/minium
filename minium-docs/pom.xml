@@ -12,6 +12,11 @@
 	<artifactId>minium-docs</artifactId>
 	<name>Minium Docs</name>
 
+	<properties>
+		<!-- output directory with the a static version of the site -->
+		<static.docs.dir>${project.build.directory}/site/static</static.docs.dir>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>io.vilt.minium</groupId>
@@ -80,6 +85,7 @@
 			<build>
 				<resources>
 					<resource>
+						<filtering>true</filtering>
 						<directory>src/main/resources</directory>
 						<includes>
 							<include>mkdocs.yml</include>
@@ -106,6 +112,15 @@
 							<execution>
 								<id>define-javadoc-classpath</id>
 								<phase>process-resources</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<exportAntProperties>true</exportAntProperties>
+									<target>
+										<property name="maven.classpath" refid="maven.runtime.classpath" />
+									</target>
+								</configuration>
 							</execution>
 						</executions>
 					</plugin>
@@ -116,10 +131,15 @@
 		   					<execution>
 								<id>generate-changelog</id>
 								<phase>process-resources</phase>
+								<goals>
+									<goal>changelog</goal>
+								</goals>
 							</execution>
 						</executions>
 						<configuration>
-					        <projectIdentifier>minium-developer</projectIdentifier>
+							<redmineKey>${athena.redmine.key}</redmineKey>
+					        <changelogFile>${project.build.directory}/changelog</changelogFile>
+   					        <projectIdentifier>minium-core</projectIdentifier>
 					        <changelogVersion>1.0.0</changelogVersion>
 						</configuration>
 					</plugin>
@@ -128,8 +148,24 @@
 						<artifactId>license-maven-plugin</artifactId>
 						<executions>
 							<execution>
-								<id>add-thirdparty-licenses</id>
+								<id>generate-thirdparty-licenses</id>
 								<phase>process-resources</phase>
+								<goals>
+									<goal>add-third-party</goal>
+								</goals>
+								<configuration>
+									<licenseMerges>
+										<licenseMerge>
+										The Apache Software License, Version 2.0|Apache License, Version 2.0|Apache Public License 2.0|
+										Apache License Version 2.0|Apache 2|Apache License 2.0|Apache Software Licenses|Apache License, version 2.0
+										</licenseMerge>
+										<licenseMerge>Eclipse Public License - v 1.0|Eclipse Public License 1.0</licenseMerge>
+										<licenseMerge>The MIT License|MIT License</licenseMerge>
+									</licenseMerges>
+									<sortArtifactByName>true</sortArtifactByName>
+									<outputDirectory>${project.build.directory}/licenses</outputDirectory>
+									<useMissingFile>true</useMissingFile>
+								</configuration>
 							</execution>
 						</executions>
 					</plugin>
@@ -140,6 +176,9 @@
 							<execution>
 								<id>generate-api-markdown</id>
 								<phase>package</phase>
+								<goals>
+									<goal>javadoc</goal>
+								</goals>
 							</execution>
 						</executions>
 						<configuration>
@@ -152,9 +191,10 @@
 							<docletPath>${project.build.directory}/classes</docletPath>
 							<useStandardDocletOptions>false</useStandardDocletOptions>
 							<outputDirectory>${project.build.directory}/mkdocs/docs</outputDirectory>
+							<additionalparam>-d ${project.build.directory}/mkdocs/docs</additionalparam>
 							<!-- 
 							docletArtifacts doesn't seem to work, use it with antrun:run, 
-							execution ID define-javadoc-classpathy
+							execution ID define-javadoc-classpath
 							-->
 							<docletPath>${maven.classpath}</docletPath>
 						</configuration>
@@ -166,14 +206,69 @@
 							<execution>
 								<id>generate-thirdparty-licenses-md</id>
 								<phase>package</phase>
+								<goals>
+									<goal>java</goal>
+								</goals>
+								<configuration>
+									<mainClass>minium.docs.ArtifactLicenseGenerator</mainClass>
+									<killAfter>-1</killAfter>
+									<systemProperties>
+										<systemProperty>
+											<key>org.freemarker.loggerLibrary</key>
+	             							<value>none</value>
+	           							</systemProperty>
+									</systemProperties>
+									<arguments>
+	 									<argument>--templateFile</argument>
+										<argument>${basedir}/src/main/resources/templates/third-parties.md.ftl</argument>
+										<argument>--outputFile</argument>
+										<argument>${project.build.directory}/mkdocs/docs/third-parties.md</argument>
+										<argument>--artifactLicensesFile</argument>
+										<argument>${project.build.directory}/licenses/THIRD-PARTY.txt</argument>
+									</arguments>
+								</configuration>
 							</execution>
 							<execution>
 								<id>generate-changelog-md</id>
 								<phase>package</phase>
+								<goals>
+									<goal>java</goal>
+								</goals>
+								<configuration>
+									<mainClass>minium.docs.ChangelogGenerator</mainClass>
+									<killAfter>-1</killAfter>
+									<systemProperties>
+										<systemProperty>
+											<key>org.freemarker.loggerLibrary</key>
+	             							<value>none</value>
+	           							</systemProperty>
+									</systemProperties>
+									<arguments>
+										<argument>--changelogFile</argument>
+										<argument>${project.build.directory}/changelog</argument>
+										<argument>--templateFile</argument>
+										<argument>${basedir}/src/main/resources/templates/changelog.md.ftl</argument>
+										<argument>--outputFile</argument>
+										<argument>${project.build.directory}/mkdocs/docs/changelog.md</argument>
+										<argument>--ticketUrlFormat</argument>
+										<argument>${project.issueManagement.url}/issues/:id</argument>
+									</arguments>
+								</configuration>
 							</execution>
 							<execution>
 								<id>generate-site</id>
 								<phase>package</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+								<configuration>
+									<executable>mkdocs</executable>
+									<workingDirectory>${project.build.directory}/mkdocs</workingDirectory>
+									<arguments>
+										<argument>build</argument>
+										<argument>--clean</argument>
+									</arguments>
+								</configuration>
 							</execution>
 						</executions>
 					</plugin>

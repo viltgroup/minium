@@ -461,70 +461,21 @@
 						</execution>
 					</executions>
 				</plugin>
-				<!-- ============================================== -->
-				<!-- These plugins are for documentation generation -->
-				<!-- ============================================== -->
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-antrun-plugin</artifactId>
-					<executions>
-						<execution>
-							<id>define-javadoc-classpath</id>
-							<goals>
-								<goal>run</goal>
-							</goals>
-							<configuration>
-								<exportAntProperties>true</exportAntProperties>
-								<target>
-									<property name="maven.classpath" refid="maven.runtime.classpath" />
-								</target>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
 				<plugin>
 				    <groupId>de.taimos</groupId>
 				    <artifactId>redmine-maven-plugin</artifactId>
    				    <version>1.7.0</version>
-				    <executions>
-	   					<execution>
-							<id>generate-changelog</id>
-							<goals>
-								<goal>changelog</goal>
-							</goals>
-						</execution>
-					</executions>
-					<configuration>
-						<redmineKey>${athena.redmine.key}</redmineKey>
-				        <changelogFile>${project.build.directory}/changelog</changelogFile>
-					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>license-maven-plugin</artifactId>
 					<version>1.8</version>
-					<executions>
-						<execution>
-							<id>generate-thirdparty-licenses</id>
-							<goals>
-								<goal>add-third-party</goal>
-							</goals>
-							<configuration>
-								<licenseMerges>
-									<licenseMerge>
-									The Apache Software License, Version 2.0|Apache License, Version 2.0|Apache Public License 2.0|
-									Apache License Version 2.0|Apache 2|Apache License 2.0|Apache Software Licenses|Apache License, version 2.0
-									</licenseMerge>
-									<licenseMerge>Eclipse Public License - v 1.0|Eclipse Public License 1.0</licenseMerge>
-									<licenseMerge>The MIT License|MIT License</licenseMerge>
-								</licenseMerges>
-								<sortArtifactByName>true</sortArtifactByName>
-								<outputDirectory>${project.build.directory}</outputDirectory>
-								<useMissingFile>true</useMissingFile>
-							</configuration>
-						</execution>
-					</executions>
 				</plugin>
+                <plugin>
+                    <groupId>com.github.trecloux</groupId>
+                    <artifactId>yeoman-maven-plugin</artifactId>
+                    <version>0.2</version>
+                </plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-javadoc-plugin</artifactId>
@@ -532,6 +483,7 @@
 					<executions>
 						<execution>
 							<id>generate-api-markdown</id>
+							<phase>package</phase>
 							<goals>
 								<goal>javadoc</goal>
 							</goals>
@@ -547,78 +499,6 @@
 						<quiet>true</quiet>
 						<failOnError>false</failOnError>
 					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>exec-maven-plugin</artifactId>
-					<executions>
-						<execution>
-							<id>generate-thirdparty-licenses-md</id>
-							<goals>
-								<goal>java</goal>
-							</goals>
-							<configuration>
-								<mainClass>minium.docs.ArtifactLicenseGenerator</mainClass>
-								<killAfter>-1</killAfter>
-								<systemProperties>
-									<systemProperty>
-										<key>org.freemarker.loggerLibrary</key>
-             							<value>none</value>
-           							</systemProperty>
-								</systemProperties>
-								<arguments>
-									<argument>--artifactLicensesFile</argument>
-									<argument>${project.build.directory}/THIRD-PARTY.txt</argument>
-									<argument>--bowerLicensesFile</argument>
-									<argument>../minium-developer/target/LICENSE</argument>
-									<argument>--templateFile</argument>
-									<argument>${basedir}/src/main/resources/templates/third-parties.md.ftl</argument>
-									<argument>--outputFile</argument>
-									<argument>${project.build.directory}/mkdocs/docs/third-parties.md</argument>
-								</arguments>
-							</configuration>
-						</execution>
-						<execution>
-							<id>generate-changelog-md</id>
-							<goals>
-								<goal>java</goal>
-							</goals>
-							<configuration>
-								<mainClass>minium.docs.ChangelogGenerator</mainClass>
-								<killAfter>-1</killAfter>
-								<systemProperties>
-									<systemProperty>
-										<key>org.freemarker.loggerLibrary</key>
-             							<value>none</value>
-           							</systemProperty>
-								</systemProperties>
-								<arguments>
-									<argument>--changelogFile</argument>
-									<argument>${project.build.directory}/changelog</argument>
-									<argument>--templateFile</argument>
-									<argument>${basedir}/src/main/resources/templates/changelog.md.ftl</argument>
-									<argument>--outputFile</argument>
-									<argument>${project.build.directory}/mkdocs/docs/changelog.md</argument>
-									<argument>--ticketUrlFormat</argument>
-									<argument>${project.issueManagement.url}/issues/:id</argument>
-								</arguments>
-							</configuration>
-						</execution>
-						<execution>
-							<id>generate-site</id>
-							<goals>
-								<goal>exec</goal>
-							</goals>
-							<configuration>
-								<executable>mkdocs</executable>
-								<workingDirectory>${project.build.directory}/mkdocs</workingDirectory>
-								<arguments>
-									<argument>build</argument>
-									<argument>--clean</argument>
-								</arguments>
-							</configuration>
-						</execution>
-					</executions>
 				</plugin>
 			</plugins>
 		</pluginManagement>
