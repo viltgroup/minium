@@ -37,6 +37,7 @@ import minium.cucumber.rest.dto.ExecutionResult;
 import minium.cucumber.rest.dto.GlueDTO;
 import minium.cucumber.rest.dto.HookExecutionResult;
 import minium.cucumber.rest.dto.ScenarioDTO;
+import minium.cucumber.rest.dto.SnippetRequestDTO;
 import minium.cucumber.rest.dto.StepDTO;
 import minium.cucumber.rest.dto.StepDefinitionInvocation;
 import minium.cucumber.rest.dto.StepMatchDTO;

@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package minium.cucumber.rest;
+package minium.cucumber.rest.dto;
 
-import minium.cucumber.rest.dto.StepDTO;
 import cucumber.api.SnippetType;
 
 public class SnippetRequestDTO {
