@@ -25,17 +25,15 @@ public class CheckForUnexistenceInteraction extends WaitInteraction {
     /**
      * Instantiates a new wait or timeout while elements interaction.
      *
-     * @param elems the elems
+     * @param elems
+     *            the elems
      */
     public CheckForUnexistenceInteraction(Elements elems, String waitingPreset) {
         super(elems, waitingPreset);
     }
 
-    /* (non-Javadoc)
-     * @see com.vilt.minium.actions.DefaultInteraction#doPerform()
-     */
     @Override
     protected void doPerform() {
-        waitFor(WaitPredicates.forUnexistence());
+        waitOrTimeoutFor(WaitPredicates.forUnexistence());
     }
 }
