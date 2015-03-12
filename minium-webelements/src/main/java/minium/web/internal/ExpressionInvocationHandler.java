@@ -72,7 +72,8 @@ public class ExpressionInvocationHandler<T extends WebElements> extends Abstract
     }
 
     @SuppressWarnings("serial")
-    private final TypeToken<T> typeVariableToken = new TypeToken<T>(getClass()) { };
+    private final TypeToken<T> typeVariableToken = new TypeToken<T>(getClass()) {
+    };
 
     private final ElementsFactory<?> factory;
     private final Coercer coercer;
@@ -86,7 +87,8 @@ public class ExpressionInvocationHandler<T extends WebElements> extends Abstract
     protected Object handleInvocation(Object proxy, Method method, Object[] args) throws Throwable {
         Preconditions.checkArgument(proxy instanceof WebElements);
         T parent = ((WebElements) proxy).as(typeVariableToken);
-        ExpressionWebElements webElements = factory.as(InternalElementsFactory.class).createMixin(parent, new DefaultExpressionWebElements<T>(method.getName(), args)).as(ExpressionWebElements.class);
+        ExpressionWebElements webElements = factory.as(InternalElementsFactory.class)
+                .createMixin(parent, new DefaultExpressionWebElements<T>(method.getName(), args)).as(ExpressionWebElements.class);
 
         Class<?> returnClazz = method.getReturnType();
 
@@ -110,11 +112,13 @@ public class ExpressionInvocationHandler<T extends WebElements> extends Abstract
 
             switch (documentDrivers.size()) {
             case 0:
-                // special case for size, if no document was found then size is 0 for sure
+                // special case for size, if no document was found then size is
+                // 0 for sure
                 if (method.equals(SIZE_METHOD)) {
                     return 0;
                 }
-                throw new NoDocumentDriverFoundException("The expression has no frame or window to be evaluated to");
+
+                throw new NoDocumentDriverFoundException(String.format("The expression %s has no frame or window to be evaluated to", parent));
             case 1:
                 result = getSingleDocumentDriverResult(Iterables.get(documentDrivers, 0), javascriptInvoker, webElements);
                 break;
