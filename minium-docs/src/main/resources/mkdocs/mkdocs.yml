@@ -11,4 +11,5 @@ pages:
   - ['api/browser.md', 'API']
   - ['api/configuration.md', 'API']
 site_dir: '${static.docs.dir}'
-theme: readthedocs
+theme: ''
+theme_dir: 'readthedocs-minium'
