@@ -26,7 +26,7 @@ import org.openqa.selenium.UnhandledAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DefaultOnUnhandledAlertInteractionListener extends AbstractOnExceptionInteractionListener implements OnUnhandledAlertInteractionListener, ExceptionHandler {
+public class DefaultOnUnhandledAlertInteractionListener extends DefaultOnExceptionInteractionListener implements OnUnhandledAlertInteractionListener, ExceptionHandler {
 
     private static final Logger LOGGEER = LoggerFactory.getLogger(DefaultOnUnhandledAlertInteractionListener.class);
 

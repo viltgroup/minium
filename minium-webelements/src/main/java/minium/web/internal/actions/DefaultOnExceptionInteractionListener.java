@@ -20,7 +20,9 @@ import static com.google.common.collect.FluentIterable.from;
 
 import java.util.Set;
 
+import minium.actions.Interaction;
 import minium.actions.InteractionListener;
+import minium.actions.internal.AbstractInteraction;
 import minium.actions.internal.AfterFailInteractionEvent;
 import minium.actions.internal.DefaultInteractionListener;
 import minium.web.actions.OnExceptionInteractionListener;
@@ -28,7 +30,7 @@ import minium.web.actions.OnExceptionInteractionListener;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableSet;
 
-public abstract class AbstractOnExceptionInteractionListener extends DefaultInteractionListener implements OnExceptionInteractionListener {
+public class DefaultOnExceptionInteractionListener extends DefaultInteractionListener implements OnExceptionInteractionListener {
 
     private Set<Class<? extends Throwable>> exceptions;
 
@@ -36,11 +38,17 @@ public abstract class AbstractOnExceptionInteractionListener extends DefaultInte
     private boolean retry = true;
 
     @SuppressWarnings("unchecked")
-    public AbstractOnExceptionInteractionListener(Class<? extends Throwable> ... exceptions) {
+    public DefaultOnExceptionInteractionListener(Class<? extends Throwable> ... exceptions) {
         this.exceptions = ImmutableSet.copyOf(exceptions);
     }
 
-    protected abstract boolean handle(AfterFailInteractionEvent event);
+    protected boolean handle(AfterFailInteractionEvent event) {
+        Interaction interaction = event.getInteraction();
+        if (interaction instanceof AbstractInteraction) {
+            ((AbstractInteraction) interaction).refreeze();
+        }
+        return true;
+    }
 
     @Override
     protected final void onAfterFailEvent(AfterFailInteractionEvent event) {

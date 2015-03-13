@@ -24,7 +24,7 @@ import minium.web.actions.OnTimeoutInteractionListener;
 
 import com.google.common.base.Preconditions;
 
-public class DefaultOnTimeoutInteractionListener extends AbstractOnExceptionInteractionListener implements OnTimeoutInteractionListener {
+public class DefaultOnTimeoutInteractionListener extends DefaultOnExceptionInteractionListener implements OnTimeoutInteractionListener {
 
     private Elements whenElements;
     private Elements unlessElements;

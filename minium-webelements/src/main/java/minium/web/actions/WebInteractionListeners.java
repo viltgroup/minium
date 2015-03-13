@@ -15,6 +15,7 @@
  */
 package minium.web.actions;
 
+import minium.web.internal.actions.DefaultOnExceptionInteractionListener;
 import minium.web.internal.actions.DefaultOnStaleElementReferenceInteractionListener;
 import minium.web.internal.actions.DefaultOnTimeoutInteractionListener;
 import minium.web.internal.actions.DefaultOnUnhandledAlertInteractionListener;
@@ -31,5 +32,14 @@ public class WebInteractionListeners {
 
     public static OnExceptionInteractionListener onStaleElementReference() {
         return new DefaultOnStaleElementReferenceInteractionListener();
+    }
+
+    public static OnExceptionInteractionListener onException() {
+        return onException(Exception.class);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static OnExceptionInteractionListener onException(Class<? extends Throwable> clazz) {
+        return new DefaultOnExceptionInteractionListener(clazz);
     }
 }

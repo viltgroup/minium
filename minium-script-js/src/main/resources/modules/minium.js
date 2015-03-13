@@ -26,7 +26,8 @@
     slowMotion : InteractionListeners.slowMotion,
     onTimeout : WebInteractionListeners.onTimeout,
     onUnhandledAlert : WebInteractionListeners.onUnhandledAlert,
-    onStaleElementReference : WebInteractionListeners.onStaleElementReference
+    onStaleElementReference : WebInteractionListeners.onStaleElementReference,
+    onException : WebInteractionListeners.onException
   };
 
   // new browsers
