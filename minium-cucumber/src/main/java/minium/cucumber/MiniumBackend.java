@@ -50,7 +50,7 @@ public class MiniumBackend implements Backend {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MiniumBackend.class);
 
-    private static final String JS_DSL = "/cucumber/runtime/rhino/dsl.js";
+    private static final String JS_DSL = "/minium/cucumber/internal/dsl.js";
 
     private final SnippetGenerator snippetGenerator = new SnippetGenerator(new JavaScriptSnippet());
     private final ResourceLoader resourceLoader;
