@@ -42,7 +42,7 @@ public class CucumberProperties {
 
     public static class OptionsProperties {
 
-        private static final String CUCUMBER_RUNTIME_MINIUM = "classpath:minium/cucumber";
+        private static final String CUCUMBER_RUNTIME_MINIUM = "classpath:minium/cucumber/internal/hooks";
 
         private boolean dryRun;
         private boolean strict = true;

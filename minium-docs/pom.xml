@@ -96,18 +96,18 @@
 				<resources>
 					<resource>
 						<filtering>true</filtering>
-						<directory>src/main/resources/mkdocs</directory>
+						<directory>src/main/resources</directory>
 						<includes>
-							<include>mkdocs.xml</include>
+							<include>/mkdocs/mkdocs.xml</include>
 						</includes>
-						<targetPath>${project.build.directory}/mkdocs</targetPath>
+						<targetPath>${project.build.directory}</targetPath>
 					</resource>
 					<resource>
-						<directory>src/main/resources/mkdocs</directory>
+						<directory>src/main/resources</directory>
 						<excludes>
-							<exclude>mkdocs.xml</exclude>
+							<exclude>/mkdocs/mkdocs.xml</exclude>
 						</excludes>
-						<targetPath>${project.build.directory}/mkdocs</targetPath>
+						<targetPath>${project.build.directory}</targetPath>
 					</resource>
 					<resource>
 						<directory>src/main/documentation</directory>
