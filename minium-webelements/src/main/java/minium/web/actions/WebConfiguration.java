@@ -40,16 +40,18 @@ public interface WebConfiguration extends Configuration {
          * synonymous to {@code window.resizeTo()} in javascript.
          *
          * @param targetSize the target size.
+         * @return this {@link Window}
          */
-        void setSize(Dimension targetSize);
+        Window setSize(Dimension targetSize);
 
         /**
          * Set the position of the current window. This is relative to the upper left corner of the screen,
          * synonymous to {@code window.moveTo()} in javascript.
          *
          * @param targetPosition the target position of the window.
+         * @return this {@link Window}
          */
-        void setPosition(Point targetPosition);
+        Window setPosition(Point targetPosition);
 
         /**
          * Get the size of the current window. This will return the outer window dimension, not just the view port.

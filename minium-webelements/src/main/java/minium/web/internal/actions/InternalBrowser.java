@@ -111,7 +111,7 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
     class InternalWindow implements WebConfiguration.Window {
 
         @Override
-        public void setSize(final Dimension targetSize) {
+        public WebConfiguration.Window setSize(final Dimension targetSize) {
             new AbstractInteraction(elems) {
                 @Override
                 protected void doPerform() {
@@ -119,10 +119,11 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
                     documentDriver().manage().window().setSize(seleniumSize);
                 }
             }.perform();
+            return this;
         }
 
         @Override
-        public void setPosition(final Point targetPosition) {
+        public WebConfiguration.Window setPosition(final Point targetPosition) {
             new AbstractInteraction(elems) {
                 @Override
                 protected void doPerform() {
@@ -130,6 +131,7 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
                     documentDriver().manage().window().setPosition(seleniumPoint);
                 }
             }.perform();
+            return this;
         }
 
         @Override
