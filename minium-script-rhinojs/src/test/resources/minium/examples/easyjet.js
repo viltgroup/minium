@@ -39,4 +39,4 @@ returnDay.click();
 showFlightsBtn.click();
 
 // ensure there are results
-expect(flights).not.to.be.empty();
+expect(flights).to.exist();
