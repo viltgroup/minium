@@ -27,12 +27,6 @@ import com.google.common.base.Predicate;
 
 public class WebWaitPredicates {
 
-    /**
-     * Until window closed.
-     *
-     * @param <T> the generic type
-     * @return the predicate
-     */
     public static <T extends Elements> Predicate<T> forAlert() {
         return new Predicate<T>() {
             @Override
@@ -47,12 +41,6 @@ public class WebWaitPredicates {
         };
     }
 
-    /**
-     * Until window closed.
-     *
-     * @param <T> the generic type
-     * @return the predicate
-     */
     public static <T extends Elements> Predicate<T> forClosedWindow() {
         return new Predicate<T>() {
             @Override

@@ -66,15 +66,19 @@
     );
   };
   
+  expect.Assertion.prototype.exist = function (expected) {
+    var truth = this.flags.not ? !this.obj.checkForUnexistence() : this.obj.checkForExistence();
+    this.assert(
+        truth
+      , function(){ return 'expected ' + this.obj + ' to exist' }
+      , function(){ return 'expected ' + this.obj + ' not to exist' });
+    return this;
+  };
+  
   var _empty = expect.Assertion.prototype.empty;
   expect.Assertion.prototype.empty = function () {
     if (this.obj instanceof Packages.minium.Elements) {
-      var truth = this.flags.not ? !this.obj.checkForExistence() : this.obj.checkForUnexistence();
-      this.assert(
-          truth
-        , function(){ return 'expected ' + this.obj + ' to be empty' }
-        , function(){ return 'expected ' + this.obj + ' not to be empty' });
-      return this;
+      return expect.Assertion.prototype.exist.apply(this, arguments);
     } else {
       return _empty.apply(this, arguments);
     }
