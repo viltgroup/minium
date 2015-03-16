@@ -39,7 +39,6 @@ import org.openqa.selenium.interactions.Mouse;
 import org.openqa.selenium.interactions.internal.Coordinates;
 import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.logging.Logs;
-import org.openqa.selenium.security.Credentials;
 
 import com.google.common.base.Preconditions;
 
@@ -171,43 +170,7 @@ public class DelegatorWebDriver extends Observable implements WebDriver, Javascr
 
         @Override
         public Alert alert() {
-            return new DelegatorAlert();
-        }
-    }
-
-    class DelegatorAlert implements Alert {
-
-        @Override
-        public void dismiss() {
             ensureWebDriver();
-            delegateAlert().dismiss();
-        }
-
-        @Override
-        public void accept() {
-            ensureWebDriver();
-            delegateAlert().accept();
-        }
-
-        @Override
-        public String getText() {
-            ensureWebDriver();
-            return delegateAlert().getText();
-        }
-
-        @Override
-        public void sendKeys(String keysToSend) {
-            ensureWebDriver();
-            delegateAlert().sendKeys(keysToSend);
-        }
-
-        @Override
-        public void authenticateUsing(Credentials credentials) {
-            ensureWebDriver();
-            delegateAlert().authenticateUsing(credentials);
-        }
-
-        private Alert delegateAlert() {
             return delegate.switchTo().alert();
         }
     }
