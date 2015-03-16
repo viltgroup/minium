@@ -75,13 +75,4 @@
     return this;
   };
   
-  var _empty = expect.Assertion.prototype.empty;
-  expect.Assertion.prototype.empty = function () {
-    if (this.obj instanceof Packages.minium.Elements) {
-      return expect.Assertion.prototype.exist.apply(this, arguments);
-    } else {
-      return _empty.apply(this, arguments);
-    }
-  };
-
 })(this, 'undefined' != typeof module ? module : {exports: {}});
