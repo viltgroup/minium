@@ -9,7 +9,7 @@
 
 	<groupId>io.vilt.minium</groupId>
 	<artifactId>minium</artifactId>
-	<version>1.0.0-RC1</version>
+	<version>1.0.0-RC2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Minium Parent POM</name>
 
@@ -28,7 +28,7 @@
 		<connection>scm:git:git://github.com/viltgroup/minium.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/viltgroup/minium.git</developerConnection>
 		<url>https://github.com/viltgroup/minium</url>
-	  <tag>minium-1.0.0-RC1</tag>
+	  <tag>HEAD</tag>
   </scm>
 
 	<organization>
