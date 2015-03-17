@@ -70,6 +70,11 @@ public abstract class BaseDocumentRoots<T extends WebElements> extends InternalW
     }
 
     @Override
+    public boolean isDocumentRoots() {
+        return true;
+    }
+
+    @Override
     public Iterable<DocumentWebDriver> documentDrivers() {
         return candidateDocumentDrivers();
     }

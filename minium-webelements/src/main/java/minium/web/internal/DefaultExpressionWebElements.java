@@ -66,6 +66,11 @@ public class DefaultExpressionWebElements<T extends WebElements> extends Interna
         }
 
         @Override
+        public boolean isDocumentRoots() {
+            return false;
+        }
+
+        @Override
         public Iterable<DocumentWebElement> wrappedNativeElements() {
             if (nativeWebElements == null) {
                 List<DocumentWebElement> elems = ImmutableList.copyOf(parent().as(InternalWebElements.class).wrappedNativeElements());
@@ -142,6 +147,11 @@ public class DefaultExpressionWebElements<T extends WebElements> extends Interna
     @Override
     public DocumentRoots documentRoots() {
         return parent().as(InternalWebElements.class).documentRoots();
+    }
+
+    @Override
+    public boolean isDocumentRoots() {
+        return false;
     }
 
     @Override

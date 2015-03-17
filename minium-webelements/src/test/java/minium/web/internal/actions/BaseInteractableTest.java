@@ -44,10 +44,10 @@ public class BaseInteractableTest {
         mockedWebDriver = spy(new MockWebDriver());
         browser = new WebDriverBrowser<>(mockedWebDriver, DefaultWebElements.class);
 
-        interactable = browser.root();
+        interactable = browser.root().find("input");
         mouse = mockedWebDriver.getMouse();
         keyboard = mockedWebDriver.getKeyboard();
 
-        mockedWebDriver.when(browser.root()).thenReturn(mockedWebElement);
+        mockedWebDriver.when(interactable).thenReturn(mockedWebElement);
     }
 }
