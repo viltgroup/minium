@@ -1,11 +1,9 @@
 site_name: Minium Core
 pages:
-  - ['index.md', 'Introduction']
   - ['third-parties.md']
   - ['changelog.md']
-  - ['introduction/getting-started.md', 'Introduction']
-  - ['introduction/concepts.md', 'Introduction']
-  - ['introduction/best-practices.md', 'Introduction']
+  - ['core/concepts.md', 'Introduction']
+  - ['core/best-practices.md', 'Introduction']
   - ['api/web-elements.md', 'API']
   - ['api/interactable.md', 'API']
   - ['api/browser.md', 'API']
