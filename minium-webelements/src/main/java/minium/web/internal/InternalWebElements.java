@@ -51,6 +51,8 @@ public interface InternalWebElements extends WebElements {
 
     public abstract DocumentRoots documentRoots();
 
+    public abstract boolean isDocumentRoots();
+
     public abstract Iterable<WebElement> computeNativeElements(DocumentWebDriver wd);
 
     public abstract Iterable<DocumentWebElement> wrappedNativeElements();

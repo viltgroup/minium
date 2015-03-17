@@ -64,6 +64,11 @@ public class NativeWebElements<T extends WebElements> extends InternalWebElement
     }
 
     @Override
+    public boolean isDocumentRoots() {
+        return false;
+    }
+
+    @Override
     public Iterable<WebElement> computeNativeElements(DocumentWebDriver wd) {
         return Casts.unsafeCast(nativeWebElements);
     }
