@@ -15,8 +15,8 @@ Feature: Search results in Google
 
   Scenario Outline: Search something in google (results in a JSON file)
     Given I'm at http://www.google.com/ncr
-    When I search for
-    Then links corresponding to  are displayed
+    When I search for <search_query>
+    Then links corresponding to <search_query> are displayed
 
     Examples:
       | search_query  |
@@ -27,8 +27,6 @@ Feature: Search results in Google
 ### Step 2 - writing steps
 
 ```javascript
-var _ = require("lodash");
-
 Given(/^I'm at (.*)$/, function (url) {
   browser.get(url);
 });
@@ -51,9 +49,9 @@ Then(/^links corresponding to (.*) are displayed$/, function (query) {
   var links = $("a");
   var linkUrls = config.searches[query];
 
-  expect(linkUrls).not.to.be.empty();
+  expect(linkUrls).to.exist();
 
-  _(linkUrls).forEach(function (linkUrl) {
+  linkUrls.forEach(function (linkUrl) {
     var link = links.withAttr("data-href", linkUrl).add(links.withAttr("href", linkUrl));
     expect(link).to.have.size(1);
   });
