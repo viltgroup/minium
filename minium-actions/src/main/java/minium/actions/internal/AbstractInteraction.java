@@ -47,19 +47,25 @@ public abstract class AbstractInteraction implements Interaction {
 
     private static final Logger logger = LoggerFactory.getLogger(AbstractInteraction.class);
 
-    private Set<InteractionListener> listeners = Sets.newLinkedHashSet();
-    private Elements originalSource;
+    private final Set<InteractionListener> listeners = Sets.newLinkedHashSet();
+    private final Elements originalSource;
+    private final boolean canFreeze;
     private Elements source;
     private String preset;
 
     public AbstractInteraction(Elements elems) {
+        this(elems, true);
+    }
+
+    public AbstractInteraction(Elements elems, boolean canFreeze) {
         originalSource = elems;
+        this.canFreeze = canFreeze;
         refreeze();
     }
 
     public void refreeze() {
         if (originalSource != null) {
-            this.source = originalSource.is(FreezableElements.class) ? originalSource.as(FreezableElements.class).freeze() : originalSource;
+            this.source = originalSource.is(FreezableElements.class) && canFreeze ? originalSource.as(FreezableElements.class).freeze() : originalSource;
         }
     }
 

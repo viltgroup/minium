@@ -29,7 +29,7 @@ public class WaitForUnexistenceInteraction extends WaitInteraction {
      * @param elems the elems
      */
     public WaitForUnexistenceInteraction(Elements elems, String preset) {
-        super(elems, preset);
+        super(elems, false, preset);
     }
 
     /*

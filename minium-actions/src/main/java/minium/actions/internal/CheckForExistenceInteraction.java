@@ -29,7 +29,7 @@ public class CheckForExistenceInteraction extends WaitInteraction {
      * @param preset
      */
     public CheckForExistenceInteraction(Elements elems, String waitingPreset) {
-        super(elems, waitingPreset);
+        super(elems, true, waitingPreset);
     }
 
     /* (non-Javadoc)
