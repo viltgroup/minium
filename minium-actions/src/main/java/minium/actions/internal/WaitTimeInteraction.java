@@ -31,7 +31,7 @@ public class WaitTimeInteraction extends WaitInteraction {
      * @param waitTime the wait time
      */
     public WaitTimeInteraction(Duration waitTime) {
-        super(null, null);
+        super(null, true, null);
 
         checkNotNull(waitTime);
         this.waitTime = waitTime;

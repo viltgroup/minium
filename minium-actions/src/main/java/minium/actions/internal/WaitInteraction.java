@@ -28,8 +28,8 @@ public abstract class WaitInteraction extends AbstractInteraction {
      *
      * @param elems the elems
      */
-    public WaitInteraction(Elements elems, String preset) {
-        super(elems);
+    public WaitInteraction(Elements elems, boolean canFreeze, String preset) {
+        super(elems, canFreeze);
         setWaitingPreset(preset);
     }
 

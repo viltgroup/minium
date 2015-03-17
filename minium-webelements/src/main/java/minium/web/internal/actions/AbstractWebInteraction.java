@@ -17,7 +17,7 @@ package minium.web.internal.actions;
 
 import minium.Elements;
 import minium.actions.internal.AbstractInteraction;
-import minium.web.DocumentRoots;
+import minium.web.BasicWebElements;
 import minium.web.internal.InternalWebElements;
 
 import org.openqa.selenium.WebElement;
@@ -36,7 +36,7 @@ public abstract class AbstractWebInteraction extends AbstractInteraction {
     }
 
     protected boolean isSourceDocumentRoot() {
-        return getSource().is(DocumentRoots.class);
+        return getSource().as(BasicWebElements.class).is(":root");
     }
 
     /**

@@ -29,7 +29,7 @@ public class CheckForUnexistenceInteraction extends WaitInteraction {
      *            the elems
      */
     public CheckForUnexistenceInteraction(Elements elems, String waitingPreset) {
-        super(elems, waitingPreset);
+        super(elems, false, waitingPreset);
     }
 
     @Override
