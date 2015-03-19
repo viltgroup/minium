@@ -91,7 +91,7 @@ public interface Browser<T extends WebElements> {
         /**
          * Gets screenshot data in memory as a byte array in <code>png</code> format.
          *
-         * @return byte array with image data in <code>png</code> format
+         * @return byte array with image data in {@code png} format
          */
         byte[] asBytes();
 
@@ -100,7 +100,7 @@ public interface Browser<T extends WebElements> {
          * {@link org.openqa.selenium.OutputType#FILE}, file is deleted on exit, so ensure that
          * you either read data to another structure or you just copy the file elsewhere.
          *
-         * @return file file with <code>png</code> format.
+         * @return file file with {@code png} format.
          */
         File asFile();
 
@@ -108,7 +108,7 @@ public interface Browser<T extends WebElements> {
          * Saves screenshot data to a specified file. In case you need to keep the file after this
          * process exits, this is the recommended way.
          *
-         * @param file file where screenshot will be saved with <code>png</code> format.
+         * @param file file where screenshot will be saved with {@code png} format.
          */
         void saveTo(File file) throws IOException;
     }

@@ -9,7 +9,8 @@ expressions.
 ## `.to.exist()`
 
 Asserts that the corresponding Minium elements expression exists, that is,
-it evaluates into a non-empty set of elements. For unexistence assertion, use `.not.to.exist()` instead.
+it evaluates into a non-empty set of elements. For unexistence assertion, use
+`.not.to.exist()` instead.
 
 ```javascript
 // check for existence
