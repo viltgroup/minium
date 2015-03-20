@@ -8,6 +8,7 @@ pages:
   - ['api/interactable.md', 'API']
   - ['api/browser.md', 'API']
   - ['api/configuration.md', 'API']
+  - ['api/assertions.md', 'API']
 site_dir: '${static.docs.dir}'
 theme: ''
 theme_dir: 'readthedocs-minium'
