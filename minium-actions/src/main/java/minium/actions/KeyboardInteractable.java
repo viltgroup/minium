@@ -23,7 +23,6 @@ package minium.actions;
  * @author rui.figueira
  *
  * @param <T> this {@link Interactable} for chainable calls
- * @see org.openqa.selenium.interactions.Actions
  */
 public interface KeyboardInteractable<T extends Interactable<?>> extends Interactable<T> {
 

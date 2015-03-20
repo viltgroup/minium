@@ -178,7 +178,7 @@ public class ApiGenerator {
         Matcher matcher = INLINE_REGEX.matcher(html);
         StringBuffer sb = new StringBuffer();
         while (matcher.find()) {
-            matcher.appendReplacement(sb, "`" + matcher.group(1) + "`");
+            matcher.appendReplacement(sb, "`$1`");
         }
         matcher.appendTail(sb);
         return sb.toString();
