@@ -66,7 +66,7 @@ expect($("img")).not.to.have.attr("alt");
 expect($("img")).not.to.have.attr("alt", "so-so picture");
 ```
 
-## `.to.have.css(name, val)`
+## `.to.have.css(name [, val])`
 
 Asserts that some element evaluated by the corresponding Minium elements
 expression has a css property. In case `val` is provided, it checks if the
