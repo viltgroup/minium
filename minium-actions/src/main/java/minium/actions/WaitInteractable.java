@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author rui.figueira
  *
- * @param <T>
+ * @param <T> this {@link Interactable} for chainable calls
  */
 public interface WaitInteractable<T extends Interactable<?>> extends Interactable<T> {
 
@@ -34,7 +34,7 @@ public interface WaitInteractable<T extends Interactable<?>> extends Interactabl
      * @return this {@link Interactable}
      * @throws TimeoutException in case timeout occurs
      */
-    public T waitForExistence();
+    public T waitForExistence() throws TimeoutException;
 
     /**
      * Equivalent to {@code elems.withWaitingPreset(waitingPreset).waitForExistence()}.
@@ -44,7 +44,7 @@ public interface WaitInteractable<T extends Interactable<?>> extends Interactabl
      * @return this {@link Interactable}
      * @throws TimeoutException in case timeout occurs
      */
-    public T waitForExistence(String waitingPreset);
+    public T waitForExistence(String waitingPreset) throws TimeoutException;
 
     /**
      * Waits for the unexistence of the elements expression, that is, that it evaluates into a
@@ -54,7 +54,7 @@ public interface WaitInteractable<T extends Interactable<?>> extends Interactabl
      * @return this {@link Interactable}
      * @throws TimeoutException in case timeout occurs
      */
-    public T waitForUnexistence();
+    public T waitForUnexistence() throws TimeoutException;
 
     /**
      * Equivalent to {@code elems.withWaitingPreset(waitingPreset).waitForUnexistence()}.
@@ -64,7 +64,7 @@ public interface WaitInteractable<T extends Interactable<?>> extends Interactabl
      * @return this {@link Interactable}
      * @throws TimeoutException in case timeout occurs
      */
-    public T waitForUnexistence(String waitingPreset);
+    public T waitForUnexistence(String waitingPreset) throws TimeoutException;
 
     /**
      * Waits for the existence of the elements expression, that is, that it evaluates into a

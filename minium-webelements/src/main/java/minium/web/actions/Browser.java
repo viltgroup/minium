@@ -109,6 +109,7 @@ public interface Browser<T extends WebElements> {
          * process exits, this is the recommended way.
          *
          * @param file file where screenshot will be saved with {@code png} format.
+         * @throws IOException if some IO problem occurs saving to the specified file
          */
         void saveTo(File file) throws IOException;
     }

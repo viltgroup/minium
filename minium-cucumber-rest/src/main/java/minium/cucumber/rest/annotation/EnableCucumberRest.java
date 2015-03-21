@@ -25,10 +25,11 @@ import org.springframework.context.annotation.Import;
 
 /**
  * Indicates that Cucumber REST support should be enabled.
- * <p/>
- * This should be applied to a Spring java config and should have an accompanying '@Configuration' annotation.
- * <p/>
- * Loads all required beans defined in @see CucumberRestConfig
+ *
+ * <p>This should be applied to a Spring java config and should have an accompanying '@Configuration' annotation.</p>
+ * <p>Loads all required beans defined in {@link CucumberRestConfiguration}</p>
+ *
+ * @see CucumberRestConfiguration
  */
 @Retention(value = java.lang.annotation.RetentionPolicy.RUNTIME)
 @Target(value = {java.lang.annotation.ElementType.TYPE})

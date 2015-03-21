@@ -234,7 +234,7 @@ public interface BasicWebElements<T extends WebElements> extends WebElements, Ba
      *
      * @param selector A string containing a selector expression to match the current set of elements against.
      * @return result of jQuery .filter() method
-     * @see <a href="http://api.jquery.com/filter/#filter-selector'>jQuery .filter() method</a>
+     * @see <a href="http://api.jquery.com/filter/#filter-selector">jQuery .filter() method</a>
      * <!-- end-minium-doc -->
      */
     public T filter(String selector);
@@ -245,7 +245,7 @@ public interface BasicWebElements<T extends WebElements> extends WebElements, Ba
      *
      * @param elems An existing jQuery object to match the current set of elements against.
      * @return result of jQuery .filter() method
-     * @see <a href="http://api.jquery.com/filter/#filter-jQuery-object'>jQuery .filter() method</a>
+     * @see <a href="http://api.jquery.com/filter/#filter-jQuery-object">jQuery .filter() method</a>
      * <!-- end-minium-doc -->
      */
     public T filter(WebElements elems);

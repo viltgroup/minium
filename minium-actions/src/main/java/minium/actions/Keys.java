@@ -18,13 +18,13 @@ package minium.actions;
 import java.util.Arrays;
 
 /**
- * <p>Borrowed from {@link org.openqa.selenium.Keys}.</p>
+ * <p>Borrowed from {@code org.openqa.selenium.Keys}.</p>
  *
  * <p>Representations of pressable keys that aren't text. These are stored in the Unicode PUA (Private Use Area) code
  * points, 0xE000-0xF8FF.</p>
  *
  * @see <a
- *      href="http://www.google.com.au/search?&q=unicode+pua&btnG=Search">http://www.google.com.au/search?&q=unicode+pua&btnG=Search</a>
+ *      href="http://www.google.com.au/search?q=unicode+pua&amp;btnG=Search">http://www.google.com.au/search?q=unicode+pua&amp;btnG=Search</a>
  */
 public enum Keys implements CharSequence {
 
@@ -145,12 +145,18 @@ public enum Keys implements CharSequence {
      * via a keyup event.
      *
      * Issue: http://code.google.com/p/webdriver/issues/detail?id=79
+     *
+     * @param value sequence of Keys.XXXX or strings
+     * @return a chord
      */
     public static String chord(CharSequence... value) {
         return chord(Arrays.asList(value));
     }
 
     /**
+     * @param value sequence of Keys.XXXX or strings
+     * @return a chord
+     *
      * @see #chord(CharSequence...)
      */
     public static String chord(Iterable<CharSequence> value) {
