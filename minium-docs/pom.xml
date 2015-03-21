@@ -272,21 +272,6 @@
 									</arguments>
 								</configuration>
 							</execution>
-							<execution>
-								<id>generate-site</id>
-								<phase>package</phase>
-								<goals>
-									<goal>exec</goal>
-								</goals>
-								<configuration>
-									<executable>mkdocs</executable>
-									<workingDirectory>${project.build.directory}/mkdocs</workingDirectory>
-									<arguments>
-										<argument>build</argument>
-										<argument>--clean</argument>
-									</arguments>
-								</configuration>
-							</execution>
 						</executions>
 					</plugin>
 				</plugins>
