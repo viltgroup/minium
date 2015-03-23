@@ -12,7 +12,7 @@ var createBtn = $("#newpadbutton");
 
 createBtn.click();
 
-var cells = $("#te_fullgrid td");
+var cells = $("#te_fullgrid td").visible();
 
 // chrome:
 //  cells.css("background-image") === "url(https://www.ethercalc.org/static/download.png)"),
