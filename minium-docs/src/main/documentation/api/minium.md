@@ -26,7 +26,7 @@ var browser2 = minium.newBrowser({
   }
 });
 
-var $2 = siteBrowser.$;
+var $2 = browser2.$;
 ```
 
 ## Modules
