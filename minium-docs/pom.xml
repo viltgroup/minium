@@ -94,24 +94,8 @@
 			<build>
 				<resources>
 					<resource>
-						<filtering>true</filtering>
-						<directory>src/main/resources</directory>
-						<targetPath>${project.build.directory}</targetPath>
-						<includes>
-							<include>mkdocs/mkdocs.yml</include>
-						</includes>
-					</resource>
-					<resource>
-						<filtering>false</filtering>
-						<directory>src/main/resources</directory>
-						<targetPath>${project.build.directory}</targetPath>
-						<excludes>
-							<exclude>mkdocs/mkdocs.xml</exclude>
-						</excludes>
-					</resource>
-					<resource>
-						<directory>src/main/documentation</directory>
-						<targetPath>${project.build.directory}/mkdocs/docs</targetPath>
+						<directory>src/main/mkdocs</directory>
+						<targetPath>${project.build.directory}/mkdocs</targetPath>
 						<includes>
 							<include>**/*</include>
 						</includes>
@@ -207,8 +191,8 @@
 							<doclet>minium.docs.DocumentationDoclet</doclet>
 							<docletPath>${project.build.directory}/classes</docletPath>
 							<useStandardDocletOptions>false</useStandardDocletOptions>
-							<outputDirectory>${project.build.directory}/mkdocs/docs</outputDirectory>
-							<additionalparam>-d ${project.build.directory}/mkdocs/docs</additionalparam>
+							<outputDirectory>${project.build.directory}/mkdocs/docs/core</outputDirectory>
+							<additionalparam>-d ${project.build.directory}/mkdocs/docs/core</additionalparam>
 							<!-- 
 							docletArtifacts doesn't seem to work, use it with antrun:run, 
 							execution ID define-javadoc-classpath
@@ -239,7 +223,7 @@
 	 									<argument>--templateFile</argument>
 										<argument>${basedir}/src/main/resources/templates/third-parties.md.ftl</argument>
 										<argument>--outputFile</argument>
-										<argument>${project.build.directory}/mkdocs/docs/third-parties.md</argument>
+										<argument>${project.build.directory}/mkdocs/docs/core/third-parties.md</argument>
 										<argument>--artifactLicensesFile</argument>
 										<argument>${project.build.directory}/licenses/THIRD-PARTY.txt</argument>
 									</arguments>
@@ -266,7 +250,7 @@
 										<argument>--templateFile</argument>
 										<argument>${basedir}/src/main/resources/templates/changelog.md.ftl</argument>
 										<argument>--outputFile</argument>
-										<argument>${project.build.directory}/mkdocs/docs/changelog.md</argument>
+										<argument>${project.build.directory}/mkdocs/docs/core/changelog.md</argument>
 										<argument>--ticketUrlFormat</argument>
 										<argument>${project.issueManagement.url}/issues/:id</argument>
 									</arguments>
