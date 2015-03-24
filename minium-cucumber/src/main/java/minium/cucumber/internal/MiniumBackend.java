@@ -35,7 +35,7 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package minium.cucumber;
+package minium.cucumber.internal;
 
 import gherkin.formatter.model.Step;
 
