@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package minium.cucumber;
+package minium.cucumber.internal;
 
 import static cucumber.runtime.Runtime.isPending;
 import gherkin.formatter.Formatter;
@@ -30,6 +30,8 @@ import gherkin.formatter.model.Step;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+
+import minium.cucumber.StepListener;
 
 import org.junit.runner.notification.RunNotifier;
 

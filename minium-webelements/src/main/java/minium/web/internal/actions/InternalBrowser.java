@@ -437,7 +437,7 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
 
         @Override
         public void saveTo(File file) throws IOException {
-            Files.asByteSource(file).copyTo(Files.asByteSink(file));
+            Files.asByteSource(asFile()).copyTo(Files.asByteSink(file));
         }
     }
 

@@ -15,12 +15,13 @@
  */
 package minium.cucumber.internal;
 
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.context.TestContextManager;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
-public class MiniumRhinoTestContextManager extends TestContextManager {
+public class MiniumRhinoTestContextManager extends TestContextManager implements DisposableBean {
 
     public MiniumRhinoTestContextManager(Class<?> testClass) {
         super(testClass);
@@ -37,5 +38,10 @@ public class MiniumRhinoTestContextManager extends TestContextManager {
 
     public ConfigurableApplicationContext getContext() {
         return (ConfigurableApplicationContext) getTestContext().getApplicationContext();
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        getContext().close();
     }
 }
