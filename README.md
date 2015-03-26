@@ -1,4 +1,4 @@
-Minium [![Build Status](https://travis-ci.org/viltgroup/minium.png)](https://travis-ci.org/viltgroup/minium)
+Minium [![Build Status](https://travis-ci.org/viltgroup/minium.svg?branch=master)](https://travis-ci.org/viltgroup/minium)
 ======
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/viltgroup/minium?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
