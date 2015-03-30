@@ -15,14 +15,23 @@
  */
 package minium.script.rhinojs;
 
+import java.lang.reflect.Type;
+
 import minium.web.internal.WebElementsFactory.Builder;
 import minium.web.internal.WebModule;
 import minium.web.internal.expression.BasicExpression;
+import minium.web.internal.expression.Coercer;
 import minium.web.internal.expression.Expression;
 import minium.web.internal.expression.Expressionizer;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
+import org.mozilla.javascript.NativeObject;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.json.JsonParser;
+import org.mozilla.javascript.json.JsonParser.ParseException;
+
+import com.google.common.base.Throwables;
 
 public class RhinoWebModules {
 
@@ -42,6 +51,33 @@ public class RhinoWebModules {
         }
     }
 
+    public static class RhinoObjectCoercer implements Coercer {
+
+        @Override
+        public boolean handles(Object obj, Type type) {
+            if (type == Object.class) {
+                return true;
+            }
+            if (type instanceof Class && Scriptable.class.isAssignableFrom((Class<?>) type)) {
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public Object coerce(Object obj, Type type) {
+            try {
+                Context cx = Context.enter();
+                if (obj instanceof String) {
+                    return new JsonParser(cx, new NativeObject()).parseValue((String) obj);
+                }
+                return obj;
+            } catch (ParseException e) {
+                throw Throwables.propagate(e);
+            }
+        }
+    }
+
     public static WebModule rhinoModule() {
         return new WebModule() {
             @Override
@@ -52,7 +88,8 @@ public class RhinoWebModules {
                         "minium/script/js/internal/lib/jquery.functionCall.js"
                 )
                 .implementingInterfaces(JsFunctionWebElements.class)
-                .withExpressionizers(new FunctionExpressionizer());
+                .withExpressionizers(new FunctionExpressionizer())
+                .withCoercers(new RhinoObjectCoercer());
             }
 
             @Override
