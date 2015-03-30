@@ -51,6 +51,8 @@ import com.sun.javadoc.Tag;
 
 public class ApiGenerator {
 
+    private static final Pattern INLINE_REGEX = Pattern.compile("\\{\\@(?:code|link) (.*?)\\}");
+
     private static final class MethodComparator implements Comparator<MethodDoc> {
         @Override
         public int compare(MethodDoc o1, MethodDoc o2) {
@@ -167,6 +169,22 @@ public class ApiGenerator {
     protected String asMarkdown(String text) {
         Document doc = Jsoup.parseBodyFragment(text);
         removeHtmlComments(doc);
+        replaceJavadocCodeBlock(doc);
+        String html = doc.getElementsByTag("body").html();
+        return replaceInline(html);
+    }
+
+    protected String replaceInline(String html) {
+        Matcher matcher = INLINE_REGEX.matcher(html);
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            matcher.appendReplacement(sb, "`$1`");
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
+    }
+
+    protected void replaceJavadocCodeBlock(Document doc) {
         Elements elements = doc.getElementsByTag("pre");
         for (Element element : elements) {
             String html = element.html().trim();
@@ -175,7 +193,6 @@ public class ApiGenerator {
                 element.html(StringEscapeUtils.escapeHtml4(html));
             }
         }
-        return doc.getElementsByTag("body").html();
     }
 
     protected void removeHtmlComments(Document doc) {

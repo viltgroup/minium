@@ -21,12 +21,11 @@ import minium.Offsets.Offset;
 /**
  * Mouse interactions can be performed using this interactable interface. It "hides"
  * mouse interactions under its methods. It mimics most of mouse actions in
- * org.openqa.selenium.interactions.Actions.
+ * {@code org.openqa.selenium.interactions.Actions}.
  *
  * @author rui.figueira
  *
  * @param <T> this {@link Interactable} for chainable calls
- * @see org.openqa.selenium.interactions.Actions
  */
 public interface MouseInteractable<T extends Interactable<?>> extends Interactable<T> {
 

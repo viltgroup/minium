@@ -114,6 +114,9 @@ public class DocumentationDoclet {
     }
 
     public static void main(String[] args) {
-        Main.main(new String[] { "-d", "target", "-doclet", DocumentationDoclet.class.getName(), "-sourcepath", "../minium-elements/src/main/java;../minium-webelements/src/main/java;../minium-actions/src/main/java", "minium.web", "minium", "minium.actions" });
+        Main.main(new String[] { "-d", "target", "-doclet", DocumentationDoclet.class.getName(), "-sourcepath", "../minium-elements/src/main/java;../minium-webelements/src/main/java;../minium-actions/src/main/java",
+//                "minium.web", "minium", "minium.actions"
+                "minium.web.actions"
+                });
     }
 }

@@ -23,7 +23,6 @@ package minium.actions;
  * @author rui.figueira
  *
  * @param <T> this {@link Interactable} for chainable calls
- * @see org.openqa.selenium.interactions.Actions
  */
 public interface KeyboardInteractable<T extends Interactable<?>> extends Interactable<T> {
 
@@ -40,7 +39,7 @@ public interface KeyboardInteractable<T extends Interactable<?>> extends Interac
      * either <code>keyUp(theKey)</code> or <code>sendKeys(Keys.NULL)</code> must be called to
      * release the modifier.
      *
-     * @param keys either <code>Keys.SHIFT</code>, <code>Keys.ALT</code> or <code>Keys.CONTROL</code>.
+     * @param keys either {@code Keys.SHIFT}, {@code Keys.ALT}> or {@code Keys.CONTROL}.
      *  If the provided key is none of those, {@link IllegalArgumentException} is thrown
      * @return this {@link Interactable}
      */
@@ -49,7 +48,7 @@ public interface KeyboardInteractable<T extends Interactable<?>> extends Interac
     /**
      * Performs a modifier key press after focusing on an element.
      *
-     * @param keys either <code>Keys.SHIFT</code>, <code>Keys.ALT</code> or <code>Keys.CONTROL</code>.
+     * @param keys either {@code Keys.SHIFT}, {@code Keys.ALT}> or {@code Keys.CONTROL}.
      *  If the provided key is none of those, {@link IllegalArgumentException} is thrown
      * @return this {@link Interactable}
      */

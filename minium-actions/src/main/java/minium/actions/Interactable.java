@@ -36,6 +36,7 @@ public interface Interactable<T extends Interactable<?>> extends AsIs {
      * Performs the specified interaction on the corresponding elements.
      *
      * @param interaction the interaction to perform
+     * @return this {@link Interactable}
      */
     public abstract T perform(Interaction interaction);
 
@@ -43,6 +44,7 @@ public interface Interactable<T extends Interactable<?>> extends AsIs {
      * Performs the specified asynchronous interaction on the corresponding elements, and waits until it completes.
      *
      * @param interaction the asynchronous interaction
+     * @return this {@link Interactable}
      */
     public abstract T performAndWait(AsyncInteraction interaction);
 }
