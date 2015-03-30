@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
 import minium.Dimension;
+import minium.FindElements;
 import minium.Point;
 import minium.actions.Configuration;
 import minium.actions.Duration;
@@ -466,8 +467,14 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
         return elems.as(TargetLocatorWebElements.class).documentRoots().as(typeVariableToken);
     }
 
+    // CHECKSTYLE:OFF
     @Override
-    public T of(WebElements... elems) {
+    public T $(String selector) {
+        return root().as(FindElements.class).find(selector).as(typeVariableToken);
+    }
+
+    @Override
+    public T $(WebElements... elems) {
         if (elems.length == 0) return factory.createNative();
 
         T result = null;
@@ -480,6 +487,7 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
         }
         return result;
     }
+    // CHECKSTYLE:ON
 
     @Override
     public void get(final String url) {

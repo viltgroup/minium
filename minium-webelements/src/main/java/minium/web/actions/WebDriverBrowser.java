@@ -61,10 +61,17 @@ public class WebDriverBrowser<T extends WebElements> implements Browser<T> {
         return browser.root();
     }
 
+    // CHECKSTYLE:OFF
     @Override
-    public T of(WebElements... elems) {
-        return browser.of(elems);
+    public T $(String selector) {
+        return browser.$(selector);
     }
+
+    @Override
+    public T $(WebElements... elems) {
+        return browser.$(elems);
+    }
+    // CHECKSTYLE:ON
 
     @Override
     public void get(String url) {

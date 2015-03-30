@@ -58,7 +58,7 @@ public abstract class BaseDocumentWebDriver implements InternalDocumentWebDriver
     @Override
     public String getTitle() {
         ensureSwitch();
-        return webDriver.getCurrentUrl();
+        return webDriver.getTitle();
     }
 
     @Override
