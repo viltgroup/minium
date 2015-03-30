@@ -26,7 +26,6 @@ import minium.web.internal.expression.Expressionizer;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
-import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.json.JsonParser;
 import org.mozilla.javascript.json.JsonParser.ParseException;
@@ -69,7 +68,7 @@ public class RhinoWebModules {
             try {
                 Context cx = Context.enter();
                 if (obj instanceof String) {
-                    return new JsonParser(cx, new NativeObject()).parseValue((String) obj);
+                    return new JsonParser(cx, cx.initStandardObjects()).parseValue((String) obj);
                 }
                 return obj;
             } catch (ParseException e) {
