@@ -3,7 +3,7 @@ var keys = require("minium/keys");
 browser.configure()
   .interactionListeners()
     .clear()
-    .add(minium.interactionListeners.onStaleElementReference().thenRetry())
+    .add(minium.interactionListeners.onException().thenRetry())
   .done();
 
 browser.get("https://www.ethercalc.org/");
