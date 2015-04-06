@@ -43,8 +43,8 @@ public class TimeoutException extends ElementsException {
         super(cause);
     }
 
-    public TimeoutException(Predicate<?> predicate, Elements elems, Throwable e) {
-        super(elems, format("Timeout on %s for predicate %s", elems, predicate), e);
+    public TimeoutException(Predicate<?> predicate, Elements elems, int failedAttempts) {
+        super(elems, format("Timeout on %s after %d attempts for predicate %s", elems, failedAttempts, predicate), null);
         this.predicate = predicate;
     }
 

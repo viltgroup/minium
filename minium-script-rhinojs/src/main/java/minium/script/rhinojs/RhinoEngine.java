@@ -94,7 +94,10 @@ public class RhinoEngine implements JsEngine, DisposableBean {
     private Future<?> lastTask;
     private final Scriptable scope;
 
-    public <T> RhinoEngine(final RhinoProperties properties) {
+    private final RhinoProperties rhinoProperties;
+
+    public <T> RhinoEngine(final RhinoProperties rhinoProperties) {
+        this.rhinoProperties = rhinoProperties;
         this.executorService = Executors.newSingleThreadExecutor(new ThreadFactory() {
             @Override
             public Thread newThread(Runnable r) {
@@ -110,7 +113,7 @@ public class RhinoEngine implements JsEngine, DisposableBean {
             protected Scriptable doCall(Context cx, Scriptable scope) {
                 try {
                     Global global = new Global(cx);
-                    RequireProperties require = properties.getRequire();
+                    RequireProperties require = rhinoProperties.getRequire();
                     if (require != null) {
                         List<String> modulePathURIs = getModulePathURIs(require);
                         LOGGER.debug("Module paths: {}", modulePathURIs);
@@ -118,7 +121,9 @@ public class RhinoEngine implements JsEngine, DisposableBean {
                     }
                     ClassLoader classloader = Thread.currentThread().getContextClassLoader();
                     // we need to load compat/timeout.js because rhino does not have setTimeout, setInterval, etc.
-                    cx.evaluateReader(global, new InputStreamReader(classloader.getResourceAsStream("compat/timeout.js")), "compat/timeout.js", 1, null);
+                    try (Reader in = new InputStreamReader(classloader.getResourceAsStream("compat/timeout.js"))) {
+                        cx.evaluateReader(global, in, "compat/timeout.js", 1, null);
+                    }
                     return global;
                 } catch (IOException e) {
                     throw Throwables.propagate(e);
@@ -169,16 +174,18 @@ public class RhinoEngine implements JsEngine, DisposableBean {
         });
     }
 
-    /* (non-Javadoc)
-     * @see minium.script.rhinojs.JsEngine#eval(java.lang.String)
-     */
     @Override
     public <T> T eval(final String expression, final int line) {
+        return eval(expression, "<expression>", line);
+    }
+
+    @Override
+    public <T> T eval(final String expression, final String filePath, final int line) {
         return runWithContext(new RhinoCallable<T, RuntimeException>() {
             @SuppressWarnings("unchecked")
             @Override
             protected T doCall(Context cx, Scriptable scope) {
-                Object val = cx.evaluateString(scope, expression, "<expression>", line, null);
+                Object val = cx.evaluateString(scope, expression, filePath, line, null);
                 val = unwrappedValue(val);
                 return (T) val;
             }
@@ -279,7 +286,7 @@ public class RhinoEngine implements JsEngine, DisposableBean {
     @Override
     public StackTraceElement[] getExecutionStackTrace() {
         if (lastTask != null && !lastTask.isDone()) {
-            return process(executionThread.getStackTrace());
+            return filterStackTrace(executionThread.getStackTrace());
         } else {
             return new StackTraceElement[0];
         }
@@ -325,7 +332,14 @@ public class RhinoEngine implements JsEngine, DisposableBean {
         if (Thread.currentThread() == executionThread) {
             Context currentContext = Context.getCurrentContext();
             Preconditions.checkState(currentContext != null, "A rhino context was expected at this thread");
-            return fn.doCall(currentContext, scope);
+            try {
+                return fn.doCall(currentContext, scope);
+            } catch (Exception e) {
+                if (rhinoProperties.isFilteredStackTraces()) {
+                    filterStackTraces(e);
+                }
+                throw e;
+            }
         }
 
         Preconditions.checkState(lastTask == null || lastTask.isDone());
@@ -337,11 +351,16 @@ public class RhinoEngine implements JsEngine, DisposableBean {
             Thread.currentThread().interrupt();
             throw Throwables.propagate(e);
         } catch (ExecutionException e) {
-            throw (X) Throwables.propagate(e);
+            Throwable cause = e.getCause();
+            if (rhinoProperties.isFilteredStackTraces()) {
+                filterStackTraces(cause);
+            }
+            Throwables.propagateIfPossible(cause);
+            throw (X) cause;
         }
     }
 
-    protected StackTraceElement[] process(StackTraceElement[] stackTrace) {
+    protected StackTraceElement[] filterStackTrace(StackTraceElement[] stackTrace) {
         List<StackTraceElement> processed = Lists.newArrayList();
         for (StackTraceElement element : stackTrace) {
             if (element.getClassName().startsWith("org.mozilla.javascript.gen") && element.getLineNumber() != -1) {
@@ -351,10 +370,18 @@ public class RhinoEngine implements JsEngine, DisposableBean {
                     fileName = file.getAbsolutePath();
                 }
                 if (fileName == null) fileName = element.getFileName();
-                processed.add(new StackTraceElement(element.getClassName(), element.getMethodName(), fileName, element.getLineNumber()));
+                processed.add(new StackTraceElement(element.getFileName(), element.getMethodName(), fileName, element.getLineNumber()));
             }
         }
         return processed.toArray(new StackTraceElement[processed.size()]);
+    }
+
+    protected <X extends Throwable> X filterStackTraces(X throwable) {
+        for (Throwable e : Throwables.getCausalChain(throwable)) {
+            StackTraceElement[] filtered = filterStackTrace(e.getStackTrace());
+            e.setStackTrace(filtered);
+        }
+        return throwable;
     }
 
     protected Object unwrappedValue(Object val) {

@@ -47,6 +47,7 @@ public class RhinoProperties {
     }
 
     private RequireProperties require;
+    private boolean filteredStackTraces;
 
     public RequireProperties getRequire() {
         return require;
@@ -56,4 +57,11 @@ public class RhinoProperties {
         this.require = require;
     }
 
+    public boolean isFilteredStackTraces() {
+        return filteredStackTraces;
+    }
+
+    public void setFilteredStackTraces(boolean filteredStackTraces) {
+        this.filteredStackTraces = filteredStackTraces;
+    }
 }

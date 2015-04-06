@@ -31,6 +31,8 @@ public interface JsEngine extends DisposableBean {
 
     public abstract <T> T eval(String expression, int line);
 
+    public abstract <T> T eval(String expression, String filePath, int line);
+
     public abstract boolean contains(String varName);
 
     public abstract Object get(String varName);
