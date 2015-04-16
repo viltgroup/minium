@@ -66,7 +66,7 @@ public class Waits {
                     Thread.currentThread().interrupt();
                     throw Throwables.propagate(e);
                 }
-                throw new TimeoutException(predicate, elements, e);
+                throw new TimeoutException(predicate, elements, e.getNumberOfFailedAttempts());
             } catch (ExecutionException e) {
                 throw Throwables.propagate(e.getCause());
             }

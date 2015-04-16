@@ -92,4 +92,9 @@ public class RhinoEngineBase {
     public void testAmazon() throws IOException, InterruptedException {
         rhinoEngine.runScript("classpath:minium/examples/amazon.js");
     }
+
+    @Test
+    public void testResponseHeaders() throws IOException, InterruptedException {
+        rhinoEngine.runScript("classpath:minium/examples/responseHeaders.js");
+    }
 }

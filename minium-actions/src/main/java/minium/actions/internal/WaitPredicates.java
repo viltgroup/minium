@@ -37,6 +37,11 @@ public class WaitPredicates {
             public boolean apply(T input) {
                 return input.as(BasicElements.class).size() == size;
             }
+
+            @Override
+            public String toString() {
+                return String.format("forSize(%d)", size);
+            }
         };
     }
 

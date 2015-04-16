@@ -112,6 +112,7 @@ public class ExpressionInvocationHandler<T extends WebElements> extends Abstract
 
             switch (documentDrivers.size()) {
             case 0:
+
                 // special case for size, if no document was found then size is
                 // 0 for sure
                 if (method.equals(SIZE_METHOD)) {

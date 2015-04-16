@@ -116,7 +116,11 @@ public interface Browser<T extends WebElements> {
 
     T root();
 
-    T of(WebElements ... elems);
+    // CHECKSTYLE:OFF
+    T $(String selector);
+
+    T $(WebElements ... elems);
+    // CHECKSTYLE:ON
 
     void get(String url);
 

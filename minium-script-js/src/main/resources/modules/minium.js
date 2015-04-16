@@ -1,22 +1,33 @@
 (function () {
   var minium = {};
-  var dollarFn = function (browser) {
-    return function () {
-      if (arguments.length === 1 && (typeof arguments[0] === 'string' || arguments[0] instanceof Packages.java.lang.String)) {
-        return browser.root().find(arguments[0]);
-      } else {
-        return browser.of(Array.prototype.slice.call(arguments));
+
+  var wrap = function (obj, props) {
+    var wrapper = {};
+    props = props || Object.keys(props);
+    props.forEach(function (prop) {
+   	  var fn = obj[prop];
+      if (typeof fn === 'function') {
+        wrapper[prop] = function () {
+          return fn.apply(obj, Array.prototype.slice.call(arguments));
+        };
       }
-    };
+    });
+    return wrapper;
   };
   
   if (typeof __browser !== 'undefined') {
-    var browser = __browser;
-    var $ = dollarFn(browser);
-    
-    minium.browser = __browser;
-    minium.$ = $;
-    minium.browser.$ = $;
+  	var wrapped = __browser;
+    var browser = wrap(wrapped, [ "root", "$", "get", "getCurrentUrl", "getTitle", "close", "quit", "navigate", "configure", "screenshot", "toString" ]);
+    // for $ function with multiple arguments, we don't want to call it like $([ $("a"), $("input") ])
+    browser.$ = function () {
+    	if (arguments.length === 1 && typeof arguments[0] === 'string') {
+    		return wrapped.$(arguments[0]);
+    	} else {
+    		return wrapped.$.call(wrapped, Array.prototype.slice.call(arguments));
+    	}
+    };
+    minium.browser = browser;
+    minium.$ = browser.$;
   }
 
   var InteractionListeners = Packages.minium.actions.InteractionListeners;
