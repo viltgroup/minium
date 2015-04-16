@@ -17,7 +17,7 @@ allowing method chaining when filtering / transversing the page DOM
 Back in those days, WebDriver support for CSS selector was very poor under most browsers, and XPath was not an
 option whatsoever (c'mon, XPath on the Web, really?!), and after trying to replicate jQuery API using WebDriver
 API calls (which were very inefficient, because each method needed to communicate with the browser to get the
-corresponding elements), we found out that we could use WebDriver `JavascriptExecutor` to send javascruipt
+corresponding elements), we found out that we could use WebDriver `JavascriptExecutor` to send javascript
 instructions to the browser and get both data and element references. That gave us an idea: why not sending
 jQuery to the browser and then use it to access web elements instead?
 That was what we did, and that gave Minium a huge power:
