@@ -189,7 +189,7 @@ var field = base.find(":text").withName("somefield");
 field.fill("Minium can!");
 ```
 
-Another exampla: let's assume that we have a page with a modal window that "hides"
+Another example: let's assume that we have a page with a modal window that "hides"
 a text field, but the modal window itself also provides a text field. By using the
 base `Elements` pattern, we can easily refer to the one that is currently available for
 interactions with just `base.find(":text")`. That expression evaluates into the text field
