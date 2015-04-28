@@ -28,7 +28,7 @@
 		<connection>scm:git:git://github.com/viltgroup/minium.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/viltgroup/minium.git</developerConnection>
 		<url>https://github.com/viltgroup/minium</url>
-	  <tag>HEAD</tag>
+		<tag>HEAD</tag>
   </scm>
 
 	<organization>
@@ -579,6 +579,23 @@
 			<properties>
 				<spring.profiles.active>styx-ci</spring.profiles.active>
 			</properties>
+		</profile>
+		<profile>
+			<id>vilt</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-scm-plugin</artifactId>
+						<version>1.9.4</version>
+						<configuration>
+							<developerConnectionUrl>scm:git:git@artemis.vilt-group.com:engineering/minium.git</developerConnectionUrl>
+							<connectionUrl>scm:git:git@artemis.vilt-group.com:engineering/minium.git</connectionUrl>
+							<url>https://artemis.vilt-group.com/engineering/minium</url>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 		<profile>
             <id>release-sign-artifacts</id>
