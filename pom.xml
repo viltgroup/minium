@@ -9,7 +9,7 @@
 
 	<groupId>io.vilt.minium</groupId>
 	<artifactId>minium</artifactId>
-	<version>1.0.0-RC2-SNAPSHOT</version>
+	<version>1.0.0-RC3-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Minium Parent POM</name>
 
