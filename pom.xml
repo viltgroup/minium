@@ -79,8 +79,6 @@
 		
 		<powermock.version>1.6.1</powermock.version>
 		<jsoup.version>1.8.1</jsoup.version>
-		
-		<minium.version>${project.version}</minium.version>
 	</properties>
 
 	<dependencyManagement>
@@ -93,57 +91,57 @@
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-elements</artifactId>
-				<version>${minium.version}</version>
+				<version>1.0.0-RC3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-webelements</artifactId>
-				<version>${minium.version}</version>
+				<version>1.0.0-RC3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-webelements-config</artifactId>
-				<version>${minium.version}</version>
+				<version>1.0.0-RC3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-visualelements</artifactId>
-				<version>${minium.version}</version>
+				<version>1.0.0-RC3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-boxelements</artifactId>
-				<version>${minium.version}</version>
+				<version>1.0.0-RC3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-script-js</artifactId>
-				<version>${minium.version}</version>
+				<version>1.0.0-RC3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-script-rhinojs</artifactId>
-				<version>${minium.version}</version>
+				<version>1.0.0-RC3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-actions</artifactId>
-				<version>${minium.version}</version>
+				<version>1.0.0-RC3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-cucumber</artifactId>
-				<version>${minium.version}</version>
+				<version>1.0.0-RC3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-cucumber-rest</artifactId>
-				<version>${minium.version}</version>
+				<version>1.0.0-RC3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-docs</artifactId>
-				<version>${minium.version}</version>
+				<version>1.0.0-RC3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.ruifigueira</groupId>
