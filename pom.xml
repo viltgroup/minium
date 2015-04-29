@@ -80,6 +80,7 @@
 		<powermock.version>1.6.1</powermock.version>
 		<jsoup.version>1.8.1</jsoup.version>
 		
+		<minium.version>${project.version}</minium.version>
 	</properties>
 
 	<dependencyManagement>
@@ -92,57 +93,57 @@
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-elements</artifactId>
-				<version>${project.version}</version>
+				<version>${minium.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-webelements</artifactId>
-				<version>${project.version}</version>
+				<version>${minium.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-webelements-config</artifactId>
-				<version>${project.version}</version>
+				<version>${minium.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-visualelements</artifactId>
-				<version>${project.version}</version>
+				<version>${minium.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-boxelements</artifactId>
-				<version>${project.version}</version>
+				<version>${minium.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-script-js</artifactId>
-				<version>${project.version}</version>
+				<version>${minium.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-script-rhinojs</artifactId>
-				<version>${project.version}</version>
+				<version>${minium.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-actions</artifactId>
-				<version>${project.version}</version>
+				<version>${minium.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-cucumber</artifactId>
-				<version>${project.version}</version>
+				<version>${minium.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-cucumber-rest</artifactId>
-				<version>${project.version}</version>
+				<version>${minium.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-docs</artifactId>
-				<version>${project.version}</version>
+				<version>${minium.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.ruifigueira</groupId>
