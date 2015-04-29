@@ -9,7 +9,7 @@
 
 	<groupId>io.vilt.minium</groupId>
 	<artifactId>minium</artifactId>
-	<version>1.0.0-RC2</version>
+	<version>1.0.0-RC3-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Minium Parent POM</name>
 
@@ -28,7 +28,7 @@
 		<connection>scm:git:git@artemis.vilt-group.com:engineering/minium.git</connection>
 		<developerConnection>scm:git:git@artemis.vilt-group.com:engineering/minium.git</developerConnection>
 		<url>https://artemis.vilt-group.com/engineering/minium</url>
-	  <tag>minium-1.0.0-RC2</tag>
+	  <tag>HEAD</tag>
   </scm>
 
 	<organization>
