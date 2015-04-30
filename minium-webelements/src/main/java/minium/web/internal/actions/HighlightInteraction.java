@@ -20,12 +20,14 @@ import minium.web.EvalWebElements;
 
 public class HighlightInteraction extends AbstractWebInteraction {
 
+    public static final String HIGHLIGHT_EVAL_EXPR = "$(this).highlight && $(this).highlight();";
+
     public HighlightInteraction(Elements elems) {
         super(elems);
     }
 
     @Override
     protected void doPerform() {
-        getSource().as(EvalWebElements.class).eval("$(this).highlight();");
+        getSource().as(EvalWebElements.class).eval(HIGHLIGHT_EVAL_EXPR);
     }
 }
