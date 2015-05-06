@@ -77,7 +77,7 @@ Then `datatable.hashes()` would return:
 ]
 ```
 
-### `.rowHash()`
+### `.rowsHash()`
 
 Returns a object with the first column as keys and the second column as values.
 
@@ -95,7 +95,7 @@ When I fill:
 
 ```javascript
 When(/^I fill:$/, function (datatable) {
-  var formVals = datatable.rowHash();
+  var formVals = datatable.rowsHash();
   // formVals will be a object { "Name" : "Minium", "Home Page" : ... }
   for (var field in formVals) {
     var val = formVals[field];
