@@ -38,7 +38,9 @@
     onTimeout : WebInteractionListeners.onTimeout,
     onUnhandledAlert : WebInteractionListeners.onUnhandledAlert,
     onStaleElementReference : WebInteractionListeners.onStaleElementReference,
-    onException : WebInteractionListeners.onException
+    onException : WebInteractionListeners.onException,
+    ensureExistence : WebInteractionListeners.ensureExistence,
+    ensureUnexistence : WebInteractionListeners.ensureUnexistence
   };
 
   // new browsers
