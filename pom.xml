@@ -9,7 +9,7 @@
 
 	<groupId>io.vilt.minium</groupId>
 	<artifactId>minium</artifactId>
-	<version>1.0.0-RC2-SNAPSHOT</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Minium Parent POM</name>
 
@@ -25,9 +25,9 @@
 	</developers>
 
 	<scm>
-		<connection>scm:git:git://github.com/viltgroup/minium.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com/viltgroup/minium.git</developerConnection>
-		<url>https://github.com/viltgroup/minium</url>
+		<connection>scm:git:git@artemis.vilt-group.com:engineering/minium.git</connection>
+		<developerConnection>scm:git:git@artemis.vilt-group.com:engineering/minium.git</developerConnection>
+		<url>https://artemis.vilt-group.com/engineering/minium</url>
 	  <tag>HEAD</tag>
   </scm>
 
@@ -79,7 +79,6 @@
 		
 		<powermock.version>1.6.1</powermock.version>
 		<jsoup.version>1.8.1</jsoup.version>
-		
 	</properties>
 
 	<dependencyManagement>
@@ -92,57 +91,57 @@
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-elements</artifactId>
-				<version>${project.version}</version>
+				<version>1.0.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-webelements</artifactId>
-				<version>${project.version}</version>
+				<version>1.0.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-webelements-config</artifactId>
-				<version>${project.version}</version>
+				<version>1.0.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-visualelements</artifactId>
-				<version>${project.version}</version>
+				<version>1.0.0-RC3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-boxelements</artifactId>
-				<version>${project.version}</version>
+				<version>1.0.0-RC3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-script-js</artifactId>
-				<version>${project.version}</version>
+				<version>1.0.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-script-rhinojs</artifactId>
-				<version>${project.version}</version>
+				<version>1.0.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-actions</artifactId>
-				<version>${project.version}</version>
+				<version>1.0.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-cucumber</artifactId>
-				<version>${project.version}</version>
+				<version>1.0.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-cucumber-rest</artifactId>
-				<version>${project.version}</version>
+				<version>1.0.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-docs</artifactId>
-				<version>${project.version}</version>
+				<version>1.0.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.ruifigueira</groupId>
@@ -340,6 +339,10 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>animal-sniffer-maven-plugin</artifactId>
 			</plugin>
+            <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
@@ -529,6 +532,18 @@
                         </execution>
                     </executions>
                 </plugin>
+                <plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>2.5.2</version>
+					<dependencies>
+						<dependency>
+							<groupId>org.apache.maven.scm</groupId>
+							<artifactId>maven-scm-provider-gitexe</artifactId>
+							<version>1.9.4</version>
+						</dependency>
+					</dependencies>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
