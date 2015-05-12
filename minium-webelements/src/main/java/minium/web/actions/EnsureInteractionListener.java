@@ -13,21 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package minium.web.internal.actions;
+package minium.web.actions;
 
-import minium.Elements;
-import minium.web.EvalWebElements;
+import minium.actions.InteractionListener;
 
-public class HighlightInteraction extends AbstractWebInteraction {
-
-    public static final String HIGHLIGHT_EVAL_EXPR = "$(this).highlight && $(this).highlight();";
-
-    public HighlightInteraction(Elements elems) {
-        super(elems);
-    }
-
-    @Override
-    protected void doPerform() {
-        getSource().as(EvalWebElements.class).eval(HIGHLIGHT_EVAL_EXPR);
-    }
+public interface EnsureInteractionListener extends InteractionListener {
+    EnsureInteractionListener withWaitingPreset(String preset);
 }

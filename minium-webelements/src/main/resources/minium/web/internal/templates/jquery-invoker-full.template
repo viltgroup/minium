@@ -25,12 +25,9 @@ minium = {
     			// if it is a jQuery object, convert it to a normal array
     			result = $.makeArray(result);
     			type = 'array';
-    		} else if (!$.isArray(result) && [ 'number', 'boolean', 'string' ].indexOf(typeof result) < 0) {
-                // if it is not an array, a number, a boolean or a string, convert it to json
+    		} else if ($.isArray(result) || [ 'number', 'boolean', 'string' ].indexOf(typeof result) < 0) {
                 result = JSON.stringify(result);
                 type = 'json';
-    		} else if ($.isArray(result)) {
-    		  type = 'array';
     		} else {
     		  type = typeof result;
     		}

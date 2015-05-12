@@ -15,17 +15,21 @@
     return wrapper;
   };
   
-  if (typeof __browser !== 'undefined') {
-  	var wrapped = __browser;
+  var wrapBrowser = function (wrapped) {
     var browser = wrap(wrapped, [ "root", "$", "get", "getCurrentUrl", "getTitle", "close", "quit", "navigate", "configure", "screenshot", "toString" ]);
     // for $ function with multiple arguments, we don't want to call it like $([ $("a"), $("input") ])
     browser.$ = function () {
-    	if (arguments.length === 1 && typeof arguments[0] === 'string') {
-    		return wrapped.$(arguments[0]);
-    	} else {
-    		return wrapped.$.call(wrapped, Array.prototype.slice.call(arguments));
-    	}
+        if (arguments.length === 1 && typeof arguments[0] === 'string') {
+            return wrapped.$(arguments[0]);
+        } else {
+            return wrapped.$.call(wrapped, Array.prototype.slice.call(arguments));
+        }
     };
+    return browser;
+  };
+  
+  if (typeof __browser !== 'undefined') {
+    var browser = wrapBrowser(__browser);
     minium.browser = browser;
     minium.$ = browser.$;
   }
@@ -38,14 +42,15 @@
     onTimeout : WebInteractionListeners.onTimeout,
     onUnhandledAlert : WebInteractionListeners.onUnhandledAlert,
     onStaleElementReference : WebInteractionListeners.onStaleElementReference,
-    onException : WebInteractionListeners.onException
+    onException : WebInteractionListeners.onException,
+    ensureExistence : WebInteractionListeners.ensureExistence,
+    ensureUnexistence : WebInteractionListeners.ensureUnexistence
   };
 
   // new browsers
   minium.newBrowser = function(config) {
     var browser = minium.__browserFactory.create(config || {});
-    browser.$ = dollarFn(browser);
-    return browser;
+    return wrapBrowser(browser);
   }
   
   // export minium
