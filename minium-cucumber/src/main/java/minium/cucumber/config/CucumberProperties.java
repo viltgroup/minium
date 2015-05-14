@@ -142,7 +142,7 @@ public class CucumberProperties {
             if (monochrome) args.add("--monochrome");
 
             // always ensure this one is included
-            for (String gl : ImmutableSet.<String>builder().add(CUCUMBER_RUNTIME_MINIUM).addAll(glue).build()) {
+            for (String gl : ImmutableSet.copyOf(glue)) {
                 args.add("--glue");
                 args.add(gl);
             }

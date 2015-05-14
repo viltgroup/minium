@@ -371,7 +371,7 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
         @Override
         public Cookie get(String name) {
             org.openqa.selenium.Cookie nativeCookie = documentDriver().manage().getCookieNamed(name);
-            return new InternalCookie(nativeCookie);
+            return nativeCookie == null ? null : new InternalCookie(nativeCookie);
         }
 
         @Override

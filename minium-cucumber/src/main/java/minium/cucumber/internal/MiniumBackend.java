@@ -135,12 +135,7 @@ public class MiniumBackend implements Backend {
 
     @Override
     public void disposeWorld() {
-        try {
-            if (disposeWorldFn != null) disposeWorldFn.call(cx, scope, scope, new Object[0]);
-        } finally {
-            buildWorldFn = null;
-            disposeWorldFn = null;
-        }
+        if (disposeWorldFn != null) disposeWorldFn.call(cx, scope, scope, new Object[0]);
     }
 
     public void registerWorld(Function buildWorldFn, Function disposeWorldFn) {
