@@ -18,6 +18,7 @@ package minium.web.internal.actions;
 import minium.Elements;
 import minium.web.actions.Alert;
 import minium.web.actions.HasAlert;
+import minium.web.internal.HasNativeWebDriver;
 import platypus.Mixin;
 
 public class DefaultHasAlert extends Mixin.Impl implements HasAlert {
@@ -46,7 +47,7 @@ public class DefaultHasAlert extends Mixin.Impl implements HasAlert {
 
         @Override
         public String getText() {
-            return alert().getText();
+            return nativeAlert().getText();
         }
 
         @Override
@@ -63,5 +64,9 @@ public class DefaultHasAlert extends Mixin.Impl implements HasAlert {
     @Override
     public Alert alert() {
         return new DefaultAlert();
+    }
+
+    protected org.openqa.selenium.Alert nativeAlert() {
+        return this.as(HasNativeWebDriver.class).nativeWebDriver().switchTo().alert();
     }
 }
