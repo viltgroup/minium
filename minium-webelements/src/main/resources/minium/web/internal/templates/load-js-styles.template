@@ -1,0 +1,6 @@
+(function (wnd, jsCodePart, stylesPart) {
+  if (typeof wnd.__minium === "undefined") wnd.__minium = { jsCode: "", styles: "" };
+  
+  if (jsCodePart) wnd.__minium.jsCode += jsCodePart;
+  if (stylesPart) wnd.__minium.styles += stylesPart;
+})(window, args.shift(), args.shift());

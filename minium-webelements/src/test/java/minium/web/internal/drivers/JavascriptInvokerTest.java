@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package minium.web.internal;
+package minium.web.internal.drivers;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.anyVararg;
@@ -27,10 +28,11 @@ import static org.mockito.Mockito.when;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
-import minium.web.internal.drivers.DefaultJavascriptInvoker;
-import minium.web.internal.drivers.JavascriptInvoker;
-
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -38,6 +40,38 @@ import org.openqa.selenium.WebDriver;
 import com.google.common.collect.Lists;
 
 public class JavascriptInvokerTest {
+
+    // adapted from
+    // https://piotrga.wordpress.com/2009/03/27/hamcrest-regex-matcher/#comment-638
+    public static class RegularExpressionFindMatcher extends TypeSafeMatcher<String> {
+
+        private final Pattern pattern;
+
+        public RegularExpressionFindMatcher(String pattern) {
+            this(Pattern.compile(pattern));
+        }
+        public RegularExpressionFindMatcher(Pattern pattern) {
+            this.pattern = pattern;
+        }
+
+        @Override
+        public void describeTo(Description description) {
+            description.appendText("matches regular expression ").appendValue(pattern);
+        }
+
+        @Override
+        public boolean matchesSafely(String item) {
+            return pattern.matcher(item).find();
+        }
+
+        public static Matcher<String> hasPattern(Pattern pattern) {
+            return new RegularExpressionFindMatcher(pattern);
+        }
+
+        public static Matcher<String> hasPattern(String pattern) {
+            return new RegularExpressionFindMatcher(pattern);
+        }
+    }
 
     interface TestWebDriver extends WebDriver, JavascriptExecutor { }
 
@@ -56,7 +90,7 @@ public class JavascriptInvokerTest {
             .thenReturn(Lists.newArrayList("array", 1, 2, 3));
 
         // when
-        Object result = invoker.invoke(wd, "return [1, 2, 3];");
+        Object result = invoker.invoke(wd, "[1, 2, 3]");
 
         verify(wd, times(1)).executeScript(anyString(), anyVararg());
         assertThat(result, instanceOf(List.class));
@@ -80,10 +114,27 @@ public class JavascriptInvokerTest {
             .thenReturn(Lists.newArrayList("array", 1, 2, 3));
 
         // when
-        Object result = invoker.invoke(wd, "return [1, 2, 3];");
+        Object result = invoker.invoke(wd, "[1, 2, 3]");
 
         verify(wd, times(2)).executeScript(anyString(), anyVararg());
         assertThat(result, instanceOf(List.class));
         assertThat((List<Integer>) result, equalTo(expectedResult));
     }
+
+    @Test
+    public void testNoOneLineCommentsAndNewlines() {
+        // given
+        List<String> jsResources = Collections.emptyList();
+        List<String> cssResources = Collections.emptyList();
+        DefaultJavascriptInvoker invoker = new DefaultJavascriptInvoker(JavascriptInvokerTest.class.getClassLoader(), jsResources, cssResources);
+
+        // ensure it has no one-line comments
+        assertThat(invoker.lightInvokerScript(), not(RegularExpressionFindMatcher.hasPattern("^\\s*\\/\\/")));
+        assertThat(invoker.fullInvokerScript(), not(RegularExpressionFindMatcher.hasPattern("^\\s*\\/\\/")));
+
+        // ensure it has no newlines
+        assertThat(invoker.lightInvokerScript(), not(RegularExpressionFindMatcher.hasPattern("\\r?\\n")));
+        assertThat(invoker.fullInvokerScript(), not(RegularExpressionFindMatcher.hasPattern("\\r?\\n")));
+    }
+
 }

@@ -15,7 +15,6 @@
  */
 package minium.web.internal.drivers;
 
-import static java.lang.String.format;
 import static org.mockito.Mockito.spy;
 
 import java.net.URL;
@@ -46,6 +45,7 @@ import org.openqa.selenium.interactions.Mouse;
 import org.openqa.selenium.interactions.internal.Coordinates;
 import org.openqa.selenium.logging.Logs;
 
+import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -372,12 +372,13 @@ public class MockWebDriver implements WebDriver, HasInputDevices, JavascriptExec
     }
 
     protected Object doExecuteScript(String script, Object ... args) {
+        String exprToEvaluate = (String) args[0];
         for (Entry<String, List<WebElement>> entry : expressionToWebElements.entrySet()) {
             String expr = entry.getKey();
             // first check if trying to get size
-            if (script.contains(format("return %s.size();", expr))) {
+            if (Objects.equal(exprToEvaluate + ".size()", expr)) {
                 return entry.getValue().size();
-            } else if (script.contains(format("return %s;", expr))) {
+            } else if (Objects.equal(exprToEvaluate, expr)) {
                 return entry.getValue();
             }
         }
