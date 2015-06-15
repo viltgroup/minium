@@ -19,6 +19,7 @@ import static java.lang.String.format;
 
 import java.util.Set;
 
+import minium.web.StatefulWebDriver;
 import minium.web.config.WebDriverProperties.DimensionProperties;
 import minium.web.config.WebDriverProperties.PointProperties;
 import minium.web.config.WebDriverProperties.WindowProperties;
@@ -135,6 +136,7 @@ public class WebDriverFactory {
                 webDriver.manage().window().maximize();
             }
         }
-        return webDriver instanceof TakesScreenshot ? webDriver : new Augmenter().augment(webDriver);
+        webDriver = webDriver instanceof TakesScreenshot ? webDriver : new Augmenter().augment(webDriver);
+        return new StatefulWebDriver(webDriver);
     }
 }
