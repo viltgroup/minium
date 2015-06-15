@@ -521,12 +521,7 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
 
     @Override
     public void quit() {
-        new AbstractInteraction(elems) {
-            @Override
-            protected void doPerform() {
-                documentDriver().quit();
-            }
-        }.perform();
+        documentDriver().quit();
     }
 
     @Override
