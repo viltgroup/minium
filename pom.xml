@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.2.3.RELEASE</version>
+		<version>1.2.4.RELEASE</version>
 	</parent>
 
 	<groupId>io.vilt.minium</groupId>
@@ -56,13 +56,13 @@
 		<checkstyle.config.dir>${basedir}/../src/main/checkstyle</checkstyle.config.dir>
 
 		<platypus.version>0.1.0</platypus.version>
-		<selenium.version>2.45.0</selenium.version>
+		<selenium.version>2.46.0</selenium.version>
 		
 		<!-- https://github.com/detro/ghostdriver/pull/399 -->
 		<phantomjsdriver.groupid>com.codeborne</phantomjsdriver.groupid>
 		<phantomjsdriver.version>1.2.1</phantomjsdriver.version>
 		
-		<closure-compiler.version>v20150126</closure-compiler.version>
+		<closure-compiler.version>v20150609</closure-compiler.version>
 		<rhino.version>1.7.6</rhino.version>
 		<dynjs.version>0.3.1</dynjs.version>
 		<cucumber.version>1.2.2</cucumber.version>
@@ -72,7 +72,9 @@
 		<guava-retrying.version>1.0.7</guava-retrying.version>
 		<commons-compress.version>1.9</commons-compress.version>
 		<commons-lang3.version>3.4</commons-lang3.version>
-		<jackson.version>2.5.3</jackson.version>
+		<httpcore.version>4.4.1</httpcore.version>
+		<httpclient.version>4.5</httpclient.version>
+		<jackson.version>2.5.4</jackson.version>
 		<slf4j.version>1.7.12</slf4j.version>
 		<args4j.version>2.32</args4j.version>
 		<freemarker.version>2.3.22</freemarker.version>
@@ -214,12 +216,12 @@
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpcore</artifactId>
-				<version>4.4</version>
+				<version>${httpcore.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpclient</artifactId>
-				<version>4.4</version>
+				<version>${httpclient.version}</version>
 				<exclusions>
 					<exclusion>
 						<artifactId>commons-logging</artifactId>
