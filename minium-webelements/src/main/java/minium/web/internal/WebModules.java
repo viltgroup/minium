@@ -110,6 +110,7 @@ public class WebModules {
                 builder
                 .withWebDriver(wd)
                 .withJsResources(
+                        "minium/web/internal/lib/json2.min.js",
                         "minium/web/internal/lib/jquery.min.js",
                         "minium/web/internal/lib/jquery.eval.js",
                         "minium/web/internal/lib/jquery.minium-exts.js",

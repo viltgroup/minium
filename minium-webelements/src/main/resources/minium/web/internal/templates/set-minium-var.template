@@ -32,7 +32,7 @@
           /* if it is a jQuery object, convert it to a normal array */
           result = $.makeArray(result);
           type = 'array';
-        } else if ($.isArray(result) || [ 'number', 'boolean', 'string' ].indexOf(typeof result) < 0) {
+        } else if ($.isArray(result) || (typeof result !== 'number' && typeof result !== 'boolean' && typeof result !== 'string')) {
           result = JSON.stringify(result);
           type = 'json';
         } else {
