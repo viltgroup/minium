@@ -264,8 +264,8 @@ public class CucumberProperties {
         private String name;
         private String content;
         private String trigger;
-        private List<String> table = Lists.newArrayList();
-        private List<String> tableColumns = Lists.newArrayList();
+        private List<String> rowsHashKeys = Lists.newArrayList();
+        private List<String> hashKeys = Lists.newArrayList();
         private List<String> simpleTable = Lists.newArrayList();
 
         public String getName() {
@@ -288,18 +288,18 @@ public class CucumberProperties {
                     }
                 }
 
-                if (!table.isEmpty()) {
+                if (!rowsHashKeys.isEmpty()) {
                     buf.append("\n");
-                    buf.append("  | " + Joiner.on(" | ").join(table) + " |\n");
+                    buf.append("  | " + Joiner.on(" | ").join(rowsHashKeys) + " |\n");
                     buf.append("  |");
-                    for (String col : table) {
+                    for (String col : rowsHashKeys) {
                         buf.append(" ${" + (curr++) + ":" + col + "} ");
                         buf.append("|");
                     }
                 }
 
-                if (!tableColumns.isEmpty()) {
-                    for (String col : tableColumns) {
+                if (!hashKeys.isEmpty()) {
+                    for (String col : hashKeys) {
                         buf.append("\n");
                         buf.append("  | " + col + "  | ");
                         buf.append(" ${" + (curr++) + ":" + col + "} ");
@@ -307,14 +307,6 @@ public class CucumberProperties {
                     }
                 }
 
-                if (!simpleTable.isEmpty()) {
-                    for (String col : simpleTable) {
-                        buf.append("\n");
-                        buf.append("|");
-                        buf.append(" ${" + (curr++) + ":" + col + "} ");
-                        buf.append("|");
-                    }
-                }
                 return buf.toString();
             }
 
@@ -336,28 +328,20 @@ public class CucumberProperties {
             this.trigger = trigger;
         }
 
-        public List<String> getTable() {
-            return table;
+        public List<String> getRowsHashKeys() {
+            return rowsHashKeys;
         }
 
-        public void setTable(List<String> table) {
-            this.table = table;
+        public void setRowsHashKeys(List<String> rowsHashKeys) {
+            this.rowsHashKeys = rowsHashKeys;
         }
 
-        public List<String> getTableColumns() {
-            return tableColumns;
+        public List<String> getHashKeys() {
+            return hashKeys;
         }
 
-        public void setTableColumns(List<String> tableColumns) {
-            this.tableColumns = tableColumns;
-        }
-
-        public List<String> getSimpleTable() {
-            return simpleTable;
-        }
-
-        public void setSimpleTable(List<String> simpleTable) {
-            this.simpleTable = simpleTable;
+        public void setHashKeys(List<String> hashKeys) {
+            this.hashKeys = hashKeys;
         }
     }
 
