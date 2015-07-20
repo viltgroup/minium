@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.2.4.RELEASE</version>
+		<version>1.2.5.RELEASE</version>
 	</parent>
 
 	<groupId>io.vilt.minium</groupId>
@@ -63,21 +63,21 @@
 		<phantomjsdriver.version>1.2.1</phantomjsdriver.version>
 		
 		<closure-compiler.version>v20150609</closure-compiler.version>
-		<rhino.version>1.7.6</rhino.version>
+		<rhino.version>1.7.7</rhino.version>
 		<dynjs.version>0.3.1</dynjs.version>
-		<cucumber.version>1.2.2</cucumber.version>
-		<json.version>20140107</json.version>
+		<cucumber.version>1.2.3</cucumber.version>
+		<json.version>20141113</json.version>
 		<sikulix.version>1.1.0-SNAPSHOT</sikulix.version>
 		<guava.version>18.0</guava.version>
-		<guava-retrying.version>1.0.7</guava-retrying.version>
+		<guava-retrying.version>2.0.0</guava-retrying.version>
 		<commons-compress.version>1.9</commons-compress.version>
 		<commons-lang3.version>3.4</commons-lang3.version>
 		<httpcore.version>4.4.1</httpcore.version>
 		<httpclient.version>4.5</httpclient.version>
-		<jackson.version>2.5.4</jackson.version>
+		<jackson.version>2.6.0</jackson.version>
 		<slf4j.version>1.7.12</slf4j.version>
 		<args4j.version>2.32</args4j.version>
-		<freemarker.version>2.3.22</freemarker.version>
+		<freemarker.version>2.3.23</freemarker.version>
 		<jsoup.version>1.8.2</jsoup.version>
 		<powermock.version>1.6.1</powermock.version>
 		<snakeyaml.version>1.15</snakeyaml.version>

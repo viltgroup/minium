@@ -34,7 +34,6 @@ import cucumber.runtime.io.MultiLoader;
 import cucumber.runtime.io.ResourceLoader;
 import cucumber.runtime.io.ResourceLoaderClassFinder;
 import cucumber.runtime.java.JavaBackend;
-import cucumber.runtime.java.ObjectFactory;
 import cucumber.runtime.model.CucumberFeature;
 
 //@RunWith(SpringJUnit4ClassRunner.class)
@@ -56,11 +55,6 @@ public class RemoteBackendTest {
         }
 
         @Bean
-        public ObjectFactory objectFactory() {
-            return JavaBackend.loadObjectFactory(classFinder());
-        }
-
-        @Bean
         public ClassFinder classFinder() {
             return new ResourceLoaderClassFinder(resourceLoader(), classLoader);
         }
@@ -72,12 +66,12 @@ public class RemoteBackendTest {
 
         @Bean
         public Backend backend() {
-            return new JavaBackend(objectFactory());
+            return new JavaBackend(resourceLoader());
         }
 
         @Override
         public void addBackends(BackendRegistry registry) {
-            registry.register("b1", new JavaBackend(objectFactory()));
+            registry.register("b1", new JavaBackend(resourceLoader()));
         }
     }
 
