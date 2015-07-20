@@ -1,9 +1,9 @@
 minium.webdriver:
   url: http://localhost:4444/wd/hub
   desiredCapabilities:
-    browserName: chrome
-    version:     39.0
-    platform:    LINUX
+    browserName: "chrome"
+    version:     "39.0"
+    platform:    "LINUX"
   requiredCapabilities:
     platform: LINUX 
   window:

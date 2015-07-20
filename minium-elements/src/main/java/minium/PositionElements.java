@@ -15,13 +15,8 @@
  */
 package minium;
 
-import minium.Offsets.Offset;
-
 /**
- * The Interface PositionElements.
  *
- * @param <T> the generic type
- * @author Rui
  */
 public interface PositionElements<T extends Elements> extends Elements {
 
@@ -58,15 +53,11 @@ public interface PositionElements<T extends Elements> extends Elements {
     public T rightOf(Elements fromElems);
 
     /**
-     * Overlaps.
+     * Filters elements that overlaps <code>fromElems</code>.
      *
-     * @param fromElems the from elems
+     * @param fromElems elements to filter
      * @return the t
      */
     public T overlaps(Elements fromElems);
-
-    public T relative(String topleft, String bottomright);
-
-    public T relative(Offset topLeftOffset, Offset bottomRightOffset);
 
 }

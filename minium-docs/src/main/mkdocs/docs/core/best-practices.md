@@ -75,7 +75,7 @@ field.fill("Minium can!");
 
 Minium provides some jquery methods for accessing values from `WebElements`, like '.text()', '.attr(name)', etc.
 However, these methods will always evaluate immediatelly, which can be a problem, because Minium cannot
-ensure their evaluation occurs when it actually evaluates into a non-empty set. For that reason, it should avoid.
+ensure their evaluation occurs when it actually evaluates into a non-empty set. For that reason, it should be avoided.
 
 Instead, filters are provided to restrict elements based on a specific value:
 
