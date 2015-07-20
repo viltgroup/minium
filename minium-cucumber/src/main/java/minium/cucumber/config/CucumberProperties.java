@@ -265,8 +265,7 @@ public class CucumberProperties {
         private String content;
         private String trigger;
         private List<String> rowsHashKeys = Lists.newArrayList();
-        private List<String> hashKeys = Lists.newArrayList();
-        private List<String> simpleTable = Lists.newArrayList();
+        private List<String> hashesKeys = Lists.newArrayList();
 
         public String getName() {
             return name;
@@ -298,8 +297,8 @@ public class CucumberProperties {
                     }
                 }
 
-                if (!hashKeys.isEmpty()) {
-                    for (String col : hashKeys) {
+                if (!hashesKeys.isEmpty()) {
+                    for (String col : hashesKeys) {
                         buf.append("\n");
                         buf.append("  | " + col + "  | ");
                         buf.append(" ${" + (curr++) + ":" + col + "} ");
@@ -336,12 +335,12 @@ public class CucumberProperties {
             this.rowsHashKeys = rowsHashKeys;
         }
 
-        public List<String> getHashKeys() {
-            return hashKeys;
+        public List<String> getHashesKeys() {
+            return hashesKeys;
         }
 
-        public void setHashKeys(List<String> hashKeys) {
-            this.hashKeys = hashKeys;
+        public void setHashesKeys(List<String> hashesKeys) {
+            this.hashesKeys = hashesKeys;
         }
     }
 
