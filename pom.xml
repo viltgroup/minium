@@ -66,7 +66,8 @@
 		<rhino.version>1.7.7</rhino.version>
 		<dynjs.version>0.3.1</dynjs.version>
 		<cucumber.version>1.2.3</cucumber.version>
-		<json.version>20141113</json.version>
+		<!-- we cannot upgrade to 20141113 because it's java 8 only -->
+		<json.version>20140107</json.version>
 		<sikulix.version>1.1.0-SNAPSHOT</sikulix.version>
 		<guava.version>18.0</guava.version>
 		<guava-retrying.version>2.0.0</guava-retrying.version>
