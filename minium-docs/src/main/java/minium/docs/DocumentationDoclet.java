@@ -75,6 +75,14 @@ public class DocumentationDoclet {
     public static boolean start(RootDoc root) throws IOException {
         File outputDir = readOutputDir(root);
         outputDir.mkdirs();
+        try (Writer writer = createFileWriter(outputDir, "api/methods.json")) {
+            ApiJSONGenerator apiJSONGenerator = new ApiJSONGenerator(root, writer);
+            apiJSONGenerator.addClass(WEB_ELEMENTS);
+            apiJSONGenerator.addClass(INTERACTABLES);
+            apiJSONGenerator.addClass(CONFIGURATION);
+            apiJSONGenerator.addClass(BROWSER);
+            apiJSONGenerator.print();
+        }
         try (Writer writer = createFileWriter(outputDir, "api/configuration.md")) {
             new ApiGenerator(root, writer, CONFIGURATION).print();
         }
