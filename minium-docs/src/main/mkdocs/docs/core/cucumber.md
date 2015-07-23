@@ -27,6 +27,12 @@ Feature: Search results in Google
 ### Step 2 - writing steps
 
 ```javascript
+var timeUnits = require("minium/timeunits");
+
+World(function () {
+  browser.configure().defaultTimeout(10, timeUnits.SECONDS);
+});
+
 Given(/^I'm at (.*)$/, function (url) {
   browser.get(url);
 });
@@ -56,5 +62,18 @@ Then(/^links corresponding to (.*) are displayed$/, function (query) {
     expect(link).to.have.size(1);
   });
 
+});
+```
+
+**Very important:** Please avoid at all cost calling `browser` methods outside any of cucumber methods (`World`, `When`, `Then`, etc.). That can afect tests in multiple browsers, as it will force all browsers to open on startup instead of opening the browser when it is needed (that is, when tests for that specific browser start to run). This can cause selenium timeouts because of browsers being opened too long without any activity.
+Instead, consider initializing `browser` inside of `World`:
+
+```javascript
+World(function () {
+  var loadingElem = $(".loading");
+  browser.configure()
+    .interactionListeners()
+      .clear()
+      .add(minium.interactionListeners.ensureUnexistence(loadingElem));
 });
 ```
