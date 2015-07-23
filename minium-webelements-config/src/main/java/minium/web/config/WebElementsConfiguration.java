@@ -69,8 +69,8 @@ public class WebElementsConfiguration {
 
     @Autowired
     @Bean
-    @Order(Ordered.HIGHEST_PRECEDENCE)
     @Lazy
+    @Order(Ordered.HIGHEST_PRECEDENCE)
     public WebModule defaultWebModule(WebDriver wd) {
         return combine(defaultModule(wd), debugModule());
     }
@@ -78,7 +78,7 @@ public class WebElementsConfiguration {
     @Autowired
     @Bean
     @Lazy
-    public Browser<DefaultWebElements> browser(@Lazy WebDriver webDriver, List<WebModule> modules) {
+    public Browser<DefaultWebElements> browser(WebDriver webDriver, List<WebModule> modules) {
         WebModule combinedWebModule = WebModules.combine(modules);
         return new WebDriverBrowser<DefaultWebElements>(webDriver, DefaultWebElements.class, combinedWebModule);
     }
