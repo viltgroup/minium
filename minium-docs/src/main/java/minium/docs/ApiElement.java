@@ -15,19 +15,12 @@
  */
 package minium.docs;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 public class ApiElement {
 
-    @JsonIgnore
     private String type;
     private String caption;
     private String content;
     private String description;
-    @JsonIgnore
-    private String params;
-    @JsonIgnore
-    private String tag;
 
     public ApiElement() {
     }

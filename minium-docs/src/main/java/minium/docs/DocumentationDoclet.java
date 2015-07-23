@@ -79,21 +79,20 @@ public class DocumentationDoclet {
             ApiJSONGenerator apiJSONGenerator = new ApiJSONGenerator(root, writer);
             apiJSONGenerator.addClass(WEB_ELEMENTS);
             apiJSONGenerator.addClass(INTERACTABLES);
-            apiJSONGenerator.addClass(CONFIGURATION);
             apiJSONGenerator.addClass(BROWSER);
             apiJSONGenerator.print();
         }
         try (Writer writer = createFileWriter(outputDir, "api/configuration.md")) {
-            new ApiGenerator(root, writer, CONFIGURATION).print();
+            new ApiMarkdownGenerator(root, writer, CONFIGURATION).print();
         }
         try (Writer writer = createFileWriter(outputDir, "api/browser.md")) {
-            new ApiGenerator(root, writer, BROWSER).print();
+            new ApiMarkdownGenerator(root, writer, BROWSER).print();
         }
         try (Writer writer = createFileWriter(outputDir, "api/web-elements.md")) {
-            new ApiGenerator(root, writer, WEB_ELEMENTS).print();
+            new ApiMarkdownGenerator(root, writer, WEB_ELEMENTS).print();
         }
         try (Writer writer = createFileWriter(outputDir, "api/interactable.md")) {
-            new ApiGenerator(root, writer, INTERACTABLES).print();
+            new ApiMarkdownGenerator(root, writer, INTERACTABLES).print();
         }
         return true;
     }
