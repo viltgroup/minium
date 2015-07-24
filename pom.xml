@@ -567,9 +567,9 @@
 		<module>minium-script-rhinojs</module>
 		<module>minium-cucumber</module>
 		<module>minium-cucumber-rest</module>
-		<module>minium-cucumber-archetype</module>
 		<module>minium-docs</module>
 		<module>minium-parent</module>
+		<module>minium-cucumber-parent</module>
 	</modules>
 
 	<repositories>
