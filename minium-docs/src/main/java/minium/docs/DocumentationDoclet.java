@@ -35,6 +35,7 @@ import minium.web.PositionWebElements;
 import minium.web.TargetLocatorWebElements;
 import minium.web.actions.Browser;
 import minium.web.actions.WebConfiguration;
+import minium.web.actions.WebInteractable;
 
 import com.sun.javadoc.RootDoc;
 import com.sun.tools.javadoc.Main;
@@ -69,7 +70,8 @@ public class DocumentationDoclet {
         Interactable.class,
         MouseInteractable.class,
         KeyboardInteractable.class,
-        WaitInteractable.class
+        WaitInteractable.class,
+        WebInteractable.class
     };
 
     public static boolean start(RootDoc root) throws IOException {
