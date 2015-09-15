@@ -140,6 +140,7 @@ public class WebDriverProperties {
     private Map<String, Object> requiredCapabilities = Maps.newHashMap();
     private URL url;
     private WindowProperties window;
+    private boolean stateful = true;
 
     public WebDriverProperties() {
         desiredCapabilities.put(CapabilityType.BROWSER_NAME, BrowserType.CHROME);
@@ -177,4 +178,11 @@ public class WebDriverProperties {
         this.window = window;
     }
 
+    public boolean isStateful() {
+        return stateful;
+    }
+    
+    public void setStateful(boolean stateful) {
+        this.stateful = stateful;
+    }
 }

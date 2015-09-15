@@ -137,6 +137,6 @@ public class WebDriverFactory {
             }
         }
         webDriver = webDriver instanceof TakesScreenshot ? webDriver : new Augmenter().augment(webDriver);
-        return new StatefulWebDriver(webDriver);
+        return webDriverProperties.isStateful() ? new StatefulWebDriver(webDriver) : webDriver;
     }
 }
