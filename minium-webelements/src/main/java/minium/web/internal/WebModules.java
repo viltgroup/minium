@@ -164,7 +164,7 @@ public class WebModules {
 
                     @Override
                     protected void initialize() {
-                        implement(HasInteractionListeners.class).with(new DefaultHasInteractionListeners<Interactable<Interactable<?>>>());
+                        implement(HasInteractionListeners.class).with(new DefaultHasInteractionListeners<Interactable<?>>());
                         implement(HasConfiguration.class).with(new HasConfiguration.Impl(configuration));
                         implement(WaitInteractable.class).with(new DefaultWaitInteractable<Interactable<?>>());
                         implement(MouseInteractable.class).with(new DefaultMouseInteractable<Interactable<?>>());

@@ -24,7 +24,9 @@ import minium.web.DocumentWebDriver;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.internal.Coordinates;
 import org.openqa.selenium.internal.Locatable;
@@ -148,6 +150,12 @@ public class DocumentWebElement implements WebElement, WrapsDriver, Locatable {
 
     public WebElement getWrappedWebElement() {
         return webElement;
+    }
+    
+    @Override
+    public <X> X getScreenshotAs(OutputType<X> type) throws WebDriverException {
+        webDriver.ensureSwitch();
+        return webElement.getScreenshotAs(type);
     }
 
     @Override
