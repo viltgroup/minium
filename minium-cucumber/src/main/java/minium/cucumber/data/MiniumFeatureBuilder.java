@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,13 +43,12 @@ import minium.cucumber.data.reader.DataDTO;
 import minium.cucumber.data.reader.DataReader;
 import minium.cucumber.data.reader.DataReaderFactory;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import cucumber.runtime.FeatureBuilder;
 import cucumber.runtime.io.ResourceLoader;
@@ -57,23 +57,51 @@ import cucumber.runtime.model.PathWithLines;
 
 public class MiniumFeatureBuilder extends FeatureBuilder {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MiniumFeatureBuilder.class);
-
     private PrettyFormatter prettyFormatter;
     private static final Pattern SOURCE_COMMENT_REGEX = Pattern.compile("#\\s*@source\\s*:(.*)");
 
+    private Map<Integer, Integer> lineOffset;
+
     private File resourceDir;
+    private File baseDir = new File("src/test/resources");
+    private Integer offset = 0;
+    private boolean isPreview = false;
 
     public MiniumFeatureBuilder(List<CucumberFeature> cucumberFeatures, PrettyFormatter prettyFormatter, File resourceDir) {
         super(cucumberFeatures);
         this.prettyFormatter = prettyFormatter;
         this.resourceDir = resourceDir;
+        this.lineOffset = Maps.newTreeMap();
+    }
+
+    public MiniumFeatureBuilder(List<CucumberFeature> cucumberFeatures, File resourceDir) {
+        super(cucumberFeatures);
+        this.prettyFormatter = new PrettyFormatter(new StringWriter(), true, false);
+        this.resourceDir = resourceDir;
+        this.lineOffset = Maps.newTreeMap();
     }
 
     public MiniumFeatureBuilder(List<CucumberFeature> cucumberFeatures) {
         super(cucumberFeatures);
         prettyFormatter = new PrettyFormatter(new StringWriter(), true, false);
         this.resourceDir = null;
+        this.lineOffset = Maps.newTreeMap();
+    }
+
+    public MiniumFeatureBuilder(List<CucumberFeature> cucumberFeatures, boolean isPreview) {
+        super(cucumberFeatures);
+        prettyFormatter = new PrettyFormatter(new StringWriter(), true, false);
+        this.resourceDir = null;
+        this.isPreview = isPreview;
+        this.lineOffset = Maps.newTreeMap();
+    }
+
+    public MiniumFeatureBuilder(List<CucumberFeature> cucumberFeatures, PrettyFormatter prettyFormatter, File resourceDir, boolean isPreview) {
+        super(cucumberFeatures);
+        this.prettyFormatter = prettyFormatter;
+        this.resourceDir = resourceDir;
+        this.isPreview = isPreview;
+        this.lineOffset = Maps.newTreeMap();
     }
 
     @Override
@@ -96,12 +124,20 @@ public class MiniumFeatureBuilder extends FeatureBuilder {
 
     @Override
     public void scenario(Scenario scenario) {
+        if (offset != 0 && isPreview) {
+            int newLine = scenario.getLine() + offset;
+            lineOffset.put(scenario.getLine() , newLine);
+        }
         super.scenario(scenario);
         prettyFormatter.scenario(scenario);
     }
 
     @Override
     public void scenarioOutline(ScenarioOutline scenarioOutline) {
+        if (offset != 0 && isPreview) {
+            int newLine = scenarioOutline.getLine() + offset;
+            lineOffset.put(scenarioOutline.getLine() , newLine);
+        }
         super.scenarioOutline(scenarioOutline);
         prettyFormatter.scenarioOutline(scenarioOutline);
     }
@@ -122,27 +158,53 @@ public class MiniumFeatureBuilder extends FeatureBuilder {
     public void examples(Examples examples) {
 
         ExamplesTableRow cells = examples.getRows().isEmpty() ? null : examples.getRows().get(0);
+        if (cells != null && offset != 0 && isPreview && cells.getComments().isEmpty()) {
+            int newLine = cells.getLine() + offset.intValue();
+            lineOffset.put(cells.getLine(), newLine);
+            List<ExamplesTableRow> rows = examples.getRows();
+            List<ExamplesTableRow> newRows = new ArrayList<ExamplesTableRow>();
+            for (ExamplesTableRow examplesTableRow : rows) {
+                lineOffset.put(examplesTableRow.getLine(), examplesTableRow.getLine() + offset);
+                ExamplesTableRow tableRow = new ExamplesTableRow(examplesTableRow.getComments(), examplesTableRow.getCells(), examplesTableRow.getLine()
+                        + offset, examplesTableRow.getId());
+                newRows.add(tableRow);
+            }
+            examples.setRows(newRows);
+        }
         if (cells != null && !cells.getComments().isEmpty()) {
-            Resource sourceResource = getSourceResource(cells.getComments().get(0).getValue());
+            String filePathFromComment = getExtractFilePathFromComment(cells.getComments().get(0).getValue());
+            Resource sourceResource = getSourceResource(filePathFromComment);
+
             if (sourceResource != null) {
                 List<ExamplesTableRow> rows = new ArrayList<ExamplesTableRow>();
-                ExamplesTableRow tableRow = new ExamplesTableRow(cells.getComments(), cells.getCells(), cells.getLine(), cells.getId());
-                rows.add(tableRow);
+                List<ExamplesTableRow> oldrows = examples.getRows();
+                ExamplesTableRow tableRowHeader = oldrows.get(0);
+                rows.add(tableRowHeader);
 
                 DataReader dataReader;
                 try {
                     InputStream inputStream = sourceResource.getInputStream();
                     dataReader = DataReaderFactory.create(sourceResource.getFilename());
                     DataDTO data = dataReader.readExamples(inputStream);
-
-                    int j = 1;
-                    for (Integer lineNum : data.getValues().keySet()) {
-                        List<String> values = data.getValues().get(lineNum);
-                        Comment comment = new Comment("#" + sourceResource.getFilename(), lineNum);
+                    ExamplesTableRow tableRow;
+                    int lineNumOffset = 1;
+                    for (Integer lineNumInResource : data.getValues().keySet()) {
+                        List<String> values = data.getValues().get(lineNumInResource);
+                        String valueComment = String.format("# %s:%d", filePathFromComment, lineNumInResource);
+                        Comment comment = new Comment(valueComment, lineNumInResource);
                         List<Comment> comments = Lists.newArrayList(comment);
-                        tableRow = new ExamplesTableRow(comments, values, cells.getLine() + j++, cells.getId());
+                        int newLineNum = tableRowHeader.getLine() + lineNumOffset;
+                        if (isPreview) {
+                            newLineNum += offset;
+                        }
+                        tableRow = new ExamplesTableRow(comments, values, newLineNum, cells.getId());
                         rows.add(tableRow);
+                        lineOffset.put(tableRowHeader.getLine() + lineNumOffset, newLineNum + 1);
+
+                        offset += 1;
+                        lineNumOffset++;
                     }
+                    offset = (offset + lineNumOffset) - examples.getRows().size();
                     examples.setRows(rows);
                 } catch (IOException | InstantiationException | IllegalAccessException e) {
                     throw Throwables.propagate(e);
@@ -156,9 +218,15 @@ public class MiniumFeatureBuilder extends FeatureBuilder {
 
     @Override
     public void step(Step step) {
+        if (offset != 0 && isPreview) {
+            int newLine = step.getLine().intValue() + offset.intValue();
+            lineOffset.put(step.getLine().intValue(), newLine);
+            step = new Step(step.getComments(), step.getKeyword(), step.getName(), newLine, step.getRows(), step.getDocString());
+        }
+
         if (step.getRows() != null && step.getRows().get(0) != null && !step.getRows().get(0).getComments().isEmpty()) {
-            String commentValue = step.getRows().get(0).getComments().get(0).getValue();
-            Resource sourceResource = getSourceResource(commentValue);
+            String filePathFromComment = getExtractFilePathFromComment(step.getRows().get(0).getComments().get(0).getValue());
+            Resource sourceResource = getSourceResource(filePathFromComment);
 
             if (sourceResource != null) {
                 DataReader dataReader;
@@ -170,12 +238,19 @@ public class MiniumFeatureBuilder extends FeatureBuilder {
                     List<DataTableRow> rows = Lists.newArrayList();
                     for (Integer lineNum : data.getValues().keySet()) {
                         List<String> cells = Lists.newArrayList(data.getValues().get(lineNum));
-                        Comment comment = new Comment("#" + sourceResource.getFilename(), lineNum);
+                        String valueComment = String.format("# %s:%d", filePathFromComment, lineNum + 1);
+                        Comment comment = new Comment(valueComment, lineNum);
                         List<Comment> comments = Lists.newArrayList(comment);
-                        DataTableRow row = new DataTableRow(comments, cells, step.getLine());
+                        int newLineNum = step.getLine() + 2;
+                        if (isPreview) {
+                            newLineNum += offset;
+                        }
+                        DataTableRow row = new DataTableRow(comments, cells, newLineNum + 1);
                         rows.add(row);
+                        offset += 2;
                     }
-
+                    // re-calculate offset
+                    offset = offset - step.getRows().size() - 1;
                     step = new Step(step.getComments(), step.getKeyword(), step.getName(), step.getLine(), rows, step.getDocString());
 
                 } catch (InstantiationException | IllegalAccessException | IOException e) {
@@ -219,20 +294,32 @@ public class MiniumFeatureBuilder extends FeatureBuilder {
         this.prettyFormatter = prettyFormatter;
     }
 
-    private Resource getSourceResource(String comment) {
+    private String getExtractFilePathFromComment(String comment) {
         Matcher matcher = SOURCE_COMMENT_REGEX.matcher(comment);
-        if (!matcher.matches())
+        return matcher.matches() ? matcher.group(1).trim() : null;
+    }
+
+    private Resource getSourceResource(String path) {
+        if (path == null) {
             return null;
-        String path = matcher.group(1).trim();
+        }
+
         File file = new File(path);
         if (!file.isAbsolute() && resourceDir != null) {
             return new FileSystemResource(new File(resourceDir, path));
+        }
+        if (!file.isAbsolute()) {
+            String classLoaderPath = new File("").getAbsolutePath();
+            File basePath = new File(baseDir, path);
+            File resourcePath = new File(classLoaderPath, basePath.getPath());
+            FileSystemResource classPathResource = new FileSystemResource(resourcePath.getPath());
+            return classPathResource;
         }
         return new FileSystemResource(file);
     }
 
     public static List<CucumberFeature> load(ResourceLoader resourceLoader, List<String> featurePaths, List<Object> filters, PrintStream out) {
-        List<CucumberFeature> cucumberFeatures = load(resourceLoader, featurePaths, filters);
+        List<CucumberFeature> cucumberFeatures = load(resourceLoader, featurePaths, filters, null, null);
         if (cucumberFeatures.isEmpty()) {
             if (featurePaths.isEmpty())
                 out.println(String.format("Got no path to feature directory or feature file", new Object[0]));
@@ -245,9 +332,24 @@ public class MiniumFeatureBuilder extends FeatureBuilder {
         return cucumberFeatures;
     }
 
-    public static List<CucumberFeature> load(ResourceLoader resourceLoader, List<String> featurePaths, List<Object> filters) {
+    public static List<CucumberFeature> load(ResourceLoader resourceLoader, List<String> featurePaths, List<Object> filters, PrintStream out, File resourceDir) {
+
+        List<CucumberFeature> cucumberFeatures = load(resourceLoader, featurePaths, filters, resourceDir);
+        if (cucumberFeatures.isEmpty()) {
+            if (featurePaths.isEmpty())
+                out.println(String.format("Got no path to feature directory or feature file", new Object[0]));
+            else if (filters.isEmpty())
+                out.println(String.format("No features found at %s", new Object[] { featurePaths }));
+            else {
+                out.println(String.format("None of the features at %s matched the filters: %s", new Object[] { featurePaths, filters }));
+            }
+        }
+        return cucumberFeatures;
+    }
+
+    public static List<CucumberFeature> load(ResourceLoader resourceLoader, List<String> featurePaths, List<Object> filters, File resourceDir) {
         List<CucumberFeature> cucumberFeatures = new ArrayList<CucumberFeature>();
-        MiniumFeatureBuilder builder = new MiniumFeatureBuilder(cucumberFeatures);
+        MiniumFeatureBuilder builder = new MiniumFeatureBuilder(cucumberFeatures, resourceDir);
         for (String featurePath : featurePaths) {
             if (featurePath.startsWith("@")) {
                 loadFromRerunFile(builder, resourceLoader, featurePath.substring(1), filters);
@@ -305,4 +407,13 @@ public class MiniumFeatureBuilder extends FeatureBuilder {
             return a.getPath().compareTo(b.getPath());
         }
     }
+
+    public Map<Integer, Integer> getLineOffset() {
+        return lineOffset;
+    }
+
+    public void setLineOffset(Map<Integer, Integer> lineOffset) {
+        this.lineOffset = lineOffset;
+    }
+
 }

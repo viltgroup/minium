@@ -105,7 +105,7 @@ public class FeatureDecoratorTest {
     }
 
     @Test
-    public void featureWithDataAndErrors() throws Exception {
+    public void testFeatureWithDataAndErrors() throws Exception {
         List<CucumberFeature> features = new ArrayList<CucumberFeature>();
         StringWriter writer = new StringWriter();
         final PrettyFormatter formatter = new PrettyFormatter(writer, true, false);
@@ -135,7 +135,7 @@ public class FeatureDecoratorTest {
     }
 
     @Test
-    public void testFoo() throws IOException {
+    public void testLoadDataInExample() throws IOException {
         List<CucumberFeature> cucumberFeatures = Lists.newArrayList();
         StringWriter writer = new StringWriter();
         final PrettyFormatter formatter = new PrettyFormatter(writer, true, false);
@@ -150,11 +150,11 @@ public class FeatureDecoratorTest {
                         "    Then <bar> should occur",
                         "",
                         "    Examples: ",
-                        "      #@source :src/test/resources/data-foo.csv",
+                        "      #@source :data-foo.csv",
                         "     | foo2     | bar2      |",
-                        "      #data-foo.csv",
+                        "      # data-foo.csv:1",
                         "     | valChanged1 | valChanged2 |",
-                        "      #data-foo.csv",
+                        "      # data-foo.csv:2",
                         "     | valChanged3 | valChanged4 |",
                         "").replaceAll("\\s+", " ")));
     }

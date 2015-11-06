@@ -15,6 +15,7 @@
  */
 package minium.cucumber;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -38,8 +39,7 @@ public class StringResource implements Resource {
 
     @Override
     public String getAbsolutePath() {
-        // TODO Auto-generated method stub
-        return null;
+        return new File(this.path).getAbsolutePath();
     }
 
     @Override
@@ -48,9 +48,9 @@ public class StringResource implements Resource {
     }
 
     @Override
-    public String getClassName(String paramString) {
-        // TODO Auto-generated method stub
-        return null;
+    public String getClassName(String extension) {
+        String path = getPath();
+        return path.substring(0, path.length() - extension.length()).replace(File.separatorChar, '.');
     }
 
 }

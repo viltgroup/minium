@@ -5,7 +5,7 @@ Feature: Send Emails
    Scenario: Send an Email
     When I click on button "Compose"
     And I fill:
-      #@source:src/test/resources/data-table.csv
+      #@source:data-table.csv
       | Recipients | Rui Figueira   |
       | Subject    | Minium Test    |
       | Message    | My new Message |

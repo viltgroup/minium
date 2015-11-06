@@ -46,7 +46,7 @@ public class DataReaderTest {
         DataReader dataReader = DataReaderFactory.create(filePath);
         DataDTO dataRead = dataReader.readTable(inputStream);
 
-        assertEquals(3, dataRead.getValues().keySet().size());
+        assertEquals(4, dataRead.getValues().keySet().size());
     }
 
     @Test
@@ -63,6 +63,17 @@ public class DataReaderTest {
     @Test
     public void readXLSDataTable() throws IOException, InstantiationException, IllegalAccessException {
         String filePath = "data.xls";
+        File file = getResource(filePath);
+        InputStream inputStream = Files.asByteSource(file).openStream();
+        DataReader dataReader = DataReaderFactory.create(filePath);
+        DataDTO dataRead = dataReader.readExamples(inputStream);
+
+        assertEquals(3, dataRead.getValues().keySet().size());
+    }
+
+    @Test
+    public void readODSDataTable() throws IOException, InstantiationException, IllegalAccessException {
+        String filePath = "data.ods";
         File file = getResource(filePath);
         InputStream inputStream = Files.asByteSource(file).openStream();
         DataReader dataReader = DataReaderFactory.create(filePath);

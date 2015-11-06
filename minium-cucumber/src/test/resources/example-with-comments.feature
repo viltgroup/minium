@@ -16,7 +16,7 @@ Feature: Send Emails
       | Message    | <message> |
 
     Examples: 
-      #@source:src/test/resources/data.csv
+      #@source:data.csv
       | to             | subject      | message                                                 |
       | Rui Figueira   | Minium Test  | My New messages                                         |
       | Mario Lameiras | BDD + Minium | Egestas morbi at. Curabitur aliquet et commodo nonummy  |
@@ -25,7 +25,7 @@ Feature: Send Emails
    Scenario: Send an Email
     When I click on button "Compose"
     And I fill:
-      #@source:src/test/resources/data table.csv
+      #@source:data table.csv
       | Recipients | Rui Figueira   |
       | Subject    | Minium Test    |
       | Message    | My new Message |

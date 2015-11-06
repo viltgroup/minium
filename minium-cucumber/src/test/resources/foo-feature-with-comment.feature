@@ -3,6 +3,6 @@ Feature: Test 1
     Given <foo> exists
     Then <bar> should occur
     Examples:
-    #@source :src/test/resources/data-foo.csv
+    #@source :data-foo.csv
     |foo2 |bar2 |
     |val1 |val2 |

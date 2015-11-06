@@ -15,6 +15,7 @@
  */
 package minium.cucumber.data;
 
+import java.io.File;
 import java.util.List;
 
 import cucumber.runtime.RuntimeOptions;
@@ -25,6 +26,8 @@ import cucumber.runtime.model.CucumberFeature;
 
 public class MiniumRunTimeOptions extends RuntimeOptions {
 
+    private File resourceDir;
+
     public MiniumRunTimeOptions(List<String> argv) {
         super(argv);
     }
@@ -33,9 +36,18 @@ public class MiniumRunTimeOptions extends RuntimeOptions {
         super(new PluginFactory(), Shellwords.parse(argv));
     }
 
+    public MiniumRunTimeOptions(List<String> argv, File resourceDir) {
+        super(argv);
+        this.resourceDir = resourceDir;
+    }
+
     @Override
     public List<CucumberFeature> cucumberFeatures(ResourceLoader resourceLoader) {
-        return MiniumFeatureBuilder.load(resourceLoader, this.getFeaturePaths(), this.getFilters(), System.out);
+        return MiniumFeatureBuilder.load(resourceLoader, this.getFeaturePaths(), this.getFilters(), System.out,resourceDir);
+    }
+
+    public List<CucumberFeature> cucumberFeatures(ResourceLoader resourceLoader,boolean x) {
+        return MiniumFeatureBuilder.load(resourceLoader, this.getFeaturePaths(), this.getFilters(), System.out,resourceDir);
     }
 
 }
