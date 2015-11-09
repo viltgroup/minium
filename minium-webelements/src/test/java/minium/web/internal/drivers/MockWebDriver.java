@@ -376,7 +376,7 @@ public class MockWebDriver implements WebDriver, HasInputDevices, JavascriptExec
         for (Entry<String, List<WebElement>> entry : expressionToWebElements.entrySet()) {
             String expr = entry.getKey();
             // first check if trying to get size
-            if (Objects.equal(exprToEvaluate + ".size()", expr)) {
+            if (Objects.equal(exprToEvaluate, expr + ".size()")) {
                 return entry.getValue().size();
             } else if (Objects.equal(exprToEvaluate, expr)) {
                 return entry.getValue();

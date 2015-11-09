@@ -5,6 +5,7 @@ import minium.web.CoreWebElements.DefaultWebElements;
 import minium.web.actions.Browser;
 import minium.web.actions.WebDriverBrowser;
 import minium.web.internal.drivers.MockWebDriver;
+import minium.web.internal.drivers.MockWebElement;
 
 import org.hamcrest.Matchers;
 import org.junit.Before;
@@ -23,6 +24,8 @@ public class EmptyWebElementsTest {
     
     @Test
     public void testAdd() {
+        webDriver.when("$().add(\":text\")").thenReturn(new MockWebElement());
+        
         DefaultWebElements emptyAddSomething = browser.$().add(":text");
         assertThat(emptyAddSomething.size(), Matchers.equalTo(1));
     }
