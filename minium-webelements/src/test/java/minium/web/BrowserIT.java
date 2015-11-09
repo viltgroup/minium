@@ -15,10 +15,14 @@
  */
 package minium.web;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertThat;
 import minium.web.CoreWebElements.DefaultWebElements;
 import minium.web.actions.WebDriverBrowser;
 
+import org.hamcrest.Matchers;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
@@ -39,11 +43,21 @@ public class BrowserIT {
     public static void tearDown() {
         wd.quit();
     }
+    
+    @Test
+    public void testEmptyElement() throws Exception {
+        browser.get("http://minium.vilt.io/sample-app/");
+        
+        DefaultWebElements emptyPlusTitleElem = browser.$().add(browser.$("title"));
+        assertThat(emptyPlusTitleElem.size(), equalTo(1));
+        assertThat(emptyPlusTitleElem.text(), equalTo("Minium Mail"));
+    }
 
     @Test
     public void testByName() throws Exception {
         browser.get("http://www.google.com");
 
+        DefaultWebElements add = browser.$().add(browser.$("title"));
         DefaultWebElements searchFld = browser.root().find("q");
 
         searchFld.fill("Minium Can!");

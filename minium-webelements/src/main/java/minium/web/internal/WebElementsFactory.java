@@ -37,6 +37,8 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
 public interface WebElementsFactory<T extends WebElements> extends ElementsFactory<T> {
+    
+    public abstract T createEmpty(DocumentWebDriver webDriver);
 
     public abstract T createNative(DocumentWebDriver webDriver, WebElement ... nativeWebElements);
 

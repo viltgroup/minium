@@ -67,6 +67,7 @@ public class WebDriverConfigurationTest {
         DesiredCapabilities expectedRequiredCapabilities = new DesiredCapabilities(ImmutableMap.of(CapabilityType.PLATFORM, Platform.LINUX.name()));
         assertThat(new DesiredCapabilities(webDriverProperties.getDesiredCapabilities()), equalTo(expectedDesiredCapabilities));
         assertThat(new DesiredCapabilities(webDriverProperties.getRequiredCapabilities()), equalTo(expectedRequiredCapabilities));
+        assertThat(webDriverProperties.isStateful(), equalTo(true));
         assertThat(webDriverProperties.getUrl(), equalTo(new URL("http://localhost:4444/wd/hub")));
         assertThat(webDriverProperties.getWindow().getSize(), equalTo(new DimensionProperties(1280, 1024)));
         assertThat(webDriverProperties.getWindow().getPosition(), nullValue());

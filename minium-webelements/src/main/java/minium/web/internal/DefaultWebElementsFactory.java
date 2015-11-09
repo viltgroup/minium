@@ -147,6 +147,11 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
     public Set<Class<?>> getProvidedInterfaces() {
         return ImmutableSet.copyOf(builerProvidedInterfaces);
     }
+    
+    @Override
+    public T createEmpty(DocumentWebDriver webDriver) {
+        return createMixin(new EmptyWebElements<T>(webDriver));
+    }
 
     @Override
     public T createNative(DocumentWebDriver webDriver, WebElement ... nativeWebElements) {

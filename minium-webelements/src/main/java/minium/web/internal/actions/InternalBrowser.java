@@ -475,7 +475,7 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
 
     @Override
     public T $(WebElements... elems) {
-        if (elems.length == 0) return factory.createNative();
+        if (elems == null || elems.length == 0) return factory.createEmpty(documentDriver());
 
         T result = null;
         for (WebElements webElements : elems) {
