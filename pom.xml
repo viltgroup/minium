@@ -9,7 +9,7 @@
 
 	<groupId>io.vilt.minium</groupId>
 	<artifactId>minium</artifactId>
-	<version>1.2-SNAPSHOT</version>
+	<version>1.2.0</version>
 	<packaging>pom</packaging>
 	<name>Minium Parent POM</name>
 
@@ -28,7 +28,7 @@
 		<connection>scm:git:git@artemis.vilt-group.com:engineering.minium/minium.git</connection>
 		<developerConnection>scm:git:git@artemis.vilt-group.com:engineering.minium/minium.git</developerConnection>
 		<url>https://artemis.vilt-group.com/engineering.minium/minium</url>
-	  <tag>HEAD</tag>
+	  <tag>minium-1.2.0</tag>
   </scm>
 
 	<organization>
@@ -98,47 +98,47 @@
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-elements</artifactId>
-				<version>1.2-SNAPSHOT</version>
+				<version>1.2.0</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-webelements</artifactId>
-				<version>1.2-SNAPSHOT</version>
+				<version>1.2.0</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-webelements-config</artifactId>
-				<version>1.2-SNAPSHOT</version>
+				<version>1.2.0</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-script-js</artifactId>
-				<version>1.2-SNAPSHOT</version>
+				<version>1.2.0</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-script-rhinojs</artifactId>
-				<version>1.2-SNAPSHOT</version>
+				<version>1.2.0</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-actions</artifactId>
-				<version>1.2-SNAPSHOT</version>
+				<version>1.2.0</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-cucumber</artifactId>
-				<version>1.2-SNAPSHOT</version>
+				<version>1.2.0</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-cucumber-rest</artifactId>
-				<version>1.2-SNAPSHOT</version>
+				<version>1.2.0</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-docs</artifactId>
-				<version>1.2-SNAPSHOT</version>
+				<version>1.2.0</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.ruifigueira</groupId>
