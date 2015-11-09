@@ -400,7 +400,7 @@ public class DelegatorWebDriver extends Observable implements WebDriver, Javascr
     public boolean isValid() {
         if (delegate == null) return false;
         try {
-            return delegate.getWindowHandles().contains(delegate.getWindowHandle());
+            return delegate.getWindowHandles() != null;
         } catch (WebDriverException e) {
             if (e instanceof UnhandledAlertException) {
                 return true;
