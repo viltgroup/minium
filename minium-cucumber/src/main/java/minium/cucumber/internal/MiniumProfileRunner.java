@@ -46,6 +46,7 @@ import minium.cucumber.MiniumCucumber;
 import minium.cucumber.config.ConfigProperties;
 import minium.cucumber.config.CucumberProperties;
 import minium.cucumber.config.CucumberProperties.RemoteBackendProperties;
+import minium.cucumber.data.MiniumRunTimeOptions;
 import minium.cucumber.rest.RemoteBackend;
 import minium.script.js.JsBrowserFactory;
 import minium.script.js.MiniumJsEngineAdapter;
@@ -74,17 +75,17 @@ import com.google.common.collect.Lists;
 
 import cucumber.runtime.Backend;
 import cucumber.runtime.Runtime;
-import cucumber.runtime.RuntimeOptions;
 import cucumber.runtime.io.ResourceLoader;
 import cucumber.runtime.junit.FeatureRunner;
 import cucumber.runtime.junit.JUnitReporter;
 import cucumber.runtime.model.CucumberFeature;
 
-public class MiniumProfileRunner extends ParentRunner<FeatureRunner>implements InitializingBean {
+public class MiniumProfileRunner extends ParentRunner<FeatureRunner> implements InitializingBean {
 
     @SpringApplicationConfiguration(classes = MiniumConfiguration.class)
     @ActiveProfiles(resolver = MiniumActiveProfilesResolver.class)
-    public static class MiniumCucumberTest { }
+    public static class MiniumCucumberTest {
+    }
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MiniumProfileRunner.class);
 
@@ -135,22 +136,21 @@ public class MiniumProfileRunner extends ParentRunner<FeatureRunner>implements I
         // and set configuration
         rhinoEngine.putJson("config", configProperties.toJson());
 
+        final MiniumRunTimeOptions myruntimeOptions = new MiniumRunTimeOptions(cucumberProperties.getOptions().toArgs());
+
         // we now build cucumber runtime and load glues
         RuntimeBuilder runtimeBuilder = rhinoEngine.runWithContext(rhinoEngine.new RhinoCallable<RuntimeBuilder, IOException>() {
             @Override
             protected RuntimeBuilder doCall(Context cx, Scriptable scope) throws IOException {
                 RuntimeBuilder runtimeBuilder = new RuntimeBuilder();
-                runtimeBuilder
-                    .withArgs(cucumberProperties.getOptions().toArgs())
-                    .withClassLoader(Thread.currentThread().getContextClassLoader())
-                    .withResourceLoader(resourceLoader)
-                    .withBackends(allBackends())
-                    .build();
+                runtimeBuilder.withArgs(cucumberProperties.getOptions().toArgs()).withClassLoader(Thread.currentThread().getContextClassLoader())
+                        .withResourceLoader(resourceLoader).withBackends(allBackends()).withRuntimeOptions(myruntimeOptions).build();
                 return runtimeBuilder;
             }
         });
+
         runtime = runtimeBuilder.getRuntime();
-        RuntimeOptions runtimeOptions = runtimeBuilder.getRuntimeOptions();
+        MiniumRunTimeOptions runtimeOptions = (MiniumRunTimeOptions) runtimeBuilder.getRuntimeOptions();
 
         cucumberFeatures = runtimeOptions.cucumberFeatures(resourceLoader);
         jUnitReporter = new JUnitReporter(runtimeOptions.reporter(classLoader), runtimeOptions.formatter(classLoader), runtimeOptions.isStrict());
@@ -183,7 +183,8 @@ public class MiniumProfileRunner extends ParentRunner<FeatureRunner>implements I
             runtime.printSummary();
         } finally {
             try {
-                if (testContextManager != null) testContextManager.destroy();
+                if (testContextManager != null)
+                    testContextManager.destroy();
             } catch (Exception e) {
                 LOGGER.warn("Failed destroying TestContentManager for profiles {}", environment.getActiveProfiles(), e);
             }
@@ -206,7 +207,7 @@ public class MiniumProfileRunner extends ParentRunner<FeatureRunner>implements I
                 return new MiniumBackend(resourceLoader, cx, scope);
             }
         });
-        return ImmutableList.<Backend>builder().add(miniumBackend).addAll(remoteBackends).build();
+        return ImmutableList.<Backend> builder().add(miniumBackend).addAll(remoteBackends).build();
     }
 
     @Override
