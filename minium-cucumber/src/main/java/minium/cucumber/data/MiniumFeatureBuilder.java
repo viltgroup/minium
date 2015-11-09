@@ -60,32 +60,35 @@ public class MiniumFeatureBuilder extends FeatureBuilder {
     private PrettyFormatter prettyFormatter;
     private static final Pattern SOURCE_COMMENT_REGEX = Pattern.compile("#\\s*@source\\s*:(.*)");
 
-    private Map<Integer, Integer> lineOffset;
+    private Map<Integer, Integer> featureLineOffset;
 
     private File resourceDir;
     private File baseDir = new File("src/test/resources");
-    private Integer offset = 0;
-    private boolean isPreview = false;
+    private Integer lineOffset = 0;
+    private boolean isPreview;
 
     public MiniumFeatureBuilder(List<CucumberFeature> cucumberFeatures, PrettyFormatter prettyFormatter, File resourceDir) {
         super(cucumberFeatures);
         this.prettyFormatter = prettyFormatter;
         this.resourceDir = resourceDir;
-        this.lineOffset = Maps.newTreeMap();
+        this.featureLineOffset = Maps.newTreeMap();
+        this.isPreview = false;
     }
 
     public MiniumFeatureBuilder(List<CucumberFeature> cucumberFeatures, File resourceDir) {
         super(cucumberFeatures);
         this.prettyFormatter = new PrettyFormatter(new StringWriter(), true, false);
         this.resourceDir = resourceDir;
-        this.lineOffset = Maps.newTreeMap();
+        this.featureLineOffset = Maps.newTreeMap();
+        this.isPreview = false;
     }
 
     public MiniumFeatureBuilder(List<CucumberFeature> cucumberFeatures) {
         super(cucumberFeatures);
         prettyFormatter = new PrettyFormatter(new StringWriter(), true, false);
         this.resourceDir = null;
-        this.lineOffset = Maps.newTreeMap();
+        this.featureLineOffset = Maps.newTreeMap();
+        this.isPreview = false;
     }
 
     public MiniumFeatureBuilder(List<CucumberFeature> cucumberFeatures, boolean isPreview) {
@@ -93,7 +96,7 @@ public class MiniumFeatureBuilder extends FeatureBuilder {
         prettyFormatter = new PrettyFormatter(new StringWriter(), true, false);
         this.resourceDir = null;
         this.isPreview = isPreview;
-        this.lineOffset = Maps.newTreeMap();
+        this.featureLineOffset = Maps.newTreeMap();
     }
 
     public MiniumFeatureBuilder(List<CucumberFeature> cucumberFeatures, PrettyFormatter prettyFormatter, File resourceDir, boolean isPreview) {
@@ -101,7 +104,7 @@ public class MiniumFeatureBuilder extends FeatureBuilder {
         this.prettyFormatter = prettyFormatter;
         this.resourceDir = resourceDir;
         this.isPreview = isPreview;
-        this.lineOffset = Maps.newTreeMap();
+        this.featureLineOffset = Maps.newTreeMap();
     }
 
     @Override
@@ -124,9 +127,9 @@ public class MiniumFeatureBuilder extends FeatureBuilder {
 
     @Override
     public void scenario(Scenario scenario) {
-        if (offset != 0 && isPreview) {
-            int newLine = scenario.getLine() + offset;
-            lineOffset.put(scenario.getLine() , newLine);
+        if (lineOffset != 0 && isPreview) {
+            int newLine = scenario.getLine() + lineOffset;
+            featureLineOffset.put(scenario.getLine() , newLine);
         }
         super.scenario(scenario);
         prettyFormatter.scenario(scenario);
@@ -134,9 +137,9 @@ public class MiniumFeatureBuilder extends FeatureBuilder {
 
     @Override
     public void scenarioOutline(ScenarioOutline scenarioOutline) {
-        if (offset != 0 && isPreview) {
-            int newLine = scenarioOutline.getLine() + offset;
-            lineOffset.put(scenarioOutline.getLine() , newLine);
+        if (lineOffset != 0 && isPreview) {
+            int newLine = scenarioOutline.getLine() + lineOffset;
+            featureLineOffset.put(scenarioOutline.getLine() , newLine);
         }
         super.scenarioOutline(scenarioOutline);
         prettyFormatter.scenarioOutline(scenarioOutline);
@@ -158,15 +161,15 @@ public class MiniumFeatureBuilder extends FeatureBuilder {
     public void examples(Examples examples) {
 
         ExamplesTableRow cells = examples.getRows().isEmpty() ? null : examples.getRows().get(0);
-        if (cells != null && offset != 0 && isPreview && cells.getComments().isEmpty()) {
-            int newLine = cells.getLine() + offset.intValue();
-            lineOffset.put(cells.getLine(), newLine);
+        if (cells != null && lineOffset != 0 && isPreview && cells.getComments().isEmpty()) {
+            int newLine = cells.getLine() + lineOffset.intValue();
+            featureLineOffset.put(cells.getLine(), newLine);
             List<ExamplesTableRow> rows = examples.getRows();
             List<ExamplesTableRow> newRows = new ArrayList<ExamplesTableRow>();
             for (ExamplesTableRow examplesTableRow : rows) {
-                lineOffset.put(examplesTableRow.getLine(), examplesTableRow.getLine() + offset);
+                featureLineOffset.put(examplesTableRow.getLine(), examplesTableRow.getLine() + lineOffset);
                 ExamplesTableRow tableRow = new ExamplesTableRow(examplesTableRow.getComments(), examplesTableRow.getCells(), examplesTableRow.getLine()
-                        + offset, examplesTableRow.getId());
+                        + lineOffset, examplesTableRow.getId());
                 newRows.add(tableRow);
             }
             examples.setRows(newRows);
@@ -176,39 +179,7 @@ public class MiniumFeatureBuilder extends FeatureBuilder {
             Resource sourceResource = getSourceResource(filePathFromComment);
 
             if (sourceResource != null) {
-                List<ExamplesTableRow> rows = new ArrayList<ExamplesTableRow>();
-                List<ExamplesTableRow> oldrows = examples.getRows();
-                ExamplesTableRow tableRowHeader = oldrows.get(0);
-                rows.add(tableRowHeader);
-
-                DataReader dataReader;
-                try {
-                    InputStream inputStream = sourceResource.getInputStream();
-                    dataReader = DataReaderFactory.create(sourceResource.getFilename());
-                    DataDTO data = dataReader.readExamples(inputStream);
-                    ExamplesTableRow tableRow;
-                    int lineNumOffset = 1;
-                    for (Integer lineNumInResource : data.getValues().keySet()) {
-                        List<String> values = data.getValues().get(lineNumInResource);
-                        String valueComment = String.format("# %s:%d", filePathFromComment, lineNumInResource);
-                        Comment comment = new Comment(valueComment, lineNumInResource);
-                        List<Comment> comments = Lists.newArrayList(comment);
-                        int newLineNum = tableRowHeader.getLine() + lineNumOffset;
-                        if (isPreview) {
-                            newLineNum += offset;
-                        }
-                        tableRow = new ExamplesTableRow(comments, values, newLineNum, cells.getId());
-                        rows.add(tableRow);
-                        lineOffset.put(tableRowHeader.getLine() + lineNumOffset, newLineNum + 1);
-
-                        offset += 1;
-                        lineNumOffset++;
-                    }
-                    offset = (offset + lineNumOffset) - examples.getRows().size();
-                    examples.setRows(rows);
-                } catch (IOException | InstantiationException | IllegalAccessException e) {
-                    throw Throwables.propagate(e);
-                }
+                loadAndReplaceExamples(examples, cells, filePathFromComment, sourceResource);
             }
         }
 
@@ -216,11 +187,51 @@ public class MiniumFeatureBuilder extends FeatureBuilder {
         prettyFormatter.examples(examples);
     }
 
+    private void loadAndReplaceExamples(Examples examples, ExamplesTableRow cells, String filePathFromComment, Resource sourceResource) {
+        List<ExamplesTableRow> rows = new ArrayList<ExamplesTableRow>();
+        List<ExamplesTableRow> oldrows = examples.getRows();
+        ExamplesTableRow tableRowHeader = oldrows.get(0);
+        rows.add(tableRowHeader);
+
+        DataReader dataReader;
+        try {
+            InputStream inputStream = sourceResource.getInputStream();
+            dataReader = DataReaderFactory.create(sourceResource.getFilename());
+            DataDTO data = dataReader.readExamples(inputStream);
+            ExamplesTableRow tableRow;
+            int lineNumOffset = 1;
+            for (Integer lineNumInResource : data.getValues().keySet()) {
+                List<String> values = data.getValues().get(lineNumInResource);
+                String valueComment = String.format("# %s:%d", filePathFromComment, lineNumInResource + 1);
+                Comment comment = new Comment(valueComment, lineNumInResource);
+                List<Comment> comments = Lists.newArrayList(comment);
+                int newLineNum = tableRowHeader.getLine() + lineNumOffset;
+                if (isPreview) {
+                    newLineNum += lineOffset;
+                }
+                tableRow = new ExamplesTableRow(comments, values, newLineNum, cells.getId());
+                rows.add(tableRow);
+
+                // newLine + 1 added because of the comment that is inserted
+                featureLineOffset.put(tableRowHeader.getLine() + lineNumOffset, newLineNum + 1);
+
+                lineOffset += 1;
+                lineNumOffset++;
+            }
+
+            // re-calculate lineOffset
+            lineOffset = (lineOffset + lineNumOffset) - examples.getRows().size();
+            examples.setRows(rows);
+        } catch (IOException | InstantiationException | IllegalAccessException e) {
+            throw Throwables.propagate(e);
+        }
+    }
+
     @Override
     public void step(Step step) {
-        if (offset != 0 && isPreview) {
-            int newLine = step.getLine().intValue() + offset.intValue();
-            lineOffset.put(step.getLine().intValue(), newLine);
+        if (lineOffset != 0 && isPreview) {
+            int newLine = step.getLine().intValue() + lineOffset.intValue();
+            featureLineOffset.put(step.getLine().intValue(), newLine);
             step = new Step(step.getComments(), step.getKeyword(), step.getName(), newLine, step.getRows(), step.getDocString());
         }
 
@@ -229,37 +240,42 @@ public class MiniumFeatureBuilder extends FeatureBuilder {
             Resource sourceResource = getSourceResource(filePathFromComment);
 
             if (sourceResource != null) {
-                DataReader dataReader;
-                try {
-                    InputStream inputStream = sourceResource.getInputStream();
-                    dataReader = DataReaderFactory.create(sourceResource.getFilename());
-                    DataDTO data = dataReader.readTable(inputStream);
-
-                    List<DataTableRow> rows = Lists.newArrayList();
-                    for (Integer lineNum : data.getValues().keySet()) {
-                        List<String> cells = Lists.newArrayList(data.getValues().get(lineNum));
-                        String valueComment = String.format("# %s:%d", filePathFromComment, lineNum + 1);
-                        Comment comment = new Comment(valueComment, lineNum);
-                        List<Comment> comments = Lists.newArrayList(comment);
-                        int newLineNum = step.getLine() + 2;
-                        if (isPreview) {
-                            newLineNum += offset;
-                        }
-                        DataTableRow row = new DataTableRow(comments, cells, newLineNum + 1);
-                        rows.add(row);
-                        offset += 2;
-                    }
-                    // re-calculate offset
-                    offset = offset - step.getRows().size() - 1;
-                    step = new Step(step.getComments(), step.getKeyword(), step.getName(), step.getLine(), rows, step.getDocString());
-
-                } catch (InstantiationException | IllegalAccessException | IOException e) {
-                    throw Throwables.propagate(e);
-                }
+                step = loadAndReplaceSteps(step, filePathFromComment, sourceResource);
             }
         }
         super.step(step);
         prettyFormatter.step(step);
+    }
+
+    private Step loadAndReplaceSteps(Step step, String filePathFromComment, Resource sourceResource) {
+        DataReader dataReader;
+        try {
+            InputStream inputStream = sourceResource.getInputStream();
+            dataReader = DataReaderFactory.create(sourceResource.getFilename());
+            DataDTO data = dataReader.readTable(inputStream);
+
+            List<DataTableRow> rows = Lists.newArrayList();
+            for (Integer lineNum : data.getValues().keySet()) {
+                List<String> cells = Lists.newArrayList(data.getValues().get(lineNum));
+                String valueComment = String.format("# %s:%d", filePathFromComment, lineNum + 1);
+                Comment comment = new Comment(valueComment, lineNum);
+                List<Comment> comments = Lists.newArrayList(comment);
+                int newLineNum = step.getLine() + 2;
+                if (isPreview) {
+                    newLineNum += lineOffset;
+                }
+                DataTableRow row = new DataTableRow(comments, cells, newLineNum + 1);
+                rows.add(row);
+                lineOffset += 2;
+            }
+            // re-calculate lineOffset
+            lineOffset = lineOffset - step.getRows().size() - 1;
+            step = new Step(step.getComments(), step.getKeyword(), step.getName(), step.getLine(), rows, step.getDocString());
+
+        } catch (InstantiationException | IllegalAccessException | IOException e) {
+            throw Throwables.propagate(e);
+        }
+        return step;
     }
 
     @Override
@@ -409,11 +425,11 @@ public class MiniumFeatureBuilder extends FeatureBuilder {
     }
 
     public Map<Integer, Integer> getLineOffset() {
-        return lineOffset;
+        return featureLineOffset;
     }
 
     public void setLineOffset(Map<Integer, Integer> lineOffset) {
-        this.lineOffset = lineOffset;
+        this.featureLineOffset = lineOffset;
     }
 
 }

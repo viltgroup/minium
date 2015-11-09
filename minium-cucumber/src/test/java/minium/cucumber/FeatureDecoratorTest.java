@@ -152,9 +152,9 @@ public class FeatureDecoratorTest {
                         "    Examples: ",
                         "      #@source :data-foo.csv",
                         "     | foo2     | bar2      |",
-                        "      # data-foo.csv:1",
-                        "     | valChanged1 | valChanged2 |",
                         "      # data-foo.csv:2",
+                        "     | valChanged1 | valChanged2 |",
+                        "      # data-foo.csv:3",
                         "     | valChanged3 | valChanged4 |",
                         "").replaceAll("\\s+", " ")));
     }

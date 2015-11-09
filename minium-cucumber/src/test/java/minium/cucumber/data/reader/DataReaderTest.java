@@ -71,17 +71,6 @@ public class DataReaderTest {
         assertEquals(3, dataRead.getValues().keySet().size());
     }
 
-    @Test
-    public void readODSDataTable() throws IOException, InstantiationException, IllegalAccessException {
-        String filePath = "data.ods";
-        File file = getResource(filePath);
-        InputStream inputStream = Files.asByteSource(file).openStream();
-        DataReader dataReader = DataReaderFactory.create(filePath);
-        DataDTO dataRead = dataReader.readExamples(inputStream);
-
-        assertEquals(3, dataRead.getValues().keySet().size());
-    }
-
     private File getResource(String filePath) throws IOException {
         ClassLoader classLoader = getClass().getClassLoader();
         return new File(classLoader.getResource(filePath).getFile());
