@@ -25,9 +25,9 @@
 	</developers>
 
 	<scm>
-		<connection>scm:git:git@artemis.vilt-group.com:engineering/minium.git</connection>
-		<developerConnection>scm:git:git@artemis.vilt-group.com:engineering/minium.git</developerConnection>
-		<url>https://artemis.vilt-group.com/engineering/minium</url>
+		<connection>scm:git:git@artemis.vilt-group.com:engineering.minium/minium.git</connection>
+		<developerConnection>scm:git:git@artemis.vilt-group.com:engineering.minium/minium.git</developerConnection>
+		<url>https://artemis.vilt-group.com/engineering.minium/minium</url>
 	  <tag>HEAD</tag>
   </scm>
 
@@ -35,7 +35,7 @@
 		<name>VILT Group</name>
 		<url>http://www.vilt-group.com</url>
 	</organization>
-	
+
 	<issueManagement>
 		<system>Redmine</system>
 		<url>https://athena.vilt-group.com</url>
@@ -57,11 +57,11 @@
 
 		<platypus.version>0.1.0</platypus.version>
 		<selenium.version>2.47.1</selenium.version>
-		
+
 		<!-- https://github.com/detro/ghostdriver/pull/399 -->
 		<phantomjsdriver.groupid>com.codeborne</phantomjsdriver.groupid>
 		<phantomjsdriver.version>1.2.1</phantomjsdriver.version>
-		
+
 		<closure-compiler.version>v20150609</closure-compiler.version>
 		<rhino.version>1.7.7</rhino.version>
 		<dynjs.version>0.3.1</dynjs.version>
@@ -82,7 +82,7 @@
 		<jsoup.version>1.8.3</jsoup.version>
 		<powermock.version>1.6.1</powermock.version>
 		<snakeyaml.version>1.15</snakeyaml.version>
-		
+
 		<poi.version>3.13</poi.version>
 		<poi-ooxml.version>3.13</poi-ooxml.version>
 		<commons-csv.version>1.2</commons-csv.version>
@@ -615,7 +615,7 @@
                     </plugin>
                 </plugins>
             </build>
-        </profile> 
+        </profile>
 	</profiles>
 
 </project>
