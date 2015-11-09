@@ -9,7 +9,7 @@
 
 	<groupId>io.vilt.minium</groupId>
 	<artifactId>minium</artifactId>
-	<version>1.1.1-SNAPSHOT</version>
+	<version>1.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Minium Parent POM</name>
 
@@ -82,6 +82,10 @@
 		<jsoup.version>1.8.3</jsoup.version>
 		<powermock.version>1.6.1</powermock.version>
 		<snakeyaml.version>1.15</snakeyaml.version>
+		
+		<poi.version>3.13</poi.version>
+		<poi-ooxml.version>3.13</poi-ooxml.version>
+		<commons-csv.version>1.2</commons-csv.version>
 	</properties>
 
 	<dependencyManagement>
@@ -94,47 +98,47 @@
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-elements</artifactId>
-				<version>1.1.1-SNAPSHOT</version>
+				<version>1.2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-webelements</artifactId>
-				<version>1.1.1-SNAPSHOT</version>
+				<version>1.2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-webelements-config</artifactId>
-				<version>1.1.1-SNAPSHOT</version>
+				<version>1.2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-script-js</artifactId>
-				<version>1.1.1-SNAPSHOT</version>
+				<version>1.2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-script-rhinojs</artifactId>
-				<version>1.1.1-SNAPSHOT</version>
+				<version>1.2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-actions</artifactId>
-				<version>1.1.1-SNAPSHOT</version>
+				<version>1.2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-cucumber</artifactId>
-				<version>1.1.1-SNAPSHOT</version>
+				<version>1.2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-cucumber-rest</artifactId>
-				<version>1.1.1-SNAPSHOT</version>
+				<version>1.2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-docs</artifactId>
-				<version>1.1.1-SNAPSHOT</version>
+				<version>1.2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.ruifigueira</groupId>
