@@ -37,6 +37,7 @@
  */
 package minium.cucumber;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -64,6 +65,7 @@ public class MiniumCucumber extends ParentRunner<MiniumProfileRunner> {
     static {
         // disable Spring boot banner
         System.setProperty("spring.main.show_banner", "false");
+        System.setProperty("minium.resources.dir", new File("src/test/resources").getAbsolutePath());
     }
 
     private List<MiniumProfileRunner> children = Lists.newArrayList();
