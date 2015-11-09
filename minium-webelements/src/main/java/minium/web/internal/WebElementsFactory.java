@@ -37,14 +37,14 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
 public interface WebElementsFactory<T extends WebElements> extends ElementsFactory<T> {
-    
+
     public abstract T createEmpty(DocumentWebDriver webDriver);
 
-    public abstract T createNative(DocumentWebDriver webDriver, WebElement ... nativeWebElements);
+    public abstract T createNative(DocumentWebDriver webDriver, WebElement... nativeWebElements);
 
     public abstract T createNative(DocumentWebDriver webDriver, Collection<WebElement> nativeWebElements);
 
-    public abstract T createNative(DocumentWebElement ... nativeWebElements);
+    public abstract T createNative(DocumentWebElement... nativeWebElements);
 
     public abstract T createNative(Collection<DocumentWebElement> nativeWebElements);
 
@@ -75,7 +75,7 @@ public interface WebElementsFactory<T extends WebElements> extends ElementsFacto
             return this;
         }
 
-        public Builder<T> withJsResources(String ... resources) {
+        public Builder<T> withJsResources(String... resources) {
             return this.withJsResources(Arrays.asList(resources));
         }
 
@@ -84,7 +84,7 @@ public interface WebElementsFactory<T extends WebElements> extends ElementsFacto
             return this;
         }
 
-        public Builder<T> withCssResources(String ... resources) {
+        public Builder<T> withCssResources(String... resources) {
             return this.withCssResources(Arrays.asList(resources));
         }
 
@@ -93,7 +93,7 @@ public interface WebElementsFactory<T extends WebElements> extends ElementsFacto
             return this;
         }
 
-        public Builder<T> withExpressionizers(Expressionizer ... expressionizers) {
+        public Builder<T> withExpressionizers(Expressionizer... expressionizers) {
             return withExpressionizers(Arrays.asList(expressionizers));
         }
 
@@ -102,7 +102,7 @@ public interface WebElementsFactory<T extends WebElements> extends ElementsFacto
             return this;
         }
 
-        public Builder<T> withCoercers(Coercer ... coercers) {
+        public Builder<T> withCoercers(Coercer... coercers) {
             return withCoercers(Arrays.asList(coercers));
         }
 
@@ -111,7 +111,7 @@ public interface WebElementsFactory<T extends WebElements> extends ElementsFacto
             return this;
         }
 
-        public Builder<T> implementingInterfaces(Class<?> ... intfs) {
+        public Builder<T> implementingInterfaces(Class<?>... intfs) {
             return this.implementingInterfaces(Arrays.asList(intfs));
         }
 

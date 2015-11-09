@@ -66,25 +66,15 @@ import com.google.common.reflect.TypeToken;
 
 public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl implements WebElementsFactory<T>, InternalElementsFactory<T> {
 
-    private static final Class<?>[] CORE_INTFS = new Class<?>[] {
-        Elements.class,
-        InternalWebElements.class,
-        HasElementsFactory.class,
-        HasNativeWebDriver.class,
-        HasExpressionizer.class,
-        HasWebLocator.class,
-        HasBrowser.class,
-        HasCoercer.class,
-        ExpressionWebElements.class,
-        TargetLocatorWebElements.class,
-        FreezableElements.class,
-        IterableElements.class
-    };
+    private static final Class<?>[] CORE_INTFS = new Class<?>[] { Elements.class, InternalWebElements.class, HasElementsFactory.class,
+            HasNativeWebDriver.class, HasExpressionizer.class, HasWebLocator.class, HasBrowser.class, HasCoercer.class, ExpressionWebElements.class,
+            TargetLocatorWebElements.class, FreezableElements.class, IterableElements.class };
 
     private final InternalDocumentWebDriver rootDocumentDriver;
     private Set<Class<?>> builerProvidedInterfaces;
     @SuppressWarnings("serial")
-    private final TypeToken<T> typeVariableToken = new TypeToken<T>(getClass()) { };
+    private final TypeToken<T> typeVariableToken = new TypeToken<T>(getClass()) {
+    };
     private final MixinClass<T> rootClass;
     private final MixinClass<T> hasParentClass;
     private final MixinInitializer baseInitializer;
@@ -100,15 +90,10 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
         }
 
         final JavascriptInvoker javascriptInvoker = new DefaultJavascriptInvoker(builder.getClassLoader(), builder.getJsResources(), builder.getCssResources());
-        final Expressionizer expressionizer = new Expressionizer.Composite()
-            .add(new JsonExpressionizer(builder.getMapper()))
-            .add(new ExpressionWebElementExpressionizer())
-            .addAll(builder.getAditionalExpressionizers());
-        final Coercer coercer = new Coercer.Composite()
-            .add(new JsonCoercer(builder.getMapper()))
-            .add(new PrimitiveTypeCoercer())
-            .add(new IdentityCoercer())
-            .addAll(builder.getAditionalCoercers());
+        final Expressionizer expressionizer = new Expressionizer.Composite().add(new JsonExpressionizer(builder.getMapper()))
+                .add(new ExpressionWebElementExpressionizer()).addAll(builder.getAditionalExpressionizers());
+        final Coercer coercer = new Coercer.Composite().add(new JsonCoercer(builder.getMapper())).add(new PrimitiveTypeCoercer()).add(new IdentityCoercer())
+                .addAll(builder.getAditionalCoercers());
 
         final Class<T> intf = Casts.unsafeCast(typeVariableToken.getRawType());
 
@@ -147,14 +132,14 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
     public Set<Class<?>> getProvidedInterfaces() {
         return ImmutableSet.copyOf(builerProvidedInterfaces);
     }
-    
+
     @Override
     public T createEmpty(DocumentWebDriver webDriver) {
         return createMixin(new EmptyWebElements<T>(webDriver));
     }
 
     @Override
-    public T createNative(DocumentWebDriver webDriver, WebElement ... nativeWebElements) {
+    public T createNative(DocumentWebDriver webDriver, WebElement... nativeWebElements) {
         return createNative(webDriver, Arrays.asList(nativeWebElements));
     }
 
@@ -164,7 +149,7 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
     }
 
     @Override
-    public T createNative(DocumentWebElement ... nativeWebElements) {
+    public T createNative(DocumentWebElement... nativeWebElements) {
         return createNative(Arrays.asList(nativeWebElements));
     }
 
@@ -178,8 +163,12 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
         return createMixin(new DefaultRoot<T>(rootDocumentDriver));
     }
 
-    /* (non-Javadoc)
-     * @see minium.web.internal.InternalWebElementsFactory#createMixin(minium.webElements)
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * minium.web.internal.InternalWebElementsFactory#createMixin(minium.webElements
+     * )
      */
     @Override
     public T createMixin(final Elements elems) {
@@ -190,7 +179,8 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
                 implement(InternalWebElements.class).with(elems);
                 implement(FreezableElements.class).with(elems);
                 implement(ExpressionWebElements.class).with(elems);
-                // this way, we can use an optimized implementation for frozen and native WebElements
+                // this way, we can use an optimized implementation for frozen
+                // and native WebElements
                 if (elems instanceof BasicElements) {
                     implement(BasicElements.class).with(elems);
                 }
@@ -199,8 +189,12 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
         return rootClass.newInstance(MixinInitializers.combine(initializer, baseInitializer));
     }
 
-    /* (non-Javadoc)
-     * @see minium.web.internal.InternalWebElementsFactory#createMixinWithParent(minium.webElements, minium.webElements)
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * minium.web.internal.InternalWebElementsFactory#createMixinWithParent(
+     * minium.webElements, minium.webElements)
      */
     @Override
     public T createMixin(final Elements parent, final Elements elems) {
@@ -212,7 +206,8 @@ public class DefaultWebElementsFactory<T extends WebElements> extends Mixin.Impl
                 implement(InternalWebElements.class).with(elems);
                 implement(FreezableElements.class).with(elems);
                 implement(ExpressionWebElements.class).with(elems);
-                // this way, we can use an optimized implementation for frozen and native WebElements
+                // this way, we can use an optimized implementation for frozen
+                // and native WebElements
                 if (elems instanceof BasicElements) {
                     override(BasicElements.class).with(elems);
                 }

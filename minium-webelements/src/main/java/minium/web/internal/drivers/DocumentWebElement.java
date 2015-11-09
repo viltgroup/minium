@@ -151,7 +151,7 @@ public class DocumentWebElement implements WebElement, WrapsDriver, Locatable {
     public WebElement getWrappedWebElement() {
         return webElement;
     }
-    
+
     @Override
     public <X> X getScreenshotAs(OutputType<X> type) throws WebDriverException {
         webDriver.ensureSwitch();
@@ -160,7 +160,8 @@ public class DocumentWebElement implements WebElement, WrapsDriver, Locatable {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof DocumentWebElement)) return false;
+        if (!(obj instanceof DocumentWebElement))
+            return false;
         return Objects.equal(webElement, ((DocumentWebElement) obj).webElement);
     }
 
@@ -171,9 +172,6 @@ public class DocumentWebElement implements WebElement, WrapsDriver, Locatable {
 
     @Override
     public String toString() {
-        return toStringHelper(DocumentWebElement.class.getSimpleName())
-                .addValue(webElement)
-                .addValue(webDriver)
-                .toString();
+        return toStringHelper(DocumentWebElement.class.getSimpleName()).addValue(webElement).addValue(webDriver).toString();
     }
 }

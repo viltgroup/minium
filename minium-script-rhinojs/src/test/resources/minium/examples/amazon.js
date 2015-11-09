@@ -6,11 +6,13 @@ var results = $(".s-access-title");
 var addToCartBtn = $("#add-to-cart-button");
 var confirmText = $("#confirm-text, #huc-v2-order-row-items-msg");
 var cartCount = $("#nav-cart-count");
+var noThanksBtn = $("#siNoCoverage-announce");
 
 searchBox.fill("Hubsan X4");
 goBtn.click();
 results.click();
 addToCartBtn.click();
+noThanksBtn.click();
 
 if (confirmText.waitForExistence().is("#confirm-text")) {
 	expect(confirmText).to.have.text("1 item added to Cart");

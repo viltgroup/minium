@@ -20,9 +20,7 @@ import static org.junit.Assert.assertThat;
 import minium.web.CoreWebElements.DefaultWebElements;
 import minium.web.actions.WebDriverBrowser;
 
-import org.hamcrest.Matchers;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
@@ -43,11 +41,11 @@ public class BrowserIT {
     public static void tearDown() {
         wd.quit();
     }
-    
+
     @Test
     public void testEmptyElement() throws Exception {
         browser.get("http://minium.vilt.io/sample-app/");
-        
+
         DefaultWebElements emptyPlusTitleElem = browser.$().add(browser.$("title"));
         assertThat(emptyPlusTitleElem.size(), equalTo(1));
         assertThat(emptyPlusTitleElem.text(), equalTo("Minium Mail"));
@@ -67,8 +65,8 @@ public class BrowserIT {
     public void googleSpreadsheet() {
         browser.get("https://docs.google.com/spreadsheet/ccc?key=0Al0ulrJIDCUVdHJjWnJsbG5hY3hBWFp0Vy1OQV9qQUE#gid=0");
 
-        DefaultWebElements colC   = browser.$("#0-grid-table-quadrantcolumn-head-section th").withText("C");
-        DefaultWebElements row5   = browser.$(".row-header-wrapper").withText("5");
+        DefaultWebElements colC = browser.$("#0-grid-table-quadrantcolumn-head-section th").withText("C");
+        DefaultWebElements row5 = browser.$(".row-header-wrapper").withText("5");
         DefaultWebElements cellC5 = browser.$("#0-grid-table-quadrantscrollable td").below(colC).rightOf(row5);
 
         cellC5.doubleClick();
