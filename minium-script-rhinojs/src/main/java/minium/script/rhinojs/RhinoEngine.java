@@ -94,10 +94,7 @@ public class RhinoEngine implements JsEngine, DisposableBean {
     private Future<?> lastTask;
     private final Scriptable scope;
 
-    private final RhinoProperties rhinoProperties;
-
     public <T> RhinoEngine(final RhinoProperties rhinoProperties) {
-        this.rhinoProperties = rhinoProperties;
         this.executorService = Executors.newSingleThreadExecutor(new ThreadFactory() {
             @Override
             public Thread newThread(Runnable r) {
@@ -332,14 +329,7 @@ public class RhinoEngine implements JsEngine, DisposableBean {
         if (Thread.currentThread() == executionThread) {
             Context currentContext = Context.getCurrentContext();
             Preconditions.checkState(currentContext != null, "A rhino context was expected at this thread");
-            try {
                 return fn.doCall(currentContext, scope);
-            } catch (Exception e) {
-                if (rhinoProperties.isFilteredStackTraces()) {
-                    filterStackTraces(e);
-                }
-                throw e;
-            }
         }
 
         Preconditions.checkState(lastTask == null || lastTask.isDone());
@@ -352,9 +342,6 @@ public class RhinoEngine implements JsEngine, DisposableBean {
             throw Throwables.propagate(e);
         } catch (ExecutionException e) {
             Throwable cause = e.getCause();
-            if (rhinoProperties.isFilteredStackTraces()) {
-                filterStackTraces(cause);
-            }
             Throwables.propagateIfPossible(cause);
             throw (X) cause;
         }
@@ -374,14 +361,6 @@ public class RhinoEngine implements JsEngine, DisposableBean {
             }
         }
         return processed.toArray(new StackTraceElement[processed.size()]);
-    }
-
-    protected <X extends Throwable> X filterStackTraces(X throwable) {
-        for (Throwable e : Throwables.getCausalChain(throwable)) {
-            StackTraceElement[] filtered = filterStackTrace(e.getStackTrace());
-            e.setStackTrace(filtered);
-        }
-        return throwable;
     }
 
     protected Object unwrappedValue(Object val) {

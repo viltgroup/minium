@@ -43,7 +43,7 @@ public class RhinoConfiguration {
     }
 
     @Bean
-    @ConfigurationProperties(prefix = "minium.rhino")
+    @ConfigurationProperties(prefix = "minium.script.rhino")
     public RhinoProperties rhinoProperties() {
         RequireProperties require = new RequireProperties();
         RhinoProperties rhinoProperties = new RhinoProperties();

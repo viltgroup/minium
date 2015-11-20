@@ -17,11 +17,8 @@ package minium.script.rhinojs;
 
 import java.util.List;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import com.google.common.collect.Lists;
 
-@ConfigurationProperties(prefix = "minium.script.rhino")
 public class RhinoProperties {
 
     public static class RequireProperties {
@@ -47,7 +44,6 @@ public class RhinoProperties {
     }
 
     private RequireProperties require;
-    private boolean filteredStackTraces;
 
     public RequireProperties getRequire() {
         return require;
@@ -55,13 +51,5 @@ public class RhinoProperties {
 
     public void setRequire(RequireProperties require) {
         this.require = require;
-    }
-
-    public boolean isFilteredStackTraces() {
-        return filteredStackTraces;
-    }
-
-    public void setFilteredStackTraces(boolean filteredStackTraces) {
-        this.filteredStackTraces = filteredStackTraces;
     }
 }

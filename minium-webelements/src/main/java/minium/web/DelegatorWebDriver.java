@@ -400,7 +400,8 @@ public class DelegatorWebDriver extends Observable implements WebDriver, Javascr
     public boolean isValid() {
         if (delegate == null) return false;
         try {
-            return delegate.getWindowHandles() != null;
+            // IE driver keeps providing an empty window handles set even after the browser is closed
+            return delegate.getWindowHandles() != null && delegate.getWindowHandles().size() > 0;
         } catch (WebDriverException e) {
             if (e instanceof UnhandledAlertException) {
                 return true;
