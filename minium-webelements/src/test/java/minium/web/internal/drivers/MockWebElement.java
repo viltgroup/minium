@@ -20,9 +20,7 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
-import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Point;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.internal.Coordinates;
 import org.openqa.selenium.internal.Locatable;
@@ -143,13 +141,8 @@ public class MockWebElement implements WebElement, Locatable {
         return new Dimension(320, 240);
     }
 
-    @Override
-    public String getCssValue(String propertyName) {
-        return null;
-    }
-    
-    @Override
-    public <X> X getScreenshotAs(OutputType<X> paramOutputType) throws WebDriverException {
-        return null;
-    }
+	@Override
+	public String getCssValue(String propertyName) {
+		return null;
+	}
 }

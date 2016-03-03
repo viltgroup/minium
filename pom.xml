@@ -56,7 +56,7 @@
 		<checkstyle.config.dir>${basedir}/../src/main/checkstyle</checkstyle.config.dir>
 
 		<platypus.version>0.1.0</platypus.version>
-		<selenium.version>2.47.1</selenium.version>
+		<selenium.version>2.52.0</selenium.version>
 
 		<!-- https://github.com/detro/ghostdriver/pull/399 -->
 		<phantomjsdriver.groupid>com.codeborne</phantomjsdriver.groupid>
