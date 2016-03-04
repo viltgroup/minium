@@ -15,29 +15,27 @@
  */
 package minium.cucumber.data.reader;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.io.FilenameUtils;
 
 public class DataReaderFactory {
 
     public enum Format {
-        CSV, XLS, XLSX
-    }
+        CSV(CSVDataReader.class), XLS(ExcelDataReader.class), XLSX(ExcelDataReader.class);
 
-    private static final Map<Format, Class> factoryMap = Collections.unmodifiableMap(new HashMap<Format, Class>() {
-        {
-            put(Format.CSV, CSVDataReader.class);
-            put(Format.XLS, ExcelDataReader.class);
-            put(Format.XLSX, ExcelDataReader.class);
+        private Class<? extends DataReader> clazz;
+
+        private Format(Class<? extends DataReader> clazz) {
+            this.clazz = clazz;
         }
-    });
+
+        public Class<? extends DataReader> getReaderClass() {
+            return clazz;
+        }
+    }
 
     public static DataReader create(String fileName) throws InstantiationException, IllegalAccessException {
         Format reader = getFormat(fileName);
-        return (DataReader) factoryMap.get(reader).newInstance();
+        return reader.getReaderClass().newInstance();
     }
 
     private static Format getFormat(String fileName) {

@@ -81,9 +81,6 @@ public class RemoteBackendTest {
     @Autowired
     private ResourceLoader resourceLoader;
 
-    @Autowired
-    private ClassFinder classFinder;
-
     @SuppressWarnings("unused")
     private MockRestServiceServer mockServer;
 

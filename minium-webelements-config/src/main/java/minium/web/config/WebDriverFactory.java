@@ -126,8 +126,8 @@ public class WebDriverFactory {
     public WebDriver create(WebDriverProperties webDriverProperties) throws IOException {
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities(webDriverProperties.getDesiredCapabilities());
         FirefoxProfileProperties firefoxProperties = webDriverProperties.getFirefoxProfile();
-        if(firefoxProperties != null) {
-			desiredCapabilities.setCapability(FirefoxDriver.PROFILE, getFirefoxProfile(firefoxProperties));
+        if (firefoxProperties != null) {
+            desiredCapabilities.setCapability(FirefoxDriver.PROFILE, getFirefoxProfile(firefoxProperties));
         }
         DesiredCapabilities requiredCapabilities = new DesiredCapabilities(webDriverProperties.getRequiredCapabilities());
         WebDriver webDriver = null;
@@ -155,44 +155,44 @@ public class WebDriverFactory {
     }
 
     private FirefoxProfile getFirefoxProfile(FirefoxProfileProperties firefoxProperties) throws IOException {
-    	File profileDirectory = null;
-    	String profileDir = firefoxProperties.getDir();
-    	if (profileDir !=  null) {
-    		profileDirectory = new File(profileDir);
-    	}
-    	FirefoxProfile profile = new FirefoxProfile(profileDirectory);
+        File profileDirectory = null;
+        String profileDir = firefoxProperties.getDir();
+        if (profileDir != null) {
+            profileDirectory = new File(profileDir);
+        }
+        FirefoxProfile profile = new FirefoxProfile(profileDirectory);
 
-    	List<PreferenceProperties> preferences = firefoxProperties.getPreferences();
-		if (preferences != null) {
-			for (PreferenceProperties preference : preferences) {
-				switch(preference.getType()) {
-				case BOOLEAN:
-					profile.setPreference(preference.getName(), (Boolean) preference.getValue());
-					break;
-				case INTEGER:
-					profile.setPreference(preference.getName(), (Integer) preference.getValue());
-					break;
-				case STRING:
-					profile.setPreference(preference.getName(), (String) preference.getValue());
-				}
-			}
-		}
+        List<PreferenceProperties> preferences = firefoxProperties.getPreferences();
+        if (preferences != null) {
+            for (PreferenceProperties preference : preferences) {
+                switch (preference.getType()) {
+                case BOOLEAN:
+                    profile.setPreference(preference.getName(), (Boolean) preference.getValue());
+                    break;
+                case INTEGER:
+                    profile.setPreference(preference.getName(), (Integer) preference.getValue());
+                    break;
+                case STRING:
+                    profile.setPreference(preference.getName(), (String) preference.getValue());
+                }
+            }
+        }
 
-		List<ExtensionProperties> extensions = firefoxProperties.getExtensions();
-		if (extensions != null) {
-			DefaultResourceLoader resourceLoader = new DefaultResourceLoader();
-			for (ExtensionProperties firefoxExtension : extensions) {
-				Resource extensionPath = resourceLoader.getResource(firefoxExtension.getPath());
-				FileExtension extension = new FileExtension(extensionPath.getFile());
-				profile.addExtension(firefoxExtension.getName(), extension);
-			}
-		}
+        List<ExtensionProperties> extensions = firefoxProperties.getExtensions();
+        if (extensions != null) {
+            DefaultResourceLoader resourceLoader = new DefaultResourceLoader();
+            for (ExtensionProperties firefoxExtension : extensions) {
+                Resource extensionPath = resourceLoader.getResource(firefoxExtension.getPath());
+                FileExtension extension = new FileExtension(extensionPath.getFile());
+                profile.addExtension(firefoxExtension.getName(), extension);
+            }
+        }
 
-		profile.setEnableNativeEvents(firefoxProperties.areNativeEventsEnabled());
-		profile.setAlwaysLoadNoFocusLib(firefoxProperties.shouldLoadNoFocusLib());
-		profile.setAcceptUntrustedCertificates(firefoxProperties.shouldAcceptUntrustedCerts());
-		profile.setAssumeUntrustedCertificateIssuer(firefoxProperties.shouldUntrustedCertIssuer());
+        profile.setEnableNativeEvents(firefoxProperties.areNativeEventsEnabled());
+        profile.setAlwaysLoadNoFocusLib(firefoxProperties.shouldLoadNoFocusLib());
+        profile.setAcceptUntrustedCertificates(firefoxProperties.shouldAcceptUntrustedCerts());
+        profile.setAssumeUntrustedCertificateIssuer(firefoxProperties.shouldUntrustedCertIssuer());
 
-		return profile;
+        return profile;
     }
 }

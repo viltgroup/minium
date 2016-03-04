@@ -110,7 +110,7 @@ public class WebDriverProperties {
     public static class WindowProperties {
         private DimensionProperties size;
         private PointProperties position;
-        private boolean maximized/*= false*/;
+        private boolean maximized/* = false */;
 
         public DimensionProperties getSize() {
             return size;
@@ -139,124 +139,134 @@ public class WebDriverProperties {
 
     public static class ExtensionProperties {
 
-    	private String name;
-    	private String path;
+        private String name;
+        private String path;
 
-    	public String getName() {
-    		return name;
-    	}
-    	public void setName(String name) {
-    		this.name = name;
-    	}
-    	public String getPath() {
-    		return path;
-    	}
-    	public void setPath(String path) {
-    		this.path = path;
-    	}
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getPath() {
+            return path;
+        }
+
+        public void setPath(String path) {
+            this.path = path;
+        }
     }
 
-    public enum PreferenceType { BOOLEAN, INTEGER, STRING };
+    public enum PreferenceType {
+        BOOLEAN, INTEGER, STRING
+    };
 
     public static class PreferenceProperties {
 
-    	private String name;
-		private PreferenceType type;
-    	private Object value;
+        private String name;
+        private PreferenceType type;
+        private Object value;
 
-    	public String getName() {
-			return name;
-		}
-		public void setName(String name) {
-			this.name = name;
-		}
-		public PreferenceType getType() {
-			return type;
-		}
-		public void setType(PreferenceType type) {
-			this.type = type;
-		}
-		public Object getValue() {
-			return value;
-		}
-		public void setValue(Object value) {
-			this.value = value;
-		}
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public PreferenceType getType() {
+            return type;
+        }
+
+        public void setType(PreferenceType type) {
+            this.type = type;
+        }
+
+        public Object getValue() {
+            return value;
+        }
+
+        public void setValue(Object value) {
+            this.value = value;
+        }
     }
 
     public static class FirefoxProfileProperties {
 
-    	private String dir;
-    	private List<ExtensionProperties> extensions;
-    	private List<PreferenceProperties> preferences;
-		private boolean enableNativeEvents;
-		private boolean loadNoFocusLib;
-		private boolean acceptUntrustedCerts;
-		private boolean untrustedCertIssuer;
+        private String dir;
+        private List<ExtensionProperties> extensions;
+        private List<PreferenceProperties> preferences;
+        private boolean enableNativeEvents;
+        private boolean loadNoFocusLib;
+        private boolean acceptUntrustedCerts;
+        private boolean untrustedCertIssuer;
 
-    	public List<ExtensionProperties> getExtensions() {
-			return extensions;
-		}
+        public List<ExtensionProperties> getExtensions() {
+            return extensions;
+        }
 
-		public void setExtensions(List<ExtensionProperties> extensions) {
-			this.extensions = extensions;
-		}
+        public void setExtensions(List<ExtensionProperties> extensions) {
+            this.extensions = extensions;
+        }
 
-		public String getDir() {
-    		return dir;
-    	}
+        public String getDir() {
+            return dir;
+        }
 
-    	public void setDir(String profileDir) {
-    		this.dir = profileDir;
-    	}
+        public void setDir(String profileDir) {
+            this.dir = profileDir;
+        }
 
-    	public List<PreferenceProperties> getPreferences() {
-			return preferences;
-		}
+        public List<PreferenceProperties> getPreferences() {
+            return preferences;
+        }
 
-		public void setPreferences(List<PreferenceProperties> preferences) {
-			this.preferences = preferences;
-		}
+        public void setPreferences(List<PreferenceProperties> preferences) {
+            this.preferences = preferences;
+        }
 
-		public boolean areNativeEventsEnabled() {
-			return enableNativeEvents;
-		}
+        public boolean areNativeEventsEnabled() {
+            return enableNativeEvents;
+        }
 
-		public void setEnableNativeEvents(boolean enableNativeEvents) {
-			this.enableNativeEvents = enableNativeEvents;
-		}
+        public void setEnableNativeEvents(boolean enableNativeEvents) {
+            this.enableNativeEvents = enableNativeEvents;
+        }
 
-		public boolean shouldLoadNoFocusLib() {
-			return loadNoFocusLib;
-		}
+        public boolean shouldLoadNoFocusLib() {
+            return loadNoFocusLib;
+        }
 
-		public void setLoadNoFocusLib(boolean loadNoFocusLib) {
-			this.loadNoFocusLib = loadNoFocusLib;
-		}
+        public void setLoadNoFocusLib(boolean loadNoFocusLib) {
+            this.loadNoFocusLib = loadNoFocusLib;
+        }
 
-		public boolean shouldAcceptUntrustedCerts() {
-			return acceptUntrustedCerts;
-		}
+        public boolean shouldAcceptUntrustedCerts() {
+            return acceptUntrustedCerts;
+        }
 
-		public void setAcceptUntrustedCerts(boolean acceptUntrustedCerts) {
-			this.acceptUntrustedCerts = acceptUntrustedCerts;
-		}
+        public void setAcceptUntrustedCerts(boolean acceptUntrustedCerts) {
+            this.acceptUntrustedCerts = acceptUntrustedCerts;
+        }
 
-		public boolean shouldUntrustedCertIssuer() {
-			return untrustedCertIssuer;
-		}
+        public boolean shouldUntrustedCertIssuer() {
+            return untrustedCertIssuer;
+        }
 
-		public void setUntrustedCertIssuer(boolean untrustedCertIssuer) {
-			this.untrustedCertIssuer = untrustedCertIssuer;
-		}
+        public void setUntrustedCertIssuer(boolean untrustedCertIssuer) {
+            this.untrustedCertIssuer = untrustedCertIssuer;
+        }
     }
 
     private Map<String, Object> desiredCapabilities = Maps.newHashMap();
     private Map<String, Object> requiredCapabilities = Maps.newHashMap();
     private URL url;
     private WindowProperties window;
-	private boolean stateful = true;
-	private FirefoxProfileProperties firefoxProfile;
+    private boolean stateful = true;
+    private FirefoxProfileProperties firefoxProfile;
 
     public WebDriverProperties() {
         desiredCapabilities.put(CapabilityType.BROWSER_NAME, BrowserType.CHROME);
@@ -303,10 +313,10 @@ public class WebDriverProperties {
     }
 
     public FirefoxProfileProperties getFirefoxProfile() {
-		return firefoxProfile;
-	}
+        return firefoxProfile;
+    }
 
     public void setFirefoxProfile(FirefoxProfileProperties firefoxProfile) {
-		this.firefoxProfile = firefoxProfile;
-	}
+        this.firefoxProfile = firefoxProfile;
+    }
 }
