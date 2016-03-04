@@ -19,6 +19,7 @@ import static minium.web.internal.WebModules.combine;
 import static minium.web.internal.WebModules.debugModule;
 import static minium.web.internal.WebModules.defaultModule;
 
+import java.io.IOException;
 import java.util.List;
 
 import minium.web.CoreWebElements.DefaultWebElements;
@@ -63,7 +64,7 @@ public class WebElementsConfiguration {
     @Autowired
     @Bean(destroyMethod = "quit")
     @Lazy
-    public WebDriver wd(WebDriverFactory webDriverFactory, WebDriverProperties webDriverProperties) {
+    public WebDriver wd(WebDriverFactory webDriverFactory, WebDriverProperties webDriverProperties) throws IOException {
         return webDriverFactory.create(webDriverProperties);
     }
 
