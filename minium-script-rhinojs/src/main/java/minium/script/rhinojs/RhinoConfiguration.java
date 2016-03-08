@@ -17,19 +17,19 @@ package minium.script.rhinojs;
 
 import java.io.IOException;
 
-import minium.script.js.JsVariablePostProcessor;
-import minium.script.rhinojs.RhinoProperties.RequireProperties;
-import minium.web.config.WebDriverFactory;
-import minium.web.internal.WebModule;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import minium.script.js.JsVariablePostProcessor;
+import minium.script.rhinojs.RhinoProperties.RequireProperties;
+import minium.web.config.WebDriverFactory;
+import minium.web.internal.WebModule;
+
 @Configuration
-@EnableConfigurationProperties(RhinoProperties.class)
+@EnableConfigurationProperties
 public class RhinoConfiguration {
 
     @Bean
