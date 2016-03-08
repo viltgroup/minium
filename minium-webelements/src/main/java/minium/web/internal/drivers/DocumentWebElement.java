@@ -26,6 +26,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.Rectangle;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.internal.Coordinates;
@@ -34,7 +36,7 @@ import org.openqa.selenium.internal.WrapsDriver;
 
 import com.google.common.base.Objects;
 
-public class DocumentWebElement implements WebElement, WrapsDriver, Locatable {
+public class DocumentWebElement implements WebElement, WrapsDriver, TakesScreenshot, Locatable {
 
     private final WebElement webElement;
     private final InternalDocumentWebDriver webDriver;
@@ -155,7 +157,13 @@ public class DocumentWebElement implements WebElement, WrapsDriver, Locatable {
     @Override
     public <X> X getScreenshotAs(OutputType<X> type) throws WebDriverException {
         webDriver.ensureSwitch();
-        return webElement.getScreenshotAs(type);
+        return ((TakesScreenshot) webElement).getScreenshotAs(type);
+    }
+
+    @Override
+    public Rectangle getRect() {
+        webDriver.ensureSwitch();
+        return webElement.getRect();
     }
 
     @Override

@@ -351,6 +351,12 @@ public class DelegatorWebDriver extends Observable implements WebDriver, Javascr
             delegateWindow().maximize();
         }
 
+        @Override
+        public void fullscreen() {
+            ensureWebDriver();
+            delegateWindow().fullscreen();
+        }
+
         private Window delegateWindow() {
             return delegate.manage().window();
         }

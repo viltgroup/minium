@@ -122,7 +122,7 @@ public class Waits {
                     .retryIfResult(Predicates.not((Predicate<T>) predicate))
                     .retryIfRuntimeException()
                     .withWaitStrategy(fixedWait(interval.getTime(), interval.getUnit()))
-                    .withStopStrategy(stopAfterDelay(timeout.getUnit().toMillis(timeout.getTime())))
+                    .withStopStrategy(stopAfterDelay(timeout.getTime(), timeout.getUnit()))
                     .build();
         }
     }

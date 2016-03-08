@@ -35,11 +35,7 @@ public class ExcelDataReader implements DataReader {
     @Override
     public DataDTO readExamples(InputStream inputStream) {
         DataDTO dataDTO = new DataDTO();
-        try {
-            InputStream file = inputStream;
-
-            // Create Workbook instance holding reference to .xlsx file
-            XSSFWorkbook workbook = new XSSFWorkbook(file);
+        try (XSSFWorkbook workbook = new XSSFWorkbook(inputStream)) {
 
             // Get first/desired sheet from the workbook
             XSSFSheet sheet = workbook.getSheetAt(0);
@@ -71,9 +67,9 @@ public class ExcelDataReader implements DataReader {
                 }
                 i++;
             }
-            file.close();
+            inputStream.close();
         } catch (Exception e) {
-            LOGGER.error("Error Reading Excell -  {}", e.getMessage());
+            LOGGER.error("Error Reading Excel -  {}", e.getMessage());
         }
         return dataDTO;
     }

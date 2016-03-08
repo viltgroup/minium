@@ -139,24 +139,26 @@ public class FeatureDecoratorTest {
         List<CucumberFeature> cucumberFeatures = Lists.newArrayList();
         StringWriter writer = new StringWriter();
         final PrettyFormatter formatter = new PrettyFormatter(writer, true, false);
-        MiniumFeatureBuilder builder = new MiniumFeatureBuilder(cucumberFeatures, formatter,null);
-        Resource resource = createResourceMock("foo-feature-with-comment.feature");
-        builder.parse(resource, Collections.emptyList());
-        Assert.assertThat(writer.toString().replaceAll("\\s+", " "), Matchers.equalTo(
-                Joiner.on("\n").join("Feature: Test 1",
-                        "",
-                        "  Scenario Outline: Hello world",
-                        "    Given <foo> exists",
-                        "    Then <bar> should occur",
-                        "",
-                        "    Examples: ",
-                        "      #@source :data-foo.csv",
-                        "     | foo2     | bar2      |",
-                        "      # data-foo.csv:2",
-                        "     | valChanged1 | valChanged2 |",
-                        "      # data-foo.csv:3",
-                        "     | valChanged3 | valChanged4 |",
-                        "").replaceAll("\\s+", " ")));
+
+        try (MiniumFeatureBuilder builder = new MiniumFeatureBuilder(cucumberFeatures, formatter, null)) {
+            Resource resource = createResourceMock("foo-feature-with-comment.feature");
+            builder.parse(resource, Collections.emptyList());
+            Assert.assertThat(writer.toString().replaceAll("\\s+", " "), Matchers.equalTo(
+                    Joiner.on("\n").join("Feature: Test 1",
+                            "",
+                            "  Scenario Outline: Hello world",
+                            "    Given <foo> exists",
+                            "    Then <bar> should occur",
+                            "",
+                            "    Examples: ",
+                            "      #@source :data-foo.csv",
+                            "     | foo2     | bar2      |",
+                            "      # data-foo.csv:2",
+                            "     | valChanged1 | valChanged2 |",
+                            "      # data-foo.csv:3",
+                            "     | valChanged3 | valChanged4 |",
+                            "").replaceAll("\\s+", " ")));
+        }
     }
 
     private Resource createResourceMock(String featurePath) throws IOException {

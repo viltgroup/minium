@@ -55,7 +55,7 @@ public class BrowserIT {
     public void testByName() throws Exception {
         browser.get("http://www.google.com");
 
-        DefaultWebElements add = browser.$().add(browser.$("title"));
+        browser.$().add(browser.$("title"));
         DefaultWebElements searchFld = browser.root().find("q");
 
         searchFld.fill("Minium Can!");

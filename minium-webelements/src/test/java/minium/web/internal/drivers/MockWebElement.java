@@ -22,6 +22,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.internal.Coordinates;
@@ -147,9 +148,14 @@ public class MockWebElement implements WebElement, Locatable {
     public String getCssValue(String propertyName) {
         return null;
     }
-    
+
     @Override
-    public <X> X getScreenshotAs(OutputType<X> paramOutputType) throws WebDriverException {
+    public <X> X getScreenshotAs(OutputType<X> target) throws WebDriverException {
+        return null;
+    }
+
+    @Override
+    public Rectangle getRect() {
         return null;
     }
 }

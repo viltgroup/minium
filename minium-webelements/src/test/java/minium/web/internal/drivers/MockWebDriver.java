@@ -255,6 +255,10 @@ public class MockWebDriver implements WebDriver, HasInputDevices, JavascriptExec
         @Override
         public void maximize() {
         }
+
+        @Override
+        public void fullscreen() {
+        }
     }
 
     private String url;
