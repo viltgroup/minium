@@ -62,7 +62,7 @@ public class DefaultExpressionWebElements<T extends WebElements> extends Interna
 
         @Override
         public DocumentRoots documentRoots() {
-            throw new UnsupportedOperationException();
+            return parent().as(InternalWebElements.class).documentRoots();
         }
 
         @Override
