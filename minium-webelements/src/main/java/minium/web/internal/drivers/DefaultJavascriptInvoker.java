@@ -22,10 +22,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import minium.web.internal.ResourceException;
-import minium.web.internal.compressor.Compressor;
-import minium.web.internal.compressor.ResourceFunctions;
-
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -40,7 +36,10 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.google.common.hash.Hashing;
+
+import minium.web.internal.ResourceException;
+import minium.web.internal.compressor.Compressor;
+import minium.web.internal.compressor.ResourceFunctions;
 
 /**
  * This class is responsible for injecting the necessary javascript code in the
@@ -116,9 +115,6 @@ public class DefaultJavascriptInvoker implements JavascriptInvoker {
     // concatenated styles resources content
     private final String styles;
 
-    // md5 hash for jsScripts and styles
-    private final String md5Hash;
-
     private final ClassLoader classLoader;
     private final String loadJsStylesTemplate;
     private final String setMiniumVarTemplate;
@@ -136,9 +132,6 @@ public class DefaultJavascriptInvoker implements JavascriptInvoker {
 
             jsScripts = compressor.compress(DefaultJavascriptInvoker.class.getClassLoader(), jsResources);
             styles = cssResources != null ? combineResources(cssResources) : null;
-
-            // we compute both jsScripts and styles hash
-            md5Hash = Hashing.md5().newHasher().putUnencodedChars(jsScripts).putUnencodedChars(styles == null ? "" : styles).hash().toString();
 
             loadJsStylesTemplate  = getJsContent(LOAD_JS_STYLES_TEMPLATE_PATH);
             setMiniumVarTemplate  = getJsContent(SET_MINIUM_VAR_TEMPLATE_PATH);

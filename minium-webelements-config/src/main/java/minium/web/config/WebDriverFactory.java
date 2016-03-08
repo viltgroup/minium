@@ -17,16 +17,10 @@ package minium.web.config;
 
 import static java.lang.String.format;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 import java.util.Set;
-
-import minium.web.StatefulWebDriver;
-import minium.web.config.WebDriverProperties.DimensionProperties;
-import minium.web.config.WebDriverProperties.PointProperties;
-import minium.web.config.WebDriverProperties.WindowProperties;
-import minium.web.config.services.ChromeDriverServiceProperties;
-import minium.web.config.services.DriverServicesProperties;
-import minium.web.config.services.InternetExplorerDriverServiceProperties;
-import minium.web.config.services.PhantomJsDriverServiceProperties;
 
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
@@ -34,6 +28,8 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.firefox.internal.FileExtension;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.Augmenter;
@@ -43,9 +39,23 @@ import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.service.DriverService;
 import org.openqa.selenium.safari.SafariDriver;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
+
+import minium.web.StatefulWebDriver;
+import minium.web.config.WebDriverProperties.DimensionProperties;
+import minium.web.config.WebDriverProperties.ExtensionProperties;
+import minium.web.config.WebDriverProperties.FirefoxProfileProperties;
+import minium.web.config.WebDriverProperties.PointProperties;
+import minium.web.config.WebDriverProperties.PreferenceProperties;
+import minium.web.config.WebDriverProperties.WindowProperties;
+import minium.web.config.services.ChromeDriverServiceProperties;
+import minium.web.config.services.DriverServicesProperties;
+import minium.web.config.services.InternetExplorerDriverServiceProperties;
+import minium.web.config.services.PhantomJsDriverServiceProperties;
 
 public class WebDriverFactory {
 
@@ -113,8 +123,12 @@ public class WebDriverFactory {
         this.driverServices = driverServices;
     }
 
-    public WebDriver create(WebDriverProperties webDriverProperties) {
+    public WebDriver create(WebDriverProperties webDriverProperties) throws IOException {
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities(webDriverProperties.getDesiredCapabilities());
+        FirefoxProfileProperties firefoxProperties = webDriverProperties.getFirefoxProfile();
+        if (firefoxProperties != null) {
+            desiredCapabilities.setCapability(FirefoxDriver.PROFILE, getFirefoxProfile(firefoxProperties));
+        }
         DesiredCapabilities requiredCapabilities = new DesiredCapabilities(webDriverProperties.getRequiredCapabilities());
         WebDriver webDriver = null;
         if (webDriverProperties.getUrl() != null) {
@@ -138,5 +152,47 @@ public class WebDriverFactory {
         }
         webDriver = webDriver instanceof TakesScreenshot ? webDriver : new Augmenter().augment(webDriver);
         return webDriverProperties.isStateful() ? new StatefulWebDriver(webDriver) : webDriver;
+    }
+
+    private FirefoxProfile getFirefoxProfile(FirefoxProfileProperties firefoxProperties) throws IOException {
+        File profileDirectory = null;
+        String profileDir = firefoxProperties.getDir();
+        if (profileDir != null) {
+            profileDirectory = new File(profileDir);
+        }
+        FirefoxProfile profile = new FirefoxProfile(profileDirectory);
+
+        List<PreferenceProperties> preferences = firefoxProperties.getPreferences();
+        if (preferences != null) {
+            for (PreferenceProperties preference : preferences) {
+                switch (preference.getType()) {
+                case BOOLEAN:
+                    profile.setPreference(preference.getName(), (Boolean) preference.getValue());
+                    break;
+                case INTEGER:
+                    profile.setPreference(preference.getName(), (Integer) preference.getValue());
+                    break;
+                case STRING:
+                    profile.setPreference(preference.getName(), (String) preference.getValue());
+                }
+            }
+        }
+
+        List<ExtensionProperties> extensions = firefoxProperties.getExtensions();
+        if (extensions != null) {
+            DefaultResourceLoader resourceLoader = new DefaultResourceLoader();
+            for (ExtensionProperties firefoxExtension : extensions) {
+                Resource extensionPath = resourceLoader.getResource(firefoxExtension.getPath());
+                FileExtension extension = new FileExtension(extensionPath.getFile());
+                profile.addExtension(firefoxExtension.getName(), extension);
+            }
+        }
+
+        profile.setEnableNativeEvents(firefoxProperties.areNativeEventsEnabled());
+        profile.setAlwaysLoadNoFocusLib(firefoxProperties.shouldLoadNoFocusLib());
+        profile.setAcceptUntrustedCertificates(firefoxProperties.shouldAcceptUntrustedCerts());
+        profile.setAssumeUntrustedCertificateIssuer(firefoxProperties.shouldUntrustedCertIssuer());
+
+        return profile;
     }
 }

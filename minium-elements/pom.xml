@@ -3,7 +3,7 @@
 
 	<parent>
 		<groupId>io.vilt.minium</groupId>
-		<artifactId>minium-parent</artifactId> 
+		<artifactId>minium-parent</artifactId>
 		<version>1.2.2-SNAPSHOT</version>
 		<relativePath>../minium-parent</relativePath>
 	</parent>
