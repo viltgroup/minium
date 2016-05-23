@@ -41,6 +41,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import minium.cucumber.internal.CucumberContext;
 import minium.cucumber.internal.MiniumActiveProfilesResolver;
 import minium.cucumber.internal.MiniumProfileRunner;
 import minium.cucumber.internal.MiniumProfileRunner.MiniumCucumberTest;
@@ -102,6 +103,7 @@ public class MiniumCucumber extends ParentRunner<MiniumProfileRunner> {
             profilesMatrix = ImmutableList.of(activeProfiles == null ? new String[0] : new String[] { activeProfiles });
         }
 
+        CucumberContext.setProfilesMatrix(profilesMatrix);
         return profilesMatrix;
     }
 
