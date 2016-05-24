@@ -67,11 +67,6 @@ public class ProgressFormatter implements Formatter, Reporter {
 
     public ProgressFormatter(File file) {
         outputFile = file;
-        try {
-            FileUtils.writeStringToFile(outputFile, "");
-        } catch (IOException e) {
-            throw Throwables.propagate(e);
-        }
         progress.startedNextProfile();
     }
 
