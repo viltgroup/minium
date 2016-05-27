@@ -56,22 +56,26 @@ import gherkin.formatter.model.Result;
 import gherkin.formatter.model.Scenario;
 import gherkin.formatter.model.ScenarioOutline;
 import gherkin.formatter.model.Step;
-import minium.cucumber.data.Progress;
+import minium.cucumber.data.ExecutionProgress;
 import minium.cucumber.internal.CucumberContext;
 
 public class ProgressFormatter implements Formatter, Reporter {
 
     private final File outputFile;
     private ObjectMapper mapper = new ObjectMapper();
-    private Progress progress = CucumberContext.getCurrent().getProgress();
+    private ExecutionProgress progress = CucumberContext.getCurrent().getProgress();
+    private boolean isTheFirstFeature = true;
 
-    public ProgressFormatter(File file) {
-        outputFile = file;
-        progress.startedNextProfile();
+    public ProgressFormatter(File outputFile) {
+        this.outputFile = outputFile;
     }
 
     @Override
     public void feature(Feature feature) {
+        if (isTheFirstFeature) {
+            progress.startedNextProfile();
+            isTheFirstFeature = false;
+        }
         progress.startedFeature(feature);
     }
 
@@ -92,13 +96,6 @@ public class ProgressFormatter implements Formatter, Reporter {
 
     @Override
     public void close() {
-        try {
-            if (progress.getProgressInPercentage() == 100.0) {
-                FileUtils.writeStringToFile(outputFile, "");
-            }
-        } catch (IOException e) {
-            throw Throwables.propagate(e);
-        }
     }
 
     @Override

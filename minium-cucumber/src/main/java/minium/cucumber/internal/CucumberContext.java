@@ -46,7 +46,7 @@ import cucumber.runtime.model.CucumberFeature;
 import cucumber.runtime.model.CucumberScenario;
 import cucumber.runtime.model.CucumberScenarioOutline;
 import cucumber.runtime.model.CucumberTagStatement;
-import minium.cucumber.data.Progress;
+import minium.cucumber.data.ExecutionProgress;
 
 public class CucumberContext {
     private static ThreadLocal<CucumberContext> cucumberContext = new InheritableThreadLocal<CucumberContext>() {
@@ -64,18 +64,16 @@ public class CucumberContext {
         cucumberContext.set(new CucumberContext());
     }
 
-    List<String> profiles;
-    private Progress progress;
+    private ExecutionProgress progress = new ExecutionProgress();
 
     public CucumberContext() {
     }
 
-    public Progress getProgress() {
+    public ExecutionProgress getProgress() {
         return progress;
     }
 
     public static void setFeatures(List<CucumberFeature> cucumberFeatures) {
-        CucumberContext context = getCurrent();
         int numberOfScenarios = 0;
         for (CucumberFeature feature : cucumberFeatures) {
             for (CucumberTagStatement scenario : feature.getFeatureElements()) {
@@ -88,15 +86,16 @@ public class CucumberContext {
                 }
             }
         }
-        context.progress = new Progress(context.profiles, cucumberFeatures.size(), numberOfScenarios);
+        ExecutionProgress currentContextProgress = getCurrent().getProgress();
+        currentContextProgress.setNumberOfFeatures(cucumberFeatures.size());
+        currentContextProgress.setNumberOfScenarios(numberOfScenarios);
     }
 
     public static void setProfilesMatrix(List<String[]> profilesMatrix) {
-        CucumberContext context = getCurrent();
         List<String> profiles = Lists.newArrayList();
         for (String[] profileMatrixLine : profilesMatrix) {
             profiles.add(profileMatrixLine[0]);
         }
-        context.profiles = profiles;
+        getCurrent().getProgress().setProfiles(profiles);
     }
 }

@@ -15,6 +15,7 @@
  */
 package minium.cucumber.internal;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -29,6 +30,7 @@ import cucumber.runtime.RuntimeOptionsFactory;
 import cucumber.runtime.formatter.PluginFactory;
 import cucumber.runtime.io.MultiLoader;
 import cucumber.runtime.io.ResourceLoader;
+import minium.cucumber.formatter.ProgressFormatter;
 
 public class RuntimeBuilder {
 
@@ -118,6 +120,11 @@ public class RuntimeBuilder {
         runtimeOptions.getFeaturePaths().addAll(featurePaths);
         for (Object plugin : plugins) {
             runtimeOptions.addPlugin(plugin);
+        }
+        String progressOutputFilePath = System.getProperty("minium.cucumber.progressOutputFile", null);
+        if (progressOutputFilePath != null) {
+            File progressOutputFile = new File(progressOutputFilePath);
+            runtimeOptions.addPlugin(new ProgressFormatter(progressOutputFile));
         }
         runtime = new Runtime(resourceLoader, classLoader, backends, runtimeOptions);
         return runtime;

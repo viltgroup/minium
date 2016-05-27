@@ -20,24 +20,20 @@ import java.util.List;
 import gherkin.formatter.model.Feature;
 import gherkin.formatter.model.Scenario;
 
-public class Progress {
+public class ExecutionProgress {
 
     private List<String> profiles;
-    private Float progressInPercentage = new Float(0f);
-    private Integer numberOfProfiles;
-    private Integer numberOfExecutedProfiles = new Integer(-1);
+    private float progressInPercentage;
+    private int numberOfProfiles;
+    private int numberOfExecutedProfiles = -1;
     private Feature currentFeature;
-    private Integer numberOfFeatures;
-    private Integer numberOfExecutedFeatures;
+    private int numberOfFeatures;
+    private int numberOfExecutedFeatures;
     private Scenario currentScenario;
-    private Integer numberOfScenarios;
-    private Integer numberOfExecutedScenarios;
+    private int numberOfScenarios;
+    private int numberOfExecutedScenarios;
 
-    public Progress(List<String> profiles, int numberOfFeatures, int numberOfScenarios) {
-        this.profiles = profiles;
-        this.numberOfProfiles = profiles.size();
-        this.numberOfFeatures = numberOfFeatures;
-        this.numberOfScenarios = numberOfScenarios;
+    public ExecutionProgress() {
     }
 
     private void updatePercentageOfProgress() {
@@ -66,6 +62,19 @@ public class Progress {
         updatePercentageOfProgress();
     }
 
+    public void setProfiles(List<String> profiles) {
+        this.profiles = profiles;
+        this.numberOfProfiles = profiles.size();
+    }
+
+    public void setNumberOfFeatures(int numberOfFeatures) {
+        this.numberOfFeatures = numberOfFeatures;
+    }
+
+    public void setNumberOfScenarios(int numberOfScenarios) {
+        this.numberOfScenarios = numberOfScenarios;
+    }
+
     public String getCurrentProfile() {
         return profiles.get(numberOfExecutedProfiles);
     }
@@ -78,31 +87,31 @@ public class Progress {
         return currentScenario;
     }
 
-    public Float getProgressInPercentage() {
+    public float getProgressInPercentage() {
         return progressInPercentage;
     }
 
-    public Integer getNumberOfProfiles() {
+    public int getNumberOfProfiles() {
         return numberOfProfiles;
     }
 
-    public Integer getNumberOfExecutedProfiles() {
+    public int getNumberOfExecutedProfiles() {
         return numberOfExecutedProfiles;
     }
 
-    public Integer getNumberOfFeatures() {
+    public int getNumberOfFeatures() {
         return numberOfFeatures;
     }
 
-    public Integer getNumberOfExecutedFeatures() {
+    public int getNumberOfExecutedFeatures() {
         return numberOfExecutedFeatures;
     }
 
-    public Integer getNumberOfScenarios() {
+    public int getNumberOfScenarios() {
         return numberOfScenarios;
     }
 
-    public Integer getNumberOfExecutedScenarios() {
+    public int getNumberOfExecutedScenarios() {
         return numberOfExecutedScenarios;
     }
 }
