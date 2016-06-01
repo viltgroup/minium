@@ -41,19 +41,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import minium.cucumber.MiniumConfiguration;
-import minium.cucumber.MiniumCucumber;
-import minium.cucumber.config.ConfigProperties;
-import minium.cucumber.config.CucumberProperties;
-import minium.cucumber.config.CucumberProperties.RemoteBackendProperties;
-import minium.cucumber.data.MiniumRunTimeOptions;
-import minium.cucumber.rest.RemoteBackend;
-import minium.script.js.JsBrowserFactory;
-import minium.script.js.MiniumJsEngineAdapter;
-import minium.script.rhinojs.RhinoEngine;
-import minium.web.CoreWebElements.DefaultWebElements;
-import minium.web.actions.Browser;
-
 import org.junit.runner.Description;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.ParentRunner;
@@ -79,6 +66,18 @@ import cucumber.runtime.io.ResourceLoader;
 import cucumber.runtime.junit.FeatureRunner;
 import cucumber.runtime.junit.JUnitReporter;
 import cucumber.runtime.model.CucumberFeature;
+import minium.cucumber.MiniumConfiguration;
+import minium.cucumber.MiniumCucumber;
+import minium.cucumber.config.ConfigProperties;
+import minium.cucumber.config.CucumberProperties;
+import minium.cucumber.config.CucumberProperties.RemoteBackendProperties;
+import minium.cucumber.data.MiniumRunTimeOptions;
+import minium.cucumber.rest.RemoteBackend;
+import minium.script.js.JsBrowserFactory;
+import minium.script.js.MiniumJsEngineAdapter;
+import minium.script.rhinojs.RhinoEngine;
+import minium.web.CoreWebElements.DefaultWebElements;
+import minium.web.actions.Browser;
 
 public class MiniumProfileRunner extends ParentRunner<FeatureRunner> implements InitializingBean {
 
@@ -153,6 +152,7 @@ public class MiniumProfileRunner extends ParentRunner<FeatureRunner> implements 
         MiniumRunTimeOptions runtimeOptions = (MiniumRunTimeOptions) runtimeBuilder.getRuntimeOptions();
 
         cucumberFeatures = runtimeOptions.cucumberFeatures(resourceLoader);
+        CucumberContext.setFeatures(cucumberFeatures);
         jUnitReporter = new JUnitReporter(runtimeOptions.reporter(classLoader), runtimeOptions.formatter(classLoader), runtimeOptions.isStrict());
         addChildren(cucumberFeatures);
     }
@@ -183,6 +183,7 @@ public class MiniumProfileRunner extends ParentRunner<FeatureRunner> implements 
             runtime.printSummary();
         } finally {
             try {
+                CucumberContext.clear();
                 if (testContextManager != null)
                     testContextManager.destroy();
             } catch (Exception e) {
