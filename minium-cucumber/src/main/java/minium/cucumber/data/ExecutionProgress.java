@@ -32,6 +32,7 @@ public class ExecutionProgress {
     private Scenario currentScenario;
     private int numberOfScenarios;
     private int numberOfExecutedScenarios;
+    private long startTimestamp;
 
     public ExecutionProgress() {
     }
@@ -43,6 +44,9 @@ public class ExecutionProgress {
     }
 
     public void startedNextProfile() {
+        if (numberOfExecutedProfiles == -1) {
+            startTimestamp = System.currentTimeMillis();
+        }
         numberOfExecutedProfiles++;
         numberOfExecutedFeatures = -1;
         numberOfExecutedScenarios = 0;
@@ -113,5 +117,9 @@ public class ExecutionProgress {
 
     public int getNumberOfExecutedScenarios() {
         return numberOfExecutedScenarios;
+    }
+
+    public long getStartTimestamp() {
+        return startTimestamp;
     }
 }
