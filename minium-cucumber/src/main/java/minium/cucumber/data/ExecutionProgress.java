@@ -15,14 +15,16 @@
  */
 package minium.cucumber.data;
 
-import java.util.List;
-
 import gherkin.formatter.model.Feature;
 import gherkin.formatter.model.Scenario;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
 public class ExecutionProgress {
 
-    private List<String> profiles;
+    private List<String> profiles = Lists.newArrayList();
     private float progressInPercentage;
     private int numberOfProfiles;
     private int numberOfExecutedProfiles = -1;
@@ -38,8 +40,8 @@ public class ExecutionProgress {
     }
 
     private void updatePercentageOfProgress() {
-        float totalNumberOfExecutedScenarios = numberOfExecutedProfiles * numberOfScenarios + numberOfExecutedScenarios,
-                racio = totalNumberOfExecutedScenarios / (numberOfProfiles * numberOfScenarios);
+        float totalNumberOfExecutedScenarios = numberOfExecutedProfiles * numberOfScenarios + numberOfExecutedScenarios, racio = totalNumberOfExecutedScenarios
+                / (numberOfProfiles * numberOfScenarios);
         progressInPercentage = racio * 100f;
     }
 
@@ -51,7 +53,7 @@ public class ExecutionProgress {
         numberOfExecutedFeatures = -1;
         numberOfExecutedScenarios = 0;
     }
-    
+
     public void startedFeature(Feature feature) {
         currentFeature = feature;
         numberOfExecutedFeatures++;
@@ -60,7 +62,7 @@ public class ExecutionProgress {
     public void startedScenario(Scenario scenario) {
         currentScenario = scenario;
     }
-    
+
     public void finishedScenario(Scenario scenario) {
         numberOfExecutedScenarios++;
         updatePercentageOfProgress();
@@ -80,6 +82,10 @@ public class ExecutionProgress {
     }
 
     public String getCurrentProfile() {
+        if (profiles.size() == 0) {
+            return "";
+        }
+
         return profiles.get(numberOfExecutedProfiles);
     }
 
