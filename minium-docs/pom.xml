@@ -3,7 +3,7 @@
 
 	<parent>
 		<groupId>io.vilt.minium</groupId>
-		<artifactId>minium-parent</artifactId> 
+		<artifactId>minium-parent</artifactId>
 		<version>1.3.1-SNAPSHOT</version>
 		<relativePath>../minium-parent</relativePath>
 	</parent>
@@ -63,7 +63,7 @@
 			<scope>system</scope>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<resources>
 			<resource>
@@ -82,7 +82,7 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 	<profiles>
 		<profile>
 			<id>generate-docs</id>
@@ -102,7 +102,7 @@
 					</resource>
 				</resources>
 				<plugins>
-					<!-- 
+					<!--
 					we need ant to define maven.classpath so that we can use it in javadocs plugin
 					(for some reason docletArtifacts doesn't seem to work
 					-->
@@ -174,8 +174,8 @@
 							<useStandardDocletOptions>false</useStandardDocletOptions>
 							<outputDirectory>${project.build.directory}/mkdocs/docs/core</outputDirectory>
 							<additionalparam>-d ${project.build.directory}/mkdocs/docs/core</additionalparam>
-							<!-- 
-							docletArtifacts doesn't seem to work, use it with antrun:run, 
+							<!--
+							docletArtifacts doesn't seem to work, use it with antrun:run,
 							execution ID define-javadoc-classpath
 							-->
 							<docletPath>${maven.classpath}</docletPath>
@@ -210,38 +210,11 @@
 									</arguments>
 								</configuration>
 							</execution>
-							<execution>
-								<id>generate-changelog-md</id>
-								<phase>package</phase>
-								<goals>
-									<goal>java</goal>
-								</goals>
-								<configuration>
-									<mainClass>minium.docs.ChangelogGenerator</mainClass>
-									<killAfter>-1</killAfter>
-									<systemProperties>
-										<systemProperty>
-											<key>org.freemarker.loggerLibrary</key>
-	             							<value>none</value>
-	           							</systemProperty>
-									</systemProperties>
-									<arguments>
-										<argument>--changelogFile</argument>
-										<argument>${project.build.directory}/changelog</argument>
-										<argument>--templateFile</argument>
-										<argument>${basedir}/src/main/resources/templates/changelog.md.ftl</argument>
-										<argument>--outputFile</argument>
-										<argument>${project.build.directory}/mkdocs/docs/core/changelog.md</argument>
-										<argument>--ticketUrlFormat</argument>
-										<argument>${project.issueManagement.url}/issues/:id</argument>
-									</arguments>
-								</configuration>
-							</execution>
 						</executions>
 					</plugin>
 				</plugins>
 			</build>
 		</profile>
 	</profiles>
-	
+
 </project>
