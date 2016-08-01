@@ -204,7 +204,8 @@ public class WebDriverProperties {
         private boolean acceptUntrustedCerts;
         private boolean untrustedCertIssuer;
 
-        public FirefoxProfileProperties() {}
+        public FirefoxProfileProperties() {
+        }
 
         public List<ExtensionProperties> getExtensions() {
             return extensions;
