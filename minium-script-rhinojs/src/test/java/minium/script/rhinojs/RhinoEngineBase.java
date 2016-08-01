@@ -84,11 +84,6 @@ public class RhinoEngineBase {
     }
 
     @Test
-    public void testEasyjet() throws IOException, InterruptedException {
-        rhinoEngine.runScript("classpath:minium/examples/easyjet.js");
-    }
-
-    @Test
     public void testAmazon() throws IOException, InterruptedException {
         rhinoEngine.runScript("classpath:minium/examples/amazon.js");
     }

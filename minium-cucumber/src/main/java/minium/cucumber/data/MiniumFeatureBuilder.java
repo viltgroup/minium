@@ -129,7 +129,7 @@ public class MiniumFeatureBuilder extends FeatureBuilder {
     public void scenario(Scenario scenario) {
         if (lineOffset != 0 && isPreview) {
             int newLine = scenario.getLine() + lineOffset;
-            featureLineOffset.put(scenario.getLine() , newLine);
+            featureLineOffset.put(scenario.getLine(), newLine);
         }
         super.scenario(scenario);
         prettyFormatter.scenario(scenario);
@@ -139,7 +139,7 @@ public class MiniumFeatureBuilder extends FeatureBuilder {
     public void scenarioOutline(ScenarioOutline scenarioOutline) {
         if (lineOffset != 0 && isPreview) {
             int newLine = scenarioOutline.getLine() + lineOffset;
-            featureLineOffset.put(scenarioOutline.getLine() , newLine);
+            featureLineOffset.put(scenarioOutline.getLine(), newLine);
         }
         super.scenarioOutline(scenarioOutline);
         prettyFormatter.scenarioOutline(scenarioOutline);
