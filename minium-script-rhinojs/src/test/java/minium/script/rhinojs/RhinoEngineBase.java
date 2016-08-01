@@ -79,11 +79,6 @@ public class RhinoEngineBase {
     private RhinoEngine rhinoEngine;
 
     @Test
-    public void testEtherCalc() throws IOException, InterruptedException {
-        rhinoEngine.runScript("classpath:minium/examples/ethercalc.js");
-    }
-
-    @Test
     public void testAmazon() throws IOException, InterruptedException {
         rhinoEngine.runScript("classpath:minium/examples/amazon.js");
     }
