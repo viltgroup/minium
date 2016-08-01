@@ -126,25 +126,6 @@
 						</executions>
 					</plugin>
 					<plugin>
-					    <groupId>de.taimos</groupId>
-					    <artifactId>redmine-maven-plugin</artifactId>
-					    <executions>
-		   					<execution>
-								<id>generate-changelog</id>
-								<phase>process-resources</phase>
-								<goals>
-									<goal>changelog</goal>
-								</goals>
-							</execution>
-						</executions>
-						<configuration>
-							<redmineKey>${athena.redmine.key}</redmineKey>
-					        <changelogFile>${project.build.directory}/changelog</changelogFile>
-   					        <projectIdentifier>minium-core</projectIdentifier>
-					        <changelogVersion>1.0.0</changelogVersion>
-						</configuration>
-					</plugin>
-					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>license-maven-plugin</artifactId>
 						<executions>
