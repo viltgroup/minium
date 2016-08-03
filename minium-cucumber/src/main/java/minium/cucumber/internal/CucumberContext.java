@@ -39,6 +39,8 @@ package minium.cucumber.internal;
 
 import java.util.List;
 
+import minium.cucumber.data.ExecutionProgress;
+
 import com.google.inject.internal.Lists;
 
 import cucumber.runtime.model.CucumberExamples;
@@ -46,7 +48,6 @@ import cucumber.runtime.model.CucumberFeature;
 import cucumber.runtime.model.CucumberScenario;
 import cucumber.runtime.model.CucumberScenarioOutline;
 import cucumber.runtime.model.CucumberTagStatement;
-import minium.cucumber.data.ExecutionProgress;
 
 public class CucumberContext {
     private static ThreadLocal<CucumberContext> cucumberContext = new InheritableThreadLocal<CucumberContext>() {
@@ -94,7 +95,7 @@ public class CucumberContext {
     public static void setProfilesMatrix(List<String[]> profilesMatrix) {
         List<String> profiles = Lists.newArrayList();
         for (String[] profileMatrixLine : profilesMatrix) {
-            profiles.add(profileMatrixLine[0]);
+            profiles.add(profileMatrixLine[profileMatrixLine.length - 1]);
         }
         getCurrent().getProgress().setProfiles(profiles);
     }
