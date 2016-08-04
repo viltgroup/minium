@@ -40,9 +40,7 @@ package minium.cucumber.internal;
 import java.util.List;
 
 import minium.cucumber.data.ExecutionProgress;
-
-import com.google.inject.internal.Lists;
-
+import minium.cucumber.data.ProfilesMatrix;
 import cucumber.runtime.model.CucumberExamples;
 import cucumber.runtime.model.CucumberFeature;
 import cucumber.runtime.model.CucumberScenario;
@@ -92,11 +90,7 @@ public class CucumberContext {
         currentContextProgress.setNumberOfScenarios(numberOfScenarios);
     }
 
-    public static void setProfilesMatrix(List<String[]> profilesMatrix) {
-        List<String> profiles = Lists.newArrayList();
-        for (String[] profileMatrixLine : profilesMatrix) {
-            profiles.add(profileMatrixLine[profileMatrixLine.length - 1]);
-        }
-        getCurrent().getProgress().setProfiles(profiles);
+    public static void setProfilesMatrix(ProfilesMatrix profilesMatrix) {
+        getCurrent().getProgress().setProfilesMatrix(profilesMatrix);
     }
 }

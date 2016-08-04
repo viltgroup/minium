@@ -18,13 +18,9 @@ package minium.cucumber.data;
 import gherkin.formatter.model.Feature;
 import gherkin.formatter.model.Scenario;
 
-import java.util.List;
-
-import com.google.common.collect.Lists;
-
 public class ExecutionProgress {
 
-    private List<String> profiles = Lists.newArrayList();
+    private ProfilesMatrix profilesMatrix = new ProfilesMatrix("");
     private float progressInPercentage;
     private int numberOfProfiles;
     private int numberOfExecutedProfiles = -1;
@@ -68,9 +64,9 @@ public class ExecutionProgress {
         updatePercentageOfProgress();
     }
 
-    public void setProfiles(List<String> profiles) {
-        this.profiles = profiles;
-        this.numberOfProfiles = profiles.size();
+    public void setProfilesMatrix(ProfilesMatrix profilesMatrix) {
+        this.profilesMatrix = profilesMatrix;
+        this.numberOfProfiles = profilesMatrix.getMatrix().size();
     }
 
     public void setNumberOfFeatures(int numberOfFeatures) {
@@ -81,12 +77,12 @@ public class ExecutionProgress {
         this.numberOfScenarios = numberOfScenarios;
     }
 
-    public String getCurrentProfile() {
-        if (profiles.size() == 0) {
-            return "";
+    public String[] getCurrentProfiles() {
+        if (profilesMatrix.getMatrix().size() == 0) {
+            return new String[0];
         }
 
-        return profiles.get(numberOfExecutedProfiles);
+        return profilesMatrix.getMatrix().get(numberOfExecutedProfiles);
     }
 
     public Feature getCurrentFeature() {

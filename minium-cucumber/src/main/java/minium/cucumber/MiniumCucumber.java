@@ -41,6 +41,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import minium.cucumber.data.ProfilesMatrix;
 import minium.cucumber.internal.CucumberContext;
 import minium.cucumber.internal.MiniumActiveProfilesResolver;
 import minium.cucumber.internal.MiniumProfileRunner;
@@ -52,11 +53,6 @@ import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.ParentRunner;
 import org.junit.runners.model.InitializationError;
 
-import com.google.common.base.Function;
-import com.google.common.base.Splitter;
-import com.google.common.collect.FluentIterable;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 import cucumber.runtime.junit.Assertions;
@@ -75,7 +71,7 @@ public class MiniumCucumber extends ParentRunner<MiniumProfileRunner> {
         super(clazz);
         Assertions.assertNoCucumberAnnotatedMethods(clazz);
 
-        for (String[] profiles : getProfilesMatrix()) {
+        for (String[] profiles : getProfilesMatrix().getMatrix()) {
             MiniumActiveProfilesResolver.setActiveProfiles(profiles);
             try {
                 MiniumRhinoTestContextManager testContextManager = new MiniumRhinoTestContextManager(MiniumCucumberTest.class);
@@ -88,21 +84,9 @@ public class MiniumCucumber extends ParentRunner<MiniumProfileRunner> {
         }
     }
 
-    private List<String[]> getProfilesMatrix() {
-        String property = System.getProperty("minium.cucumber.matrix", "");
-        List<String> profilesMatrixLines = Splitter.on(";").trimResults().omitEmptyStrings().splitToList(property);
-        List<String[]> profilesMatrix = FluentIterable.from(profilesMatrixLines).transform(new Function<String, String[]>() {
-            @Override
-            public String[] apply(String profiles) {
-                return Iterables.toArray(Splitter.on(",").trimResults().omitEmptyStrings().split(profiles), String.class);
-            }
-        }).toList();
-
-        if (profilesMatrix.isEmpty()) {
-            String activeProfiles = System.getProperty("spring.profiles.active", null);
-            profilesMatrix = ImmutableList.of(activeProfiles == null ? new String[0] : new String[] { activeProfiles });
-        }
-
+    private ProfilesMatrix getProfilesMatrix() {
+        String profilesMatrixStr = System.getProperty("minium.cucumber.matrix", "");
+        ProfilesMatrix profilesMatrix = new ProfilesMatrix(profilesMatrixStr);
         CucumberContext.setProfilesMatrix(profilesMatrix);
         return profilesMatrix;
     }
