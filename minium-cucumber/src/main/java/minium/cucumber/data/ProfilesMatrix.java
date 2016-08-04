@@ -52,8 +52,6 @@ public class ProfilesMatrix {
 
     public ProfilesMatrix(String profilesMatrixStr) {
         List<String> profilesMatrixLines = Splitter.on(";").trimResults().splitToList(profilesMatrixStr);
-        System.out.println(profilesMatrixLines.size());
-        System.out.println(profilesMatrixStr);
         List<String[]> profilesMatrix = FluentIterable.from(profilesMatrixLines).transform(new Function<String, String[]>() {
             @Override
             public String[] apply(String profiles) {
