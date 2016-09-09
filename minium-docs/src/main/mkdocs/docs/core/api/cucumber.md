@@ -84,7 +84,7 @@ Returns a object with the first column as keys and the second column as values.
 It is very useful for handling more dynamic data, where the number of properties
 is not known *a priori*, and there can lots of properties.
 
-For instance, you can use it in a form filling step:
+Consider the following example:
 
 ```gherkin
 When I fill:
@@ -92,6 +92,18 @@ When I fill:
 | Home Page  | http://minium.vilt.io                  |
 | Repository | http://www.github.com/viltgroup/minium |
 ```
+
+In this case, `rowsHash()` would return:
+
+```json
+{
+  "Name" : "Minium",
+  "Home Page" : "http://minium.vilt.io",
+  "Repository" : "http://www.github.com/viltgroup/minium"
+}
+```
+
+Here is an example in which it is used to create a generic form filling step:
 
 ```javascript
 When(/^I fill:$/, function (datatable) {
