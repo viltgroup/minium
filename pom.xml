@@ -51,12 +51,12 @@
 	</licenses>
 
 	<properties>
-		<java.version>1.7</java.version>
+		<java.version>1.8</java.version>
 
 		<checkstyle.config.dir>${basedir}/../src/main/checkstyle</checkstyle.config.dir>
 
 		<platypus.version>0.1.0</platypus.version>
-		<selenium.version>2.53.1</selenium.version>
+		<selenium.version>3.0.1</selenium.version>
 
 		<!-- https://github.com/detro/ghostdriver/pull/399 -->
 		<phantomjsdriver.groupid>com.codeborne</phantomjsdriver.groupid>
