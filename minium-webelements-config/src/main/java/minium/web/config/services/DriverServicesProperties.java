@@ -30,6 +30,7 @@ public class DriverServicesProperties implements DisposableBean {
     @Value("${app.home:.}")
     private File homedir;
     private ChromeDriverServiceProperties chrome;
+    private FirefoxDriverServiceProperties firefox;
     private InternetExplorerDriverServiceProperties internetExplorer;
     private PhantomJsDriverServiceProperties phantomJs;
 
@@ -48,6 +49,22 @@ public class DriverServicesProperties implements DisposableBean {
 
     public void setChrome(ChromeDriverServiceProperties chrome) {
         this.chrome = chrome;
+    }
+
+    public FirefoxDriverServiceProperties getFirefox() {
+        if (firefox == null) {
+            File firefoxDriveExe = findExecutable("geckodriver");
+            if (firefoxDriveExe != null) {
+                LOGGER.debug("Firefox driver found at {}", firefoxDriveExe.getAbsolutePath());
+                firefox = new FirefoxDriverServiceProperties();
+                firefox.setDriverExecutable(firefoxDriveExe);
+            }
+        }
+        return firefox;
+    }
+
+    public void setFirefox(FirefoxDriverServiceProperties firefox) {
+        this.firefox = firefox;
     }
 
     public InternetExplorerDriverServiceProperties getInternetExplorer() {
@@ -100,6 +117,7 @@ public class DriverServicesProperties implements DisposableBean {
     @Override
     public void destroy() throws Exception {
         if (chrome != null) chrome.destroy();
+        if (firefox != null) firefox.destroy();
         if (internetExplorer != null) internetExplorer.destroy();
         if (phantomJs != null) phantomJs.destroy();
     }

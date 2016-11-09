@@ -54,6 +54,7 @@ import minium.web.config.WebDriverProperties.PreferenceProperties;
 import minium.web.config.WebDriverProperties.WindowProperties;
 import minium.web.config.services.ChromeDriverServiceProperties;
 import minium.web.config.services.DriverServicesProperties;
+import minium.web.config.services.FirefoxDriverServiceProperties;
 import minium.web.config.services.InternetExplorerDriverServiceProperties;
 import minium.web.config.services.PhantomJsDriverServiceProperties;
 
@@ -73,7 +74,9 @@ public class WebDriverFactory {
         FIREFOX(BrowserType.FIREFOX) {
             @Override
             public WebDriver create(WebDriverFactory webDriverFactory, DesiredCapabilities desiredCapabilities, DesiredCapabilities requiredCapabilities) {
-                return new FirefoxDriver(desiredCapabilities);
+                FirefoxDriverServiceProperties serviceProperties = webDriverFactory.driverServices == null ? null : webDriverFactory.driverServices.getFirefox();
+                DriverService driverService = serviceProperties == null ? null : serviceProperties.getDriverService();
+                return driverService == null ? new FirefoxDriver(desiredCapabilities) : new RemoteWebDriver(driverService.getUrl(), desiredCapabilities, requiredCapabilities);
             }
         },
         IE(BrowserType.IE, BrowserType.IEXPLORE) {
