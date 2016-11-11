@@ -15,6 +15,7 @@
  */
 package minium.web.config;
 
+import java.io.File;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
@@ -264,12 +265,55 @@ public class WebDriverProperties {
         }
     }
 
+    public static class ChromeOptionsProperties {
+        private List<String> args;
+        private File binary;
+        private List<File> extensions;
+        private Map<String, Object> preferences;
+
+        public ChromeOptionsProperties() {
+        }
+
+        public List<String> getArgs() {
+            return args;
+        }
+
+        public void setArgs(List<String> args) {
+            this.args = args;
+        }
+
+        public File getBinary() {
+            return binary;
+        }
+
+        public void setBinary(File binary) {
+            this.binary = binary;
+        }
+
+        public List<File> getExtensions() {
+            return extensions;
+        }
+
+        public void setExtensions(List<File> extensions) {
+            this.extensions = extensions;
+        }
+
+        public Map<String, Object> getPreferences() {
+            return preferences;
+        }
+
+        public void setPreferences(Map<String, Object> preferences) {
+            this.preferences = preferences;
+        }
+    }
+
     private Map<String, Object> desiredCapabilities = Maps.newHashMap();
     private Map<String, Object> requiredCapabilities = Maps.newHashMap();
     private URL url;
     private WindowProperties window;
     private boolean stateful = true;
     private FirefoxProfileProperties firefoxProfile;
+    private ChromeOptionsProperties chromeOptions;
 
     public WebDriverProperties() {
         desiredCapabilities.put(CapabilityType.BROWSER_NAME, BrowserType.CHROME);
@@ -321,5 +365,13 @@ public class WebDriverProperties {
 
     public void setFirefoxProfile(FirefoxProfileProperties firefoxProfile) {
         this.firefoxProfile = firefoxProfile;
+    }
+
+    public ChromeOptionsProperties getChromeOptions() {
+        return chromeOptions;
+    }
+
+    public void setChromeOptions(ChromeOptionsProperties chromeOptions) {
+        this.chromeOptions = chromeOptions;
     }
 }

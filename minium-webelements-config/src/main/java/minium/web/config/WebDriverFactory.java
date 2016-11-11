@@ -27,6 +27,7 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.internal.FileExtension;
@@ -46,6 +47,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 
 import minium.web.StatefulWebDriver;
+import minium.web.config.WebDriverProperties.ChromeOptionsProperties;
 import minium.web.config.WebDriverProperties.DimensionProperties;
 import minium.web.config.WebDriverProperties.ExtensionProperties;
 import minium.web.config.WebDriverProperties.FirefoxProfileProperties;
@@ -128,6 +130,10 @@ public class WebDriverFactory {
 
     public WebDriver create(WebDriverProperties webDriverProperties) throws IOException {
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities(webDriverProperties.getDesiredCapabilities());
+        ChromeOptionsProperties chromeProperties = webDriverProperties.getChromeOptions();
+        if (chromeProperties != null) {
+            desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, configureChromeOptions(chromeProperties));
+        }
         FirefoxProfileProperties firefoxProperties = webDriverProperties.getFirefoxProfile();
         if (firefoxProperties != null) {
             desiredCapabilities.setCapability(FirefoxDriver.PROFILE, getFirefoxProfile(firefoxProperties));
@@ -155,6 +161,15 @@ public class WebDriverFactory {
         }
         webDriver = webDriver instanceof TakesScreenshot ? webDriver : new Augmenter().augment(webDriver);
         return webDriverProperties.isStateful() ? new StatefulWebDriver(webDriver) : webDriver;
+    }
+
+    private ChromeOptions configureChromeOptions(ChromeOptionsProperties chromeProperties) {
+        ChromeOptions options = new ChromeOptions();
+        if (chromeProperties.getArgs() != null) options.addArguments(chromeProperties.getArgs());
+        if (chromeProperties.getBinary() != null) options.setBinary(chromeProperties.getBinary());
+        if (chromeProperties.getExtensions() != null) options.addExtensions(chromeProperties.getExtensions());
+        if (chromeProperties.getPreferences() != null) options.setExperimentalOption("prefs", chromeProperties.getPreferences());
+        return options;
     }
 
     private FirefoxProfile getFirefoxProfile(FirefoxProfileProperties firefoxProperties) throws IOException {
