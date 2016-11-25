@@ -404,7 +404,7 @@ public class MiniumFeatureBuilder extends FeatureBuilder {
         } catch (IllegalArgumentException originalException) {
             if ((!(featurePath.startsWith("classpath:"))) && (originalException.getMessage().contains("Not a file or directory"))) {
                 try {
-                    loadFromFeaturePath(builder, resourceLoader, "classpath:" + featurePath, filters, true);
+                    loadFromFeaturePath(builder, resourceLoader, "classpath: " + featurePath, filters, true);
                 } catch (IllegalArgumentException secondException) {
                     if (secondException.getMessage().contains("No resource found for")) {
                         throw new IllegalArgumentException("Neither found on file system or on classpath: " + originalException.getMessage() + ", "

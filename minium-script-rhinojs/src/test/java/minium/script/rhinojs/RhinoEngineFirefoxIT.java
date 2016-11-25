@@ -15,7 +15,7 @@
  */
 package minium.script.rhinojs;
 
-import org.springframework.boot.test.IntegrationTest;
+import org.springframework.boot.test.context.SpringBootTest;
 
-@IntegrationTest({ "minium.webdriver.desiredCapabilities.browserName=firefox", "spring.main.show_banner=false" })
+@SpringBootTest(classes = RhinoEngineBase.TestConfig.class, properties = { "minium.webdriver.desiredCapabilities.browserName=firefox", "spring.main.show_banner=false" })
 public class RhinoEngineFirefoxIT extends RhinoEngineBase { }

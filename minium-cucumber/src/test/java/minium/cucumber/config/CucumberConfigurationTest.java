@@ -17,36 +17,21 @@ package minium.cucumber.config;
 
 import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertThat;
-import minium.cucumber.config.CucumberProperties.CredentialsProperties;
-import minium.cucumber.config.CucumberProperties.RemoteBackendProperties;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.test.IntegrationTest;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = { CucumberConfigurationTest.TestConfiguration.class })
-@ActiveProfiles("test")
-@IntegrationTest({ "spring.main.show_banner=false" })
-public class CucumberConfigurationTest {
+import minium.cucumber.config.CucumberProperties.CredentialsProperties;
+import minium.cucumber.config.CucumberProperties.RemoteBackendProperties;
 
-    @Configuration
-    @EnableConfigurationProperties
-    public static class TestConfiguration {
-        @Bean
-        @ConfigurationProperties(prefix = "minium.cucumber", ignoreUnknownFields = false)
-        public CucumberProperties cucumberProperties() {
-            return new CucumberProperties();
-        }
-    }
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest(classes = { CucumberConfiguration.class }, properties = { "spring.main.show_banner=false" })
+@ActiveProfiles("test")
+public class CucumberConfigurationTest {
 
     @Autowired
     private CucumberProperties cucumberProperties;
