@@ -24,6 +24,20 @@ import static minium.web.internal.WebModules.positionModule;
 
 import java.io.IOException;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.openqa.selenium.WebDriver;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener;
+import org.springframework.boot.test.autoconfigure.web.servlet.MockMvcWebDriverAutoConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import minium.script.js.MiniumJsEngineAdapter;
 import minium.script.rhinojs.RhinoProperties.RequireProperties;
 import minium.web.CoreWebElements.DefaultWebElements;
@@ -33,22 +47,14 @@ import minium.web.actions.WebDriverBrowser;
 import minium.web.config.WebElementsConfiguration;
 import minium.web.internal.WebModule;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.openqa.selenium.WebDriver;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = RhinoEngineBase.TestConfig.class)
+@SpringBootTest(classes = RhinoEngineBase.TestConfig.class)
+@TestExecutionListeners(SpringBootDependencyInjectionTestExecutionListener.class)
 public class RhinoEngineBase {
 
     @Configuration
     @Import(WebElementsConfiguration.class)
+    @EnableAutoConfiguration(exclude = MockMvcWebDriverAutoConfiguration.class)
     public static class TestConfig {
 
         @Autowired

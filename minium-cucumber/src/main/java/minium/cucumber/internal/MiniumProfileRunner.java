@@ -51,7 +51,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.env.Environment;
 import org.springframework.test.context.ActiveProfiles;
@@ -81,7 +81,7 @@ import minium.web.actions.Browser;
 
 public class MiniumProfileRunner extends ParentRunner<FeatureRunner> implements InitializingBean {
 
-    @SpringApplicationConfiguration(classes = MiniumConfiguration.class)
+    @SpringBootTest(classes = MiniumConfiguration.class)
     @ActiveProfiles(resolver = MiniumActiveProfilesResolver.class)
     public static class MiniumCucumberTest {
     }

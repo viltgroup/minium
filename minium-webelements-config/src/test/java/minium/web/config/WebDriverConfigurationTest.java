@@ -22,8 +22,6 @@ import static org.junit.Assert.assertThat;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import minium.web.config.WebDriverProperties.DimensionProperties;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.Platform;
@@ -31,32 +29,18 @@ import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.test.IntegrationTest;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.google.common.collect.ImmutableMap;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = WebDriverConfigurationTest.TestConfig.class)
-@ActiveProfiles("test")
-@IntegrationTest({ "spring.main.show_banner=false" })
-public class WebDriverConfigurationTest {
+import minium.web.config.WebDriverProperties.DimensionProperties;
 
-    @Configuration
-    @EnableConfigurationProperties
-    public static class TestConfig {
-        @Bean
-        @ConfigurationProperties(prefix = "minium.webdriver")
-        public WebDriverProperties webDriverProperties() {
-            return new WebDriverProperties();
-        }
-    }
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest(classes = WebElementsConfiguration.class, properties = { "spring.main.show_banner=false" })
+@ActiveProfiles("test")
+public class WebDriverConfigurationTest {
 
     @Autowired
     private WebDriverProperties webDriverProperties;
