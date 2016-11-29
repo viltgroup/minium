@@ -65,8 +65,13 @@ public abstract class BaseDocumentRoots<T extends WebElements> extends InternalW
     }
 
     @Override
-    public DocumentRoots documentRoots() {
-        return this;
+    public WebElements documentRoots() {
+        return myself();
+    }
+
+    @Override
+    public WebElements candidateDocumentRoots() {
+        return myself();
     }
 
     @Override

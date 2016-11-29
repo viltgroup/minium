@@ -22,7 +22,6 @@ import java.util.Collections;
 import java.util.List;
 
 import minium.BasicElements;
-import minium.web.DocumentRoots;
 import minium.web.DocumentWebDriver;
 import minium.web.WebElements;
 import minium.web.internal.drivers.DocumentWebElement;
@@ -61,8 +60,13 @@ public class DefaultExpressionWebElements<T extends WebElements> extends Interna
         }
 
         @Override
-        public DocumentRoots documentRoots() {
+        public WebElements documentRoots() {
             return parent().as(InternalWebElements.class).documentRoots();
+        }
+
+        @Override
+        public WebElements candidateDocumentRoots() {
+            return parent().as(InternalWebElements.class).candidateDocumentRoots();
         }
 
         @Override
@@ -145,8 +149,13 @@ public class DefaultExpressionWebElements<T extends WebElements> extends Interna
     }
 
     @Override
-    public DocumentRoots documentRoots() {
-        return parent().as(InternalWebElements.class).documentRoots();
+    public WebElements documentRoots() {
+        return internalFactory().createMixin(myself(), new FilteredDocumentRoots<T>());
+    }
+
+    @Override
+    public WebElements candidateDocumentRoots() {
+        return parent().as(InternalWebElements.class).candidateDocumentRoots();
     }
 
     @Override
@@ -166,9 +175,8 @@ public class DefaultExpressionWebElements<T extends WebElements> extends Interna
 
     @Override
     public String toString() {
-        String rootString = documentRoots().toString();
+        String rootString = candidateDocumentRoots().toString();
         String expression = getExpression().getJavascript(new VariableGenerator.Impl());
         return Strings.isNullOrEmpty(rootString) ? expression : String.format("%s -> %s", rootString, expression);
     }
-
 }

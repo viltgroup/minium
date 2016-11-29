@@ -50,6 +50,11 @@ public class EmptyWebElements<T extends WebElements> extends InternalWebElements
     }
 
     @Override
+    public WebElements candidateDocumentRoots() {
+        return documentRoots();
+    }
+
+    @Override
     public boolean isDocumentRoots() {
         return false;
     }
