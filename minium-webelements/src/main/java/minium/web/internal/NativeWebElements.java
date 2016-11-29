@@ -64,6 +64,11 @@ public class NativeWebElements<T extends WebElements> extends InternalWebElement
     }
 
     @Override
+    public WebElements candidateDocumentRoots() {
+        return documentRoots();
+    }
+
+    @Override
     public boolean isDocumentRoots() {
         return false;
     }

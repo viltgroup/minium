@@ -15,23 +15,18 @@
  */
 package minium.web.internal;
 
-import minium.web.internal.DefaultTargetLocatorWebElements.WindowRoots;
 import minium.web.DocumentWebDriver;
 import minium.web.WebElements;
 
-import com.google.common.base.Preconditions;
-
-public class DefaultFilteredWindowRoots<T extends WebElements> extends WindowRoots<T> {
-
-    private final WebElements filter;
-
-    public DefaultFilteredWindowRoots(WebElements filter) {
-        Preconditions.checkNotNull(filter);
-        this.filter = filter;
-    }
+public class FilteredDocumentRoots<T extends WebElements> extends BaseDocumentRoots<T> {
 
     @Override
     public Iterable<DocumentWebDriver> candidateDocumentDrivers() {
-        return filter.as(InternalWebElements.class).documentDrivers();
+        return parent().as(InternalWebElements.class).documentDrivers();
+    }
+
+    @Override
+    public String toString() {
+        return parent().toString() + ".documentRoots()";
     }
 }

@@ -22,7 +22,6 @@ import java.util.Iterator;
 import minium.FreezableElements;
 import minium.internal.BaseElements;
 import minium.internal.HasElementsFactory;
-import minium.web.DocumentRoots;
 import minium.web.DocumentWebDriver;
 import minium.web.WebElements;
 import minium.web.internal.drivers.DocumentWebElement;
@@ -49,7 +48,9 @@ public interface InternalWebElements extends WebElements {
 
     public abstract Iterable<DocumentWebDriver> documentDrivers();
 
-    public abstract DocumentRoots documentRoots();
+    public abstract WebElements documentRoots();
+
+    public abstract WebElements candidateDocumentRoots();
 
     public abstract boolean isDocumentRoots();
 

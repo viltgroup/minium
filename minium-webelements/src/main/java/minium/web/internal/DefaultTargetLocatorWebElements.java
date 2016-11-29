@@ -16,7 +16,6 @@
 package minium.web.internal;
 
 import static com.google.common.collect.FluentIterable.from;
-import static java.lang.String.format;
 import minium.internal.BaseElements;
 import minium.web.BasicWebElements;
 import minium.web.DocumentWebDriver;
@@ -55,7 +54,7 @@ public class DefaultTargetLocatorWebElements<T extends BasicWebElements<T>> exte
         @Override
         public String toString() {
             String parentStr = parent().toString();
-            return Strings.isNullOrEmpty(parentStr) ? "[frames]" : format("%s -> [frames]", parentStr);
+            return (Strings.isNullOrEmpty(parentStr) ? "$(\":root\")" : parentStr) + ".frames()";
         }
     }
 
@@ -81,7 +80,7 @@ public class DefaultTargetLocatorWebElements<T extends BasicWebElements<T>> exte
         @Override
         public String toString() {
             String parentStr = parent().toString();
-            return Strings.isNullOrEmpty(parentStr) ? "[windows]" : format("%s -> [windows]", parentStr);
+            return (Strings.isNullOrEmpty(parentStr) ? "$(\":root\")" : parentStr) + ".windows()";
         }
     }
 
