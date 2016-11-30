@@ -25,6 +25,8 @@
             return wrapped.$.call(wrapped, Array.prototype.slice.call(arguments));
         }
     };
+    // we'll use $.fn for minium javascript plugins (like jQuery)
+    browser.$.fn = {};
     return browser;
   };
   
@@ -32,6 +34,7 @@
     var browser = wrapBrowser(__browser);
     minium.browser = browser;
     minium.$ = browser.$;
+    minium.$.fn = __prototype;
   }
 
   var InteractionListeners = Packages.minium.actions.InteractionListeners;

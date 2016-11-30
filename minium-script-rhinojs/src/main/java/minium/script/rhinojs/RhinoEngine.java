@@ -32,6 +32,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
 
+import minium.Elements;
 import minium.internal.Paths;
 import minium.script.js.JsEngine;
 import minium.script.rhinojs.RhinoProperties.RequireProperties;
@@ -77,13 +78,18 @@ public class RhinoEngine implements JsEngine, DisposableBean {
     }
 
     private WrapFactory wrapFactory = new WrapFactory() {
+
         @Override
         public Object wrap(Context cx, Scriptable scope, Object obj, Class<?> staticType) {
             final Object ret = super.wrap(cx, scope, obj, staticType);
             if (ret instanceof Scriptable) {
                 final Scriptable sret = (Scriptable) ret;
                 if (sret.getPrototype() == null) {
-                    sret.setPrototype(new NativeObject());
+                    if (obj instanceof Elements) {
+                        sret.setPrototype(prototype);
+                    } else {
+                        sret.setPrototype(new NativeObject());
+                    }
                 }
             }
             return ret;
@@ -92,7 +98,8 @@ public class RhinoEngine implements JsEngine, DisposableBean {
     private Thread executionThread;
     private ExecutorService executorService;
     private Future<?> lastTask;
-    private final Scriptable scope;
+    private Scriptable scope;
+    private Scriptable prototype;
 
     public <T> RhinoEngine(final RhinoProperties rhinoProperties) {
         this.executorService = Executors.newSingleThreadExecutor(new ThreadFactory() {
@@ -105,9 +112,9 @@ public class RhinoEngine implements JsEngine, DisposableBean {
         });
 
         // this ensures a single thread for this engine
-        scope = runWithContext(new RhinoCallable<Scriptable, RuntimeException>() {
+        runWithContext(new RhinoCallable<Void, RuntimeException>() {
             @Override
-            protected Scriptable doCall(Context cx, Scriptable scope) {
+            protected Void doCall(Context cx, Scriptable s) {
                 try {
                     Global global = new Global(cx);
                     RequireProperties require = rhinoProperties.getRequire();
@@ -121,7 +128,12 @@ public class RhinoEngine implements JsEngine, DisposableBean {
                     try (Reader in = new InputStreamReader(classloader.getResourceAsStream("compat/timeout.js"))) {
                         cx.evaluateReader(global, in, "compat/timeout.js", 1, null);
                     }
-                    return global;
+                    scope = global;
+                    prototype = new NativeObject();
+
+                    scope.put("__prototype", scope, prototype);
+
+                    return null;
                 } catch (IOException e) {
                     throw Throwables.propagate(e);
                 }
