@@ -136,6 +136,11 @@
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium</groupId>
+				<artifactId>minium-logback-test</artifactId>
+				<version>1.4.2-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>io.vilt.minium</groupId>
 				<artifactId>minium-docs</artifactId>
 				<version>1.4.2-SNAPSHOT</version>
 			</dependency>
@@ -586,6 +591,7 @@
 		<module>minium-docs</module>
 		<module>minium-parent</module>
 		<module>minium-cucumber-parent</module>
+		<module>minium-logback-test</module>
 	</modules>
 
 	<repositories>
