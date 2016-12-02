@@ -61,7 +61,7 @@ public class MiniumCucumber extends ParentRunner<MiniumProfileRunner> {
 
     static {
         // disable Spring boot banner
-        System.setProperty("spring.main.show_banner", "false");
+        System.setProperty("spring.main.banner-mode", "off");
         System.setProperty("minium.resources.dir", new File("src/test/resources").getAbsolutePath());
     }
 
