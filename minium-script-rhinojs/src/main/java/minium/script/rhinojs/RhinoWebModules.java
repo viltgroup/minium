@@ -30,8 +30,6 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.json.JsonParser;
 import org.mozilla.javascript.json.JsonParser.ParseException;
 
-import com.google.common.base.Throwables;
-
 public class RhinoWebModules {
 
     public static class FunctionExpressionizer implements Expressionizer {
@@ -65,14 +63,15 @@ public class RhinoWebModules {
 
         @Override
         public Object coerce(Object obj, Type type) {
+            Context cx = Context.enter();
             try {
-                Context cx = Context.enter();
                 if (obj instanceof String) {
                     return new JsonParser(cx, cx.initStandardObjects()).parseValue((String) obj);
                 }
                 return obj;
             } catch (ParseException e) {
-                throw Throwables.propagate(e);
+                // just assume it's actually a string
+                return obj;
             }
         }
     }
