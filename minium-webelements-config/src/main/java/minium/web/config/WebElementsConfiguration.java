@@ -77,7 +77,7 @@ public class WebElementsConfiguration {
     }
 
     @Autowired
-    @Bean
+    @Bean(destroyMethod = "quit")
     @Lazy
     public Browser<DefaultWebElements> browser(WebDriver webDriver, List<WebModule> modules) {
         WebModule combinedWebModule = WebModules.combine(modules);
