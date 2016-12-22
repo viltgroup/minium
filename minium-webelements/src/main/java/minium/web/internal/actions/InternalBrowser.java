@@ -440,6 +440,12 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
         public void saveTo(File file) throws IOException {
             Files.asByteSource(asFile()).copyTo(Files.asByteSink(file));
         }
+
+        @Override
+        public void saveTo(String path) throws IOException {
+            File file = new File(path);
+            saveTo(file);
+        }
     }
 
     private final WebElementsFactory<T> factory;

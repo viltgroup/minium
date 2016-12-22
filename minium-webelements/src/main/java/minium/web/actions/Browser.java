@@ -112,6 +112,13 @@ public interface Browser<T extends WebElements> {
          * @throws IOException if some IO problem occurs saving to the specified file
          */
         void saveTo(File file) throws IOException;
+
+        /**
+         * Saves screenshot to the specified path.
+         *
+         * @param Path Path to the file where screenshot will be saved with {@code png} format.
+         */
+        void saveTo(String path) throws IOException;
     }
 
     T root();
