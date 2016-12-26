@@ -41,6 +41,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -88,7 +89,7 @@ public class ProgressFormatter implements Formatter, Reporter {
     public void endOfScenarioLifeCycle(Scenario scenario) {
         try {
             progress.finishedScenario(scenario);
-            FileUtils.writeStringToFile(outputFile, mapper.writeValueAsString(progress));
+            FileUtils.writeStringToFile(outputFile, mapper.writeValueAsString(progress), Charsets.UTF_8);
         } catch (IOException e) {
             throw Throwables.propagate(e);
         }
@@ -136,6 +137,9 @@ public class ProgressFormatter implements Formatter, Reporter {
 
     @Override
     public void result(Result result) {
+        if (result.getStatus().equals(Result.FAILED)) {
+            progress.addFailedScenario();
+        }
     }
 
     @Override

@@ -30,14 +30,16 @@ public class ExecutionProgress {
     private Scenario currentScenario;
     private int numberOfScenarios;
     private int numberOfExecutedScenarios;
+    private int totalNumberOfFailedScenarios;
+    private float totalNumberOfExecutedScenarios;
     private long startTimestamp;
 
     public ExecutionProgress() {
     }
 
     private void updatePercentageOfProgress() {
-        float totalNumberOfExecutedScenarios = numberOfExecutedProfiles * numberOfScenarios + numberOfExecutedScenarios, racio = totalNumberOfExecutedScenarios
-                / (numberOfProfiles * numberOfScenarios);
+        totalNumberOfExecutedScenarios = numberOfExecutedProfiles * numberOfScenarios + numberOfExecutedScenarios;
+        float racio = totalNumberOfExecutedScenarios / (numberOfProfiles * numberOfScenarios);
         progressInPercentage = racio * 100f;
     }
 
@@ -62,6 +64,10 @@ public class ExecutionProgress {
     public void finishedScenario(Scenario scenario) {
         numberOfExecutedScenarios++;
         updatePercentageOfProgress();
+    }
+
+    public void addFailedScenario() {
+        this.totalNumberOfFailedScenarios++;
     }
 
     public void setProfilesMatrix(ProfilesMatrix profilesMatrix) {
@@ -123,5 +129,21 @@ public class ExecutionProgress {
 
     public long getStartTimestamp() {
         return startTimestamp;
+    }
+
+    public int getTotalNumberOfFailedScenarios() {
+        return totalNumberOfFailedScenarios;
+    }
+
+    public void setTotalNumberOfFailedScenarios(int totalNumberOfFailedScenarios) {
+        this.totalNumberOfFailedScenarios = totalNumberOfFailedScenarios;
+    }
+
+    public float getTotalNumberOfExecutedScenarios() {
+        return totalNumberOfExecutedScenarios;
+    }
+
+    public void setTotalNumberOfExecutedScenarios(float totalNumberOfExecutedScenarios) {
+        this.totalNumberOfExecutedScenarios = totalNumberOfExecutedScenarios;
     }
 }
