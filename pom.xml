@@ -538,9 +538,9 @@
 					<configuration>
 						<excludePackageNames>*.internal.*</excludePackageNames>
 						<links>
-							<link>http://docs.oracle.com/javase/${java.version}/docs/api/</link>
-							<link>http://selenium.googlecode.com/git/docs/api/java/</link>
-							<link>http://docs.guava-libraries.googlecode.com/git-history/v${guava.version}/javadoc/</link>
+							<link>http://docs.oracle.com/javase/8/docs/api/</link>
+							<link>https://seleniumhq.github.io/selenium/docs/api/java/</link>
+							<link>https://google.github.io/guava/releases/${guava.version}/api/docs/</link>
 						</links>
 						<quiet>true</quiet>
 						<failOnError>false</failOnError>
