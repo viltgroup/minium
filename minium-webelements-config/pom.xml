@@ -18,7 +18,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-java</artifactId>
+			<artifactId>selenium-remote-driver</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>${phantomjsdriver.groupid}</groupId>

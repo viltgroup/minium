@@ -31,7 +31,6 @@ import minium.web.internal.WebModules;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.CapabilityType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Throwables;
@@ -64,7 +63,7 @@ public class RhinoBrowserFactory implements JsBrowserFactory {
 
             if (obj instanceof String) {
                 webDriverProperties = new WebDriverProperties();
-                webDriverProperties.getDesiredCapabilities().put(CapabilityType.BROWSER_NAME, obj);
+                webDriverProperties.getDesiredCapabilities().put("browserName", obj);
             } else if (obj instanceof Scriptable) {
                 final Scriptable scriptable = (Scriptable) obj;
                 String json = engine.runWithContext(engine.new RhinoCallable<String, RuntimeException>() {
