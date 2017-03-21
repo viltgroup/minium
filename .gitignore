@@ -2,4 +2,5 @@
 .classpath
 .settings
 .checkstyle
+.factorypath
 target

@@ -17,29 +17,24 @@ package minium.web.internal.drivers;
 
 import static java.lang.String.format;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import minium.web.internal.utils.ResourceFunctions;
+
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.UnreachableBrowserException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-import com.google.common.base.Splitter;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-
-import minium.web.internal.ResourceException;
-import minium.web.internal.compressor.Compressor;
-import minium.web.internal.compressor.ResourceFunctions;
 
 /**
  * This class is responsible for injecting the necessary javascript code in the
@@ -49,32 +44,9 @@ import minium.web.internal.compressor.ResourceFunctions;
  */
 public class DefaultJavascriptInvoker implements JavascriptInvoker {
 
-    private static final int CHUNK_SIZE = 48 * 1024;
-
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultJavascriptInvoker.class);
 
-    private static final String CLOSURE_COMPRESSOR_CLASSNAME = "minium.web.internal.compressor.ClosureCompressor";
-    private static final String CLOSURE_COMPILER_CLASSNAME = "com.google.javascript.jscomp.Compiler";
-
     private static final String ARGS_DECLARATION = "var args = Array.prototype.slice.call(arguments)";
-
-    private static final String INTERNAL_TEMPLATES_PATH = "minium/web/internal/templates/";
-
-    private static final String LOAD_JS_STYLES_TEMPLATE_PATH = INTERNAL_TEMPLATES_PATH + "load-js-styles.template";
-    private static final String SET_MINIUM_VAR_TEMPLATE_PATH = INTERNAL_TEMPLATES_PATH + "set-minium-var.template";
-    private static final String EVAL_EXPR_TEMPLATE_PATH = INTERNAL_TEMPLATES_PATH + "eval-expression.template";
-
-    private static Compressor compressor;
-
-    static {
-        try {
-            Class.forName(CLOSURE_COMPILER_CLASSNAME, false, DefaultJavascriptInvoker.class.getClassLoader());
-            compressor = (Compressor) Class.forName(CLOSURE_COMPRESSOR_CLASSNAME).newInstance();
-        } catch (Exception e) {
-            LOGGER.info("Google Closure Compiler not found in classpath, javascript will not be compressed");
-            compressor = Compressor.NULL;
-        }
-    }
 
     enum ResponseType {
         MINIUM_UNDEFINED("minium-undefined"),
@@ -109,14 +81,11 @@ public class DefaultJavascriptInvoker implements JavascriptInvoker {
     private final Collection<String> jsResources;
     private final Collection<String> cssResources;
 
-    // concatenated js resources content
-    private String jsScripts;
-
     // concatenated styles resources content
     private final String styles;
 
     private final ClassLoader classLoader;
-    private final String loadJsStylesTemplate;
+
     private final String setMiniumVarTemplate;
     private final String evalExpressionTemplate;
 
@@ -125,20 +94,25 @@ public class DefaultJavascriptInvoker implements JavascriptInvoker {
         this.jsResources = jsResources;
         this.cssResources = cssResources;
 
-        try {
-            LOGGER.debug("DefaultJavascriptInvoker initialized with:");
-            LOGGER.debug("  jsResources  : {}", jsResources);
-            LOGGER.debug("  cssResources : {}", cssResources);
+        LOGGER.debug("DefaultJavascriptInvoker initialized with:");
+        LOGGER.debug("  jsResources  : {}", jsResources);
+        LOGGER.debug("  cssResources : {}", cssResources);
 
-            jsScripts = compressor.compress(DefaultJavascriptInvoker.class.getClassLoader(), jsResources);
-            styles = cssResources != null ? combineResources(cssResources) : null;
+        String miniumJqueryScript = getJsContent("minium/web/internal/lib/minium-jquery.min.js");
+        String jsScripts = combineResources(jsResources);
+        styles = cssResources != null ? combineResources(cssResources) : null;
 
-            loadJsStylesTemplate  = getJsContent(LOAD_JS_STYLES_TEMPLATE_PATH);
-            setMiniumVarTemplate  = getJsContent(SET_MINIUM_VAR_TEMPLATE_PATH);
-            evalExpressionTemplate = getJsContent(EVAL_EXPR_TEMPLATE_PATH);
-        } catch (IOException e) {
-            throw new ResourceException(e);
-        }
+        setMiniumVarTemplate  = new StringBuilder()
+            // exposes minium global variable
+            .append(miniumJqueryScript).append(";")
+            .append("(function (window, jQuery, $, styles) {")
+            // loads jQuery extensions (note that both jQuery and $ local variables
+            // correspond to minium.$
+            .append(jsScripts).append(";")
+            .append("minium.loadStyles(styles);")
+            .append("})(window, minium.$, minium.$, args.shift());")
+            .toString();
+        evalExpressionTemplate = "return typeof minium==='undefined'?['minium-undefined']:minium.evalExpression(args.shift(),args);";
     }
 
     /* (non-Javadoc)
@@ -178,23 +152,7 @@ public class DefaultJavascriptInvoker implements JavascriptInvoker {
                     LOGGER.trace("About to invoke full invoker: {}", fullArgs);
                 }
 
-                try {
-                    result = wd.executeScript(fullInvokerScript(), fullArgs);
-                } catch (WebDriverException e) {
-                    String message = e.getMessage();
-                    if (e instanceof UnreachableBrowserException || (message != null && message.startsWith("ERROR Selenium Server stopped responding"))) {
-                        // this can happen when using RemoteWebDriver is Selendroid
-                        // because it uses netty that by default limits HTTP message
-                        // to 64KB (this is a bigger problem because selenium providers
-                        // like Sauce Labs use the default Selendroid configuration)
-                        // https://athena.vilt-group.com/issues/36744
-                        LOGGER.debug("Failed sending the whole scripts at once, trying to send them in chunks");
-
-                        loadPartitionedScriptsAndStyles(wd);
-                        fullArgs = createFullInvokerScriptArgsAfterPartitionedLoad(expression, args);
-                        result = wd.executeScript(fullInvokerScript(), fullArgs);
-                    }
-                }
+                result = wd.executeScript(fullInvokerScript(), fullArgs);
 
                 LOGGER.trace("result: {}", result);
 
@@ -206,21 +164,6 @@ public class DefaultJavascriptInvoker implements JavascriptInvoker {
 
         } catch (WebDriverException e) {
             throw new JavascriptInvocationFailedException(format("Failed invoking expression:\n", expression), e);
-        }
-    }
-
-    protected void loadPartitionedScriptsAndStyles(JavascriptExecutor wd) {
-        List<String> jsChunks = Splitter.fixedLength(CHUNK_SIZE).splitToList(jsScripts);
-        List<String> styleChunks = styles == null ?
-                ImmutableList.<String>of() :
-                Splitter.fixedLength(CHUNK_SIZE).splitToList(styles);
-
-        for (String jsChunk : jsChunks) {
-            wd.executeScript(loadJsStylesScript(), jsChunk, "");
-        }
-
-        for (String styleChunk : styleChunks) {
-            wd.executeScript(loadJsStylesScript(), "", styleChunk);
         }
     }
 
@@ -264,7 +207,7 @@ public class DefaultJavascriptInvoker implements JavascriptInvoker {
     }
 
     protected Object[] createFullInvokerScriptArgs(String expr, Object... args) {
-        List<Object> fullArgs = Lists.<Object>newArrayList(jsScripts, styles, expr);
+        List<Object> fullArgs = Lists.<Object>newArrayList(styles, expr);
         if (args != null && args.length > 0) fullArgs.addAll(Arrays.asList(args));
         return fullArgs.toArray(new Object[fullArgs.size()]);
     }
@@ -279,11 +222,8 @@ public class DefaultJavascriptInvoker implements JavascriptInvoker {
         return Joiner.on("; ").join(ARGS_DECLARATION, evalExpressionTemplate);
     }
 
-    protected String loadJsStylesScript() {
-        return Joiner.on("; ").join(ARGS_DECLARATION, loadJsStylesTemplate);
-    }
     protected String fullInvokerScript() {
-        return Joiner.on("; ").join(ARGS_DECLARATION, loadJsStylesTemplate, setMiniumVarTemplate, evalExpressionTemplate);
+        return Joiner.on("; ").join(ARGS_DECLARATION, setMiniumVarTemplate, evalExpressionTemplate);
     }
 
     protected Collection<String> getJsResources() {
@@ -295,7 +235,7 @@ public class DefaultJavascriptInvoker implements JavascriptInvoker {
     }
 
     protected String getJsContent(String filePath) {
-        return ResourceFunctions.classpathFileToStringFunction(classLoader).apply(filePath).replaceAll("\r?\n", " ");
+        return ResourceFunctions.classpathFileToStringFunction(classLoader).apply(filePath);
     }
 
     protected String combineResources(Collection<String> resources) {

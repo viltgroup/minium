@@ -58,8 +58,7 @@ public class WebModules {
             public void configure(Builder<?> builder) {
                 builder
                     .withJsResources(
-                            "minium/web/internal/lib/jquery.min.js",
-                            "minium/web/internal/lib/jquery.position.js"
+                            "minium/web/internal/lib/jquery.position.min.js"
                     )
                     .implementingInterfaces(
                             PositionWebElements.class
@@ -80,8 +79,7 @@ public class WebModules {
             public void configure(Builder<?> builder) {
                 builder
                 .withJsResources(
-                        "minium/web/internal/lib/jquery.min.js",
-                        "minium/web/internal/lib/jquery.conditional.js"
+                        "minium/web/internal/lib/jquery.conditional.min.js"
                         )
                         .implementingInterfaces(
                                 ConditionalWebElements.class
@@ -111,10 +109,9 @@ public class WebModules {
                 .withWebDriver(wd)
                 .withJsResources(
                         "minium/web/internal/lib/json2.min.js",
-                        "minium/web/internal/lib/jquery.min.js",
-                        "minium/web/internal/lib/jquery.eval.js",
-                        "minium/web/internal/lib/jquery.minium-exts.js",
-                        "minium/web/internal/lib/jquery.visibleText.js"
+                        "minium/web/internal/lib/jquery.eval.min.js",
+                        "minium/web/internal/lib/jquery.filters.min.js",
+                        "minium/web/internal/lib/jquery.visibleText.min.js"
                 )
                 .implementingInterfaces(
                         intf,
@@ -188,8 +185,7 @@ public class WebModules {
                 builder
                 .implementingInterfaces(DebugInteractable.class)
                 .withJsResources(
-                        "minium/web/internal/lib/jquery.min.js",
-                        "minium/web/internal/lib/jquery.highlight.js")
+                        "minium/web/internal/lib/jquery.highlight.min.js")
                 .usingMixinConfigurer(new AbstractMixinInitializer() {
                     @Override
                     protected void initialize() {

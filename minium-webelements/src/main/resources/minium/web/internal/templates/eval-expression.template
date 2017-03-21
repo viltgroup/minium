@@ -1,4 +1,0 @@
-return (function(expr, args) {
-  if (typeof minium === 'undefined') return [ 'minium-undefined' ];
-  return minium.evalExpression(expr, args);
-})(args.shift(), args);
