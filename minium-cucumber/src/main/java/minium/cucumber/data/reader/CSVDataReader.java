@@ -27,6 +27,7 @@ import org.apache.commons.csv.CSVRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 
 public class CSVDataReader implements DataReader {
@@ -44,7 +45,7 @@ public class CSVDataReader implements DataReader {
 
         DataDTO dataDTO = new DataDTO();
         try {
-            fileReader = new InputStreamReader(inputStream);
+            fileReader = new InputStreamReader(inputStream, Charsets.UTF_8);
             csvFileParser = new CSVParser(fileReader, csvFileFormat);
             List<CSVRecord> csvRecords = csvFileParser.getRecords();
 
@@ -80,7 +81,7 @@ public class CSVDataReader implements DataReader {
 
         DataDTO dataDTO = new DataDTO();
         try {
-            fileReader = new InputStreamReader(inputStream);
+            fileReader = new InputStreamReader(inputStream, Charsets.UTF_8);
             csvFileParser = new CSVParser(fileReader, csvFileFormat);
             List<CSVRecord> csvRecords = csvFileParser.getRecords();
 
