@@ -105,10 +105,10 @@ var registerStepDefinition = function(regexp, bodyFunc) {
     };
     
     var fn = giveArity(function () {
-      bodyFunc.apply(jsBackend, convertArguments(arguments));
+      bodyFunc.apply(jsBackend.getScope(), convertArguments(arguments));
     }, bodyFunc.length);
 
-    jsBackend.addStepDefinition(jsBackend, regexp, fn, argumentsFromFunc);
+    jsBackend.addStepDefinition(jsBackend.getScope(), regexp, fn, argumentsFromFunc);
 };
 
 var registerHookDefinition = function(addHookFn, fn, tags, opts) {
