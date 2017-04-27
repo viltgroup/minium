@@ -95,6 +95,11 @@ public class MiniumBackend implements Backend {
         }
     }
 
+    // dsl.js will use this method to get the proper scope
+    public Scriptable getScope() {
+        return scope;
+    }
+
     @Override
     public void loadGlue(Glue glue, List<String> gluePaths) {
         this.glue = glue;
