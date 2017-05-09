@@ -1,5 +1,5 @@
 variables:
-  MAVEN_EXTRA_ARGS: -Darguments="-Pstyx-ci,generate-docs" --settings $MAVEN_CUSTOM_CONFIGS/engineering.team/engineering-settings.xml
+  MAVEN_EXTRA_ARGS: -Pstyx-ci,generate-docs -DskipITs --settings $MAVEN_CUSTOM_CONFIGS/engineering.team/engineering-settings.xml
   MAVEN_RELEASE_EXTRA_ARGS: -Darguments="-DskipITs" -DpreparationGoals="clean"
 
 stages:
@@ -16,10 +16,10 @@ build:
   tags:
     - maven
   script:
-    - mvn clean deploy $MAVEN_EXTRA_ARGS -U
+    - mvn clean install -U $MAVEN_EXTRA_ARGS
   artifacts:
     paths:
-      - minium-docs/target/mkdocs/docs/
+      - minium-docs/target/mkdocs/
 
 #############################################################
 # Prepare Release
