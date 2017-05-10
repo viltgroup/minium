@@ -16,7 +16,7 @@ build:
   tags:
     - maven
   script:
-    - mvn clean install -U -Pstyx-ci,generate-docs
+    - mvn clean install -U -Pstyx-ci,generate-docs -DskipITs
   artifacts:
     paths:
       - minium-docs/target/mkdocs/
