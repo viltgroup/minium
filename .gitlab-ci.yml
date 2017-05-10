@@ -1,6 +1,6 @@
 variables:
   MAVEN_EXTRA_ARGS: -Pstyx-ci,generate-docs -DskipITs --settings $MAVEN_CUSTOM_CONFIGS/engineering.team/engineering-settings.xml
-  MAVEN_RELEASE_EXTRA_ARGS: -Darguments="-Pstyx-ci" -DpreparationGoals="clean"
+  MAVEN_RELEASE_EXTRA_ARGS: -Darguments="-Pstyx-ci -DskipITs"  -DpreparationGoals="clean"
 
 stages:
   - build
