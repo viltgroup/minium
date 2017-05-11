@@ -1,6 +1,6 @@
 variables:
   MAVEN_EXTRA_ARGS:  --settings $MAVEN_CUSTOM_CONFIGS/engineering.team/engineering-settings.xml
-  MAVEN_RELEASE_EXTRA_ARGS: -DpreparationGoals="clean verify"
+  MAVEN_RELEASE_EXTRA_ARGS: -DpreparationGoals="clean"
 
 stages:
   - build
@@ -61,4 +61,4 @@ release:
   only:
     - tags
   script:
-    - mvn $MAVEN_EXTRA_ARGS -Darguments="-Pstyx-ci -DskipITs" -Pstyx-ci,generate-docs -Dresume=false release:prepare release:perform 
+    - mvn $MAVEN_EXTRA_ARGS -Darguments="-Pstyx-ci -DskipITs" -Pstyx-ci,generate-docs -Dresume=false release:prepare release:perform
