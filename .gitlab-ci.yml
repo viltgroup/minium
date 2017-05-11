@@ -1,6 +1,6 @@
 variables:
-  MAVEN_EXTRA_ARGS: -Pstyx-ci,generate-docs,release-sign-artifacts -DskipITs -Dgpg.skip=true --settings $MAVEN_CUSTOM_CONFIGS/engineering.team/engineering-settings.xml
-  MAVEN_RELEASE_EXTRA_ARGS: -DpreparationGoals="clean"
+  MAVEN_EXTRA_ARGS: -Pstyx-ci,generate-docs,release-sign-artifacts -DskipITs -Dgpg.passphrase="viltrules" --settings $MAVEN_CUSTOM_CONFIGS/engineering.team/engineering-settings.xml
+  MAVEN_RELEASE_EXTRA_ARGS: -DpreparationGoals="clean verify"
 
 stages:
   - build
