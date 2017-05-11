@@ -19,4 +19,4 @@ RELEASE_VERSION=$(echo $CI_COMMIT_REF_NAME | cut -d '/' -f 2)-RC$((RC_VERSIONS_C
 TAG=$CI_PROJECT_NAME-$RELEASE_VERSION
 
 echo "Preparing release candidate $RELEASE_VERSION and keeping development cycle back to $DEV_VERSION"
-chronic mvn --batch-mode release:prepare release:perform -Dtag=$TAG -DreleaseVersion=$RELEASE_VERSION -DdevelopmentVersion=$DEV_VERSION -DperformRelease="true" $MAVEN_EXTRA_ARGS $MAVEN_RELEASE_EXTRA_ARGS
+chronic mvn --batch-mode release:prepare release:perform -Dtag=$TAG -DreleaseVersion=$RELEASE_VERSION -DdevelopmentVersion=$DEV_VERSION  -DperformRelease=true $MAVEN_EXTRA_ARGS $MAVEN_RELEASE_EXTRA_ARGS
