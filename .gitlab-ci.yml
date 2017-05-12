@@ -1,0 +1,64 @@
+variables:
+  MAVEN_EXTRA_ARGS: -Pstyx-ci -DskipITs --settings $MAVEN_CUSTOM_CONFIGS/engineering.team/engineering-settings.xml
+  MAVEN_RELEASE_EXTRA_ARGS: -DpreparationGoals="clean"
+
+stages:
+  - build
+  - prepare-release
+  - release
+
+#############################################################
+# Build
+#############################################################
+
+build:
+  stage: build
+  tags:
+    - maven
+  script:
+    - mvn clean install -U -Pstyx-ci,generate-docs -DskipITs
+  artifacts:
+    paths:
+      - minium-docs/target/mkdocs/
+
+#############################################################
+# Prepare Release
+#############################################################
+
+prepare release candidate:
+  stage: prepare-release
+  tags:
+    - maven
+  when: manual
+  only:
+    - /^release\/.*$/
+  script:
+    # we must ensure we have all remote tags to compute the next release candidate version
+    - git fetch --tags
+    - git checkout -B $CI_COMMIT_REF_NAME
+    - sh ./scripts/prepare-release-candidate.sh
+
+prepare release:
+  stage: prepare-release
+  tags:
+    - maven
+  when: manual
+  only:
+    - /^release\/.*$/
+  script:
+    - git fetch --tags
+    - git checkout -B $CI_COMMIT_REF_NAME
+    - sh ./scripts/prepare-release.sh
+
+#############################################################
+# Release
+#############################################################
+
+release:
+  stage: release
+  tags:
+    - maven
+  only:
+    - tags
+  script:
+    - mvn clean deploy $MAVEN_EXTRA_ARGS -DperformRelease=true
