@@ -24,7 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.common.base.Throwables;
+import minium.internal.Throwables;
 
 public class ConfigProperties extends LinkedHashMap<String, Object> implements Jsonable {
 

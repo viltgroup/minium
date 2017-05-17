@@ -17,7 +17,7 @@ package minium.web.internal.expression;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Throwables;
+import minium.internal.Throwables;
 
 public class JsonExpressionizer implements Expressionizer {
 

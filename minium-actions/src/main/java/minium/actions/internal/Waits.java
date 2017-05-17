@@ -34,7 +34,7 @@ import com.github.rholder.retry.Retryer;
 import com.github.rholder.retry.RetryerBuilder;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import com.google.common.base.Throwables;
+import minium.internal.Throwables;
 import com.google.common.util.concurrent.Callables;
 
 public class Waits {

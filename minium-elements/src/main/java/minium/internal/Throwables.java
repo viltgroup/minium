@@ -15,16 +15,15 @@
  */
 package minium.internal;
 
-import java.lang.reflect.Method;
-
-public class Reflections {
-
-    public static Method getDeclaredMethod(Class<?> clazz, String name, Class<?> ... parameterTypes) {
-        try {
-            return clazz.getDeclaredMethod(name, parameterTypes);
-        } catch (NoSuchMethodException | SecurityException e) {
-            throw Throwables.propagate(e);
-        }
+public class Throwables {
+    public static RuntimeException propagate(Throwable throwable) {
+        com.google.common.base.Throwables.throwIfUnchecked(throwable);
+        throw new RuntimeException(throwable);
     }
 
+    public static void propagateIfPossible(Throwable throwable) {
+        if (throwable != null) {
+            com.google.common.base.Throwables.throwIfUnchecked(throwable);
+        }
+    }
 }

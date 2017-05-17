@@ -200,7 +200,6 @@ public class WebDriverProperties {
         private String dir;
         private List<ExtensionProperties> extensions;
         private List<PreferenceProperties> preferences;
-        private boolean enableNativeEvents;
         private boolean loadNoFocusLib;
         private boolean acceptUntrustedCerts;
         private boolean untrustedCertIssuer;
@@ -230,14 +229,6 @@ public class WebDriverProperties {
 
         public void setPreferences(List<PreferenceProperties> preferences) {
             this.preferences = preferences;
-        }
-
-        public boolean areNativeEventsEnabled() {
-            return enableNativeEvents;
-        }
-
-        public void setEnableNativeEvents(boolean enableNativeEvents) {
-            this.enableNativeEvents = enableNativeEvents;
         }
 
         public boolean shouldLoadNoFocusLib() {
@@ -308,7 +299,6 @@ public class WebDriverProperties {
     }
 
     private Map<String, Object> desiredCapabilities = Maps.newHashMap();
-    private Map<String, Object> requiredCapabilities = Maps.newHashMap();
     private URL url;
     private WindowProperties window;
     private boolean stateful = true;
@@ -325,14 +315,6 @@ public class WebDriverProperties {
 
     public void setDesiredCapabilities(Map<String, Object> capabilities) {
         this.desiredCapabilities = capabilities;
-    }
-
-    public Map<String, Object> getRequiredCapabilities() {
-        return requiredCapabilities;
-    }
-
-    public void setRequiredCapabilities(Map<String, Object> requiredCapabilities) {
-        this.requiredCapabilities = requiredCapabilities;
     }
 
     public URL getUrl() {

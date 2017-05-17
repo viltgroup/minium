@@ -56,7 +56,7 @@
 		<checkstyle.config.dir>${basedir}/../src/main/checkstyle</checkstyle.config.dir>
 
 		<platypus.version>0.1.0</platypus.version>
-		<selenium.version>3.0.1</selenium.version>
+		<selenium.version>3.4.0</selenium.version>
 
 		<!-- https://github.com/detro/ghostdriver/pull/399 -->
 		<phantomjsdriver.groupid>com.codeborne</phantomjsdriver.groupid>
@@ -68,7 +68,7 @@
 		<!-- we cannot upgrade to 20141113 because it's java 8 only -->
 		<json.version>20140107</json.version>
 		<sikulix.version>1.1.0-SNAPSHOT</sikulix.version>
-		<guava.version>19.0</guava.version>
+		<guava.version>21.0</guava.version>
 		<guava-retrying.version>2.0.0</guava-retrying.version>
 		<commons-compress.version>1.9</commons-compress.version>
 		<commons-lang3.version>3.4</commons-lang3.version>
@@ -157,6 +157,12 @@
 			  <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-remote-driver</artifactId>
 				<version>${selenium.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.seleniumhq.selenium</groupId>
@@ -185,6 +191,10 @@
 					<exclusion>
 						<groupId>org.seleniumhq.selenium</groupId>
 						<artifactId>selenium-remote-driver</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>
