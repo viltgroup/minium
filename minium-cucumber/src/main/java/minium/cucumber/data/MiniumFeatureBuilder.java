@@ -46,7 +46,7 @@ import minium.cucumber.data.reader.DataReaderFactory;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
-import com.google.common.base.Throwables;
+import minium.internal.Throwables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 

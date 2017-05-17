@@ -39,13 +39,12 @@ package minium.cucumber.formatter;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Throwables;
 
 import gherkin.formatter.Formatter;
 import gherkin.formatter.Reporter;
@@ -59,6 +58,7 @@ import gherkin.formatter.model.ScenarioOutline;
 import gherkin.formatter.model.Step;
 import minium.cucumber.data.ExecutionProgress;
 import minium.cucumber.internal.CucumberContext;
+import minium.internal.Throwables;
 
 public class ProgressFormatter implements Formatter, Reporter {
 
@@ -89,7 +89,7 @@ public class ProgressFormatter implements Formatter, Reporter {
     public void endOfScenarioLifeCycle(Scenario scenario) {
         try {
             progress.finishedScenario(scenario);
-            FileUtils.writeStringToFile(outputFile, mapper.writeValueAsString(progress), Charsets.UTF_8);
+            FileUtils.writeStringToFile(outputFile, mapper.writeValueAsString(progress), StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw Throwables.propagate(e);
         }

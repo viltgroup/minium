@@ -25,7 +25,6 @@ import java.util.Collections;
 import java.util.List;
 
 import com.google.common.base.Preconditions;
-import com.google.common.base.Throwables;
 import com.google.common.collect.Iterables;
 
 public class Paths {

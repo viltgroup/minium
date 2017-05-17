@@ -26,14 +26,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.remote.BrowserType;
-import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import com.google.common.collect.ImmutableMap;
 
 import minium.web.config.WebDriverProperties.DimensionProperties;
 
@@ -48,9 +45,7 @@ public class WebDriverConfigurationTest {
     @Test
     public void testWebElementsDriverProperties() throws MalformedURLException {
         DesiredCapabilities expectedDesiredCapabilities = new DesiredCapabilities(BrowserType.CHROME, "39.0", Platform.LINUX);
-        DesiredCapabilities expectedRequiredCapabilities = new DesiredCapabilities(ImmutableMap.of(CapabilityType.PLATFORM, Platform.LINUX.name()));
         assertThat(new DesiredCapabilities(webDriverProperties.getDesiredCapabilities()), equalTo(expectedDesiredCapabilities));
-        assertThat(new DesiredCapabilities(webDriverProperties.getRequiredCapabilities()), equalTo(expectedRequiredCapabilities));
         assertThat(webDriverProperties.isStateful(), equalTo(true));
         assertThat(webDriverProperties.getUrl(), equalTo(new URL("http://localhost:4444/wd/hub")));
         assertThat(webDriverProperties.getWindow().getSize(), equalTo(new DimensionProperties(1280, 1024)));

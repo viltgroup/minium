@@ -51,7 +51,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 
 import com.google.common.base.Preconditions;
-import com.google.common.base.Throwables;
+import minium.internal.Throwables;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 

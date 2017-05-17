@@ -22,14 +22,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.WeakHashMap;
 
+import com.google.common.base.Preconditions;
+
 import minium.Elements;
 import platypus.AbstractMixinInitializer;
 import platypus.InstanceProviders;
 import platypus.Mixin;
 import platypus.MixinClass;
-
-import com.google.common.base.Preconditions;
-import com.google.common.base.Throwables;
 
 public interface InternalLocator extends Elements {
 

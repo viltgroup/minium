@@ -20,6 +20,7 @@ import static java.lang.String.format;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -116,7 +117,7 @@ public class ArtifactLicenseGenerator {
             List<MavenArtifactLicense> artifactLicenses = Lists.newArrayList();
             if (file == null || !file.exists()) return artifactLicenses;
 
-            List<String> lines = FileUtils.readLines(file);
+            List<String> lines = FileUtils.readLines(file, StandardCharsets.UTF_8);
             for (String line : lines) {
                 Matcher matcher = LICENSE_REGEX.matcher(line);
                 if (!matcher.matches())
@@ -194,7 +195,7 @@ public class ArtifactLicenseGenerator {
             List<BowerLibLicense> libLicenses = Lists.newArrayList();
             if (file == null || !file.exists()) return libLicenses;
 
-            String json = FileUtils.readFileToString(file);
+            String json = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
 
             JSONObject jsonObject = new JSONObject(json);
             for (Object key : jsonObject.keySet()) {

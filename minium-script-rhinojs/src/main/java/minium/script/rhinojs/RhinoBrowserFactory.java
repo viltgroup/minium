@@ -33,7 +33,7 @@ import org.mozilla.javascript.Scriptable;
 import org.openqa.selenium.WebDriver;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Throwables;
+import minium.internal.Throwables;
 
 public class RhinoBrowserFactory implements JsBrowserFactory {
 

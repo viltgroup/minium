@@ -54,7 +54,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Charsets;
-import com.google.common.base.Throwables;
+import minium.internal.Throwables;
 
 import cucumber.runtime.Backend;
 import cucumber.runtime.CucumberException;

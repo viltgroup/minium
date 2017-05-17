@@ -18,6 +18,7 @@ package minium.docs;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -92,7 +93,7 @@ public class ChangelogGenerator {
 
         public static Multimap<String, Ticket> readFromFile(File file, String urlFormat) throws IOException {
             Multimap<String, Ticket> tickets = LinkedHashMultimap.create();
-            List<String> lines = FileUtils.readLines(file);
+            List<String> lines = FileUtils.readLines(file, StandardCharsets.UTF_8);
 
             List<Ticket> ticketsPerVersion = null;
             String currVersion = null;

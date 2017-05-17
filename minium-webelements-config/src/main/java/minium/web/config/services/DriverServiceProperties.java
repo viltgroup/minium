@@ -22,7 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 
-import com.google.common.base.Throwables;
+import minium.internal.Throwables;
 
 public abstract class DriverServiceProperties implements DisposableBean {
 
