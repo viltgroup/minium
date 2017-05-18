@@ -29,6 +29,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.internal.FileExtension;
 import org.openqa.selenium.ie.InternetExplorerDriver;
@@ -130,14 +131,20 @@ public class WebDriverFactory {
 
     public WebDriver create(WebDriverProperties webDriverProperties) throws IOException {
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities(webDriverProperties.getDesiredCapabilities());
+
         ChromeOptionsProperties chromeProperties = webDriverProperties.getChromeOptions();
         if (chromeProperties != null) {
             desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, configureChromeOptions(chromeProperties));
         }
+
         FirefoxProfileProperties firefoxProperties = webDriverProperties.getFirefoxProfile();
         if (firefoxProperties != null) {
-            desiredCapabilities.setCapability(FirefoxDriver.PROFILE, getFirefoxProfile(firefoxProperties));
+            desiredCapabilities = new FirefoxOptions()
+                   .setProfile(getFirefoxProfile(firefoxProperties))
+                   .addCapabilities(desiredCapabilities)
+                   .addTo(DesiredCapabilities.firefox());
         }
+
         WebDriver webDriver = null;
         if (webDriverProperties.getUrl() != null) {
             RemoteWebDriver remoteDriver = new RemoteWebDriver(webDriverProperties.getUrl(), desiredCapabilities);
@@ -148,6 +155,7 @@ public class WebDriverFactory {
             if (Strings.isNullOrEmpty(browserName)) browserName = BrowserType.CHROME;
             webDriver = WebDriverType.typeFor(browserName).create(this, desiredCapabilities);
         }
+
         WindowProperties window = webDriverProperties.getWindow();
         if (window != null) {
             DimensionProperties size = window.getSize();
@@ -158,6 +166,7 @@ public class WebDriverFactory {
                 webDriver.manage().window().maximize();
             }
         }
+
         webDriver = webDriver instanceof TakesScreenshot ? webDriver : new Augmenter().augment(webDriver);
         return webDriverProperties.isStateful() ? new StatefulWebDriver(webDriver) : webDriver;
     }
