@@ -9,7 +9,7 @@
 
 	<groupId>io.vilt.minium</groupId>
 	<artifactId>minium</artifactId>
-	<version>1.7.0-SNAPSHOT</version>
+	<version>1.7.0</version>
 	<packaging>pom</packaging>
 	<name>Minium Parent POM</name>
 
@@ -28,7 +28,7 @@
 		<connection>scm:git:git@artemis.vilt-group.com:engineering.minium/minium.git</connection>
 		<developerConnection>scm:git:git@artemis.vilt-group.com:engineering.minium/minium.git</developerConnection>
 		<url>https://artemis.vilt-group.com/engineering.minium/minium</url>
-	  <tag>HEAD</tag>
+	  <tag>minium-1.7.0</tag>
   </scm>
 
 	<organization>
@@ -51,7 +51,7 @@
 	</licenses>
 
 	<properties>
-		<minium.version>1.7.0-SNAPSHOT</minium.version>
+		<minium.version>1.7.0</minium.version>
 		<java.version>1.8</java.version>
 
 		<checkstyle.config.dir>${basedir}/../src/main/checkstyle</checkstyle.config.dir>
