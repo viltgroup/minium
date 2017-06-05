@@ -16,12 +16,17 @@
 package minium.web.config.services;
 
 import java.io.File;
+import java.util.List;
 
 import org.openqa.selenium.Platform;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Value;
+
+import com.google.common.collect.Lists;
+
+import minium.web.config.WebDriverFactory.WebDriverTransformer;
 
 public class DriverServicesProperties implements DisposableBean {
 
@@ -33,6 +38,7 @@ public class DriverServicesProperties implements DisposableBean {
     private FirefoxDriverServiceProperties firefox;
     private InternetExplorerDriverServiceProperties internetExplorer;
     private PhantomJsDriverServiceProperties phantomJs;
+    private List<Class<WebDriverTransformer>> webDriverTransformerClasses = Lists.newArrayList();
 
     public ChromeDriverServiceProperties getChrome() {
         if (chrome == null) {
@@ -112,6 +118,26 @@ public class DriverServicesProperties implements DisposableBean {
     protected File getDriversDir() {
         File driverDir = homedir == null ? null : new File(homedir, "drivers");
         return driverDir != null && driverDir.exists() && driverDir.isDirectory() ? driverDir : null;
+    }
+
+    public List<Class<WebDriverTransformer>> getWebDriverTransformerClasses() {
+        return webDriverTransformerClasses;
+    }
+
+    public void setWebDriverTransformerClasses(List<Class<WebDriverTransformer>> webDriverTransformerClasses) {
+        this.webDriverTransformerClasses = webDriverTransformerClasses;
+    }
+
+    public List<WebDriverTransformer> getWebDriverTranformers() {
+        List<WebDriverTransformer> transformers = Lists.newArrayList();
+        for (Class<WebDriverTransformer> transformerClass : webDriverTransformerClasses) {
+            try {
+                transformers.add(transformerClass.newInstance());
+            } catch (InstantiationException | IllegalAccessException e) {
+                LOGGER.warn("Could not instantiate " + transformerClass.getCanonicalName(), e);
+            }
+        }
+        return transformers;
     }
 
     @Override
