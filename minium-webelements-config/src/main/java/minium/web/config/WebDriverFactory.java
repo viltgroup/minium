@@ -63,6 +63,10 @@ import minium.web.config.services.PhantomJsDriverServiceProperties;
 
 public class WebDriverFactory {
 
+    public interface WebDriverTransformer {
+        public WebDriver transform(WebDriver wd);
+    }
+
     private final DriverServicesProperties driverServices;
 
     enum WebDriverType {
@@ -168,6 +172,7 @@ public class WebDriverFactory {
         }
 
         webDriver = webDriver instanceof TakesScreenshot ? webDriver : new Augmenter().augment(webDriver);
+        for (WebDriverTransformer transformer : driverServices.getWebDriverTranformers()) webDriver = transformer.transform(webDriver);
         return webDriverProperties.isStateful() ? new StatefulWebDriver(webDriver) : webDriver;
     }
 
