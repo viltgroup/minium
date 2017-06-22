@@ -4,3 +4,6 @@
 .checkstyle
 .factorypath
 target
+node_modules
+dist
+.vscode

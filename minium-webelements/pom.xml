@@ -21,6 +21,10 @@
 			<artifactId>minium-actions</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>io.vilt.minium</groupId>
+			<artifactId>minium-jquery</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-api</artifactId>
 		</dependency>
