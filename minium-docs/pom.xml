@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -54,8 +55,8 @@
 			<artifactId>freemarker</artifactId>
 		</dependency>
 		<dependency>
-		<groupId>org.slf4j</groupId>
-		<artifactId>log4j-over-slf4j</artifactId>
+			<groupId>org.slf4j</groupId>
+			<artifactId>log4j-over-slf4j</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.sun</groupId>
@@ -102,10 +103,8 @@
 					</resource>
 				</resources>
 				<plugins>
-					<!--
-					we need ant to define maven.classpath so that we can use it in javadocs plugin
-					(for some reason docletArtifacts doesn't seem to work
-					-->
+					<!-- we need ant to define maven.classpath so that we can use it in 
+						javadocs plugin (for some reason docletArtifacts doesn't seem to work -->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-antrun-plugin</artifactId>
@@ -138,10 +137,16 @@
 								<configuration>
 									<licenseMerges>
 										<licenseMerge>
-										The Apache Software License, Version 2.0|Apache License, Version 2.0|Apache Public License 2.0|
-										Apache License Version 2.0|Apache 2|Apache License 2.0|Apache Software Licenses|Apache License, version 2.0
+											The Apache Software License, Version 2.0|Apache
+											License, Version
+											2.0|Apache Public License 2.0|
+											Apache License
+											Version 2.0|Apache 2|Apache License 2.0|Apache
+											Software
+											Licenses|Apache License, version 2.0
 										</licenseMerge>
-										<licenseMerge>Eclipse Public License - v 1.0|Eclipse Public License 1.0</licenseMerge>
+										<licenseMerge>Eclipse Public License - v 1.0|Eclipse Public
+											License 1.0</licenseMerge>
 										<licenseMerge>The MIT License|MIT License</licenseMerge>
 									</licenseMerges>
 									<sortArtifactByName>true</sortArtifactByName>
@@ -174,10 +179,8 @@
 							<useStandardDocletOptions>false</useStandardDocletOptions>
 							<outputDirectory>${project.build.directory}/mkdocs/docs/core</outputDirectory>
 							<additionalparam>-d ${project.build.directory}/mkdocs/docs/core</additionalparam>
-							<!--
-							docletArtifacts doesn't seem to work, use it with antrun:run,
-							execution ID define-javadoc-classpath
-							-->
+							<!-- docletArtifacts doesn't seem to work, use it with antrun:run, 
+								execution ID define-javadoc-classpath -->
 							<docletPath>${maven.classpath}</docletPath>
 						</configuration>
 					</plugin>
@@ -197,11 +200,11 @@
 									<systemProperties>
 										<systemProperty>
 											<key>org.freemarker.loggerLibrary</key>
-	             							<value>none</value>
-	           							</systemProperty>
+											<value>none</value>
+										</systemProperty>
 									</systemProperties>
 									<arguments>
-	 									<argument>--templateFile</argument>
+										<argument>--templateFile</argument>
 										<argument>${basedir}/src/main/resources/templates/third-parties.md.ftl</argument>
 										<argument>--outputFile</argument>
 										<argument>${project.build.directory}/mkdocs/docs/core/third-parties.md</argument>
@@ -212,6 +215,25 @@
 							</execution>
 						</executions>
 					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>create-distribution</id>
+								<phase>package</phase>
+								<goals>
+									<goal>single</goal>
+								</goals>
+								<configuration>
+									<descriptors>
+										<descriptor>assembly/zip.xml</descriptor>
+									</descriptors>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				
 				</plugins>
 			</build>
 		</profile>
