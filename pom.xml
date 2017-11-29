@@ -57,7 +57,7 @@
 		<checkstyle.config.dir>${basedir}/../src/main/checkstyle</checkstyle.config.dir>
 
 		<platypus.version>0.1.0</platypus.version>
-		<selenium.version>3.4.0</selenium.version>
+		<selenium.version>3.8.1</selenium.version>
 
 		<!-- https://github.com/detro/ghostdriver/pull/399 -->
 		<phantomjsdriver.groupid>com.codeborne</phantomjsdriver.groupid>
@@ -69,10 +69,11 @@
 		<!-- we cannot upgrade to 20141113 because it's java 8 only -->
 		<json.version>20140107</json.version>
 		<sikulix.version>1.1.0-SNAPSHOT</sikulix.version>
-		<guava.version>21.0</guava.version>
+		<guava.version>23.0</guava.version>
 		<guava-retrying.version>2.0.0</guava-retrying.version>
 		<commons-compress.version>1.9</commons-compress.version>
 		<commons-lang3.version>3.4</commons-lang3.version>
+		<commons-io.version>2.6</commons-io.version>
 		<httpcore.version>4.4.1</httpcore.version>
 		<httpclient.version>4.5</httpclient.version>
 		<jackson.version>2.7.2</jackson.version>
@@ -344,6 +345,11 @@
 				<scope>system</scope>
 				<systemPath>${java.home}/../lib/tools.jar</systemPath>
 				<version>${java.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>${commons-io.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

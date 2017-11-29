@@ -22,7 +22,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -33,6 +35,7 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.internal.FileExtension;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.BrowserType;
@@ -41,6 +44,7 @@ import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.service.DriverService;
 import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.safari.SafariOptions;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 
@@ -75,7 +79,9 @@ public class WebDriverFactory {
             public WebDriver create(WebDriverFactory webDriverFactory, DesiredCapabilities desiredCapabilities) {
                 ChromeDriverServiceProperties serviceProperties = webDriverFactory.driverServices == null ? null : webDriverFactory.driverServices.getChrome();
                 DriverService driverService = serviceProperties == null ? null : serviceProperties.getDriverService();
-                return driverService == null ? new ChromeDriver(desiredCapabilities) : new RemoteWebDriver(driverService.getUrl(), desiredCapabilities);
+                return driverService == null ?
+                        new ChromeDriver(new ChromeOptions().merge(desiredCapabilities))
+                        : new RemoteWebDriver(driverService.getUrl(), desiredCapabilities);
             }
         },
         FIREFOX(BrowserType.FIREFOX) {
@@ -83,7 +89,8 @@ public class WebDriverFactory {
             public WebDriver create(WebDriverFactory webDriverFactory, DesiredCapabilities desiredCapabilities) {
                 FirefoxDriverServiceProperties serviceProperties = webDriverFactory.driverServices == null ? null : webDriverFactory.driverServices.getFirefox();
                 DriverService driverService = serviceProperties == null ? null : serviceProperties.getDriverService();
-                return driverService == null ? new FirefoxDriver(desiredCapabilities) : new RemoteWebDriver(driverService.getUrl(), desiredCapabilities);
+                FirefoxOptions firefoxOptions = new FirefoxOptions().merge(desiredCapabilities);
+                return driverService == null ? new FirefoxDriver(firefoxOptions) : new RemoteWebDriver(driverService.getUrl(), firefoxOptions);
             }
         },
         IE(BrowserType.IE, BrowserType.IEXPLORE) {
@@ -91,13 +98,14 @@ public class WebDriverFactory {
             public WebDriver create(WebDriverFactory webDriverFactory, DesiredCapabilities desiredCapabilities) {
                 InternetExplorerDriverServiceProperties serviceProperties = webDriverFactory.driverServices == null ? null : webDriverFactory.driverServices.getInternetExplorer();
                 DriverService driverService = serviceProperties == null ? null : serviceProperties.getDriverService();
-                return driverService == null ? new InternetExplorerDriver(desiredCapabilities) : new RemoteWebDriver(driverService.getUrl(), desiredCapabilities);
+                InternetExplorerOptions internetExplorerOptions = new InternetExplorerOptions().merge(desiredCapabilities);
+                return driverService == null ? new InternetExplorerDriver(internetExplorerOptions) : new RemoteWebDriver(driverService.getUrl(), internetExplorerOptions);
             }
         },
         SAFARI(BrowserType.SAFARI) {
             @Override
             public WebDriver create(WebDriverFactory webDriverFactory, DesiredCapabilities desiredCapabilities) {
-                return new SafariDriver(desiredCapabilities);
+                return new SafariDriver(new SafariOptions().merge(desiredCapabilities));
             }
         },
         PHANTOMJS(BrowserType.PHANTOMJS) {
@@ -135,19 +143,7 @@ public class WebDriverFactory {
 
     public WebDriver create(WebDriverProperties webDriverProperties) throws IOException {
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities(webDriverProperties.getDesiredCapabilities());
-
-        ChromeOptionsProperties chromeProperties = webDriverProperties.getChromeOptions();
-        if (chromeProperties != null) {
-            desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, configureChromeOptions(chromeProperties));
-        }
-
-        FirefoxProfileProperties firefoxProperties = webDriverProperties.getFirefoxProfile();
-        if (firefoxProperties != null) {
-            desiredCapabilities = new FirefoxOptions()
-                   .setProfile(getFirefoxProfile(firefoxProperties))
-                   .addCapabilities(desiredCapabilities)
-                   .addTo(DesiredCapabilities.firefox());
-        }
+        desiredCapabilities.merge(browserSpecificCapabilities(webDriverProperties));
 
         WebDriver webDriver = null;
         if (webDriverProperties.getUrl() != null) {
@@ -176,7 +172,17 @@ public class WebDriverFactory {
         return webDriverProperties.isStateful() ? new StatefulWebDriver(webDriver) : webDriver;
     }
 
-    private ChromeOptions configureChromeOptions(ChromeOptionsProperties chromeProperties) {
+    private Capabilities browserSpecificCapabilities(WebDriverProperties webDriverProperties) throws IOException {
+        ChromeOptionsProperties chromeProperties = webDriverProperties.getChromeOptions();
+        if (chromeProperties != null) return chromeCapabilities(chromeProperties);
+
+        FirefoxProfileProperties firefoxProperties = webDriverProperties.getFirefoxProfile();
+        if (firefoxProperties != null) return firefoxCapabilities(firefoxProperties);
+
+        return new MutableCapabilities();
+    }
+
+    private Capabilities chromeCapabilities(ChromeOptionsProperties chromeProperties) {
         ChromeOptions options = new ChromeOptions();
         if (chromeProperties.getArgs() != null) options.addArguments(chromeProperties.getArgs());
         if (chromeProperties.getBinary() != null) options.setBinary(chromeProperties.getBinary());
@@ -185,7 +191,7 @@ public class WebDriverFactory {
         return options;
     }
 
-    private FirefoxProfile getFirefoxProfile(FirefoxProfileProperties firefoxProperties) throws IOException {
+    private Capabilities firefoxCapabilities(FirefoxProfileProperties firefoxProperties) throws IOException {
         File profileDirectory = null;
         String profileDir = firefoxProperties.getDir();
         if (profileDir != null) {
@@ -223,6 +229,6 @@ public class WebDriverFactory {
         profile.setAcceptUntrustedCertificates(firefoxProperties.shouldAcceptUntrustedCerts());
         profile.setAssumeUntrustedCertificateIssuer(firefoxProperties.shouldUntrustedCertIssuer());
 
-        return profile;
+        return new FirefoxOptions().setProfile(profile);
     }
 }
