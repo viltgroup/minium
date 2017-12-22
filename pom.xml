@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.4.2.RELEASE</version>
+		<version>1.5.9.RELEASE</version>
 	</parent>
 
 	<groupId>io.vilt.minium</groupId>
@@ -76,7 +76,7 @@
 		<commons-io.version>2.6</commons-io.version>
 		<httpcore.version>4.4.1</httpcore.version>
 		<httpclient.version>4.5</httpclient.version>
-		<jackson.version>2.7.2</jackson.version>
+		<jackson.version>2.9.3</jackson.version>
 		<slf4j.version>1.7.18</slf4j.version>
 		<args4j.version>2.33</args4j.version>
 		<freemarker.version>2.3.23</freemarker.version>
