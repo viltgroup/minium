@@ -64,6 +64,7 @@ import cucumber.runtime.Backend;
 import cucumber.runtime.Runtime;
 import cucumber.runtime.io.ResourceLoader;
 import cucumber.runtime.junit.FeatureRunner;
+import cucumber.runtime.junit.JUnitOptions;
 import cucumber.runtime.junit.JUnitReporter;
 import cucumber.runtime.model.CucumberFeature;
 import minium.cucumber.MiniumConfiguration;
@@ -153,7 +154,7 @@ public class MiniumProfileRunner extends ParentRunner<FeatureRunner> implements 
 
         cucumberFeatures = runtimeOptions.cucumberFeatures(resourceLoader);
         CucumberContext.setFeatures(cucumberFeatures);
-        jUnitReporter = new JUnitReporter(runtimeOptions.reporter(classLoader), runtimeOptions.formatter(classLoader), runtimeOptions.isStrict());
+        jUnitReporter = new JUnitReporter(runtimeOptions.reporter(classLoader), runtimeOptions.formatter(classLoader), runtimeOptions.isStrict(), new JUnitOptions(runtimeOptions.getJunitOptions()));
         addChildren(cucumberFeatures);
     }
 
