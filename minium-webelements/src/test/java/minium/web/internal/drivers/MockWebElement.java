@@ -23,14 +23,16 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.Rectangle;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.internal.Coordinates;
-import org.openqa.selenium.internal.Locatable;
+import org.openqa.selenium.interactions.internal.Locatable;
+import org.openqa.selenium.internal.WrapsDriver;
 
 import com.google.common.base.Objects;
 
-public class MockWebElement implements WebElement, Locatable {
+public class MockWebElement implements WebElement, Locatable, WrapsDriver {
 
     class MockCoordinates implements Coordinates {
         @Override
@@ -72,6 +74,13 @@ public class MockWebElement implements WebElement, Locatable {
 
     private Point point = new Point(64, 96);
     MockCoordinates mockCoordinates = new MockCoordinates();
+    private WebDriver webDriver;
+
+    public MockWebElement() { }
+
+    public MockWebElement(WebDriver webDriver) {
+        this.webDriver = webDriver;
+    }
 
     @Override
     public Coordinates getCoordinates() {
@@ -157,5 +166,10 @@ public class MockWebElement implements WebElement, Locatable {
     @Override
     public Rectangle getRect() {
         return null;
+    }
+
+    @Override
+    public WebDriver getWrappedDriver() {
+        return webDriver;
     }
 }

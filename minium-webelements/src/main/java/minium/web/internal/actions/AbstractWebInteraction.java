@@ -15,15 +15,16 @@
  */
 package minium.web.internal.actions;
 
-import minium.Elements;
-import minium.actions.internal.AbstractInteraction;
-import minium.web.internal.InternalWebElements;
-
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.internal.WrapsDriver;
 
 import com.google.common.collect.Iterables;
+
+import minium.Elements;
+import minium.actions.internal.AbstractInteraction;
+import minium.web.internal.InternalWebElements;
+import minium.web.internal.drivers.DocumentWebElement;
 
 /**
  * The Class DefaultInteraction.
@@ -45,7 +46,8 @@ public abstract class AbstractWebInteraction extends AbstractInteraction {
      * @return the first element
      */
     protected WebElement getFirstElement(Elements elems) {
-        return Iterables.getFirst(elems.as(InternalWebElements.class).wrappedNativeElements(), null);
+        DocumentWebElement documentWebElement = Iterables.getFirst(elems.as(InternalWebElements.class).wrappedNativeElements(), null);
+        return documentWebElement == null ? null : documentWebElement.getWrappedWebElement();
     }
 
     /**
