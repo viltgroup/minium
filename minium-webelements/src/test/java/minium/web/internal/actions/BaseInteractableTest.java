@@ -16,14 +16,15 @@
 package minium.web.internal.actions;
 
 import static org.mockito.Mockito.spy;
-import minium.web.CoreWebElements.DefaultWebElements;
-import minium.web.actions.WebDriverBrowser;
-import minium.web.internal.drivers.MockWebDriver;
-import minium.web.internal.drivers.MockWebElement;
 
 import org.junit.Before;
 import org.openqa.selenium.interactions.Keyboard;
 import org.openqa.selenium.interactions.Mouse;
+
+import minium.web.CoreWebElements.DefaultWebElements;
+import minium.web.actions.WebDriverBrowser;
+import minium.web.internal.drivers.MockWebDriver;
+import minium.web.internal.drivers.MockWebElement;
 
 public class BaseInteractableTest {
 
@@ -40,8 +41,8 @@ public class BaseInteractableTest {
 
     @Before
     public void setup() {
-        mockedWebElement = spy(new MockWebElement());
         mockedWebDriver = spy(new MockWebDriver());
+        mockedWebElement = spy(new MockWebElement(mockedWebDriver));
         browser = new WebDriverBrowser<>(mockedWebDriver, DefaultWebElements.class);
 
         interactable = browser.root().find("input");
