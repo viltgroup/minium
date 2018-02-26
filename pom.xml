@@ -59,10 +59,6 @@
 		<platypus.version>0.1.0</platypus.version>
 		<selenium.version>3.8.1</selenium.version>
 
-		<!-- https://github.com/detro/ghostdriver/pull/399 -->
-		<phantomjsdriver.groupid>com.codeborne</phantomjsdriver.groupid>
-		<phantomjsdriver.version>1.2.1</phantomjsdriver.version>
-
 		<rhino.version>1.7.7.1</rhino.version>
 		<dynjs.version>0.3.1</dynjs.version>
 		<cucumber.version>1.2.5</cucumber.version>
@@ -202,22 +198,6 @@
 					<exclusion>
 						<groupId>commons-logging</groupId>
 						<artifactId>commons-logging</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<!--
-				while no release is made for the official phantomjsdriver 1.2.1, we'll use this fork
-				https://github.com/detro/ghostdriver/pull/399
-				 -->
-				<groupId>${phantomjsdriver.groupid}</groupId>
-				<artifactId>phantomjsdriver</artifactId>
-				<version>${phantomjsdriver.version}</version>
-				<exclusions>
-					<!-- This is an older version of selenium -->
-					<exclusion>
-						<groupId>org.seleniumhq.selenium</groupId>
-						<artifactId>selenium-remote-driver</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>
