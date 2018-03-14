@@ -36,7 +36,6 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.internal.FileExtension;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -63,7 +62,6 @@ import minium.web.config.services.ChromeDriverServiceProperties;
 import minium.web.config.services.DriverServicesProperties;
 import minium.web.config.services.FirefoxDriverServiceProperties;
 import minium.web.config.services.InternetExplorerDriverServiceProperties;
-import minium.web.config.services.PhantomJsDriverServiceProperties;
 
 public class WebDriverFactory {
 
@@ -106,14 +104,6 @@ public class WebDriverFactory {
             @Override
             public WebDriver create(WebDriverFactory webDriverFactory, DesiredCapabilities desiredCapabilities) {
                 return new SafariDriver(new SafariOptions().merge(desiredCapabilities));
-            }
-        },
-        PHANTOMJS(BrowserType.PHANTOMJS) {
-            @Override
-            public WebDriver create(WebDriverFactory webDriverFactory, DesiredCapabilities desiredCapabilities) {
-                PhantomJsDriverServiceProperties serviceProperties = webDriverFactory.driverServices == null ? null : webDriverFactory.driverServices.getPhantomJs();
-                DriverService driverService = serviceProperties == null ? null : serviceProperties.getDriverService();
-                return driverService == null ? new PhantomJSDriver(desiredCapabilities) : new RemoteWebDriver(driverService.getUrl(), desiredCapabilities);
             }
         };
 

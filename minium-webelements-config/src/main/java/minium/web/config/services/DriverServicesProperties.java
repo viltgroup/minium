@@ -37,7 +37,6 @@ public class DriverServicesProperties implements DisposableBean {
     private ChromeDriverServiceProperties chrome;
     private FirefoxDriverServiceProperties firefox;
     private InternetExplorerDriverServiceProperties internetExplorer;
-    private PhantomJsDriverServiceProperties phantomJs;
     private List<Class<WebDriverTransformer>> webDriverTransformerClasses = Lists.newArrayList();
 
     public ChromeDriverServiceProperties getChrome() {
@@ -89,22 +88,6 @@ public class DriverServicesProperties implements DisposableBean {
         this.internetExplorer = internetExplorer;
     }
 
-    public PhantomJsDriverServiceProperties getPhantomJs() {
-        if (phantomJs == null) {
-            File phantomjsExe = findExecutable("phantomjs");
-            if (phantomjsExe != null) {
-                LOGGER.debug("PhantomJS found at {}", phantomjsExe.getAbsolutePath());
-                phantomJs = new PhantomJsDriverServiceProperties();
-                phantomJs.setDriverExecutable(phantomjsExe);
-            }
-        }
-        return phantomJs;
-    }
-
-    public void setPhantomJs(PhantomJsDriverServiceProperties phamtomJs) {
-        this.phantomJs = phamtomJs;
-    }
-
     protected File findExecutable(String exeName) {
         File driversDir = getDriversDir();
         if (driversDir == null) return null;
@@ -145,6 +128,5 @@ public class DriverServicesProperties implements DisposableBean {
         if (chrome != null) chrome.destroy();
         if (firefox != null) firefox.destroy();
         if (internetExplorer != null) internetExplorer.destroy();
-        if (phantomJs != null) phantomJs.destroy();
     }
 }
