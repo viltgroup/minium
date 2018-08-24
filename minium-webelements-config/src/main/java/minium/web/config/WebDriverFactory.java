@@ -33,7 +33,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
-import org.openqa.selenium.firefox.internal.FileExtension;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.remote.Augmenter;
@@ -44,8 +43,6 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.service.DriverService;
 import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.safari.SafariOptions;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
@@ -53,7 +50,6 @@ import com.google.common.collect.Sets;
 import minium.web.StatefulWebDriver;
 import minium.web.config.WebDriverProperties.ChromeOptionsProperties;
 import minium.web.config.WebDriverProperties.DimensionProperties;
-import minium.web.config.WebDriverProperties.ExtensionProperties;
 import minium.web.config.WebDriverProperties.FirefoxProfileProperties;
 import minium.web.config.WebDriverProperties.PointProperties;
 import minium.web.config.WebDriverProperties.PreferenceProperties;
@@ -205,15 +201,8 @@ public class WebDriverFactory {
             }
         }
 
-        List<ExtensionProperties> extensions = firefoxProperties.getExtensions();
-        if (extensions != null) {
-            DefaultResourceLoader resourceLoader = new DefaultResourceLoader();
-            for (ExtensionProperties firefoxExtension : extensions) {
-                Resource extensionPath = resourceLoader.getResource(firefoxExtension.getPath());
-                FileExtension extension = new FileExtension(extensionPath.getFile());
-                profile.addExtension(firefoxExtension.getName(), extension);
-            }
-        }
+        List<File> extensions = firefoxProperties.getExtensions();
+        if (extensions != null) extensions.stream().forEach(profile::addExtension);
 
         profile.setAlwaysLoadNoFocusLib(firefoxProperties.shouldLoadNoFocusLib());
         profile.setAcceptUntrustedCertificates(firefoxProperties.shouldAcceptUntrustedCerts());

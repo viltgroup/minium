@@ -18,7 +18,6 @@ package minium.web.config.services;
 import java.io.File;
 import java.util.Map;
 
-import org.openqa.selenium.ie.InternetExplorerDriverEngine;
 import org.openqa.selenium.ie.InternetExplorerDriverLogLevel;
 import org.openqa.selenium.ie.InternetExplorerDriverService;
 import org.openqa.selenium.ie.InternetExplorerDriverService.Builder;
@@ -30,7 +29,6 @@ public class InternetExplorerDriverServiceProperties extends DriverServiceProper
     private Map<String, String> environment;
     private File logFile;
     private String logLevel;
-    private String engineImplementation;
     private String host;
     private File extractPath;
     private Boolean silent;
@@ -75,14 +73,6 @@ public class InternetExplorerDriverServiceProperties extends DriverServiceProper
         this.logLevel = logLevel;
     }
 
-    public String getEngineImplementation() {
-        return engineImplementation;
-    }
-
-    public void setEngineImplementation(String engineImplementation) {
-        this.engineImplementation = engineImplementation;
-    }
-
     public String getHost() {
         return host;
     }
@@ -115,7 +105,6 @@ public class InternetExplorerDriverServiceProperties extends DriverServiceProper
         if (environment != null) builder.withEnvironment(environment);
         if (logFile != null) builder.withLogFile(logFile);
         if (logLevel != null) builder.withLogLevel(InternetExplorerDriverLogLevel.valueOf(logLevel.toUpperCase()));
-        if (engineImplementation != null) builder.withEngineImplementation(InternetExplorerDriverEngine.valueOf(engineImplementation.toUpperCase()));
         if (host != null) builder.withHost(host);
         if (extractPath != null) builder.withExtractPath(extractPath);
         if (silent != null) builder.withSilent(silent);
