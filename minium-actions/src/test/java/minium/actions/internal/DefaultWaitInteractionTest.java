@@ -21,12 +21,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.concurrent.TimeUnit;
 
-import minium.BasicElements;
-import minium.Elements;
-import minium.actions.Configuration;
-import minium.actions.HasConfiguration;
-import minium.actions.TimeoutException;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,6 +29,12 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
+
+import minium.BasicElements;
+import minium.Elements;
+import minium.actions.Configuration;
+import minium.actions.HasConfiguration;
+import minium.actions.TimeoutException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultWaitInteractionTest {
@@ -55,7 +55,7 @@ public class DefaultWaitInteractionTest {
 
     @Test
     public void testWaitForExistence() {
-        WaitForExistenceInteraction interaction = new WaitForExistenceInteraction(elems , null);
+        WaitForExistenceInteraction interaction = new WaitForExistenceInteraction(elems, null);
         when(elems.size()).thenReturn(5);
 
         // when
@@ -71,7 +71,7 @@ public class DefaultWaitInteractionTest {
         when(elems.size()).thenReturn(0);
 
         // then
-        WaitForExistenceInteraction interaction = new WaitForExistenceInteraction(elems , null);
+        WaitForExistenceInteraction interaction = new WaitForExistenceInteraction(elems, null);
         try {
             interaction.perform();
             Assert.fail("TimeoutException expected");
