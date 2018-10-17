@@ -138,28 +138,6 @@ public class WebDriverProperties {
         }
     }
 
-    public static class ExtensionProperties {
-
-        private String name;
-        private String path;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getPath() {
-            return path;
-        }
-
-        public void setPath(String path) {
-            this.path = path;
-        }
-    }
-
     public enum PreferenceType {
         BOOLEAN, INTEGER, STRING
     };
@@ -198,7 +176,7 @@ public class WebDriverProperties {
     public static class FirefoxProfileProperties {
 
         private String dir;
-        private List<ExtensionProperties> extensions;
+        private List<File> extensions;
         private List<PreferenceProperties> preferences;
         private boolean loadNoFocusLib;
         private boolean acceptUntrustedCerts;
@@ -207,11 +185,11 @@ public class WebDriverProperties {
         public FirefoxProfileProperties() {
         }
 
-        public List<ExtensionProperties> getExtensions() {
+        public List<File> getExtensions() {
             return extensions;
         }
 
-        public void setExtensions(List<ExtensionProperties> extensions) {
+        public void setExtensions(List<File> extensions) {
             this.extensions = extensions;
         }
 

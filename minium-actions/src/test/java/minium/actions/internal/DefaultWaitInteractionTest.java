@@ -55,7 +55,7 @@ public class DefaultWaitInteractionTest {
 
     @Test
     public void testWaitForExistence() {
-        WaitForExistenceInteraction interaction = new WaitForExistenceInteraction(elems , null);
+        WaitForExistenceInteraction interaction = new WaitForExistenceInteraction(elems, null);
         when(elems.size()).thenReturn(5);
 
         // when
@@ -71,7 +71,7 @@ public class DefaultWaitInteractionTest {
         when(elems.size()).thenReturn(0);
 
         // then
-        WaitForExistenceInteraction interaction = new WaitForExistenceInteraction(elems , null);
+        WaitForExistenceInteraction interaction = new WaitForExistenceInteraction(elems, null);
         try {
             interaction.perform();
             Assert.fail("TimeoutException expected");

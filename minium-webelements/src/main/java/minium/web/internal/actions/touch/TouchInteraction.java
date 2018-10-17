@@ -16,9 +16,9 @@
 package minium.web.internal.actions.touch;
 
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.internal.Locatable;
+import org.openqa.selenium.WrapsDriver;
+import org.openqa.selenium.interactions.Locatable;
 import org.openqa.selenium.interactions.touch.TouchActions;
-import org.openqa.selenium.internal.WrapsDriver;
 
 import minium.Dimension;
 import minium.Elements;
