@@ -21,12 +21,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.concurrent.TimeUnit;
 
-import minium.BasicElements;
-import minium.Elements;
-import minium.actions.Configuration;
-import minium.actions.HasConfiguration;
-import minium.actions.TimeoutException;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,6 +29,12 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
+
+import minium.BasicElements;
+import minium.Elements;
+import minium.actions.Configuration;
+import minium.actions.HasConfiguration;
+import minium.actions.TimeoutException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultWaitInteractionTest {

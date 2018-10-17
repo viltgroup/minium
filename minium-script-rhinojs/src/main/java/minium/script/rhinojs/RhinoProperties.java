@@ -15,6 +15,7 @@
  */
 package minium.script.rhinojs;
 
+import java.net.URL;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -44,6 +45,7 @@ public class RhinoProperties {
     }
 
     private RequireProperties require;
+    private List<URL> additionalClasspath = Lists.newArrayList();
 
     public RequireProperties getRequire() {
         return require;
@@ -51,5 +53,13 @@ public class RhinoProperties {
 
     public void setRequire(RequireProperties require) {
         this.require = require;
+    }
+
+    public List<URL> getAdditionalClasspath() {
+        return additionalClasspath;
+    }
+
+    public void setAdditionalClasspath(List<URL> additionalClasspath) {
+        this.additionalClasspath = additionalClasspath;
     }
 }

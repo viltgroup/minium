@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -31,11 +32,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
-
-import minium.Elements;
-import minium.internal.Paths;
-import minium.script.js.JsEngine;
-import minium.script.rhinojs.RhinoProperties.RequireProperties;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.NativeObject;
@@ -51,9 +47,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 
 import com.google.common.base.Preconditions;
-import minium.internal.Throwables;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+
+import minium.Elements;
+import minium.internal.Paths;
+import minium.internal.Throwables;
+import minium.script.js.JsEngine;
+import minium.script.rhinojs.RhinoProperties.RequireProperties;
 
 public class RhinoEngine implements JsEngine, DisposableBean {
 
@@ -100,6 +101,7 @@ public class RhinoEngine implements JsEngine, DisposableBean {
     private Future<?> lastTask;
     private Scriptable scope;
     private Scriptable prototype;
+    private URLClassLoader classloader;
 
     public <T> RhinoEngine(final RhinoProperties rhinoProperties) {
         this.executorService = Executors.newSingleThreadExecutor(new ThreadFactory() {
@@ -107,6 +109,9 @@ public class RhinoEngine implements JsEngine, DisposableBean {
             public Thread newThread(Runnable r) {
                 Preconditions.checkState(executionThread == null, "Only one thread is supported");
                 executionThread = FACTORY.newThread(r);
+                URL[] additionalClasspath = rhinoProperties.getAdditionalClasspath().stream().toArray(URL[]::new);
+                classloader = new URLClassLoader(additionalClasspath, executionThread.getContextClassLoader());
+                executionThread.setContextClassLoader(classloader);
                 return executionThread;
             }
         });
@@ -123,7 +128,6 @@ public class RhinoEngine implements JsEngine, DisposableBean {
                         LOGGER.debug("Module paths: {}", modulePathURIs);
                         global.installRequire(cx, modulePathURIs, require.isSandboxed());
                     }
-                    ClassLoader classloader = Thread.currentThread().getContextClassLoader();
                     // we need to load compat/timeout.js because rhino does not have setTimeout, setInterval, etc.
                     try (Reader in = new InputStreamReader(classloader.getResourceAsStream("compat/timeout.js"))) {
                         cx.evaluateReader(global, in, "compat/timeout.js", 1, null);
@@ -334,6 +338,7 @@ public class RhinoEngine implements JsEngine, DisposableBean {
     @Override
     public void destroy() throws Exception {
         executorService.shutdown();
+        classloader.close();
     }
 
     @SuppressWarnings("unchecked")
