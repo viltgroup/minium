@@ -13,28 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package minium.web.internal.actions;
+package minium.cucumber;
 
-import minium.Elements;
-import minium.web.DocumentWebDriver;
-import minium.web.internal.InternalWebElements;
+import cucumber.runtime.ScenarioImpl;
+import minium.actions.InteractionListener;
 
-public class GetInteraction extends AbstractWebInteraction {
+public class CucumberInteractionListeners {
 
-    private String url;
-
-    public GetInteraction(Elements elems, String url) {
-        super(elems);
-        this.url = url;
-    }
-
-    @Override
-    protected void doPerform() {
-        DocumentWebDriver webDriver = getSource().as(InternalWebElements.class).documentDriver();
-        webDriver.get(url);
-    }
-
-    public String getUrl() {
-        return url;
+    public static InteractionListener onBrowserGet(ScenarioImpl s) {
+        return new GetInteractionListener(s);
     }
 }

@@ -20,7 +20,26 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.logging.LogType;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Function;
+import com.google.common.collect.FluentIterable;
+import com.google.common.io.Files;
+import com.google.common.reflect.TypeToken;
 
 import minium.Dimension;
 import minium.FindElements;
@@ -41,15 +60,7 @@ import minium.web.actions.Cookie;
 import minium.web.actions.WebConfiguration;
 import minium.web.internal.InternalWebElements;
 import minium.web.internal.WebElementsFactory;
-
-import org.openqa.selenium.OutputType;
-
 import platypus.Mixin;
-
-import com.google.common.base.Function;
-import com.google.common.collect.FluentIterable;
-import com.google.common.io.Files;
-import com.google.common.reflect.TypeToken;
 
 public class InternalBrowser<T extends WebElements> implements Browser<T> {
 
@@ -497,17 +508,47 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
 
     @Override
     public void get(final String url) {
-        new AbstractInteraction(elems) {
-            @Override
-            protected void doPerform() {
-                documentDriver().get(url);
-            }
-        }.perform();
+        new GetInteraction(elems, url).perform();
     }
 
     @Override
     public String getCurrentUrl() {
         return documentDriver().getCurrentUrl();
+    }
+
+    @Override
+    public String getPerformance() {
+        final ObjectMapper mapper = new ObjectMapper();
+        Map<?, ?> performance = (Map<?, ?>) ((JavascriptExecutor) documentDriver()).executeScript("return window.performance");
+        String performanceJson = null;
+
+        List<LogEntry> jsErrors = documentDriver().manage().logs().get(LogType.BROWSER).filter(Level.SEVERE);
+        String jsErrorsJson = null;
+
+        Map<?, ?> stats = (Map<?, ?>) ((JavascriptExecutor) documentDriver()).executeScript(
+                "var numberOfRequests = 0;var pageSize = 0; performance.getEntriesByType('resource').forEach((r) => { numberOfRequests++; pageSize += r.transferSize }); return {pageSize, numberOfRequests}");
+        String statsJson = null;
+
+        try {
+            performanceJson = mapper.writeValueAsString(performance);
+            jsErrorsJson = mapper.writeValueAsString(jsErrors);
+            statsJson = mapper.writeValueAsString(stats);
+        } catch (JsonProcessingException e) {
+        }
+
+        HttpClient client = HttpClientBuilder.create().build();
+        HttpResponse response;
+        int statusCode = -1;
+        try {
+            response = client.execute(new HttpGet(getCurrentUrl()));
+            statusCode = response.getStatusLine().getStatusCode();
+        } catch (IOException e) {
+        }
+
+        String output = "{ \"url\": \"" + getCurrentUrl() + "\", \"data\": " + performanceJson + ", \"stats\": " + statsJson + ", \"statusCode\": " + statusCode
+                + ", \"jsErrors\": " + jsErrorsJson + " }";
+
+        return output;
     }
 
     @Override

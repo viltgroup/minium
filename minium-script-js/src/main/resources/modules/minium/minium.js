@@ -16,7 +16,7 @@
   };
   
   var wrapBrowser = function (wrapped) {
-    var browser = wrap(wrapped, [ "root", "$", "get", "getCurrentUrl", "getTitle", "close", "quit", "navigate", "configure", "screenshot", "toString" ]);
+    var browser = wrap(wrapped, [ "root", "$", "get", "getCurrentUrl", "getPerformance", "getTitle", "close", "quit", "navigate", "configure", "screenshot", "toString" ]);
     // for $ function with multiple arguments, we don't want to call it like $([ $("a"), $("input") ])
     browser.$ = function () {
         if (arguments.length === 1 && typeof arguments[0] === 'string') {
@@ -39,9 +39,11 @@
 
   var InteractionListeners = Packages.minium.actions.InteractionListeners;
   var WebInteractionListeners = Packages.minium.web.actions.WebInteractionListeners;
-  
+  var GetInteractionListener = Packages.minium.cucumber.CucumberInteractionListeners;
+
   minium.interactionListeners = {
     slowMotion : InteractionListeners.slowMotion,
+    onBrowserGet: GetInteractionListener.onBrowserGet,
     onTimeout : WebInteractionListeners.onTimeout,
     onUnhandledAlert : WebInteractionListeners.onUnhandledAlert,
     onStaleElementReference : WebInteractionListeners.onStaleElementReference,

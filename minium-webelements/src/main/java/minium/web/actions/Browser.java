@@ -134,6 +134,8 @@ public interface Browser<T extends WebElements> {
 
     String getCurrentUrl();
 
+    String getPerformance();
+
     String getTitle();
 
     void close();
