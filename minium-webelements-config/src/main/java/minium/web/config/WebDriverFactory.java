@@ -69,12 +69,14 @@ public class WebDriverFactory {
 
     enum WebDriverType {
         CHROME(BrowserType.CHROME, BrowserType.GOOGLECHROME) {
+            @SuppressWarnings("deprecation")
             @Override
             public WebDriver create(WebDriverFactory webDriverFactory, DesiredCapabilities desiredCapabilities) {
                 ChromeDriverServiceProperties serviceProperties = webDriverFactory.driverServices == null ? null : webDriverFactory.driverServices.getChrome();
                 DriverService driverService = serviceProperties == null ? null : serviceProperties.getDriverService();
+
                 return driverService == null ?
-                        new ChromeDriver(new ChromeOptions().merge(desiredCapabilities))
+                        new ChromeDriver(desiredCapabilities)
                         : new RemoteWebDriver(driverService.getUrl(), desiredCapabilities);
             }
         },
