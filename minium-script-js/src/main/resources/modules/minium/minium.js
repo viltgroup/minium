@@ -39,9 +39,11 @@
 
   var InteractionListeners = Packages.minium.actions.InteractionListeners;
   var WebInteractionListeners = Packages.minium.web.actions.WebInteractionListeners;
-  
+  var GetInteractionListener = Packages.minium.cucumber.CucumberInteractionListeners;
+
   minium.interactionListeners = {
     slowMotion : InteractionListeners.slowMotion,
+    onBrowserGet: GetInteractionListener.onBrowserGet,
     onTimeout : WebInteractionListeners.onTimeout,
     onUnhandledAlert : WebInteractionListeners.onUnhandledAlert,
     onStaleElementReference : WebInteractionListeners.onStaleElementReference,

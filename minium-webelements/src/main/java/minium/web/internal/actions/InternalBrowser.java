@@ -497,12 +497,7 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
 
     @Override
     public void get(final String url) {
-        new AbstractInteraction(elems) {
-            @Override
-            protected void doPerform() {
-                documentDriver().get(url);
-            }
-        }.perform();
+        new GetInteraction(elems, url).perform();
     }
 
     @Override
