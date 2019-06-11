@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import minium.Dimension;
@@ -503,6 +504,11 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
     @Override
     public String getCurrentUrl() {
         return documentDriver().getCurrentUrl();
+    }
+
+    @Override
+    public Map<?, ?> getPerformance() {
+        return (Map<?, ?>) documentDriver().executeScript("return window.performance");
     }
 
     @Override

@@ -16,6 +16,7 @@
 package minium.web;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.openqa.selenium.Alert;
@@ -154,9 +155,13 @@ public class StatefulWebDriver implements WebDriver, JavascriptExecutor, HasInpu
         return webDriver.getCurrentUrl();
     }
 
+    public Map<?, ?> getPerformance() {
+        return (Map<?, ?>) ((JavascriptExecutor) webDriver).executeScript("return window.performance");
+    }
+
     @Override
     public String getTitle() {
-        return webDriver.getCurrentUrl();
+        return webDriver.getTitle();
     }
 
     @Override

@@ -17,6 +17,7 @@ package minium.web;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -454,6 +455,11 @@ public class DelegatorWebDriver extends Observable implements WebDriver, Javascr
     public String getCurrentUrl() {
         ensureWebDriver();
         return delegate.getCurrentUrl();
+    }
+
+    public Map<?, ?> getPerformance() {
+        ensureWebDriver();
+        return (Map<?, ?>) ((JavascriptExecutor) delegate).executeScript("return window.performance");
     }
 
     @Override

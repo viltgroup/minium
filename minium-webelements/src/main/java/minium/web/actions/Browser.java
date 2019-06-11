@@ -18,6 +18,7 @@ package minium.web.actions;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Map;
 
 import minium.web.WebElements;
 
@@ -133,6 +134,8 @@ public interface Browser<T extends WebElements> {
     void get(String url);
 
     String getCurrentUrl();
+
+    Map<?, ?> getPerformance();
 
     String getTitle();
 

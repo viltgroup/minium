@@ -16,6 +16,7 @@
 package minium.web.internal.drivers;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import minium.web.DocumentWebDriver;
@@ -53,6 +54,11 @@ public abstract class BaseDocumentWebDriver implements InternalDocumentWebDriver
     public String getCurrentUrl() {
         ensureSwitch();
         return webDriver.getCurrentUrl();
+    }
+
+    public Map<?, ?> getPerformance() {
+        ensureSwitch();
+        return (Map<?, ?>) ((JavascriptExecutor) webDriver).executeScript("return window.performance");
     }
 
     @Override

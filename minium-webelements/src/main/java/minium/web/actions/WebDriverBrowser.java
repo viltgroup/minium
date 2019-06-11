@@ -15,6 +15,7 @@
  */
 package minium.web.actions;
 
+import java.util.Map;
 import java.util.Set;
 
 import minium.internal.Module;
@@ -81,6 +82,11 @@ public class WebDriverBrowser<T extends WebElements> implements Browser<T> {
     @Override
     public String getCurrentUrl() {
         return browser.getCurrentUrl();
+    }
+
+    @Override
+    public Map<?, ?> getPerformance() {
+        return browser.getPerformance();
     }
 
     @Override
