@@ -18,6 +18,7 @@ package minium.web.internal.drivers;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 
 import minium.web.DocumentWebDriver;
 
@@ -31,6 +32,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.HasInputDevices;
 import org.openqa.selenium.interactions.Keyboard;
 import org.openqa.selenium.interactions.Mouse;
+import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.logging.LogType;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
@@ -56,9 +59,11 @@ public abstract class BaseDocumentWebDriver implements InternalDocumentWebDriver
         return webDriver.getCurrentUrl();
     }
 
-    public Map<?, ?> getPerformance() {
+    public String getPerformance() {
         ensureSwitch();
-        return (Map<?, ?>) ((JavascriptExecutor) webDriver).executeScript("return window.performance");
+        Map<?, ?> performance = (Map<?, ?>) ((JavascriptExecutor) webDriver).executeScript("return window.performance");
+        List<LogEntry> jsErrors = webDriver.manage().logs().get(LogType.BROWSER).filter(Level.SEVERE);
+        return "{ \"data\": " + performance + "\", \"jsErrors\": " + jsErrors + "}";
     }
 
     @Override

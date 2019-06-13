@@ -20,8 +20,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
 import minium.Dimension;
 import minium.FindElements;
@@ -43,7 +45,10 @@ import minium.web.actions.WebConfiguration;
 import minium.web.internal.InternalWebElements;
 import minium.web.internal.WebElementsFactory;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.logging.LogType;
 
 import platypus.Mixin;
 
@@ -507,8 +512,10 @@ public class InternalBrowser<T extends WebElements> implements Browser<T> {
     }
 
     @Override
-    public Map<?, ?> getPerformance() {
-        return (Map<?, ?>) documentDriver().executeScript("return window.performance");
+    public String getPerformance() {
+        Map<?, ?> performance = (Map<?, ?>) ((JavascriptExecutor) documentDriver()).executeScript("return window.performance");
+        List<LogEntry> jsErrors = documentDriver().manage().logs().get(LogType.BROWSER).filter(Level.SEVERE);
+        return "{ \"data\": " + performance + "\", \"jsErrors\": " + jsErrors + "}";
     }
 
     @Override

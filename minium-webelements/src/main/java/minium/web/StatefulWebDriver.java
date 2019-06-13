@@ -18,6 +18,7 @@ package minium.web;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -30,6 +31,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.HasInputDevices;
 import org.openqa.selenium.interactions.Keyboard;
 import org.openqa.selenium.interactions.Mouse;
+import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.logging.LogType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -155,8 +158,10 @@ public class StatefulWebDriver implements WebDriver, JavascriptExecutor, HasInpu
         return webDriver.getCurrentUrl();
     }
 
-    public Map<?, ?> getPerformance() {
-        return (Map<?, ?>) ((JavascriptExecutor) webDriver).executeScript("return window.performance");
+    public String getPerformance() {
+        Map<?, ?> performance = (Map<?, ?>) ((JavascriptExecutor) webDriver).executeScript("return window.performance");
+        List<LogEntry> jsErrors = webDriver.manage().logs().get(LogType.BROWSER).filter(Level.SEVERE);
+        return "{ \"data\": " + performance + "\", \"jsErrors\": " + jsErrors + "}";
     }
 
     @Override

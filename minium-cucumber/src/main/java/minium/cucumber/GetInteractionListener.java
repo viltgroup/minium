@@ -15,10 +15,18 @@
  */
 package minium.cucumber;
 
+import java.util.List;
+import java.util.logging.Level;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.logging.LogType;
+
 import cucumber.api.Scenario;
 import minium.actions.internal.AfterInteractionEvent;
 import minium.actions.internal.DefaultInteractionListener;
 import minium.web.EvalWebElements;
+import minium.web.internal.HasNativeWebDriver;
 import minium.web.internal.actions.GetInteraction;
 
 public class GetInteractionListener extends DefaultInteractionListener {
@@ -33,7 +41,9 @@ public class GetInteractionListener extends DefaultInteractionListener {
         if (event.getInteraction() instanceof GetInteraction) {
             GetInteraction interaction = (GetInteraction) event.getInteraction();
             String performance = (String) event.getSource().as(EvalWebElements.class).eval("return window.performance");
-            scenario.write("{ \"url\": \"" + interaction.getUrl() + "\", \"data\": " + performance + "}");
+            WebDriver webdriver = (WebDriver) event.getSource().as(HasNativeWebDriver.class).nativeWebDriver();
+            List<LogEntry> jsErrors = webdriver.manage().logs().get(LogType.BROWSER).filter(Level.SEVERE);
+            scenario.write("{ \"url\": \"" + interaction.getUrl() + "\", \"data\": " + performance + "\", \"jsErrors\": " + jsErrors + "}");
         }
     }
 }

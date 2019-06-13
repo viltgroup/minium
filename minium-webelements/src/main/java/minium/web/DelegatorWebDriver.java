@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -39,6 +40,8 @@ import org.openqa.selenium.interactions.Keyboard;
 import org.openqa.selenium.interactions.Mouse;
 import org.openqa.selenium.interactions.internal.Coordinates;
 import org.openqa.selenium.logging.LogEntries;
+import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.Logs;
 
 import com.google.common.base.Preconditions;
@@ -457,9 +460,11 @@ public class DelegatorWebDriver extends Observable implements WebDriver, Javascr
         return delegate.getCurrentUrl();
     }
 
-    public Map<?, ?> getPerformance() {
+    public String getPerformance() {
         ensureWebDriver();
-        return (Map<?, ?>) ((JavascriptExecutor) delegate).executeScript("return window.performance");
+        Map<?, ?> performance = (Map<?, ?>) ((JavascriptExecutor) delegate).executeScript("return window.performance");
+        List<LogEntry> jsErrors = delegate.manage().logs().get(LogType.BROWSER).filter(Level.SEVERE);
+        return "{ \"data\": " + performance + "\", \"jsErrors\": " + jsErrors + "}";
     }
 
     @Override

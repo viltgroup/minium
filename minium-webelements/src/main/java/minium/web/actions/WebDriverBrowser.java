@@ -15,8 +15,11 @@
  */
 package minium.web.actions;
 
-import java.util.Map;
 import java.util.Set;
+
+import org.openqa.selenium.WebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import minium.internal.Module;
 import minium.internal.Modules;
@@ -25,10 +28,6 @@ import minium.web.internal.WebElementsFactory;
 import minium.web.internal.WebElementsFactory.Builder;
 import minium.web.internal.WebModules;
 import minium.web.internal.actions.InternalBrowser;
-
-import org.openqa.selenium.WebDriver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class WebDriverBrowser<T extends WebElements> implements Browser<T> {
 
@@ -85,7 +84,7 @@ public class WebDriverBrowser<T extends WebElements> implements Browser<T> {
     }
 
     @Override
-    public Map<?, ?> getPerformance() {
+    public String getPerformance() {
         return browser.getPerformance();
     }
 
