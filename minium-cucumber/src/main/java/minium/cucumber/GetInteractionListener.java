@@ -15,9 +15,16 @@
  */
 package minium.cucumber;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.LogType;
@@ -35,7 +42,6 @@ public class GetInteractionListener extends DefaultInteractionListener {
     public GetInteractionListener(Scenario s) {
         this.scenario = s;
     }
-
     @Override
     protected void onAfterEvent(AfterInteractionEvent event) {
         if (event.getInteraction() instanceof GetInteraction) {
@@ -43,7 +49,23 @@ public class GetInteractionListener extends DefaultInteractionListener {
             String performance = (String) event.getSource().as(EvalWebElements.class).eval("return window.performance");
             WebDriver webdriver = (WebDriver) event.getSource().as(HasNativeWebDriver.class).nativeWebDriver();
             List<LogEntry> jsErrors = webdriver.manage().logs().get(LogType.BROWSER).filter(Level.SEVERE);
-            scenario.write("{ \"url\": \"" + interaction.getUrl() + "\", \"data\": " + performance + "\", \"jsErrors\": " + jsErrors + "}");
+            final ObjectMapper mapper = new ObjectMapper();
+            String jsErrorsJson = null;
+            try {
+                jsErrorsJson = mapper.writeValueAsString(jsErrors);
+            } catch (JsonProcessingException e) {
+            }
+            HttpClient client = HttpClientBuilder.create().build();
+            HttpResponse response;
+            int statusCode = -1;
+            try {
+                response = client.execute(new HttpGet(interaction.getUrl()));
+                statusCode = response.getStatusLine().getStatusCode();
+            } catch (IOException e) {
+            }
+            String stats = (String) event.getSource().as(EvalWebElements.class).eval("var numberOfRequests = 0;var pageSize = 0; performance.getEntriesByType('resource').forEach((r) => { numberOfRequests++; pageSize += r.transferSize }); return {pageSize, numberOfRequests}");
+            String output = "{ \"url\": \"" + interaction.getUrl() + "\", \"data\": " + performance + ", \"stats\": " + stats + ", \"statusCode\": " + statusCode + ", \"jsErrors\": " + jsErrorsJson + " }";
+            scenario.write(output);
         }
     }
 }
