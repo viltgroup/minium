@@ -48,6 +48,7 @@ public class GetInteractionListener extends DefaultInteractionListener {
             GetInteraction interaction = (GetInteraction) event.getInteraction();
             String performance = (String) event.getSource().as(EvalWebElements.class).eval("return window.performance");
             WebDriver webdriver = (WebDriver) event.getSource().as(HasNativeWebDriver.class).nativeWebDriver();
+
             List<LogEntry> jsErrors = webdriver.manage().logs().get(LogType.BROWSER).filter(Level.SEVERE);
             final ObjectMapper mapper = new ObjectMapper();
             String jsErrorsJson = null;
@@ -55,6 +56,7 @@ public class GetInteractionListener extends DefaultInteractionListener {
                 jsErrorsJson = mapper.writeValueAsString(jsErrors);
             } catch (JsonProcessingException e) {
             }
+
             HttpClient client = HttpClientBuilder.create().build();
             HttpResponse response;
             int statusCode = -1;
@@ -63,6 +65,7 @@ public class GetInteractionListener extends DefaultInteractionListener {
                 statusCode = response.getStatusLine().getStatusCode();
             } catch (IOException e) {
             }
+
             String stats = (String) event.getSource().as(EvalWebElements.class).eval("var numberOfRequests = 0;var pageSize = 0; performance.getEntriesByType('resource').forEach((r) => { numberOfRequests++; pageSize += r.transferSize }); return {pageSize, numberOfRequests}");
             String output = "{ \"url\": \"" + interaction.getUrl() + "\", \"data\": " + performance + ", \"stats\": " + stats + ", \"statusCode\": " + statusCode + ", \"jsErrors\": " + jsErrorsJson + " }";
             scenario.write(output);

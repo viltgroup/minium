@@ -15,13 +15,16 @@
  */
 package minium.web.internal.drivers;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
-import minium.web.DocumentWebDriver;
-
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
@@ -35,8 +38,12 @@ import org.openqa.selenium.interactions.Mouse;
 import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.LogType;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
+
+import minium.web.DocumentWebDriver;
 
 public abstract class BaseDocumentWebDriver implements InternalDocumentWebDriver {
 
@@ -61,9 +68,38 @@ public abstract class BaseDocumentWebDriver implements InternalDocumentWebDriver
 
     public String getPerformance() {
         ensureSwitch();
+
+        final ObjectMapper mapper = new ObjectMapper();
         Map<?, ?> performance = (Map<?, ?>) ((JavascriptExecutor) webDriver).executeScript("return window.performance");
+        String performanceJson = null;
+
         List<LogEntry> jsErrors = webDriver.manage().logs().get(LogType.BROWSER).filter(Level.SEVERE);
-        return "{ \"data\": " + performance + "\", \"jsErrors\": " + jsErrors + "}";
+        String jsErrorsJson = null;
+
+        Map<?, ?> stats = (Map<?, ?>) ((JavascriptExecutor) webDriver).executeScript(
+                "var numberOfRequests = 0;var pageSize = 0; performance.getEntriesByType('resource').forEach((r) => { numberOfRequests++; pageSize += r.transferSize }); return {pageSize, numberOfRequests}");
+        String statsJson = null;
+
+        try {
+            performanceJson = mapper.writeValueAsString(performance);
+            jsErrorsJson = mapper.writeValueAsString(jsErrors);
+            statsJson = mapper.writeValueAsString(stats);
+        } catch (JsonProcessingException e) {
+        }
+
+        HttpClient client = HttpClientBuilder.create().build();
+        HttpResponse response;
+        int statusCode = -1;
+        try {
+            response = client.execute(new HttpGet(getCurrentUrl()));
+            statusCode = response.getStatusLine().getStatusCode();
+        } catch (IOException e) {
+        }
+
+        String output = "{ \"url\": \"" + getCurrentUrl() + "\", \"data\": " + performanceJson + ", \"stats\": " + statsJson + ", \"statusCode\": " + statusCode
+                + ", \"jsErrors\": " + jsErrorsJson + " }";
+
+        return output;
     }
 
     @Override
