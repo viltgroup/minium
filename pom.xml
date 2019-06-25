@@ -57,9 +57,9 @@
 		<checkstyle.config.dir>${basedir}/../src/main/checkstyle</checkstyle.config.dir>
 
 		<platypus.version>0.1.0</platypus.version>
-		<selenium.version>3.14.0</selenium.version>
+		<selenium.version>3.8.1</selenium.version>
 
-		<rhino.version>1.7.9</rhino.version>
+		<rhino.version>1.7.7.1</rhino.version>
 		<dynjs.version>0.3.1</dynjs.version>
 		<cucumber.version>1.2.5</cucumber.version>
 		<!-- we cannot upgrade to 20141113 because it's java 8 only -->
@@ -485,7 +485,7 @@
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>animal-sniffer-maven-plugin</artifactId>
-					<version>1.17</version>
+					<version>1.14</version>
 					<configuration>
 						<signature>
 							<groupId>org.codehaus.mojo.signature</groupId>
