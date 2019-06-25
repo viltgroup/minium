@@ -16,8 +16,8 @@
 package minium.web.internal.actions;
 
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.WrapsDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.internal.WrapsDriver;
 
 import com.google.common.collect.Iterables;
 

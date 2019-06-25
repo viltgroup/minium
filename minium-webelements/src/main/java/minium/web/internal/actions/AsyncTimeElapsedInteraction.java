@@ -16,20 +16,18 @@
 package minium.web.internal.actions;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
-
-import java.time.Duration;
+import minium.Elements;
+import minium.actions.AsyncInteraction;
+import minium.actions.Duration;
 
 import org.openqa.selenium.support.ui.Sleeper;
 
-import minium.Elements;
-import minium.actions.AsyncInteraction;
-
 public abstract class AsyncTimeElapsedInteraction extends AbstractWebInteraction implements AsyncInteraction {
 
-    protected minium.actions.Duration duration;
+    protected Duration duration;
     private long start = -1;
 
-    public AsyncTimeElapsedInteraction(Elements elems, minium.actions.Duration duration) {
+    public AsyncTimeElapsedInteraction(Elements elems, Duration duration) {
         super(elems);
         this.duration = duration;
     }
@@ -51,7 +49,7 @@ public abstract class AsyncTimeElapsedInteraction extends AbstractWebInteraction
             long time = (start + end) - System.currentTimeMillis();
 
             if (time > 0) {
-                Sleeper.SYSTEM_SLEEPER.sleep(Duration.ofMillis(time));
+                Sleeper.SYSTEM_SLEEPER.sleep(new org.openqa.selenium.support.ui.Duration(time, MILLISECONDS));
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
