@@ -18,6 +18,8 @@ package minium.cucumber;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,6 +28,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.LogType;
 
@@ -56,16 +59,40 @@ public class GetInteractionListener extends DefaultInteractionListener {
                 jsErrorsJson = mapper.writeValueAsString(jsErrors);
             } catch (JsonProcessingException e) {
             }
-
-            HttpClient client = HttpClientBuilder.create().build();
-            HttpResponse response;
             int statusCode = -1;
             try {
-                response = client.execute(new HttpGet(interaction.getUrl()));
-                statusCode = response.getStatusLine().getStatusCode();
-            } catch (IOException e) {
+                LogEntries les = webdriver.manage().logs().get(LogType.PERFORMANCE);
+                for (LogEntry le : les) {
+                    String method = "Network.responseReceived";
+                    Pattern methodPattern = Pattern.compile(method);
+                    Matcher methodMatcher = methodPattern.matcher(le.getMessage());
+                    String url = "\"url\":\"" + interaction.getUrl() + "/?\"";
+                    Pattern urlPattern = Pattern.compile(url);
+                    Matcher urlMatcher = urlPattern.matcher(le.getMessage());
+                    if (methodMatcher.find() && urlMatcher.find()) {
+                        String status = "\"status\":(\\d+)";
+                        Pattern statusPattern = Pattern.compile(status);
+                        Matcher statusMatcher = statusPattern.matcher(le.getMessage());
+                        if (statusMatcher.find()) {
+                            System.out.println(le.getMessage());
+                            statusCode = Integer.parseInt(statusMatcher.group(1));
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
 
+            if (statusCode == -1) {
+                HttpClient client = HttpClientBuilder.create().build();
+                HttpResponse response;
+                try {
+                    response = client.execute(new HttpGet(interaction.getUrl()));
+                    statusCode = response.getStatusLine().getStatusCode();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             String stats = (String) event.getSource().as(EvalWebElements.class).eval("var numberOfRequests = 0;var pageSize = 0; performance.getEntriesByType('resource').forEach((r) => { numberOfRequests++; pageSize += r.transferSize }); return {pageSize, numberOfRequests}");
             String output = "{ \"url\": \"" + interaction.getUrl() + "\", \"data\": " + performance + ", \"stats\": " + stats + ", \"statusCode\": " + statusCode + ", \"jsErrors\": " + jsErrorsJson + " }";
             scenario.write(output);

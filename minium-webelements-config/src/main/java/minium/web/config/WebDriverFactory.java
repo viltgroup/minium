@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Dimension;
@@ -35,11 +36,14 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
+import org.openqa.selenium.logging.LogType;
+import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.service.DriverService;
 import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.safari.SafariOptions;
@@ -73,8 +77,11 @@ public class WebDriverFactory {
             public WebDriver create(WebDriverFactory webDriverFactory, DesiredCapabilities desiredCapabilities) {
                 ChromeDriverServiceProperties serviceProperties = webDriverFactory.driverServices == null ? null : webDriverFactory.driverServices.getChrome();
                 DriverService driverService = serviceProperties == null ? null : serviceProperties.getDriverService();
+                LoggingPreferences logPrefs = new LoggingPreferences();
+                logPrefs.enable(LogType.PERFORMANCE, Level.INFO);
+                desiredCapabilities.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
                 return driverService == null ?
-                        new ChromeDriver(new ChromeOptions().merge(desiredCapabilities))
+                        new ChromeDriver(desiredCapabilities)
                         : new RemoteWebDriver(driverService.getUrl(), desiredCapabilities);
             }
         },
