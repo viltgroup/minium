@@ -15,19 +15,12 @@
  */
 package minium.web;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.Map;
 import java.util.Observable;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
@@ -45,13 +38,11 @@ import org.openqa.selenium.interactions.Keyboard;
 import org.openqa.selenium.interactions.Mouse;
 import org.openqa.selenium.interactions.internal.Coordinates;
 import org.openqa.selenium.logging.LogEntries;
-import org.openqa.selenium.logging.LogEntry;
-import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.Logs;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Preconditions;
+
+import minium.web.utils.PerformanceUtils;
 
 public class DelegatorWebDriver extends Observable implements WebDriver, JavascriptExecutor, HasInputDevices, TakesScreenshot {
 
@@ -469,38 +460,7 @@ public class DelegatorWebDriver extends Observable implements WebDriver, Javascr
 
     public String getPerformance() {
         ensureWebDriver();
-
-        final ObjectMapper mapper = new ObjectMapper();
-        Map<?, ?> performance = (Map<?, ?>) ((JavascriptExecutor) delegate).executeScript("return window.performance");
-        String performanceJson = null;
-
-        List<LogEntry> jsErrors = delegate.manage().logs().get(LogType.BROWSER).filter(Level.SEVERE);
-        String jsErrorsJson = null;
-
-        Map<?, ?> stats = (Map<?, ?>) ((JavascriptExecutor) delegate).executeScript(
-                "var numberOfRequests = 0;var pageSize = 0; performance.getEntriesByType('resource').forEach((r) => { numberOfRequests++; pageSize += r.transferSize }); return {pageSize, numberOfRequests}");
-        String statsJson = null;
-
-        try {
-            performanceJson = mapper.writeValueAsString(performance);
-            jsErrorsJson = mapper.writeValueAsString(jsErrors);
-            statsJson = mapper.writeValueAsString(stats);
-        } catch (JsonProcessingException e) {
-        }
-
-        HttpClient client = HttpClientBuilder.create().build();
-        HttpResponse response;
-        int statusCode = -1;
-        try {
-            response = client.execute(new HttpGet(getCurrentUrl()));
-            statusCode = response.getStatusLine().getStatusCode();
-        } catch (IOException e) {
-        }
-
-        String output = "{ \"url\": \"" + getCurrentUrl() + "\", \"data\": " + performanceJson + ", \"stats\": " + statsJson + ", \"statusCode\": " + statusCode
-                + ", \"jsErrors\": " + jsErrorsJson + " }";
-
-        return output;
+        return PerformanceUtils.getPerformanceJson(delegate, getCurrentUrl());
     }
 
     @Override
