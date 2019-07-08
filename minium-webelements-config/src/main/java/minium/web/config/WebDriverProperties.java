@@ -239,6 +239,7 @@ public class WebDriverProperties {
         private File binary;
         private List<File> extensions;
         private Map<String, Object> preferences;
+        private Map<String, Object> loggingPrefs;
 
         public ChromeOptionsProperties() {
         }
@@ -273,6 +274,14 @@ public class WebDriverProperties {
 
         public void setPreferences(Map<String, Object> preferences) {
             this.preferences = preferences;
+        }
+
+        public Map<String, Object> getLoggingPrefs() {
+            return loggingPrefs;
+        }
+
+        public void setLoggingPrefs(Map<String, Object> loggingPrefs) {
+            this.loggingPrefs = loggingPrefs;
         }
     }
 
