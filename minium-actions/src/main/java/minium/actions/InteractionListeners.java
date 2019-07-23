@@ -16,7 +16,6 @@
 package minium.actions;
 
 import java.util.concurrent.TimeUnit;
-
 import minium.actions.internal.SlowMotionInteractionListener;
 import minium.actions.internal.WaitingPresetInteractionListener;
 

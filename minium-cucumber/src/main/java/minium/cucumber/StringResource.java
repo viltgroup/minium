@@ -52,5 +52,4 @@ public class StringResource implements Resource {
         String path = getPath();
         return path.substring(0, path.length() - extension.length()).replace(File.separatorChar, '.');
     }
-
 }
