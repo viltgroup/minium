@@ -23,8 +23,10 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Point;
@@ -44,7 +46,7 @@ import com.google.common.base.Preconditions;
 
 import minium.web.utils.PerformanceUtils;
 
-public class DelegatorWebDriver extends Observable implements WebDriver, JavascriptExecutor, HasInputDevices, TakesScreenshot {
+public class DelegatorWebDriver extends Observable implements WebDriver, JavascriptExecutor, HasInputDevices, TakesScreenshot, HasCapabilities {
 
     class DelegatorMouse implements Mouse {
 
@@ -444,6 +446,11 @@ public class DelegatorWebDriver extends Observable implements WebDriver, Javascr
     public Object executeAsyncScript(String script, Object... args) {
         ensureWebDriver();
         return ((JavascriptExecutor) delegate).executeAsyncScript(script, args);
+    }
+
+    @Override
+    public Capabilities getCapabilities() {
+        return ((HasCapabilities) delegate).getCapabilities();
     }
 
     @Override
