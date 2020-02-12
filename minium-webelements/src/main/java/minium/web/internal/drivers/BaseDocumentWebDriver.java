@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -136,6 +138,11 @@ public abstract class BaseDocumentWebDriver implements InternalDocumentWebDriver
     public Object executeAsyncScript(String script, Object... args) {
         ensureSwitch();
         return ((JavascriptExecutor) webDriver).executeAsyncScript(script, args);
+    }
+
+    @Override
+    public Capabilities getCapabilities() {
+        return ((HasCapabilities) webDriver).getCapabilities();
     }
 
     @Override
