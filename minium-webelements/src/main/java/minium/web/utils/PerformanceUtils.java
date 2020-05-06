@@ -57,7 +57,7 @@ public class PerformanceUtils {
                 (MonitoringReportDTO.Stats) getValue(webdriver,
                         "var numberOfRequests = 0; " +
                                 "var pageSize = 0; " +
-                                "performance.getEntriesByType('resource').forEach((r) => { numberOfRequests++; pageSize += r.transferSize }); " +
+                                "performance.getEntriesByType('resource').forEach(function(elem) { numberOfRequests++; pageSize += elem.transferSize }); " +
                                 "return JSON.stringify({\"pageSize\": pageSize, \"numberOfRequests\": numberOfRequests })",
                         MonitoringReportDTO.Stats.class);
 
