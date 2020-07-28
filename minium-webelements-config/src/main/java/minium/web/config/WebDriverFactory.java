@@ -176,8 +176,8 @@ public class WebDriverFactory {
         if (chromeProperties.getBinary() != null) options.setBinary(chromeProperties.getBinary());
         if (chromeProperties.getExtensions() != null) options.addExtensions(chromeProperties.getExtensions());
         if (chromeProperties.getPreferences() != null) options.setExperimentalOption("prefs", chromeProperties.getPreferences());
-        if (chromeProperties.getLoggingPrefs() != null)
-            options.setCapability("goog:loggingPrefs", chromeProperties.getLoggingPrefs());
+        if (chromeProperties.getMobileEmulation() != null) options.setExperimentalOption("mobileEmulation", chromeProperties.getMobileEmulation());
+        if (chromeProperties.getLoggingPrefs() != null) options.setCapability("goog:loggingPrefs", chromeProperties.getLoggingPrefs());
         return options;
     }
 
