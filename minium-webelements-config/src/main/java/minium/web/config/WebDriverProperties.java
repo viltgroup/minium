@@ -239,7 +239,7 @@ public class WebDriverProperties {
         private File binary;
         private List<File> extensions;
         private Map<String, Object> preferences;
-        private Map<String, String> mobileEmulation;
+        private Map<String, Object> mobileEmulation;
         private Map<String, Object> loggingPrefs;
 
         public ChromeOptionsProperties() {
@@ -277,11 +277,11 @@ public class WebDriverProperties {
             this.preferences = preferences;
         }
 
-        public Map<String, String> getMobileEmulation() {
+        public Map<String, Object> getMobileEmulation() {
             return mobileEmulation;
         }
 
-        public void setMobileEmulation(Map<String, String> mobileEmulation) {
+        public void setMobileEmulation(Map<String, Object> mobileEmulation) {
             this.mobileEmulation = mobileEmulation;
         }
 
