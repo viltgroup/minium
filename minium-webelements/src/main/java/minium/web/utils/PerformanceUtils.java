@@ -114,7 +114,7 @@ public class PerformanceUtils {
         if (statusCode == -1) {
             HttpClientBuilder builder = HttpClientBuilder.create();
 
-            String httpProxy = System.getProperty("minium.monitoring.performance.httpProxy");
+            String httpProxy = System.getenv("MINIUM_MONITORING_PERFORMANCE_HTTPPROXY");
             if (!(httpProxy == null || httpProxy.isEmpty())) {
                 String[] proxyConfigs = httpProxy.split(":");
                 int proxyPort = Integer.parseInt(proxyConfigs[1]);
