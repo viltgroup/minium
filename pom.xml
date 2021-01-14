@@ -79,7 +79,7 @@
 		<jsoup.version>1.8.3</jsoup.version>
 		<powermock.version>1.6.1</powermock.version>
 
-		<poi.version>3.13</poi.version>
+		<poi.version>3.17</poi.version>
 		<poi-ooxml.version>3.13</poi-ooxml.version>
 		<commons-csv.version>1.2</commons-csv.version>
 	</properties>
