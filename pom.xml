@@ -65,7 +65,7 @@
 		<!-- we cannot upgrade to 20141113 because it's java 8 only -->
 		<json.version>20140107</json.version>
 		<sikulix.version>1.1.0-SNAPSHOT</sikulix.version>
-		<guava.version>26.0-jre</guava.version>
+		<guava.version>29.0-jre</guava.version>
 		<guava-retrying.version>2.0.0</guava-retrying.version>
 		<commons-compress.version>1.18</commons-compress.version>
 		<commons-lang3.version>3.4</commons-lang3.version>
