@@ -6,7 +6,7 @@
     "fstream": "1.0.12",
     "jquery": "1.12.4",
     "json3": "^3.3.2",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "lodash.template": "4.5.0",
     "sshpk": "1.16.1",
     "stringstream": "1.0.0",
