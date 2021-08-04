@@ -10,7 +10,7 @@
     "lodash.template": "4.5.0",
     "sshpk": "1.16.1",
     "stringstream": "1.0.0",
-    "tar": "4.4.10",
+    "tar": "4.4.15",
     "tunnel-agent": "0.6.0",
     "unminified-webpack-plugin": "^1.2.0"
   },
