@@ -76,7 +76,7 @@
 		<slf4j.version>1.7.18</slf4j.version>
 		<args4j.version>2.33</args4j.version>
 		<freemarker.version>2.3.23</freemarker.version>
-		<jsoup.version>1.8.3</jsoup.version>
+		<jsoup.version>1.15.3</jsoup.version>
 		<powermock.version>1.6.1</powermock.version>
 
 		<poi.version>3.13</poi.version>
